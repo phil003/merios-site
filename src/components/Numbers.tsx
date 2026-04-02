@@ -1,8 +1,8 @@
 const numbers = [
-  { value: "130+", label: "Biomarqueurs" },
-  { value: "13", label: "Catégories" },
-  { value: "6", label: "Piliers de santé" },
-  { value: "100%", label: "Français & RGPD" },
+  { value: "130+", label: "Biomarkers" },
+  { value: "11", label: "Health Systems" },
+  { value: "4", label: "Health Pillars" },
+  { value: "100%", label: "GDPR Compliant" },
 ];
 
 export default function Numbers() {

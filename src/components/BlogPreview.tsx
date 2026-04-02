@@ -2,26 +2,26 @@ const articles = [
   {
     emoji: "🧬",
     bg: "from-[#E8F0EB] to-[#D4E4DA]",
-    tag: "Biomarqueurs",
-    title: "CRP : le marqueur d'inflammation que tout le monde devrait connaître",
-    desc: "Ton corps combat en silence. La CRP est le signal d'alarme que tes analyses captent — si tu sais le lire.",
-    time: "6 min de lecture",
+    tag: "Biomarkers",
+    title: "CRP: The Inflammation Marker Everyone Should Understand",
+    desc: "Your body is fighting inflammation you can't see. CRP is the alarm bell in your blood—if you know how to read it.",
+    time: "6 min read",
   },
   {
     emoji: "💤",
     bg: "from-[#EDE4F5] to-[#DDD2EC]",
-    tag: "Sommeil",
-    title: "VFC : ce que ta variabilité cardiaque dit de ton stress",
-    desc: "Ta montre mesure déjà ta VFC. Voici pourquoi c'est le meilleur indicateur de récupération que tu ignores probablement.",
-    time: "5 min de lecture",
+    tag: "Sleep & Recovery",
+    title: "HRV: What Your Heart Rate Variability Actually Tells You",
+    desc: "Your Apple Watch tracks HRV already. Here's why it's the best recovery indicator most people ignore.",
+    time: "5 min read",
   },
   {
     emoji: "☀️",
     bg: "from-[#FFF3E0] to-[#F5E6CC]",
     tag: "Nutrition",
-    title: "Vitamine D : pourquoi 1 milliard de personnes sont carencées",
-    desc: "La « vitamine du soleil » est en réalité une hormone. Et ses effets vont bien au-delà des os.",
-    time: "7 min de lecture",
+    title: "Vitamin D: Why a Billion People Are Deficient",
+    desc: "It's called the 'sunshine vitamin,' but it's actually a hormone. And its effects go far beyond bone health.",
+    time: "7 min read",
   },
 ];
 
@@ -31,16 +31,16 @@ export default function BlogPreview() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-14 gap-4 fade-in">
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-green-primary font-semibold mb-5">
-            Le journal Merios
+            The Merios Blog
           </p>
           <h2 className="font-serif text-3xl md:text-4xl font-medium text-green-deep" style={{ letterSpacing: "-0.02em" }}>
-            Comprendre sa santé,
+            Understand your health,
             <br />
-            un sujet à la fois.
+            one topic at a time.
           </h2>
         </div>
         <a href="#" className="text-sm text-green-primary font-medium flex items-center gap-1.5 hover:gap-2.5 transition-all">
-          Tous les articles →
+          Read all articles →
         </a>
       </div>
 

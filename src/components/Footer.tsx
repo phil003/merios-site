@@ -1,25 +1,25 @@
 const footerLinks = {
-  Produit: [
-    { label: "L'idée", href: "#concept" },
-    { label: "Comment ça marche", href: "#fonctionnement" },
-    { label: "Tarifs", href: "#" },
+  Product: [
+    { label: "Features", href: "#features" },
+    { label: "How It Works", href: "#how-it-works" },
+    { label: "Pricing", href: "#" },
   ],
-  Ressources: [
+  Resources: [
     { label: "Blog", href: "#blog" },
     { label: "FAQ", href: "#" },
     { label: "Support", href: "#" },
   ],
-  Légal: [
-    { label: "Confidentialité", href: "#" },
-    { label: "CGU", href: "#" },
-    { label: "Mentions légales", href: "#" },
+  Legal: [
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms of Service", href: "#" },
+    { label: "Legal", href: "#" },
   ],
 };
 
 const socials = [
   { label: "IG", title: "Instagram", href: "#" },
-  { label: "TK", title: "TikTok", href: "#" },
-  { label: "IN", title: "LinkedIn", href: "#" },
+  { label: "X", title: "X (Twitter)", href: "#" },
+  { label: "LI", title: "LinkedIn", href: "#" },
 ];
 
 export default function Footer() {
@@ -30,8 +30,7 @@ export default function Footer() {
         <div>
           <div className="font-serif text-2xl font-semibold text-green-deep mb-3">merios</div>
           <p className="text-sm text-text-tertiary max-w-[280px] leading-relaxed">
-            L&apos;intelligence de ta santé, au creux de ta main. Comprends ton
-            corps. Agis pour ta santé.
+            Health intelligence in your pocket. Understand your body. Act on your health.
           </p>
         </div>
 
@@ -58,7 +57,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-green-primary/6 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <p className="text-xs text-text-tertiary">© 2026 Merios. Tous droits réservés.</p>
+        <p className="text-xs text-text-tertiary">© 2026 Merios. All rights reserved.</p>
         <div className="flex gap-4">
           {socials.map((s) => (
             <a

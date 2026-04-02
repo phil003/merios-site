@@ -2,16 +2,35 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Merios — Comprends ton corps. Agis pour ta santé.",
+  metadataBase: new URL("https://merios.life"),
+  title: "Merios — Understand Your Body. Act on Your Health.",
   description:
-    "Merios transforme tes analyses de sang, tes données Apple Health et ton ressenti quotidien en une vision claire de ta santé — avec un plan d'action personnalisé.",
-  keywords: ["santé", "biomarqueurs", "analyses de sang", "Apple Health", "score santé", "bien-être"],
+    "Merios transforms blood tests, Apple Health data, and daily check-ins into one clear health score with personalized action plans. Understand your biomarkers. Track your health systems. Take control.",
+  keywords: ["health analytics", "biomarkers", "blood test analysis", "Apple Health", "health score", "wellness", "health app", "biological age", "health tracking"],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://merios.life",
+  },
   openGraph: {
-    title: "Merios — Comprends ton corps. Agis pour ta santé.",
+    title: "Merios — Understand Your Body. Act on Your Health.",
     description:
-      "Tes analyses de sang, tes données Apple Health, ton ressenti quotidien — enfin réunis en une vision claire de ta santé.",
+      "Transform blood tests, Apple Health data, and daily check-ins into one unified health score with actionable insights.",
+    url: "https://merios.life",
+    siteName: "Merios",
     type: "website",
-    locale: "fr_FR",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Merios — Understand Your Body. Act on Your Health.",
+    description:
+      "Transform blood tests, Apple Health data, and daily check-ins into one unified health score with actionable insights.",
+  },
+  verification: {
+    google: "55YlC0T47ZzU-V0k",
   },
 };
 
@@ -21,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="en">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

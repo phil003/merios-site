@@ -1,15 +1,15 @@
 const features = [
-  "Score global + 6 piliers détaillés (sang, cœur, sommeil, activité, nutrition, mental)",
-  "Tendances sur 3, 6 et 12 mois — vois l'impact réel de tes changements",
-  "Recommandations concrètes, pas de jargon",
-  "Données hébergées en UE, conformes RGPD",
+  "One health score + 4 health pillars (Sleep, Stress, Activity, Biomarkers)",
+  "3, 6, and 12-month trends—see what actually changed",
+  "Clear recommendations—no medical jargon",
+  "EU-hosted data, fully GDPR compliant",
 ];
 
 const phonePillars = [
-  { name: "Sang", value: "82", trend: "↑ +3" },
-  { name: "Sommeil", value: "71", trend: "↑ +6" },
-  { name: "Cœur", value: "79", trend: "→ stable" },
-  { name: "Activité", value: "68", trend: "↑ +2" },
+  { name: "Blood", value: "82", trend: "↑ +3" },
+  { name: "Sleep", value: "71", trend: "↑ +6" },
+  { name: "Heart", value: "79", trend: "→ stable" },
+  { name: "Activity", value: "68", trend: "↑ +2" },
 ];
 
 export default function AppPreview() {
@@ -23,15 +23,13 @@ export default function AppPreview() {
         {/* Text side */}
         <div className="fade-in">
           <p className="text-xs uppercase tracking-[0.18em] font-semibold mb-5" style={{ color: "rgba(124,219,154,0.7)" }}>
-            Un score. Pas un verdict.
+            A Score. Not a Judgment.
           </p>
-          <h2 className="font-serif text-3xl md:text-4xl font-medium text-white leading-tight mb-6" style={{ letterSpacing: "-0.02em" }}>
-            Comprends ta santé en un coup d&apos;œil.
+          <h2 className="font-serif text-3xl md:text-5xl font-medium text-white leading-tight mb-6" style={{ letterSpacing: "-0.02em" }}>
+            See your health clearly.
           </h2>
-          <p className="text-base leading-relaxed text-white/65 mb-10 max-w-md">
-            Merios calcule un score sur 100 qui reflète ta santé globale — pas
-            juste tes pas ou ton sommeil. C&apos;est ta biologie, ton corps et ton
-            vécu, condensés en une image claire.
+          <p className="text-base leading-relaxed text-white/70 mb-10 max-w-md">
+            Merios calculates one score (0–100) that reflects your complete health—not just steps or sleep. Your biology, your habits, your wellbeing, all in one clear picture.
           </p>
           <ul className="flex flex-col gap-5 mb-12">
             {features.map((f, i) => (
@@ -47,7 +45,7 @@ export default function AppPreview() {
             href="#waitlist"
             className="inline-flex items-center gap-3 px-9 py-4 bg-white text-green-deep rounded-full text-base font-semibold hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
           >
-            Rejoindre la waitlist
+            Join the Waitlist
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
@@ -62,12 +60,12 @@ export default function AppPreview() {
               <div className="w-[120px] h-7 bg-[#111] rounded-b-[20px] mx-auto relative z-10" />
               {/* Content */}
               <div className="p-6 flex-1 flex flex-col gap-4">
-                <div className="font-serif text-xl font-medium text-green-deep">Bonjour, Phil.</div>
+                <div className="font-serif text-xl font-medium text-green-deep">Hello, Alex</div>
                 {/* Score card */}
                 <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
-                  <div className="text-[0.65rem] uppercase tracking-[0.12em] text-text-tertiary mb-2">Ton score santé</div>
+                  <div className="text-[0.65rem] uppercase tracking-[0.12em] text-text-tertiary mb-2">Your Health Score</div>
                   <div className="font-serif text-5xl font-semibold text-green-primary leading-none">76</div>
-                  <div className="text-xs text-text-tertiary mt-1.5">+4 pts depuis février</div>
+                  <div className="text-xs text-text-tertiary mt-1.5">+4 pts since February</div>
                   <div className="w-full h-1 bg-beige rounded-full mt-3.5 overflow-hidden">
                     <div className="w-[76%] h-full rounded-full" style={{ background: "linear-gradient(90deg, var(--color-green-primary), var(--color-green-light))" }} />
                   </div>

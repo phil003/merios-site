@@ -27,20 +27,20 @@ export default function Navbar() {
 
       {/* Desktop links */}
       <div className="hidden md:flex gap-9 items-center">
-        <a href="#concept" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
-          L&apos;idée
+        <a href="#how-it-works" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
+          How it Works
         </a>
-        <a href="#fonctionnement" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
-          Comment ça marche
+        <a href="#features" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
+          Features
         </a>
         <a href="#blog" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
-          Journal
+          Blog
         </a>
         <a
           href="#waitlist"
           className="bg-green-deep text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-green-primary hover:-translate-y-0.5 transition-all duration-300"
         >
-          Accès anticipé
+          Get Early Access
         </a>
       </div>
 
@@ -58,11 +58,11 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="absolute top-full left-0 right-0 bg-cream/95 backdrop-blur-xl border-b border-green-primary/10 p-6 flex flex-col gap-4 md:hidden">
-          <a href="#concept" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">L&apos;idée</a>
-          <a href="#fonctionnement" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Comment ça marche</a>
-          <a href="#blog" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Journal</a>
+          <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">How it Works</a>
+          <a href="#features" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Features</a>
+          <a href="#blog" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Blog</a>
           <a href="#waitlist" onClick={() => setMenuOpen(false)} className="bg-green-deep text-white px-6 py-3 rounded-full text-sm font-semibold text-center">
-            Accès anticipé
+            Get Early Access
           </a>
         </div>
       )}

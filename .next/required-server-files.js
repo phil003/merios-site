@@ -101,7 +101,7 @@ self.__SERVER_FILES_MANIFEST={
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/sessions/wonderful-vigilant-dirac/mnt/merios-site",
+    "outputFileTracingRoot": "/Users/phil/Desktop/merios-site",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -158,7 +158,7 @@ self.__SERVER_FILES_MANIFEST={
       "proxyPrefetch": "flexible",
       "optimisticClientCache": true,
       "manualClientBasePath": false,
-      "cpus": 3,
+      "cpus": 9,
       "memoryBasedWorkersCount": false,
       "imgOptConcurrency": null,
       "imgOptTimeoutInSeconds": 7,
@@ -294,11 +294,11 @@ self.__SERVER_FILES_MANIFEST={
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
     "turbopack": {
-      "root": "/sessions/wonderful-vigilant-dirac/mnt/merios-site"
+      "root": "/Users/phil/Desktop/merios-site"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "/sessions/wonderful-vigilant-dirac/mnt/merios-site",
+  "appDir": "/Users/phil/Desktop/merios-site",
   "relativeAppDir": "",
   "files": [
     ".next/routes-manifest.json",

@@ -1,30 +1,30 @@
 const pillars = [
   {
     icon: "🩸",
-    title: "Tes analyses de sang",
-    desc: "Scanne tes résultats avec ton téléphone. 130+ biomarqueurs reconnus, traduits en français clair, avec tendances et alertes intelligentes.",
+    title: "Blood Test Results",
+    desc: "Scan lab results with your phone. 130+ biomarkers translated into clear insights, with trends and smart alerts.",
   },
   {
     icon: "⌚",
-    title: "Tes données Apple\u00A0Health",
-    desc: "Sommeil, fréquence cardiaque, VFC, activité — synchronisées en temps réel et croisées avec ta biologie pour révéler des corrélations invisibles.",
+    title: "Apple Health Data",
+    desc: "Sleep, heart rate, HRV, activity — synced in real-time and cross-referenced with your biology to reveal hidden patterns.",
   },
   {
     icon: "📓",
-    title: "Ton ressenti quotidien",
-    desc: "30 secondes par jour pour noter comment tu te sens. Croisé avec tes données, ton journal révèle ce que les chiffres seuls ne disent pas.",
+    title: "Daily Check-Ins",
+    desc: "30 seconds a day to log how you feel. Combined with your data, your journal reveals what numbers alone can't.",
   },
 ];
 
 export default function Pillars() {
   return (
-    <section id="concept" className="py-32 px-6 max-w-7xl mx-auto">
+    <section id="features" className="py-32 px-6 max-w-7xl mx-auto">
       <div className="text-center mb-20 fade-in">
         <p className="text-xs uppercase tracking-[0.18em] text-green-primary font-semibold mb-5">
-          Trois sources. Une vision.
+          Three Sources. One Picture.
         </p>
-        <h2 className="font-serif text-3xl md:text-5xl font-medium text-green-deep max-w-xl mx-auto leading-tight" style={{ letterSpacing: "-0.02em" }}>
-          Ta biologie, ton corps et ton vécu, enfin reliés.
+        <h2 className="font-serif text-3xl md:text-5xl font-medium text-green-deep max-w-2xl mx-auto leading-tight" style={{ letterSpacing: "-0.02em" }}>
+          Your biology, your habits, your wellbeing—finally connected.
         </h2>
       </div>
 

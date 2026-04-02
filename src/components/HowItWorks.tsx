@@ -1,19 +1,19 @@
 const steps = [
-  { num: "1", title: "Connecte", desc: "Lie ton Apple Health et scanne tes analyses de sang avec l'appareil photo." },
-  { num: "2", title: "Centralise", desc: "Merios réunit toutes tes données dans un seul endroit, organisé et lisible." },
-  { num: "3", title: "Comprends", desc: "Un score, des tendances, des alertes — tout est traduit en français clair." },
-  { num: "4", title: "Agis", desc: "Des recommandations personnalisées et concrètes pour améliorer ce qui compte." },
+  { num: "1", title: "Connect", desc: "Link your Apple Health and scan lab results with your camera." },
+  { num: "2", title: "Centralize", desc: "All your health data lives in one organized, easy-to-understand place." },
+  { num: "3", title: "Understand", desc: "Get your score, trends, and alerts—everything in plain language." },
+  { num: "4", title: "Act", desc: "Personalized recommendations to improve what matters most." },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="fonctionnement" className="py-32 px-6 max-w-6xl mx-auto">
+    <section id="how-it-works" className="py-32 px-6 max-w-6xl mx-auto">
       <div className="text-center mb-20 fade-in">
         <p className="text-xs uppercase tracking-[0.18em] text-green-primary font-semibold mb-5">
-          Simple par design
+          Simple by Design
         </p>
         <h2 className="font-serif text-3xl md:text-5xl font-medium text-green-deep" style={{ letterSpacing: "-0.02em" }}>
-          Comment ça marche
+          How It Works
         </h2>
       </div>
 

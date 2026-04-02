@@ -15,27 +15,25 @@ export default function Hero() {
         style={{ background: "rgba(45,90,61,0.06)", animationDelay: "0.2s" }}
       >
         <span className="w-1.5 h-1.5 rounded-full bg-green-light animate-pulse-dot" />
-        Lancement bientôt
+        Coming Soon
       </div>
 
       {/* Title */}
       <h1
-        className="font-serif text-5xl md:text-7xl font-medium leading-[1.08] tracking-tight text-green-deep max-w-3xl mb-7 animate-fadeUp"
+        className="font-serif text-6xl md:text-8xl font-medium leading-[1.05] tracking-tight text-green-deep max-w-4xl mb-7 animate-fadeUp"
         style={{ animationDelay: "0.4s", letterSpacing: "-0.03em" }}
       >
-        Ton corps parle.
+        Understand
         <br />
-        Apprends à le lire.
+        Your Body
       </h1>
 
       {/* Subtitle */}
       <p
-        className="text-lg md:text-xl leading-relaxed text-text-secondary max-w-lg mb-12 animate-fadeUp"
+        className="text-xl md:text-2xl leading-relaxed text-text-secondary max-w-2xl mb-12 animate-fadeUp font-light"
         style={{ animationDelay: "0.6s" }}
       >
-        Merios transforme tes analyses de sang, tes données Apple&nbsp;Health et
-        ton ressenti quotidien en une vision claire de ta santé — avec un plan
-        d&apos;action personnalisé.
+        Your blood tests, Apple Health data, and daily check-ins finally make sense. Get one clear health score and actionable recommendations.
       </p>
 
       {/* CTA buttons */}
@@ -45,18 +43,18 @@ export default function Hero() {
       >
         <a
           href="#waitlist"
-          className="inline-flex items-center gap-3 px-9 py-4 bg-green-deep text-white rounded-full text-base font-semibold hover:bg-green-primary hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center"
+          className="inline-flex items-center gap-3 px-10 py-4 bg-green-deep text-white rounded-full text-base font-semibold hover:bg-green-primary hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center"
         >
-          Rejoindre la liste d&apos;attente
+          Join Waitlist
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
         </a>
         <a
-          href="#concept"
+          href="#how-it-works"
           className="inline-flex items-center gap-2 px-7 py-4 border-[1.5px] border-green-primary/15 text-text-secondary rounded-full text-base font-medium hover:border-green-primary hover:text-green-primary transition-all w-full sm:w-auto justify-center"
         >
-          Découvrir
+          Learn More
         </a>
       </div>
 
@@ -66,7 +64,7 @@ export default function Hero() {
         style={{ animationDelay: "1.2s" }}
       >
         <span className="text-[0.7rem] uppercase tracking-[0.15em] text-text-tertiary">
-          Explorer
+          Scroll
         </span>
         <div
           className="w-px h-10 animate-scroll-pulse"

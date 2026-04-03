@@ -21,23 +21,26 @@ export default function Navbar() {
       }`}
       style={scrolled ? { backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" } : {}}
     >
-      <a href="#" className="font-serif text-2xl font-semibold text-green-deep tracking-tight">
+      <a href="/" className="font-serif text-2xl font-semibold text-green-deep tracking-tight">
         merios
       </a>
 
       {/* Desktop links */}
       <div className="hidden md:flex gap-9 items-center">
-        <a href="#how-it-works" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
+        <a href="/how-it-works" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
           How it Works
         </a>
-        <a href="#features" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
+        <a href="/features" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
           Features
         </a>
-        <a href="#blog" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
+        <a href="/science" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
+          Science
+        </a>
+        <a href="/blog" className="text-sm font-medium text-text-secondary hover:text-green-primary transition-colors tracking-wide">
           Blog
         </a>
         <a
-          href="#waitlist"
+          href="/early-access"
           className="bg-green-deep text-white px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-green-primary hover:-translate-y-0.5 transition-all duration-300"
         >
           Get Early Access
@@ -58,10 +61,11 @@ export default function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="absolute top-full left-0 right-0 bg-cream/95 backdrop-blur-xl border-b border-green-primary/10 p-6 flex flex-col gap-4 md:hidden">
-          <a href="#how-it-works" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">How it Works</a>
-          <a href="#features" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Features</a>
-          <a href="#blog" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Blog</a>
-          <a href="#waitlist" onClick={() => setMenuOpen(false)} className="bg-green-deep text-white px-6 py-3 rounded-full text-sm font-semibold text-center">
+          <a href="/how-it-works" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">How it Works</a>
+          <a href="/features" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Features</a>
+          <a href="/science" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Science</a>
+          <a href="/blog" onClick={() => setMenuOpen(false)} className="text-base font-medium text-text-secondary">Blog</a>
+          <a href="/early-access" onClick={() => setMenuOpen(false)} className="bg-green-deep text-white px-6 py-3 rounded-full text-sm font-semibold text-center">
             Get Early Access
           </a>
         </div>

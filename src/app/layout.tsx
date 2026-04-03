@@ -1,24 +1,55 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
+import {
+  OrganizationSchema,
+  WebApplicationSchema,
+} from "@/components/StructuredData";
 import "./globals.css";
+
+const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
-  title: "Merios — Understand Your Body. Act on Your Health.",
+  title: {
+    default:
+      "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
+    template: "%s | Merios",
+  },
   description:
-    "Merios transforms blood tests, Apple Health data, and daily check-ins into one clear health score with personalized action plans. Understand your biomarkers. Track your health systems. Take control.",
-  keywords: ["health analytics", "biomarkers", "blood test analysis", "Apple Health", "health score", "wellness", "health app", "biological age", "health tracking"],
+    "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests with OCR, sync Apple Health, and optimize your longevity. Free to start.",
+  keywords: [
+    "health score app",
+    "blood test analysis app",
+    "biomarker tracking app",
+    "biological age calculator",
+    "blood test results app",
+    "health optimization app",
+    "personal health dashboard",
+    "Apple Health blood test",
+    "biomarker tracking for longevity",
+    "health analytics",
+    "InsideTracker alternative",
+    "Function Health alternative",
+  ],
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   alternates: {
     canonical: "https://merios.life",
   },
   openGraph: {
-    title: "Merios — Understand Your Body. Act on Your Health.",
+    title: "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
     description:
-      "Transform blood tests, Apple Health data, and daily check-ins into one unified health score with actionable insights.",
+      "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests, sync Apple Health, optimize your longevity.",
     url: "https://merios.life",
     siteName: "Merios",
     type: "website",
@@ -26,12 +57,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Merios — Understand Your Body. Act on Your Health.",
+    title: "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
     description:
-      "Transform blood tests, Apple Health data, and daily check-ins into one unified health score with actionable insights.",
+      "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests, sync Apple Health, optimize your longevity.",
   },
   verification: {
-    google: "55YlC0T47ZzU-V0k",
+    google: "55YlC0T47ZzU-V0khkPxvaeAmGCjRKwmap7vHiZt9do",
   },
 };
 
@@ -43,6 +74,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -55,6 +98,8 @@ export default function RootLayout({
         />
       </head>
       <body className="overflow-x-hidden">
+          <OrganizationSchema />
+          <WebApplicationSchema />
           {children}
           <Analytics />
         </body>

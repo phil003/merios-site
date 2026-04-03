@@ -1,5 +1,6 @@
 const articles = [
   {
+    slug: "understanding-crp-inflammation",
     emoji: "🧬",
     bg: "from-[#E8F0EB] to-[#D4E4DA]",
     tag: "Biomarkers",
@@ -8,6 +9,7 @@ const articles = [
     time: "6 min read",
   },
   {
+    slug: "heart-rate-variability-explained",
     emoji: "💤",
     bg: "from-[#EDE4F5] to-[#DDD2EC]",
     tag: "Sleep & Recovery",
@@ -16,6 +18,7 @@ const articles = [
     time: "5 min read",
   },
   {
+    slug: "vitamin-d-deficiency",
     emoji: "☀️",
     bg: "from-[#FFF3E0] to-[#F5E6CC]",
     tag: "Nutrition",
@@ -46,9 +49,10 @@ export default function BlogPreview() {
 
       <div className="grid md:grid-cols-3 gap-6">
         {articles.map((a, i) => (
-          <article
+          <a
             key={i}
-            className="fade-in rounded-2xl overflow-hidden bg-white border border-green-primary/6 hover:-translate-y-1 hover:shadow-xl transition-all duration-400 cursor-pointer group"
+            href={`/blog/${a.slug}`}
+            className="fade-in rounded-2xl overflow-hidden bg-white border border-green-primary/6 hover:-translate-y-1 hover:shadow-xl transition-all duration-400 cursor-pointer group block"
           >
             <div className={`w-full h-48 flex items-center justify-center text-4xl bg-gradient-to-br ${a.bg}`}>
               {a.emoji}
@@ -63,7 +67,7 @@ export default function BlogPreview() {
               <p className="text-sm leading-relaxed text-text-secondary">{a.desc}</p>
               <div className="text-xs text-text-tertiary mt-4">{a.time}</div>
             </div>
-          </article>
+          </a>
         ))}
       </div>
     </section>

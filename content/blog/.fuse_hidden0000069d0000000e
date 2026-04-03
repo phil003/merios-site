@@ -90,10 +90,10 @@ Your lipid panel measures the fats in your blood. This is crucial for heart heal
 
 | Biomarker | Optimal | Borderline | High |
 |-----------|---------|-----------|------|
-| **Total Cholesterol** | \&lt;200 mg/dL | 200-239 | ≥240 |
-| **LDL** | \&lt;100 mg/dL | 100-129 | ≥130 |
-| **HDL** | ≥60 mg/dL | 40-59 | \&lt;40 |
-| **Triglycerides** | \&lt;150 mg/dL | 150-199 | ≥200 |
+| **Total Cholesterol** | <200 mg/dL | 200-239 | ≥240 |
+| **LDL** | <100 mg/dL | 100-129 | ≥130 |
+| **HDL** | ≥60 mg/dL | 40-59 | <40 |
+| **Triglycerides** | <150 mg/dL | 150-199 | ≥200 |
 
 **What the numbers mean**: A high HDL-to-LDL ratio is protective. If your triglycerides are high, you might have too many carbs or alcohol in your diet.
 

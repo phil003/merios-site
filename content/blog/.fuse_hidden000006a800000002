@@ -53,7 +53,7 @@ A 2021 study in the Journal of Clinical Sleep Medicine comparing Oura Ring (Gen 
 - Sleep stage accuracy: Approximately 80-85% for stage classification
 - The blood oxygen sensor adds some value but increases battery drain
 
-Research published in JAMA Network Open (2022) comparing Apple Watch sleep to actigraphy (a wrist-worn accelerometer standard) showed good agreement for total sleep time (mean difference \&lt;30 minutes) but acknowledged limitations in stage accuracy.
+Research published in JAMA Network Open (2022) comparing Apple Watch sleep to actigraphy (a wrist-worn accelerometer standard) showed good agreement for total sleep time (mean difference <30 minutes) but acknowledged limitations in stage accuracy.
 
 **The Reality:** Both devices are reasonably accurate for total sleep time (within 30-45 minutes most nights) but less reliable for sleep stage classification. For clinical purposes, neither replaces PSG. For personal optimization tracking, both provide actionable data.
 

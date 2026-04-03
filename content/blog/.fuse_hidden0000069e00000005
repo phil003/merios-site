@@ -1,0 +1,214 @@
+---
+title: "Complete Guide to Blood Test Analysis: What Your Results Actually Mean"
+description: "Learn how to interpret blood test results, understand key biomarkers, and use blood work data to optimize your health."
+date: "2026-04-03"
+tag: "Blood Tests"
+emoji: "🩸"
+readTime: "12 min read"
+---
+
+Your doctor hands you a printout with dozens of abbreviations, numbers, and ranges. You glance at it, see "normal," and move on. But what if those numbers could actually tell you something important about your health trajectory—not just whether you're sick, but whether you're optimizing?
+
+This is the reality of modern blood testing. Most people treat blood work like a pass/fail exam. The healthcare system treats it the same way. But your blood is a window into your metabolic function, nutritional status, hormonal balance, and disease risk. Learning to read that window properly is one of the highest-leverage health skills you can develop.
+
+## What Is Blood Test Analysis and Why Should You Care?
+
+Blood test analysis is the process of interpreting the biomarkers measured in your blood to understand your metabolic health, nutritional status, and risk factors for disease. Traditional healthcare uses blood tests to diagnose disease—high cholesterol means you need a statin, elevated glucose means diabetes, and so on.
+
+But there's a massive gap between "normal" lab ranges and "optimal" ranges. Normal ranges are calculated from the 95th percentile of tested populations, which includes plenty of unhealthy people. A value can be technically normal and still represent a trajectory toward disease.
+
+This is why health-conscious people—biohackers, athletes, wellness enthusiasts—are getting blood work more frequently. They're using blood tests not as a diagnostic tool, but as a feedback mechanism. You adjust your diet, supplements, and lifestyle, then check your blood 8-12 weeks later to see if your interventions worked.
+
+The problem? Most people don't know which biomarkers matter, what the ranges mean, or how to act on the data. This guide changes that.
+
+## Core Blood Panels Explained: What You're Actually Testing
+
+When you order blood work, you're usually getting one of a few standard panels. Understanding what each panel measures is step one.
+
+### Complete Blood Count (CBC)
+
+The CBC measures the cells in your blood: red blood cells, white blood cells, and platelets. Here's what you need to know about the key metrics:
+
+**Red Blood Cell Count (RBC)**: Normal range is 4.5-5.9 million cells/mcL for men, 4.1-5.1 million for women. These cells carry oxygen throughout your body. Low RBC (anemia) causes fatigue and reduced exercise capacity. High RBC is rare and can indicate polycythemia or dehydration.
+
+**Hemoglobin**: Normal is 13.5-17.5 g/dL for men, 12.0-15.5 for women. This protein in red blood cells actually binds oxygen. It's the most clinically relevant part of the CBC. Values below 12 g/dL for women or 13.5 for men warrant investigation.
+
+**Hematocrit**: The percentage of your blood that's made up of red blood cells. Normal is 38.8-50% for men, 34.9-44.5% for women. Think of it as a concentration measure. Low hematocrit often correlates with low hemoglobin, suggesting anemia.
+
+**Mean Corpuscular Volume (MCV)**: This measures the average size of your red blood cells. Normal is 80-100 femtoliters (fL). Low MCV suggests iron deficiency anemia. High MCV suggests vitamin B12 or folate deficiency, or alcohol-related changes. If your hemoglobin is low, MCV tells you what type of anemia you have—critical for treatment.
+
+**Platelets**: Normal is 150-400 billion/L. These cells help your blood clot. Very low platelets (below 50) increase bleeding risk. Very high platelets (above 400) can indicate inflammation or iron deficiency.
+
+**White Blood Cell Count (WBC)**: Normal is 4.5-11.0 billion/L. These are your immune cells. Elevated WBC suggests infection or inflammation. Persistently elevated WBC can indicate chronic inflammation or, rarely, leukemia. Low WBC (below 4.5) is concerning and warrants follow-up.
+
+### Comprehensive Metabolic Panel (CMP)
+
+The CMP measures kidney function, liver function, blood sugar, and electrolytes. These 14 tests give you a broad snapshot of your metabolic health.
+
+**Glucose (Fasting)**: Normal fasting is below 100 mg/dL. Between 100-125 is prediabetes. Above 125 is diabetes. But here's the nuance: values between 95-110 mg/dL might still represent an upward trajectory. If your fasting glucose is rising year over year, that's worth addressing before it hits 125.
+
+**Creatinine and BUN (Blood Urea Nitrogen)**: These measure kidney function. Normal creatinine is 0.7-1.3 mg/dL. Normal BUN is 7-20 mg/dL. The BUN/creatinine ratio should be around 10-20:1. A high ratio suggests dehydration; a low ratio suggests malnutrition or liver disease. If creatinine is elevated (above 1.3), that's a sign of declining kidney function.
+
+**eGFR (Estimated Glomerular Filtration Rate)**: This is calculated from creatinine and estimates how well your kidneys filter waste. Normal is above 60 mL/min/1.73m². Below 60 indicates kidney disease. This becomes more important as you age—everyone's eGFR declines somewhat with age, but the rate of decline matters.
+
+**Sodium and Potassium**: Normal sodium is 135-145 mEq/L. Normal potassium is 3.5-5.0 mEq/L. These electrolytes regulate nerve function, muscle contraction, and fluid balance. Extreme abnormalities can cause seizures or arrhythmias. Minor abnormalities are often due to timing of blood draw or dietary intake and usually aren't concerning.
+
+**Calcium**: Normal is 8.5-10.2 mg/dL. Low calcium (hypocalcemia) causes muscle cramps and, severely, seizures. High calcium (hypercalcemia) can indicate parathyroid disease or cancer. If calcium is abnormal, check parathyroid hormone (PTH).
+
+**Albumin and Total Protein**: Albumin is 3.5-5.5 g/dL; total protein is 6.0-8.3 g/dL. Albumin is your body's main transport protein and takes weeks to change. Low albumin suggests malnutrition, liver disease, or kidney disease. It's a marker of nutritional status and longevity—lower albumin is associated with worse health outcomes in older adults.
+
+**ALT and AST (Liver Enzymes)**: Normal is roughly 7-56 U/L for both. These enzymes are higher when liver cells are damaged. Causes include viral hepatitis, alcohol, fatty liver disease, or medications. If both are elevated, it's usually liver-related. If AST is much higher than ALT, suspect alcohol or heart/muscle damage.
+
+### Lipid Panel
+
+Your lipid panel measures cholesterol, triglycerides, and calculated derivatives. This is where a lot of conventional health advice misses the mark.
+
+**Total Cholesterol**: Below 200 mg/dL is considered optimal, but this number alone is nearly meaningless. You need to see the breakdown.
+
+**LDL Cholesterol**: This is often called "bad cholesterol." Below 100 mg/dL is optimal. Here's the crucial detail: LDL isn't inherently bad. What matters is LDL particle size and number. Someone with 150 mg/dL of large, fluffy LDL particles is at lower cardiovascular risk than someone with 100 mg/dL of small, dense particles. Unfortunately, most standard labs don't measure particle size—you need an advanced lipid panel for that. [Merios](/early-access) integrates advanced lipid metrics to give you the complete picture.
+
+**HDL Cholesterol**: This is "good cholesterol." Higher is better. Above 40 mg/dL for men and 50 for women is protective. Above 60 is considered optimal and is actually protective against heart disease.
+
+**Triglycerides**: Below 150 mg/dL is normal. These rise with refined carbohydrate and alcohol consumption. High triglycerides, especially combined with low HDL, is a sign of metabolic dysfunction. The triglyceride-to-HDL ratio is a better predictor of heart disease risk than LDL alone—a ratio below 2 is excellent.
+
+**VLDL (Very Low-Density Lipoprotein)**: Usually calculated as triglycerides/5. It's not an action item on most reports but gives context to your triglycerides.
+
+## Beyond Standard Panels: Advanced Biomarkers
+
+Standard panels are designed for disease diagnosis. If you want to optimize, you need to go deeper.
+
+### Inflammatory Markers
+
+**High-Sensitivity C-Reactive Protein (hs-CRP)**: Below 1 mg/L is low risk, 1-3 is intermediate, above 3 is high risk for cardiovascular disease. But hs-CRP fluctuates with acute infection and stress. Chronically elevated hs-CRP (even at 2-3 mg/L) suggests systemic inflammation, often from poor diet, insufficient exercise, or unmanaged stress.
+
+### Metabolic Health
+
+**Insulin**: Fasting insulin should ideally be below 8 mIU/L, with many optimizers aiming below 5. High fasting insulin (above 12) indicates insulin resistance, even if glucose is normal. Insulin resistance is an upstream problem—fix it before it becomes diabetes.
+
+**HbA1c (Glycated Hemoglobin)**: This measures your average blood glucose over the past 3 months. Below 5.7% is normal, 5.7-6.4% is prediabetes, above 6.5% is diabetes. The beauty of HbA1c is that it averages out day-to-day fluctuations, giving you a true picture of your glucose control.
+
+### Thyroid Function
+
+**TSH (Thyroid Stimulating Hormone)**: Normal is 0.4-4.0 mIU/L, but many functional medicine doctors aim for 1.5-2.5. If TSH is elevated but you're symptomatic (fatigue, weight gain, cold intolerance), ask for Free T3 and Free T4.
+
+**Free T4 and Free T3**: These are the actual thyroid hormones. Free T3 (3.1-6.8 pg/mL) is more metabolically active than T4. If T4 is normal but you're still symptomatic, check T3—some people have poor conversion from T4 to T3.
+
+### Nutrient Status
+
+**Vitamin B12**: Below 200 pg/mL is deficient, 200-300 is low-normal, above 300 is adequate. But many experts now advocate for B12 above 500 for neurological health, especially as you age. Vegans and people on metformin should monitor B12 closely.
+
+**Vitamin D (25-Hydroxyvitamin D)**: Below 20 ng/mL is deficient, 20-29 is insufficient, 30-100 is sufficient, above 100 is potentially excessive. Most experts now recommend maintaining 40-60 ng/mL for bone health, immune function, and cardiovascular health.
+
+**Iron Panel (Serum Iron, Ferritin, TIBC)**: Ferritin is a storage form of iron and an inflammatory marker. Normal is 24-336 ng/mL for men, 11-307 for women, but many functional doctors aim for 50-100. Low ferritin causes fatigue and poor endurance; high ferritin suggests inflammation or, rarely, hemochromatosis.
+
+**Magnesium**: Most standard labs only measure total magnesium, which isn't very useful. Serum magnesium is 1.7-2.2 mg/dL but only 1% of your body's magnesium is in serum. Red blood cell magnesium is a better marker of total body status but requires a specialty lab.
+
+## Understanding Lab Reference Ranges: Normal Doesn't Mean Optimal
+
+This is the critical gap in how most people interpret blood work.
+
+**Reference ranges** are calculated from people who've been tested at that lab—typically the middle 95% of results. These ranges are useful for identifying disease but useless for optimization because they include sick people, poorly nourished people, sedentary people, and people on medications.
+
+**Optimal ranges** are narrower and are based on what correlates with longevity, disease prevention, and functional health. They vary by age, sex, and other factors, but here are some examples:
+
+- **LDL**: Disease threshold is above 190, but optimal for cardiovascular protection is below 70.
+- **HDL**: Disease risk increases below 40, but optimal is above 60.
+- **Triglycerides**: Disease threshold is above 200, but optimal is below 100.
+- **Fasting Glucose**: Disease threshold is 125+, but optimal is below 95.
+
+The gap between "normal" and "optimal" is where most people are—technically healthy but on a trajectory toward disease.
+
+## How to Interpret Your Own Blood Work
+
+Here's a practical process for reviewing your results:
+
+**Step 1: Check the Reference Ranges**
+Lab ranges vary by lab. Don't compare your result to a range you found online—use the range printed on your report.
+
+**Step 2: Look for Trends**
+A single result is a snapshot. Results over time show direction. Is your glucose trending up? Your cholesterol stable? Your white blood cells slowly rising? Trends matter more than absolute values.
+
+**Step 3: Look for Patterns**
+If your triglycerides are elevated AND your HDL is low AND your fasting glucose is high, you have metabolic dysfunction. These don't exist in isolation—they're symptoms of an underlying problem, usually insulin resistance.
+
+**Step 4: Consider Context**
+Were you sick during blood draw? Sleep-deprived? Fasted properly? Timing of blood draw affects results. Cortisol is highest in the morning. Glucose varies by meal timing. Results are valid only if the testing conditions were proper.
+
+**Step 5: Act on the Data**
+This is where most people fail. They get results and do nothing. But if your triglycerides are 250 and HDL is 40, you can actually fix that. Reduce refined carbohydrates, increase omega-3s, add resistance training. Retest in 12 weeks.
+
+## How Wearables and Blood Work Complement Each Other
+
+Blood biomarkers are a snapshot in time. Wearable data (heart rate, sleep, activity, continuous glucose monitoring) shows patterns over weeks and months.
+
+The most powerful health optimization combines both. You might see elevated inflammation markers in blood work, but your wearable data reveals you're sleeping 5 hours per night. Fix the sleep first, then retest blood work.
+
+Or your fasting glucose is drifting up, and your continuous glucose monitor shows dramatic spikes after breakfast. This tells you your glucose response to that meal needs adjustment.
+
+[Merios](/features) is designed to connect these data streams—your blood biomarkers, your wearable metrics, and your lifestyle data—into a unified health score that actually predicts health outcomes. Rather than looking at glucose in isolation or sleep in isolation, you see how they interact.
+
+## Common Blood Work Mistakes and How to Avoid Them
+
+**Mistake 1: Getting Tested Non-Fasting**
+Many biomarkers change dramatically after meals. Always fast for 8-12 hours before blood work unless specifically told otherwise. Glucose, triglycerides, and insulin are particularly sensitive.
+
+**Mistake 2: Testing at Different Labs**
+Lab equipment, methodology, and reference ranges vary. If possible, use the same lab each time for consistency. If you switch labs, request both results be run on the same day for comparison.
+
+**Mistake 3: Ignoring Medication Effects**
+Statins lower cholesterol. Metformin lowers glucose. Aspirin affects clotting markers. If you're on medications, your results must be interpreted in that context.
+
+**Mistake 4: Overinterpreting Single Tests**
+A single elevated result is often meaningless. Retest it. Was it an anomaly? A temporary stressor? A sign of a real problem? One test is a data point; two tests create a trend.
+
+**Mistake 5: Focusing on Cholesterol to the Exclusion of Everything Else**
+Cholesterol is one risk factor among many. Someone with low cholesterol and poor glucose control is at higher risk than someone with slightly elevated cholesterol and excellent glucose control. Look at the whole picture.
+
+**Mistake 6: Testing Sporadically**
+Testing once every 2-3 years tells you almost nothing. Test quarterly or biannually if you're optimizing. Test annually if you're just monitoring baseline health.
+
+## Your Blood Work Action Plan
+
+Here's how to actually use blood work to improve your health:
+
+**Establish a Baseline**: Get comprehensive blood work (CBC, CMP, lipid panel, hs-CRP, fasting insulin, HbA1c, thyroid, Vitamin D). This is your starting point.
+
+**Identify Problem Areas**: Which biomarkers are suboptimal? Which are on an unfavorable trajectory?
+
+**Implement Changes**: Address one system at a time. If glucose control is poor, focus on carbohydrate quality and meal timing for 12 weeks. Don't change diet, add supplements, and start exercising all simultaneously—you won't know what worked.
+
+**Retest**: After 8-12 weeks of intervention, get blood work repeated. Did your intervention work?
+
+**Iterate**: Based on results, adjust. Some people respond dramatically to dietary change. Others need more exercise. Some need stress management. The data tells you what's working.
+
+**Maintain**: Once you've optimized key biomarkers, test every 6-12 months to ensure you're maintaining those gains.
+
+This iterative, data-driven approach to health is fundamentally different from the conventional model, which waits for disease. You're optimizing before disease develops.
+
+## The Future of Blood Testing: Integration and Prediction
+
+Blood testing is evolving. Advanced lipid panels now include particle count and size. Inflammatory markers are getting more sophisticated. Genetic testing reveals predispositions.
+
+The next frontier is integration. Your blood biomarkers, combined with your wearable data, genetic data, and lifestyle factors, can predict health trajectories and guide prevention. Instead of waiting until your glucose hits 125 to diagnose diabetes, data integration would catch your rising insulin levels and glucose creep at year 1, when intervention is easiest.
+
+This is what Merios is building toward—a comprehensive health intelligence system that connects your blood data with everything else, giving you predictive insights rather than reactive diagnoses. [Join the early access](/early-access) to shape the future of how people understand and optimize their health.
+
+## Medical Disclaimer
+
+This article is educational and should not be construed as medical advice. Blood test interpretation varies based on individual context, medications, and health status. Always consult a qualified healthcare provider—MD, DO, PA, or NP—before making changes based on blood work. Some biomarkers discussed here require professional interpretation.
+
+## Final Thoughts: Knowledge Is the Antidote to Helplessness
+
+Most people feel helpless about their health. They get a blood test, see "normal," and think there's nothing to do. But that's only true if you're thinking about blood work as a disease detection tool.
+
+If you think of blood work as performance feedback, everything changes. Your glucose isn't "normal"—it's suboptimal. Your triglycerides aren't "fine"—they're signaling metabolic dysfunction. Your inflammation marker isn't "in range"—it's pointing to a lifestyle factor you can fix.
+
+This requires learning. It requires testing more often than conventional medicine recommends. It requires understanding that "normal" and "healthy" aren't synonyms.
+
+But it also works. People who understand their blood work and adjust based on data have measurably better health outcomes. They prevent disease rather than treating it. They age better.
+
+Understanding blood test analysis is one of the highest-leverage health skills you can develop. Start with your last blood work. Pull it up. Read it. Understand what each number means. Then decide if you're satisfied with those numbers or if they're worth improving.
+
+If they're worth improving, [get a baseline test done](https://www.merios.life/early-access), implement one targeted intervention, and retest in 12 weeks. Let the data guide you.
+
+Your blood is the most honest biomarker you have. Learn to listen to it.

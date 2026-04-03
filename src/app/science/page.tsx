@@ -1,4 +1,7 @@
 import Link from 'next/link';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollAnimator from "@/components/ScrollAnimator";
 
 export const metadata = {
   title: 'The Science Behind Merios | Evidence-Based Health Analytics',
@@ -54,9 +57,12 @@ export default function SciencePage() {
   ];
 
   return (
-    <main className="bg-cream">
-      {/* Hero Section */}
-      <section className="fade-in min-h-screen flex items-center justify-center px-6 pt-32 pb-20 md:pt-40 md:pb-32">
+    <>
+      <ScrollAnimator />
+      <Navbar />
+      <main className="bg-cream">
+        {/* Hero Section */}
+        <section className="fade-in min-h-screen flex items-center justify-center px-6 pt-32 pb-20 md:pt-40 md:pb-32">
         <div className="max-w-3xl text-center">
           <h1 className="font-serif text-5xl md:text-6xl font-bold text-text-primary mb-6">
             The Science Behind Merios
@@ -70,72 +76,75 @@ export default function SciencePage() {
         </div>
       </section>
 
-      {/* Scoring Methodology Section */}
+      {/* Merios Score — 4 Pillars */}
       <section className="fade-in py-20 md:py-32 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-serif text-4xl md:text-5xl font-bold text-text-primary mb-4 text-center">
-            How We Calculate Your Health Score
+            The Merios Score
           </h2>
-          <p className="text-center text-text-secondary mb-12 text-lg">
-            A sophisticated analysis of three key components
+          <p className="text-center text-text-secondary mb-6 text-lg max-w-2xl mx-auto">
+            Your Merios Score (0&ndash;100) is built on four equally-weighted pillars, each contributing 25% to your overall score. This balanced approach ensures no single dimension dominates your health picture.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Weighted Biomarker Analysis */}
-            <div className="p-8 border border-green-light/20 rounded-lg bg-gradient-to-br from-green-light/5 to-transparent">
-              <div className="w-12 h-12 bg-green-primary rounded-full flex items-center justify-center mb-6">
-                <span className="text-white font-bold text-lg">1</span>
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-text-primary mb-4">
-                Weighted Biomarker Analysis
-              </h3>
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            <div className="p-8 border border-green-light/20 rounded-2xl bg-gradient-to-br from-green-light/5 to-transparent">
+              <div className="text-3xl mb-4">😴</div>
+              <h3 className="font-serif text-2xl font-bold text-text-primary mb-3">Sleep</h3>
               <p className="text-text-secondary leading-relaxed mb-4">
-                We analyze 130+ clinical biomarkers including metabolic markers, organ function, nutrient levels, and inflammatory indices. Each biomarker is weighted based on clinical significance and your individual health profile.
+                Sleep quality, duration, consistency, and deep sleep ratios tracked via Apple Health. Your sleep pillar reflects how well your body recovers each night.
               </p>
-              <ul className="text-sm text-text-tertiary space-y-2">
-                <li>• Lipid panels and glucose metabolism</li>
-                <li>• Liver and kidney function enzymes</li>
-                <li>• Thyroid and hormone levels</li>
-                <li>• Complete blood count analysis</li>
-              </ul>
+              <div className="text-sm text-green-primary font-semibold">25% of your score</div>
             </div>
 
-            {/* Wearable Data Correlation */}
-            <div className="p-8 border border-green-light/20 rounded-lg bg-gradient-to-br from-green-light/5 to-transparent">
-              <div className="w-12 h-12 bg-green-primary rounded-full flex items-center justify-center mb-6">
-                <span className="text-white font-bold text-lg">2</span>
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-text-primary mb-4">
-                Wearable Data Correlation
-              </h3>
+            <div className="p-8 border border-green-light/20 rounded-2xl bg-gradient-to-br from-green-light/5 to-transparent">
+              <div className="text-3xl mb-4">🧘</div>
+              <h3 className="font-serif text-2xl font-bold text-text-primary mb-3">Stress</h3>
               <p className="text-text-secondary leading-relaxed mb-4">
-                Real-time data from your Apple Health, fitness tracker, and wearables are correlated with lab biomarkers to create a continuous health picture. We track patterns in sleep, activity, heart rate variability, and recovery.
+                Heart rate variability (HRV), resting heart rate, and self-reported stress levels from daily check-ins. This pillar captures your nervous system balance and recovery capacity.
               </p>
-              <ul className="text-sm text-text-tertiary space-y-2">
-                <li>• Sleep quality and consistency</li>
-                <li>• Physical activity patterns</li>
-                <li>• Heart rate and HRV trends</li>
-                <li>• Recovery and stress markers</li>
-              </ul>
+              <div className="text-sm text-green-primary font-semibold">25% of your score</div>
             </div>
 
-            {/* Self-Reported Wellness */}
-            <div className="p-8 border border-green-light/20 rounded-lg bg-gradient-to-br from-green-light/5 to-transparent">
-              <div className="w-12 h-12 bg-green-primary rounded-full flex items-center justify-center mb-6">
-                <span className="text-white font-bold text-lg">3</span>
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-text-primary mb-4">
-                Self-Reported Wellness
-              </h3>
+            <div className="p-8 border border-green-light/20 rounded-2xl bg-gradient-to-br from-green-light/5 to-transparent">
+              <div className="text-3xl mb-4">🏃</div>
+              <h3 className="font-serif text-2xl font-bold text-text-primary mb-3">Activity</h3>
               <p className="text-text-secondary leading-relaxed mb-4">
-                Your symptoms, energy levels, mood, and wellness observations provide crucial context. These subjective health markers validate clinical data and reveal patterns that lab work alone cannot capture.
+                Daily steps, workout frequency, active energy burned, and movement consistency from Apple Health. Your activity pillar rewards consistency over intensity.
               </p>
-              <ul className="text-sm text-text-tertiary space-y-2">
-                <li>• Energy and vitality assessment</li>
-                <li>• Mood and mental clarity tracking</li>
-                <li>• Symptom monitoring</li>
-                <li>• Lifestyle and behavior notes</li>
-              </ul>
+              <div className="text-sm text-green-primary font-semibold">25% of your score</div>
+            </div>
+
+            <div className="p-8 border border-green-light/20 rounded-2xl bg-gradient-to-br from-green-light/5 to-transparent">
+              <div className="text-3xl mb-4">🧬</div>
+              <h3 className="font-serif text-2xl font-bold text-text-primary mb-3">Biomarkers</h3>
+              <p className="text-text-secondary leading-relaxed mb-4">
+                130+ blood biomarkers analyzed across 11 health systems. Each marker is scored against clinical reference ranges and weighted by medical significance for your profile.
+              </p>
+              <div className="text-sm text-green-primary font-semibold">25% of your score</div>
+            </div>
+          </div>
+
+          {/* Biological Age */}
+          <div className="bg-green-deep rounded-2xl p-10 text-center">
+            <p className="text-xs uppercase tracking-[0.18em] font-semibold mb-4" style={{ color: "rgba(124,219,154,0.7)" }}>
+              Beyond the Score
+            </p>
+            <h3 className="font-serif text-3xl md:text-4xl font-bold text-white mb-4">
+              Your Biological Age
+            </h3>
+            <p className="text-white/70 leading-relaxed max-w-2xl mx-auto mb-6">
+              Merios calculates your biological age using the PhenoAge algorithm, a clinically validated model based on 9 key blood biomarkers. Your biological age reflects how fast your body is actually aging&mdash;independent of your calendar age&mdash;and is further refined by HealthKit lifestyle data and supplementary biomarkers.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 text-sm">
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">Albumin</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">Creatinine</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">Glucose</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">C-Reactive Protein</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">Lymphocyte %</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">Mean Cell Volume</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">Red Cell Dist. Width</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">Alkaline Phosphatase</span>
+              <span className="px-4 py-2 rounded-full bg-white/10 text-white/80">White Blood Cells</span>
             </div>
           </div>
         </div>
@@ -215,7 +224,7 @@ export default function SciencePage() {
                 Bank-Level Security
               </h3>
               <p className="text-text-secondary leading-relaxed mb-4">
-                All data is encrypted in transit and at rest using AES-256 encryption. We comply with GDPR, HIPAA, and SOC 2 standards to ensure your health information remains confidential.
+                All data is encrypted in transit and at rest using AES-256 encryption. We comply with GDPR standards to ensure your health information remains confidential.
               </p>
               <ul className="space-y-3 text-text-secondary">
                 <li className="flex gap-3">
@@ -271,6 +280,8 @@ export default function SciencePage() {
           </Link>
         </div>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

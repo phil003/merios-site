@@ -1,4 +1,7 @@
 import Link from 'next/link';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollAnimator from "@/components/ScrollAnimator";
 
 const FeatureCard = ({
   emoji,
@@ -45,9 +48,12 @@ export const metadata = {
 
 export default function FeaturesPage() {
   return (
-    <main className="w-full">
-      {/* Hero Section */}
-      <section className="bg-white py-16 md:py-24 px-4 md:px-0">
+    <>
+      <ScrollAnimator />
+      <Navbar />
+      <main className="w-full">
+        {/* Hero Section */}
+        <section className="bg-white py-16 md:py-24 px-4 md:px-0 pt-32 md:pt-40">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="font-serif text-5xl md:text-6xl font-bold text-text-primary mb-6 leading-tight">
             Everything You Need to Know About Your Health
@@ -216,6 +222,8 @@ export default function FeaturesPage() {
           </Link>
         </div>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

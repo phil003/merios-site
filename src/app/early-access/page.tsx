@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollAnimator from "@/components/ScrollAnimator";
 
 const SUPABASE_URL = 'https://ykcakhvmzebakodxmjpb.supabase.co';
 const SUPABASE_ANON_KEY =
@@ -96,9 +99,12 @@ export default function EarlyAccessPage() {
   ];
 
   return (
-    <main className="fade-in">
-      {/* Hero Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+    <>
+      <ScrollAnimator />
+      <Navbar />
+      <main>
+        {/* Hero Section */}
+        <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <h1
             className="font-serif text-6xl sm:text-7xl font-bold mb-6"
@@ -312,7 +318,7 @@ export default function EarlyAccessPage() {
             Merios.
           </p>
           <Link
-            href="#"
+            href="#waitlist-form"
             className="inline-block px-10 py-4 rounded-lg font-sans font-semibold text-white transition-all duration-300 hover:opacity-90"
             style={{ backgroundColor: '#2D5A3D' }}
             onClick={(e) => {
@@ -337,6 +343,8 @@ export default function EarlyAccessPage() {
           ← Back to home
         </Link>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

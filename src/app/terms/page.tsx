@@ -1,4 +1,7 @@
 import { Metadata } from 'next';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollAnimator from "@/components/ScrollAnimator";
 
 export const metadata: Metadata = {
   title: 'Terms of Service | Merios',
@@ -7,10 +10,13 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-cream to-beige" style={{ backgroundColor: '#FDFCF9' }}>
-      {/* Hero Section */}
-      <div className="border-b" style={{ borderColor: '#E8E4DC' }}>
-        <div className="mx-auto max-w-4xl px-6 py-16 sm:px-8 sm:py-24">
+    <>
+      <ScrollAnimator />
+      <Navbar />
+      <main className="min-h-screen bg-gradient-to-b from-cream to-beige" style={{ backgroundColor: '#FDFCF9' }}>
+        {/* Hero Section */}
+        <div className="border-b" style={{ borderColor: '#E8E4DC' }}>
+          <div className="mx-auto max-w-4xl px-6 pt-32 pb-16 sm:px-8 sm:py-24">
           <h1
             className="font-serif text-5xl font-bold tracking-tight"
             style={{ color: '#1A1A1A' }}
@@ -23,8 +29,8 @@ export default function TermsPage() {
           >
             Last updated: April 3, 2026
           </p>
+          </div>
         </div>
-      </div>
 
       {/* Content */}
       <div className="mx-auto max-w-4xl px-6 py-16 sm:px-8 sm:py-24">
@@ -422,6 +428,8 @@ export default function TermsPage() {
           </section>
         </div>
       </div>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

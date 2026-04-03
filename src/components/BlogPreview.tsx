@@ -39,7 +39,7 @@ export default function BlogPreview() {
             one topic at a time.
           </h2>
         </div>
-        <a href="#" className="text-sm text-green-primary font-medium flex items-center gap-1.5 hover:gap-2.5 transition-all">
+        <a href="/blog" className="text-sm text-green-primary font-medium flex items-center gap-1.5 hover:gap-2.5 transition-all">
           Read all articles →
         </a>
       </div>

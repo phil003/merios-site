@@ -1,4 +1,7 @@
 import Link from 'next/link';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollAnimator from "@/components/ScrollAnimator";
 
 const articles: Record<
   string,
@@ -143,9 +146,12 @@ export default function BlogArticlePage({
   }
 
   return (
-    <main className="fade-in">
-      {/* Article Header */}
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <>
+      <ScrollAnimator />
+      <Navbar />
+      <main>
+        {/* Article Header */}
+        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
         {/* Category & Metadata */}
         <div className="mb-8">
           <span
@@ -290,6 +296,8 @@ export default function BlogArticlePage({
           ← Back to blog
         </Link>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

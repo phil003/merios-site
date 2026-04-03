@@ -42,7 +42,7 @@ export default function Hero() {
         style={{ animationDelay: "0.8s" }}
       >
         <a
-          href="#waitlist"
+          href="/early-access"
           className="inline-flex items-center gap-3 px-10 py-4 bg-green-deep text-white rounded-full text-base font-semibold hover:bg-green-primary hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center"
         >
           Join Waitlist
@@ -51,7 +51,7 @@ export default function Hero() {
           </svg>
         </a>
         <a
-          href="#how-it-works"
+          href="/how-it-works"
           className="inline-flex items-center gap-2 px-7 py-4 border-[1.5px] border-green-primary/15 text-text-secondary rounded-full text-base font-medium hover:border-green-primary hover:text-green-primary transition-all w-full sm:w-auto justify-center"
         >
           Learn More

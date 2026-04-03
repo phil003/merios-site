@@ -2,6 +2,9 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollAnimator from "@/components/ScrollAnimator";
 
 const categories = ['All', 'Health', 'Biomarkers', 'Wellness', 'Product'];
 
@@ -71,9 +74,12 @@ export default function BlogPage() {
       : articles.filter((a) => a.category === activeCategory);
 
   return (
-    <main className="fade-in">
-      {/* Hero Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+    <>
+      <ScrollAnimator />
+      <Navbar />
+      <main>
+        {/* Hero Section */}
+        <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <h1
             className="font-serif text-5xl sm:text-6xl font-bold mb-6"
@@ -214,6 +220,8 @@ export default function BlogPage() {
           </p>
         </div>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

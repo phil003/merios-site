@@ -1,15 +1,15 @@
 const features = [
-  "One health score + 4 health pillars (Sleep, Stress, Activity, Biomarkers)",
-  "3, 6, and 12-month trends—see what actually changed",
-  "Clear recommendations—no medical jargon",
-  "EU-hosted data, fully GDPR compliant",
+  "One health score from 4 pillars: Sleep, Stress, Activity, Biomarkers",
+  "Biological age powered by the PhenoAge algorithm",
+  "11 health systems tracked across 130+ biomarkers",
+  "AI-powered recommendations—no medical jargon",
 ];
 
 const phonePillars = [
-  { name: "Blood", value: "82", trend: "↑ +3" },
   { name: "Sleep", value: "71", trend: "↑ +6" },
-  { name: "Heart", value: "79", trend: "→ stable" },
+  { name: "Stress", value: "79", trend: "→ stable" },
   { name: "Activity", value: "68", trend: "↑ +2" },
+  { name: "Biomarkers", value: "82", trend: "↑ +3" },
 ];
 
 export default function AppPreview() {
@@ -42,7 +42,7 @@ export default function AppPreview() {
             ))}
           </ul>
           <a
-            href="#waitlist"
+            href="/early-access"
             className="inline-flex items-center gap-3 px-9 py-4 bg-white text-green-deep rounded-full text-base font-semibold hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
           >
             Join the Waitlist

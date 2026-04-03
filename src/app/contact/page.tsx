@@ -1,8 +1,15 @@
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollAnimator from "@/components/ScrollAnimator";
+
 export default function ContactPage() {
   return (
-    <div className="bg-cream text-text-primary">
-      {/* Hero Section */}
-      <section className="min-h-[50vh] flex items-center justify-center px-6 py-20 fade-in">
+    <>
+      <ScrollAnimator />
+      <Navbar />
+      <div className="bg-cream text-text-primary">
+        {/* Hero Section */}
+        <section className="min-h-[50vh] flex items-center justify-center px-6 pt-32 pb-20 fade-in">
         <div className="max-w-2xl text-center">
           <h1 className="font-serif text-6xl font-bold text-green-deep mb-6">
             Get in Touch
@@ -197,6 +204,8 @@ export default function ContactPage() {
           Browse FAQ →
         </a>
       </section>
-    </div>
+      </div>
+      <Footer />
+    </>
   );
 }

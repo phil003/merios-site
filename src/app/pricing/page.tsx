@@ -1,4 +1,7 @@
 import Link from 'next/link';
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ScrollAnimator from "@/components/ScrollAnimator";
 
 export const metadata = {
   title: 'Pricing | Merios Premium Health Analytics',
@@ -30,9 +33,12 @@ export default function PricingPage() {
   ];
 
   return (
-    <main className="bg-cream">
-      {/* Hero Section */}
-      <section className="fade-in min-h-screen flex items-center justify-center px-6 pt-32 pb-20 md:pt-40 md:pb-32">
+    <>
+      <ScrollAnimator />
+      <Navbar />
+      <main className="bg-cream">
+        {/* Hero Section */}
+        <section className="fade-in min-h-screen flex items-center justify-center px-6 pt-32 pb-20 md:pt-40 md:pb-32">
         <div className="max-w-3xl text-center">
           <h1 className="font-serif text-5xl md:text-6xl font-bold text-text-primary mb-6">
             Simple, Transparent Pricing
@@ -317,6 +323,8 @@ export default function PricingPage() {
           </p>
         </div>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

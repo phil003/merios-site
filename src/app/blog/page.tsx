@@ -4,10 +4,22 @@ import Footer from '@/components/Footer';
 import ScrollAnimator from '@/components/ScrollAnimator';
 import { getAllPosts } from '@/lib/blog';
 
-export const metadata = {
-  title: 'Blog | Merios',
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog — Health, Biomarkers & Longevity Insights",
   description:
-    'Explore health insights, biomarker guides, and wellness tips from the Merios team.',
+    "Expert articles on blood biomarkers, biological age, health optimization, and longevity. Learn how to understand your blood test results and improve your health score.",
+  alternates: {
+    canonical: "https://merios.life/blog",
+  },
+  openGraph: {
+    title: "Blog — Health, Biomarkers & Longevity Insights",
+    description:
+      "Expert articles on blood biomarkers, biological age, health optimization, and longevity. Learn how to understand your blood test results and improve your health score.",
+    url: "https://merios.life/blog",
+    type: "website",
+  },
 };
 
 const gradients: Record<string, string> = {

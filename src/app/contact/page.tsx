@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
+
+export const metadata: Metadata = {
+  title: "Contact Merios — Get in Touch",
+  description:
+    "Have questions about Merios? Contact our team for support with blood test analysis, biomarker tracking, health score questions, or partnership inquiries.",
+  alternates: {
+    canonical: "https://merios.life/contact",
+  },
+  openGraph: {
+    title: "Contact Merios — Get in Touch",
+    description:
+      "Have questions about Merios? Contact our team for support with blood test analysis, biomarker tracking, and health score questions.",
+    url: "https://merios.life/contact",
+    type: "website",
+  },
+};
 
 export default function ContactPage() {
   return (

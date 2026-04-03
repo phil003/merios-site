@@ -5,9 +5,9 @@ import ScrollAnimator from "@/components/ScrollAnimator";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
-  title: "How Merios Works — 4-Step Health Intelligence",
+  title: "How Merios Works — From Blood Tests to Health Score in Minutes",
   description:
-    "Discover how Merios turns your health data into clear insights. Connect your sources, centralize everything, understand your patterns, and act on what matters.",
+    "Upload your blood test results, sync Apple Health, complete daily check-ins. Merios analyzes 130+ biomarkers and delivers your personalized health score with actionable recommendations.",
   keywords: [
     "how merios works",
     "health analytics",
@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     canonical: "https://merios.life/how-it-works",
   },
   openGraph: {
-    title: "How Merios Works — 4-Step Health Intelligence",
+    title: "How Merios Works — From Blood Tests to Health Score in Minutes",
     description:
-      "Discover how Merios turns your health data into clear insights. Connect, centralize, understand, and act.",
+      "Upload your blood test results, sync Apple Health, complete daily check-ins. Merios analyzes 130+ biomarkers and delivers your health score with actionable recommendations.",
     url: "https://merios.life/how-it-works",
     siteName: "Merios",
     type: "website",

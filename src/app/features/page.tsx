@@ -41,9 +41,22 @@ const HealthSystem = ({ name }: { name: string }) => (
   </div>
 );
 
-export const metadata = {
-  title: 'Features | Merios',
-  description: 'Discover how Merios revolutionizes health analytics with AI-driven insights across 130+ biomarkers and 11 health systems.',
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Features — Blood Test OCR, Health Score & Biomarker Tracking",
+  description:
+    "Explore Merios features: OCR blood test upload for 130+ biomarkers, biological age calculator, 4-pillar health score, Apple Health sync, 11 health system tracking, and personalized insights.",
+  alternates: {
+    canonical: "https://merios.life/features",
+  },
+  openGraph: {
+    title: "Features — Blood Test OCR, Health Score & Biomarker Tracking",
+    description:
+      "Explore Merios features: OCR blood test upload for 130+ biomarkers, biological age calculator, 4-pillar health score, Apple Health sync, and personalized insights.",
+    url: "https://merios.life/features",
+    type: "website",
+  },
 };
 
 export default function FeaturesPage() {

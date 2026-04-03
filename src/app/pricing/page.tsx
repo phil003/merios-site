@@ -3,9 +3,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
-export const metadata = {
-  title: 'Pricing | Merios Premium Health Analytics',
-  description: 'Simple, transparent pricing for Merios. Choose between our Free plan or Pro subscription with 130+ biomarkers and AI recommendations.',
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Pricing — Free Health Score App with Pro Biomarker Tracking",
+  description:
+    "Start tracking your health for free with Merios Basic. Upgrade to Pro ($14.99/mo) for unlimited biomarker tracking, real-time Apple Health sync, advanced analytics, and personalized plans.",
+  alternates: {
+    canonical: "https://merios.life/pricing",
+  },
+  openGraph: {
+    title: "Pricing — Free Health Score App with Pro Biomarker Tracking",
+    description:
+      "Start tracking your health for free with Merios Basic. Upgrade to Pro for unlimited biomarker tracking, real-time Apple Health sync, and advanced analytics.",
+    url: "https://merios.life/pricing",
+    type: "website",
+  },
 };
 
 export default function PricingPage() {

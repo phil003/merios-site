@@ -4,8 +4,19 @@ import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
 export const metadata: Metadata = {
-  title: 'Terms of Service | Merios',
-  description: 'Read our terms of service and conditions for using Merios.',
+  title: "Terms of Service",
+  description:
+    "Merios Terms of Service. Read our terms for using the health score app, blood test analysis, and biomarker tracking services.",
+  alternates: {
+    canonical: "https://merios.life/terms",
+  },
+  openGraph: {
+    title: "Terms of Service",
+    description:
+      "Merios Terms of Service. Read our terms for using the health score app, blood test analysis, and biomarker tracking services.",
+    url: "https://merios.life/terms",
+    type: "website",
+  },
 };
 
 export default function TermsPage() {

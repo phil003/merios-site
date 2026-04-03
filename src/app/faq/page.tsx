@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
+import { FAQPageSchema } from "@/components/StructuredData";
+
+export const metadata: Metadata = {
+  title: "FAQ — Merios Health Score App | Biomarker Tracking Questions",
+  description:
+    "Get answers about Merios: how the health score works, biomarker tracking, blood test OCR, Apple Health integration, data privacy, pricing, and supported devices.",
+  alternates: {
+    canonical: "https://merios.life/faq",
+  },
+};
 
 export default function FAQPage() {
   const faqCategories = [
@@ -82,8 +93,12 @@ export default function FAQPage() {
     },
   ];
 
+  // Flatten all questions for schema markup
+  const allQuestions = faqCategories.flatMap((cat) => cat.questions);
+
   return (
     <>
+      <FAQPageSchema questions={allQuestions} />
       <ScrollAnimator />
       <Navbar />
       <main className="bg-cream text-text-primary">

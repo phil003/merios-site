@@ -4,8 +4,19 @@ import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Merios',
-  description: 'Learn how Merios collects, uses, and protects your health data.',
+  title: "Privacy Policy",
+  description:
+    "Merios Privacy Policy. Learn how we protect your health data with AES-256 encryption, GDPR compliance, and zero data selling. Your biomarker data stays yours.",
+  alternates: {
+    canonical: "https://merios.life/privacy",
+  },
+  openGraph: {
+    title: "Privacy Policy",
+    description:
+      "Merios Privacy Policy. Learn how we protect your health data with AES-256 encryption, GDPR compliance, and zero data selling.",
+    url: "https://merios.life/privacy",
+    type: "website",
+  },
 };
 
 export default function PrivacyPage() {

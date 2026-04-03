@@ -1,6 +1,23 @@
+import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
+
+export const metadata: Metadata = {
+  title: "About Merios — Health Analytics Built for You",
+  description:
+    "Learn about Merios, the health analytics app that combines blood test analysis, Apple Health data, and daily check-ins into one actionable health score. Our mission: make health data understandable.",
+  alternates: {
+    canonical: "https://merios.life/about",
+  },
+  openGraph: {
+    title: "About Merios — Health Analytics Built for You",
+    description:
+      "Learn about Merios, the health analytics app that combines blood test analysis, Apple Health data, and daily check-ins into one actionable health score.",
+    url: "https://merios.life/about",
+    type: "website",
+  },
+};
 
 export default function AboutPage() {
   return (

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ScrollAnimator from '@/components/ScrollAnimator';
+import { ArticleSchema, BreadcrumbSchema } from '@/components/StructuredData';
 import { getAllSlugs, getPostBySlug, getAllPosts } from '@/lib/blog';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import type { Metadata } from 'next';
@@ -110,6 +111,19 @@ export default function BlogPostPage({
 
   return (
     <>
+      <ArticleSchema
+        title={post.title}
+        description={post.description}
+        datePublished={post.date}
+        slug={post.slug}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "https://merios.life" },
+          { name: "Blog", url: "https://merios.life/blog" },
+          { name: post.title, url: `https://merios.life/blog/${post.slug}` },
+        ]}
+      />
       <ScrollAnimator />
       <Navbar />
       <main>

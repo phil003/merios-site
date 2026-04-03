@@ -4,8 +4,19 @@ import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
 export const metadata = {
-  title: 'The Science Behind Merios | Evidence-Based Health Analytics',
-  description: 'Learn how Merios calculates your health score using weighted biomarker analysis, wearable data correlation, and wellness insights.',
+  title: "The Science Behind Merios — PhenoAge, Biomarkers & Health Scoring",
+  description:
+    "Discover the evidence-based science behind Merios: PhenoAge biological age algorithm, biomarker optimal ranges, 4-pillar health scoring methodology, and peer-reviewed research foundations.",
+  alternates: {
+    canonical: "https://merios.life/science",
+  },
+  openGraph: {
+    title: "The Science Behind Merios — PhenoAge, Biomarkers & Health Scoring",
+    description:
+      "Discover the evidence-based science behind Merios: PhenoAge biological age algorithm, biomarker optimal ranges, and 4-pillar health scoring methodology.",
+    url: "https://merios.life/science",
+    type: "website",
+  },
 };
 
 export default function SciencePage() {

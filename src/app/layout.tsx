@@ -53,12 +53,29 @@ export const metadata: Metadata = {
     siteName: "Merios",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Merios — Your health, one score.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
     description:
       "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests, sync Apple Health, optimize your longevity.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180" },
+    ],
   },
   verification: {
     google: "55YlC0T47ZzU-V0khkPxvaeAmGCjRKwmap7vHiZt9do",

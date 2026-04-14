@@ -2,14 +2,20 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ScrollAnimator from '@/components/ScrollAnimator';
-import { ArticleSchema, BreadcrumbSchema, FAQPageSchema } from '@/components/StructuredData';
-import { getAllSlugs, getPostBySlug, getAllPosts } from '@/lib/blog';
+import {
+  ArticleSchema,
+  BreadcrumbSchema,
+  FAQPageSchema,
+} from '@/components/StructuredData';
+import {
+  getAllCompareSlugs,
+  getComparePostBySlug,
+} from '@/lib/compare';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import type { Metadata } from 'next';
 
-// Generate all blog slugs at build time for static export
 export function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }));
+  return getAllCompareSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -18,14 +24,14 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
-  if (!post) return { title: 'Article Not Found | Merios' };
+  const post = getComparePostBySlug(slug);
+  if (!post) return { title: 'Comparison Not Found | Merios' };
 
   return {
-    title: `${post.title} | Merios Blog`,
+    title: `${post.title} | Merios`,
     description: post.description,
     alternates: {
-      canonical: `https://merios.life/blog/${post.slug}`,
+      canonical: `https://merios.life/compare/${post.slug}`,
     },
     openGraph: {
       title: post.title,
@@ -33,10 +39,8 @@ export async function generateMetadata({
       type: 'article',
       publishedTime: post.date,
       modifiedTime: post.dateModified || post.date,
-      url: `https://merios.life/blog/${post.slug}`,
-      images: post.image
-        ? [{ url: post.image }]
-        : [{ url: '/og-image.png' }],
+      url: `https://merios.life/compare/${post.slug}`,
+      images: post.image ? [{ url: post.image }] : [{ url: '/og-image.png' }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -47,7 +51,7 @@ export async function generateMetadata({
   };
 }
 
-// Custom MDX components for styling
+// Reuse the same prose styling as the blog
 const mdxComponents = {
   h1: (props: React.ComponentProps<'h1'>) => (
     <h1
@@ -71,10 +75,16 @@ const mdxComponents = {
     <p className="text-text-secondary leading-relaxed mb-6" {...props} />
   ),
   ul: (props: React.ComponentProps<'ul'>) => (
-    <ul className="list-disc pl-6 mb-6 space-y-2 text-text-secondary" {...props} />
+    <ul
+      className="list-disc pl-6 mb-6 space-y-2 text-text-secondary"
+      {...props}
+    />
   ),
   ol: (props: React.ComponentProps<'ol'>) => (
-    <ol className="list-decimal pl-6 mb-6 space-y-2 text-text-secondary" {...props} />
+    <ol
+      className="list-decimal pl-6 mb-6 space-y-2 text-text-secondary"
+      {...props}
+    />
   ),
   li: (props: React.ComponentProps<'li'>) => (
     <li className="leading-relaxed" {...props} />
@@ -86,21 +96,44 @@ const mdxComponents = {
     />
   ),
   a: (props: React.ComponentProps<'a'>) => (
-    <a className="text-green-primary underline hover:text-green-deep" {...props} />
+    <a
+      className="text-green-primary underline hover:text-green-deep"
+      {...props}
+    />
   ),
   strong: (props: React.ComponentProps<'strong'>) => (
     <strong className="font-semibold text-text-primary" {...props} />
   ),
   hr: () => <hr className="border-t border-beige-dark my-10" />,
+  table: (props: React.ComponentProps<'table'>) => (
+    <div className="overflow-x-auto my-8">
+      <table
+        className="w-full border border-beige-dark text-sm"
+        {...props}
+      />
+    </div>
+  ),
+  th: (props: React.ComponentProps<'th'>) => (
+    <th
+      className="bg-beige text-left px-4 py-3 font-semibold text-green-deep border-b border-beige-dark"
+      {...props}
+    />
+  ),
+  td: (props: React.ComponentProps<'td'>) => (
+    <td
+      className="px-4 py-3 border-b border-beige-dark text-text-secondary align-top"
+      {...props}
+    />
+  ),
 };
 
-export default async function BlogPostPage({
+export default async function ComparePage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = getComparePostBySlug(slug);
 
   if (!post) {
     return (
@@ -109,7 +142,7 @@ export default async function BlogPostPage({
         <Navbar />
         <main className="pt-40 pb-20 px-6 text-center min-h-screen">
           <h1 className="font-serif text-4xl text-green-deep mb-4">
-            Article not found
+            Comparison not found
           </h1>
           <Link href="/blog" className="text-green-primary underline">
             Back to blog
@@ -120,11 +153,6 @@ export default async function BlogPostPage({
     );
   }
 
-  // Get related posts (same tag, exclude current)
-  const related = getAllPosts()
-    .filter((p) => p.slug !== post.slug && p.tag === post.tag)
-    .slice(0, 2);
-
   return (
     <>
       <ArticleSchema
@@ -133,13 +161,17 @@ export default async function BlogPostPage({
         datePublished={post.date}
         dateModified={post.dateModified}
         slug={post.slug}
+        urlPath={`/compare/${post.slug}`}
         image={post.image}
       />
       <BreadcrumbSchema
         items={[
-          { name: "Home", url: "https://merios.life" },
-          { name: "Blog", url: "https://merios.life/blog" },
-          { name: post.title, url: `https://merios.life/blog/${post.slug}` },
+          { name: 'Home', url: 'https://merios.life' },
+          { name: 'Compare', url: 'https://merios.life/compare' },
+          {
+            name: post.title,
+            url: `https://merios.life/compare/${post.slug}`,
+          },
         ]}
       />
       {post.faq && post.faq.length > 0 && (
@@ -148,19 +180,18 @@ export default async function BlogPostPage({
       <ScrollAnimator />
       <Navbar />
       <main>
-        {/* Article Header */}
         <article className="max-w-3xl mx-auto px-6 pt-32 pb-16">
           <div className="mb-8">
             <Link
-              href="/blog"
+              href="/early-access"
               className="text-sm text-green-primary hover:underline"
             >
-              &larr; Back to blog
+              &larr; Back to Merios
             </Link>
           </div>
 
           <div className="text-[0.68rem] uppercase tracking-wider text-green-primary font-semibold mb-4">
-            {post.tag}
+            Comparison · vs {post.competitor}
           </div>
 
           <h1
@@ -196,12 +227,10 @@ export default async function BlogPostPage({
             <span>{post.readTime}</span>
           </div>
 
-          {/* MDX Content */}
           <div className="prose-merios">
             <MDXRemote source={post.content} components={mdxComponents} />
           </div>
 
-          {/* FAQ Section (also drives FAQPage rich result) */}
           {post.faq && post.faq.length > 0 && (
             <section className="mt-16 pt-12 border-t border-beige-dark">
               <h2 className="font-serif text-3xl font-bold text-green-deep mb-8">
@@ -229,38 +258,9 @@ export default async function BlogPostPage({
           )}
         </article>
 
-        {/* Related Articles */}
-        {related.length > 0 && (
-          <section className="py-16 px-6 bg-beige">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="font-serif text-2xl font-medium text-green-deep mb-8">
-                Related articles
-              </h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {related.map((r) => (
-                  <Link
-                    key={r.slug}
-                    href={`/blog/${r.slug}`}
-                    className="bg-white rounded-xl p-6 border border-green-primary/6 hover:shadow-md transition-all"
-                  >
-                    <div className="text-[0.65rem] uppercase tracking-wider text-green-primary font-semibold mb-2">
-                      {r.tag}
-                    </div>
-                    <h3 className="font-serif text-lg font-semibold text-green-deep mb-2">
-                      {r.title}
-                    </h3>
-                    <p className="text-sm text-text-secondary">{r.description}</p>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* CTA */}
         <section className="py-16 px-6 text-center">
           <h2 className="font-serif text-3xl font-medium text-green-deep mb-4">
-            Ready to understand your health?
+            Ready to try Merios for yourself?
           </h2>
           <Link
             href="/early-access"

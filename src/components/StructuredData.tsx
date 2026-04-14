@@ -96,21 +96,39 @@ export function ArticleSchema({
   title,
   description,
   datePublished,
+  dateModified,
   slug,
+  urlPath,
+  image,
 }: {
   title: string;
   description: string;
   datePublished: string;
+  dateModified?: string;
   slug: string;
+  /**
+   * Optional URL path override. Defaults to `/blog/{slug}`.
+   * Use e.g. `/compare/merios-vs-function-health` for comparison pages.
+   */
+  urlPath?: string;
+  image?: string;
 }) {
+  const imageUrl = image
+    ? (image.startsWith("http") ? image : `https://merios.life${image}`)
+    : "https://merios.life/og-image.png";
+
+  const pagePath = urlPath || `/blog/${slug}`;
+  const pageUrl = `https://merios.life${pagePath}`;
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: title,
     description,
     datePublished,
-    dateModified: datePublished,
-    url: `https://merios.life/blog/${slug}`,
+    dateModified: dateModified || datePublished,
+    image: [imageUrl],
+    url: pageUrl,
     author: {
       "@type": "Organization",
       name: "Merios",
@@ -127,7 +145,7 @@ export function ArticleSchema({
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://merios.life/blog/${slug}`,
+      "@id": pageUrl,
     },
   };
 

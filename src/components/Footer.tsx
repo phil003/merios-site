@@ -73,6 +73,16 @@ export default function Footer() {
           ))}
         </div>
       </div>
+
+      {/* Medical disclaimer (Apple App Store compliance) */}
+      <div className="max-w-6xl mx-auto mt-6 pt-4 border-t border-green-primary/6">
+        <p className="text-[11px] leading-relaxed text-text-tertiary/80 text-center">
+          <strong className="font-semibold">Medical Disclaimer:</strong> Merios is a wellness companion, not a medical device.
+          It does not diagnose, treat, cure, or prevent any disease. Health scores and biological age estimates
+          are algorithmic calculations, not clinically validated measurements. Always consult a qualified healthcare
+          professional for medical advice and the interpretation of your lab results.
+        </p>
+      </div>
     </footer>
   );
 }

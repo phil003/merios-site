@@ -101,7 +101,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/Users/phil/Desktop/merios-site",
+    "outputFileTracingRoot": "/Users/phil/Desktop/Merios/merios-site",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -294,11 +294,11 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
     "turbopack": {
-      "root": "/Users/phil/Desktop/merios-site"
+      "root": "/Users/phil/Desktop/Merios/merios-site"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "/Users/phil/Desktop/merios-site",
+  "appDir": "/Users/phil/Desktop/Merios/merios-site",
   "relativeAppDir": "",
   "files": [
     ".next/routes-manifest.json",

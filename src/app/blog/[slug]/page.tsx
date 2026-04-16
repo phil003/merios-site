@@ -5,6 +5,7 @@ import ScrollAnimator from '@/components/ScrollAnimator';
 import { ArticleSchema, BreadcrumbSchema, FAQPageSchema } from '@/components/StructuredData';
 import { getAllSlugs, getPostBySlug, getAllPosts } from '@/lib/blog';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 import type { Metadata } from 'next';
 
 // Generate all blog slugs at build time for static export
@@ -198,7 +199,11 @@ export default async function BlogPostPage({
 
           {/* MDX Content */}
           <div className="prose-merios">
-            <MDXRemote source={post.content} components={mdxComponents} />
+            <MDXRemote
+              source={post.content}
+              components={mdxComponents}
+              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+            />
           </div>
 
           {/* FAQ Section (also drives FAQPage rich result) */}

@@ -12,6 +12,7 @@ import {
   getComparePostBySlug,
 } from '@/lib/compare';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 import type { Metadata } from 'next';
 
 export function generateStaticParams() {
@@ -228,7 +229,11 @@ export default async function ComparePage({
           </div>
 
           <div className="prose-merios">
-            <MDXRemote source={post.content} components={mdxComponents} />
+            <MDXRemote
+              source={post.content}
+              components={mdxComponents}
+              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+            />
           </div>
 
           {post.faq && post.faq.length > 0 && (

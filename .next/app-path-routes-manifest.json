@@ -1,5 +1,22 @@
 {
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
-  "/page": "/"
+  "/about/page": "/about",
+  "/apple-icon.png/route": "/apple-icon.png",
+  "/blog/[slug]/page": "/blog/[slug]",
+  "/blog/page": "/blog",
+  "/compare/[slug]/page": "/compare/[slug]",
+  "/compare/page": "/compare",
+  "/contact/page": "/contact",
+  "/early-access/page": "/early-access",
+  "/faq/page": "/faq",
+  "/favicon.ico/route": "/favicon.ico",
+  "/features/page": "/features",
+  "/how-it-works/page": "/how-it-works",
+  "/icon.png/route": "/icon.png",
+  "/page": "/",
+  "/pricing/page": "/pricing",
+  "/privacy/page": "/privacy",
+  "/science/page": "/science",
+  "/terms/page": "/terms"
 }

@@ -5,51 +5,28 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
+import { PILLARS } from "@/content/biomarkers";
+
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-type Pillar = {
-  number: string;
-  title: string;
-  copy: string;
-  value: number;
-  spark: string;
-  endY: number;
-};
-
-const PILLARS: Pillar[] = [
-  {
-    number: "01",
-    title: "Metabolic",
-    copy: "Your energy, your long-term risk.",
-    value: 82,
-    spark: "M2 26 Q24 20 46 18 T92 12 T122 6",
-    endY: 6,
-  },
-  {
-    number: "02",
-    title: "Cardiovascular",
-    copy: "The machinery that keeps you alive.",
-    value: 71,
-    spark: "M2 22 Q24 26 46 20 T92 14 T122 10",
-    endY: 10,
-  },
-  {
-    number: "03",
-    title: "Hormonal",
-    copy: "Vitality, sleep, resilience.",
-    value: 79,
-    spark: "M2 24 Q24 18 46 22 T92 10 T122 4",
-    endY: 4,
-  },
-  {
-    number: "04",
-    title: "Inflammation",
-    copy: "The signal most missed, the leverage most found.",
-    value: 68,
-    spark: "M2 18 Q24 22 46 14 T92 20 T122 12",
-    endY: 12,
-  },
-];
+// Deterministic sparkline per pillar — keeps the visual language consistent
+// with /science system cards and Journal thumbs. Each seed yields a distinct
+// rhythm so the four cards read as variation, not repetition.
+function sparkPath(seed: number): { d: string; endY: number } {
+  const phase = seed * 1.1;
+  const amp = 5 + (seed % 3) * 1.3;
+  const points: { x: number; y: number }[] = [];
+  for (let x = 2; x <= 122; x += 10) {
+    const t = (x - 2) / 120;
+    const y = 14 + Math.sin(phase + t * Math.PI * 2) * amp - t * 6;
+    points.push({ x, y: Number(y.toFixed(2)) });
+  }
+  const d = `M${points[0].x} ${points[0].y} ${points
+    .slice(1)
+    .map((p) => `L${p.x} ${p.y}`)
+    .join(" ")}`;
+  return { d, endY: points[points.length - 1].y };
+}
 
 export default function Pillars() {
   const container = useRef<HTMLElement>(null);
@@ -140,7 +117,7 @@ export default function Pillars() {
                 fontWeight: 500,
               }}
             >
-              Four pillars
+              Four pillars, one signal
             </span>
           </div>
 
@@ -167,107 +144,103 @@ export default function Pillars() {
               color: "var(--color-ink-secondary)",
             }}
           >
-            Health is a system of systems. We track four — each feeding the
-            single Merios Score that tells you where to intervene next.
+            Health is a system of systems. Four pillars feed the single
+            Merios Score — so you always know where to intervene next.
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-16 md:gap-5 lg:grid-cols-4">
-          {PILLARS.map((p) => (
-            <article
-              key={p.number}
-              className="pillar-card group relative flex flex-col rounded-2xl p-7 transition-[transform,box-shadow] duration-500 hover:-translate-y-1 md:p-8"
-              style={{
-                background: "var(--color-canvas-alt)",
-                border: "1px solid var(--color-grid)",
-              }}
-            >
-              <div className="flex items-baseline justify-between">
-                <span
+        <ul
+          role="list"
+          className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-16 md:gap-5 lg:grid-cols-4"
+        >
+          {PILLARS.map((pillar, i) => {
+            const spark = sparkPath(i);
+            return (
+              <li key={pillar.slug}>
+                <article
+                  className="pillar-card group relative flex h-full flex-col rounded-2xl p-7 transition-transform duration-500 motion-reduce:transition-none hover:-translate-y-1 md:p-8"
                   style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 11,
-                    fontWeight: 500,
-                    letterSpacing: "0.18em",
-                    color: "var(--color-ink-tertiary)",
+                    background: "var(--color-canvas-alt)",
+                    border: "1px solid var(--color-grid)",
+                    transitionTimingFunction: "var(--ease-expo)",
                   }}
                 >
-                  {p.number}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: 32,
-                    fontWeight: 300,
-                    color: "var(--color-ink)",
-                    letterSpacing: "-0.02em",
-                    lineHeight: 1,
-                  }}
-                >
-                  {p.value}
-                </span>
-              </div>
+                  <div className="flex items-baseline justify-between">
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 11,
+                        fontWeight: 500,
+                        letterSpacing: "0.18em",
+                        color: "var(--color-ink-tertiary)",
+                      }}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      aria-hidden
+                      className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
+                      style={{ background: "var(--color-pulse)" }}
+                    />
+                  </div>
 
-              <h3
-                className="mt-12"
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: 26,
-                  fontWeight: 400,
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.015em",
-                  color: "var(--color-ink)",
-                }}
-              >
-                {p.title}
-              </h3>
+                  <h3
+                    className="mt-12"
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: 26,
+                      fontWeight: 400,
+                      lineHeight: 1.1,
+                      letterSpacing: "-0.015em",
+                      color: "var(--color-ink)",
+                    }}
+                  >
+                    {pillar.label}
+                  </h3>
 
-              <p
-                className="mt-3"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 15,
-                  lineHeight: 1.55,
-                  color: "var(--color-ink-secondary)",
-                }}
-              >
-                {p.copy}
-              </p>
+                  <p
+                    className="mt-3"
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: 15,
+                      lineHeight: 1.55,
+                      color: "var(--color-ink-secondary)",
+                    }}
+                  >
+                    {pillar.tagline}
+                  </p>
 
-              <svg
-                className="mt-auto pt-10"
-                viewBox="0 0 124 32"
-                width="100%"
-                height="32"
-                aria-hidden
-                style={{ overflow: "visible" }}
-              >
-                <path
-                  d={p.spark}
-                  fill="none"
-                  stroke="var(--color-pulse)"
-                  strokeWidth="1.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="pillar-spark"
-                />
-                <circle
-                  cx="122"
-                  cy={p.endY}
-                  r="3"
-                  fill="var(--color-pulse)"
-                />
-                <circle
-                  cx="122"
-                  cy={p.endY}
-                  r="7"
-                  fill="var(--color-pulse)"
-                  opacity="0.18"
-                />
-              </svg>
-            </article>
-          ))}
-        </div>
+                  <svg
+                    className="mt-auto pt-10"
+                    viewBox="0 0 124 32"
+                    width="100%"
+                    height="32"
+                    aria-hidden
+                    style={{ overflow: "visible" }}
+                  >
+                    <path
+                      d={spark.d}
+                      fill="none"
+                      stroke="var(--color-pulse)"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="pillar-spark"
+                    />
+                    <circle cx="122" cy={spark.endY} r="3" fill="var(--color-pulse)" />
+                    <circle
+                      cx="122"
+                      cy={spark.endY}
+                      r="7"
+                      fill="var(--color-pulse)"
+                      opacity="0.18"
+                    />
+                  </svg>
+                </article>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
   );

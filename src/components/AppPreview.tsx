@@ -1,87 +1,210 @@
-const features = [
-  "One health score from 4 pillars: Sleep, Stress, Activity, Biomarkers",
-  "Biological age powered by the PhenoAge algorithm",
-  "11 health systems tracked across 130+ biomarkers",
-  "AI-powered recommendations—no medical jargon",
-];
+"use client";
 
-const phonePillars = [
-  { name: "Sleep", value: "71", trend: "↑ +6" },
-  { name: "Stress", value: "79", trend: "→ stable" },
-  { name: "Activity", value: "68", trend: "↑ +2" },
-  { name: "Biomarkers", value: "82", trend: "↑ +3" },
-];
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import PhoneMockup from "./ui/PhoneMockup";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
+const LINES = ["A single number.", "Every marker.", "Total clarity."];
 
 export default function AppPreview() {
-  return (
-    <section className="py-28 px-6 bg-green-deep relative overflow-hidden">
-      {/* Background orbs */}
-      <div className="absolute -top-48 -right-48 w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(58,122,82,0.15) 0%, transparent 70%)" }} />
-      <div className="absolute -bottom-72 -left-48 w-[700px] h-[700px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(91,77,138,0.08) 0%, transparent 70%)" }} />
+  const container = useRef<HTMLElement>(null);
 
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center relative z-10">
-        {/* Text side */}
-        <div className="fade-in">
-          <p className="text-xs uppercase tracking-[0.18em] font-semibold mb-5" style={{ color: "rgba(124,219,154,0.7)" }}>
-            A Score. Not a Judgment.
-          </p>
-          <h2 className="font-serif text-3xl md:text-5xl font-medium text-white leading-tight mb-6" style={{ letterSpacing: "-0.02em" }}>
-            See your health clearly.
-          </h2>
-          <p className="text-base leading-relaxed text-white/70 mb-10 max-w-md">
-            Merios calculates one score (0–100) that reflects your complete health—not just steps or sleep. Your biology, your habits, your wellbeing, all in one clear picture.
-          </p>
-          <ul className="flex flex-col gap-5 mb-12">
-            {features.map((f, i) => (
-              <li key={i} className="flex items-start gap-3.5 text-sm text-white/80 leading-relaxed">
-                <span className="w-5.5 h-5.5 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-[0.7rem]" style={{ background: "rgba(58,122,82,0.3)", color: "#7CDB9A" }}>
-                  ✓
-                </span>
-                {f}
-              </li>
-            ))}
-          </ul>
-          <a
-            href="/early-access"
-            className="inline-flex items-center gap-3 px-9 py-4 bg-white text-green-deep rounded-full text-base font-semibold hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          desktopFull:
+            "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+          mobileFull:
+            "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
+          reduced: "(prefers-reduced-motion: reduce)",
+        },
+        (context) => {
+          const c = context.conditions ?? {};
+
+          if (c.reduced) {
+            gsap.set(
+              [".appp-line", ".appp-lead", ".appp-eyebrow", ".appp-mockup-inner"],
+              { opacity: 1, y: 0, scale: 1, rotate: 0 },
+            );
+            return;
+          }
+
+          if (c.desktopFull) {
+            gsap.set([".appp-line", ".appp-lead", ".appp-eyebrow"], {
+              opacity: 0,
+              y: 28,
+            });
+            gsap.set(".appp-mockup-inner", { scale: 0.94, rotate: -2 });
+
+            const tl = gsap.timeline({
+              defaults: { ease: "power2.out" },
+              scrollTrigger: {
+                trigger: container.current,
+                start: "top top",
+                end: "+=800",
+                pin: true,
+                scrub: 0.8,
+                pinSpacing: true,
+                invalidateOnRefresh: true,
+              },
+            });
+
+            tl.to(".appp-eyebrow", { opacity: 1, y: 0, duration: 0.35 }, 0)
+              .to(".appp-line-1", { opacity: 1, y: 0, duration: 0.5 }, 0.05)
+              .to(".appp-line-2", { opacity: 1, y: 0, duration: 0.5 }, 0.3)
+              .to(".appp-line-3", { opacity: 1, y: 0, duration: 0.5 }, 0.55)
+              .to(".appp-lead", { opacity: 1, y: 0, duration: 0.5 }, 0.7)
+              .to(
+                ".appp-mockup-inner",
+                { scale: 1.02, rotate: 0, ease: "power1.inOut" },
+                0,
+              )
+              .to(".appp-mockup-inner", { scale: 1, duration: 0.3 }, 0.85);
+          } else if (c.mobileFull) {
+            gsap.set([".appp-line", ".appp-lead", ".appp-eyebrow"], {
+              opacity: 0,
+              y: 20,
+            });
+            gsap.set(".appp-mockup-inner", { opacity: 0, scale: 0.95 });
+
+            ScrollTrigger.create({
+              trigger: container.current,
+              start: "top 75%",
+              onEnter: () => {
+                gsap.to(".appp-eyebrow", {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.6,
+                  ease: "expo.out",
+                });
+                gsap.to(".appp-line", {
+                  opacity: 1,
+                  y: 0,
+                  stagger: 0.12,
+                  duration: 0.8,
+                  ease: "expo.out",
+                  delay: 0.2,
+                });
+                gsap.to(".appp-lead", {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  ease: "expo.out",
+                  delay: 0.6,
+                });
+                gsap.to(".appp-mockup-inner", {
+                  opacity: 1,
+                  scale: 1,
+                  duration: 1.1,
+                  ease: "expo.out",
+                  delay: 0.3,
+                });
+              },
+              once: true,
+            });
+          }
+        },
+      );
+    },
+    { scope: container },
+  );
+
+  return (
+    <section
+      ref={container}
+      className="relative flex min-h-[640px] items-center overflow-hidden py-16 md:min-h-screen md:py-0"
+      style={{ background: "var(--color-ink)" }}
+      aria-label="The Merios Score"
+    >
+      {/* ambient radial accents */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-0 right-0 h-[70%] w-[60%]"
+        style={{
+          background:
+            "radial-gradient(55% 60% at 80% 20%, rgba(159,191,0,0.09), transparent 70%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-0 h-[70%] w-[60%]"
+        style={{
+          background:
+            "radial-gradient(55% 60% at 20% 80%, rgba(30,61,42,0.45), transparent 70%)",
+        }}
+      />
+
+      <div className="relative mx-auto grid w-full max-w-[1280px] grid-cols-1 items-center gap-14 px-6 md:grid-cols-[1.05fr_1fr] md:gap-16 md:px-10 lg:gap-24 lg:px-14">
+        {/* LEFT — editorial */}
+        <div>
+          <div
+            className="appp-eyebrow inline-flex items-center gap-2.5"
+            style={{ fontFamily: "var(--font-mono)" }}
           >
-            Join the Waitlist
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </a>
+            <span
+              aria-hidden
+              className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--color-pulse)" }}
+            />
+            <span
+              className="text-[10.5px] uppercase"
+              style={{
+                color: "var(--color-pulse)",
+                letterSpacing: "0.22em",
+                fontWeight: 500,
+              }}
+            >
+              The Merios Score
+            </span>
+          </div>
+
+          <div className="mt-7 md:mt-8">
+            {LINES.map((line, i) => (
+              <div
+                key={line}
+                className={`appp-line appp-line-${i + 1}`}
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "var(--text-display-m)",
+                  fontWeight: 300,
+                  lineHeight: 1.02,
+                  letterSpacing: "-0.03em",
+                  color: "var(--color-canvas)",
+                }}
+              >
+                {line}
+              </div>
+            ))}
+          </div>
+
+          <p
+            className="appp-lead mt-9 max-w-[480px] md:mt-10"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "clamp(1rem, 1.1vw, 1.0625rem)",
+              lineHeight: 1.6,
+              color: "rgba(247,245,239,0.72)",
+            }}
+          >
+            The Merios Score reduces 150+ biomarkers to one figure — updated every
+            time you add data. Interpret trends, not isolated values.
+          </p>
         </div>
 
-        {/* Phone mockup */}
-        <div className="fade-in flex justify-center">
-          <div className="w-[300px] h-[620px] bg-[#111] rounded-[44px] p-3 shadow-2xl relative" style={{ boxShadow: "0 40px 80px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.08)" }}>
-            <div className="w-full h-full bg-beige rounded-[34px] overflow-hidden flex flex-col">
-              {/* Notch */}
-              <div className="w-[120px] h-7 bg-[#111] rounded-b-[20px] mx-auto relative z-10" />
-              {/* Content */}
-              <div className="p-6 flex-1 flex flex-col gap-4">
-                <div className="font-serif text-xl font-medium text-green-deep">Hello, Alex</div>
-                {/* Score card */}
-                <div className="bg-white rounded-2xl p-6 text-center shadow-sm">
-                  <div className="text-[0.65rem] uppercase tracking-[0.12em] text-text-tertiary mb-2">Your Health Score</div>
-                  <div className="font-serif text-5xl font-semibold text-green-primary leading-none">76</div>
-                  <div className="text-xs text-text-tertiary mt-1.5">+4 pts since February</div>
-                  <div className="w-full h-1 bg-beige rounded-full mt-3.5 overflow-hidden">
-                    <div className="w-[76%] h-full rounded-full" style={{ background: "linear-gradient(90deg, var(--color-green-primary), var(--color-green-light))" }} />
-                  </div>
-                </div>
-                {/* Pillar cards */}
-                <div className="grid grid-cols-2 gap-2">
-                  {phonePillars.map((p, i) => (
-                    <div key={i} className="bg-white rounded-xl p-3.5 shadow-sm">
-                      <div className="text-[0.6rem] uppercase tracking-wider text-text-tertiary mb-1">{p.name}</div>
-                      <div className="text-lg font-semibold text-green-deep">{p.value}</div>
-                      <div className="text-[0.6rem] text-green-light mt-0.5">{p.trend}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+        {/* RIGHT — mockup */}
+        <div className="relative flex items-center justify-center">
+          <div
+            className="appp-mockup-inner relative w-full max-w-[320px] md:max-w-[360px]"
+            style={{ willChange: "transform" }}
+          >
+            <PhoneMockup className="h-auto w-full drop-shadow-[0_50px_100px_rgba(0,0,0,0.45)]" />
           </div>
         </div>
       </div>

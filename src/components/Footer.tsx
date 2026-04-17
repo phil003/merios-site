@@ -3,7 +3,6 @@ const footerLinks = {
     { label: "Features", href: "/features" },
     { label: "How It Works", href: "/how-it-works" },
     { label: "Science", href: "/science" },
-    { label: "Pricing", href: "/pricing" },
   ],
   Resources: [
     { label: "Blog", href: "/blog" },

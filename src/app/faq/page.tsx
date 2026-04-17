@@ -7,7 +7,7 @@ import { FAQPageSchema } from "@/components/StructuredData";
 export const metadata: Metadata = {
   title: "FAQ — Merios Health Score App | Biomarker Tracking Questions",
   description:
-    "Get answers about Merios: how the health score works, biomarker tracking, blood test OCR, Apple Health integration, data privacy, pricing, and supported devices.",
+    "Get answers about Merios: how the health score works, biomarker tracking, blood test OCR, Apple Health integration, data privacy, and supported devices.",
   alternates: {
     canonical: "https://merios.life/faq",
   },

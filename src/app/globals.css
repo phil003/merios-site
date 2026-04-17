@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-green-deep: #1E3D2A;
-  --color-green-primary: #2D5A3D;
+  /* ─── Legacy tokens (kept for Sprint 0 compatibility — components migrate in Sprint 1+) ─── */
   --color-green-light: #3A7A52;
   --color-green-muted: #4A8B62;
   --color-beige: #F8F6F1;
@@ -11,16 +10,47 @@
   --color-text-primary: #1A1A1A;
   --color-text-secondary: #5C5650;
   --color-text-tertiary: #9B9590;
-  --color-accent-warm: #C4882F;
   --color-accent-lavender: #5B4D8A;
 
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Inter', -apple-system, sans-serif;
+  /* ─── Palette révisée (brief §2) ─── */
+  --color-ink: #0E1412;
+  --color-ink-secondary: #4A524E;
+  --color-ink-tertiary: #8B8F89;
+  --color-canvas: #F7F5EF;
+  --color-canvas-alt: #FFFFFF;
+  --color-green-deep: #1E3D2A;
+  --color-green-primary: #2D5A3D;
+  --color-pulse: #9FBF00;
+  --color-accent-warm: #C4882F;
+  --color-grid: #E8E3D6;
+
+  /* ─── Typography (brief §3) — next/font injects --font-fraunces etc. on <html> ─── */
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter-tight), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* ─── Type scale (Perfect Fourth 1.333) ─── */
+  --text-display-xl: clamp(4rem, 10vw, 7.5rem);
+  --text-display-l: clamp(3rem, 7vw, 5.25rem);
+  --text-display-m: clamp(2.25rem, 5vw, 3.5rem);
+  --text-headline: clamp(1.75rem, 3vw, 2.25rem);
+  --text-title: clamp(1.25rem, 2vw, 1.5rem);
+  --text-body-l: clamp(1.125rem, 1.5vw, 1.25rem);
+
+  /* ─── Motion tokens (brief §4) ─── */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-sharp: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-quick: 300ms;
+  --duration-normal: 600ms;
+  --duration-slow: 1100ms;
+
+  /* ─── Spacing (8pt grid + editorial rhythm) ─── */
+  --spacing-section: clamp(4rem, 8vw, 8rem);
+  --spacing-container: clamp(1.5rem, 4vw, 3rem);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Lenis owns smooth scroll — native CSS scroll-behavior is removed intentionally */
 
 body {
   font-family: var(--font-sans);
@@ -29,11 +59,36 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Fade-in animation for scroll */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lenis base styles — required when the library is active */
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Legacy scroll-reveal (ScrollAnimator + existing sections) — Sprint 1+ will migrate to <Reveal> ─── */
 .fade-in {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
   will-change: opacity, transform;
 }
 .fade-in.visible {
@@ -41,13 +96,6 @@ body {
   transform: translateY(0);
 }
 
-/* Smooth scrolling performance */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Hero animations */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
@@ -62,11 +110,11 @@ body {
 }
 
 .animate-fadeUp {
-  animation: fadeUp 1s ease-out both;
+  animation: fadeUp 1s var(--ease-expo) both;
 }
 .animate-pulse-dot {
-  animation: pulse 2s ease-in-out infinite;
+  animation: pulse 2s var(--ease-smooth) infinite;
 }
 .animate-scroll-pulse {
-  animation: scrollPulse 2s ease-in-out infinite;
+  animation: scrollPulse 2s var(--ease-smooth) infinite;
 }

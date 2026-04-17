@@ -60,7 +60,7 @@ export default function AppPreview() {
               .to(".appp-line-1", { opacity: 1, y: 0, duration: 0.5 }, 0.05)
               .to(".appp-line-2", { opacity: 1, y: 0, duration: 0.5 }, 0.3)
               .to(".appp-line-3", { opacity: 1, y: 0, duration: 0.5 }, 0.55)
-              .to(".appp-lead", { opacity: 1, y: 0, duration: 0.5 }, 0.7)
+              .to(".appp-lead", { opacity: 1, y: 0, duration: 0.5 }, 0.55)
               .to(
                 ".appp-mockup-inner",
                 { scale: 1.02, rotate: 0, ease: "power1.inOut" },

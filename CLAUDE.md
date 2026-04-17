@@ -8,6 +8,33 @@ All marketing routes are statically generated at build time; `src/middleware.ts`
 handles geo-aware rewrites for `/early-access` (US vs. rest-of-world variants).
 Deployed on Vercel.
 
+## Product model (canonical — never conflate pillar and system)
+
+**4 pillars** (composite health score):
+
+1. Blood
+2. Movement
+3. Sleep
+4. Stress
+
+**11 blood biomarker systems** — sub-structure of the Blood pillar only,
+card-level surface, no detail route:
+
+1. Heart & Cardiovascular
+2. Metabolism & Glucose
+3. Inflammation & Immunity
+4. Hematology
+5. Liver
+6. Kidney & Electrolytes
+7. Hormonal
+8. Thyroid
+9. Vitamins & Minerals
+10. Performance & Recovery
+11. Autoimmune & Systemic
+
+Code source of truth: `src/content/biomarkers.ts` (exports `PILLARS` +
+`BLOOD_SYSTEMS`).
+
 ## Design direction
 
 Premium editorial biotech. Intersection of hundred.com (polish, minimalism) and

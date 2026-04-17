@@ -151,10 +151,10 @@ export default function PhoneMockup({ className = "" }: PhoneMockupProps) {
         <circle cx="326" cy="340" r="4" fill="#9FBF00" />
         <circle cx="326" cy="340" r="9" fill="#9FBF00" opacity="0.18" />
 
-        {/* Pillars grid */}
+        {/* Blood systems snapshot (canonical names per CLAUDE.md "Product model") */}
         {[
-          { i: "01", label: "METABOLIC", value: 82, bar: 82 },
-          { i: "02", label: "CARDIOVASCULAR", value: 71, bar: 71 },
+          { i: "01", label: "METABOLISM", value: 82, bar: 82 },
+          { i: "02", label: "HEART & CV", value: 71, bar: 71 },
           { i: "03", label: "HORMONAL", value: 79, bar: 79 },
           { i: "04", label: "INFLAMMATION", value: 68, bar: 68 },
         ].map((p, idx) => {

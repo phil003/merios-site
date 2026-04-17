@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ScrollAnimator from '@/components/ScrollAnimator';
 import { getAllPosts } from '@/lib/blog';
@@ -37,7 +36,6 @@ export default function BlogPage() {
   return (
     <>
       <ScrollAnimator />
-      <Navbar />
       <main>
         {/* Hero */}
         <section className="pt-32 pb-16 px-6 text-center">

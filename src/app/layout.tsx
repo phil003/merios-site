@@ -6,6 +6,7 @@ import {
   WebApplicationSchema,
 } from "@/components/StructuredData";
 import LenisProvider from "@/components/providers/LenisProvider";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -133,6 +134,7 @@ export default function RootLayout({
         <LenisProvider>
           <OrganizationSchema />
           <WebApplicationSchema />
+          <Navbar />
           {children}
         </LenisProvider>
         <Analytics />

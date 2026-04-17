@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 import { FAQPageSchema } from "@/components/StructuredData";
@@ -100,7 +99,6 @@ export default function FAQPage() {
     <>
       <FAQPageSchema questions={allQuestions} />
       <ScrollAnimator />
-      <Navbar />
       <main className="bg-cream text-text-primary">
         {/* Hero Section */}
         <section className="min-h-[50vh] flex items-center justify-center px-6 py-20 fade-in pt-32 md:pt-40">

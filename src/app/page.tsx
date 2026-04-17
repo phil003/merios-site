@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Statement from "@/components/Statement";
 import Pillars from "@/components/Pillars";
@@ -15,7 +14,6 @@ export default function Home() {
   return (
     <>
       <ScrollAnimator />
-      <Navbar />
       <main>
         <Hero />
         <Statement />

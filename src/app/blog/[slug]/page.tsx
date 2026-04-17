@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ScrollAnimator from '@/components/ScrollAnimator';
 import { ArticleSchema, BreadcrumbSchema, FAQPageSchema } from '@/components/StructuredData';
@@ -107,7 +106,6 @@ export default async function BlogPostPage({
     return (
       <>
         <ScrollAnimator />
-        <Navbar />
         <main className="pt-40 pb-20 px-6 text-center min-h-screen">
           <h1 className="font-serif text-4xl text-green-deep mb-4">
             Article not found
@@ -147,7 +145,6 @@ export default async function BlogPostPage({
         <FAQPageSchema questions={post.faq} />
       )}
       <ScrollAnimator />
-      <Navbar />
       <main>
         {/* Article Header */}
         <article className="max-w-3xl mx-auto px-6 pt-32 pb-16">

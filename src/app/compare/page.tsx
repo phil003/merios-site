@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ScrollAnimator from '@/components/ScrollAnimator';
 import { BreadcrumbSchema } from '@/components/StructuredData';
@@ -35,7 +34,6 @@ export default function CompareIndexPage() {
         ]}
       />
       <ScrollAnimator />
-      <Navbar />
       <main className="pt-32 pb-20 px-6">
         <div className="max-w-3xl mx-auto">
           <div className="text-[0.68rem] uppercase tracking-wider text-green-primary font-semibold mb-4">

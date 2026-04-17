@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
@@ -63,7 +62,6 @@ export default function FeaturesPage() {
   return (
     <>
       <ScrollAnimator />
-      <Navbar />
       <main className="w-full">
         {/* Hero Section */}
         <section className="bg-white py-16 md:py-24 px-4 md:px-0 pt-32 md:pt-40">

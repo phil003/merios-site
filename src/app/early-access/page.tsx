@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
@@ -103,7 +102,6 @@ export default function EarlyAccessPage() {
   return (
     <>
       <ScrollAnimator />
-      <Navbar />
       <main>
         {/* Hero Section */}
         <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8">

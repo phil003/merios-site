@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
@@ -23,7 +22,6 @@ export default function ContactPage() {
   return (
     <>
       <ScrollAnimator />
-      <Navbar />
       <div className="bg-cream text-text-primary">
         {/* Hero Section */}
         <section className="min-h-[50vh] flex items-center justify-center px-6 pt-32 pb-20 fade-in">

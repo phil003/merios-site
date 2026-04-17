@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
@@ -70,7 +69,6 @@ export default function SciencePage() {
   return (
     <>
       <ScrollAnimator />
-      <Navbar />
       <main className="bg-cream">
         {/* Hero Section */}
         <section className="fade-in min-h-screen flex items-center justify-center px-6 pt-32 pb-20 md:pt-40 md:pb-32">

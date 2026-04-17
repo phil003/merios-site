@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
 
@@ -23,7 +22,6 @@ export default function SupportPage() {
   return (
     <>
       <ScrollAnimator />
-      <Navbar />
       <main className="min-h-screen bg-gradient-to-b from-cream to-beige" style={{ backgroundColor: '#FDFCF9' }}>
         {/* Hero Section */}
         <div className="border-b" style={{ borderColor: '#E8E4DC' }}>

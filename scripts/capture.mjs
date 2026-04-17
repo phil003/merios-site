@@ -123,6 +123,62 @@ async function main() {
         file: "07-science",
       });
     }
+    if (spec === "sprint4" || spec === "all") {
+      // Navbar fold — at top of page (scrolled=false) AND after scroll (scrolled=true)
+      for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
+        const { page, context } = await newPage(browser, vp);
+        await page.screenshot({
+          path: join(OUT, `08-navbar-${vpName}-top.png`),
+          clip: { x: 0, y: 0, width: vp.width, height: Math.min(vp.height, 220) },
+        });
+        console.log(`saved 08-navbar-${vpName}-top.png`);
+        await page.evaluate(() => window.scrollTo(0, window.innerHeight + 200));
+        await page.waitForTimeout(900);
+        await page.screenshot({
+          path: join(OUT, `08-navbar-${vpName}-scrolled.png`),
+          clip: { x: 0, y: 0, width: vp.width, height: Math.min(vp.height, 220) },
+        });
+        console.log(`saved 08-navbar-${vpName}-scrolled.png`);
+        await context.close();
+      }
+      await captureSection(browser, {
+        name: "Journal",
+        selector: "#journal",
+        file: "09-journal",
+      });
+      await captureSection(browser, {
+        name: "Waitlist",
+        selector: "#waitlist",
+        file: "10-waitlist",
+      });
+      await captureSection(browser, {
+        name: "Footer",
+        selector: "footer",
+        file: "11-footer",
+      });
+    }
+    if (spec === "full" || spec === "all") {
+      for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
+        const { page, context } = await newPage(browser, vp);
+        // settle reveals / animations by scrolling full page once
+        await page.evaluate(async () => {
+          const max = document.documentElement.scrollHeight;
+          const step = window.innerHeight;
+          for (let y = 0; y < max; y += step) {
+            window.scrollTo(0, y);
+            await new Promise((r) => setTimeout(r, 120));
+          }
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(800);
+        await page.screenshot({
+          path: join(OUT, `00-full-${vpName}.png`),
+          fullPage: true,
+        });
+        console.log(`saved 00-full-${vpName}.png`);
+        await context.close();
+      }
+    }
   } finally {
     await browser.close();
   }

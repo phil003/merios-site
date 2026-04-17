@@ -3,7 +3,9 @@
 ## Project
 
 Marketing website for Merios (merios.life), a premium health intelligence platform.
-Stack: Next.js 16 (static export) + React 19 + Tailwind v4 + TypeScript strict.
+Stack: Next.js 16 (SSG + Edge Middleware on Vercel) + React 19 + Tailwind v4 + TypeScript strict.
+All marketing routes are statically generated at build time; `src/middleware.ts`
+handles geo-aware rewrites for `/early-access` (US vs. rest-of-world variants).
 Deployed on Vercel.
 
 ## Design direction

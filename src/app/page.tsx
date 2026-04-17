@@ -5,6 +5,7 @@ import Pillars from "@/components/Pillars";
 import AppPreview from "@/components/AppPreview";
 import HowItWorks from "@/components/HowItWorks";
 import Numbers from "@/components/Numbers";
+import Science from "@/components/Science";
 import BlogPreview from "@/components/BlogPreview";
 import Waitlist from "@/components/Waitlist";
 import Footer from "@/components/Footer";
@@ -22,6 +23,7 @@ export default function Home() {
         <AppPreview />
         <HowItWorks />
         <Numbers />
+        <Science />
         <BlogPreview />
         <Waitlist />
       </main>

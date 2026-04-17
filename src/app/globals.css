@@ -118,3 +118,13 @@ body {
 .animate-scroll-pulse {
   animation: scrollPulse 2s var(--ease-smooth) infinite;
 }
+
+/* Hero mockup idle float (prefers-reduced-motion honored by global rule above) */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.hero-mockup-float {
+  animation: heroFloat 4s var(--ease-smooth) infinite;
+  will-change: transform;
+}

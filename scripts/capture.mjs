@@ -17,7 +17,7 @@ const VIEWPORTS = {
   mobile: { width: 390, height: 844, deviceScaleFactor: 3, isMobile: true },
 };
 
-async function newPage(browser, vp) {
+async function newPage(browser, vp, path = "/") {
   const context = await browser.newContext({
     viewport: { width: vp.width, height: vp.height },
     deviceScaleFactor: vp.deviceScaleFactor ?? 2,
@@ -26,7 +26,7 @@ async function newPage(browser, vp) {
     reducedMotion: "no-preference",
   });
   const page = await context.newPage();
-  await page.goto(BASE, { waitUntil: "networkidle" });
+  await page.goto(BASE + path, { waitUntil: "networkidle" });
   // Kill Lenis smooth scrolling during capture — ScrollTrigger still drives scrub.
   await page.evaluate(() => {
     window.scrollTo(0, 0);
@@ -156,6 +156,55 @@ async function main() {
         selector: "footer",
         file: "11-footer",
       });
+    }
+    if (spec === "sprint5-patch") {
+      // Targeted shots for the Section-2 product-model patches (Sprint 5).
+      // Hero (top of page) + Pillars + Science systems grid — desktop + mobile.
+      const shots = [
+        {
+          name: "hero-patched",
+          url: "/",
+          locator: null, // top of page
+        },
+        {
+          name: "pillars-patched",
+          url: "/",
+          locator: 'h2 >> text="What Merios measures."',
+        },
+        {
+          name: "science-systems-patched",
+          url: "/science",
+          locator: "#coverage",
+        },
+      ];
+      for (const shot of shots) {
+        for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
+          const { page, context } = await newPage(browser, vp, shot.url);
+          if (shot.locator) {
+            await page.evaluate(async (sel) => {
+              const el = sel.startsWith("h2 >> text=")
+                ? [...document.querySelectorAll("h2")].find((h) =>
+                    h.textContent?.includes(
+                      sel.replace('h2 >> text="', "").replace(/"$/, ""),
+                    ),
+                  )
+                : document.querySelector(sel);
+              if (el) el.scrollIntoView({ block: "start", behavior: "instant" });
+            }, shot.locator);
+            await page.waitForTimeout(2200);
+          } else {
+            await page.waitForTimeout(600);
+          }
+          const path = join(
+            OUT,
+            "sprint-5",
+            `${shot.name}-${vpName === "desktop" ? "desktop" : "mobile"}.png`,
+          );
+          await page.screenshot({ path, fullPage: false });
+          console.log(`saved sprint-5/${shot.name}-${vpName}.png`);
+          await context.close();
+        }
+      }
     }
     if (spec === "full" || spec === "all") {
       for (const [vpName, vp] of Object.entries(VIEWPORTS)) {

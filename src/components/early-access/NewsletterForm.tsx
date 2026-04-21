@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { easing, duration } from "@/lib/motion";
 
 // Supabase project — constants copied verbatim from src/components/Waitlist.tsx
 // (same project, same anon key). Do not diverge.
@@ -48,6 +50,8 @@ export default function NewsletterForm({
 }: NewsletterFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [email, setEmail] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const reduced = useReducedMotion();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,6 +92,8 @@ export default function NewsletterForm({
   };
 
   const locked = status === "success" || status === "duplicate";
+  const isLoading = status === "loading";
+  const isSuccess = status === "success" || status === "duplicate";
 
   const message =
     status === "success"
@@ -113,12 +119,36 @@ export default function NewsletterForm({
     ? "rgba(247,245,239,0.45)"
     : "rgba(14,20,18,0.4)";
 
+  // Derived border color by visual state (idle | focus | loading | success | invalid).
+  const borderColor =
+    status === "invalid"
+      ? "var(--color-accent-warm)"
+      : isSuccess
+        ? "var(--color-pulse)"
+        : isFocused || isLoading
+          ? "var(--color-pulse)"
+          : baseBorder;
+
   const messageTone =
-    status === "success" || status === "duplicate"
+    isSuccess
       ? "var(--color-pulse)"
       : status === "error" || status === "invalid"
         ? "var(--color-accent-warm)"
         : baseTextMuted;
+
+  // Motion spring config. Respect reduced-motion by collapsing to a near-instant tween.
+  const springTransition = reduced
+    ? { duration: duration.quick, ease: easing.smooth }
+    : { type: "spring" as const, stiffness: 300, damping: 26, mass: 0.9 };
+
+  // Button label content per state — animated via AnimatePresence for crossfade.
+  const buttonLabel = isLoading
+    ? "Sending"
+    : status === "success"
+      ? "Subscribed"
+      : status === "duplicate"
+        ? "On the list"
+        : submitLabel;
 
   return (
     <form
@@ -129,70 +159,141 @@ export default function NewsletterForm({
       <label className="sr-only" htmlFor={inputId}>
         Email address
       </label>
-      <input
+      <motion.input
         id={inputId}
         type="email"
         inputMode="email"
         autoComplete="email"
         placeholder="you@domain.com"
         value={email}
-        disabled={locked}
+        disabled={locked || isLoading}
         onChange={(e) => {
           setEmail(e.target.value);
           if (status === "invalid" || status === "error") setStatus("idle");
         }}
-        className="flex-1 bg-transparent py-3 text-base outline-none transition-colors disabled:opacity-60"
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className="flex-1 bg-transparent py-3 text-base outline-none disabled:opacity-60"
         style={
           {
             fontFamily: "var(--font-sans)",
             color: inputColor,
-            borderBottom:
-              status === "invalid"
-                ? "1px solid var(--color-accent-warm)"
-                : `1px solid ${baseBorder}`,
             "--placeholder-color": placeholderColor,
           } as React.CSSProperties
         }
-        onFocus={(e) => {
-          if (status !== "invalid")
-            e.currentTarget.style.borderBottom =
-              "1px solid var(--color-pulse)";
+        animate={{
+          borderBottomColor: borderColor,
+          borderBottomWidth: 1,
+          borderBottomStyle: "solid",
         }}
-        onBlur={(e) => {
-          if (status !== "invalid")
-            e.currentTarget.style.borderBottom = `1px solid ${baseBorder}`;
-        }}
+        transition={springTransition}
       />
-      <button
+      <motion.button
         type="submit"
-        disabled={locked || status === "loading"}
-        className="group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 transition-transform motion-reduce:transform-none hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-80"
+        disabled={locked || isLoading}
+        aria-busy={isLoading || undefined}
+        aria-live="polite"
+        className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 disabled:cursor-default disabled:opacity-90"
         style={{
-          background: locked ? "rgba(159,191,0,0.35)" : "var(--color-pulse)",
           color: "var(--color-ink)",
           fontFamily: "var(--font-sans)",
           fontSize: 13.5,
           fontWeight: 600,
           letterSpacing: "0.01em",
-          boxShadow: locked
-            ? "none"
-            : "0 10px 28px -12px rgba(159,191,0,0.55)",
-          cursor: locked ? "default" : "pointer",
+          cursor: locked || isLoading ? "default" : "pointer",
         }}
+        animate={{
+          backgroundColor: isSuccess
+            ? "rgba(159,191,0,0.35)"
+            : "var(--color-pulse)",
+          y: reduced ? 0 : isLoading ? 0 : 0,
+          boxShadow: isSuccess
+            ? "0 0 0 0 rgba(159,191,0,0)"
+            : "0 10px 28px -12px rgba(159,191,0,0.55)",
+        }}
+        whileHover={
+          reduced || locked || isLoading
+            ? undefined
+            : { y: -2, boxShadow: "0 14px 34px -12px rgba(159,191,0,0.65)" }
+        }
+        whileTap={reduced || locked || isLoading ? undefined : { y: -1 }}
+        transition={springTransition}
       >
-        <span
-          aria-hidden
-          className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
-          style={{ background: "var(--color-ink)" }}
-        />
-        {status === "loading"
-          ? "Sending"
-          : status === "success"
-            ? "Subscribed"
-            : status === "duplicate"
-              ? "On the list"
-              : submitLabel}
-      </button>
+        <AnimatePresence mode="wait" initial={false}>
+          {isLoading ? (
+            <motion.span
+              key="loader"
+              aria-hidden
+              className="inline-block h-3.5 w-3.5 rounded-full border-2"
+              style={{
+                borderColor: "var(--color-ink)",
+                borderRightColor: "transparent",
+              }}
+              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
+              animate={
+                reduced
+                  ? { opacity: 1 }
+                  : { opacity: 1, scale: 1, rotate: 360 }
+              }
+              exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
+              transition={
+                reduced
+                  ? { duration: duration.quick }
+                  : {
+                      rotate: {
+                        duration: 0.9,
+                        ease: "linear",
+                        repeat: Infinity,
+                      },
+                      opacity: { duration: duration.quick },
+                      scale: { duration: duration.quick, ease: easing.smooth },
+                    }
+              }
+            />
+          ) : isSuccess ? (
+            <motion.svg
+              key="check"
+              aria-hidden
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
+              transition={springTransition}
+            >
+              <path d="M20 6L9 17l-5-5" />
+            </motion.svg>
+          ) : (
+            <motion.span
+              key="dot"
+              aria-hidden
+              className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--color-ink)" }}
+              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
+              transition={springTransition}
+            />
+          )}
+        </AnimatePresence>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={buttonLabel}
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
+            transition={{ duration: duration.quick, ease: easing.smooth }}
+          >
+            {buttonLabel}
+          </motion.span>
+        </AnimatePresence>
+      </motion.button>
 
       <p
         role={status === "error" || status === "invalid" ? "alert" : undefined}
@@ -201,18 +302,27 @@ export default function NewsletterForm({
       >
         {message}
       </p>
-      <p
+      <div
         aria-hidden
-        className="mt-1 basis-full"
+        className="mt-1 basis-full overflow-hidden"
         style={{
           fontFamily: "var(--font-mono)",
           fontSize: 11,
           letterSpacing: "0.08em",
-          color: messageTone,
         }}
       >
-        {message}
-      </p>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.p
+            key={`${status}-${message}`}
+            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0, color: messageTone }}
+            exit={reduced ? { opacity: 0 } : { opacity: 0, y: -6 }}
+            transition={{ duration: duration.quick, ease: easing.smooth }}
+          >
+            {message}
+          </motion.p>
+        </AnimatePresence>
+      </div>
     </form>
   );
 }

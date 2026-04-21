@@ -1,14 +1,106 @@
+"use client";
+
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import { useGSAP } from "@gsap/react";
+
 import Reveal from "@/components/ui/Reveal";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 /**
  * Science — Hero / Intro.
  *
- * Editorial long-form premise. No GSAP, no SplitText here — the page is a
- * read, not a cinema. Only <Reveal> for a calm fade-up on entry.
+ * Editorial long-form premise. The headline is split char-by-char via GSAP
+ * SplitText and revealed on ScrollTrigger with a tight per-character stagger.
+ * Companions (eyebrow, subline, stats) use <Reveal> for a calm fade-up entry.
  */
 export default function ScienceHero() {
+  const container = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          reduced: "(prefers-reduced-motion: reduce)",
+          full: "(prefers-reduced-motion: no-preference)",
+        },
+        (context) => {
+          const reduced = context.conditions?.reduced;
+          const root = container.current;
+          if (!root) return;
+          const headline = root.querySelector<HTMLElement>(
+            ".science-hero-headline",
+          );
+          const subline = root.querySelector<HTMLElement>(
+            ".science-hero-subline",
+          );
+
+          if (!headline) return;
+
+          if (reduced) {
+            const targets = [headline, subline].filter(
+              (el): el is HTMLElement => el !== null,
+            );
+            gsap.set(targets, { opacity: 1, y: 0 });
+            return;
+          }
+
+          if (subline) {
+            gsap.set(subline, { opacity: 0, y: 16 });
+          }
+
+          SplitText.create(headline, {
+            type: "chars, lines",
+            autoSplit: true,
+            mask: "lines",
+            linesClass: "science-hero-line",
+            charsClass: "science-hero-char",
+            onSplit(self) {
+              const tl = gsap.timeline({
+                defaults: { ease: "expo.out" },
+                scrollTrigger: {
+                  trigger: headline,
+                  start: "top 80%",
+                  once: true,
+                },
+              });
+
+              tl.from(
+                self.chars,
+                {
+                  yPercent: 110,
+                  opacity: 0,
+                  duration: 0.9,
+                  stagger: 0.015,
+                },
+                0,
+              );
+
+              if (subline) {
+                tl.to(
+                  subline,
+                  { opacity: 1, y: 0, duration: 0.9 },
+                  0.2,
+                );
+              }
+
+              return tl;
+            },
+          });
+        },
+      );
+    },
+    { scope: container },
+  );
+
   return (
     <section
+      ref={container}
       id="intro"
       aria-labelledby="science-hero-heading"
       className="relative pt-36 pb-20 md:pt-44 md:pb-28"
@@ -38,42 +130,38 @@ export default function ScienceHero() {
           </div>
         </Reveal>
 
-        <Reveal amount={0.2} delay={0.1}>
-          <h1
-            id="science-hero-heading"
-            className="mt-8 max-w-[18ch]"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "var(--text-display-l)",
-              fontWeight: 300,
-              lineHeight: 1.02,
-              letterSpacing: "-0.03em",
-              color: "var(--color-ink)",
-            }}
-          >
-            <span className="block">Blood, read as</span>
-            <span className="block">a system.</span>
-          </h1>
-        </Reveal>
+        <h1
+          id="science-hero-heading"
+          className="science-hero-headline mt-8 max-w-[18ch]"
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "var(--text-display-l)",
+            fontWeight: 300,
+            lineHeight: 1.02,
+            letterSpacing: "-0.03em",
+            color: "var(--color-ink)",
+          }}
+        >
+          <span className="block">Blood, read as</span>
+          <span className="block">a system.</span>
+        </h1>
 
-        <Reveal amount={0.2} delay={0.2}>
-          <p
-            className="mt-10 max-w-[640px]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "clamp(1.125rem, 1.4vw, 1.3125rem)",
-              lineHeight: 1.6,
-              color: "var(--color-ink-secondary)",
-              letterSpacing: "-0.005em",
-            }}
-          >
-            Merios turns {/* Phase 4: confirm with product team */}150+
-            peer-reviewed biomarkers into a single composite score and a
-            biological-age estimate, grounded in the preventive-medicine
-            literature. This page is the full argument — the model, the
-            markers, the references, and the advisors who reviewed it.
-          </p>
-        </Reveal>
+        <p
+          className="science-hero-subline mt-10 max-w-[640px]"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "clamp(1.125rem, 1.4vw, 1.3125rem)",
+            lineHeight: 1.6,
+            color: "var(--color-ink-secondary)",
+            letterSpacing: "-0.005em",
+          }}
+        >
+          Merios turns {/* Phase 4: confirm with product team */}150+
+          peer-reviewed biomarkers into a single composite score and a
+          biological-age estimate, grounded in the preventive-medicine
+          literature. This page is the full argument — the model, the
+          markers, the references, and the advisors who reviewed it.
+        </p>
 
         <Reveal amount={0.2} delay={0.3}>
           <dl

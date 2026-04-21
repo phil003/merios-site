@@ -1,50 +1,48 @@
+"use client";
+
+import { motion, useReducedMotion, type Variants } from "motion/react";
+
 import Reveal from "@/components/ui/Reveal";
+import { duration, easing } from "@/lib/motion";
+import { ADVISORS, type Advisor } from "./data";
+
+export { ADVISORS };
+export type { Advisor };
 
 /**
  * Science — Advisory board.
  *
- * Three editorial placeholder advisor cards. Names + affiliations are
- * placeholders aligned with the home teaser (Dr. L. Marchetti).
- * Phase 4: confirm real names and headshots with the founders.
+ * Data lives in ./data.ts so it can be imported by the server page for
+ * JSON-LD generation without hitting the "use client" boundary.
  */
 
-export type Advisor = {
-  name: string;
-  initials: string;
-  credentials: string;
-  specialty: string;
-  affiliation: string;
-  bio: string;
-};
-
-export const ADVISORS: Advisor[] = [
-  {
-    name: "Dr. L. Marchetti",
-    initials: "LM",
-    credentials: "MD PhD",
-    specialty: "Preventive cardiology",
-    affiliation: "Clinical advisor · Merios",
-    bio: "Twenty years in lipidology and early cardiovascular disease. Co-author of work on particle-number risk stratification and Apo-B-first screening.",
-  },
-  {
-    name: "Dr. S. Ardent",
-    initials: "SA",
-    credentials: "MD PhD",
-    specialty: "Endocrinology",
-    affiliation: "Scientific advisor · Merios",
-    bio: "Clinical endocrinologist with a research focus on insulin resistance, thyroid dynamics and longitudinal hormone reference intervals.",
-  },
-  {
-    name: "Dr. E. Kohl",
-    initials: "EK",
-    credentials: "MD PhD",
-    specialty: "Preventive medicine",
-    affiliation: "Scientific advisor · Merios",
-    bio: "Preventive medicine physician and biostatistician. Works on composite risk indices and the translation of trial data into consumer-grade scores.",
-  },
-];
-
 export default function ScienceAdvisoryBoard() {
+  const prefersReducedMotion = useReducedMotion();
+
+  const groupVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: prefersReducedMotion ? 0 : 0.06 },
+    },
+  };
+
+  const cardVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: { duration: duration.quick },
+        },
+      }
+    : {
+        hidden: { opacity: 0, y: 24 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: duration.normal, ease: easing.expo },
+        },
+      };
+
   return (
     <section
       id="advisors"
@@ -108,103 +106,112 @@ export default function ScienceAdvisoryBoard() {
           </p>
         </Reveal>
 
-        <Reveal amount={0.15} delay={0.1}>
-          <ul
-            className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3"
-            role="list"
-          >
-            {ADVISORS.map((a) => (
-              <li
-                key={a.name}
-                className="flex flex-col rounded-2xl p-7 md:p-8"
+        <motion.ul
+          className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3"
+          role="list"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
+          variants={groupVariants}
+        >
+          {ADVISORS.map((a) => (
+            <motion.li
+              key={a.name}
+              variants={cardVariants}
+              whileHover={
+                prefersReducedMotion
+                  ? undefined
+                  : { y: -3, backgroundColor: "rgba(14,20,18,0.02)" }
+              }
+              transition={{ duration: duration.quick, ease: easing.expo }}
+              className="flex flex-col rounded-2xl p-7 md:p-8"
+              style={{
+                background: "var(--color-canvas)",
+                border: "1px solid var(--color-grid)",
+              }}
+            >
+              {/* Portrait placeholder — initials in a mono circle */}
+              <div
+                aria-hidden
+                className="flex h-14 w-14 items-center justify-center rounded-full"
                 style={{
-                  background: "var(--color-canvas)",
+                  background: "var(--color-canvas-alt)",
                   border: "1px solid var(--color-grid)",
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 14,
+                  letterSpacing: "0.04em",
+                  color: "var(--color-ink)",
+                  fontWeight: 500,
                 }}
               >
-                {/* Portrait placeholder — initials in a mono circle */}
-                <div
-                  aria-hidden
-                  className="flex h-14 w-14 items-center justify-center rounded-full"
-                  style={{
-                    background: "var(--color-canvas-alt)",
-                    border: "1px solid var(--color-grid)",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 14,
-                    letterSpacing: "0.04em",
-                    color: "var(--color-ink)",
-                    fontWeight: 500,
-                  }}
-                >
-                  {a.initials}
-                </div>
+                {a.initials}
+              </div>
 
-                <h3
-                  className="mt-8"
-                  style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: 22,
-                    fontWeight: 400,
-                    letterSpacing: "-0.01em",
-                    color: "var(--color-ink)",
-                    lineHeight: 1.15,
-                  }}
-                >
-                  {a.name},{" "}
-                  <span
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 13,
-                      letterSpacing: "0.06em",
-                      color: "var(--color-ink-tertiary)",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {a.credentials}
-                  </span>
-                </h3>
-
-                <p
-                  className="mt-1"
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: 14,
-                    color: "var(--color-ink-secondary)",
-                    letterSpacing: "0.005em",
-                  }}
-                >
-                  {a.specialty}
-                </p>
-
-                <p
-                  className="mt-6"
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: 14.5,
-                    lineHeight: 1.6,
-                    color: "var(--color-ink-secondary)",
-                  }}
-                >
-                  {a.bio}
-                </p>
-
-                <p
-                  className="mt-auto pt-6"
+              <h3
+                className="mt-8"
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: 22,
+                  fontWeight: 400,
+                  letterSpacing: "-0.01em",
+                  color: "var(--color-ink)",
+                  lineHeight: 1.15,
+                }}
+              >
+                {a.name},{" "}
+                <span
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: 10.5,
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
+                    fontSize: 13,
+                    letterSpacing: "0.06em",
                     color: "var(--color-ink-tertiary)",
                     fontWeight: 500,
                   }}
                 >
-                  {a.affiliation}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+                  {a.credentials}
+                </span>
+              </h3>
+
+              <p
+                className="mt-1"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: 14,
+                  color: "var(--color-ink-secondary)",
+                  letterSpacing: "0.005em",
+                }}
+              >
+                {a.specialty}
+              </p>
+
+              <p
+                className="mt-6"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: 14.5,
+                  lineHeight: 1.6,
+                  color: "var(--color-ink-secondary)",
+                }}
+              >
+                {a.bio}
+              </p>
+
+              <p
+                className="mt-auto pt-6"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 10.5,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "var(--color-ink-tertiary)",
+                  fontWeight: 500,
+                }}
+              >
+                {a.affiliation}
+              </p>
+            </motion.li>
+          ))}
+        </motion.ul>
       </div>
     </section>
   );

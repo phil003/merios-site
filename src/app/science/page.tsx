@@ -9,12 +9,9 @@ import ScienceThesis from "@/components/science/Thesis";
 import BiomarkerCoverage from "@/components/science/BiomarkerCoverage";
 import ScienceModelDiagram from "@/components/science/ModelDiagram";
 import ScienceBioAge from "@/components/science/BioAge";
-import ScienceAdvisoryBoard, {
-  ADVISORS,
-} from "@/components/science/AdvisoryBoard";
-import ScienceCitations, {
-  CITATIONS,
-} from "@/components/science/Citations";
+import ScienceAdvisoryBoard from "@/components/science/AdvisoryBoard";
+import ScienceCitations from "@/components/science/Citations";
+import { ADVISORS, CITATIONS } from "@/components/science/data";
 import ScienceStickyTOC from "@/components/science/StickyTOC";
 
 export const metadata: Metadata = {

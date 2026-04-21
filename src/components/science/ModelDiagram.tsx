@@ -1,10 +1,21 @@
+"use client";
+
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
 import Reveal from "@/components/ui/Reveal";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /**
  * Science — Model diagram.
  *
- * Visual: four pillars converge into a single composite score. Pure SVG for
- * scaffold. Phase 4 may add stagger-draw via GSAP if performance budget allows.
+ * Four pillars converge into a single composite score. Nodes reveal
+ * sequentially with a 120ms stagger; SVG connecting lines draw in via
+ * `stroke-dashoffset` over 800ms. The whole timeline is attached to a
+ * ScrollTrigger starting at "top 70%" and gated by prefers-reduced-motion.
  */
 
 const PILLARS = [
@@ -15,8 +26,98 @@ const PILLARS = [
 ];
 
 export default function ScienceModelDiagram() {
+  const container = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          full: "(prefers-reduced-motion: no-preference)",
+          reduced: "(prefers-reduced-motion: reduce)",
+        },
+        (context) => {
+          const reduced = context.conditions?.reduced;
+          const scope = container.current;
+          if (!scope) return;
+
+          const figure = scope.querySelector<SVGSVGElement>(".model-diagram");
+          if (!figure) return;
+
+          const lines = figure.querySelectorAll<SVGPathElement>(".model-line");
+          const nodes = figure.querySelectorAll<SVGGElement>(".model-node");
+          const composite = figure.querySelector<SVGGElement>(
+            ".model-composite",
+          );
+          const branch = figure.querySelector<SVGGElement>(".model-branch");
+
+          if (reduced) {
+            gsap.set([nodes, composite, branch].filter(Boolean), {
+              opacity: 1,
+            });
+            lines.forEach((line) => {
+              const length = line.getTotalLength();
+              line.style.strokeDasharray = `${length}`;
+              line.style.strokeDashoffset = "0";
+            });
+            return;
+          }
+
+          // Prep dashoffset for the connecting lines.
+          lines.forEach((line) => {
+            const length = line.getTotalLength();
+            line.style.strokeDasharray = `${length}`;
+            line.style.strokeDashoffset = `${length}`;
+          });
+
+          gsap.set(nodes, { opacity: 0, y: 16 });
+          gsap.set(composite, { opacity: 0, scale: 0.9, transformOrigin: "400px 230px" });
+          gsap.set(branch, { opacity: 0 });
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: figure,
+              start: "top 70%",
+              once: true,
+            },
+            defaults: { ease: "expo.out" },
+          });
+
+          tl.to(nodes, {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            stagger: 0.08,
+          });
+
+          tl.to(
+            lines,
+            {
+              strokeDashoffset: 0,
+              duration: 0.8,
+              ease: "power2.out",
+              stagger: 0.04,
+            },
+            "-=0.2",
+          );
+
+          tl.to(
+            composite,
+            { opacity: 1, scale: 1, duration: 0.8 },
+            "-=0.4",
+          );
+
+          tl.to(branch, { opacity: 1, duration: 0.5 }, "-=0.2");
+        },
+      );
+    },
+    { scope: container },
+  );
+
   return (
     <section
+      ref={container}
       id="model"
       aria-labelledby="science-model-heading"
       className="relative border-t py-24 md:py-32"
@@ -88,6 +189,7 @@ export default function ScienceModelDiagram() {
             }}
           >
             <svg
+              className="model-diagram"
               viewBox="0 0 800 360"
               width="100%"
               role="img"
@@ -104,18 +206,17 @@ export default function ScienceModelDiagram() {
                 biological age estimate branching out below.
               </desc>
 
-              {/* Connecting lines pillars → center node */}
+              {/* Connecting lines pillars → center node (paths, for dash anim) */}
               {PILLARS.map((_, i) => {
                 const x1 = 80 + i * 200;
                 return (
-                  <line
+                  <path
                     key={`line-${i}`}
-                    x1={x1}
-                    y1={130}
-                    x2={400}
-                    y2={230}
+                    className="model-line"
+                    d={`M${x1} 130 L 400 230`}
                     stroke="var(--color-grid)"
                     strokeWidth="1"
+                    fill="none"
                   />
                 );
               })}
@@ -124,7 +225,7 @@ export default function ScienceModelDiagram() {
               {PILLARS.map((p, i) => {
                 const cx = 80 + i * 200;
                 return (
-                  <g key={p.n}>
+                  <g key={p.n} className="model-node">
                     <circle
                       cx={cx}
                       cy={110}
@@ -166,75 +267,79 @@ export default function ScienceModelDiagram() {
               })}
 
               {/* Composite node */}
-              <circle
-                cx="400"
-                cy="230"
-                r="62"
-                fill="var(--color-green-deep)"
-              />
-              <circle
-                cx="400"
-                cy="230"
-                r="74"
-                fill="none"
-                stroke="var(--color-pulse)"
-                strokeOpacity="0.35"
-                strokeWidth="1"
-                strokeDasharray="2 5"
-              />
-              <text
-                x="400"
-                y="224"
-                textAnchor="middle"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10,
-                  letterSpacing: "0.22em",
-                  fill: "var(--color-pulse)",
-                  fontWeight: 500,
-                }}
-              >
-                MERIOS
-              </text>
-              <text
-                x="400"
-                y="250"
-                textAnchor="middle"
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: 34,
-                  fill: "var(--color-canvas)",
-                  fontWeight: 300,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                82
-              </text>
+              <g className="model-composite">
+                <circle
+                  cx="400"
+                  cy="230"
+                  r="62"
+                  fill="var(--color-green-deep)"
+                />
+                <circle
+                  cx="400"
+                  cy="230"
+                  r="74"
+                  fill="none"
+                  stroke="var(--color-pulse)"
+                  strokeOpacity="0.35"
+                  strokeWidth="1"
+                  strokeDasharray="2 5"
+                />
+                <text
+                  x="400"
+                  y="224"
+                  textAnchor="middle"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 10,
+                    letterSpacing: "0.22em",
+                    fill: "var(--color-pulse)",
+                    fontWeight: 500,
+                  }}
+                >
+                  MERIOS
+                </text>
+                <text
+                  x="400"
+                  y="250"
+                  textAnchor="middle"
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: 34,
+                    fill: "var(--color-canvas)",
+                    fontWeight: 300,
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  82
+                </text>
+              </g>
 
               {/* Branch: biological age */}
-              <line
-                x1="400"
-                y1="292"
-                x2="400"
-                y2="330"
-                stroke="var(--color-grid)"
-                strokeWidth="1"
-              />
-              <text
-                x="400"
-                y="350"
-                textAnchor="middle"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  fill: "var(--color-ink-tertiary)",
-                  fontWeight: 500,
-                }}
-              >
-                + Biological age delta
-              </text>
+              <g className="model-branch">
+                <line
+                  x1="400"
+                  y1="292"
+                  x2="400"
+                  y2="330"
+                  stroke="var(--color-grid)"
+                  strokeWidth="1"
+                />
+                <text
+                  x="400"
+                  y="350"
+                  textAnchor="middle"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 10.5,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    fill: "var(--color-ink-tertiary)",
+                    fontWeight: 500,
+                  }}
+                >
+                  + Biological age delta
+                </text>
+              </g>
             </svg>
 
             <figcaption

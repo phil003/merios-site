@@ -24,12 +24,12 @@ export default function BiomarkerCoverage() {
         (context) => {
           const reduced = context.conditions?.reduced;
 
-          gsap.set(".bc-card", { opacity: 0, y: 28 });
-
           if (reduced) {
             gsap.set(".bc-card", { opacity: 1, y: 0 });
             return;
           }
+
+          gsap.set(".bc-card", { opacity: 0, y: 24 });
 
           ScrollTrigger.batch(".bc-card", {
             start: "top 85%",
@@ -37,9 +37,10 @@ export default function BiomarkerCoverage() {
               gsap.to(batch, {
                 opacity: 1,
                 y: 0,
-                duration: 0.95,
+                duration: 0.6,
+                // Canonical expo out — matches easing.expo [0.16, 1, 0.3, 1].
                 ease: "expo.out",
-                stagger: 0.08,
+                stagger: 0.06,
                 overwrite: true,
               });
             },
@@ -122,7 +123,11 @@ export default function BiomarkerCoverage() {
         >
           {BLOOD_SYSTEMS.map((system, i) => (
             <li key={system.slug}>
-              <SystemCard index={i} label={system.label} description={system.description} />
+              <SystemCard
+                index={i}
+                label={system.label}
+                description={system.description}
+              />
             </li>
           ))}
         </ul>
@@ -142,11 +147,21 @@ function SystemCard({
 }) {
   return (
     <article
-      className="bc-card group relative flex h-full flex-col rounded-2xl p-7 transition-transform duration-500 motion-reduce:transition-none hover:-translate-y-0.5 md:p-8"
+      className="bc-card group relative flex h-full flex-col rounded-2xl p-7 transition-[transform,box-shadow,border-color] duration-500 motion-reduce:transition-none hover:-translate-y-1 md:p-8"
       style={{
         background: "var(--color-canvas-alt)",
         border: "1px solid var(--color-grid)",
         transitionTimingFunction: "var(--ease-expo)",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow =
+          "inset 0 0 0 1px color-mix(in srgb, var(--color-green-deep) 20%, transparent)";
+        e.currentTarget.style.borderColor =
+          "color-mix(in srgb, var(--color-green-deep) 25%, var(--color-grid))";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = "";
+        e.currentTarget.style.borderColor = "var(--color-grid)";
       }}
     >
       <div className="flex items-baseline justify-between">

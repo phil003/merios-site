@@ -1,12 +1,46 @@
+"use client";
+
+import { motion, useReducedMotion, type Variants } from "motion/react";
+
 import Reveal from "@/components/ui/Reveal";
+import { duration, easing } from "@/lib/motion";
 
 /**
  * Science — Thesis.
  *
  * The composite-score argument: a pull quote plus a two-column editorial
- * expansion. Superscripts reference citations rendered in <Citations />.
+ * expansion. Paragraphs fade-up with a 100ms stagger (Motion variants),
+ * gated by prefers-reduced-motion. Superscripts reference citations rendered
+ * in <Citations />.
  */
+
 export default function ScienceThesis() {
+  const prefersReducedMotion = useReducedMotion();
+
+  const groupVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: { staggerChildren: prefersReducedMotion ? 0 : 0.1 },
+    },
+  };
+
+  const paragraphVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: {
+          opacity: 1,
+          transition: { duration: duration.quick },
+        },
+      }
+    : {
+        hidden: { opacity: 0, y: 24 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: duration.normal, ease: easing.expo },
+        },
+      };
+
   return (
     <section
       id="thesis"
@@ -56,8 +90,16 @@ export default function ScienceThesis() {
           </h2>
         </Reveal>
 
-        <Reveal amount={0.2} delay={0.1}>
-          <figure className="mt-16 max-w-[960px]">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
+          variants={groupVariants}
+        >
+          <motion.figure
+            variants={paragraphVariants}
+            className="mt-16 max-w-[960px]"
+          >
             <blockquote
               style={{
                 fontFamily: "var(--font-serif)",
@@ -116,11 +158,12 @@ export default function ScienceThesis() {
                 Preventive cardiology · Clinical advisor
               </span>
             </figcaption>
-          </figure>
-        </Reveal>
+          </motion.figure>
 
-        <Reveal amount={0.15} delay={0.15}>
-          <div className="mt-20 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2 md:gap-x-16">
+          <motion.div
+            variants={paragraphVariants}
+            className="mt-20 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2 md:gap-x-16"
+          >
             <div>
               <h3
                 style={{
@@ -198,8 +241,8 @@ export default function ScienceThesis() {
                 . Merios is built on that foundation.
               </p>
             </div>
-          </div>
-        </Reveal>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

@@ -228,7 +228,8 @@ export default function HowItWorksPage() {
               {/* ────────── Step 01 — Connect ────────── */}
               <StepSection
                 id="connect"
-                eyebrow="Step 01 — Connect"
+                eyebrow="Connect"
+                stepNumber={1}
                 headline={
                   <>
                     Bring in the data
@@ -298,7 +299,8 @@ export default function HowItWorksPage() {
               {/* ────────── Step 03 — Act ────────── */}
               <StepSection
                 id="act"
-                eyebrow="Step 03 — Act"
+                eyebrow="Act"
+                stepNumber={3}
                 headline={
                   <>
                     The three moves

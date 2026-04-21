@@ -10,23 +10,27 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 /**
  * UnderstandPinned — the middle sub-section of /how-it-works.
  *
- * Pattern (mirrors AppPreview.tsx):
+ * Pattern:
  *   - gsap.matchMedia with three branches:
- *       desktopFull  → ScrollTrigger pin + scrub 0.8, end "+=800"
- *       mobileFull   → one-shot onEnter reveal (no pin)
- *       reduced      → everything visible, zero animation
- *   - The pin is applied to a CHILD wrapper inside the grid column (not on
- *     the grid item itself) to avoid layout issues when pinning inside a
- *     CSS grid. pinSpacing stays true so later sections follow correctly.
+ *       desktopFull  → ScrollTrigger pin + scrub 0.8, pins the inner child
+ *                      (not the wrapper section). pinSpacing: true. Breakpoint
+ *                      `(min-width: 768px)` so tablets get the scrub too.
+ *       mobileFull   → below 768px: stacked flow, one-shot onEnter reveal
+ *                      (no pin, everything sits as regular sections).
+ *       reduced      → everything visible, zero animation, no pin.
  *
- * During the scrub timeline:
- *   - Score counter animates 0 → 76 (placeholder)
+ * Parallax:
+ *   - Three depth layers with speeds -0.3 / 0 / +0.3 — inside parallax
+ *     budget (<= 0.4). Applied via the same scrubbed timeline so motion is
+ *     fully scroll-linked.
+ *     layer A (background rings)     → y * -0.3  (moves opposite)
+ *     layer B (score text)           → y *  0    (anchor)
+ *     layer C (sparklines + copy)    → y * +0.3  (moves with)
+ *
+ * Sub-animations folded into the scrubbed timeline:
+ *   - Score counter animates 0 → 76
  *   - Three sparklines draw in via strokeDashoffset 0
  *   - Three copy lines fade + slide up, staggered
- *
- * Phase 4 placeholders:
- *   - Score target value (76), sparkline data paths, and copy lines
- *     should be re-reviewed with final content.
  */
 
 const SPARKLINES = [
@@ -44,6 +48,9 @@ const COPY_LINES = [
   "Every system graded, every outlier flagged.",
 ];
 
+// Parallax travel in px at the end of the scrub.
+const PARALLAX_TRAVEL = 90;
+
 export default function UnderstandPinned() {
   const container = useRef<HTMLDivElement>(null);
   const pinTarget = useRef<HTMLDivElement>(null);
@@ -59,9 +66,9 @@ export default function UnderstandPinned() {
       mm.add(
         {
           desktopFull:
-            "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+            "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
           mobileFull:
-            "(max-width: 1023px) and (prefers-reduced-motion: no-preference)",
+            "(max-width: 767px) and (prefers-reduced-motion: no-preference)",
           reduced: "(prefers-reduced-motion: reduce)",
         },
         (context) => {
@@ -84,6 +91,9 @@ export default function UnderstandPinned() {
                 ".hiw-understand-score",
                 ".hiw-understand-line",
                 ".hiw-understand-ring",
+                ".hiw-parallax-a",
+                ".hiw-parallax-b",
+                ".hiw-parallax-c",
               ],
               { opacity: 1, y: 0 },
             );
@@ -103,8 +113,6 @@ export default function UnderstandPinned() {
           const scoreProxy = { value: 0 };
 
           if (c.desktopFull && pinTarget.current) {
-            // HIW-PIN: verify layout at lg breakpoint (pin target is a child
-            // of the right-hand grid column — not the grid item itself).
             const tl = gsap.timeline({
               defaults: { ease: "power2.out" },
               scrollTrigger: {
@@ -164,8 +172,30 @@ export default function UnderstandPinned() {
                   ease: "expo.out",
                 },
                 0.45,
+              )
+              // Parallax: three depth layers, speeds -0.3 / 0 / +0.3 driven
+              // by the same scrub timeline. The 0-speed layer is a no-op so
+              // it's omitted; layer B stays anchored.
+              .to(
+                ".hiw-parallax-a",
+                {
+                  y: PARALLAX_TRAVEL * -0.3,
+                  ease: "none",
+                  duration: 1,
+                },
+                0,
+              )
+              .to(
+                ".hiw-parallax-c",
+                {
+                  y: PARALLAX_TRAVEL * 0.3,
+                  ease: "none",
+                  duration: 1,
+                },
+                0,
               );
           } else if (c.mobileFull) {
+            // Below 768px: no pin, no scrub. Stacked flow, one-shot reveal.
             ScrollTrigger.create({
               trigger: root,
               start: "top 75%",
@@ -287,45 +317,49 @@ export default function UnderstandPinned() {
         ref={pinTarget}
         className="mt-14 grid grid-cols-1 items-center gap-12 md:mt-20 md:grid-cols-[1fr_1.1fr] md:gap-16"
       >
-        {/* LEFT — score visual */}
-        <div className="flex items-center justify-center">
+        {/* LEFT — score visual (parallax layer A: background rings) */}
+        <div className="relative flex items-center justify-center">
           <div className="relative h-[280px] w-[280px] md:h-[360px] md:w-[360px]">
-            <svg
-              viewBox="0 0 360 360"
-              className="hiw-understand-ring absolute inset-0 h-full w-full"
-              aria-hidden
-            >
-              <circle
-                cx="180"
-                cy="180"
-                r="150"
-                fill="none"
-                stroke="var(--color-grid)"
-                strokeWidth="1"
-              />
-              <circle
-                cx="180"
-                cy="180"
-                r="120"
-                fill="none"
-                stroke="var(--color-grid)"
-                strokeWidth="1"
-                opacity="0.6"
-              />
-              <circle
-                cx="180"
-                cy="180"
-                r="150"
-                fill="none"
-                stroke="var(--color-green-deep)"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeDasharray="720 1000"
-                transform="rotate(-90 180 180)"
-                opacity="0.85"
-              />
-            </svg>
-            <div className="hiw-understand-score absolute inset-0 flex flex-col items-center justify-center">
+            {/* Parallax A — background rings, speed -0.3 */}
+            <div className="hiw-parallax-a absolute inset-0 will-change-transform">
+              <svg
+                viewBox="0 0 360 360"
+                className="hiw-understand-ring absolute inset-0 h-full w-full"
+                aria-hidden
+              >
+                <circle
+                  cx="180"
+                  cy="180"
+                  r="150"
+                  fill="none"
+                  stroke="var(--color-grid)"
+                  strokeWidth="1"
+                />
+                <circle
+                  cx="180"
+                  cy="180"
+                  r="120"
+                  fill="none"
+                  stroke="var(--color-grid)"
+                  strokeWidth="1"
+                  opacity="0.6"
+                />
+                <circle
+                  cx="180"
+                  cy="180"
+                  r="150"
+                  fill="none"
+                  stroke="var(--color-green-deep)"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeDasharray="720 1000"
+                  transform="rotate(-90 180 180)"
+                  opacity="0.85"
+                />
+              </svg>
+            </div>
+            {/* Parallax B — anchor layer, speed 0 (score text) */}
+            <div className="hiw-parallax-b hiw-understand-score absolute inset-0 flex flex-col items-center justify-center">
               <span
                 ref={scoreRef}
                 className="tabular-nums"
@@ -356,8 +390,8 @@ export default function UnderstandPinned() {
           </div>
         </div>
 
-        {/* RIGHT — copy + sparklines */}
-        <div>
+        {/* RIGHT — copy + sparklines (parallax layer C, speed +0.3) */}
+        <div className="hiw-parallax-c will-change-transform">
           <ul className="flex flex-col gap-7">
             {COPY_LINES.map((line, i) => (
               <li

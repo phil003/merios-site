@@ -9,12 +9,18 @@
  *   - stroke-width 1.25
  *   - round joins/caps for soft editorial feel
  *
+ * Phase 4 polish:
+ *   - Subtle reveal on enter (fade + slight scale) driven by Motion's
+ *     `useInView`. Kept minimal — no over-animation. Fully gated by
+ *     `useReducedMotion()`: when reduced, the SVG is immediately visible
+ *     with no transform.
+ *
  * Add new variants by extending the discriminated union below.
- * Phase 4 note: each variant currently uses simple line-art; refine shapes
- * during polish pass.
  */
 
-import type { SVGProps } from "react";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import { duration, easing } from "@/lib/motion";
 
 export type PictogramVariant =
   | "apple-health"
@@ -30,7 +36,10 @@ export type PictogramVariant =
 type Props = {
   variant: PictogramVariant;
   title?: string;
-} & Omit<SVGProps<SVGSVGElement>, "viewBox" | "xmlns">;
+  className?: string;
+  width?: number | string;
+  height?: number | string;
+};
 
 const STROKE_WIDTH = 1.25;
 
@@ -129,11 +138,25 @@ export default function SvgPictogram({
   title,
   width = 44,
   height = 44,
-  ...rest
+  className,
 }: Props) {
   const labelled = Boolean(title);
+  const ref = useRef<SVGSVGElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+
+  const initial = prefersReducedMotion
+    ? { opacity: 1, scale: 1 }
+    : { opacity: 0, scale: 0.92 };
+  const animate = prefersReducedMotion
+    ? { opacity: 1, scale: 1 }
+    : inView
+      ? { opacity: 1, scale: 1 }
+      : { opacity: 0, scale: 0.92 };
+
   return (
-    <svg
+    <motion.svg
+      ref={ref}
       viewBox="0 0 44 44"
       width={width}
       height={height}
@@ -146,10 +169,14 @@ export default function SvgPictogram({
       role={labelled ? "img" : "presentation"}
       aria-hidden={labelled ? undefined : true}
       aria-label={labelled ? title : undefined}
-      {...rest}
+      initial={initial}
+      animate={animate}
+      transition={{ duration: duration.normal, ease: easing.expo }}
+      style={{ transformOrigin: "50% 50%" }}
+      className={className}
     >
       {labelled ? <title>{title}</title> : null}
       <Paths variant={variant} />
-    </svg>
+    </motion.svg>
   );
 }

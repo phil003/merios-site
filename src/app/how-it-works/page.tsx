@@ -240,8 +240,11 @@ export default function HowItWorksPage() {
               >
                 <ol className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
                   {CONNECT_BLOCKS.map((block, i) => (
-                    <Reveal key={block.title} delay={i * 0.08}>
-                      <li className="flex list-none flex-col gap-5">
+                    <li key={block.title} className="list-none">
+                      <Reveal
+                        delay={i * 0.08}
+                        className="flex flex-col gap-5"
+                      >
                         <div
                           style={{ color: "var(--color-green-deep)" }}
                           className="opacity-90"
@@ -287,8 +290,8 @@ export default function HowItWorksPage() {
                             {block.copy}
                           </p>
                         </div>
-                      </li>
-                    </Reveal>
+                      </Reveal>
+                    </li>
                   ))}
                 </ol>
               </StepSection>
@@ -311,14 +314,15 @@ export default function HowItWorksPage() {
               >
                 <ol className="grid grid-cols-1 gap-8 md:grid-cols-3">
                   {ACT_PROTOCOLS.map((p, i) => (
-                    <Reveal key={p.title} delay={i * 0.08}>
-                      <li
-                        className="flex list-none flex-col gap-5 rounded-2xl p-6 md:p-7"
-                        style={{
-                          background: "var(--color-canvas-alt)",
-                          border: "1px solid var(--color-grid)",
-                        }}
-                      >
+                    <li
+                      key={p.title}
+                      className="list-none rounded-2xl p-6 md:p-7"
+                      style={{
+                        background: "var(--color-canvas-alt)",
+                        border: "1px solid var(--color-grid)",
+                      }}
+                    >
+                      <Reveal delay={i * 0.08} className="flex flex-col gap-5">
                         <div className="flex items-start justify-between gap-4">
                           <div
                             style={{ color: "var(--color-green-deep)" }}
@@ -398,8 +402,8 @@ export default function HowItWorksPage() {
                             Follow-up · {p.target}
                           </span>
                         </div>
-                      </li>
-                    </Reveal>
+                      </Reveal>
+                    </li>
                   ))}
                 </ol>
               </StepSection>

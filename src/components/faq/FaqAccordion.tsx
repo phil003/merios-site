@@ -77,7 +77,6 @@ export default function FaqAccordion({
                 type="button"
                 role="tab"
                 aria-selected={isActive}
-                aria-pressed={isActive}
                 onClick={() => setActive(item.key)}
                 className="faq-pill"
                 data-active={isActive}

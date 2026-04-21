@@ -170,7 +170,7 @@ export default function Footer() {
               className="inline-block h-px w-3"
               style={{ background: "var(--color-grid)" }}
             />
-            <span style={{ opacity: 0.6 }}>FR</span>
+            <span>FR</span>
           </div>
         </div>
 
@@ -181,7 +181,7 @@ export default function Footer() {
             fontFamily: "var(--font-sans)",
             fontSize: 11,
             lineHeight: 1.55,
-            color: "rgba(14,20,18,0.45)",
+            color: "var(--color-ink-secondary)",
           }}
         >
           <strong style={{ fontWeight: 600 }}>Medical disclaimer.</strong>{" "}

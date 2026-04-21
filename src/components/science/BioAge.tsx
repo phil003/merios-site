@@ -194,6 +194,7 @@ export default function ScienceBioAge() {
                   color: "var(--color-ink)",
                   lineHeight: 1,
                 }}
+                role="img"
                 aria-label={`${TARGETS.chronological} years`}
               >
                 <span aria-hidden>{chronological}</span>
@@ -240,6 +241,7 @@ export default function ScienceBioAge() {
                   color: "var(--color-canvas)",
                   lineHeight: 1,
                 }}
+                role="img"
                 aria-label={`${TARGETS.biological} years, estimated`}
               >
                 <span aria-hidden>{biological}</span>
@@ -286,6 +288,7 @@ export default function ScienceBioAge() {
                   color: "var(--color-ink)",
                   lineHeight: 1,
                 }}
+                role="img"
                 aria-label={`${TARGETS.delta} years delta`}
               >
                 <span aria-hidden>{delta}</span>

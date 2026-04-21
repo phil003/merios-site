@@ -206,6 +206,185 @@ async function main() {
         }
       }
     }
+    if (spec === "sprint5-phase32") {
+      // Full-page shots for Phase 3.2 scaffolds:
+      // /early-access (rest + US variants), /how-it-works, /faq.
+      const pages = [
+        { name: "early-access-rest-full", url: "/early-access" },
+        { name: "early-access-us-full", url: "/early-access?variant=us" },
+        { name: "how-it-works-full", url: "/how-it-works" },
+        { name: "faq-full", url: "/faq" },
+      ];
+      for (const pg of pages) {
+        for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
+          const { page, context } = await newPage(browser, vp, pg.url);
+          // Scroll through the page so reveals settle before capture.
+          await page.evaluate(async () => {
+            const max = document.documentElement.scrollHeight;
+            const step = window.innerHeight;
+            for (let y = 0; y < max; y += step) {
+              window.scrollTo(0, y);
+              await new Promise((r) => setTimeout(r, 120));
+            }
+            window.scrollTo(0, 0);
+          });
+          await page.waitForTimeout(800);
+          const path = join(
+            OUT,
+            "sprint-5",
+            `${pg.name}-${vpName === "desktop" ? "desktop" : "mobile"}.png`,
+          );
+          await page.screenshot({ path, fullPage: true });
+          console.log(`saved sprint-5/${pg.name}-${vpName}.png`);
+          await context.close();
+        }
+      }
+    }
+    if (spec === "sprint5-phase4") {
+      // Phase 4 polish screenshots: 21 shots covering the 4 polished pages.
+      const OUT_P4 = join(OUT, "sprint-5-phase4");
+      mkdirSync(OUT_P4, { recursive: true });
+
+      async function fullPageShot(url, file, vpName) {
+        const vp = VIEWPORTS[vpName];
+        const { page, context } = await newPage(browser, vp, url);
+        await page.evaluate(async () => {
+          const max = document.documentElement.scrollHeight;
+          const step = window.innerHeight;
+          for (let y = 0; y < max; y += step) {
+            window.scrollTo(0, y);
+            await new Promise((r) => setTimeout(r, 120));
+          }
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(800);
+        const p = join(OUT_P4, `${file}-${vpName}.png`);
+        await page.screenshot({ path: p, fullPage: true });
+        console.log(`saved sprint-5-phase4/${file}-${vpName}.png`);
+        await context.close();
+      }
+
+      async function viewportShot(url, file, vpName, scrollTo) {
+        const vp = VIEWPORTS[vpName];
+        const { page, context } = await newPage(browser, vp, url);
+        if (scrollTo) {
+          await page.evaluate(scrollTo);
+          await page.waitForTimeout(1400);
+        }
+        const p = join(OUT_P4, `${file}-${vpName}.png`);
+        await page.screenshot({ path: p, fullPage: false });
+        console.log(`saved sprint-5-phase4/${file}-${vpName}.png`);
+        await context.close();
+      }
+
+      // /early-access — 4 shots (US + Rest, desktop + mobile)
+      await fullPageShot("/early-access?variant=us", "ea-us-full", "desktop");
+      await fullPageShot("/early-access?variant=us", "ea-us-full", "mobile");
+      await fullPageShot("/early-access?variant=rest", "ea-rest-full", "desktop");
+      await fullPageShot("/early-access?variant=rest", "ea-rest-full", "mobile");
+
+      // /science — 6 shots (full desktop + mobile, + 1 shot mid-scroll on coverage, + 1 on model diagram)
+      await fullPageShot("/science", "science-full", "desktop");
+      await fullPageShot("/science", "science-full", "mobile");
+      await viewportShot("/science", "science-coverage", "desktop", () => {
+        const el = document.querySelector("#coverage");
+        if (el) el.scrollIntoView({ block: "start", behavior: "instant" });
+      });
+      await viewportShot("/science", "science-coverage", "mobile", () => {
+        const el = document.querySelector("#coverage");
+        if (el) el.scrollIntoView({ block: "start", behavior: "instant" });
+      });
+      await viewportShot("/science", "science-model-diagram", "desktop", () => {
+        const el = document.querySelector("#model");
+        if (el) el.scrollIntoView({ block: "start", behavior: "instant" });
+      });
+      await viewportShot("/science", "science-model-diagram", "mobile", () => {
+        const el = document.querySelector("#model");
+        if (el) el.scrollIntoView({ block: "start", behavior: "instant" });
+      });
+
+      // /how-it-works — 5 shots (full desktop + mobile, + pin mid-scroll on desktop)
+      await fullPageShot("/how-it-works", "hiw-full", "desktop");
+      await fullPageShot("/how-it-works", "hiw-full", "mobile");
+      await viewportShot("/how-it-works", "hiw-understand-pin", "desktop", () => {
+        const el = document.querySelector('[data-hiw-section="understand"]');
+        if (el) {
+          el.scrollIntoView({ block: "start", behavior: "instant" });
+          window.scrollBy(0, 400);
+        }
+      });
+      await viewportShot("/how-it-works", "hiw-understand-pin", "mobile", () => {
+        const el = document.querySelector('[data-hiw-section="understand"]');
+        if (el) el.scrollIntoView({ block: "start", behavior: "instant" });
+      });
+      await viewportShot("/how-it-works", "hiw-steps", "desktop", () => {
+        window.scrollTo(0, document.documentElement.scrollHeight * 0.4);
+      });
+
+      // /faq — 6 shots (full desktop + mobile, + filter "science" active, + 3 accordions open)
+      await fullPageShot("/faq", "faq-full", "desktop");
+      await fullPageShot("/faq", "faq-full", "mobile");
+      {
+        const { page, context } = await newPage(browser, VIEWPORTS.desktop, "/faq");
+        await page.evaluate(() => {
+          const chip = [...document.querySelectorAll('button')].find(
+            (b) => b.textContent?.toLowerCase().includes("science"),
+          );
+          if (chip) chip.click();
+        });
+        await page.waitForTimeout(800);
+        await page.screenshot({
+          path: join(OUT_P4, "faq-filter-science-desktop.png"),
+          fullPage: true,
+        });
+        console.log("saved sprint-5-phase4/faq-filter-science-desktop.png");
+        await context.close();
+      }
+      {
+        const { page, context } = await newPage(browser, VIEWPORTS.mobile, "/faq");
+        await page.evaluate(() => {
+          const chip = [...document.querySelectorAll('button')].find(
+            (b) => b.textContent?.toLowerCase().includes("science"),
+          );
+          if (chip) chip.click();
+        });
+        await page.waitForTimeout(800);
+        await page.screenshot({
+          path: join(OUT_P4, "faq-filter-science-mobile.png"),
+          fullPage: true,
+        });
+        console.log("saved sprint-5-phase4/faq-filter-science-mobile.png");
+        await context.close();
+      }
+      {
+        const { page, context } = await newPage(browser, VIEWPORTS.desktop, "/faq");
+        await page.evaluate(() => {
+          const summaries = [...document.querySelectorAll("details > summary")];
+          summaries.slice(0, 3).forEach((s) => (s.parentElement).setAttribute("open", ""));
+        });
+        await page.waitForTimeout(600);
+        await page.screenshot({
+          path: join(OUT_P4, "faq-three-open-desktop.png"),
+          fullPage: true,
+        });
+        console.log("saved sprint-5-phase4/faq-three-open-desktop.png");
+        await context.close();
+      }
+      {
+        const { page, context } = await newPage(browser, VIEWPORTS.mobile, "/faq");
+        await page.evaluate(() => {
+          const summaries = [...document.querySelectorAll("details > summary")];
+          summaries.slice(0, 3).forEach((s) => (s.parentElement).setAttribute("open", ""));
+        });
+        await page.waitForTimeout(600);
+        await page.screenshot({
+          path: join(OUT_P4, "faq-three-open-mobile.png"),
+          fullPage: true,
+        });
+        console.log("saved sprint-5-phase4/faq-three-open-mobile.png");
+        await context.close();
+      }
+    }
     if (spec === "full" || spec === "all") {
       for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
         const { page, context } = await newPage(browser, vp);

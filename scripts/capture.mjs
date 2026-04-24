@@ -585,6 +585,39 @@ async function main() {
         await context.close();
       }
     }
+    if (spec === "sprint8") {
+      // Sprint 8 — legals + security + compare (post-perf-pass) screenshots.
+      const OUT_8 = join(OUT, "sprint-8");
+      mkdirSync(OUT_8, { recursive: true });
+
+      async function fullPageShot(url, file, vpName) {
+        const vp = VIEWPORTS[vpName];
+        const { page, context } = await newPage(browser, vp, url);
+        await page.evaluate(async () => {
+          const max = document.documentElement.scrollHeight;
+          const step = window.innerHeight;
+          for (let y = 0; y < max; y += step) {
+            window.scrollTo(0, y);
+            await new Promise((r) => setTimeout(r, 120));
+          }
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(900);
+        const p = join(OUT_8, `${file}-${vpName}.png`);
+        await page.screenshot({ path: p, fullPage: true });
+        console.log(`saved sprint-8/${file}-${vpName}.png`);
+        await context.close();
+      }
+
+      await fullPageShot("/privacy", "privacy-full", "desktop");
+      await fullPageShot("/privacy", "privacy-full", "mobile");
+      await fullPageShot("/terms", "terms-full", "desktop");
+      await fullPageShot("/terms", "terms-full", "mobile");
+      await fullPageShot("/security", "security-full", "desktop");
+      await fullPageShot("/security", "security-full", "mobile");
+      await fullPageShot("/compare", "compare-full", "desktop");
+      await fullPageShot("/compare", "compare-full", "mobile");
+    }
     if (spec === "full" || spec === "all") {
       for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
         const { page, context } = await newPage(browser, vp);

@@ -29,6 +29,15 @@ const SPEC_URLS = {
     "/blog/vitamin-d-deficiency",
     "/blog/apob-heart-disease-risk",
   ],
+  sprint8: ["/privacy", "/terms", "/security", "/compare"],
+  "sprint8-regression": [
+    "/",
+    "/science",
+    "/how-it-works",
+    "/faq",
+    "/blog",
+    "/about",
+  ],
 };
 
 const SPEC = process.env.AUDIT_SPEC ?? "sprint5-phase4";

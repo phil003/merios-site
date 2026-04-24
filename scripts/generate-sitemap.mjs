@@ -6,13 +6,17 @@
  *
  * Priority scheme:
  *   1.0  home
- *   0.9  top landing pages (features, how-it-works, early-access)
+ *   0.9  top landing pages (how-it-works, early-access)
  *   0.8  pillar blog posts (tag === 'Pillar')
  *   0.8  blog index + science
  *   0.7  /compare comparison pages
  *   0.7  about, faq, regular blog posts
- *   0.6  contact
+ *   0.6  contact, security
  *   0.4  privacy, terms
+ *
+ * Note: /features and /support are 308 redirects (see next.config.ts) and
+ * MUST NOT be listed here — Google treats sitemap entries pointing to
+ * redirects as soft-404 signals.
  *
  * dateModified (from frontmatter) takes precedence over date when present.
  */
@@ -29,9 +33,11 @@ const OUTPUT = path.join(ROOT, 'public/sitemap.xml');
 const SITE_URL = 'https://merios.life';
 
 // Static routes with their priorities and change frequencies
+// NOTE: /features and /support are intentionally excluded — they are 308
+// permanent redirects defined in next.config.ts (/features → /how-it-works,
+// /support → /faq). Listing them in the sitemap would cause soft-404 signals.
 const STATIC_ROUTES = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
-  { path: '/features', priority: 0.9, changefreq: 'monthly' },
   { path: '/how-it-works', priority: 0.9, changefreq: 'monthly' },
   { path: '/early-access', priority: 0.9, changefreq: 'monthly' },
   { path: '/science', priority: 0.8, changefreq: 'monthly' },
@@ -40,6 +46,7 @@ const STATIC_ROUTES = [
   { path: '/about', priority: 0.7, changefreq: 'monthly' },
   { path: '/faq', priority: 0.7, changefreq: 'monthly' },
   { path: '/contact', priority: 0.6, changefreq: 'monthly' },
+  { path: '/security', priority: 0.6, changefreq: 'monthly' },
   { path: '/privacy', priority: 0.4, changefreq: 'yearly' },
   { path: '/terms', priority: 0.4, changefreq: 'yearly' },
 ];

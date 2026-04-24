@@ -120,7 +120,7 @@ function Block({ icon, eyebrow, title, body }: BlockProps) {
           {eyebrow}
         </span>
       </div>
-      <h3
+      <h2
         style={{
           fontFamily: "var(--font-serif)",
           fontSize: "1.375rem",
@@ -131,7 +131,7 @@ function Block({ icon, eyebrow, title, body }: BlockProps) {
         }}
       >
         {title}
-      </h3>
+      </h2>
       <div
         style={{
           fontFamily: "var(--font-sans)",

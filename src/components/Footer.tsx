@@ -88,7 +88,7 @@ export default function Footer() {
 
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <h4
+              <h3
                 style={{
                   fontFamily: "var(--font-mono)",
                   fontSize: 10.5,
@@ -100,7 +100,7 @@ export default function Footer() {
                 }}
               >
                 {col.title}
-              </h4>
+              </h3>
               <ul className="flex flex-col gap-3">
                 {col.links.map((l) => (
                   <li key={l.label}>

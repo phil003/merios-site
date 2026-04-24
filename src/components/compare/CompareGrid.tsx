@@ -1,72 +1,18 @@
-"use client";
-
-import { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
 import type { ComparePost } from "@/lib/compare";
+import Reveal from "@/components/ui/Reveal";
 import CompareCard from "./CompareCard";
-
-gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 interface CompareGridProps {
   posts: ComparePost[];
 }
 
+/**
+ * Compare index grid. Cards fade/slide in as they enter the viewport with a
+ * light per-card stagger (0.06s). Uses the Motion-based <Reveal> primitive
+ * (viewport-triggered, reduced-motion aware) to keep the /compare route's JS
+ * footprint low on the index page.
+ */
 export default function CompareGrid({ posts }: CompareGridProps) {
-  const container = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      const root = container.current;
-      if (!root) return;
-
-      const cards = gsap.utils.toArray<HTMLElement>(
-        root.querySelectorAll<HTMLElement>(".compare-card"),
-      );
-      if (cards.length === 0) return;
-
-      const mm = gsap.matchMedia();
-      mm.add(
-        {
-          reduced: "(prefers-reduced-motion: reduce)",
-          full: "(prefers-reduced-motion: no-preference)",
-        },
-        (context) => {
-          const reduced = context.conditions?.reduced;
-
-          if (reduced) {
-            gsap.set(cards, { opacity: 1, y: 0 });
-            return;
-          }
-
-          gsap.set(cards, { opacity: 0, y: 24 });
-
-          ScrollTrigger.batch(cards, {
-            start: "top 88%",
-            once: true,
-            onEnter: (batch) => {
-              gsap.to(batch, {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                ease: "expo.out",
-                stagger: 0.06,
-                overwrite: "auto",
-              });
-            },
-          });
-        },
-      );
-
-      return () => {
-        mm.revert();
-      };
-    },
-    { scope: container, dependencies: [posts.length] },
-  );
-
   if (posts.length === 0) {
     return (
       <p
@@ -82,12 +28,16 @@ export default function CompareGrid({ posts }: CompareGridProps) {
   }
 
   return (
-    <div
-      ref={container}
-      className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
-    >
-      {posts.map((post) => (
-        <CompareCard key={post.slug} post={post} />
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+      {posts.map((post, i) => (
+        <Reveal
+          key={post.slug}
+          delay={i * 0.06}
+          amount={0.15}
+          className="h-full"
+        >
+          <CompareCard post={post} />
+        </Reveal>
       ))}
     </div>
   );

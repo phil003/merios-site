@@ -1,10 +1,32 @@
 import type { Metadata } from "next";
+import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import {
   OrganizationSchema,
   WebApplicationSchema,
 } from "@/components/StructuredData";
+import LenisProvider from "@/components/providers/LenisProvider";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+  axes: ["opsz", "SOFT"],
+});
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
 
 const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";
 
@@ -88,7 +110,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <script
           async
@@ -104,23 +129,16 @@ export default function RootLayout({
             `,
           }}
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body className="overflow-x-hidden">
+        <LenisProvider>
           <OrganizationSchema />
           <WebApplicationSchema />
+          <Navbar />
           {children}
-          <Analytics />
-        </body>
+        </LenisProvider>
+        <Analytics />
+      </body>
     </html>
   );
 }

@@ -8,7 +8,7 @@
  *   1.0  home
  *   0.9  top landing pages (features, how-it-works, early-access)
  *   0.8  pillar blog posts (tag === 'Pillar')
- *   0.8  blog index + pricing + science
+ *   0.8  blog index + science
  *   0.7  /compare comparison pages
  *   0.7  about, faq, regular blog posts
  *   0.6  contact
@@ -35,7 +35,6 @@ const STATIC_ROUTES = [
   { path: '/how-it-works', priority: 0.9, changefreq: 'monthly' },
   { path: '/early-access', priority: 0.9, changefreq: 'monthly' },
   { path: '/science', priority: 0.8, changefreq: 'monthly' },
-  { path: '/pricing', priority: 0.8, changefreq: 'monthly' },
   { path: '/blog', priority: 0.8, changefreq: 'weekly' },
   { path: '/compare', priority: 0.8, changefreq: 'monthly' },
   { path: '/about', priority: 0.7, changefreq: 'monthly' },

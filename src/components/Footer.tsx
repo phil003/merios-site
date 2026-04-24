@@ -1,86 +1,195 @@
-const footerLinks = {
-  Product: [
-    { label: "Features", href: "/features" },
-    { label: "How It Works", href: "/how-it-works" },
-    { label: "Science", href: "/science" },
-    { label: "Pricing", href: "/pricing" },
-  ],
-  Resources: [
-    { label: "Blog", href: "/blog" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Contact", href: "/contact" },
-    { label: "About", href: "/about" },
-  ],
-  Legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-  ],
-};
+"use client";
 
-const socials = [
-  { label: "IG", title: "Instagram", href: "#" },
-  { label: "X", title: "X (Twitter)", href: "#" },
-  { label: "LI", title: "LinkedIn", href: "#" },
+type Link = { label: string; href: string };
+
+const COLUMNS: { title: string; links: Link[] }[] = [
+  {
+    title: "Product",
+    links: [
+      { label: "Science", href: "/#science" },
+      { label: "Journal", href: "/#journal" },
+      { label: "Waitlist", href: "/#waitlist" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
+      { label: "Press", href: "/contact" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+      { label: "Security", href: "/privacy" },
+    ],
+  },
 ];
+
+const currentYear = new Date().getFullYear();
+
+function handleAnchorClick(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+) {
+  if (!href.startsWith("/#")) return;
+  const id = href.slice(2);
+  const target = document.getElementById(id);
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 export default function Footer() {
   return (
-    <footer className="pt-16 pb-10 px-6 md:px-12 bg-cream border-t border-green-primary/6">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-10">
-        {/* Brand */}
-        <div>
-          <div className="font-serif text-2xl font-semibold text-green-deep mb-3">merios</div>
-          <p className="text-sm text-text-tertiary max-w-[280px] leading-relaxed">
-            Health intelligence in your pocket. Understand your body. Act on your health.
-          </p>
-        </div>
+    <footer
+      className="relative"
+      style={{ background: "var(--color-canvas-alt)" }}
+    >
+      <div className="mx-auto max-w-[1280px] px-6 pt-20 pb-10 md:px-10 md:pt-28 md:pb-12">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-[2fr_1fr_1fr_1fr] md:gap-x-10 md:gap-y-0">
+          {/* Brand */}
+          <div className="col-span-2 md:col-span-1">
+            <div className="inline-flex items-center gap-2.5">
+              <span
+                aria-hidden
+                className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
+                style={{ background: "var(--color-pulse)" }}
+              />
+              <span
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "clamp(2rem, 3vw, 2.75rem)",
+                  fontWeight: 300,
+                  lineHeight: 1,
+                  letterSpacing: "-0.02em",
+                  color: "var(--color-ink)",
+                }}
+              >
+                Merios
+              </span>
+            </div>
+            <p
+              className="mt-5 max-w-[320px]"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: 14.5,
+                lineHeight: 1.6,
+                color: "var(--color-ink-secondary)",
+              }}
+            >
+              One score for every biomarker you&rsquo;ve ever produced.
+              Quiet, composite, and built to last a decade.
+            </p>
+          </div>
 
-        {/* Link columns */}
-        <div className="flex gap-12 md:gap-14 flex-wrap">
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="text-xs uppercase tracking-[0.12em] text-text-tertiary font-semibold mb-4">
-                {title}
-              </h4>
-              {links.map((l) => (
-                <a
-                  key={l.label}
-                  href={l.href}
-                  className="block text-sm text-text-secondary hover:text-green-primary transition-colors mb-2.5"
-                >
-                  {l.label}
-                </a>
-              ))}
+          {COLUMNS.map((col) => (
+            <div key={col.title}>
+              <h3
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 10.5,
+                  fontWeight: 500,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "var(--color-ink-tertiary)",
+                  marginBottom: 18,
+                }}
+              >
+                {col.title}
+              </h3>
+              <ul className="flex flex-col gap-3">
+                {col.links.map((l) => (
+                  <li key={l.label}>
+                    <a
+                      href={l.href}
+                      onClick={(e) => handleAnchorClick(e, l.href)}
+                      className="inline-block transition-colors"
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: 14,
+                        color: "var(--color-ink-secondary)",
+                        fontWeight: 400,
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.color =
+                          "var(--color-pulse)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.color =
+                          "var(--color-ink-secondary)")
+                      }
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-green-primary/6 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <p className="text-xs text-text-tertiary">© 2026 Merios. All rights reserved.</p>
-        <div className="flex gap-4">
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              title={s.title}
-              className="w-9 h-9 rounded-full flex items-center justify-center text-sm text-text-secondary hover:bg-green-deep hover:text-white transition-all"
-              style={{ background: "rgba(45,90,61,0.06)" }}
+        {/* Bottom strip */}
+        <div
+          className="mt-16 flex flex-col items-start justify-between gap-4 pt-6 md:mt-20 md:flex-row md:items-center"
+          style={{ borderTop: "1px solid var(--color-grid)" }}
+        >
+          <p
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "var(--color-ink-tertiary)",
+            }}
+          >
+            © {currentYear} Merios Health LLC · All rights reserved
+          </p>
+          <div
+            className="inline-flex items-center gap-2"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "var(--color-ink-tertiary)",
+            }}
+            aria-label="Locale (placeholder)"
+          >
+            <span
+              aria-current="true"
+              style={{ color: "var(--color-ink)", fontWeight: 500 }}
             >
-              {s.label}
-            </a>
-          ))}
+              EN
+            </span>
+            <span
+              aria-hidden
+              className="inline-block h-px w-3"
+              style={{ background: "var(--color-grid)" }}
+            />
+            <span>FR</span>
+          </div>
         </div>
-      </div>
 
-      {/* Medical disclaimer (Apple App Store compliance) */}
-      <div className="max-w-6xl mx-auto mt-6 pt-4 border-t border-green-primary/6">
-        <p className="text-[11px] leading-relaxed text-text-tertiary/80 text-center">
-          <strong className="font-semibold">Medical Disclaimer:</strong> Merios is a wellness companion, not a medical device.
-          It does not diagnose, treat, cure, or prevent any disease. Health scores and biological age estimates
-          are algorithmic calculations, not clinically validated measurements. Always consult a qualified healthcare
-          professional for medical advice and the interpretation of your lab results.
+        {/* Medical disclaimer — App Store compliance (must not be removed) */}
+        <p
+          className="mt-8 max-w-[880px]"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: 11,
+            lineHeight: 1.55,
+            color: "var(--color-ink-secondary)",
+          }}
+        >
+          <strong style={{ fontWeight: 600 }}>Medical disclaimer.</strong>{" "}
+          Merios is a wellness companion, not a medical device. It does not
+          diagnose, treat, cure, or prevent any disease. Health scores and
+          biological age estimates are algorithmic, not clinically validated.
+          Always consult a qualified healthcare professional for medical
+          advice and the interpretation of your lab results.
         </p>
       </div>
     </footer>

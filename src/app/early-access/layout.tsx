@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Get Early Access to Merios — Join the Waitlist",
+  title: "Early Access — Merios",
   description:
-    "Join the Merios waitlist for early access to the health score app that analyzes blood tests, syncs Apple Health, and calculates your biological age. Be the first to try it.",
+    "Merios is now on the US App Store and rolling out worldwide. Get in.",
   alternates: {
     canonical: "https://merios.life/early-access",
   },
   openGraph: {
-    title: "Get Early Access to Merios — Join the Waitlist",
+    title: "Early Access — Merios",
     description:
-      "Join the Merios waitlist for early access to the health score app that analyzes blood tests, syncs Apple Health, and calculates your biological age.",
+      "Merios is now on the US App Store and rolling out worldwide. Get in.",
     url: "https://merios.life/early-access",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Early Access — Merios",
+    description:
+      "Merios is now on the US App Store and rolling out worldwide. Get in.",
   },
 };
 

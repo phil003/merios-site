@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-green-deep: #1E3D2A;
-  --color-green-primary: #2D5A3D;
+  /* ─── Legacy tokens (kept for Sprint 0 compatibility — components migrate in Sprint 1+) ─── */
   --color-green-light: #3A7A52;
   --color-green-muted: #4A8B62;
   --color-beige: #F8F6F1;
@@ -11,16 +10,47 @@
   --color-text-primary: #1A1A1A;
   --color-text-secondary: #5C5650;
   --color-text-tertiary: #9B9590;
-  --color-accent-warm: #C4882F;
   --color-accent-lavender: #5B4D8A;
 
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Inter', -apple-system, sans-serif;
+  /* ─── Palette révisée (brief §2) ─── */
+  --color-ink: #0E1412;
+  --color-ink-secondary: #4A524E;
+  --color-ink-tertiary: #60655D;
+  --color-canvas: #F7F5EF;
+  --color-canvas-alt: #FFFFFF;
+  --color-green-deep: #1E3D2A;
+  --color-green-primary: #2D5A3D;
+  --color-pulse: #9FBF00;
+  --color-accent-warm: #C4882F;
+  --color-grid: #E8E3D6;
+
+  /* ─── Typography (brief §3) — next/font injects --font-fraunces etc. on <html> ─── */
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-inter-tight), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+
+  /* ─── Type scale (Perfect Fourth 1.333) ─── */
+  --text-display-xl: clamp(4rem, 10vw, 7.5rem);
+  --text-display-l: clamp(3rem, 7vw, 5.25rem);
+  --text-display-m: clamp(2.25rem, 5vw, 3.5rem);
+  --text-headline: clamp(1.75rem, 3vw, 2.25rem);
+  --text-title: clamp(1.25rem, 2vw, 1.5rem);
+  --text-body-l: clamp(1.125rem, 1.5vw, 1.25rem);
+
+  /* ─── Motion tokens (brief §4) ─── */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-sharp: cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-quick: 300ms;
+  --duration-normal: 600ms;
+  --duration-slow: 1100ms;
+
+  /* ─── Spacing (8pt grid + editorial rhythm) ─── */
+  --spacing-section: clamp(4rem, 8vw, 8rem);
+  --spacing-container: clamp(1.5rem, 4vw, 3rem);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* Lenis owns smooth scroll — native CSS scroll-behavior is removed intentionally */
 
 body {
   font-family: var(--font-sans);
@@ -29,11 +59,36 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Fade-in animation for scroll */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Lenis base styles — required when the library is active */
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Legacy scroll-reveal (ScrollAnimator + existing sections) — Sprint 1+ will migrate to <Reveal> ─── */
 .fade-in {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
   will-change: opacity, transform;
 }
 .fade-in.visible {
@@ -41,13 +96,6 @@ body {
   transform: translateY(0);
 }
 
-/* Smooth scrolling performance */
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Hero animations */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
@@ -62,11 +110,303 @@ body {
 }
 
 .animate-fadeUp {
-  animation: fadeUp 1s ease-out both;
+  animation: fadeUp 1s var(--ease-expo) both;
 }
 .animate-pulse-dot {
-  animation: pulse 2s ease-in-out infinite;
+  animation: pulse 2s var(--ease-smooth) infinite;
 }
 .animate-scroll-pulse {
-  animation: scrollPulse 2s ease-in-out infinite;
+  animation: scrollPulse 2s var(--ease-smooth) infinite;
+}
+
+/* Hero mockup idle float (prefers-reduced-motion honored by global rule above) */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.hero-mockup-float {
+  animation: heroFloat 4s var(--ease-smooth) infinite;
+  will-change: transform;
+}
+
+/* Editorial prose — drop cap for the first paragraph of long-read articles */
+.editorial-prose p.drop-cap::first-letter {
+  font-family: var(--font-serif);
+  float: left;
+  font-size: 4.5em;
+  line-height: 0.85;
+  margin: 0.05em 0.12em 0 0;
+  font-weight: 300;
+  color: var(--color-green-deep);
+}
+
+/* Editorial prose — baseline typography inside EditorialProse article blocks */
+.editorial-prose > * + * {
+  margin-top: 1.5rem;
+}
+.editorial-prose h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  margin-top: 3rem;
+}
+.editorial-prose h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  margin-top: 2.5rem;
+}
+.editorial-prose p {
+  color: var(--color-ink-secondary);
+}
+.editorial-prose strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.editorial-prose a {
+  color: var(--color-green-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.editorial-prose a:hover {
+  color: var(--color-ink);
+}
+.editorial-prose blockquote {
+  border-left: 2px solid var(--color-green-deep);
+  padding-left: 1.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--color-ink);
+}
+.editorial-prose ul,
+.editorial-prose ol {
+  padding-left: 0;
+  list-style: none;
+  margin-top: 1.5rem;
+}
+.editorial-prose ul > li,
+.editorial-prose ol > li {
+  position: relative;
+  padding-left: 1.75rem;
+  color: var(--color-ink-secondary);
+  line-height: 1.7;
+}
+.editorial-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.35rem;
+  top: 0.72em;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-green-deep);
+}
+.editorial-prose ol {
+  counter-reset: editorial-ol;
+}
+.editorial-prose ol > li {
+  counter-increment: editorial-ol;
+  padding-left: 2.25rem;
+}
+.editorial-prose ol > li::before {
+  content: counter(editorial-ol);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-serif);
+  font-size: 1.05em;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-green-deep);
+  letter-spacing: -0.01em;
+}
+.editorial-prose li + li {
+  margin-top: 0.5rem;
+}
+.editorial-prose hr {
+  border: 0;
+  margin: 3rem auto;
+  height: 6px;
+  width: 100%;
+  background-image: radial-gradient(circle, var(--color-green-deep) 2px, transparent 2.5px);
+  background-size: 18px 6px;
+  background-repeat: repeat-x;
+  background-position: center;
+  mask-image: linear-gradient(to right, transparent 0%, black 40%, black 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%, black 60%, transparent 100%);
+  max-width: 120px;
+}
+.editorial-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-ink) 5%, transparent);
+  color: var(--color-ink);
+}
+.editorial-prose pre {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  line-height: 1.6;
+  padding: 1.5rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-ink) 4%, transparent);
+  color: var(--color-ink);
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--color-grid);
+}
+.editorial-prose pre code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+.editorial-prose img,
+.editorial-prose figure {
+  display: block;
+  margin: 2.5rem 0;
+  border-radius: 10px;
+  max-width: 100%;
+  height: auto;
+}
+.editorial-prose figure img {
+  margin: 0;
+}
+.editorial-prose figcaption {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-align: center;
+  font-style: italic;
+  color: var(--color-ink-tertiary);
+  letter-spacing: 0.02em;
+}
+
+/* ─── Blog index interactive chrome (single-source, not duplicated per-card) ─── */
+.blog-card {
+  transition:
+    transform 400ms var(--ease-expo),
+    border-color 400ms var(--ease-expo),
+    box-shadow 400ms var(--ease-expo);
+  will-change: transform;
+}
+.blog-card:hover,
+.blog-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--color-green-deep) 30%, var(--color-grid));
+  box-shadow: 0 20px 40px -8px color-mix(in srgb, var(--color-ink) 22%, transparent);
+}
+.blog-card:focus-visible {
+  outline: 2px solid var(--color-green-deep);
+  outline-offset: 3px;
+}
+.blog-card .blog-card-emoji {
+  transition: transform 400ms var(--ease-expo);
+}
+.blog-card:hover .blog-card-emoji,
+.blog-card:focus-visible .blog-card-emoji {
+  transform: scale(1.04);
+}
+.featured-card {
+  transition:
+    border-color 400ms var(--ease-expo),
+    box-shadow 400ms var(--ease-expo);
+}
+.featured-card:hover,
+.featured-card:focus-visible {
+  border-color: color-mix(in srgb, var(--color-green-deep) 28%, var(--color-grid));
+  box-shadow: 0 24px 60px -30px color-mix(in srgb, var(--color-ink) 50%, transparent);
+}
+.featured-card:focus-visible {
+  outline: 2px solid var(--color-green-deep);
+  outline-offset: 3px;
+}
+.featured-card .featured-card-emoji {
+  transition: transform 600ms var(--ease-expo);
+}
+.featured-card:hover .featured-card-emoji,
+.featured-card:focus-visible .featured-card-emoji {
+  transform: scale(1.04);
+}
+.featured-card .featured-card-arrow {
+  transition: transform 300ms var(--ease-expo);
+}
+.featured-card:hover .featured-card-arrow,
+.featured-card:focus-visible .featured-card-arrow {
+  transform: translateX(6px);
+}
+.blog-chip {
+  transition:
+    background-color 300ms var(--ease-expo),
+    color 300ms var(--ease-expo),
+    border-color 300ms var(--ease-expo);
+}
+.blog-chip:focus-visible {
+  outline: 2px solid var(--color-green-deep);
+  outline-offset: 3px;
+}
+.blog-chip[data-active="false"]:hover {
+  border-color: color-mix(in srgb, var(--color-green-deep) 35%, var(--color-grid));
+  color: var(--color-ink);
+}
+.blog-loadmore {
+  transition:
+    transform 300ms var(--ease-expo),
+    border-color 300ms var(--ease-expo),
+    background-color 300ms var(--ease-expo);
+}
+.blog-loadmore:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-green-deep);
+  background: color-mix(in srgb, var(--color-green-deep) 6%, var(--color-canvas-alt));
+}
+.blog-loadmore:focus-visible {
+  outline: 2px solid var(--color-green-deep);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog-card,
+  .blog-card .blog-card-emoji,
+  .blog-chip,
+  .blog-loadmore,
+  .featured-card,
+  .featured-card .featured-card-emoji,
+  .featured-card .featured-card-arrow {
+    transition: none !important;
+    transform: none !important;
+  }
+  .blog-card:hover,
+  .blog-card:focus-visible,
+  .blog-loadmore:hover {
+    transform: none !important;
+  }
+}
+.editorial-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  margin: 2rem 0;
+}
+.editorial-prose th {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  text-align: left;
+  color: var(--color-ink);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-ink);
+}
+.editorial-prose td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-grid);
+  color: var(--color-ink-secondary);
+  vertical-align: top;
 }

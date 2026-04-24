@@ -6,14 +6,30 @@ const SUPABASE_URL = "https://ykcakhvmzebakodxmjpb.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY2FraHZtemViYWtvZHhtanBiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5NDEwODYsImV4cCI6MjA4NzUxNzA4Nn0.cpI9MFeTlr9p0d75R0jtiyCXu7HDiGB1fz2B8drkQ0A";
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+type Status =
+  | "idle"
+  | "invalid"
+  | "loading"
+  | "success"
+  | "duplicate"
+  | "error";
+
 export default function Waitlist() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "duplicate" | "error">("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const [email, setEmail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || status === "loading") return;
+    if (status === "loading" || status === "success" || status === "duplicate")
+      return;
 
+    const clean = email.trim().toLowerCase();
+    if (!EMAIL_RE.test(clean)) {
+      setStatus("invalid");
+      return;
+    }
     setStatus("loading");
 
     try {
@@ -25,14 +41,13 @@ export default function Waitlist() {
           Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
           Prefer: "return=minimal",
         },
-        body: JSON.stringify({ email: email.toLowerCase().trim() }),
+        body: JSON.stringify({ email: clean }),
       });
 
       if (res.ok) {
         setStatus("success");
         setEmail("");
       } else if (res.status === 409) {
-        // Unique constraint violation — already on the list
         setStatus("duplicate");
         setEmail("");
       } else {
@@ -43,53 +58,191 @@ export default function Waitlist() {
     }
   };
 
-  const buttonText = {
-    idle: "Join",
-    loading: "Joining...",
-    success: "You're in ✓",
-    duplicate: "Already joined ✓",
-    error: "Try again",
-  }[status];
+  const locked = status === "success" || status === "duplicate";
+
+  const message =
+    status === "success"
+      ? "You're in. Check your inbox."
+      : status === "duplicate"
+        ? "Already on the list. Thank you."
+        : status === "error"
+          ? "Something went wrong. Try again."
+          : status === "invalid"
+            ? "That email doesn't look right."
+            : "We only email when there's something worth saying.";
+
+  const messageTone =
+    status === "success" || status === "duplicate"
+      ? "var(--color-pulse)"
+      : status === "error" || status === "invalid"
+        ? "var(--color-accent-warm)"
+        : "rgba(247,245,239,0.5)";
 
   return (
-    <section id="waitlist" className="py-32 px-6 bg-green-deep text-center relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, rgba(58,122,82,0.12) 0%, transparent 70%)" }} />
+    <section
+      id="waitlist"
+      className="relative overflow-hidden py-28 md:py-36"
+      style={{ background: "var(--color-ink)" }}
+      aria-label="Join the Merios waitlist"
+    >
+      {/* ambient radials — echo AppPreview */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-0 right-0 h-[70%] w-[60%]"
+        style={{
+          background:
+            "radial-gradient(55% 60% at 80% 20%, rgba(159,191,0,0.10), transparent 70%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-0 left-0 h-[70%] w-[60%]"
+        style={{
+          background:
+            "radial-gradient(55% 60% at 20% 80%, rgba(30,61,42,0.45), transparent 70%)",
+        }}
+      />
 
-      <div className="relative z-10 max-w-xl mx-auto fade-in">
-        <h2 className="font-serif text-4xl md:text-5xl font-medium text-white leading-tight mb-6" style={{ letterSpacing: "-0.02em" }}>
-          Be first to understand.
+      <div className="relative mx-auto max-w-[720px] px-6 text-center md:px-10">
+        <div
+          className="inline-flex items-center gap-2.5"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          <span
+            aria-hidden
+            className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--color-pulse)" }}
+          />
+          <span
+            className="text-[10.5px] uppercase"
+            style={{
+              color: "var(--color-pulse)",
+              letterSpacing: "0.22em",
+              fontWeight: 500,
+            }}
+          >
+            Limited access
+          </span>
+        </div>
+
+        <h2
+          className="mt-8"
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "var(--text-display-l)",
+            fontWeight: 300,
+            lineHeight: 1.02,
+            letterSpacing: "-0.03em",
+            color: "var(--color-canvas)",
+          }}
+        >
+          Your blood.
+          <br />
+          Finally legible.
         </h2>
-        <p className="text-lg leading-relaxed text-white/70 mb-12">
-          Merios launches on iOS soon. Join thousands taking control of their health with clarity and confidence.
+
+        <p
+          className="mx-auto mt-7 max-w-[520px]"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "clamp(1rem, 1.15vw, 1.0625rem)",
+            lineHeight: 1.6,
+            color: "rgba(247,245,239,0.72)",
+          }}
+        >
+          Merios opens to a small first cohort. Leave your email and we&rsquo;ll
+          write once — when it&rsquo;s your turn.
         </p>
 
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+        <form
+          onSubmit={handleSubmit}
+          className="mx-auto mt-12 flex w-full max-w-[520px] flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
+          noValidate
+        >
+          <label className="sr-only" htmlFor="waitlist-email">
+            Email address
+          </label>
           <input
+            id="waitlist-email"
             type="email"
-            required
+            inputMode="email"
+            autoComplete="email"
+            placeholder="you@domain.com"
             value={email}
+            disabled={locked}
             onChange={(e) => {
               setEmail(e.target.value);
-              if (status === "error") setStatus("idle");
+              if (status === "invalid" || status === "error")
+                setStatus("idle");
             }}
-            placeholder="you@example.com"
-            disabled={status === "success" || status === "duplicate"}
-            className="flex-1 px-6 py-4 border-[1.5px] border-white/12 rounded-full text-white text-sm font-sans outline-none focus:border-white/30 transition-colors placeholder:text-white/40 disabled:opacity-50"
-            style={{ background: "rgba(255,255,255,0.06)" }}
+            className="flex-1 bg-transparent py-3 text-base outline-none transition-colors placeholder:text-[rgba(247,245,239,0.45)] disabled:opacity-60"
+            style={{
+              fontFamily: "var(--font-sans)",
+              color: "var(--color-canvas)",
+              borderBottom:
+                status === "invalid"
+                  ? "1px solid var(--color-accent-warm)"
+                  : "1px solid rgba(247,245,239,0.35)",
+            }}
+            onFocus={(e) => {
+              if (status !== "invalid")
+                e.currentTarget.style.borderBottom =
+                  "1px solid var(--color-pulse)";
+            }}
+            onBlur={(e) => {
+              if (status !== "invalid")
+                e.currentTarget.style.borderBottom =
+                  "1px solid rgba(247,245,239,0.35)";
+            }}
           />
           <button
             type="submit"
-            disabled={status === "loading" || status === "success" || status === "duplicate"}
-            className="px-8 py-4 bg-white text-green-deep rounded-full text-sm font-semibold hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300 whitespace-nowrap cursor-pointer disabled:opacity-80 disabled:cursor-default disabled:hover:translate-y-0 disabled:hover:shadow-none"
+            disabled={locked || status === "loading"}
+            className="group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 transition-transform motion-reduce:transform-none hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-80"
+            style={{
+              background: locked
+                ? "rgba(159,191,0,0.35)"
+                : "var(--color-pulse)",
+              color: "var(--color-ink)",
+              fontFamily: "var(--font-sans)",
+              fontSize: 13.5,
+              fontWeight: 600,
+              letterSpacing: "0.01em",
+              boxShadow: locked
+                ? "none"
+                : "0 10px 28px -12px rgba(159,191,0,0.55)",
+              cursor: locked ? "default" : "pointer",
+            }}
           >
-            {buttonText}
+            <span
+              aria-hidden
+              className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
+              style={{ background: "var(--color-ink)" }}
+            />
+            {status === "loading"
+              ? "Sending"
+              : status === "success"
+                ? "You're in"
+                : status === "duplicate"
+                  ? "On the list"
+                  : "Join"}
           </button>
         </form>
 
-        <p className="text-xs text-white/40 mt-5">
-          {status === "error"
-            ? "Something went wrong. Please try again."
-            : "No spam. Just a message when we launch."}
+        <p
+          role={
+            status === "error" || status === "invalid" ? "alert" : undefined
+          }
+          aria-live="polite"
+          className="mt-5"
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            color: messageTone,
+          }}
+        >
+          {message}
         </p>
       </div>
     </section>

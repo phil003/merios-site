@@ -1,248 +1,490 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ScrollAnimator from "@/components/ScrollAnimator";
+import Reveal from "@/components/ui/Reveal";
+import StepSection from "@/components/howitworks/StepSection";
+import StickyLateralNav from "@/components/howitworks/StickyLateralNav";
+import SvgPictogram, {
+  type PictogramVariant,
+} from "@/components/howitworks/SvgPictogram";
+import UnderstandPinned from "@/components/howitworks/UnderstandPinned";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
-  title: "How Merios Works — From Blood Tests to Health Score in Minutes",
+  title: "How Merios Works — From Blood Tests to Action",
   description:
-    "Upload your blood test results, sync Apple Health, complete daily check-ins. Merios analyzes 130+ biomarkers and delivers your personalized health score with actionable recommendations.",
-  keywords: [
-    "how merios works",
-    "health analytics",
-    "health score",
-    "Apple Health integration",
-    "blood test analysis",
-    "health insights",
-  ],
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "https://merios.life/how-it-works",
-  },
+    "How Merios turns your blood tests and wearables into one score, clear trends, and the next move worth making.",
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://merios.life/how-it-works" },
   openGraph: {
-    title: "How Merios Works — From Blood Tests to Health Score in Minutes",
+    title: "How Merios Works — From Blood Tests to Action",
     description:
-      "Upload your blood test results, sync Apple Health, complete daily check-ins. Merios analyzes 130+ biomarkers and delivers your health score with actionable recommendations.",
+      "How Merios turns your blood tests and wearables into one score, clear trends, and the next move worth making.",
     url: "https://merios.life/how-it-works",
     siteName: "Merios",
     type: "website",
     locale: "en_US",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "How Merios Works — From Blood Tests to Action",
+    description:
+      "How Merios turns your blood tests and wearables into one score, clear trends, and the next move worth making.",
+  },
 };
 
+// ─── JSON-LD HowTo structured data ────────────────────────────────────────
+const howToJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: "How to interpret your blood test results with Merios",
+  description:
+    "How Merios turns your blood tests and wearables into one score, clear trends, and the next move worth making.",
+  step: [
+    {
+      "@type": "HowToStep",
+      name: "Connect",
+      text: "Stream Apple Health, scan existing lab PDFs with OCR, or enter markers manually. Merios meets your data where it already lives.",
+      url: "https://merios.life/how-it-works#connect",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Understand",
+      text: "150+ biomarkers are compressed into one Merios Score, with every subsystem expanded into a clear, trend-first view.",
+      url: "https://merios.life/how-it-works#understand",
+    },
+    {
+      "@type": "HowToStep",
+      name: "Act",
+      text: "A short list of ranked protocols, each with its expected biomarker lift and a scheduled follow-up lab to verify the change.",
+      url: "https://merios.life/how-it-works#act",
+    },
+  ],
+};
+
+// ─── Content: Step 01 — Connect sub-blocks ────────────────────────────────
+type ConnectBlock = {
+  variant: PictogramVariant;
+  title: string;
+  copy: string;
+  meta: string;
+};
+
+const CONNECT_BLOCKS: ConnectBlock[] = [
+  {
+    variant: "apple-health",
+    title: "Apple Health stream",
+    copy: "Years of activity, sleep, resting heart rate and HRV flow in on first authorisation. Merios keeps syncing in the background — nothing to maintain.",
+    meta: "One tap · continuous",
+  },
+  {
+    variant: "ocr",
+    title: "Labs OCR",
+    copy: "Photograph or upload any blood test PDF. Markers, units and reference ranges are extracted in seconds, normalised across labs and dated correctly.",
+    meta: "PDF · JPG · HEIC",
+  },
+  {
+    variant: "manual",
+    title: "Manual entry",
+    copy: "Add a single marker, a blood pressure reading or a note. Everything you enter joins the same timeline as the imports — no second-class data.",
+    meta: "Any marker · any unit",
+  },
+];
+
+// ─── Content: Step 03 — Act protocols + follow-up ─────────────────────────
+type ActProtocol = {
+  variant: PictogramVariant;
+  title: string;
+  copy: string;
+  lift: string;
+  target: string;
+};
+
+const ACT_PROTOCOLS: ActProtocol[] = [
+  {
+    variant: "leverage",
+    title: "Tighten sleep window",
+    copy: "Shift lights-out by 40 minutes to raise deep-sleep share — the single biggest nudge on morning HRV for your current pattern.",
+    lift: "+18%",
+    target: "HRV · 8 weeks",
+  },
+  {
+    variant: "protocol",
+    title: "Add omega-3 protocol",
+    copy: "Daily EPA/DHA at 2g to move triglycerides into the safer band while nudging LDL-particle size toward large-buoyant.",
+    lift: "+11%",
+    target: "Lipids · 12 weeks",
+  },
+  {
+    variant: "trend",
+    title: "Strength sessions × 3",
+    copy: "Three short resistance sessions a week to lift fasting glucose stability and grip strength — a high-leverage pair for your age window.",
+    lift: "+7%",
+    target: "Glucose · 10 weeks",
+  },
+];
+
 export default function HowItWorksPage() {
-  const steps = [
-    {
-      number: "1",
-      title: "Connect",
-      subtitle: "Gather all your health data in one place",
-      description:
-        "Merios integrates seamlessly with Apple Health, letting you pull in years of activity, heart rate, sleep, and wellness data with a single tap. You can also scan lab results using your camera—our advanced OCR extracts biomarkers automatically, no manual data entry needed. Whether you're syncing wearables, importing historic results, or adding new blood work, Merios meets your data where it lives.",
-    },
-    {
-      number: "2",
-      title: "Centralize",
-      subtitle: "Organize everything into one unified dashboard",
-      description:
-        "Instead of juggling multiple apps, PDFs, and doctor's notes, your complete health history lives in one organized place. All your data—from blood tests to daily activity to check-ins—is organized chronologically, searchable, and ready for analysis. No more hunting through emails for old results or trying to remember what your cholesterol was six months ago. Your data is yours, secure, and always accessible.",
-    },
-    {
-      number: "3",
-      title: "Understand",
-      subtitle: "Get clear insights powered by AI",
-      description:
-        "This is where the intelligence happens. Merios analyzes your data across 11 health systems—cardiovascular, metabolic, immune, endocrine, and more—creating a unified health score that goes beyond any single metric. You get trend analysis that reveals patterns over time, plain-language explanations of what your biomarkers mean, and context about what's improving or needs attention. No medical degree required. Powered by AI, grounded in science.",
-    },
-    {
-      number: "4",
-      title: "Act",
-      subtitle: "Turn insights into meaningful change",
-      description:
-        "Understanding is just the beginning. Merios generates personalized recommendations tailored to your specific biomarkers, health goals, and lifestyle. Track progress with intelligent metrics that update as your data changes. Celebrate improvements and catch issues early. Get nudges when meaningful patterns emerge. Merios turns knowledge into action.",
-    },
-  ];
-
-  const dataSources = [
-    {
-      icon: "🏥",
-      name: "Apple Health",
-      description:
-        "Sync activity, heart rate, sleep, steps, and more directly from your iPhone.",
-    },
-    {
-      icon: "🧪",
-      name: "Blood Tests",
-      description:
-        "Scan lab results with your camera. OCR extracts biomarkers automatically.",
-    },
-    {
-      icon: "📝",
-      name: "Daily Check-ins",
-      description:
-        "Log symptoms, mood, energy, and other health markers throughout your day.",
-    },
-  ];
-
   return (
     <>
-      <ScrollAnimator />
-      <Navbar />
-      <main>
-        {/* Hero Section */}
-        <section className="min-h-[60vh] flex flex-col justify-center items-center text-center px-6 pt-40 pb-24 relative overflow-hidden">
-          {/* Background gradient orb */}
+      {/* JSON-LD — HowTo structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
+      />
+
+      {/* Skip-link for keyboard users */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-50 focus:rounded-full focus:bg-[color:var(--color-ink)] focus:px-5 focus:py-2 focus:text-[color:var(--color-canvas)]"
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: 14,
+        }}
+      >
+        Skip to content
+      </a>
+
+      <main
+        id="main-content"
+        style={{ background: "var(--color-canvas)" }}
+      >
+        {/* ───────────────────────────────── HERO ──────────────────────── */}
+        <section
+          aria-labelledby="hiw-hero-headline"
+          className="relative overflow-hidden pt-40 pb-24 md:pt-48 md:pb-32"
+        >
           <div
-            className="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full pointer-events-none"
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 -top-[10%] h-[700px]"
             style={{
               background:
-                "radial-gradient(circle, rgba(45,90,61,0.04) 0%, transparent 70%)",
+                "radial-gradient(55% 55% at 30% 20%, rgba(30,61,42,0.05), transparent 70%)",
             }}
           />
 
-          <div className="relative z-10 max-w-3xl fade-in">
-            <p className="text-xs uppercase tracking-[0.18em] text-green-primary font-semibold mb-6">
-              The Journey to Health Intelligence
-            </p>
-            <h1
-              className="font-serif text-6xl md:text-7xl font-medium leading-[1.08] tracking-tight text-green-deep mb-6"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              How Merios Works
-            </h1>
-            <p className="text-lg md:text-xl leading-relaxed text-text-secondary font-light max-w-2xl mx-auto">
-              From connecting your health data to acting on personalized insights, here's the 4-step journey that transforms raw numbers into clarity and confidence.
-            </p>
+          <div className="relative mx-auto max-w-[1280px] px-6 md:px-10">
+            <Reveal>
+              <div
+                className="inline-flex items-center gap-2.5"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                <span
+                  aria-hidden
+                  className="inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ background: "var(--color-pulse)" }}
+                />
+                <span
+                  className="text-[10.5px] uppercase"
+                  style={{
+                    color: "var(--color-green-deep)",
+                    letterSpacing: "0.22em",
+                    fontWeight: 500,
+                  }}
+                >
+                  How it works
+                </span>
+              </div>
+
+              <h1
+                id="hiw-hero-headline"
+                className="mt-8 max-w-[980px]"
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "var(--text-display-l)",
+                  fontWeight: 300,
+                  lineHeight: 1.02,
+                  letterSpacing: "-0.03em",
+                  color: "var(--color-ink)",
+                }}
+              >
+                From blood tests to action,
+                <br aria-hidden />
+                in three calm steps.
+              </h1>
+
+              <p
+                className="mt-8 max-w-[600px]"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--text-body-l)",
+                  lineHeight: 1.6,
+                  color: "var(--color-ink-secondary)",
+                }}
+              >
+                Connect every source, read one score, act on the handful of
+                moves that actually matter. Merios makes the loop between
+                result and response short — and obvious.
+              </p>
+            </Reveal>
           </div>
         </section>
 
-        {/* Steps Section */}
-        <section className="py-24 px-6 bg-cream">
-          <div className="max-w-4xl mx-auto">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className="mb-20 fade-in last:mb-0"
-                style={{ animationDelay: `${index * 0.15}s` }}
+        {/* ─────────────────────────── GRID WITH STICKY NAV ────────────── */}
+        <div className="mx-auto max-w-[1280px] px-6 md:px-10">
+          <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-16">
+            <StickyLateralNav />
+
+            <div>
+              {/* ────────── Step 01 — Connect ────────── */}
+              <StepSection
+                id="connect"
+                eyebrow="Connect"
+                stepNumber={1}
+                headline={
+                  <>
+                    Bring in the data
+                    <br aria-hidden /> that already exists.
+                  </>
+                }
+                lead="Three import paths — streaming, OCR, manual — so nothing about your health history is locked in a drawer or a provider silo."
               >
-                {/* Step Header with Number */}
-                <div className="flex items-start gap-6 md:gap-10 mb-8">
-                  {/* Number Circle */}
-                  <div className="flex-shrink-0">
-                    <div
-                      className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-green-primary to-green-light flex items-center justify-center font-serif text-2xl md:text-3xl font-bold text-white shadow-lg"
+                <ol className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
+                  {CONNECT_BLOCKS.map((block, i) => (
+                    <li key={block.title} className="list-none">
+                      <Reveal
+                        delay={i * 0.08}
+                        className="flex flex-col gap-5"
+                      >
+                        <div
+                          style={{ color: "var(--color-green-deep)" }}
+                          className="opacity-90"
+                        >
+                          <SvgPictogram variant={block.variant} />
+                        </div>
+                        <div>
+                          <span
+                            className="block"
+                            style={{
+                              fontFamily: "var(--font-mono)",
+                              fontSize: 10.5,
+                              letterSpacing: "0.22em",
+                              textTransform: "uppercase",
+                              color: "var(--color-ink-tertiary)",
+                              fontWeight: 500,
+                            }}
+                          >
+                            {block.meta}
+                          </span>
+                          <h3
+                            className="mt-3"
+                            style={{
+                              fontFamily: "var(--font-serif)",
+                              fontSize: "clamp(1.375rem, 2vw, 1.625rem)",
+                              fontWeight: 400,
+                              lineHeight: 1.15,
+                              letterSpacing: "-0.02em",
+                              color: "var(--color-ink)",
+                            }}
+                          >
+                            {block.title}
+                          </h3>
+                          <p
+                            className="mt-3"
+                            style={{
+                              fontFamily: "var(--font-sans)",
+                              fontSize: 15,
+                              lineHeight: 1.6,
+                              color: "var(--color-ink-secondary)",
+                            }}
+                          >
+                            {block.copy}
+                          </p>
+                        </div>
+                      </Reveal>
+                    </li>
+                  ))}
+                </ol>
+              </StepSection>
+
+              {/* ────────── Step 02 — Understand (pinned scrub) ────────── */}
+              <UnderstandPinned />
+
+              {/* ────────── Step 03 — Act ────────── */}
+              <StepSection
+                id="act"
+                eyebrow="Act"
+                stepNumber={3}
+                headline={
+                  <>
+                    The three moves
+                    <br aria-hidden /> worth making next.
+                  </>
+                }
+                lead="Protocols are ranked by leverage, not noise — each one lists the expected biomarker lift and the follow-up lab that will confirm it."
+              >
+                <ol className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                  {ACT_PROTOCOLS.map((p, i) => (
+                    <li
+                      key={p.title}
+                      className="list-none rounded-2xl p-6 md:p-7"
                       style={{
-                        background: `linear-gradient(135deg, rgba(45,90,61,0.9) 0%, rgba(58,122,82,0.8) 100%)`,
+                        background: "var(--color-canvas-alt)",
+                        border: "1px solid var(--color-grid)",
                       }}
                     >
-                      {step.number}
-                    </div>
-                  </div>
-
-                  {/* Step Title and Subtitle */}
-                  <div className="flex-1 pt-1">
-                    <h2
-                      className="font-serif text-3xl md:text-4xl font-medium text-green-deep mb-2"
-                      style={{ letterSpacing: "-0.01em" }}
-                    >
-                      {step.title}
-                    </h2>
-                    <p className="text-base md:text-lg text-green-muted font-medium">
-                      {step.subtitle}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Step Description */}
-                <div className="ml-20 md:ml-32">
-                  <p className="text-base md:text-lg leading-relaxed text-text-secondary">
-                    {step.description}
-                  </p>
-                </div>
-
-                {/* Divider */}
-                {index < steps.length - 1 && (
-                  <div className="mt-16 h-px bg-gradient-to-r from-green-primary/20 via-green-primary/10 to-transparent" />
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Data Sources Section */}
-        <section className="py-32 px-6 bg-beige">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-16 fade-in">
-              <p className="text-xs uppercase tracking-[0.18em] text-green-primary font-semibold mb-5">
-                Flexible Integration
-              </p>
-              <h2
-                className="font-serif text-4xl md:text-5xl font-medium text-green-deep mb-6"
-                style={{ letterSpacing: "-0.02em" }}
-              >
-                Data Sources Merios Connects To
-              </h2>
-              <p className="text-base md:text-lg text-text-secondary max-w-2xl mx-auto">
-                Connect whatever health data you have. Whether it's from your phone, your doctor, or your daily habits, Merios brings it together.
-              </p>
+                      <Reveal delay={i * 0.08} className="flex flex-col gap-5">
+                        <div className="flex items-start justify-between gap-4">
+                          <div
+                            style={{ color: "var(--color-green-deep)" }}
+                            className="opacity-90"
+                          >
+                            <SvgPictogram variant={p.variant} />
+                          </div>
+                          <span
+                            className="tabular-nums"
+                            style={{
+                              fontFamily: "var(--font-mono)",
+                              fontSize: 13,
+                              fontWeight: 500,
+                              letterSpacing: "0.05em",
+                              color: "var(--color-green-deep)",
+                              background: "rgba(159,191,0,0.12)",
+                              padding: "4px 10px",
+                              borderRadius: 999,
+                            }}
+                          >
+                            {p.lift}
+                          </span>
+                        </div>
+                        <div>
+                          <h3
+                            style={{
+                              fontFamily: "var(--font-serif)",
+                              fontSize: "clamp(1.25rem, 1.8vw, 1.5rem)",
+                              fontWeight: 400,
+                              lineHeight: 1.15,
+                              letterSpacing: "-0.015em",
+                              color: "var(--color-ink)",
+                            }}
+                          >
+                            {p.title}
+                          </h3>
+                          <p
+                            className="mt-3"
+                            style={{
+                              fontFamily: "var(--font-sans)",
+                              fontSize: 14.5,
+                              lineHeight: 1.6,
+                              color: "var(--color-ink-secondary)",
+                            }}
+                          >
+                            {p.copy}
+                          </p>
+                        </div>
+                        <div
+                          className="mt-auto flex items-center gap-2 pt-3"
+                          style={{
+                            borderTop: "1px solid var(--color-grid)",
+                          }}
+                        >
+                          <span
+                            aria-hidden
+                            style={{
+                              color: "var(--color-ink-tertiary)",
+                              display: "inline-flex",
+                            }}
+                          >
+                            <SvgPictogram
+                              variant="followup"
+                              width={18}
+                              height={18}
+                            />
+                          </span>
+                          <span
+                            style={{
+                              fontFamily: "var(--font-mono)",
+                              fontSize: 11,
+                              letterSpacing: "0.14em",
+                              textTransform: "uppercase",
+                              color: "var(--color-ink-tertiary)",
+                            }}
+                          >
+                            Follow-up · {p.target}
+                          </span>
+                        </div>
+                      </Reveal>
+                    </li>
+                  ))}
+                </ol>
+              </StepSection>
             </div>
+          </div>
+        </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {dataSources.map((source, index) => (
-                <div
-                  key={index}
-                  className="p-8 bg-cream rounded-2xl border border-green-primary/10 hover:border-green-primary/30 hover:shadow-md transition-all duration-300 fade-in"
-                  style={{ animationDelay: `${index * 0.1}s` }}
+        {/* ─────────────────────────── CLOSING ────────────────────────── */}
+        <section
+          aria-label="Next steps"
+          className="relative pb-32 pt-10 md:pb-40"
+        >
+          <div className="mx-auto max-w-[1280px] px-6 md:px-10">
+            <Reveal>
+              <div className="flex flex-col items-start gap-10 border-t pt-16 md:pt-20"
+                style={{ borderColor: "var(--color-grid)" }}
+              >
+                <p
+                  className="max-w-[520px]"
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "clamp(1.75rem, 3.2vw, 2.25rem)",
+                    fontWeight: 300,
+                    lineHeight: 1.15,
+                    letterSpacing: "-0.02em",
+                    color: "var(--color-ink)",
+                  }}
                 >
-                  <div className="text-4xl mb-4">{source.icon}</div>
-                  <h3 className="font-serif text-xl font-semibold text-green-deep mb-3">
-                    {source.name}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-text-secondary">
-                    {source.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+                  The same loop, every quarter — see it, understand it, do the
+                  one next thing.
+                </p>
 
-        {/* CTA Section */}
-        <section className="py-32 px-6">
-          <div className="max-w-3xl mx-auto text-center fade-in">
-            <h2
-              className="font-serif text-4xl md:text-5xl font-medium text-green-deep mb-6"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              Ready to understand your body?
-            </h2>
-            <p className="text-lg text-text-secondary mb-10 leading-relaxed">
-              Join the waitlist for early access to Merios. Be among the first to experience health intelligence that actually makes sense.
-            </p>
-            <a
-              href="/early-access"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-green-deep text-white rounded-full text-base font-semibold hover:bg-green-primary hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
-            >
-              Get Early Access
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </a>
+                <div className="flex flex-col items-start gap-5 md:flex-row md:items-center md:gap-8">
+                  <a
+                    href="/early-access"
+                    className="inline-flex items-center gap-3 rounded-full px-8 py-3.5 transition-all duration-300 hover:-translate-y-0.5"
+                    style={{
+                      background: "var(--color-green-deep)",
+                      color: "var(--color-canvas)",
+                      fontFamily: "var(--font-sans)",
+                      fontSize: 15,
+                      fontWeight: 500,
+                      letterSpacing: "0.01em",
+                    }}
+                  >
+                    Get Merios
+                    <span aria-hidden>→</span>
+                  </a>
+
+                  <a
+                    href="/blog"
+                    className="inline-flex items-center gap-2 transition-colors"
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: 15,
+                      color: "var(--color-ink-secondary)",
+                    }}
+                  >
+                    Read the journal
+                    <span aria-hidden>→</span>
+                  </a>
+                </div>
+
+                <a
+                  href="/faq"
+                  className="inline-flex items-center gap-2 transition-colors"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: 14,
+                    color: "var(--color-ink-tertiary)",
+                  }}
+                >
+                  Still wondering? Read the FAQ
+                  <span aria-hidden>→</span>
+                </a>
+              </div>
+            </Reveal>
           </div>
         </section>
       </main>
+
       <Footer />
     </>
   );

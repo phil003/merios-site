@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Footer from "@/components/Footer";
-import ScrollAnimator from "@/components/ScrollAnimator";
+import LegalPageLayout, { type TocItem } from "@/components/ui/LegalPageLayout";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -18,426 +19,306 @@ export const metadata: Metadata = {
   },
 };
 
+const tocItems: TocItem[] = [
+  { id: "acceptance-of-terms", label: "Acceptance of Terms" },
+  { id: "service-description", label: "Service Description" },
+  { id: "user-accounts", label: "User Accounts" },
+  { id: "subscriptions-and-billing", label: "Subscriptions & Billing" },
+  { id: "user-content-and-data", label: "User Content & Data" },
+  { id: "prohibited-uses", label: "Prohibited Uses" },
+  { id: "medical-disclaimer", label: "Medical Disclaimer" },
+  { id: "limitation-of-liability", label: "Limitation of Liability" },
+  { id: "termination", label: "Termination" },
+  { id: "governing-law", label: "Governing Law" },
+  { id: "contact-and-support", label: "Contact & Support" },
+];
+
+const termsLd = {
+  "@context": "https://schema.org",
+  "@type": "TermsOfService",
+  name: "Merios Terms of Service",
+  url: "https://merios.life/terms",
+  publisher: {
+    "@type": "Organization",
+    name: "Merios",
+    url: "https://merios.life",
+  },
+  dateModified: "2026-04-03",
+};
+
+const h2Style: React.CSSProperties = {
+  fontFamily: "var(--font-serif)",
+  fontSize: "clamp(1.75rem, 2.5vw, 2.25rem)",
+  fontWeight: 350,
+  lineHeight: 1.1,
+  letterSpacing: "-0.02em",
+  color: "var(--color-ink)",
+};
+
+const h3Style: React.CSSProperties = {
+  fontFamily: "var(--font-sans)",
+  fontSize: 15,
+  fontWeight: 500,
+  letterSpacing: "0.02em",
+  textTransform: "uppercase",
+  color: "var(--color-green-deep)",
+};
+
 export default function TermsPage() {
   return (
     <>
-      <ScrollAnimator />
-      <main className="min-h-screen bg-gradient-to-b from-cream to-beige" style={{ backgroundColor: '#FDFCF9' }}>
-        {/* Hero Section */}
-        <div className="border-b" style={{ borderColor: '#E8E4DC' }}>
-          <div className="mx-auto max-w-4xl px-6 pt-32 pb-16 sm:px-8 sm:py-24">
-          <h1
-            className="font-serif text-5xl font-bold tracking-tight"
-            style={{ color: '#1A1A1A' }}
-          >
-            Terms of Service
-          </h1>
-          <p
-            className="mt-4 text-lg"
-            style={{ color: '#5C5650' }}
-          >
-            Last updated: April 3, 2026
+      <BreadcrumbSchema
+        items={[
+          { name: "Home", url: "https://merios.life" },
+          { name: "Terms", url: "https://merios.life/terms" },
+        ]}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(termsLd) }}
+      />
+      <LegalPageLayout
+        eyebrow="Terms"
+        title="Terms of Service"
+        lastUpdated="April 3, 2026"
+        tocItems={tocItems}
+      >
+        {/* Intro */}
+        <section>
+          <p>
+            These Terms of Service ("Terms") constitute a binding agreement between you and Merios LLC ("Company," "we," "us," or "our") governing your access to and use of the Merios application, website, and all related services (collectively, the "Service").
           </p>
+          <p className="mt-4">
+            By accessing or using Merios, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree to these Terms, do not use the Service.
+          </p>
+        </section>
+
+        {/* Section 1 */}
+        <section>
+          <h2 id="acceptance-of-terms" className="mt-16" style={h2Style}>
+            1. Acceptance of Terms
+          </h2>
+          <p className="mt-4">
+            By using Merios, you represent that you are at least 18 years old and have the legal capacity to enter into a binding agreement. If you are using this Service on behalf of an organization, you represent that you are authorized to accept these Terms on that organization's behalf.
+          </p>
+          <p className="mt-4">
+            We reserve the right to modify these Terms at any time. Modifications are effective upon posting to the Service. Your continued use of Merios after such changes constitutes acceptance of the updated Terms.
+          </p>
+        </section>
+
+        {/* Section 2 */}
+        <section>
+          <h2 id="service-description" className="mt-20" style={h2Style}>
+            2. Service Description
+          </h2>
+          <p className="mt-4">
+            Merios is a health analytics platform designed to help you track, analyze, and understand your health data. The Service provides personalized health insights, trend analysis, and wellness recommendations based on information you provide.
+          </p>
+          <p className="mt-4">
+            <strong>Important:</strong> Merios is not a medical device and does not provide medical diagnosis or treatment. The insights and recommendations generated by the Service are for informational and educational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment from a qualified healthcare provider. Always consult with a physician or qualified healthcare professional before making any health-related decisions.
+          </p>
+        </section>
+
+        {/* Section 3 */}
+        <section>
+          <h2 id="user-accounts" className="mt-20" style={h2Style}>
+            3. User Accounts
+          </h2>
+          <p className="mt-4">
+            To use certain features of Merios, you must create an account. You are responsible for:
+          </p>
+          <ul className="mt-4 space-y-2 list-disc pl-5">
+            <li>Maintaining the confidentiality of your account credentials</li>
+            <li>Providing accurate, complete, and current information</li>
+            <li>Updating your information as it changes</li>
+            <li>All activities that occur under your account</li>
+          </ul>
+          <p className="mt-4">
+            You agree to notify us immediately of any unauthorized access or use of your account. We are not liable for any loss or damage resulting from your failure to secure your account.
+          </p>
+        </section>
+
+        {/* Section 4 */}
+        <section>
+          <h2 id="subscriptions-and-billing" className="mt-20" style={h2Style}>
+            4. Subscriptions & Billing
+          </h2>
+          <p className="mt-4">
+            Merios offers both free and paid subscription plans. If you select a paid plan:
+          </p>
+
+          <h3 className="mt-8 mb-3" style={h3Style}>
+            Billing
+          </h3>
+          <p>
+            You authorize us to charge your payment method for the subscription fee at the frequency indicated. Billing occurs at the beginning of each billing cycle.
+          </p>
+
+          <h3 className="mt-8 mb-3" style={h3Style}>
+            Auto-Renewal
+          </h3>
+          <p>
+            Paid subscriptions automatically renew at the end of each billing period unless you cancel. You will be notified before each renewal. Charges are non-refundable except as required by law.
+          </p>
+
+          <h3 className="mt-8 mb-3" style={h3Style}>
+            Cancellation
+          </h3>
+          <p>
+            You may cancel your subscription at any time through your account settings or by contacting support. Cancellation takes effect at the end of your current billing period. No refunds are provided for unused portions of your subscription, but you may request a refund within 14 days of initial purchase for a new subscription.
+          </p>
+
+          <h3 className="mt-8 mb-3" style={h3Style}>
+            Payment Processing
+          </h3>
+          <p>
+            Payments are processed by RevenueCat, a third-party service provider. By providing payment information, you agree to RevenueCat's terms and acknowledge that they may retain your information according to their privacy policy.
+          </p>
+        </section>
+
+        {/* Section 5 */}
+        <section>
+          <h2 id="user-content-and-data" className="mt-20" style={h2Style}>
+            5. User Content & Data
+          </h2>
+          <p className="mt-4">
+            <strong>Ownership:</strong> You retain all ownership rights to the health data and personal information ("User Content") you upload or enter into Merios. Merios does not claim ownership of your data.
+          </p>
+          <p className="mt-4">
+            <strong>License to Use:</strong> By submitting User Content, you grant Merios a worldwide, non-exclusive, royalty-free license to use, analyze, and process your data for the purpose of providing and improving the Service, calculating health scores, generating insights, and optimizing algorithms.
+          </p>
+          <p className="mt-4">
+            <strong>Privacy:</strong> Your User Content is treated as highly sensitive and is subject to our Privacy Policy. We do not share your health data with third parties except as necessary to provide the Service or with your explicit consent.
+          </p>
+        </section>
+
+        {/* Section 6 */}
+        <section>
+          <h2 id="prohibited-uses" className="mt-20" style={h2Style}>
+            6. Prohibited Uses
+          </h2>
+          <p className="mt-4">
+            You agree not to:
+          </p>
+          <ul className="mt-4 space-y-2 list-disc pl-5">
+            <li>Use Merios for any illegal or unauthorized purpose</li>
+            <li>Misrepresent your identity or health data</li>
+            <li>Upload malware, viruses, or other harmful code</li>
+            <li>Attempt to gain unauthorized access to the Service or its systems</li>
+            <li>Scrape, crawl, or automate data collection from Merios</li>
+            <li>Reverse engineer, decompile, or attempt to derive the source code of the Service</li>
+            <li>Circumvent security features or attempt to bypass access controls</li>
+            <li>Harass, abuse, or threaten other users or our team</li>
+            <li>Use the Service to develop competing products or services</li>
+            <li>Share your account credentials or allow others to access your account</li>
+          </ul>
+          <p className="mt-4">
+            Violations may result in immediate suspension or termination of your account.
+          </p>
+        </section>
+
+        {/* Section 7 */}
+        <section>
+          <h2 id="medical-disclaimer" className="mt-20" style={h2Style}>
+            7. Medical Disclaimer
+          </h2>
+          <p className="mt-4">
+            <strong>IMPORTANT DISCLAIMER:</strong> Merios is not a medical device. It is not intended to diagnose, treat, cure, or prevent any disease or medical condition. The information, insights, and recommendations provided by Merios are generated for educational and informational purposes only.
+          </p>
+          <p className="mt-4">
+            The Service does not replace the advice of a qualified physician or healthcare professional. You should always consult with a licensed healthcare provider before making any medical decisions, starting new treatments, or changing your health regimen. Never disregard professional medical advice or delay seeking treatment because of information obtained from Merios.
+          </p>
+          <p className="mt-4">
+            In case of a medical emergency, call emergency services or visit the nearest emergency room immediately. Do not rely on Merios in an emergency situation.
+          </p>
+        </section>
+
+        {/* Section 8 */}
+        <section>
+          <h2 id="limitation-of-liability" className="mt-20" style={h2Style}>
+            8. Limitation of Liability
+          </h2>
+          <p className="mt-4">
+            <strong>AS PROVIDED BASIS:</strong> Merios is provided "as is" without warranties of any kind, express or implied. To the fullest extent permitted by law, we disclaim all warranties, including merchantability, fitness for a particular purpose, and non-infringement.
+          </p>
+          <p className="mt-4">
+            <strong>LIMITATION OF DAMAGES:</strong> In no event shall Merios, its officers, directors, employees, or agents be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or use, even if advised of the possibility of such damages.
+          </p>
+          <p className="mt-4">
+            <strong>MAXIMUM LIABILITY:</strong> Our total liability to you for any and all claims shall not exceed the amount you paid (if any) for the Service in the 12 months preceding the claim.
+          </p>
+          <p className="mt-4">
+            Some jurisdictions do not allow limitations on liability, so these limitations may not apply to you.
+          </p>
+        </section>
+
+        {/* Section 9 */}
+        <section>
+          <h2 id="termination" className="mt-20" style={h2Style}>
+            9. Termination
+          </h2>
+          <p className="mt-4">
+            <strong>Termination by You:</strong> You may terminate your account at any time by requesting deletion through account settings or by contacting support@merios.life.
+          </p>
+          <p className="mt-4">
+            <strong>Termination by Us:</strong> We may suspend or terminate your account immediately without notice if you violate these Terms, engage in illegal activity, or pose a risk to the Service or other users.
+          </p>
+          <p className="mt-4">
+            <strong>Effect of Termination:</strong> Upon termination, your right to use the Service ends immediately. Your data will be deleted according to our Privacy Policy (within 30 days of termination request).
+          </p>
+        </section>
+
+        {/* Section 10 */}
+        <section>
+          <h2 id="governing-law" className="mt-20" style={h2Style}>
+            10. Governing Law
+          </h2>
+          <p className="mt-4">
+            These Terms are governed by and construed in accordance with the laws of the State of Delaware, United States, without regard to its conflict of law principles. You agree to submit to the exclusive jurisdiction of the courts located in Delaware for the resolution of any disputes.
+          </p>
+        </section>
+
+        {/* Section 11 */}
+        <section>
+          <h2 id="contact-and-support" className="mt-20" style={h2Style}>
+            11. Contact & Support
+          </h2>
+          <p className="mt-4">
+            If you have questions about these Terms or need support, please contact:
+          </p>
+          <div
+            className="border rounded-md p-6 mt-6"
+            style={{
+              borderColor: "var(--color-grid)",
+              background: "var(--color-canvas-alt)",
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 600,
+                fontSize: 18,
+                color: "var(--color-ink)",
+              }}
+            >
+              Merios LLC
+            </p>
+            <p className="mt-2">
+              <strong>Support:</strong> support@merios.life
+            </p>
+            <p className="mt-1">
+              <strong>Legal:</strong> legal@merios.life
+            </p>
+            <p className="mt-1">
+              United States
+            </p>
           </div>
-        </div>
 
-      {/* Content */}
-      <div className="mx-auto max-w-4xl px-6 py-16 sm:px-8 sm:py-24">
-        <div className="prose prose-lg max-w-none space-y-12">
-          {/* Intro */}
-          <section>
-            <p
-              className="text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              These Terms of Service ("Terms") constitute a binding agreement between you and Merios LLC ("Company," "we," "us," or "our") governing your access to and use of the Merios application, website, and all related services (collectively, the "Service").
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              By accessing or using Merios, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree to these Terms, do not use the Service.
-            </p>
-          </section>
-
-          {/* Section 1 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              1. Acceptance of Terms
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              By using Merios, you represent that you are at least 18 years old and have the legal capacity to enter into a binding agreement. If you are using this Service on behalf of an organization, you represent that you are authorized to accept these Terms on that organization's behalf.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              We reserve the right to modify these Terms at any time. Modifications are effective upon posting to the Service. Your continued use of Merios after such changes constitutes acceptance of the updated Terms.
-            </p>
-          </section>
-
-          {/* Section 2 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              2. Service Description
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              Merios is a health analytics platform designed to help you track, analyze, and understand your health data. The Service provides personalized health insights, trend analysis, and wellness recommendations based on information you provide.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>Important:</strong> Merios is not a medical device and does not provide medical diagnosis or treatment. The insights and recommendations generated by the Service are for informational and educational purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment from a qualified healthcare provider. Always consult with a physician or qualified healthcare professional before making any health-related decisions.
-            </p>
-          </section>
-
-          {/* Section 3 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              3. User Accounts
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              To use certain features of Merios, you must create an account. You are responsible for:
-            </p>
-            <ul
-              className="mt-4 space-y-2 list-disc list-inside text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <li>Maintaining the confidentiality of your account credentials</li>
-              <li>Providing accurate, complete, and current information</li>
-              <li>Updating your information as it changes</li>
-              <li>All activities that occur under your account</li>
-            </ul>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              You agree to notify us immediately of any unauthorized access or use of your account. We are not liable for any loss or damage resulting from your failure to secure your account.
-            </p>
-          </section>
-
-          {/* Section 4 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              4. Subscriptions & Billing
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              Merios offers both free and paid subscription plans. If you select a paid plan:
-            </p>
-
-            <div className="mt-6 space-y-4">
-              <div>
-                <h3
-                  className="font-sans font-semibold text-lg"
-                  style={{ color: '#2D5A3D' }}
-                >
-                  Billing
-                </h3>
-                <p
-                  className="mt-2 text-base leading-relaxed"
-                  style={{ color: '#5C5650' }}
-                >
-                  You authorize us to charge your payment method for the subscription fee at the frequency indicated. Billing occurs at the beginning of each billing cycle.
-                </p>
-              </div>
-
-              <div>
-                <h3
-                  className="font-sans font-semibold text-lg"
-                  style={{ color: '#2D5A3D' }}
-                >
-                  Auto-Renewal
-                </h3>
-                <p
-                  className="mt-2 text-base leading-relaxed"
-                  style={{ color: '#5C5650' }}
-                >
-                  Paid subscriptions automatically renew at the end of each billing period unless you cancel. You will be notified before each renewal. Charges are non-refundable except as required by law.
-                </p>
-              </div>
-
-              <div>
-                <h3
-                  className="font-sans font-semibold text-lg"
-                  style={{ color: '#2D5A3D' }}
-                >
-                  Cancellation
-                </h3>
-                <p
-                  className="mt-2 text-base leading-relaxed"
-                  style={{ color: '#5C5650' }}
-                >
-                  You may cancel your subscription at any time through your account settings or by contacting support. Cancellation takes effect at the end of your current billing period. No refunds are provided for unused portions of your subscription, but you may request a refund within 14 days of initial purchase for a new subscription.
-                </p>
-              </div>
-
-              <div>
-                <h3
-                  className="font-sans font-semibold text-lg"
-                  style={{ color: '#2D5A3D' }}
-                >
-                  Payment Processing
-                </h3>
-                <p
-                  className="mt-2 text-base leading-relaxed"
-                  style={{ color: '#5C5650' }}
-                >
-                  Payments are processed by RevenueCat, a third-party service provider. By providing payment information, you agree to RevenueCat's terms and acknowledge that they may retain your information according to their privacy policy.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* Section 5 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              5. User Content & Data
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>Ownership:</strong> You retain all ownership rights to the health data and personal information ("User Content") you upload or enter into Merios. Merios does not claim ownership of your data.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>License to Use:</strong> By submitting User Content, you grant Merios a worldwide, non-exclusive, royalty-free license to use, analyze, and process your data for the purpose of providing and improving the Service, calculating health scores, generating insights, and optimizing algorithms.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>Privacy:</strong> Your User Content is treated as highly sensitive and is subject to our Privacy Policy. We do not share your health data with third parties except as necessary to provide the Service or with your explicit consent.
-            </p>
-          </section>
-
-          {/* Section 6 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              6. Prohibited Uses
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              You agree not to:
-            </p>
-            <ul
-              className="mt-4 space-y-2 list-disc list-inside text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <li>Use Merios for any illegal or unauthorized purpose</li>
-              <li>Misrepresent your identity or health data</li>
-              <li>Upload malware, viruses, or other harmful code</li>
-              <li>Attempt to gain unauthorized access to the Service or its systems</li>
-              <li>Scrape, crawl, or automate data collection from Merios</li>
-              <li>Reverse engineer, decompile, or attempt to derive the source code of the Service</li>
-              <li>Circumvent security features or attempt to bypass access controls</li>
-              <li>Harass, abuse, or threaten other users or our team</li>
-              <li>Use the Service to develop competing products or services</li>
-              <li>Share your account credentials or allow others to access your account</li>
-            </ul>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              Violations may result in immediate suspension or termination of your account.
-            </p>
-          </section>
-
-          {/* Section 7 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              7. Medical Disclaimer
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>IMPORTANT DISCLAIMER:</strong> Merios is not a medical device. It is not intended to diagnose, treat, cure, or prevent any disease or medical condition. The information, insights, and recommendations provided by Merios are generated for educational and informational purposes only.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              The Service does not replace the advice of a qualified physician or healthcare professional. You should always consult with a licensed healthcare provider before making any medical decisions, starting new treatments, or changing your health regimen. Never disregard professional medical advice or delay seeking treatment because of information obtained from Merios.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              In case of a medical emergency, call emergency services or visit the nearest emergency room immediately. Do not rely on Merios in an emergency situation.
-            </p>
-          </section>
-
-          {/* Section 8 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              8. Limitation of Liability
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>AS PROVIDED BASIS:</strong> Merios is provided "as is" without warranties of any kind, express or implied. To the fullest extent permitted by law, we disclaim all warranties, including merchantability, fitness for a particular purpose, and non-infringement.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>LIMITATION OF DAMAGES:</strong> In no event shall Merios, its officers, directors, employees, or agents be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or use, even if advised of the possibility of such damages.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>MAXIMUM LIABILITY:</strong> Our total liability to you for any and all claims shall not exceed the amount you paid (if any) for the Service in the 12 months preceding the claim.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              Some jurisdictions do not allow limitations on liability, so these limitations may not apply to you.
-            </p>
-          </section>
-
-          {/* Section 9 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              9. Termination
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>Termination by You:</strong> You may terminate your account at any time by requesting deletion through account settings or by contacting support@merios.life.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>Termination by Us:</strong> We may suspend or terminate your account immediately without notice if you violate these Terms, engage in illegal activity, or pose a risk to the Service or other users.
-            </p>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              <strong>Effect of Termination:</strong> Upon termination, your right to use the Service ends immediately. Your data will be deleted according to our Privacy Policy (within 30 days of termination request).
-            </p>
-          </section>
-
-          {/* Section 10 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              10. Governing Law
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              These Terms are governed by and construed in accordance with the laws of the State of Delaware, United States, without regard to its conflict of law principles. You agree to submit to the exclusive jurisdiction of the courts located in Delaware for the resolution of any disputes.
-            </p>
-          </section>
-
-          {/* Section 11 */}
-          <section>
-            <h2
-              className="font-serif text-3xl font-bold tracking-tight"
-              style={{ color: '#1E3D2A' }}
-            >
-              11. Contact & Support
-            </h2>
-            <p
-              className="mt-4 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              If you have questions about these Terms or need support, please contact:
-            </p>
-            <div
-              className="mt-6 p-6 rounded-lg"
-              style={{ backgroundColor: '#F8F6F1' }}
-            >
-              <p
-                className="font-sans font-semibold text-lg"
-                style={{ color: '#1A1A1A' }}
-              >
-                Merios LLC
-              </p>
-              <p
-                className="mt-2 text-base"
-                style={{ color: '#5C5650' }}
-              >
-                <strong>Support:</strong> support@merios.life
-              </p>
-              <p
-                className="mt-1 text-base"
-                style={{ color: '#5C5650' }}
-              >
-                <strong>Legal:</strong> legal@merios.life
-              </p>
-              <p
-                className="mt-1 text-base"
-                style={{ color: '#5C5650' }}
-              >
-                United States
-              </p>
-            </div>
-
-            <p
-              className="mt-8 text-base leading-relaxed"
-              style={{ color: '#5C5650' }}
-            >
-              By using Merios, you acknowledge that you have read and understood these Terms of Service and our Privacy Policy, and you agree to be bound by them.
-            </p>
-          </section>
-        </div>
-      </div>
-      </main>
+          <p className="mt-8">
+            By using Merios, you acknowledge that you have read and understood these Terms of Service and our Privacy Policy, and you agree to be bound by them.
+          </p>
+        </section>
+      </LegalPageLayout>
       <Footer />
     </>
   );

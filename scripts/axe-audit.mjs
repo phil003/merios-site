@@ -37,6 +37,7 @@ const SPEC_URLS = {
     "/blog/apob-heart-disease-risk",
   ],
   sprint8: ["/privacy", "/terms", "/security", "/compare"],
+  "patch-navbar": ["/", "/privacy", "/terms", "/security", "/compare"],
 };
 
 const SPEC = process.env.AUDIT_SPEC ?? "sprint5-phase4";

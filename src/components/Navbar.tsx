@@ -193,6 +193,7 @@ export default function Navbar() {
           transition: "opacity 280ms var(--ease-smooth)",
         }}
         aria-hidden={!menuOpen}
+        inert={!menuOpen}
       >
         <div className="flex h-full flex-col px-6 pb-10 pt-[88px]">
           <nav

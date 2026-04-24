@@ -30,6 +30,7 @@ const SPEC_URLS = {
     "/blog/apob-heart-disease-risk",
   ],
   sprint8: ["/privacy", "/terms", "/security", "/compare"],
+  "patch-navbar": ["/", "/privacy", "/terms", "/security", "/compare"],
   "sprint8-regression": [
     "/",
     "/science",

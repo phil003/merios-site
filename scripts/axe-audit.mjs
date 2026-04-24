@@ -16,13 +16,29 @@ const axeSource = readFileSync(
 
 const BASE = process.env.BASE_URL ?? "http://localhost:3000";
 
-const URLS = [
-  "/early-access?variant=us",
-  "/early-access?variant=rest",
-  "/science",
-  "/how-it-works",
-  "/faq",
-];
+const SPEC_URLS = {
+  "sprint5-phase4": [
+    "/early-access?variant=us",
+    "/early-access?variant=rest",
+    "/science",
+    "/how-it-works",
+    "/faq",
+  ],
+  sprint6: [
+    "/about",
+    "/contact",
+    "/compare",
+    "/compare/merios-vs-function-health",
+    "/compare/merios-vs-insidetracker",
+  ],
+};
+
+const SPEC = process.env.AUDIT_SPEC ?? "sprint5-phase4";
+const URLS = SPEC_URLS[SPEC];
+if (!URLS) {
+  console.error(`Unknown AUDIT_SPEC: ${SPEC}`);
+  process.exit(1);
+}
 
 const FAIL_IMPACTS = new Set(["critical", "serious"]);
 

@@ -385,6 +385,94 @@ async function main() {
         await context.close();
       }
     }
+    if (spec === "sprint6") {
+      // Sprint 6 premium pages: /about, /contact, /compare, /compare/[slug].
+      const OUT_6 = join(OUT, "sprint-6");
+      mkdirSync(OUT_6, { recursive: true });
+
+      async function fullPageShot(url, file, vpName) {
+        const vp = VIEWPORTS[vpName];
+        const { page, context } = await newPage(browser, vp, url);
+        await page.evaluate(async () => {
+          const max = document.documentElement.scrollHeight;
+          const step = window.innerHeight;
+          for (let y = 0; y < max; y += step) {
+            window.scrollTo(0, y);
+            await new Promise((r) => setTimeout(r, 120));
+          }
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(800);
+        const p = join(OUT_6, `${file}-${vpName}.png`);
+        await page.screenshot({ path: p, fullPage: true });
+        console.log(`saved sprint-6/${file}-${vpName}.png`);
+        await context.close();
+      }
+
+      // /about — 2 shots
+      await fullPageShot("/about", "about-full", "desktop");
+      await fullPageShot("/about", "about-full", "mobile");
+
+      // /contact — 2 shots + 1 success state
+      await fullPageShot("/contact", "contact-full", "desktop");
+      await fullPageShot("/contact", "contact-full", "mobile");
+      {
+        const { page, context } = await newPage(
+          browser,
+          VIEWPORTS.desktop,
+          "/contact",
+        );
+        await page.evaluate(() => {
+          const nameEl = document.querySelector('input[name="name"]');
+          const emailEl = document.querySelector('input[name="email"]');
+          const subjEl = document.querySelector('input[name="subject"]');
+          const msgEl = document.querySelector('textarea[name="message"]');
+          if (nameEl) nameEl.value = "Screenshot test";
+          if (emailEl) emailEl.value = "shot@example.com";
+          if (subjEl) subjEl.value = "Sprint 6 success state";
+          if (msgEl)
+            msgEl.value =
+              "This is a screenshot of the contact form success state.";
+          [nameEl, emailEl, subjEl, msgEl].forEach((el) => {
+            if (el)
+              el.dispatchEvent(new Event("input", { bubbles: true }));
+          });
+        });
+        await page.waitForTimeout(400);
+        await page.screenshot({
+          path: join(OUT_6, "contact-prefilled-desktop.png"),
+          fullPage: true,
+        });
+        console.log("saved sprint-6/contact-prefilled-desktop.png");
+        await context.close();
+      }
+
+      // /compare (index) — 2 shots
+      await fullPageShot("/compare", "compare-index-full", "desktop");
+      await fullPageShot("/compare", "compare-index-full", "mobile");
+
+      // /compare/[slug] — 4 shots across 2 slugs
+      await fullPageShot(
+        "/compare/merios-vs-function-health",
+        "compare-function-health-full",
+        "desktop",
+      );
+      await fullPageShot(
+        "/compare/merios-vs-function-health",
+        "compare-function-health-full",
+        "mobile",
+      );
+      await fullPageShot(
+        "/compare/merios-vs-insidetracker",
+        "compare-insidetracker-full",
+        "desktop",
+      );
+      await fullPageShot(
+        "/compare/merios-vs-insidetracker",
+        "compare-insidetracker-full",
+        "mobile",
+      );
+    }
     if (spec === "full" || spec === "all") {
       for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
         const { page, context } = await newPage(browser, vp);

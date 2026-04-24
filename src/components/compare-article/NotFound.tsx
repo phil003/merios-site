@@ -1,9 +1,5 @@
 import Link from "next/link";
 
-/**
- * Compare article 404 fallback. Returned when `getComparePostBySlug(slug)`
- * yields null. Kept minimal and static — no ScrollAnimator.
- */
 export default function ArticleNotFound() {
   return (
     <main

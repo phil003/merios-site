@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
 import Footer from "@/components/Footer";
-import ScrollAnimator from "@/components/ScrollAnimator";
+import PageHero from "@/components/ui/PageHero";
+import ContactForm from "@/components/contact/ContactForm";
+import ContactInfo from "@/components/contact/ContactInfo";
 
+// ─── Metadata (SEO preserved verbatim) ───────────────────────────────────────
 export const metadata: Metadata = {
   title: "Contact Merios — Get in Touch",
   description:
@@ -18,208 +23,218 @@ export const metadata: Metadata = {
   },
 };
 
+// ─── JSON-LD ─────────────────────────────────────────────────────────────────
+const contactPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact Merios",
+  url: "https://merios.life/contact",
+  description:
+    "Have questions about Merios? Contact our team for support with blood test analysis, biomarker tracking, health score questions, or partnership inquiries.",
+  inLanguage: "en",
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Merios",
+    url: "https://merios.life",
+  },
+  mainEntity: {
+    "@type": "Organization",
+    name: "Merios",
+    url: "https://merios.life",
+    email: "hello@merios.life",
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: "hello@merios.life",
+        availableLanguage: ["English"],
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "press",
+        email: "press@merios.life",
+      },
+      {
+        "@type": "ContactPoint",
+        contactType: "partnerships",
+        email: "partners@merios.life",
+      },
+    ],
+  },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://merios.life",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Contact",
+      item: "https://merios.life/contact",
+    },
+  ],
+};
+
+// ─── Page ────────────────────────────────────────────────────────────────────
 export default function ContactPage() {
   return (
     <>
-      <ScrollAnimator />
-      <div className="bg-cream text-text-primary">
-        {/* Hero Section */}
-        <section className="min-h-[50vh] flex items-center justify-center px-6 pt-32 pb-20 fade-in">
-        <div className="max-w-2xl text-center">
-          <h1 className="font-serif text-6xl font-bold text-green-deep mb-6">
-            Get in Touch
-          </h1>
-          <p className="font-sans text-lg text-text-secondary">
-            We'd love to hear from you. Questions, feedback, or partnership opportunities—reach out.
-          </p>
-        </div>
-      </section>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
-      {/* Contact Methods */}
-      <section className="max-w-4xl mx-auto px-6 py-24">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-24">
-          {/* Email */}
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto bg-green-primary/10 rounded-full flex items-center justify-center mb-6">
-              <span className="text-2xl">✉</span>
-            </div>
-            <h3 className="font-serif text-xl font-bold text-green-deep mb-3">
-              Email
-            </h3>
-            <a
-              href="mailto:hello@merios.life"
-              className="font-sans text-green-primary hover:text-green-deep transition-colors duration-300 font-semibold"
-            >
-              hello@merios.life
-            </a>
-            <p className="font-sans text-sm text-text-secondary mt-3">
-              We typically respond within 24 hours.
-            </p>
-          </div>
+      <main
+        className="relative"
+        style={{
+          background: "var(--color-canvas)",
+          color: "var(--color-ink)",
+        }}
+      >
+        <PageHero
+          eyebrow="Contact"
+          title="Let's talk."
+          subline="Questions, feedback, press, partnerships. A human reads every message — we typically reply within 24 hours."
+          align="left"
+        />
 
-          {/* Instagram */}
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto bg-green-primary/10 rounded-full flex items-center justify-center mb-6">
-              <span className="text-2xl">📷</span>
-            </div>
-            <h3 className="font-serif text-xl font-bold text-green-deep mb-3">
-              Instagram
-            </h3>
-            <a
-              href="https://instagram.com/merioshealth"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans text-green-primary hover:text-green-deep transition-colors duration-300 font-semibold"
-            >
-              @merioshealth
-            </a>
-            <p className="font-sans text-sm text-text-secondary mt-3">
-              Daily health insights and updates.
-            </p>
-          </div>
-
-          {/* X (Twitter) */}
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto bg-green-primary/10 rounded-full flex items-center justify-center mb-6">
-              <span className="text-2xl">𝕏</span>
-            </div>
-            <h3 className="font-serif text-xl font-bold text-green-deep mb-3">
-              X
-            </h3>
-            <a
-              href="https://x.com/merioshealth"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans text-green-primary hover:text-green-deep transition-colors duration-300 font-semibold"
-            >
-              @merioshealth
-            </a>
-            <p className="font-sans text-sm text-text-secondary mt-3">
-              Latest product news and features.
-            </p>
-          </div>
-        </div>
-
-        {/* LinkedIn */}
-        <div className="text-center mb-24 pb-24 border-b border-text-tertiary/20">
-          <div className="w-16 h-16 mx-auto bg-green-primary/10 rounded-full flex items-center justify-center mb-6">
-            <span className="text-2xl">💼</span>
-          </div>
-          <h3 className="font-serif text-xl font-bold text-green-deep mb-3">
-            LinkedIn
-          </h3>
-          <a
-            href="https://linkedin.com/company/merios"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-sans text-green-primary hover:text-green-deep transition-colors duration-300 font-semibold"
-          >
-            Merios
-          </a>
-          <p className="font-sans text-sm text-text-secondary mt-3">
-            Company updates and industry insights.
-          </p>
-        </div>
-      </section>
-
-      {/* Contact Form */}
-      <section className="max-w-2xl mx-auto px-6 py-24">
-        <h2 className="font-serif text-4xl font-bold text-green-deep mb-12 text-center">
-          Send us a Message
-        </h2>
-
-        <div className="bg-green-light/5 border border-green-light/30 rounded-xl p-8 mb-8">
-          <form className="space-y-6">
-            {/* Name */}
-            <div>
-              <label
-                htmlFor="name"
-                className="block font-sans font-semibold text-text-primary mb-2"
-              >
-                Your Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Jane Doe"
-                className="w-full px-4 py-3 bg-cream border border-text-tertiary/20 rounded-lg font-sans text-text-primary placeholder-text-tertiary/60 focus:outline-none focus:ring-2 focus:ring-green-primary transition-all duration-300"
-              />
-            </div>
-
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block font-sans font-semibold text-text-primary mb-2"
-              >
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="jane@example.com"
-                className="w-full px-4 py-3 bg-cream border border-text-tertiary/20 rounded-lg font-sans text-text-primary placeholder-text-tertiary/60 focus:outline-none focus:ring-2 focus:ring-green-primary transition-all duration-300"
-              />
-            </div>
-
-            {/* Message */}
-            <div>
-              <label
-                htmlFor="message"
-                className="block font-sans font-semibold text-text-primary mb-2"
-              >
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                placeholder="Tell us what's on your mind..."
-                rows={6}
-                className="w-full px-4 py-3 bg-cream border border-text-tertiary/20 rounded-lg font-sans text-text-primary placeholder-text-tertiary/60 focus:outline-none focus:ring-2 focus:ring-green-primary transition-all duration-300 resize-none"
-              ></textarea>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled
-              className="w-full bg-green-primary hover:bg-green-deep text-cream font-sans font-semibold py-4 rounded-lg transition-colors duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              Send Message
-            </button>
-          </form>
-
-          {/* Coming Soon Notice */}
-          <div className="mt-6 pt-6 border-t border-green-primary/20">
-            <p className="font-sans text-sm text-text-secondary text-center">
-              <span className="text-green-primary font-semibold">Coming soon:</span> This form will be fully functional shortly. In the meantime, please email us at hello@merios.life.
-            </p>
-          </div>
-        </div>
-
-        {/* Response Time */}
-        <div className="bg-beige/40 border border-text-tertiary/10 rounded-lg p-6 text-center">
-          <p className="font-sans text-text-secondary">
-            <span className="text-green-primary font-semibold">Response time:</span> We typically respond within 24 hours.
-          </p>
-        </div>
-      </section>
-
-      {/* Help Link */}
-      <section className="max-w-2xl mx-auto px-6 py-24 text-center border-t border-text-tertiary/20">
-        <p className="font-sans text-text-secondary mb-6">
-          Most questions answered in our FAQ.
-        </p>
-        <a
-          href="/faq"
-          className="inline-block text-green-primary hover:text-green-deep font-sans font-semibold transition-colors duration-300"
+        {/* ─── Form + info grid ──────────────────────────────────────────── */}
+        <section
+          className="px-6 pb-24 md:px-10 md:pb-32"
+          style={{
+            borderTop: "1px solid var(--color-grid)",
+            paddingTop: "var(--spacing-section, 6rem)",
+          }}
         >
-          Browse FAQ →
-        </a>
-      </section>
-      </div>
+          <div className="mx-auto max-w-[1200px]">
+            <div className="grid grid-cols-1 gap-16 md:grid-cols-5 md:gap-14 lg:gap-20">
+              {/* Form — 60% (3/5 cols) */}
+              <div className="md:col-span-3">
+                <div
+                  className="mb-10 flex items-center gap-2.5"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  <span
+                    aria-hidden
+                    className="inline-block h-1.5 w-1.5 rounded-full"
+                    style={{ background: "var(--color-pulse)" }}
+                  />
+                  <span
+                    className="text-[10.5px] uppercase"
+                    style={{
+                      color: "var(--color-green-deep)",
+                      letterSpacing: "0.22em",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Send a message
+                  </span>
+                </div>
+                <Suspense
+                  fallback={
+                    <div
+                      style={{
+                        minHeight: "28rem",
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 11,
+                        letterSpacing: "0.08em",
+                        color: "var(--color-ink-tertiary)",
+                      }}
+                    >
+                      Loading form…
+                    </div>
+                  }
+                >
+                  <ContactForm />
+                </Suspense>
+              </div>
+
+              {/* Info — 40% (2/5 cols) */}
+              <div
+                className="md:col-span-2 md:pl-6 lg:pl-10"
+                style={{
+                  borderLeft: "1px solid transparent",
+                }}
+              >
+                <div
+                  className="mb-10 flex items-center gap-2.5"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  <span
+                    aria-hidden
+                    className="inline-block h-1.5 w-1.5 rounded-full"
+                    style={{ background: "var(--color-pulse)" }}
+                  />
+                  <span
+                    className="text-[10.5px] uppercase"
+                    style={{
+                      color: "var(--color-green-deep)",
+                      letterSpacing: "0.22em",
+                      fontWeight: 500,
+                    }}
+                  >
+                    Direct channels
+                  </span>
+                </div>
+                <ContactInfo />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── FAQ nudge ─────────────────────────────────────────────────── */}
+        <section
+          className="px-6 pb-32 md:px-10"
+          style={{
+            borderTop: "1px solid var(--color-grid)",
+            paddingTop: "var(--spacing-section, 6rem)",
+          }}
+        >
+          <div className="mx-auto flex max-w-[1200px] flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+            <p
+              className="max-w-[48ch]"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(1.5rem, 2.4vw, 2rem)",
+                lineHeight: 1.15,
+                letterSpacing: "-0.02em",
+                color: "var(--color-ink)",
+                fontWeight: 400,
+              }}
+            >
+              Most answers are already on our FAQ page.
+            </p>
+            <Link
+              href="/faq"
+              className="inline-flex items-center gap-2"
+              style={{
+                color: "var(--color-ink)",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 500,
+                fontSize: "0.9375rem",
+                letterSpacing: "-0.005em",
+                borderBottom: "1px solid var(--color-ink)",
+                paddingBottom: 2,
+              }}
+            >
+              Browse the FAQ
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
+        </section>
+      </main>
+
       <Footer />
     </>
   );

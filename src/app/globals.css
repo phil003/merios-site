@@ -128,3 +128,99 @@ body {
   animation: heroFloat 4s var(--ease-smooth) infinite;
   will-change: transform;
 }
+
+/* Editorial prose — drop cap for the first paragraph of long-read articles */
+.editorial-prose p.drop-cap::first-letter {
+  font-family: var(--font-serif);
+  float: left;
+  font-size: 4.5em;
+  line-height: 0.85;
+  margin: 0.05em 0.12em 0 0;
+  font-weight: 300;
+  color: var(--color-green-deep);
+}
+
+/* Editorial prose — baseline typography inside EditorialProse article blocks */
+.editorial-prose > * + * {
+  margin-top: 1.5rem;
+}
+.editorial-prose h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  margin-top: 3rem;
+}
+.editorial-prose h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  margin-top: 2.5rem;
+}
+.editorial-prose p {
+  color: var(--color-ink-secondary);
+}
+.editorial-prose strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.editorial-prose a {
+  color: var(--color-green-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.editorial-prose a:hover {
+  color: var(--color-ink);
+}
+.editorial-prose blockquote {
+  border-left: 2px solid var(--color-green-deep);
+  padding-left: 1.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--color-ink);
+}
+.editorial-prose ul,
+.editorial-prose ol {
+  padding-left: 1.25rem;
+}
+.editorial-prose ul {
+  list-style: disc;
+}
+.editorial-prose ol {
+  list-style: decimal;
+}
+.editorial-prose li + li {
+  margin-top: 0.5rem;
+}
+.editorial-prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-grid);
+  margin: 3rem 0;
+}
+.editorial-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  margin: 2rem 0;
+}
+.editorial-prose th {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  text-align: left;
+  color: var(--color-ink);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-ink);
+}
+.editorial-prose td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-grid);
+  color: var(--color-ink-secondary);
+  vertical-align: top;
+}

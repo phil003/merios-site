@@ -1,13 +1,33 @@
-import Link from 'next/link';
-import Footer from '@/components/Footer';
-import ScrollAnimator from '@/components/ScrollAnimator';
-import { ArticleSchema, BreadcrumbSchema, FAQPageSchema } from '@/components/StructuredData';
-import { getAllSlugs, getPostBySlug, getAllPosts } from '@/lib/blog';
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import remarkGfm from 'remark-gfm';
-import type { Metadata } from 'next';
+import Footer from "@/components/Footer";
+import ReadingProgress from "@/components/ui/ReadingProgress";
+import EditorialProse from "@/components/ui/EditorialProse";
+import ArticleHero from "@/components/blog-article/ArticleHero";
+import ArticleTOC from "@/components/blog-article/ArticleTOC";
+import MobileTOC from "@/components/blog-article/MobileTOC";
+import ShareButtons from "@/components/blog-article/ShareButtons";
+import AuthorByline from "@/components/blog-article/AuthorByline";
+import ArticleFAQ from "@/components/blog-article/ArticleFAQ";
+import RelatedArticles from "@/components/blog-article/RelatedArticles";
+import ArticleCTA from "@/components/blog-article/ArticleCTA";
+import ArticleNotFound from "@/components/blog-article/NotFound";
+import { createMdxComponents } from "@/components/blog-article/mdxComponents";
+import { extractHeadings } from "@/components/blog-article/toc";
+import {
+  ArticleSchema,
+  BreadcrumbSchema,
+  FAQPageSchema,
+} from "@/components/StructuredData";
+import {
+  getAllSlugs,
+  getAllPosts,
+  getPostBySlug,
+  type BlogPost,
+} from "@/lib/blog";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
+import type { Metadata } from "next";
 
-// Generate all blog slugs at build time for static export
+// Generate all blog slugs at build time for static export.
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
@@ -19,7 +39,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  if (!post) return { title: 'Article Not Found | Merios' };
+  if (!post) return { title: "Article Not Found | Merios" };
 
   return {
     title: `${post.title} | Merios Blog`,
@@ -30,69 +50,40 @@ export async function generateMetadata({
     openGraph: {
       title: post.title,
       description: post.description,
-      type: 'article',
+      type: "article",
       publishedTime: post.date,
       modifiedTime: post.dateModified || post.date,
       url: `https://merios.life/blog/${post.slug}`,
-      images: post.image
-        ? [{ url: post.image }]
-        : [{ url: '/og-image.png' }],
+      images: post.image ? [{ url: post.image }] : [{ url: "/og-image.png" }],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: post.image ? [post.image] : ['/og-image.png'],
+      images: post.image ? [post.image] : ["/og-image.png"],
     },
   };
 }
 
-// Custom MDX components for styling
-const mdxComponents = {
-  h1: (props: React.ComponentProps<'h1'>) => (
-    <h1
-      className="font-serif text-4xl font-bold text-text-primary mt-12 mb-6"
-      {...props}
-    />
-  ),
-  h2: (props: React.ComponentProps<'h2'>) => (
-    <h2
-      className="font-serif text-2xl font-bold text-text-primary mt-10 mb-4"
-      {...props}
-    />
-  ),
-  h3: (props: React.ComponentProps<'h3'>) => (
-    <h3
-      className="font-serif text-xl font-semibold text-text-primary mt-8 mb-3"
-      {...props}
-    />
-  ),
-  p: (props: React.ComponentProps<'p'>) => (
-    <p className="text-text-secondary leading-relaxed mb-6" {...props} />
-  ),
-  ul: (props: React.ComponentProps<'ul'>) => (
-    <ul className="list-disc pl-6 mb-6 space-y-2 text-text-secondary" {...props} />
-  ),
-  ol: (props: React.ComponentProps<'ol'>) => (
-    <ol className="list-decimal pl-6 mb-6 space-y-2 text-text-secondary" {...props} />
-  ),
-  li: (props: React.ComponentProps<'li'>) => (
-    <li className="leading-relaxed" {...props} />
-  ),
-  blockquote: (props: React.ComponentProps<'blockquote'>) => (
-    <blockquote
-      className="border-l-4 border-green-primary/30 pl-6 italic text-text-secondary my-8"
-      {...props}
-    />
-  ),
-  a: (props: React.ComponentProps<'a'>) => (
-    <a className="text-green-primary underline hover:text-green-deep" {...props} />
-  ),
-  strong: (props: React.ComponentProps<'strong'>) => (
-    <strong className="font-semibold text-text-primary" {...props} />
-  ),
-  hr: () => <hr className="border-t border-beige-dark my-10" />,
-};
+function parseReadingMinutes(readTime: string): number {
+  const match = readTime.match(/\d+/);
+  return match ? parseInt(match[0], 10) : 5;
+}
+
+function buildRelated(current: BlogPost, all: BlogPost[]): BlogPost[] {
+  const sameTag = all.filter(
+    (p) => p.slug !== current.slug && p.tag === current.tag,
+  );
+  if (sameTag.length >= 3) return sameTag.slice(0, 3);
+  const filler = all
+    .filter(
+      (p) =>
+        p.slug !== current.slug &&
+        !sameTag.some((s) => s.slug === p.slug),
+    )
+    .slice(0, 3 - sameTag.length);
+  return [...sameTag, ...filler];
+}
 
 export default async function BlogPostPage({
   params,
@@ -105,24 +96,16 @@ export default async function BlogPostPage({
   if (!post) {
     return (
       <>
-        <ScrollAnimator />
-        <main className="pt-40 pb-20 px-6 text-center min-h-screen">
-          <h1 className="font-serif text-4xl text-green-deep mb-4">
-            Article not found
-          </h1>
-          <Link href="/blog" className="text-green-primary underline">
-            Back to blog
-          </Link>
-        </main>
+        <ArticleNotFound />
         <Footer />
       </>
     );
   }
 
-  // Get related posts (same tag, exclude current)
-  const related = getAllPosts()
-    .filter((p) => p.slug !== post.slug && p.tag === post.tag)
-    .slice(0, 2);
+  const mdxComponents = createMdxComponents();
+  const headings = extractHeadings(post.content);
+  const readingMinutes = parseReadingMinutes(post.readTime);
+  const related = buildRelated(post, getAllPosts());
 
   return (
     <>
@@ -138,140 +121,73 @@ export default async function BlogPostPage({
         items={[
           { name: "Home", url: "https://merios.life" },
           { name: "Blog", url: "https://merios.life/blog" },
-          { name: post.title, url: `https://merios.life/blog/${post.slug}` },
+          {
+            name: post.title,
+            url: `https://merios.life/blog/${post.slug}`,
+          },
         ]}
       />
-      {post.faq && post.faq.length > 0 && (
+      {post.faq && post.faq.length > 0 ? (
         <FAQPageSchema questions={post.faq} />
-      )}
-      <ScrollAnimator />
-      <main>
-        {/* Article Header */}
-        <article className="max-w-3xl mx-auto px-6 pt-32 pb-16">
-          <div className="mb-8">
-            <Link
-              href="/blog"
-              className="text-sm text-green-primary hover:underline"
-            >
-              &larr; Back to blog
-            </Link>
-          </div>
+      ) : null}
 
-          <div className="text-[0.68rem] uppercase tracking-wider text-green-primary font-semibold mb-4">
-            {post.tag}
-          </div>
+      <ReadingProgress />
 
-          <h1
-            className="font-serif text-4xl md:text-5xl font-bold text-green-deep mb-6 leading-tight"
-            style={{ letterSpacing: '-0.02em' }}
-          >
-            {post.title}
-          </h1>
+      <main style={{ background: "var(--color-canvas)" }}>
+        <ArticleHero
+          title={post.title}
+          description={post.description}
+          date={post.date}
+          dateModified={post.dateModified}
+          readingMinutes={readingMinutes}
+          category={post.tag}
+          slug={post.slug}
+          image={post.image}
+        />
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-text-tertiary mb-12">
-            <time dateTime={post.date}>
-              Published{' '}
-              {new Date(post.date).toLocaleDateString('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </time>
-            {post.dateModified && post.dateModified !== post.date && (
-              <>
-                <span>&middot;</span>
-                <time dateTime={post.dateModified}>
-                  Last updated{' '}
-                  {new Date(post.dateModified).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })}
-                </time>
-              </>
-            )}
-            <span>&middot;</span>
-            <span>{post.readTime}</span>
-          </div>
+        <MobileTOC headings={headings} />
 
-          {/* MDX Content */}
-          <div className="prose-merios">
-            <MDXRemote
-              source={post.content}
-              components={mdxComponents}
-              options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
-            />
-          </div>
+        <section className="pb-12 md:pb-20">
+          <div className="mx-auto max-w-[1200px] px-6 pt-12 md:px-10 md:pt-16">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[240px_1fr] lg:gap-16">
+              {/* Desktop sticky TOC */}
+              <aside className="lg:pt-2">
+                <ArticleTOC headings={headings} />
+              </aside>
 
-          {/* FAQ Section (also drives FAQPage rich result) */}
-          {post.faq && post.faq.length > 0 && (
-            <section className="mt-16 pt-12 border-t border-beige-dark">
-              <h2 className="font-serif text-3xl font-bold text-green-deep mb-8">
-                Frequently asked questions
-              </h2>
-              <div className="space-y-6">
-                {post.faq.map((item, idx) => (
-                  <details
-                    key={idx}
-                    className="group border border-beige-dark rounded-xl p-6 open:bg-beige/40 transition-colors"
-                  >
-                    <summary className="font-serif text-lg font-semibold text-green-deep cursor-pointer list-none flex justify-between items-center gap-4">
-                      <span>{item.q}</span>
-                      <span className="text-green-primary text-2xl leading-none transition-transform group-open:rotate-45">
-                        +
-                      </span>
-                    </summary>
-                    <p className="mt-4 text-text-secondary leading-relaxed">
-                      {item.a}
-                    </p>
-                  </details>
-                ))}
-              </div>
-            </section>
-          )}
-        </article>
+              {/* Article body */}
+              <div className="min-w-0">
+                <div data-article-body="">
+                  <EditorialProse>
+                    <MDXRemote
+                      source={post.content}
+                      components={mdxComponents}
+                      options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+                    />
+                  </EditorialProse>
+                </div>
 
-        {/* Related Articles */}
-        {related.length > 0 && (
-          <section className="py-16 px-6 bg-beige">
-            <div className="max-w-3xl mx-auto">
-              <h2 className="font-serif text-2xl font-medium text-green-deep mb-8">
-                Related articles
-              </h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                {related.map((r) => (
-                  <Link
-                    key={r.slug}
-                    href={`/blog/${r.slug}`}
-                    className="bg-white rounded-xl p-6 border border-green-primary/6 hover:shadow-md transition-all"
-                  >
-                    <div className="text-[0.65rem] uppercase tracking-wider text-green-primary font-semibold mb-2">
-                      {r.tag}
-                    </div>
-                    <h3 className="font-serif text-lg font-semibold text-green-deep mb-2">
-                      {r.title}
-                    </h3>
-                    <p className="text-sm text-text-secondary">{r.description}</p>
-                  </Link>
-                ))}
+                <div className="mx-auto max-w-[680px]">
+                  <AuthorByline />
+                  <div className="mt-10">
+                    <ShareButtons title={post.title} slug={post.slug} />
+                  </div>
+                </div>
               </div>
             </div>
-          </section>
-        )}
-
-        {/* CTA */}
-        <section className="py-16 px-6 text-center">
-          <h2 className="font-serif text-3xl font-medium text-green-deep mb-4">
-            Ready to understand your health?
-          </h2>
-          <Link
-            href="/early-access"
-            className="inline-flex items-center gap-3 px-10 py-4 bg-green-deep text-white rounded-full text-base font-semibold hover:bg-green-primary hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
-          >
-            Get Early Access
-          </Link>
+          </div>
         </section>
+
+        {post.faq && post.faq.length > 0 ? (
+          <ArticleFAQ items={post.faq} />
+        ) : null}
+
+        <div className="mt-16 md:mt-20" />
+
+        <RelatedArticles posts={related} />
+        <ArticleCTA />
       </main>
+
       <Footer />
     </>
   );

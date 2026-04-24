@@ -1,7 +1,10 @@
-import type { BlogPost } from "@/lib/blog";
+interface BlogJsonLdPost {
+  slug: string;
+  title: string;
+}
 
 interface BlogJsonLdProps {
-  posts: BlogPost[];
+  posts: BlogJsonLdPost[];
 }
 
 /**

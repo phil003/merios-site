@@ -1,42 +1,12 @@
 import Link from "next/link";
-import type { BlogPost } from "@/lib/blog";
 import ArticleMeta from "@/components/ui/ArticleMeta";
 import Reveal from "@/components/ui/Reveal";
 import { getBlogGradient } from "./gradients";
+import type { BlogCardData } from "./BlogCard";
 
 interface FeaturedCardProps {
-  post: BlogPost;
+  post: BlogCardData;
 }
-
-const FEATURED_STYLES = `
-.featured-card {
-  transition: border-color 400ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.featured-card:hover,
-.featured-card:focus-visible {
-  border-color: color-mix(in srgb, var(--color-green-deep) 28%, var(--color-grid));
-  box-shadow: 0 24px 60px -30px color-mix(in srgb, var(--color-ink) 50%, transparent);
-}
-.featured-card:focus-visible {
-  outline: 2px solid var(--color-green-deep);
-  outline-offset: 3px;
-}
-.featured-card .featured-card-emoji {
-  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.featured-card:hover .featured-card-emoji,
-.featured-card:focus-visible .featured-card-emoji {
-  transform: scale(1.04);
-}
-.featured-card .featured-card-arrow {
-  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.featured-card:hover .featured-card-arrow,
-.featured-card:focus-visible .featured-card-arrow {
-  transform: translateX(6px);
-}
-`;
 
 function parseReadingMinutes(readTime: string): number {
   const match = readTime.match(/\d+/);
@@ -53,7 +23,6 @@ export default function FeaturedCard({ post }: FeaturedCardProps) {
       className="relative"
       style={{ background: "var(--color-canvas)" }}
     >
-      <style dangerouslySetInnerHTML={{ __html: FEATURED_STYLES }} />
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         <Reveal amount={0.15}>
           {/* Mono eyebrow for the featured section */}

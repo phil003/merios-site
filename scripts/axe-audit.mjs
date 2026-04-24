@@ -31,6 +31,11 @@ const SPEC_URLS = {
     "/compare/merios-vs-function-health",
     "/compare/merios-vs-insidetracker",
   ],
+  sprint7: [
+    "/blog",
+    "/blog/vitamin-d-deficiency",
+    "/blog/apob-heart-disease-risk",
+  ],
 };
 
 const SPEC = process.env.AUDIT_SPEC ?? "sprint5-phase4";

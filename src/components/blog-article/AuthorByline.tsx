@@ -5,7 +5,7 @@
  */
 export default function AuthorByline() {
   return (
-    <aside
+    <div
       className="mt-14 flex items-center gap-4 pt-8"
       style={{ borderTop: "1px solid var(--color-grid)" }}
     >
@@ -50,6 +50,6 @@ export default function AuthorByline() {
           Research-backed health insights from the Merios team
         </span>
       </div>
-    </aside>
+    </div>
   );
 }

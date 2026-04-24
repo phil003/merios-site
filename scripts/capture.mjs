@@ -473,6 +473,118 @@ async function main() {
         "mobile",
       );
     }
+    if (spec === "sprint7-blog") {
+      // Sprint 7 — blog index redesign screenshots.
+      const OUT_7 = join(OUT, "sprint-7");
+      mkdirSync(OUT_7, { recursive: true });
+
+      async function fullPageShot(url, file, vpName) {
+        const vp = VIEWPORTS[vpName];
+        const { page, context } = await newPage(browser, vp, url);
+        await page.evaluate(async () => {
+          const max = document.documentElement.scrollHeight;
+          const step = window.innerHeight;
+          for (let y = 0; y < max; y += step) {
+            window.scrollTo(0, y);
+            await new Promise((r) => setTimeout(r, 120));
+          }
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(900);
+        const p = join(OUT_7, `${file}-${vpName}.png`);
+        await page.screenshot({ path: p, fullPage: true });
+        console.log(`saved sprint-7/${file}-${vpName}.png`);
+        await context.close();
+      }
+
+      // Full-page shots, desktop + mobile
+      await fullPageShot("/blog", "blog-full", "desktop");
+      await fullPageShot("/blog", "blog-full", "mobile");
+
+      // Desktop with Biomarkers filter active
+      {
+        const { page, context } = await newPage(
+          browser,
+          VIEWPORTS.desktop,
+          "/blog",
+        );
+        await page.evaluate(() => {
+          const btn = [...document.querySelectorAll('button[role="tab"]')].find(
+            (b) => b.textContent?.trim().toLowerCase() === "biomarkers",
+          );
+          if (btn) btn.click();
+        });
+        await page.waitForTimeout(900);
+        await page.evaluate(async () => {
+          const max = document.documentElement.scrollHeight;
+          const step = window.innerHeight;
+          for (let y = 0; y < max; y += step) {
+            window.scrollTo(0, y);
+            await new Promise((r) => setTimeout(r, 120));
+          }
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(700);
+        await page.screenshot({
+          path: join(OUT_7, "blog-filter-biomarkers-desktop.png"),
+          fullPage: true,
+        });
+        console.log("saved sprint-7/blog-filter-biomarkers-desktop.png");
+        await context.close();
+      }
+    }
+    if (spec === "sprint7-article") {
+      // Sprint 7 — individual blog article redesign screenshots.
+      const OUT_7 = join(OUT, "sprint-7");
+      mkdirSync(OUT_7, { recursive: true });
+
+      async function fullPageShot(url, file, vpName) {
+        const vp = VIEWPORTS[vpName];
+        const { page, context } = await newPage(browser, vp, url);
+        await page.evaluate(async () => {
+          const max = document.documentElement.scrollHeight;
+          const step = window.innerHeight;
+          for (let y = 0; y < max; y += step) {
+            window.scrollTo(0, y);
+            await new Promise((r) => setTimeout(r, 120));
+          }
+          window.scrollTo(0, 0);
+        });
+        await page.waitForTimeout(900);
+        const p = join(OUT_7, `${file}-${vpName}.png`);
+        await page.screenshot({ path: p, fullPage: true });
+        console.log(`saved sprint-7/${file}-${vpName}.png`);
+        await context.close();
+      }
+
+      const slugs = [
+        { slug: "vitamin-d-deficiency", file: "article-vitamin-d" },
+        { slug: "apob-heart-disease-risk", file: "article-apob" },
+      ];
+
+      // Full-page shots for two slugs at both viewports
+      for (const s of slugs) {
+        await fullPageShot(`/blog/${s.slug}`, s.file, "desktop");
+        await fullPageShot(`/blog/${s.slug}`, s.file, "mobile");
+      }
+
+      // Desktop mid-scroll with TOC highlighted (vitamin-d slug only)
+      {
+        const { page, context } = await newPage(
+          browser,
+          VIEWPORTS.desktop,
+          "/blog/vitamin-d-deficiency",
+        );
+        await page.evaluate(() => window.scrollTo(0, 1500));
+        await page.waitForTimeout(1200);
+        await page.screenshot({
+          path: join(OUT_7, "article-vitamin-d-toc-active-desktop.png"),
+          fullPage: false,
+        });
+        console.log("saved sprint-7/article-vitamin-d-toc-active-desktop.png");
+        await context.close();
+      }
+    }
     if (spec === "full" || spec === "all") {
       for (const [vpName, vp] of Object.entries(VIEWPORTS)) {
         const { page, context } = await newPage(browser, vp);

@@ -151,9 +151,9 @@ export default async function BlogPostPage({
           <div className="mx-auto max-w-[1200px] px-6 pt-12 md:px-10 md:pt-16">
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-[240px_1fr] lg:gap-16">
               {/* Desktop sticky TOC */}
-              <aside className="lg:pt-2">
+              <div className="lg:pt-2">
                 <ArticleTOC headings={headings} />
-              </aside>
+              </div>
 
               {/* Article body */}
               <div className="min-w-0">

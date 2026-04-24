@@ -1,65 +1,21 @@
 "use client";
 
-// Pagination strategy: client-side "Load more" (18 per batch) instead of URL
-// query pagination. Rationale: the page is static-exported, the filter is
-// already client-side, and "Load more" keeps one scroll context when users
-// browse — no full-page reload, no URL state to reset when switching filters.
-// The full list (48 articles) stays in memory from the server props, so all
-// SEO payload (JSON-LD ItemList + anchor hrefs) is still fully pre-rendered.
+// Pagination strategy: client-side "Load more" (18 per batch). The server
+// serializes only card-level fields (not the MDX body) so the initial HTML
+// stays lean while SEO payload (JSON-LD ItemList + prefetched hrefs) remains
+// complete.
 
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import type { BlogPost } from "@/lib/blog";
-import BlogCard from "./BlogCard";
+import BlogCard, { type BlogCardData } from "./BlogCard";
 import { easing, duration } from "@/lib/motion";
 
 interface BlogFilterGridProps {
-  posts: BlogPost[];
+  posts: BlogCardData[];
 }
 
 const PAGE_SIZE = 18;
 const ALL = "All";
-
-const CHIP_STYLES = `
-.blog-chip {
-  transition:
-    background-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    color 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.blog-chip:focus-visible {
-  outline: 2px solid var(--color-green-deep);
-  outline-offset: 3px;
-}
-.blog-chip[data-active="false"]:hover {
-  border-color: color-mix(in srgb, var(--color-green-deep) 35%, var(--color-grid));
-  color: var(--color-ink);
-}
-.blog-loadmore {
-  transition:
-    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 300ms cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.blog-loadmore:hover {
-  transform: translateY(-2px);
-  border-color: var(--color-green-deep);
-  background: color-mix(in srgb, var(--color-green-deep) 6%, var(--color-canvas-alt));
-}
-.blog-loadmore:focus-visible {
-  outline: 2px solid var(--color-green-deep);
-  outline-offset: 3px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .blog-chip,
-  .blog-loadmore {
-    transition: none !important;
-  }
-  .blog-loadmore:hover {
-    transform: none !important;
-  }
-}
-`;
 
 export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
   const prefersReducedMotion = useReducedMotion();
@@ -72,7 +28,7 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
     return [ALL, ...unique];
   }, [posts]);
 
-  const filtered = useMemo<BlogPost[]>(() => {
+  const filtered = useMemo<BlogCardData[]>(() => {
     if (activeCategory === ALL) return posts;
     return posts.filter((p) => p.tag === activeCategory);
   }, [posts, activeCategory]);
@@ -91,8 +47,6 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
 
   return (
     <div>
-      <style dangerouslySetInnerHTML={{ __html: CHIP_STYLES }} />
-
       {/* Category filter bar */}
       <div
         className="flex flex-wrap items-center gap-2.5"

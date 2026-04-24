@@ -25,7 +25,15 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
-  const posts = getAllPosts();
+  const posts = getAllPosts().map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    description: p.description,
+    date: p.date,
+    tag: p.tag,
+    emoji: p.emoji,
+    readTime: p.readTime,
+  }));
   const featured = posts[0];
   const rest = posts.slice(1);
 

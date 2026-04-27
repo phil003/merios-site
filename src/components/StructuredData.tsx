@@ -157,6 +157,157 @@ export function ArticleSchema({
   );
 }
 
+/**
+ * PersonSchema — for Author / Medical Reviewer / Advisor pages.
+ * Use on /about and any author pages so Google can attach E-E-A-T to the entity.
+ *
+ * Use `MedicallyReviewedSchema` for blog posts that have a medical reviewer.
+ */
+export function PersonSchema({
+  name,
+  jobTitle,
+  description,
+  url,
+  image,
+  sameAs,
+  affiliation,
+  alumniOf,
+  knowsAbout,
+}: {
+  name: string;
+  jobTitle: string;
+  description?: string;
+  url?: string;
+  image?: string;
+  sameAs?: string[];
+  affiliation?: string;
+  alumniOf?: string;
+  knowsAbout?: string[];
+}) {
+  const personUrl =
+    url ||
+    `https://merios.life/about#${name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
+  const schema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": personUrl,
+    name,
+    jobTitle,
+    url: personUrl,
+    worksFor: {
+      "@type": "Organization",
+      name: "Merios",
+      url: "https://merios.life",
+    },
+  };
+
+  if (description) schema.description = description;
+  if (image) schema.image = image.startsWith("http") ? image : `https://merios.life${image}`;
+  if (sameAs?.length) schema.sameAs = sameAs;
+  if (affiliation) {
+    schema.affiliation = { "@type": "Organization", name: affiliation };
+  }
+  if (alumniOf) {
+    schema.alumniOf = { "@type": "EducationalOrganization", name: alumniOf };
+  }
+  if (knowsAbout?.length) schema.knowsAbout = knowsAbout;
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+/**
+ * MedicallyReviewedSchema — to embed inside ArticleSchema when an article
+ * has been reviewed by a clinician. Adds reviewedBy + lastReviewed signals
+ * critical for E-E-A-T on YMYL health content.
+ *
+ * Render alongside ArticleSchema (after) on YMYL blog posts.
+ */
+export function MedicallyReviewedSchema({
+  reviewerName,
+  reviewerJobTitle,
+  reviewerCredentials,
+  lastReviewed,
+  articleSlug,
+}: {
+  reviewerName: string;
+  reviewerJobTitle: string; // e.g. "Internal Medicine Physician, MD"
+  reviewerCredentials?: string; // e.g. "Board-certified by ABIM"
+  lastReviewed: string; // ISO date
+  articleSlug: string;
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    "@id": `https://merios.life/blog/${articleSlug}#medicalwebpage`,
+    lastReviewed,
+    reviewedBy: {
+      "@type": "Person",
+      name: reviewerName,
+      jobTitle: reviewerJobTitle,
+      ...(reviewerCredentials ? { honorificSuffix: reviewerCredentials } : {}),
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+/**
+ * ProductComparisonSchema — for /compare/[slug] pages to surface
+ * comparison-specific rich results.
+ */
+export function ProductComparisonSchema({
+  products,
+  url,
+}: {
+  products: {
+    name: string;
+    brand: string;
+    description: string;
+    price: number;
+    priceCurrency?: string;
+  }[];
+  url: string;
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    url,
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Product",
+        name: p.name,
+        brand: { "@type": "Brand", name: p.brand },
+        description: p.description,
+        offers: {
+          "@type": "Offer",
+          price: p.price,
+          priceCurrency: p.priceCurrency || "USD",
+        },
+      },
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export function BreadcrumbSchema({
   items,
 }: {

@@ -42,7 +42,7 @@ export async function generateMetadata({
   if (!post) return { title: "Article Not Found | Merios" };
 
   return {
-    title: `${post.title} | Merios Blog`,
+    title: post.title,
     description: post.description,
     alternates: {
       canonical: `https://merios.life/blog/${post.slug}`,

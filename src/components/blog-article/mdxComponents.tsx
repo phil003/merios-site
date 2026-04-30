@@ -1,5 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 
+import HomaIRCalculator from "@/components/calculators/HomaIRCalculator";
+import TrigHdlRatioCalculator from "@/components/calculators/TrigHdlRatioCalculator";
 import { slugify } from "./toc";
 
 /**
@@ -74,5 +76,5 @@ export function createMdxComponents() {
     );
   };
 
-  return { h2, h3, p };
+  return { h2, h3, p, HomaIRCalculator, TrigHdlRatioCalculator };
 }

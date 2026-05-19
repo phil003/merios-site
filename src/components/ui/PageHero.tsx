@@ -1,12 +1,19 @@
 "use client";
 
-import { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import { useGSAP } from "@gsap/react";
+import { useMemo } from "react";
+import {
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "motion/react";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
+// PageHero is the entrance hero used across 11 secondary routes (/pricing,
+// /about, /contact, /compare, /blog, /blog/category/[slug], /tools/*, and
+// the LegalPageLayout used by /privacy /terms /security). Previously this
+// component pulled in gsap + ScrollTrigger + SplitText (~80 KB gzip) just
+// to stagger the headline. Motion is already in the bundle (Reveal uses
+// it everywhere), so we re-implement the same char-by-char reveal with
+// Motion variants and save the GSAP weight on every secondary route.
 
 type Align = "left" | "center";
 
@@ -17,79 +24,56 @@ interface PageHeroProps {
   align?: Align;
 }
 
+const EXPO_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.015 } },
+};
+
+const charVariants: Variants = {
+  hidden: { y: "110%", opacity: 0 },
+  visible: {
+    y: "0%",
+    opacity: 1,
+    transition: { duration: 0.9, ease: EXPO_OUT },
+  },
+};
+
+const sublineVariants: Variants = {
+  hidden: { y: 16, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.9, delay: 0.2, ease: EXPO_OUT },
+  },
+};
+
 export default function PageHero({
   eyebrow,
   title,
   subline,
   align = "left",
 }: PageHeroProps) {
-  const container = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(
-        {
-          reduced: "(prefers-reduced-motion: reduce)",
-          full: "(prefers-reduced-motion: no-preference)",
-        },
-        (context) => {
-          const reduced = context.conditions?.reduced;
-          const root = container.current;
-          if (!root) return;
-          const headline = root.querySelector<HTMLElement>(
-            ".page-hero-title",
-          );
-          const subEl = root.querySelector<HTMLElement>(".page-hero-subline");
-          if (!headline) return;
-
-          if (reduced) {
-            const targets = [headline, subEl].filter(
-              (el): el is HTMLElement => el !== null,
-            );
-            gsap.set(targets, { opacity: 1, y: 0 });
-            return;
-          }
-
-          if (subEl) gsap.set(subEl, { opacity: 0, y: 16 });
-
-          SplitText.create(headline, {
-            type: "chars, lines",
-            autoSplit: true,
-            mask: "lines",
-            linesClass: "page-hero-line",
-            charsClass: "page-hero-char",
-            onSplit(self) {
-              const tl = gsap.timeline({
-                defaults: { ease: "expo.out" },
-                scrollTrigger: {
-                  trigger: headline,
-                  start: "top 80%",
-                  once: true,
-                },
-              });
-              tl.from(
-                self.chars,
-                { yPercent: 110, opacity: 0, duration: 0.9, stagger: 0.015 },
-                0,
-              );
-              if (subEl) {
-                tl.to(subEl, { opacity: 1, y: 0, duration: 0.9 }, 0.2);
-              }
-              return tl;
-            },
-          });
-        },
-      );
-    },
-    { scope: container },
+  // Split the title into individual character spans so each can be
+  // independently animated. Preserve spaces with non-breaking-space so the
+  // text doesn't collapse, and key by index so identical glyphs don't
+  // collide.
+  const chars = useMemo(
+    () =>
+      title.split("").map((c, i) => ({
+        char: c === " " ? " " : c,
+        key: `${c}-${i}`,
+      })),
+    [title],
   );
 
   const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
 
   return (
     <section
-      ref={container}
       className="relative pt-32 pb-16 md:pt-40 md:pb-20"
       style={{ background: "var(--color-canvas)" }}
     >
@@ -120,34 +104,89 @@ export default function PageHero({
             </div>
           ) : null}
 
-          <h1
-            className="page-hero-title mt-8"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "var(--text-display-l)",
-              fontWeight: 300,
-              lineHeight: 1.02,
-              letterSpacing: "-0.03em",
-              color: "var(--color-ink)",
-            }}
-          >
-            {title}
-          </h1>
-
-          {subline ? (
-            <p
-              className="page-hero-subline mt-8 max-w-[640px]"
+          {reduced ? (
+            <h1
+              className="page-hero-title mt-8"
               style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "clamp(1.0625rem, 1.2vw, 1.1875rem)",
-                lineHeight: 1.6,
-                color: "var(--color-ink-secondary)",
-                letterSpacing: "-0.005em",
-                ...(align === "center" ? { marginLeft: "auto", marginRight: "auto" } : null),
+                fontFamily: "var(--font-serif)",
+                fontSize: "var(--text-display-l)",
+                fontWeight: 300,
+                lineHeight: 1.02,
+                letterSpacing: "-0.03em",
+                color: "var(--color-ink)",
               }}
             >
-              {subline}
-            </p>
+              {title}
+            </h1>
+          ) : (
+            <motion.h1
+              className="page-hero-title mt-8"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "var(--text-display-l)",
+                fontWeight: 300,
+                lineHeight: 1.02,
+                letterSpacing: "-0.03em",
+                color: "var(--color-ink)",
+                overflow: "hidden",
+              }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.5 }}
+              variants={containerVariants}
+              aria-label={title}
+            >
+              {chars.map(({ char, key }) => (
+                <motion.span
+                  key={key}
+                  variants={charVariants}
+                  style={{ display: "inline-block", willChange: "transform" }}
+                  aria-hidden
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </motion.h1>
+          )}
+
+          {subline ? (
+            reduced ? (
+              <p
+                className="page-hero-subline mt-8 max-w-[640px]"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "clamp(1.0625rem, 1.2vw, 1.1875rem)",
+                  lineHeight: 1.6,
+                  color: "var(--color-ink-secondary)",
+                  letterSpacing: "-0.005em",
+                  ...(align === "center"
+                    ? { marginLeft: "auto", marginRight: "auto" }
+                    : null),
+                }}
+              >
+                {subline}
+              </p>
+            ) : (
+              <motion.p
+                className="page-hero-subline mt-8 max-w-[640px]"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "clamp(1.0625rem, 1.2vw, 1.1875rem)",
+                  lineHeight: 1.6,
+                  color: "var(--color-ink-secondary)",
+                  letterSpacing: "-0.005em",
+                  ...(align === "center"
+                    ? { marginLeft: "auto", marginRight: "auto" }
+                    : null),
+                }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.5 }}
+                variants={sublineVariants}
+              >
+                {subline}
+              </motion.p>
+            )
           ) : null}
         </div>
       </div>

@@ -157,7 +157,7 @@ export default function Footer() {
               textTransform: "uppercase",
               color: "var(--color-ink-tertiary)",
             }}
-            aria-label="Locale (placeholder)"
+            aria-label="Locale — English (French coming soon)"
           >
             <span
               aria-current="true"

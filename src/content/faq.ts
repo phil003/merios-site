@@ -1,9 +1,6 @@
 // ─── FAQ dataset ─────────────────────────────────────────────────────────────
 // Groups are a UI concept only. The JSON-LD schema in the page flattens every
 // entry into a single mainEntity list (see src/app/faq/page.tsx).
-//
-// Placeholder-plausible copy for Sprint 5 Phase 3.2 scaffold. Phase 4 will
-// polish wording, trim length, and confirm product claims with Phil.
 
 export type FaqGroupKey =
   | "product"

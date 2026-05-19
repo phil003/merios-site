@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef } from "react";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(useGSAP);
+// Statement is the biomarker marquee on the home page. Previously it pulled
+// in gsap + @gsap/react just to translate the track at constant speed — a
+// pure CSS @keyframes animation does the same thing for zero JS bytes. The
+// pause-on-hover behaviour is implemented with a CSS state on the section,
+// and prefers-reduced-motion stops the animation natively.
 
 const BIOMARKERS = [
   "HDL",
@@ -39,50 +39,37 @@ const BIOMARKERS = [
 ];
 
 export default function Statement() {
-  const container = useRef<HTMLElement>(null);
-  const track = useRef<HTMLDivElement>(null);
-
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        if (!track.current) return;
-
-        const tween = gsap.to(track.current, {
-          xPercent: -50,
-          duration: 55,
-          ease: "none",
-          repeat: -1,
-        });
-
-        const el = track.current;
-        const pause = () => tween.timeScale(0.1);
-        const resume = () => tween.timeScale(1);
-        el.addEventListener("mouseenter", pause);
-        el.addEventListener("mouseleave", resume);
-
-        return () => {
-          el.removeEventListener("mouseenter", pause);
-          el.removeEventListener("mouseleave", resume);
-        };
-      });
-    },
-    { scope: container },
-  );
-
   const items = [...BIOMARKERS, ...BIOMARKERS];
 
   return (
     <section
-      ref={container}
       aria-label="Biomarkers tracked by Merios"
-      className="relative overflow-hidden border-y py-14 md:py-16"
+      className="merios-statement relative overflow-hidden border-y py-14 md:py-16"
       style={{
         borderColor: "var(--color-grid)",
         background: "var(--color-canvas-alt)",
       }}
     >
+      {/* Inline keyframes + reduced-motion stop. Scoped via the parent class
+          so the rule doesn't leak. */}
+      <style>{`
+        @keyframes merios-marquee {
+          from { transform: translate3d(0, 0, 0); }
+          to   { transform: translate3d(-50%, 0, 0); }
+        }
+        .merios-statement .merios-marquee-track {
+          animation: merios-marquee 55s linear infinite;
+        }
+        .merios-statement:hover .merios-marquee-track {
+          animation-play-state: paused;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .merios-statement .merios-marquee-track {
+            animation: none;
+          }
+        }
+      `}</style>
+
       <div className="mx-auto mb-8 max-w-[1280px] px-6 md:px-10">
         <div
           className="inline-flex items-center gap-2.5"
@@ -126,9 +113,8 @@ export default function Statement() {
         />
 
         <div
-          ref={track}
-          className="flex items-center"
-          style={{ willChange: "transform", width: "max-content" }}
+          className="merios-marquee-track flex items-center"
+          style={{ width: "max-content", willChange: "transform" }}
         >
           {items.map((b, i) => (
             <span

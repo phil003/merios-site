@@ -10,8 +10,9 @@ interface TeamMember {
   initials: string;
 }
 
-// Only one public founder exists in the current copy. The second slot is a
-// placeholder editorial card until the team page is populated post-launch.
+// The second slot is presented as an open role rather than a fictive person.
+// Roster expands ahead of public launch; the advisory card gets replaced with
+// a named advisor once the engagement is announced.
 const TEAM: TeamMember[] = [
   {
     name: "Philippe Xiddo",
@@ -20,10 +21,10 @@ const TEAM: TeamMember[] = [
     bio: "Building Merios after years of watching fragmented health data erode its own value. Obsessed with clarity, privacy, and signal over noise.",
   },
   {
-    name: "[Team member — placeholder]",
-    role: "Clinical Advisor",
-    initials: "—",
-    bio: "A clinical voice shaping our scoring models, reference ranges, and medical review pipeline. Roster expands before public launch.",
+    name: "Clinical Advisory",
+    role: "Open Role — 2026",
+    initials: "CA",
+    bio: "A clinical voice shapes our scoring models, reference ranges, and medical review pipeline. We're engaging clinicians before launch — reach out if this is you.",
   },
 ];
 

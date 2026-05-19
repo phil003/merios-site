@@ -353,7 +353,7 @@ export default function ScienceModelDiagram() {
                 fontWeight: 500,
               }}
             >
-              Fig. 1 · Composite aggregation — placeholder illustration
+              Fig. 1 · Composite aggregation — illustrative
             </figcaption>
           </figure>
         </Reveal>

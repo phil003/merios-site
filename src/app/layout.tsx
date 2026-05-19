@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import {
   OrganizationSchema,
@@ -116,22 +117,6 @@ export default function RootLayout({
       lang="en"
       className={`${fraunces.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
     >
-      <head>
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_MEASUREMENT_ID}');
-            `,
-          }}
-        />
-      </head>
       <body className="overflow-x-hidden">
         <LenisProvider>
           <OrganizationSchema />
@@ -140,6 +125,18 @@ export default function RootLayout({
           {children}
         </LenisProvider>
         <Analytics />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
       </body>
     </html>
   );

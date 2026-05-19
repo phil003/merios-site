@@ -254,7 +254,7 @@ export default function ScienceBioAge() {
                   color: "rgba(247,245,239,0.7)",
                 }}
               >
-                Years, estimated — placeholder
+                Years, estimated — illustrative
               </p>
             </div>
 
@@ -301,7 +301,7 @@ export default function ScienceBioAge() {
                   color: "var(--color-ink-tertiary)",
                 }}
               >
-                Top 18% in cohort (placeholder band)
+                Top 18% in cohort — illustrative band
               </p>
             </div>
           </div>
@@ -340,7 +340,7 @@ export default function ScienceBioAge() {
                   fontWeight: 500,
                 }}
               >
-                Placeholder data
+                Illustrative
               </span>
             </figcaption>
 

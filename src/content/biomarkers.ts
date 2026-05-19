@@ -8,22 +8,22 @@ export const PILLARS = [
   {
     slug: "blood",
     label: "Blood",
-    tagline: "[placeholder — biomarker composite signal]",
+    tagline: "The deepest signal — 130+ biomarkers across 11 systems.",
   },
   {
     slug: "movement",
     label: "Movement",
-    tagline: "[placeholder — activity, load, cardio capacity]",
+    tagline: "Daily load, recovery capacity, cardiorespiratory fitness.",
   },
   {
     slug: "sleep",
     label: "Sleep",
-    tagline: "[placeholder — architecture, consistency, recovery]",
+    tagline: "Architecture, regularity, restoration over weeks.",
   },
   {
     slug: "stress",
     label: "Stress",
-    tagline: "[placeholder — HRV, cortisol rhythm, resilience]",
+    tagline: "Autonomic balance, HRV, cortisol rhythm, resilience.",
   },
 ] as const;
 
@@ -34,57 +34,68 @@ export const BLOOD_SYSTEMS = [
   {
     slug: "heart-cv",
     label: "Heart & Cardiovascular",
-    description: "[placeholder — lipids, Apo-B, Lp(a), homocysteine]",
+    description:
+      "Apo-B, Lp(a), LDL particle number, homocysteine, lipid sub-fractions.",
   },
   {
     slug: "metabolism-glucose",
     label: "Metabolism & Glucose",
-    description: "[placeholder — glucose, HbA1c, insulin, HOMA-IR]",
+    description:
+      "Fasting glucose, HbA1c, fasting insulin, HOMA-IR, C-peptide.",
   },
   {
     slug: "inflammation-immunity",
     label: "Inflammation & Immunity",
-    description: "[placeholder — hs-CRP, IL-6, ferritin, WBC lineage]",
+    description:
+      "hs-CRP, IL-6, ferritin, fibrinogen, WBC differential, neutrophil-lymphocyte ratio.",
   },
   {
     slug: "hematology",
     label: "Hematology",
-    description: "[placeholder — CBC, RBC indices, platelets]",
+    description:
+      "Full CBC, RBC indices (MCV, MCH, RDW), hemoglobin, platelet count.",
   },
   {
     slug: "liver",
     label: "Liver",
-    description: "[placeholder — ALT, AST, GGT, bilirubin, albumin]",
+    description:
+      "ALT, AST, GGT, ALP, total and direct bilirubin, albumin, total protein.",
   },
   {
     slug: "kidney-electrolytes",
     label: "Kidney & Electrolytes",
-    description: "[placeholder — creatinine, eGFR, Na/K/Cl, urate]",
+    description:
+      "Creatinine, cystatin-C, eGFR, urea, sodium, potassium, chloride, uric acid.",
   },
   {
     slug: "hormonal",
     label: "Hormonal",
-    description: "[placeholder — sex steroids, SHBG, cortisol, DHEA-S]",
+    description:
+      "Testosterone (total and free), estradiol, SHBG, DHEA-S, cortisol, prolactin.",
   },
   {
     slug: "thyroid",
     label: "Thyroid",
-    description: "[placeholder — TSH, fT4, fT3, reverse T3, antibodies]",
+    description:
+      "TSH, free T4, free T3, reverse T3, anti-TPO, anti-thyroglobulin antibodies.",
   },
   {
     slug: "vitamins-minerals",
     label: "Vitamins & Minerals",
-    description: "[placeholder — D, B12, folate, Mg, Zn, Se]",
+    description:
+      "25-OH Vitamin D, B12, folate, magnesium, zinc, selenium, iron panel.",
   },
   {
     slug: "performance-recovery",
     label: "Performance & Recovery",
-    description: "[placeholder — CK, lactate, omega-3 index]",
+    description:
+      "Creatine kinase, lactate, omega-3 index, IGF-1, vitamin D status.",
   },
   {
     slug: "autoimmune-systemic",
     label: "Autoimmune & Systemic",
-    description: "[placeholder — ANA, anti-TPO, complement panel]",
+    description:
+      "ANA, anti-CCP, rheumatoid factor, complement (C3/C4), ESR.",
   },
 ] as const;
 

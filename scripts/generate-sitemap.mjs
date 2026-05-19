@@ -33,14 +33,14 @@ const OUTPUT = path.join(ROOT, 'public/sitemap.xml');
 const SITE_URL = 'https://merios.life';
 
 // Static routes with their priorities and change frequencies
-// NOTE: /features and /support are intentionally excluded — they are 308
-// permanent redirects defined in next.config.ts (/features → /how-it-works,
-// /support → /faq). Listing them in the sitemap would cause soft-404 signals.
+// NOTE: /features, /support and /pricing are intentionally excluded — they
+// are 308 permanent redirects defined in next.config.ts (/features → /how-it-
+// works, /support → /faq, /pricing → /early-access). Listing them in the
+// sitemap would cause soft-404 signals.
 const STATIC_ROUTES = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
   { path: '/how-it-works', priority: 0.9, changefreq: 'monthly' },
   { path: '/early-access', priority: 0.9, changefreq: 'monthly' },
-  { path: '/pricing', priority: 0.9, changefreq: 'monthly' },
   { path: '/science', priority: 0.8, changefreq: 'monthly' },
   { path: '/blog', priority: 0.8, changefreq: 'weekly' },
   { path: '/compare', priority: 0.8, changefreq: 'monthly' },

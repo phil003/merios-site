@@ -11,7 +11,7 @@ import ScienceModelDiagram from "@/components/science/ModelDiagram";
 import ScienceBioAge from "@/components/science/BioAge";
 import ScienceAdvisoryBoard from "@/components/science/AdvisoryBoard";
 import ScienceCitations from "@/components/science/Citations";
-import { ADVISORS, CITATIONS } from "@/components/science/data";
+import { CITATIONS } from "@/components/science/data";
 import ScienceStickyTOC from "@/components/science/StickyTOC";
 
 export const metadata: Metadata = {
@@ -33,8 +33,9 @@ export const metadata: Metadata = {
 };
 
 // ── JSON-LD (MedicalWebPage) ────────────────────────────────────────────────
-// Phase 4: confirm advisor affiliations and swap placeholder citations once
-// the real bibliography is finalised.
+// `reviewedBy` is intentionally omitted until named clinical advisors are
+// signed in. Putting fictional or generic entities in `reviewedBy` would
+// signal weak E-E-A-T to Google for YMYL content.
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
@@ -54,15 +55,6 @@ const jsonLd = {
     publisher: c.journal,
     datePublished: String(c.year),
     ...(c.doi ? { identifier: c.doi } : {}),
-  })),
-  reviewedBy: ADVISORS.map((a) => ({
-    "@type": "Person",
-    name: `${a.name}, ${a.credentials}`,
-    jobTitle: a.specialty,
-    affiliation: {
-      "@type": "Organization",
-      name: a.affiliation,
-    },
   })),
   lastReviewed: "2026-04-17",
 };

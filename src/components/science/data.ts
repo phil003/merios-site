@@ -91,29 +91,16 @@ export type Advisor = {
   bio: string;
 };
 
+// Clinical advisory engagement is open pre-launch. Rather than listing
+// fictional advisors, we surface one honest card describing the open
+// engagement. Replace this with named advisors as they are signed in.
 export const ADVISORS: Advisor[] = [
   {
-    name: "Dr. L. Marchetti",
-    initials: "LM",
-    credentials: "MD PhD",
-    specialty: "Preventive cardiology",
-    affiliation: "Clinical advisor · Merios",
-    bio: "Twenty years in lipidology and early cardiovascular disease. Co-author of work on particle-number risk stratification and Apo-B-first screening.",
-  },
-  {
-    name: "Dr. S. Ardent",
-    initials: "SA",
-    credentials: "MD PhD",
-    specialty: "Endocrinology",
-    affiliation: "Scientific advisor · Merios",
-    bio: "Clinical endocrinologist with a research focus on insulin resistance, thyroid dynamics and longitudinal hormone reference intervals.",
-  },
-  {
-    name: "Dr. E. Kohl",
-    initials: "EK",
-    credentials: "MD PhD",
-    specialty: "Preventive medicine",
-    affiliation: "Scientific advisor · Merios",
-    bio: "Preventive medicine physician and biostatistician. Works on composite risk indices and the translation of trial data into consumer-grade scores.",
+    name: "Clinical Advisory Board",
+    initials: "CAB",
+    credentials: "MD · PhD",
+    specialty: "Engagement open — 2026",
+    affiliation: "Merios",
+    bio: "Our scoring rules, reference intervals and methodology will be reviewed by a panel of practising clinicians and researchers before public launch. Three-reviewer sign-off is required for any scoring change. Named members will be announced ahead of release.",
   },
 ];

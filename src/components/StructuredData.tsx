@@ -44,7 +44,7 @@ export function WebApplicationSchema() {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      description: "Free Basic plan available. Pro plan at $14.99/month.",
+      description: "Free during early access.",
     },
     featureList: [
       "Blood test OCR analysis (130+ biomarkers)",

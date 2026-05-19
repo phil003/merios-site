@@ -25,8 +25,13 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // 308 permanent redirects. Listed in sitemap is forbidden — these
+      // routes intentionally don't appear there.
       { source: "/features", destination: "/how-it-works", permanent: true },
       { source: "/support", destination: "/faq", permanent: true },
+      // /pricing retired (pricing model not finalised pre App-Store launch).
+      // All commercial intent flows now go through /early-access.
+      { source: "/pricing", destination: "/early-access", permanent: true },
     ];
   },
 };

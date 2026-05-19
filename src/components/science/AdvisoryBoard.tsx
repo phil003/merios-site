@@ -88,7 +88,7 @@ export default function ScienceAdvisoryBoard() {
               color: "var(--color-ink)",
             }}
           >
-            A board of MDs and PhDs.
+            Reviewed by clinicians.
           </h2>
 
           <p
@@ -100,9 +100,10 @@ export default function ScienceAdvisoryBoard() {
               color: "var(--color-ink-secondary)",
             }}
           >
-            The methodology, thresholds and literature base of Merios are
-            reviewed by practicing clinicians and researchers. No single-person
-            decisions; every scoring rule survives a three-reviewer sign-off.
+            The methodology, thresholds and literature base of Merios will be
+            reviewed by practising clinicians and researchers ahead of public
+            launch. No single-person decisions; every scoring rule survives a
+            three-reviewer sign-off.
           </p>
         </Reveal>
 

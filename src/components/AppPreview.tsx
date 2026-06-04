@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import PhoneMockup from "./ui/PhoneMockup";
+import Image from "next/image";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -201,10 +201,27 @@ export default function AppPreview() {
         {/* RIGHT — mockup */}
         <div className="relative flex items-center justify-center">
           <div
-            className="appp-mockup-inner relative w-full max-w-[320px] md:max-w-[360px]"
+            className="appp-mockup-inner relative w-full max-w-[300px] md:max-w-[340px]"
             style={{ willChange: "transform" }}
           >
-            <PhoneMockup className="h-auto w-full drop-shadow-[0_50px_100px_rgba(0,0,0,0.45)]" />
+            <div
+              className="relative overflow-hidden rounded-[44px]"
+              style={{
+                background: "var(--color-ink)",
+                padding: 7,
+                boxShadow:
+                  "0 50px 100px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(247,245,239,0.10)",
+              }}
+            >
+              <Image
+                src="/screens/dashboard.png"
+                alt="The Merios app dashboard showing a composite health score of 88 out of 100 with 52 biomarkers tracked across the body"
+                width={720}
+                height={1230}
+                sizes="(max-width: 767px) 300px, 340px"
+                className="block h-auto w-full rounded-[37px]"
+              />
+            </div>
           </div>
         </div>
       </div>

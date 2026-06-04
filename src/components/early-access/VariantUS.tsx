@@ -13,8 +13,8 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 }
 
-// TODO Sprint-5-post: replace id000000000 with the real App Store ID.
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id000000000";
+// Merios on the US App Store (ascAppId 6760352598).
+const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
 
 // Official Apple Media Services badge. 250x83 @1x renders at ~125x42 CSS px on
 // retina. Use the black variant to sit on cream canvas.

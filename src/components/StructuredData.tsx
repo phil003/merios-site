@@ -66,6 +66,39 @@ export function WebApplicationSchema() {
   );
 }
 
+// Site-wide navigation as an ItemList of SiteNavigationElement entries. Mirrors
+// the real primary nav so search engines can model the site structure (and
+// gives every page — including the home — a third structured-data block).
+export function SiteNavigationSchema() {
+  const items = [
+    { name: "How it works", url: "https://merios.life/how-it-works" },
+    { name: "The Science", url: "https://merios.life/science" },
+    { name: "Health Calculators", url: "https://merios.life/tools" },
+    { name: "Blog", url: "https://merios.life/blog" },
+    { name: "Compare", url: "https://merios.life/compare" },
+    { name: "Early Access", url: "https://merios.life/early-access" },
+  ];
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Merios site navigation",
+    itemListElement: items.map((item, i) => ({
+      "@type": "SiteNavigationElement",
+      position: i + 1,
+      name: item.name,
+      url: item.url,
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 export function FAQPageSchema({
   questions,
 }: {

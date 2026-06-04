@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Statement from "@/components/Statement";
 import Pillars from "@/components/Pillars";
 import AppPreview from "@/components/AppPreview";
+import AppScreens from "@/components/AppScreens";
 import HowItWorks from "@/components/HowItWorks";
 import Numbers from "@/components/Numbers";
 import Science from "@/components/Science";
@@ -20,6 +21,7 @@ export default function Home() {
         <Pillars />
         <AppPreview />
         <HowItWorks />
+        <AppScreens />
         <Numbers />
         <Science />
         <BlogPreview />

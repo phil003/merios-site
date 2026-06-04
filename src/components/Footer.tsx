@@ -4,19 +4,33 @@ type Link = { label: string; href: string };
 
 const COLUMNS: { title: string; links: Link[] }[] = [
   {
-    title: "Product",
+    // Tech / methodology persona — the "how it works under the hood" path.
+    title: "Methodology",
     links: [
-      { label: "Science", href: "/#science" },
-      { label: "Journal", href: "/#journal" },
-      { label: "Waitlist", href: "/#waitlist" },
+      { label: "How it works", href: "/how-it-works" },
+      { label: "The science", href: "/science" },
+      { label: "Calculators", href: "/tools" },
+      { label: "Compare", href: "/compare" },
+    ],
+  },
+  {
+    // Health / practical persona — the "what does my result mean" path.
+    title: "Health library",
+    links: [
+      { label: "Blog", href: "/blog" },
+      { label: "Blood tests", href: "/blog/category/blood-tests" },
+      { label: "Biomarkers", href: "/blog/category/biomarkers" },
+      { label: "Longevity", href: "/blog/category/longevity" },
+      { label: "Hormones", href: "/blog/category/hormones" },
     ],
   },
   {
     title: "Company",
     links: [
       { label: "About", href: "/about" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Early access", href: "/early-access" },
       { label: "Contact", href: "/contact" },
-      { label: "Press", href: "/contact" },
     ],
   },
   {
@@ -50,7 +64,7 @@ export default function Footer() {
       style={{ background: "var(--color-canvas-alt)" }}
     >
       <div className="mx-auto max-w-[1280px] px-6 pt-20 pb-10 md:px-10 md:pt-28 md:pb-12">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-[2fr_1fr_1fr_1fr] md:gap-x-10 md:gap-y-0">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-[1.5fr_1fr_1.1fr_1fr_0.9fr] md:gap-x-10 md:gap-y-0">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="inline-flex items-center gap-2.5">

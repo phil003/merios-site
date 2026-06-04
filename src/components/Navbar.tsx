@@ -4,10 +4,15 @@ import { useEffect, useState } from "react";
 
 type NavLink = { label: string; href: string };
 
+// Top-level links to the real content hubs (not homepage anchors) so the blog,
+// tools, science and compare pages are reachable from every page — and crawlable
+// as internal links. Ordered tech/methodology → health.
 const LINKS: NavLink[] = [
-  { label: "Science", href: "/#science" },
-  { label: "Journal", href: "/#journal" },
-  { label: "Waitlist", href: "/#waitlist" },
+  { label: "How it works", href: "/how-it-works" },
+  { label: "Science", href: "/science" },
+  { label: "Tools", href: "/tools" },
+  { label: "Blog", href: "/blog" },
+  { label: "Compare", href: "/compare" },
 ];
 
 function handleAnchorClick(
@@ -90,7 +95,7 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav
-            className="hidden md:flex items-center gap-10"
+            className="hidden md:flex items-center gap-8"
             aria-label="Primary"
           >
             {LINKS.map((l) => (

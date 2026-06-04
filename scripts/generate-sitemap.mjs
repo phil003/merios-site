@@ -8,15 +8,17 @@
  *   1.0  home
  *   0.9  top landing pages (how-it-works, early-access)
  *   0.8  pillar blog posts (tag === 'Pillar')
- *   0.8  blog index + science
- *   0.7  /compare comparison pages
+ *   0.8  blog index + science + tools hub
+ *   0.7  /compare comparison pages, /tools/* calculators
  *   0.7  about, faq, regular blog posts
  *   0.6  contact, security
  *   0.4  privacy, terms
  *
- * Note: /features and /support are 308 redirects (see next.config.ts) and
- * MUST NOT be listed here — Google treats sitemap entries pointing to
- * redirects as soft-404 signals.
+ * Note: /features, /support and /pricing are permanent redirects and MUST NOT
+ * be listed here — Google treats sitemap entries pointing to redirects as
+ * soft-404 signals. /features → /how-it-works and /support → /faq are 308s in
+ * next.config.ts; /pricing → /early-access is a 308 set in the Vercel
+ * dashboard (NOT in code — easy to miss; see README/CLAUDE notes).
  *
  * dateModified (from frontmatter) takes precedence over date when present.
  */
@@ -33,10 +35,10 @@ const OUTPUT = path.join(ROOT, 'public/sitemap.xml');
 const SITE_URL = 'https://merios.life';
 
 // Static routes with their priorities and change frequencies
-// NOTE: /features, /support and /pricing are intentionally excluded — they
-// are 308 permanent redirects defined in next.config.ts (/features → /how-it-
-// works, /support → /faq, /pricing → /early-access). Listing them in the
-// sitemap would cause soft-404 signals.
+// NOTE: /features, /support and /pricing are intentionally excluded — they are
+// 308 permanent redirects (/features → /how-it-works and /support → /faq in
+// next.config.ts; /pricing → /early-access in the Vercel dashboard). Listing a
+// redirect in the sitemap creates a soft-404 signal.
 const STATIC_ROUTES = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
   { path: '/how-it-works', priority: 0.9, changefreq: 'monthly' },
@@ -44,6 +46,10 @@ const STATIC_ROUTES = [
   { path: '/science', priority: 0.8, changefreq: 'monthly' },
   { path: '/blog', priority: 0.8, changefreq: 'weekly' },
   { path: '/compare', priority: 0.8, changefreq: 'monthly' },
+  { path: '/tools', priority: 0.8, changefreq: 'monthly' },
+  { path: '/tools/phenoage-calculator', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/homa-ir-calculator', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/triglyceride-hdl-ratio', priority: 0.7, changefreq: 'monthly' },
   { path: '/blog/category/blood-tests', priority: 0.7, changefreq: 'weekly' },
   { path: '/blog/category/biomarkers', priority: 0.7, changefreq: 'weekly' },
   { path: '/blog/category/wearables', priority: 0.7, changefreq: 'weekly' },

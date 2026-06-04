@@ -78,28 +78,17 @@ export default function Science() {
             </blockquote>
 
             <figcaption
-              className="mt-10 flex flex-col gap-1"
-              style={{ fontFamily: "var(--font-sans)" }}
+              className="mt-10"
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "var(--color-ink-tertiary)",
+                fontWeight: 500,
+              }}
             >
-              <span
-                style={{
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: "var(--color-ink)",
-                  letterSpacing: "-0.005em",
-                }}
-              >
-                Dr. L. Marchetti, MD&nbsp;PhD
-              </span>
-              <span
-                style={{
-                  fontSize: 13,
-                  color: "var(--color-ink-tertiary)",
-                  letterSpacing: "0.01em",
-                }}
-              >
-                Preventive cardiology · Clinical advisor
-              </span>
+              Merios — Scientific thesis
             </figcaption>
           </figure>
         </Reveal>

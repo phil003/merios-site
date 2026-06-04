@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/react";
 import {
   OrganizationSchema,
   WebApplicationSchema,
+  SiteNavigationSchema,
 } from "@/components/StructuredData";
 import LenisProvider from "@/components/providers/LenisProvider";
 import Navbar from "@/components/Navbar";
@@ -121,6 +122,7 @@ export default function RootLayout({
         <LenisProvider>
           <OrganizationSchema />
           <WebApplicationSchema />
+          <SiteNavigationSchema />
           <Navbar />
           {children}
         </LenisProvider>

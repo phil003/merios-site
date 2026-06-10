@@ -127,8 +127,7 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <a
-            href="/#waitlist"
-            onClick={(e) => handleAnchorClick(e, "/#waitlist")}
+            href="/early-access"
             className="group hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 transition-transform motion-reduce:transform-none hover:-translate-y-0.5"
             style={{
               background: "var(--color-pulse)",
@@ -145,7 +144,7 @@ export default function Navbar() {
               className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
               style={{ background: "var(--color-ink)" }}
             />
-            Join waitlist
+            Get the app
           </a>
 
           {/* Mobile burger */}
@@ -227,10 +226,8 @@ export default function Navbar() {
           </nav>
 
           <a
-            href="/#waitlist"
-            onClick={(e) =>
-              handleAnchorClick(e, "/#waitlist", () => setMenuOpen(false))
-            }
+            href="/early-access"
+            onClick={() => setMenuOpen(false)}
             className="mt-auto inline-flex items-center justify-center gap-2 rounded-full px-6 py-4"
             style={{
               background: "var(--color-pulse)",
@@ -246,7 +243,7 @@ export default function Navbar() {
               className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
               style={{ background: "var(--color-ink)" }}
             />
-            Join waitlist
+            Get the app
           </a>
         </div>
       </div>

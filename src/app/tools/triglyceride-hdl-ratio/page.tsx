@@ -221,7 +221,7 @@ export default function TrigHdlRatioPage() {
                   fontFamily: "var(--font-sans)",
                 }}
               >
-                Join waitlist
+                Get the app
               </Link>
               <Link
                 href="/blog/triglyceride-hdl-ratio-calculator"

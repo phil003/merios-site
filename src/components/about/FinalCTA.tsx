@@ -91,7 +91,7 @@ export default function FinalCTA() {
                     "transform 300ms var(--ease-expo), background 300ms var(--ease-expo)",
                 }}
               >
-                Join the Early Access
+                Get the app
                 <span
                   aria-hidden
                   className="about-cta-arrow inline-block"

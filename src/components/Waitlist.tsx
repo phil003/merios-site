@@ -83,7 +83,7 @@ export default function Waitlist() {
       id="waitlist"
       className="relative overflow-hidden py-28 md:py-36"
       style={{ background: "var(--color-ink)" }}
-      aria-label="Join the Merios waitlist"
+      aria-label="Download Merios on the App Store"
     >
       {/* ambient radials — echo AppPreview */}
       <div
@@ -121,7 +121,7 @@ export default function Waitlist() {
               fontWeight: 500,
             }}
           >
-            Limited access
+            Now live — US App Store
           </span>
         </div>
 
@@ -150,13 +150,45 @@ export default function Waitlist() {
             color: "rgba(247,245,239,0.72)",
           }}
         >
-          Merios opens to a small first cohort. Leave your email and we&rsquo;ll
-          write once — when it&rsquo;s your turn.
+          Merios is live on the US App Store. Upload a blood test, connect
+          Apple Health, and read your body with clinical precision.
+        </p>
+
+        <div className="mt-10 flex justify-center">
+          <a
+            href="https://apps.apple.com/us/app/merios/id6760352598"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Download Merios on the App Store"
+            className="inline-block rounded-2xl transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83"
+              alt="Download on the App Store"
+              width={165}
+              height={55}
+              style={{ display: "block" }}
+            />
+          </a>
+        </div>
+
+        <p
+          className="mx-auto mt-14 max-w-[520px]"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: 14.5,
+            lineHeight: 1.6,
+            color: "rgba(247,245,239,0.55)",
+          }}
+        >
+          Outside the US? We&rsquo;re rolling out worldwide — leave your email
+          and we&rsquo;ll write once, when Merios reaches your country.
         </p>
 
         <form
           onSubmit={handleSubmit}
-          className="mx-auto mt-12 flex w-full max-w-[520px] flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
+          className="mx-auto mt-6 flex w-full max-w-[520px] flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
           noValidate
         >
           <label className="sr-only" htmlFor="waitlist-email">

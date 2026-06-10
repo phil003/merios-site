@@ -14,6 +14,7 @@ export function OrganizationSchema() {
     sameAs: [
       "https://twitter.com/merios_health",
       "https://www.linkedin.com/company/merios",
+      "https://apps.apple.com/us/app/merios/id6760352598",
     ],
     contactPoint: {
       "@type": "ContactPoint",
@@ -33,18 +34,21 @@ export function OrganizationSchema() {
 export function WebApplicationSchema() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": "MobileApplication",
     name: "Merios",
     url: "https://merios.life",
     description:
       "Health score app that analyzes 130+ blood biomarkers, Apple Health data, and daily check-ins. Calculate your biological age and optimize your health.",
     applicationCategory: "HealthApplication",
-    operatingSystem: "iOS",
+    operatingSystem: "iOS 17.0 or later",
+    installUrl: "https://apps.apple.com/us/app/merios/id6760352598",
+    downloadUrl: "https://apps.apple.com/us/app/merios/id6760352598",
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      description: "Free during early access.",
+      description:
+        "Free to download. Merios Pro: $99.99/year with a 7-day free trial.",
     },
     featureList: [
       "Blood test OCR analysis (130+ biomarkers)",

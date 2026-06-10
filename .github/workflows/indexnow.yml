@@ -1,0 +1,61 @@
+name: IndexNow on publish
+
+# À chaque push sur main qui touche un article (blog/compare), notifie
+# automatiquement Bing/Yandex (IndexNow) des URLs nouvelles ou modifiées.
+# Google n'utilise pas IndexNow → il passe par le sitemap (resoumis par
+# l'autopilote SEO quotidien). Clé IndexNow servie sur merios.life/<key>.txt.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "content/blog/**"
+      - "content/compare/**"
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ping IndexNow with changed content URLs
+        run: |
+          set -euo pipefail
+          KEY="478004729e4fc3a77188be33b33b1978"
+          HOST="merios.life"
+
+          BEFORE="${{ github.event.before }}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            BASE="HEAD~1"
+          else
+            BASE="$BEFORE"
+          fi
+
+          # Articles ajoutés ou modifiés dans ce push
+          FILES=$(git diff --name-only --diff-filter=AM "$BASE" "${{ github.sha }}" -- content/blog content/compare || true)
+
+          URLS=()
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            slug=$(basename "$f" .mdx)
+            case "$f" in
+              content/blog/*)    URLS+=("https://$HOST/blog/$slug") ;;
+              content/compare/*) URLS+=("https://$HOST/compare/$slug") ;;
+            esac
+          done <<< "$FILES"
+
+          if [ ${#URLS[@]} -eq 0 ]; then
+            echo "Aucune URL de contenu modifiée — rien à pinguer."
+            exit 0
+          fi
+
+          LIST=$(printf '"%s",' "${URLS[@]}")
+          LIST="[${LIST%,}]"
+          BODY="{\"host\":\"$HOST\",\"key\":\"$KEY\",\"keyLocation\":\"https://$HOST/$KEY.txt\",\"urlList\":$LIST}"
+
+          echo "URLs soumises :"; printf ' - %s\n' "${URLS[@]}"
+          curl -sS -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d "$BODY" -w "\nIndexNow HTTP %{http_code}\n"

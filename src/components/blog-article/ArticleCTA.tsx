@@ -62,8 +62,8 @@ export default function ArticleCTA() {
               letterSpacing: "-0.003em",
             }}
           >
-            Early access includes our weekly briefing — new biomarker deep-dives,
-            plain-English study breakdowns, nothing else.
+            Merios is live on the US App Store — plus a weekly briefing with new
+            biomarker deep-dives and plain-English study breakdowns.
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -79,7 +79,7 @@ export default function ArticleCTA() {
                 letterSpacing: "-0.005em",
               }}
             >
-              Join the waitlist
+              Get the app
               <span
                 aria-hidden
                 className="inline-block transition-transform duration-300 group-hover:translate-x-0.5"

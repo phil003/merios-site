@@ -236,7 +236,7 @@ export default function HomaIRCalculatorPage() {
                   fontFamily: "var(--font-sans)",
                 }}
               >
-                Join waitlist
+                Get the app
               </Link>
               <Link
                 href="/blog/homa-ir-insulin-resistance"

@@ -181,7 +181,7 @@ export default function Hero() {
                   fontFamily: "var(--font-sans)",
                 }}
               >
-                Join waitlist
+                Download on the App Store
               </a>
               <a
                 href="/how-it-works"

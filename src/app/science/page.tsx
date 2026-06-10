@@ -161,7 +161,7 @@ export default function SciencePage() {
                           letterSpacing: "-0.005em",
                         }}
                       >
-                        Request early access
+                        Get the app
                         <span aria-hidden>→</span>
                       </Link>
 

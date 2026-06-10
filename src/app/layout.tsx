@@ -106,6 +106,10 @@ export const metadata: Metadata = {
   verification: {
     google: "55YlC0T47ZzU-V0khkPxvaeAmGCjRKwmap7vHiZt9do",
   },
+  // Smart App Banner — Safari iOS shows a native "Open in App Store" banner.
+  itunes: {
+    appId: "6760352598",
+  },
 };
 
 export default function RootLayout({

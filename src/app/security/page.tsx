@@ -168,8 +168,8 @@ export default function SecurityPage() {
             4. Authentication
           </h2>
           <p className="mt-4">
-            Account creation and authenticated sessions ship with the mobile
-            app at launch. Until then, the marketing site exposes only
+            Account creation and authenticated sessions live in the mobile
+            app, available on the App Store. The marketing site exposes only
             non-authenticated forms — the waitlist, newsletter, and contact
             endpoints.
           </p>

@@ -250,7 +250,7 @@ export default function PhenoAgeCalculatorPage() {
                   fontFamily: "var(--font-sans)",
                 }}
               >
-                Join waitlist
+                Get the app
               </Link>
               <Link
                 href="/blog/biological-age-calculator-blood-test"

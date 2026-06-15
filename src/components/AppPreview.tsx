@@ -216,8 +216,8 @@ export default function AppPreview() {
               <Image
                 src="/screens/dashboard.png"
                 alt="The Merios app dashboard showing a composite health score of 88 out of 100 with 52 biomarkers tracked across the body"
-                width={720}
-                height={1230}
+                width={1179}
+                height={2556}
                 sizes="(max-width: 767px) 300px, 340px"
                 className="block h-auto w-full rounded-[37px]"
               />

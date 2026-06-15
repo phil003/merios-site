@@ -104,7 +104,7 @@ export default function PhoneMockup({ className = "" }: PhoneMockupProps) {
           fill="#0E1412"
           letterSpacing="-6"
         >
-          76
+          88
         </text>
 
         {/* Delta badge */}

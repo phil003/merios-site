@@ -108,8 +108,8 @@ export default function AppScreens() {
                 <Image
                   src={s.src}
                   alt={s.alt}
-                  width={720}
-                  height={1230}
+                  width={1179}
+                  height={2556}
                   sizes="(max-width: 639px) 260px, (max-width: 767px) 30vw, 260px"
                   className="block h-auto w-full rounded-[34px]"
                 />

@@ -9,6 +9,7 @@ import AuthorByline from "@/components/blog-article/AuthorByline";
 import ArticleFAQ from "@/components/blog-article/ArticleFAQ";
 import RelatedArticles from "@/components/blog-article/RelatedArticles";
 import ArticleCTA from "@/components/blog-article/ArticleCTA";
+import SubstackSubscribe from "@/components/SubstackSubscribe";
 import ArticleNotFound from "@/components/blog-article/NotFound";
 import { createMdxComponents } from "@/components/blog-article/mdxComponents";
 import { extractHeadings } from "@/components/blog-article/toc";
@@ -172,6 +173,7 @@ export default async function BlogPostPage({
                   <div className="mt-10">
                     <ShareButtons title={post.title} slug={post.slug} />
                   </div>
+                  <SubstackSubscribe />
                 </div>
               </div>
             </div>

@@ -14,6 +14,16 @@ export default function Hero() {
 
   useGSAP(
     () => {
+      // Entrance choreography only makes sense in the first moments of the
+      // visit. On slow devices hydration can land 5-15s in — re-hiding and
+      // re-animating content the user is already reading is hostile (and it
+      // wrecked LCP). Companions + mockup now enter via CSS (.he / .he-fade,
+      // parse-time); GSAP only handles the SplitText headline masking and the
+      // mockup scale — and only when hydration arrives early enough.
+      const lateHydration =
+        typeof performance !== "undefined" && performance.now() > 2500;
+      if (lateHydration) return;
+
       const mm = gsap.matchMedia();
 
       mm.add(
@@ -23,29 +33,9 @@ export default function Hero() {
         },
         (context) => {
           const reduced = context.conditions?.reduced;
+          if (reduced) return; // CSS handles visibility; global rule kills motion
 
-          const companions = [
-            ".hero-eyebrow",
-            ".hero-lead",
-            ".hero-ctas",
-            ".hero-scroll-hint",
-          ];
-
-          if (reduced) {
-            gsap.set([".hero-headline", ...companions, ".hero-mockup"], {
-              opacity: 0,
-            });
-            gsap.to([".hero-headline", ...companions, ".hero-mockup"], {
-              opacity: 1,
-              duration: 0.4,
-              stagger: 0.08,
-              ease: "power1.out",
-            });
-            return;
-          }
-
-          gsap.set(companions, { opacity: 0, y: 16 });
-          gsap.set(".hero-mockup", { opacity: 0, scale: 0.96 });
+          gsap.set(".hero-mockup", { scale: 0.96 });
 
           SplitText.create(".hero-headline", {
             type: "lines",
@@ -66,19 +56,7 @@ export default function Hero() {
                 },
                 0.3,
               );
-              tl.to(".hero-eyebrow", { opacity: 1, y: 0, duration: 0.6 }, 0.1);
-              tl.to(".hero-lead", { opacity: 1, y: 0, duration: 0.9 }, 0.8);
-              tl.to(".hero-ctas", { opacity: 1, y: 0, duration: 0.9 }, 1.0);
-              tl.to(
-                ".hero-mockup",
-                { opacity: 1, scale: 1, duration: 1.2 },
-                0.6,
-              );
-              tl.to(
-                ".hero-scroll-hint",
-                { opacity: 1, y: 0, duration: 0.6 },
-                1.2,
-              );
+              tl.to(".hero-mockup", { scale: 1, duration: 1.2 }, 0.6);
 
               return tl;
             },
@@ -122,7 +100,7 @@ export default function Hero() {
           {/* LEFT — editorial */}
           <div className="relative z-10 max-w-[640px]">
             <div
-              className="hero-eyebrow inline-flex items-center gap-2.5"
+              className="hero-eyebrow he inline-flex items-center gap-2.5"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               <span
@@ -157,21 +135,25 @@ export default function Hero() {
             </h1>
 
             <p
-              className="hero-lead mt-6 max-w-[520px] md:mt-8"
+              className="hero-lead he mt-6 max-w-[520px] md:mt-8"
               style={{
+                "--he-d": "0.35s",
                 fontFamily: "var(--font-sans)",
                 fontSize: "clamp(1rem, 1.25vw, 1.2rem)",
                 lineHeight: 1.55,
                 color: "var(--color-ink-secondary)",
                 fontWeight: 400,
-              }}
+              } as React.CSSProperties}
             >
               Merios reads your blood tests, Apple Health data, and daily signals —
               and delivers a single, rigorous score with the recommendations that
               move it.
             </p>
 
-            <div className="hero-ctas mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center md:mt-11">
+            <div
+              className="hero-ctas he mt-9 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center md:mt-11"
+              style={{ "--he-d": "0.55s" } as React.CSSProperties}
+            >
               <a
                 href="/early-access"
                 className="group inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-[15px] font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_14px_40px_-12px_rgba(30,61,42,0.45)]"
@@ -211,7 +193,7 @@ export default function Hero() {
           </div>
 
           {/* RIGHT — phone mockup */}
-          <div className="hero-mockup relative mx-auto w-full max-w-[340px] md:max-w-[380px]">
+          <div className="hero-mockup he-fade relative mx-auto w-full max-w-[340px] md:max-w-[380px]" style={{ "--he-d": "0.45s" } as React.CSSProperties}>
             <div className="hero-mockup-float">
               <PhoneMockup className="h-auto w-full drop-shadow-[0_40px_60px_rgba(14,20,18,0.18)]" />
             </div>
@@ -221,8 +203,8 @@ export default function Hero() {
 
       {/* Scroll hint */}
       <div
-        className="hero-scroll-hint pointer-events-none absolute bottom-8 right-6 hidden flex-col items-center gap-3 md:right-10 md:flex lg:right-14"
-        style={{ color: "var(--color-ink-tertiary)" }}
+        className="hero-scroll-hint he pointer-events-none absolute bottom-8 right-6 hidden flex-col items-center gap-3 md:right-10 md:flex lg:right-14"
+        style={{ color: "var(--color-ink-tertiary)", "--he-d": "1s" } as React.CSSProperties}
       >
         <span
           className="text-[10px] uppercase"

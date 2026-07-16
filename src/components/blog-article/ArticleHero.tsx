@@ -1,6 +1,6 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Reveal from "@/components/ui/Reveal";
 import ArticleMeta from "@/components/ui/ArticleMeta";
 
 interface ArticleHeroProps {
@@ -24,7 +24,8 @@ interface ArticleHeroProps {
  * - ArticleMeta row (date · reading · category · author)
  * - Optional featured image (rounded-xl, 1200 × 675 target)
  *
- * Staggered fade-up via <Reveal delay={...}>.
+ * Staggered fade-up via CSS `.he` keyframes (LCP-safe: plays at parse time,
+ * never gated behind JS hydration — see globals.css).
  */
 export default function ArticleHero({
   title,
@@ -103,7 +104,7 @@ export default function ArticleHero({
 
         {/* Content stack */}
         <div className="mt-10 max-w-[900px]">
-          <Reveal delay={0}>
+          <div className="he">
             {/* Category chip (pulse dot + mono caps) */}
             <div
               className="inline-flex items-center gap-2.5"
@@ -140,9 +141,9 @@ export default function ArticleHero({
             >
               {title}
             </h1>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.15}>
+          <div className="he" style={{ "--he-d": "0.12s" } as CSSProperties}>
             <p
               className="mt-7 max-w-[720px]"
               style={{
@@ -155,9 +156,9 @@ export default function ArticleHero({
             >
               {description}
             </p>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.3}>
+          <div className="he" style={{ "--he-d": "0.24s" } as CSSProperties}>
             <div
               className="mt-8 pt-7 border-t"
               style={{ borderColor: "var(--color-grid)" }}
@@ -169,12 +170,12 @@ export default function ArticleHero({
                 author="Merios Editorial"
               />
             </div>
-          </Reveal>
+          </div>
         </div>
 
         {/* Featured image */}
         {image ? (
-          <Reveal delay={0.4}>
+          <div className="he" style={{ "--he-d": "0.36s" } as CSSProperties}>
             <figure
               className="mt-12 overflow-hidden rounded-xl"
               style={{
@@ -192,7 +193,7 @@ export default function ArticleHero({
                 style={{ width: "100%", height: "auto", display: "block" }}
               />
             </figure>
-          </Reveal>
+          </div>
         ) : null}
       </div>
 

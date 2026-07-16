@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-
 import { useLenis } from "@/components/providers/LenisProvider";
-import { duration, easing } from "@/lib/motion";
 import type { Heading } from "./toc";
 
 interface ArticleTOCProps {
@@ -16,15 +13,13 @@ interface ArticleTOCProps {
  *
  * - Renders server-extracted headings as anchor links.
  * - IntersectionObserver with rootMargin "-40% 0px -55% 0px" sets the active id.
- * - Active row has a left-border + ink text; an animated marker (Motion
- *   `layoutId="blog-toc-marker"`) slides between rows. Reduced motion collapses
- *   the transition to 0.
+ * - Active row has a left-border + ink text; the active marker fades
+ *   between rows via a plain CSS transition (motion-free).
  * - Click uses Lenis (when available) for a smooth programmatic scroll with an
  *   offset equal to the sticky top, falling back to `scrollIntoView` when
  *   Lenis is not mounted (SSR / prefers-reduced-motion).
  */
 export default function ArticleTOC({ headings }: ArticleTOCProps) {
-  const prefersReducedMotion = useReducedMotion();
   const lenis = useLenis();
   const [activeId, setActiveId] = useState<string | null>(
     headings[0]?.id ?? null,
@@ -133,22 +128,15 @@ export default function ArticleTOC({ headings }: ArticleTOCProps) {
                   lineHeight: 1.4,
                 }}
               >
-                {isActive && (
-                  <motion.span
-                    layoutId="blog-toc-marker"
-                    aria-hidden
-                    className="absolute left-0 top-0 bottom-0 w-[2px]"
-                    style={{ background: "var(--color-green-deep)" }}
-                    transition={
-                      prefersReducedMotion
-                        ? { duration: 0 }
-                        : {
-                            duration: duration.quick * 0.8,
-                            ease: easing.expo,
-                          }
-                    }
-                  />
-                )}
+                <span
+                  aria-hidden
+                  className="absolute left-0 top-0 bottom-0 w-[2px]"
+                  style={{
+                    background: "var(--color-green-deep)",
+                    opacity: isActive ? 1 : 0,
+                    transition: "opacity 240ms var(--ease-expo)",
+                  }}
+                />
                 <span className="block">{item.text}</span>
               </a>
             </li>

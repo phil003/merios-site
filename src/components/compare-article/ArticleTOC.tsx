@@ -1,9 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-
-import { duration, easing } from "@/lib/motion";
 
 interface TocItem {
   id: string;
@@ -16,14 +13,12 @@ interface TocItem {
  * On mount, scans the article body (`[data-article-body]`) for `h2[id]`
  * elements and renders them as anchor links. Uses IntersectionObserver with
  * `rootMargin: "-40% 0px -55% 0px"` to flag the currently-read section.
- * Active state underline uses Motion `layoutId` (disabled under
- * prefers-reduced-motion).
+ * Active state underline fades via a plain CSS transition (motion-free).
  *
  * Desktop only (hidden below lg) — mobile users get the full article without
  * a TOC, which keeps the layout pragmatic.
  */
 export default function ArticleTOC() {
-  const prefersReducedMotion = useReducedMotion();
   const [items, setItems] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -132,22 +127,15 @@ export default function ArticleTOC() {
                 </span>
                 <span className="relative inline-block">
                   {item.label}
-                  {isActive && (
-                    <motion.span
-                      layoutId="compare-toc-underline"
-                      aria-hidden
-                      className="absolute -bottom-0.5 left-0 right-0 h-px"
-                      style={{ background: "var(--color-green-deep)" }}
-                      transition={
-                        prefersReducedMotion
-                          ? { duration: 0 }
-                          : {
-                              duration: duration.normal,
-                              ease: easing.expo,
-                            }
-                      }
-                    />
-                  )}
+                  <span
+                    aria-hidden
+                    className="absolute -bottom-0.5 left-0 right-0 h-px"
+                    style={{
+                      background: "var(--color-green-deep)",
+                      opacity: isActive ? 1 : 0,
+                      transition: "opacity 240ms var(--ease-expo)",
+                    }}
+                  />
                 </span>
               </a>
             </li>

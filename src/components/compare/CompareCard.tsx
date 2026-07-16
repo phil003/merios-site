@@ -54,7 +54,6 @@ export default function CompareCard({
           background: "var(--color-canvas-alt)",
           border: "1px solid var(--color-grid)",
         }}
-        aria-label={`Read comparison: ${post.title}`}
       >
         {/* vs {competitor} — mono eyebrow */}
         <div

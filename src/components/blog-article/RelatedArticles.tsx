@@ -123,7 +123,6 @@ function RelatedArticleCard({ post }: { post: BlogPost }) {
         background: "var(--color-canvas-alt)",
         border: "1px solid var(--color-grid)",
       }}
-      aria-label={`Read article: ${post.title}`}
     >
       <div
         className={`flex h-40 items-center justify-center overflow-hidden bg-gradient-to-br ${gradient}`}

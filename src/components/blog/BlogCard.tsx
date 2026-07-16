@@ -33,7 +33,6 @@ export default function BlogCard({ post }: BlogCardProps) {
         background: "var(--color-canvas-alt)",
         border: "1px solid var(--color-grid)",
       }}
-      aria-label={`Read article: ${post.title}`}
     >
       {/* Gradient panel */}
       <div

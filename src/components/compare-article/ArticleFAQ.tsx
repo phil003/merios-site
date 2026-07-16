@@ -1,10 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-
-import { duration, easing } from "@/lib/motion";
-
 interface FaqItem {
   q: string;
   a: string;
@@ -18,8 +11,8 @@ interface ArticleFAQProps {
  * Editorial FAQ accordion for the compare article.
  *
  * Uses native <details>/<summary> for semantics + keyboard + a11y,
- * layered with a Motion-controlled chevron that rotates on open.
- * Chevron duration is 240ms; reduced motion collapses the animation to 0.
+ * layered with a CSS-rotated chevron (`.acc-icon-flip`) — server-rendered,
+ * no client JS.
  */
 export default function ArticleFAQ({ items }: ArticleFAQProps) {
   return (
@@ -47,9 +40,6 @@ export default function ArticleFAQ({ items }: ArticleFAQProps) {
 }
 
 function FaqRow({ item }: { item: FaqItem }) {
-  const prefersReducedMotion = useReducedMotion();
-  const [open, setOpen] = useState(false);
-
   return (
     <li>
       <details
@@ -58,9 +48,6 @@ function FaqRow({ item }: { item: FaqItem }) {
           borderLeft: "2px solid var(--color-green-deep)",
           background:
             "color-mix(in srgb, var(--color-ink) 2%, transparent)",
-        }}
-        onToggle={(event) => {
-          setOpen((event.currentTarget as HTMLDetailsElement).open);
         }}
       >
         <summary
@@ -75,15 +62,9 @@ function FaqRow({ item }: { item: FaqItem }) {
           }}
         >
           <span>{item.q}</span>
-          <motion.span
+          <span
             aria-hidden
-            className="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center"
-            animate={{ rotate: open ? 180 : 0 }}
-            transition={
-              prefersReducedMotion
-                ? { duration: 0 }
-                : { duration: duration.quick * 0.8, ease: easing.smooth }
-            }
+            className="acc-icon-flip inline-flex h-6 w-6 flex-shrink-0 items-center justify-center"
             style={{ color: "var(--color-green-deep)" }}
           >
             <svg
@@ -98,7 +79,7 @@ function FaqRow({ item }: { item: FaqItem }) {
             >
               <path d="M3 5l4 4 4-4" />
             </svg>
-          </motion.span>
+          </span>
         </summary>
         <div
           className="px-5 pb-5"

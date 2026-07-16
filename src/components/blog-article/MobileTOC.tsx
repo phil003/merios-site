@@ -1,10 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-
 import { useLenis } from "@/components/providers/LenisProvider";
-import { duration, easing } from "@/lib/motion";
 import type { Heading } from "./toc";
 
 interface MobileTOCProps {
@@ -13,13 +9,11 @@ interface MobileTOCProps {
 
 /**
  * Collapsible "Contents" accordion for mobile (<lg). Closed by default.
- * Uses native <details> for keyboard + a11y, overlaid with a Motion-controlled
- * plus/minus icon that animates 240ms on toggle.
+ * Uses native <details> for keyboard + a11y; the plus/minus icon rotates via
+ * the CSS `.acc-icon` rule (motion-free).
  */
 export default function MobileTOC({ headings }: MobileTOCProps) {
-  const prefersReducedMotion = useReducedMotion();
   const lenis = useLenis();
-  const [open, setOpen] = useState(false);
 
   if (headings.length === 0) return null;
 
@@ -42,15 +36,12 @@ export default function MobileTOC({ headings }: MobileTOCProps) {
     if (typeof window !== "undefined") {
       window.history.replaceState(null, "", `#${id}`);
     }
-    setOpen(false);
+    (event.currentTarget.closest("details") as HTMLDetailsElement | null)?.removeAttribute("open");
   };
 
   return (
     <details
       className="lg:hidden"
-      onToggle={(e) =>
-        setOpen((e.currentTarget as HTMLDetailsElement).open)
-      }
       style={{
         borderTop: "1px solid var(--color-grid)",
         borderBottom: "1px solid var(--color-grid)",
@@ -70,15 +61,9 @@ export default function MobileTOC({ headings }: MobileTOCProps) {
         }}
       >
         <span>Contents</span>
-        <motion.span
+        <span
           aria-hidden
-          className="inline-flex h-5 w-5 items-center justify-center"
-          animate={{ rotate: open ? 45 : 0 }}
-          transition={
-            prefersReducedMotion
-              ? { duration: 0 }
-              : { duration: duration.quick * 0.8, ease: easing.smooth }
-          }
+          className="acc-icon inline-flex h-5 w-5 items-center justify-center"
           style={{
             color: "var(--color-green-deep)",
             fontSize: 18,
@@ -86,7 +71,7 @@ export default function MobileTOC({ headings }: MobileTOCProps) {
           }}
         >
           +
-        </motion.span>
+        </span>
       </summary>
       <ol className="flex flex-col gap-1 pb-5 pl-6 pr-6">
         {headings.map((h, i) => {

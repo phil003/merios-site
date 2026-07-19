@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ArticleMeta from "@/components/ui/ArticleMeta";
 import Reveal from "@/components/ui/Reveal";
-import { getBlogGradient } from "./gradients";
+import ArticleCover from "./ArticleCover";
 import type { BlogCardData } from "./BlogCard";
 
 interface FeaturedCardProps {
@@ -14,7 +14,6 @@ function parseReadingMinutes(readTime: string): number {
 }
 
 export default function FeaturedCard({ post }: FeaturedCardProps) {
-  const gradient = getBlogGradient(post.tag);
   const minutes = parseReadingMinutes(post.readTime);
 
   return (
@@ -56,20 +55,18 @@ export default function FeaturedCard({ post }: FeaturedCardProps) {
               border: "1px solid var(--color-grid)",
             }}
           >
-            {/* Left gradient panel */}
-            <div
-              className={`relative flex min-h-[260px] items-center justify-center overflow-hidden bg-gradient-to-br md:col-span-5 md:min-h-[420px] lg:col-span-4 ${gradient}`}
-            >
-              <span
-                aria-hidden
-                className="featured-card-emoji block text-[96px] leading-none md:text-[120px]"
-                style={{
-                  filter:
-                    "drop-shadow(0 8px 24px color-mix(in srgb, var(--color-ink) 18%, transparent))",
-                }}
-              >
-                {post.emoji}
-              </span>
+            {/* Left cover panel — wide variant on mobile (exact 3:2 fit),
+                tall crop-safe variant on the desktop portrait column */}
+            <div className="relative aspect-[3/2] overflow-hidden md:col-span-5 md:aspect-auto md:min-h-[420px] lg:col-span-4">
+              <ArticleCover
+                post={post}
+                className="block h-full w-full md:hidden"
+              />
+              <ArticleCover
+                post={post}
+                variant="tall"
+                className="absolute inset-0 hidden h-full w-full md:block"
+              />
               {/* Subtle inner border */}
               <span
                 aria-hidden

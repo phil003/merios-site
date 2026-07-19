@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ArticleMeta from "@/components/ui/ArticleMeta";
-import { getBlogGradient } from "./gradients";
+import ArticleCover from "./ArticleCover";
 
 export interface BlogCardData {
   slug: string;
@@ -22,7 +22,6 @@ function parseReadingMinutes(readTime: string): number {
 }
 
 export default function BlogCard({ post }: BlogCardProps) {
-  const gradient = getBlogGradient(post.tag);
   const minutes = parseReadingMinutes(post.readTime);
 
   return (
@@ -34,20 +33,9 @@ export default function BlogCard({ post }: BlogCardProps) {
         border: "1px solid var(--color-grid)",
       }}
     >
-      {/* Gradient panel */}
-      <div
-        className={`flex h-48 items-center justify-center overflow-hidden bg-gradient-to-br ${gradient}`}
-      >
-        <span
-          aria-hidden
-          className="blog-card-emoji block text-4xl"
-          style={{
-            filter:
-              "drop-shadow(0 4px 14px color-mix(in srgb, var(--color-ink) 12%, transparent))",
-          }}
-        >
-          {post.emoji}
-        </span>
+      {/* Generative cover — 3:2 matches the SVG viewBox exactly */}
+      <div className="relative aspect-[3/2] w-full overflow-hidden">
+        <ArticleCover post={post} className="block h-full w-full" />
       </div>
 
       {/* Content */}

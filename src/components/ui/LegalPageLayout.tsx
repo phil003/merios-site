@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import PageHero from "@/components/ui/PageHero";
 import { useLenis } from "@/components/providers/LenisProvider";
-import { duration, easing } from "@/lib/motion";
 
 export interface TocItem {
   id: string;
@@ -29,7 +27,6 @@ export default function LegalPageLayout({
   tocItems,
   children,
 }: LegalPageLayoutProps) {
-  const prefersReducedMotion = useReducedMotion();
   const lenis = useLenis();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -204,8 +201,12 @@ export default function LegalPageLayout({
             </aside>
           ) : null}
 
-          {/* Main legal content */}
-          <motion.article
+          {/* Main legal content — scroll reveal via Reveal v2 (data-rv +
+              globals.css + the inline IntersectionObserver in layout.tsx).
+              Visible by default in the static HTML; reduced motion handled
+              globally (html[data-anim] is never set). */}
+          <article
+            data-rv=""
             className="legal-prose max-w-[720px]"
             style={{
               fontFamily: "var(--font-sans)",
@@ -214,16 +215,9 @@ export default function LegalPageLayout({
               color: "var(--color-ink-secondary)",
               letterSpacing: "-0.003em",
             }}
-            initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{
-              duration: prefersReducedMotion ? duration.quick : duration.normal,
-              ease: easing.expo,
-            }}
           >
             {children}
-          </motion.article>
+          </article>
         </div>
       </div>
 

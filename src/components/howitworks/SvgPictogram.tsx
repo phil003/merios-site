@@ -1,5 +1,3 @@
-"use client";
-
 /**
  * SvgPictogram — shared 44×44 line-art primitive used across /how-it-works.
  *
@@ -9,18 +7,16 @@
  *   - stroke-width 1.25
  *   - round joins/caps for soft editorial feel
  *
- * Phase 4 polish:
- *   - Subtle reveal on enter (fade + slight scale) driven by Motion's
- *     `useInView`. Kept minimal — no over-animation. Fully gated by
- *     `useReducedMotion()`: when reduced, the SVG is immediately visible
- *     with no transform.
+ * Motion-free (Reveal v2 conventions):
+ *   - Server component. The SVG is fully visible by default in static HTML
+ *     (no-JS / crawler / LCP safe — the complete artwork always paints).
+ *   - `data-rv="none"` opts the icon into the global scroll-reveal fade
+ *     (globals.css `html[data-anim] [data-rv]` + the inline bootstrap in
+ *     layout.tsx), replacing the previous Motion useInView fade + scale.
+ *     Reduced-motion users never get the hidden state at all.
  *
  * Add new variants by extending the discriminated union below.
  */
-
-import { useRef } from "react";
-import { motion, useInView, useReducedMotion } from "motion/react";
-import { duration, easing } from "@/lib/motion";
 
 export type PictogramVariant =
   | "apple-health"
@@ -141,22 +137,10 @@ export default function SvgPictogram({
   className,
 }: Props) {
   const labelled = Boolean(title);
-  const ref = useRef<SVGSVGElement>(null);
-  const prefersReducedMotion = useReducedMotion();
-  const inView = useInView(ref, { once: true, amount: 0.5 });
-
-  const initial = prefersReducedMotion
-    ? { opacity: 1, scale: 1 }
-    : { opacity: 0, scale: 0.92 };
-  const animate = prefersReducedMotion
-    ? { opacity: 1, scale: 1 }
-    : inView
-      ? { opacity: 1, scale: 1 }
-      : { opacity: 0, scale: 0.92 };
 
   return (
-    <motion.svg
-      ref={ref}
+    <svg
+      data-rv="none"
       viewBox="0 0 44 44"
       width={width}
       height={height}
@@ -169,14 +153,10 @@ export default function SvgPictogram({
       role={labelled ? "img" : "presentation"}
       aria-hidden={labelled ? undefined : true}
       aria-label={labelled ? title : undefined}
-      initial={initial}
-      animate={animate}
-      transition={{ duration: duration.normal, ease: easing.expo }}
-      style={{ transformOrigin: "50% 50%" }}
       className={className}
     >
       {labelled ? <title>{title}</title> : null}
       <Paths variant={variant} />
-    </motion.svg>
+    </svg>
   );
 }

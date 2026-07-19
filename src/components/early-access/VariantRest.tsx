@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { easing, duration } from "@/lib/motion";
+import type { CSSProperties } from "react";
 import NewsletterForm from "./NewsletterForm";
 
 // Supabase project — constants copied verbatim from src/components/Waitlist.tsx.
@@ -175,8 +174,8 @@ function WaitlistForm() {
   );
 }
 
-// 3 benefits rendered below the newsletter form — stagger reveal on scroll,
-// 80ms between each (within the 100ms cap).
+// 3 benefits rendered below the newsletter form — data-rv scroll reveal with
+// 80ms of stagger between each (within the 100ms cap).
 const NEWSLETTER_BENEFITS = [
   "Monthly dispatch, no filler",
   "Early word on new regions & labs",
@@ -184,42 +183,6 @@ const NEWSLETTER_BENEFITS = [
 ] as const;
 
 export default function VariantRest() {
-  const reduced = useReducedMotion();
-
-  // Stagger variants — 80ms interval between each benefit. Reduced-motion
-  // collapses to a single near-instant opacity fade.
-  const listVariants = reduced
-    ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { duration: duration.quick, staggerChildren: 0 },
-        },
-      }
-    : {
-        hidden: {},
-        visible: {
-          transition: { staggerChildren: 0.08, delayChildren: 0.05 },
-        },
-      };
-
-  const itemVariants = reduced
-    ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { duration: duration.quick },
-        },
-      }
-    : {
-        hidden: { opacity: 0, y: 12 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: duration.normal, ease: easing.expo },
-        },
-      };
-
   return (
     <main>
       <section
@@ -227,70 +190,43 @@ export default function VariantRest() {
         style={{ background: "var(--color-ink)" }}
         aria-label="Join the Merios waitlist"
       >
-        {/* Ambient animated gradient — slow 8s loop, opacity capped at 0.15.
-            Disabled entirely under reduced-motion. */}
-        {reduced ? (
-          <>
-            <div
-              aria-hidden
-              className="pointer-events-none absolute top-0 right-0 h-[70%] w-[60%]"
-              style={{
-                background:
-                  "radial-gradient(55% 60% at 80% 20%, rgba(159,191,0,0.10), transparent 70%)",
-              }}
-            />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute bottom-0 left-0 h-[70%] w-[60%]"
-              style={{
-                background:
-                  "radial-gradient(55% 60% at 20% 80%, rgba(30,61,42,0.45), transparent 70%)",
-              }}
-            />
-          </>
-        ) : (
-          <>
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute top-0 right-0 h-[90%] w-[75%]"
-              style={{
-                background:
-                  "radial-gradient(55% 60% at 80% 20%, rgba(159,191,0,0.15), transparent 70%)",
-                willChange: "transform, opacity",
-              }}
-              animate={{
-                rotate: [0, 6, 0, -6, 0],
-                x: ["0%", "-2%", "2%", "0%"],
-                opacity: [0.8, 1, 0.8],
-              }}
-              transition={{
-                duration: 8,
-                ease: "linear",
-                repeat: Infinity,
-              }}
-            />
-            <motion.div
-              aria-hidden
-              className="pointer-events-none absolute bottom-0 left-0 h-[90%] w-[75%]"
-              style={{
-                background:
-                  "radial-gradient(55% 60% at 20% 80%, rgba(30,61,42,0.45), transparent 70%)",
-                willChange: "transform, opacity",
-              }}
-              animate={{
-                rotate: [0, -6, 0, 6, 0],
-                x: ["0%", "2%", "-2%", "0%"],
-                opacity: [0.85, 1, 0.85],
-              }}
-              transition={{
-                duration: 8,
-                ease: "linear",
-                repeat: Infinity,
-                delay: 1.2,
-              }}
-            />
-          </>
-        )}
+        {/* Ambient animated gradients — slow 8s CSS loops, opacity capped at
+            0.15. Static fallbacks show under reduced-motion; the animated
+            layers are hidden there (motion-reduce / motion-safe variants). */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute top-0 right-0 h-[70%] w-[60%] motion-safe:hidden"
+          style={{
+            background:
+              "radial-gradient(55% 60% at 80% 20%, rgba(159,191,0,0.10), transparent 70%)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-0 left-0 h-[70%] w-[60%] motion-safe:hidden"
+          style={{
+            background:
+              "radial-gradient(55% 60% at 20% 80%, rgba(30,61,42,0.45), transparent 70%)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="ea-rest-drift-a pointer-events-none absolute top-0 right-0 h-[90%] w-[75%] motion-reduce:hidden"
+          style={{
+            background:
+              "radial-gradient(55% 60% at 80% 20%, rgba(159,191,0,0.15), transparent 70%)",
+            willChange: "transform, opacity",
+          }}
+        />
+        <div
+          aria-hidden
+          className="ea-rest-drift-b pointer-events-none absolute bottom-0 left-0 h-[90%] w-[75%] motion-reduce:hidden"
+          style={{
+            background:
+              "radial-gradient(55% 60% at 20% 80%, rgba(30,61,42,0.45), transparent 70%)",
+            willChange: "transform, opacity",
+          }}
+        />
 
         <div className="relative mx-auto max-w-[1080px] px-6 md:px-10">
           {/* Editorial header */}
@@ -467,25 +403,24 @@ export default function VariantRest() {
                 </p>
               </div>
 
-              {/* 3 benefits — stagger reveal on scroll, 80ms between each */}
-              <motion.ul
-                className="mt-8 space-y-3"
-                variants={listVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.4 }}
-              >
-                {NEWSLETTER_BENEFITS.map((benefit) => (
-                  <motion.li
+              {/* 3 benefits — data-rv scroll reveal, 80ms stagger. Content is
+                  visible by default; globals.css + the layout observer drive
+                  the animation (and skip it under reduced-motion). */}
+              <ul className="mt-8 space-y-3">
+                {NEWSLETTER_BENEFITS.map((benefit, index) => (
+                  <li
                     key={benefit}
-                    variants={itemVariants}
+                    data-rv=""
                     className="flex items-start gap-3"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "0.875rem",
-                      lineHeight: 1.5,
-                      color: "rgba(247,245,239,0.72)",
-                    }}
+                    style={
+                      {
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "0.875rem",
+                        lineHeight: 1.5,
+                        color: "rgba(247,245,239,0.72)",
+                        "--rv-delay": `${(0.05 + index * 0.08).toFixed(2)}s`,
+                      } as CSSProperties
+                    }
                   >
                     <span
                       aria-hidden
@@ -493,13 +428,42 @@ export default function VariantRest() {
                       style={{ background: "var(--color-pulse)" }}
                     />
                     <span>{benefit}</span>
-                  </motion.li>
+                  </li>
                 ))}
-              </motion.ul>
+              </ul>
             </div>
           </div>
         </div>
       </section>
+
+      <style>{styles}</style>
     </main>
   );
 }
+
+// ─── Scoped animation styles ─────────────────────────────────────────────────
+// CSS keyframes replacing the previous motion/react infinite gradient loops.
+// Each timeline folds the original rotate / x / opacity tracks into one set of
+// keyframes. Hidden under reduced-motion via motion-reduce:hidden.
+const styles = `
+@keyframes eaRestDriftA {
+  0% { transform: translateX(0) rotate(0deg); opacity: 0.8; }
+  25% { transform: translateX(-1.5%) rotate(6deg); opacity: 0.9; }
+  50% { transform: translateX(0) rotate(0deg); opacity: 1; }
+  75% { transform: translateX(1.5%) rotate(-6deg); opacity: 0.9; }
+  100% { transform: translateX(0) rotate(0deg); opacity: 0.8; }
+}
+@keyframes eaRestDriftB {
+  0% { transform: translateX(0) rotate(0deg); opacity: 0.85; }
+  25% { transform: translateX(1.5%) rotate(-6deg); opacity: 0.925; }
+  50% { transform: translateX(0) rotate(0deg); opacity: 1; }
+  75% { transform: translateX(-1.5%) rotate(6deg); opacity: 0.925; }
+  100% { transform: translateX(0) rotate(0deg); opacity: 0.85; }
+}
+.ea-rest-drift-a {
+  animation: eaRestDriftA 8s linear infinite;
+}
+.ea-rest-drift-b {
+  animation: eaRestDriftB 8s linear 1.2s infinite backwards;
+}
+`;

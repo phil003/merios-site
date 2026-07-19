@@ -4,11 +4,16 @@
 // serializes only card-level fields (not the MDX body) so the initial HTML
 // stays lean while SEO payload (JSON-LD ItemList + prefetched hrefs) remains
 // complete.
+//
+// Card animation (motion/react-free): entering cards remount with a CSS
+// keyframe entrance (.bfg-card-in) staggered at 40ms/card (capped at 8).
+// The grid is keyed by the active category so a filter change replays the
+// entrance for the whole set; "Load more" only animates the newly appended
+// batch. Nothing animates on initial page load — the server HTML is visible
+// by default. Removed cards exit immediately (no exit animation).
 
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import BlogCard, { type BlogCardData } from "./BlogCard";
-import { easing, duration } from "@/lib/motion";
 
 interface BlogFilterGridProps {
   posts: BlogCardData[];
@@ -18,9 +23,11 @@ const PAGE_SIZE = 18;
 const ALL = "All";
 
 export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
-  const prefersReducedMotion = useReducedMotion();
   const [activeCategory, setActiveCategory] = useState<string>(ALL);
   const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
+  // Index from which cards should play the entrance animation. `null` until
+  // the first interaction so the initial render ships zero animation.
+  const [animateFrom, setAnimateFrom] = useState<number | null>(null);
 
   const categories = useMemo<string[]>(() => {
     const unique = Array.from(new Set(posts.map((p) => p.tag))).filter(Boolean);
@@ -39,9 +46,11 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
   function handleCategoryChange(cat: string): void {
     setActiveCategory(cat);
     setVisibleCount(PAGE_SIZE);
+    setAnimateFrom(0);
   }
 
   function handleLoadMore(): void {
+    setAnimateFrom(visibleCount);
     setVisibleCount((n) => n + PAGE_SIZE);
   }
 
@@ -105,59 +114,33 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
         {activeCategory !== ALL ? ` · ${activeCategory}` : ""}
       </p>
 
-      {/* Grid */}
-      <motion.div
-        layout={!prefersReducedMotion}
+      {/* Grid — keyed by category so a filter change remounts (and re-animates)
+          the full card set */}
+      <div
+        key={activeCategory}
         className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
       >
-        <AnimatePresence mode="popLayout" initial={false}>
-          {visible.map((post, index) => (
-            <motion.div
+        {visible.map((post, index) => {
+          const animate = animateFrom !== null && index >= animateFrom;
+          return (
+            <div
               key={post.slug}
-              layout={!prefersReducedMotion}
-              initial={
-                prefersReducedMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, y: 16 }
-              }
-              animate={
-                prefersReducedMotion
+              className={animate ? "bfg-card-in" : undefined}
+              style={
+                animate
                   ? {
-                      opacity: 1,
-                      transition: {
-                        duration: duration.quick,
-                      },
+                      // Stagger capped at 40ms/card × min(index, 8) to stay
+                      // well under the 100ms/element budget.
+                      animationDelay: `${(Math.min(index, 8) * 0.04).toFixed(2)}s`,
                     }
-                  : {
-                      opacity: 1,
-                      y: 0,
-                      transition: {
-                        duration: duration.normal,
-                        ease: easing.expo,
-                        // Stagger capped at 40ms/card × min(index, 8) to stay
-                        // well under the 100ms/element budget.
-                        delay: Math.min(index, 8) * 0.04,
-                      },
-                    }
-              }
-              exit={
-                prefersReducedMotion
-                  ? { opacity: 0, transition: { duration: duration.quick } }
-                  : {
-                      opacity: 0,
-                      y: -8,
-                      transition: {
-                        duration: duration.quick,
-                        ease: easing.smooth,
-                      },
-                    }
+                  : undefined
               }
             >
               <BlogCard post={post} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </motion.div>
+            </div>
+          );
+        })}
+      </div>
 
       {filtered.length === 0 ? (
         <p
@@ -195,6 +178,28 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
           </button>
         </div>
       ) : null}
+
+      <style>{styles}</style>
     </div>
   );
 }
+
+// ─── Scoped animation styles ─────────────────────────────────────────────────
+// CSS keyframe entrance replacing the previous AnimatePresence mount
+// animation (0.6s expo, y 16 → 0). The global prefers-reduced-motion rule in
+// globals.css collapses it to 0.01ms.
+const styles = `
+@keyframes bfgCardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.bfg-card-in {
+  animation: bfgCardIn 600ms var(--ease-expo) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bfg-card-in {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+  }
+}
+`;

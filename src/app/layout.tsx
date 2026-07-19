@@ -15,7 +15,16 @@ const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
   display: "swap",
-  axes: ["opsz", "SOFT"],
+  // SOFT axis dropped: it was never set anywhere (default 0), and carrying it
+  // roughly doubled the latin woff2. opsz stays — optical sizing is applied
+  // automatically by the browser and shapes the display cuts of large headings.
+  axes: ["opsz"],
+  // Fallback metrics are hand-tuned in globals.css (two-tier: Linux/Android
+  // serif first, real Times New Roman second). next/font's auto fallback
+  // assumed real Times metrics (size-adjust 115.45%), which renders ~16% too
+  // wide where 'Times New Roman' aliases to Liberation/Noto Serif (the PSI
+  // lab + Android) — the H1 wrapped differently pre/post swap → CLS 0.108.
+  adjustFontFallback: false,
 });
 
 const interTight = Inter_Tight({

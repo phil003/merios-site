@@ -1,5 +1,40 @@
 @import "tailwindcss";
 
+/* ═══ Fraunces fallback — hand-tuned metric overrides (CLS fix) ═══
+   next/font's auto fallback (local Times New Roman, size-adjust 115.45%) is
+   calibrated against REAL Times metrics. But on Linux (the Lighthouse/PSI lab)
+   and Android, 'Times New Roman' silently aliases to Liberation/Noto Serif,
+   whose glyphs are ~16% wider than Times — so the pre-swap H1 wrapped onto
+   more lines than post-swap Fraunces → single 0.108 layout shift of the whole
+   article header. Two tiers:
+   1. "Fraunces Fallback LS" resolves ONLY where Liberation/Noto/DejaVu exist
+      (Linux lab, Android, ChromeOS) — measured size-adjust ≈ 99.6% vs Fraunces.
+   2. "Fraunces Fallback" keeps next/font's real-Times numbers for iOS/macOS/
+      Windows, where those local names don't resolve and Times is the match.
+   Vertical metrics both reproduce Fraunces (ascent ≈ 97.8% em, descent ≈ 25.5%
+   em, line-gap 0) scaled by each size-adjust. */
+@font-face {
+  font-family: "Fraunces Fallback LS";
+  src: local("Liberation Serif"), local("Noto Serif"), local("DejaVu Serif");
+  /* 104% chosen from a Playwright sweep against the built site: raw width
+     ratio is ~99.6% at body/mobile-H1 sizes but Fraunces widens with auto
+     optical sizing at display sizes (72px H1 @1440 wraps one line more at
+     99.6%). 102–106% keeps identical H1 line counts at 390/768/1024/1440;
+     104% maximises slack both ways. Vertical = Fraunces metrics / 1.04. */
+  ascent-override: 94.04%;
+  descent-override: 24.52%;
+  line-gap-override: 0%;
+  size-adjust: 104%;
+}
+@font-face {
+  font-family: "Fraunces Fallback";
+  src: local("Times New Roman");
+  ascent-override: 84.71%;
+  descent-override: 22.09%;
+  line-gap-override: 0%;
+  size-adjust: 115.45%;
+}
+
 @theme {
   /* ─── Legacy tokens (kept for Sprint 0 compatibility — components migrate in Sprint 1+) ─── */
   --color-green-light: #3A7A52;
@@ -25,7 +60,8 @@
   --color-grid: #E8E3D6;
 
   /* ─── Typography (brief §3) — next/font injects --font-fraunces etc. on <html> ─── */
-  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-serif: var(--font-fraunces), "Fraunces Fallback LS", "Fraunces Fallback",
+    Georgia, serif;
   --font-sans: var(--font-inter-tight), -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
 

@@ -9,19 +9,20 @@
 // - The visibility toggle + delayed transition keeps collapsed content out of
 //   the accessibility tree + tab order when closed.
 //
-// Phase 4 polish:
+// Polish (motion/react-free):
 // - Chevron rotates 180deg on open (240ms cubic-bezier(0.32, 0.72, 0, 1)).
 // - Green-deep 2px accent line on the left that scaleY 0 → 1 on open.
 // - Subtle bg-ink/[0.02] tint on open.
-// - Filter chips animate re-appearing items with Motion's AnimatePresence +
-//   layout prop and a 40ms stagger.
+// - Filter chips re-render the group list keyed by the active filter; groups
+//   re-enter with a CSS keyframe stagger (40ms/group). The animation only
+//   plays after the first filter interaction so the initial HTML is fully
+//   visible by default. Exits are immediate.
 // - Empty state with a Clear filter reset.
-// - All motion respects useReducedMotion().
+// - Reduced motion honored by the global prefers-reduced-motion rule in
+//   globals.css plus the scoped rule below.
 
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { FaqEntry, FaqGroupKey, FaqGroupMeta } from "@/content/faq";
-import { easing } from "@/lib/motion";
 
 export interface FaqGroup {
   meta: FaqGroupMeta;
@@ -44,7 +45,9 @@ export default function FaqAccordion({
   showFilter = true,
 }: FaqAccordionProps) {
   const [active, setActive] = useState<FilterKey>("all");
-  const prefersReducedMotion = useReducedMotion();
+  // Group entrance animations only play after the first filter interaction so
+  // the server-rendered content stays visible by default on initial load.
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const visibleGroups = useMemo(() => {
     if (active === "all") return groups;
@@ -58,8 +61,10 @@ export default function FaqAccordion({
 
   const isEmpty = visibleGroups.length === 0;
 
-  // Stagger is 40ms between re-appearing items. Gated by reduced motion.
-  const staggerChildren = prefersReducedMotion ? 0 : 0.04;
+  const handleFilter = (key: FilterKey): void => {
+    setActive(key);
+    setHasInteracted(true);
+  };
 
   return (
     <div className="faq-accordion">
@@ -77,7 +82,7 @@ export default function FaqAccordion({
                 type="button"
                 role="tab"
                 aria-selected={isActive}
-                onClick={() => setActive(item.key)}
+                onClick={() => handleFilter(item.key)}
                 className="faq-pill"
                 data-active={isActive}
               >
@@ -89,94 +94,64 @@ export default function FaqAccordion({
       )}
 
       {isEmpty ? (
-        <EmptyState onClear={() => setActive("all")} />
+        <EmptyState onClear={() => handleFilter("all")} />
       ) : (
-        <motion.div
-          key={active}
-          className="flex flex-col gap-20 md:gap-28"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: {
-              transition: { staggerChildren, delayChildren: 0 },
-            },
-          }}
-        >
-          <AnimatePresence mode="popLayout" initial={false}>
-            {visibleGroups.map((group) => (
-              <motion.section
-                key={group.meta.key}
-                layout={prefersReducedMotion ? false : "position"}
-                variants={{
-                  hidden: prefersReducedMotion
-                    ? { opacity: 0 }
-                    : { opacity: 0, y: 12 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    transition: {
-                      duration: prefersReducedMotion ? 0.01 : 0.6,
-                      ease: easing.expo,
-                    },
-                  },
-                }}
-                initial="hidden"
-                animate="visible"
-                exit={{
-                  opacity: 0,
-                  transition: {
-                    duration: prefersReducedMotion ? 0.01 : 0.2,
-                    ease: easing.smooth,
-                  },
-                }}
-                aria-labelledby={`faq-group-${group.meta.key}`}
-              >
-                <header className="mb-8 md:mb-10">
-                  <div
-                    className="mb-3 flex items-center gap-2.5"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    <span
-                      aria-hidden
-                      className="inline-block h-1.5 w-1.5 rounded-full"
-                      style={{ background: "var(--color-pulse)" }}
-                    />
-                    <span
-                      className="text-[10.5px] uppercase"
-                      style={{
-                        color: "var(--color-green-deep)",
-                        letterSpacing: "0.22em",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {group.meta.eyebrow}
-                    </span>
-                  </div>
-                  <h2
-                    id={`faq-group-${group.meta.key}`}
-                    className="text-3xl md:text-5xl"
+        <div key={active} className="flex flex-col gap-20 md:gap-28">
+          {visibleGroups.map((group, index) => (
+            <section
+              key={group.meta.key}
+              className={hasInteracted ? "faq-group-in" : undefined}
+              style={
+                hasInteracted
+                  ? { animationDelay: `${(index * 0.04).toFixed(2)}s` }
+                  : undefined
+              }
+              aria-labelledby={`faq-group-${group.meta.key}`}
+            >
+              <header className="mb-8 md:mb-10">
+                <div
+                  className="mb-3 flex items-center gap-2.5"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  <span
+                    aria-hidden
+                    className="inline-block h-1.5 w-1.5 rounded-full"
+                    style={{ background: "var(--color-pulse)" }}
+                  />
+                  <span
+                    className="text-[10.5px] uppercase"
                     style={{
-                      fontFamily: "var(--font-serif)",
-                      color: "var(--color-ink)",
-                      letterSpacing: "-0.02em",
-                      lineHeight: 1.05,
-                      fontWeight: 400,
+                      color: "var(--color-green-deep)",
+                      letterSpacing: "0.22em",
+                      fontWeight: 500,
                     }}
                   >
-                    {group.meta.title}
-                  </h2>
-                </header>
+                    {group.meta.eyebrow}
+                  </span>
+                </div>
+                <h2
+                  id={`faq-group-${group.meta.key}`}
+                  className="text-3xl md:text-5xl"
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    color: "var(--color-ink)",
+                    letterSpacing: "-0.02em",
+                    lineHeight: 1.05,
+                    fontWeight: 400,
+                  }}
+                >
+                  {group.meta.title}
+                </h2>
+              </header>
 
-                <ul className="flex flex-col">
-                  {group.entries.map((entry) => (
-                    <FaqItem key={entry.id} entry={entry} />
-                  ))}
-                </ul>
-              </motion.section>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+              <ul className="flex flex-col">
+                {group.entries.map((entry) => (
+                  <FaqItem key={entry.id} entry={entry} />
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       )}
 
       {/* Scoped styles — keeps the grid-row expand hack + visibility gate in
@@ -326,6 +301,17 @@ const styles = `
   border-radius: 2px;
 }
 
+/* Group re-entrance after a filter change — CSS keyframe replacement for the
+   previous AnimatePresence stagger. Applied only post-interaction; the delay
+   is set inline per group (40ms/group, under the 100ms cap). */
+@keyframes faqGroupIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.faq-accordion .faq-group-in {
+  animation: faqGroupIn 600ms var(--ease-expo) both;
+}
+
 .faq-item-row {
   border-top: 1px solid var(--color-grid);
   list-style: none;
@@ -454,6 +440,10 @@ const styles = `
   .faq-chevron,
   .faq-accent {
     transition-duration: 0.01ms !important;
+  }
+  .faq-accordion .faq-group-in {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
   }
 }
 `;

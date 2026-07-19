@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
 import { useLenis } from "@/components/providers/LenisProvider";
-import { duration, easing } from "@/lib/motion";
 
 /**
  * StickyLateralNav — desktop-only sticky table-of-contents for
@@ -17,14 +15,17 @@ import { duration, easing } from "@/lib/motion";
  *     mirrors a "top 45%" heuristic without triggering React re-renders
  *     per scroll tick (only re-renders when the active id changes).
  *
- * Active-state visual:
- *   - Underline indicator is rendered by a single Motion element with a
- *     shared `layoutId`, so it smoothly translates between links.
+ * Active-state visual (motion-free, same convention as ArticleTOC):
+ *   - Each label owns an underline span; the active one crossfades in via
+ *     a plain CSS opacity transition. (Replaces the previous Motion
+ *     `layoutId` shared-layout spring that slid between links.)
  *
  * Click behaviour:
  *   - If a Lenis instance is available, scroll with
- *     `lenis.scrollTo(targetY, { duration: 1.2 })`.
- *   - Fallback: `window.scrollTo({ top: targetY, behavior: "smooth" })`.
+ *     `lenis.scrollTo(target, { duration: 1.2 })`.
+ *   - Fallback: `window.scrollTo({ top: targetY, behavior: "smooth" })`,
+ *     downgraded to instant under prefers-reduced-motion (checked with
+ *     matchMedia at click time).
  *   - After scrolling, programmatic focus is moved to the target section
  *     (the section has `tabIndex={-1}` so it is focusable without entering
  *     the tab order).
@@ -42,7 +43,6 @@ const SCROLL_OFFSET = 96;
 
 export default function StickyLateralNav() {
   const lenis = useLenis();
-  const prefersReducedMotion = useReducedMotion();
   const [activeId, setActiveId] = useState<LinkId>(LINKS[0].id);
 
   useEffect(() => {
@@ -86,6 +86,9 @@ export default function StickyLateralNav() {
       if (!target) return;
       event.preventDefault();
 
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
       const focusTarget = () => target.focus({ preventScroll: true });
 
       if (lenis) {
@@ -101,10 +104,10 @@ export default function StickyLateralNav() {
           target.getBoundingClientRect().top + window.scrollY - SCROLL_OFFSET;
         window.scrollTo({
           top: targetY,
-          behavior: prefersReducedMotion ? "auto" : "smooth",
+          behavior: prefersReduced ? "auto" : "smooth",
         });
         // Delay focus slightly so smooth scroll isn't cancelled.
-        window.setTimeout(focusTarget, prefersReducedMotion ? 0 : 400);
+        window.setTimeout(focusTarget, prefersReduced ? 0 : 400);
       }
     };
 
@@ -143,9 +146,7 @@ export default function StickyLateralNav() {
                   color: isActive
                     ? "var(--color-ink)"
                     : "var(--color-ink-secondary)",
-                  transition: `color ${duration.quick}s cubic-bezier(${easing.expo.join(
-                    ",",
-                  )})`,
+                  transition: "color 300ms var(--ease-expo)",
                 }}
               >
                 <span
@@ -162,24 +163,15 @@ export default function StickyLateralNav() {
                 </span>
                 <span className="hiw-nav-label relative inline-block">
                   {link.label}
-                  {isActive ? (
-                    <motion.span
-                      layoutId="hiw-nav-underline"
-                      aria-hidden
-                      className="absolute left-0 -bottom-0.5 block h-px w-full"
-                      style={{ background: "var(--color-green-deep)" }}
-                      transition={
-                        prefersReducedMotion
-                          ? { duration: 0 }
-                          : {
-                              type: "spring",
-                              stiffness: 380,
-                              damping: 34,
-                              mass: 0.6,
-                            }
-                      }
-                    />
-                  ) : null}
+                  <span
+                    aria-hidden
+                    className="absolute left-0 -bottom-0.5 block h-px w-full"
+                    style={{
+                      background: "var(--color-green-deep)",
+                      opacity: isActive ? 1 : 0,
+                      transition: "opacity 240ms var(--ease-expo)",
+                    }}
+                  />
                 </span>
               </a>
             </li>

@@ -1,46 +1,18 @@
-"use client";
-
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import type { CSSProperties } from "react";
 
 import Reveal from "@/components/ui/Reveal";
-import { duration, easing } from "@/lib/motion";
 
 /**
  * Science — Thesis.
  *
  * The composite-score argument: a pull quote plus a two-column editorial
- * expansion. Paragraphs fade-up with a 100ms stagger (Motion variants),
- * gated by prefers-reduced-motion. Superscripts reference citations rendered
- * in <Citations />.
+ * expansion. Server component: scroll reveals are driven by the shared
+ * data-rv mechanism (globals.css + inline IntersectionObserver), with a
+ * 100ms stagger expressed as an incremental --rv-delay. Superscripts
+ * reference citations rendered in <Citations />.
  */
 
 export default function ScienceThesis() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const groupVariants: Variants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: prefersReducedMotion ? 0 : 0.1 },
-    },
-  };
-
-  const paragraphVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { duration: duration.quick },
-        },
-      }
-    : {
-        hidden: { opacity: 0, y: 24 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: duration.normal, ease: easing.expo },
-        },
-      };
-
   return (
     <section
       id="thesis"
@@ -90,148 +62,139 @@ export default function ScienceThesis() {
           </h2>
         </Reveal>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
-          variants={groupVariants}
-        >
-          <motion.figure
-            variants={paragraphVariants}
-            className="mt-16 max-w-[960px]"
+        <figure data-rv="" className="mt-16 max-w-[960px]">
+          <blockquote
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "clamp(1.625rem, 2.8vw, 2.25rem)",
+              fontWeight: 300,
+              lineHeight: 1.22,
+              letterSpacing: "-0.015em",
+              color: "var(--color-ink)",
+            }}
           >
-            <blockquote
+            <span
+              aria-hidden
+              style={{
+                color: "var(--color-green-deep)",
+                opacity: 0.55,
+                marginRight: "0.12em",
+              }}
+            >
+              &ldquo;
+            </span>
+            The signal lives in the system — in convergence, trajectory, and
+            time. A single composite is how clinicians already think; it is
+            how consumer health finally should.
+            <span
+              aria-hidden
+              style={{
+                color: "var(--color-green-deep)",
+                opacity: 0.55,
+                marginLeft: "0.05em",
+              }}
+            >
+              &rdquo;
+            </span>
+          </blockquote>
+          <figcaption
+            className="mt-8"
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "var(--color-ink-tertiary)",
+              fontWeight: 500,
+            }}
+          >
+            Merios — Scientific thesis
+          </figcaption>
+        </figure>
+
+        <div
+          data-rv=""
+          style={{ "--rv-delay": "0.1s" } as CSSProperties}
+          className="mt-20 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2 md:gap-x-16"
+        >
+          <div>
+            <h3
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.8vw, 2.25rem)",
-                fontWeight: 300,
-                lineHeight: 1.22,
+                fontSize: "var(--text-headline)",
+                fontWeight: 400,
+                lineHeight: 1.15,
                 letterSpacing: "-0.015em",
                 color: "var(--color-ink)",
               }}
             >
-              <span
-                aria-hidden
-                style={{
-                  color: "var(--color-green-deep)",
-                  opacity: 0.55,
-                  marginRight: "0.12em",
-                }}
-              >
-                &ldquo;
-              </span>
-              The signal lives in the system — in convergence, trajectory, and
-              time. A single composite is how clinicians already think; it is
-              how consumer health finally should.
-              <span
-                aria-hidden
-                style={{
-                  color: "var(--color-green-deep)",
-                  opacity: 0.55,
-                  marginLeft: "0.05em",
-                }}
-              >
-                &rdquo;
-              </span>
-            </blockquote>
-            <figcaption
-              className="mt-8"
+              Why single markers fail.
+            </h3>
+            <p
+              className="mt-5"
               style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "var(--color-ink-tertiary)",
-                fontWeight: 500,
+                fontFamily: "var(--font-sans)",
+                fontSize: 17,
+                lineHeight: 1.65,
+                color: "var(--color-ink-secondary)",
               }}
             >
-              Merios — Scientific thesis
-            </figcaption>
-          </motion.figure>
+              A normal LDL with a high Apo-B is not normal. An in-range HbA1c
+              with elevated fasting insulin is not in range. Reference
+              intervals are defined against a population that is itself
+              largely metabolically unwell
+              <sup aria-describedby="ref-1">
+                <a
+                  href="#ref-1"
+                  aria-label="Reference 1"
+                  style={{ color: "var(--color-green-deep)" }}
+                >
+                  1
+                </a>
+              </sup>
+              — so normal flags are a low bar, not a goal.
+            </p>
+          </div>
 
-          <motion.div
-            variants={paragraphVariants}
-            className="mt-20 grid grid-cols-1 gap-x-12 gap-y-8 md:grid-cols-2 md:gap-x-16"
-          >
-            <div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "var(--text-headline)",
-                  fontWeight: 400,
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.015em",
-                  color: "var(--color-ink)",
-                }}
-              >
-                Why single markers fail.
-              </h3>
-              <p
-                className="mt-5"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 17,
-                  lineHeight: 1.65,
-                  color: "var(--color-ink-secondary)",
-                }}
-              >
-                A normal LDL with a high Apo-B is not normal. An in-range HbA1c
-                with elevated fasting insulin is not in range. Reference
-                intervals are defined against a population that is itself
-                largely metabolically unwell
-                <sup aria-describedby="ref-1">
-                  <a
-                    href="#ref-1"
-                    aria-label="Reference 1"
-                    style={{ color: "var(--color-green-deep)" }}
-                  >
-                    1
-                  </a>
-                </sup>
-                — so normal flags are a low bar, not a goal.
-              </p>
-            </div>
-
-            <div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "var(--text-headline)",
-                  fontWeight: 400,
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.015em",
-                  color: "var(--color-ink)",
-                }}
-              >
-                Why a composite works.
-              </h3>
-              <p
-                className="mt-5"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 17,
-                  lineHeight: 1.65,
-                  color: "var(--color-ink-secondary)",
-                }}
-              >
-                Composite indices reduce noise, capture system-level risk, and
-                track meaningful change over time. They are the statistical
-                spine of landmark work on biological age and cardiometabolic
-                risk stratification
-                <sup aria-describedby="ref-2">
-                  <a
-                    href="#ref-2"
-                    aria-label="Reference 2"
-                    style={{ color: "var(--color-green-deep)" }}
-                  >
-                    2
-                  </a>
-                </sup>
-                . Merios is built on that foundation.
-              </p>
-            </div>
-          </motion.div>
-        </motion.div>
+          <div>
+            <h3
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "var(--text-headline)",
+                fontWeight: 400,
+                lineHeight: 1.15,
+                letterSpacing: "-0.015em",
+                color: "var(--color-ink)",
+              }}
+            >
+              Why a composite works.
+            </h3>
+            <p
+              className="mt-5"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: 17,
+                lineHeight: 1.65,
+                color: "var(--color-ink-secondary)",
+              }}
+            >
+              Composite indices reduce noise, capture system-level risk, and
+              track meaningful change over time. They are the statistical
+              spine of landmark work on biological age and cardiometabolic
+              risk stratification
+              <sup aria-describedby="ref-2">
+                <a
+                  href="#ref-2"
+                  aria-label="Reference 2"
+                  style={{ color: "var(--color-green-deep)" }}
+                >
+                  2
+                </a>
+              </sup>
+              . Merios is built on that foundation.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );

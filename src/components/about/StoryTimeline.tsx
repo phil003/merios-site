@@ -1,7 +1,4 @@
-"use client";
-
-import { motion, useReducedMotion, type Variants } from "motion/react";
-import { easing, duration } from "@/lib/motion";
+import type { CSSProperties } from "react";
 
 interface Milestone {
   date: string;
@@ -36,38 +33,14 @@ const MILESTONES: Milestone[] = [
   },
 ];
 
+/**
+ * Server component — the previous motion/react whileInView stagger is now
+ * expressed as per-milestone `data-rv` reveals with incremental `--rv-delay`
+ * (globals.css Reveal v2 + the inline IntersectionObserver in layout.tsx).
+ * Content is visible by default in the static HTML; reduced motion is handled
+ * globally (html[data-anim] is never set).
+ */
 export default function StoryTimeline() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const containerVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { staggerChildren: 0, duration: duration.quick },
-        },
-      }
-    : {
-        hidden: {},
-        visible: {
-          transition: { staggerChildren: 0.12, delayChildren: 0.05 },
-        },
-      };
-
-  const itemVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-      }
-    : {
-        hidden: { opacity: 0, y: 28 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: duration.slow, ease: easing.expo },
-        },
-      };
-
   return (
     <section
       className="px-6 md:px-10"
@@ -119,24 +92,23 @@ export default function StoryTimeline() {
             </h2>
           </div>
 
-          <motion.ol
-            className="relative max-w-[680px]"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15, margin: "0px 0px -80px 0px" }}
-            variants={containerVariants}
-          >
+          <ol className="relative max-w-[680px]">
             <span
               aria-hidden
               className="absolute left-0 top-2 bottom-2 w-px"
               style={{ background: "var(--color-grid)" }}
             />
 
-            {MILESTONES.map((m) => (
-              <motion.li
+            {MILESTONES.map((m, i) => (
+              <li
                 key={m.date}
-                variants={itemVariants}
+                data-rv=""
                 className="relative grid grid-cols-[120px_1fr] gap-6 pb-12 pl-8 last:pb-0 md:grid-cols-[140px_1fr] md:gap-10"
+                style={
+                  {
+                    "--rv-delay": `${(0.05 + i * 0.1).toFixed(2)}s`,
+                  } as CSSProperties
+                }
               >
                 <span
                   aria-hidden
@@ -187,9 +159,9 @@ export default function StoryTimeline() {
                     {m.description}
                   </p>
                 </div>
-              </motion.li>
+              </li>
             ))}
-          </motion.ol>
+          </ol>
         </div>
       </div>
     </section>

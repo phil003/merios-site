@@ -1,8 +1,12 @@
 "use client";
 
+// NewsletterForm — motion/react-free. State swaps (label, icon, helper
+// message) are keyed elements that remount with a CSS keyframe entrance;
+// border / background / shadow changes ride plain CSS transitions, and the
+// hover lift is a Tailwind `motion-safe:` utility. Reduced motion is honored
+// by the global `@media (prefers-reduced-motion: reduce)` rule in globals.css.
+
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { easing, duration } from "@/lib/motion";
 
 // Supabase project — constants copied verbatim from src/components/Waitlist.tsx
 // (same project, same anon key). Do not diverge.
@@ -51,12 +55,16 @@ export default function NewsletterForm({
   const [status, setStatus] = useState<Status>("idle");
   const [email, setEmail] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  const reduced = useReducedMotion();
+  // Entrance animations only play after the first submit attempt so the
+  // initial static content renders with zero animation (visible by default).
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === "loading" || status === "success" || status === "duplicate")
       return;
+
+    setHasSubmitted(true);
 
     const clean = email.trim().toLowerCase();
     if (!EMAIL_RE.test(clean)) {
@@ -136,12 +144,6 @@ export default function NewsletterForm({
         ? "var(--color-accent-warm)"
         : baseTextMuted;
 
-  // Motion spring config. Respect reduced-motion by collapsing to a near-instant tween.
-  const springTransition = reduced
-    ? { duration: duration.quick, ease: easing.smooth }
-    : { type: "spring" as const, stiffness: 300, damping: 26, mass: 0.9 };
-
-  // Button label content per state — animated via AnimatePresence for crossfade.
   const buttonLabel = isLoading
     ? "Sending"
     : status === "success"
@@ -159,7 +161,7 @@ export default function NewsletterForm({
       <label className="sr-only" htmlFor={inputId}>
         Email address
       </label>
-      <motion.input
+      <input
         id={inputId}
         type="email"
         inputMode="email"
@@ -179,21 +181,21 @@ export default function NewsletterForm({
             fontFamily: "var(--font-sans)",
             color: inputColor,
             "--placeholder-color": placeholderColor,
+            borderBottom: `1px solid ${borderColor}`,
+            transition: "border-color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
           } as React.CSSProperties
         }
-        animate={{
-          borderBottomColor: borderColor,
-          borderBottomWidth: 1,
-          borderBottomStyle: "solid",
-        }}
-        transition={springTransition}
       />
-      <motion.button
+      <button
         type="submit"
         disabled={locked || isLoading}
         aria-busy={isLoading || undefined}
         aria-live="polite"
-        className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 disabled:cursor-default disabled:opacity-90"
+        className={`group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 transition-[background-color,box-shadow,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:cursor-default disabled:opacity-90 ${
+          isSuccess
+            ? "shadow-none"
+            : "shadow-[0_10px_28px_-12px_rgba(159,191,0,0.55)] motion-safe:enabled:hover:-translate-y-0.5 motion-safe:enabled:hover:shadow-[0_14px_34px_-12px_rgba(159,191,0,0.65)] motion-safe:enabled:active:-translate-y-px"
+        }`}
         style={{
           color: "var(--color-ink)",
           fontFamily: "var(--font-sans)",
@@ -201,99 +203,52 @@ export default function NewsletterForm({
           fontWeight: 600,
           letterSpacing: "0.01em",
           cursor: locked || isLoading ? "default" : "pointer",
-        }}
-        animate={{
-          backgroundColor: isSuccess
+          background: isSuccess
             ? "rgba(159,191,0,0.35)"
             : "var(--color-pulse)",
-          y: reduced ? 0 : isLoading ? 0 : 0,
-          boxShadow: isSuccess
-            ? "0 0 0 0 rgba(159,191,0,0)"
-            : "0 10px 28px -12px rgba(159,191,0,0.55)",
         }}
-        whileHover={
-          reduced || locked || isLoading
-            ? undefined
-            : { y: -2, boxShadow: "0 14px 34px -12px rgba(159,191,0,0.65)" }
-        }
-        whileTap={reduced || locked || isLoading ? undefined : { y: -1 }}
-        transition={springTransition}
       >
-        <AnimatePresence mode="wait" initial={false}>
-          {isLoading ? (
-            <motion.span
-              key="loader"
-              aria-hidden
-              className="inline-block h-3.5 w-3.5 rounded-full border-2"
-              style={{
-                borderColor: "var(--color-ink)",
-                borderRightColor: "transparent",
-              }}
-              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
-              animate={
-                reduced
-                  ? { opacity: 1 }
-                  : { opacity: 1, scale: 1, rotate: 360 }
-              }
-              exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
-              transition={
-                reduced
-                  ? { duration: duration.quick }
-                  : {
-                      rotate: {
-                        duration: 0.9,
-                        ease: "linear",
-                        repeat: Infinity,
-                      },
-                      opacity: { duration: duration.quick },
-                      scale: { duration: duration.quick, ease: easing.smooth },
-                    }
-              }
-            />
-          ) : isSuccess ? (
-            <motion.svg
-              key="check"
-              aria-hidden
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
-              transition={springTransition}
-            >
-              <path d="M20 6L9 17l-5-5" />
-            </motion.svg>
-          ) : (
-            <motion.span
-              key="dot"
-              aria-hidden
-              className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--color-ink)" }}
-              initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6 }}
-              transition={springTransition}
-            />
-          )}
-        </AnimatePresence>
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={buttonLabel}
-            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
-            transition={{ duration: duration.quick, ease: easing.smooth }}
+        {isLoading ? (
+          <span
+            key="loader"
+            aria-hidden
+            className="nf-spinner inline-block h-3.5 w-3.5 rounded-full border-2"
+            style={{
+              borderColor: "var(--color-ink)",
+              borderRightColor: "transparent",
+            }}
+          />
+        ) : isSuccess ? (
+          <svg
+            key="check"
+            aria-hidden
+            className="nf-pop"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            {buttonLabel}
-          </motion.span>
-        </AnimatePresence>
-      </motion.button>
+            <path d="M20 6L9 17l-5-5" />
+          </svg>
+        ) : (
+          <span
+            key="dot"
+            aria-hidden
+            className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--color-ink)" }}
+          />
+        )}
+        <span
+          key={buttonLabel}
+          className={hasSubmitted ? "nf-in" : undefined}
+        >
+          {buttonLabel}
+        </span>
+      </button>
 
       <p
         role={status === "error" || status === "invalid" ? "alert" : undefined}
@@ -311,18 +266,40 @@ export default function NewsletterForm({
           letterSpacing: "0.08em",
         }}
       >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.p
-            key={`${status}-${message}`}
-            initial={reduced ? { opacity: 0 } : { opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0, color: messageTone }}
-            exit={reduced ? { opacity: 0 } : { opacity: 0, y: -6 }}
-            transition={{ duration: duration.quick, ease: easing.smooth }}
-          >
-            {message}
-          </motion.p>
-        </AnimatePresence>
+        <p
+          key={`${status}-${message}`}
+          className={hasSubmitted ? "nf-in" : undefined}
+          style={{ color: messageTone }}
+        >
+          {message}
+        </p>
       </div>
+
+      <style>{styles}</style>
     </form>
   );
 }
+
+// ─── Scoped animation styles ─────────────────────────────────────────────────
+// Keyframe entrances replacing the previous AnimatePresence crossfades.
+// The global prefers-reduced-motion rule in globals.css collapses these
+// to 0.01ms / a single iteration.
+const styles = `
+@keyframes nf-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes nf-pop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes nf-spin {
+  to { transform: rotate(360deg); }
+}
+.nf-in { animation: nf-in 300ms var(--ease-smooth) both; }
+.nf-pop { animation: nf-pop 300ms var(--ease-smooth) both; }
+.nf-spinner {
+  animation: nf-pop 300ms var(--ease-smooth) both,
+    nf-spin 0.9s linear infinite;
+}
+`;

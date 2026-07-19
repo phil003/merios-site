@@ -1,14 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import {
-  animate,
-  motion,
-  useInView,
-  useReducedMotion,
-  type Variants,
-} from "motion/react";
-import { duration, easing } from "@/lib/motion";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
 /**
  * StepSection — shared wrapper for the three deep sub-sections on
@@ -22,15 +14,16 @@ import { duration, easing } from "@/lib/motion";
  *   - Renders the canonical eyebrow → headline → lead header, then the
  *     section-specific `children`.
  *
- * Phase 4 polish:
- *   - Fade-up on enter uses Motion's `useInView` + variants directly
- *     (was wrapped in <Reveal>). This removes a layout wrapper node and
- *     keeps the animation self-contained.
- *   - Optional step number counter animates 0 → `stepNumber` on enter
- *     using Motion's `animate()`. Pass `stepNumber` to enable it; when
- *     absent, the static eyebrow renders as before.
- *   - All motion is gated by `useReducedMotion()` — when reduced, children
- *     render immediately visible with no y-offset, no counter tween.
+ * Motion-free (Reveal v2 conventions):
+ *   - The eyebrow / headline / lead fade-up is driven by `data-rv`
+ *     attributes with incremental `--rv-delay` (globals.css +
+ *     the inline IntersectionObserver bootstrap in layout.tsx). The header
+ *     is visible by default in static HTML — crawler/no-JS/LCP safe.
+ *   - Optional step number counter animates 0 → `stepNumber` with a vanilla
+ *     IntersectionObserver + requestAnimationFrame loop (expo-out easing).
+ *     The static HTML carries the FINAL value; the count-up only arms once
+ *     the observer fires, and prefers-reduced-motion users keep the final
+ *     value with no tween.
  */
 
 export interface StepSectionProps {
@@ -44,6 +37,9 @@ export interface StepSectionProps {
   className?: string;
 }
 
+/** Matches the previous Motion timing: duration.slow (1.1s), expo-out ease. */
+const COUNTER_DURATION_MS = 1100;
+
 export default function StepSection({
   id,
   eyebrow,
@@ -54,79 +50,59 @@ export default function StepSection({
   className,
 }: StepSectionProps) {
   const headlineId = `hiw-${id}-headline`;
-  const prefersReducedMotion = useReducedMotion();
-
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, {
-    once: true,
-    amount: 0.2,
-    margin: "0px 0px -80px 0px",
-  });
-
-  // Step number counter (0 → stepNumber) driven by Motion's `animate()`.
   const counterRef = useRef<HTMLSpanElement>(null);
-  const [counterReady, setCounterReady] = useState(false);
 
   useEffect(() => {
     if (stepNumber === undefined) return;
-    if (!inView) return;
     const el = counterRef.current;
     if (!el) return;
 
-    if (prefersReducedMotion) {
-      el.textContent = String(stepNumber).padStart(2, "0");
-      setCounterReady(true);
+    const finalText = String(stepNumber).padStart(2, "0");
+
+    // Reduced motion: keep the statically-rendered final value, no tween.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = finalText;
       return;
     }
 
-    const controls = animate(0, stepNumber, {
-      duration: duration.slow,
-      ease: easing.expo,
-      onUpdate: (v) => {
-        el.textContent = String(Math.round(v)).padStart(2, "0");
-      },
-      onComplete: () => {
-        el.textContent = String(stepNumber).padStart(2, "0");
-      },
-    });
-    setCounterReady(true);
-    return () => controls.stop();
-  }, [inView, prefersReducedMotion, stepNumber]);
+    let raf = 0;
 
-  const headerVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { duration: duration.quick, staggerChildren: 0.05 },
-        },
-      }
-    : {
-        hidden: { opacity: 0, y: 32 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: {
-            duration: duration.slow,
-            ease: easing.expo,
-            staggerChildren: 0.08,
-          },
-        },
-      };
+    // Same rootMargin/threshold as the Reveal v2 bootstrap so the count-up
+    // starts in sync with the eyebrow row's own fade-up reveal.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
 
-  const itemVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { duration: duration.quick } },
-      }
-    : {
-        hidden: { opacity: 0, y: 24 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: duration.slow, ease: easing.expo },
-        },
-      };
+        let start: number | null = null;
+        const tick = (now: number) => {
+          if (start === null) start = now;
+          const t = Math.min((now - start) / COUNTER_DURATION_MS, 1);
+          // Expo-out, visually equivalent to cubic-bezier(0.16, 1, 0.3, 1).
+          const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+          el.textContent = String(Math.round(eased * stepNumber)).padStart(
+            2,
+            "0",
+          );
+          if (t < 1) {
+            raf = requestAnimationFrame(tick);
+          } else {
+            el.textContent = finalText;
+          }
+        };
+
+        el.textContent = "00";
+        raf = requestAnimationFrame(tick);
+      },
+      { rootMargin: "0px 0px -80px 0px", threshold: 0.12 },
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [stepNumber]);
 
   return (
     <section
@@ -141,81 +117,74 @@ export default function StepSection({
         .filter(Boolean)
         .join(" ")}
     >
-      <motion.div
-        ref={sectionRef}
-        initial="hidden"
-        animate={inView ? "visible" : "hidden"}
-        variants={headerVariants}
-      >
-        <div className="max-w-[720px]">
-          <motion.div
-            className="inline-flex items-center gap-2.5"
-            style={{ fontFamily: "var(--font-mono)" }}
-            variants={itemVariants}
-          >
-            <span
-              aria-hidden
-              className="inline-block h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--color-pulse)" }}
-            />
-            <span
-              className="text-[10.5px] uppercase"
-              style={{
-                color: "var(--color-green-deep)",
-                letterSpacing: "0.22em",
-                fontWeight: 500,
-              }}
-            >
-              {stepNumber !== undefined ? (
-                <>
-                  Step{" "}
-                  <span
-                    ref={counterRef}
-                    className="tabular-nums"
-                    // Keep a zero placeholder until the counter begins to
-                    // avoid layout shift when it mounts.
-                    aria-hidden={!counterReady}
-                  >
-                    00
-                  </span>{" "}
-                  — {eyebrow}
-                </>
-              ) : (
-                eyebrow
-              )}
-            </span>
-          </motion.div>
-
-          <motion.h2
-            id={headlineId}
-            className="mt-6"
+      <div className="max-w-[720px]">
+        <div
+          data-rv
+          className="inline-flex items-center gap-2.5"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          <span
+            aria-hidden
+            className="inline-block h-1.5 w-1.5 rounded-full"
+            style={{ background: "var(--color-pulse)" }}
+          />
+          <span
+            className="text-[10.5px] uppercase"
             style={{
+              color: "var(--color-green-deep)",
+              letterSpacing: "0.22em",
+              fontWeight: 500,
+            }}
+          >
+            {stepNumber !== undefined ? (
+              <>
+                Step{" "}
+                <span ref={counterRef} className="tabular-nums">
+                  {String(stepNumber).padStart(2, "0")}
+                </span>{" "}
+                — {eyebrow}
+              </>
+            ) : (
+              eyebrow
+            )}
+          </span>
+        </div>
+
+        <h2
+          id={headlineId}
+          data-rv
+          className="mt-6"
+          style={
+            {
               fontFamily: "var(--font-serif)",
               fontSize: "var(--text-display-m)",
               fontWeight: 300,
               lineHeight: 1.05,
               letterSpacing: "-0.025em",
               color: "var(--color-ink)",
-            }}
-            variants={itemVariants}
-          >
-            {headline}
-          </motion.h2>
+              "--rv-delay": "0.08s",
+            } as CSSProperties
+          }
+        >
+          {headline}
+        </h2>
 
-          <motion.p
-            className="mt-6 max-w-[560px]"
-            style={{
+        <p
+          data-rv
+          className="mt-6 max-w-[560px]"
+          style={
+            {
               fontFamily: "var(--font-sans)",
               fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
               lineHeight: 1.65,
               color: "var(--color-ink-secondary)",
-            }}
-            variants={itemVariants}
-          >
-            {lead}
-          </motion.p>
-        </div>
-      </motion.div>
+              "--rv-delay": "0.16s",
+            } as CSSProperties
+          }
+        >
+          {lead}
+        </p>
+      </div>
 
       <div className="mt-14 md:mt-20">{children}</div>
     </section>

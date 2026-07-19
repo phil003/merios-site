@@ -5,8 +5,6 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
-import { motion, useReducedMotion } from "motion/react";
-import { easing } from "@/lib/motion";
 import NewsletterForm from "./NewsletterForm";
 
 if (typeof window !== "undefined") {
@@ -22,7 +20,6 @@ const APP_STORE_BADGE =
   "https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83";
 
 export default function VariantUS() {
-  const reduced = useReducedMotion();
   const container = useRef<HTMLElement>(null);
 
   // GSAP: headline char-by-char split + scroll-triggered stagger. Subline
@@ -84,13 +81,6 @@ export default function VariantUS() {
     { scope: container },
   );
 
-  // Motion spring for the badge hover tilt (max 4deg, lift 2px).
-  const badgeSpring = {
-    type: "spring" as const,
-    stiffness: 300,
-    damping: 20,
-  };
-
   return (
     <main ref={container}>
       {/* ─── Hero: cream canvas, centered editorial ─── */}
@@ -99,38 +89,26 @@ export default function VariantUS() {
         style={{ background: "var(--color-canvas)" }}
         aria-label="Download Merios on the US App Store"
       >
-        {/* Ambient animated gradient — slow 8s loop, opacity capped at 0.15.
-            Disabled entirely under reduced-motion. */}
-        {reduced ? (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute top-0 left-1/2 h-[60%] w-[80%] -translate-x-1/2"
-            style={{
-              background:
-                "radial-gradient(50% 55% at 50% 20%, rgba(159,191,0,0.08), transparent 70%)",
-            }}
-          />
-        ) : (
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute top-0 left-1/2 h-[80%] w-[110%] -translate-x-1/2"
-            style={{
-              background:
-                "radial-gradient(48% 52% at 50% 30%, rgba(159,191,0,0.15), transparent 70%), radial-gradient(40% 45% at 70% 40%, rgba(30,61,42,0.10), transparent 70%)",
-              willChange: "transform, opacity",
-            }}
-            animate={{
-              rotate: [0, 8, 0, -8, 0],
-              x: ["-50%", "-48%", "-52%", "-50%"],
-              opacity: [0.85, 1, 0.85],
-            }}
-            transition={{
-              duration: 8,
-              ease: "linear",
-              repeat: Infinity,
-            }}
-          />
-        )}
+        {/* Ambient animated gradient — slow 8s CSS loop, opacity capped at
+            0.15. The static fallback shows under reduced-motion; the animated
+            layer is hidden there (motion-reduce / motion-safe variants). */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute top-0 left-1/2 h-[60%] w-[80%] -translate-x-1/2 motion-safe:hidden"
+          style={{
+            background:
+              "radial-gradient(50% 55% at 50% 20%, rgba(159,191,0,0.08), transparent 70%)",
+          }}
+        />
+        <div
+          aria-hidden
+          className="ea-us-drift pointer-events-none absolute top-0 left-1/2 h-[80%] w-[110%] motion-reduce:hidden"
+          style={{
+            background:
+              "radial-gradient(48% 52% at 50% 30%, rgba(159,191,0,0.15), transparent 70%), radial-gradient(40% 45% at 70% 40%, rgba(30,61,42,0.10), transparent 70%)",
+            willChange: "transform, opacity",
+          }}
+        />
 
         <div className="relative mx-auto max-w-[720px] px-6 text-center md:px-10">
           {/* Eyebrow */}
@@ -189,64 +167,35 @@ export default function VariantUS() {
 
           {/* CTA: App Store badge with 2 concentric pulse rings */}
           <div className="relative mx-auto mt-12 inline-block">
-            {/* Pulse ring #1 — inner, expands + fades over 3s */}
-            {!reduced && (
-              <motion.span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-2xl"
-                style={{
-                  boxShadow: "0 0 0 2px var(--color-pulse)",
-                }}
-                animate={{
-                  scale: [1, 1.18, 1.35],
-                  opacity: [0.55, 0.2, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  ease: easing.smooth,
-                  repeat: Infinity,
-                }}
-              />
-            )}
+            {/* Pulse ring #1 — inner, expands + fades over 3s (CSS keyframes,
+                hidden under reduced-motion) */}
+            <span
+              aria-hidden
+              className="ea-us-ring pointer-events-none absolute inset-0 rounded-2xl motion-reduce:hidden"
+              style={{
+                boxShadow: "0 0 0 2px var(--color-pulse)",
+              }}
+            />
             {/* Pulse ring #2 — outer, offset by 1.5s (half of the loop) */}
-            {!reduced && (
-              <motion.span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-2xl"
-                style={{
-                  boxShadow: "0 0 0 2px var(--color-pulse)",
-                }}
-                animate={{
-                  scale: [1, 1.18, 1.35],
-                  opacity: [0.55, 0.2, 0],
-                }}
-                transition={{
-                  duration: 3,
-                  ease: easing.smooth,
-                  repeat: Infinity,
-                  delay: 1.5,
-                }}
-              />
-            )}
+            <span
+              aria-hidden
+              className="ea-us-ring pointer-events-none absolute inset-0 rounded-2xl motion-reduce:hidden"
+              style={{
+                boxShadow: "0 0 0 2px var(--color-pulse)",
+                animationDelay: "1.5s",
+              }}
+            />
 
-            {/* App Store badge — Motion tilt + lift on hover */}
-            <motion.a
+            {/* App Store badge — CSS tilt + lift on hover/focus/press */}
+            <a
               href={APP_STORE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative inline-block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-deep focus-visible:ring-offset-2"
+              className="relative inline-block rounded-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-deep focus-visible:ring-offset-2 motion-safe:hover:-translate-y-0.5 motion-safe:hover:rotate-[4deg] motion-safe:focus-visible:-translate-y-0.5 motion-safe:focus-visible:rotate-[4deg] motion-safe:active:-translate-y-px motion-safe:active:rotate-[2deg]"
               style={{
                 outlineOffset: 2,
               }}
               aria-label="Download Merios on the App Store"
-              whileHover={
-                reduced ? undefined : { rotate: 4, y: -2 }
-              }
-              whileFocus={
-                reduced ? undefined : { rotate: 4, y: -2 }
-              }
-              whileTap={reduced ? undefined : { rotate: 2, y: -1 }}
-              transition={badgeSpring}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -256,7 +205,7 @@ export default function VariantUS() {
                 height={55}
                 style={{ display: "block" }}
               />
-            </motion.a>
+            </a>
           </div>
 
           {/* Caption under CTA */}
@@ -347,6 +296,34 @@ export default function VariantUS() {
         </div>
       </section>
 
+      <style>{styles}</style>
     </main>
   );
 }
+
+// ─── Scoped animation styles ─────────────────────────────────────────────────
+// CSS keyframes replacing the previous motion/react infinite loops. The drift
+// keyframes fold the original rotate / x / opacity tracks into one timeline;
+// translateX(-50%) keeps the layer centered (the class-based -translate-x-1/2
+// is owned by the animation here). Hidden under reduced-motion via the
+// motion-reduce:hidden utility on the elements.
+const styles = `
+@keyframes eaUsDrift {
+  0% { transform: translateX(-50%) rotate(0deg); opacity: 0.85; }
+  25% { transform: translateX(-48.5%) rotate(8deg); opacity: 0.95; }
+  50% { transform: translateX(-50%) rotate(0deg); opacity: 1; }
+  75% { transform: translateX(-51.5%) rotate(-8deg); opacity: 0.95; }
+  100% { transform: translateX(-50%) rotate(0deg); opacity: 0.85; }
+}
+.ea-us-drift {
+  animation: eaUsDrift 8s linear infinite;
+}
+@keyframes eaUsRing {
+  0% { transform: scale(1); opacity: 0.55; }
+  50% { transform: scale(1.18); opacity: 0.2; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+.ea-us-ring {
+  animation: eaUsRing 3s var(--ease-smooth) infinite backwards;
+}
+`;

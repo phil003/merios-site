@@ -1,12 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import {
-  animate,
-  useInView,
-  useMotionValue,
-  useReducedMotion,
-} from "motion/react";
+import { useEffect, useRef } from "react";
 
 import Reveal from "@/components/ui/Reveal";
 
@@ -14,9 +8,10 @@ import Reveal from "@/components/ui/Reveal";
  * Science — Biological age.
  *
  * Longitudinal dimension. A delta (chronological vs biological) and a
- * percentile band. Scaffold values are animated via Motion's `animate` +
- * `useMotionValue`, triggered once the card cluster enters the viewport.
- * Reduced motion short-circuits to the final value.
+ * percentile band. The static HTML renders the final values (crawler-safe,
+ * no-JS-safe); once hydrated, a vanilla IntersectionObserver + rAF loop
+ * counts them up from 0 the first time the card cluster enters the viewport.
+ * prefers-reduced-motion short-circuits to the final value (no animation).
  */
 
 const TARGETS = {
@@ -25,66 +20,77 @@ const TARGETS = {
   delta: -4.6,
 } as const;
 
-const COUNTER_DURATION = 1.6;
+const COUNTER_DURATION_MS = 1600;
 
-function useCounter(
-  target: number,
-  options: { active: boolean; decimals?: number },
-) {
-  const { active, decimals = 0 } = options;
-  const prefersReducedMotion = useReducedMotion();
-  // Start at 0 so the count-up reads as an honest animation; when reduced
-  // motion is requested we snap straight to the target.
-  const mv = useMotionValue(prefersReducedMotion ? target : 0);
-  const [display, setDisplay] = useState<string>(
-    (prefersReducedMotion ? target : 0).toFixed(decimals),
-  );
-
-  useEffect(() => {
-    const unsub = mv.on("change", (v) => {
-      setDisplay(v.toFixed(decimals));
-    });
-    return () => unsub();
-  }, [mv, decimals]);
-
-  useEffect(() => {
-    if (!active) return;
-    if (prefersReducedMotion) {
-      mv.set(target);
-      setDisplay(target.toFixed(decimals));
-      return;
-    }
-    const controls = animate(mv, target, {
-      duration: COUNTER_DURATION,
-      // ease-out cubic — matches the task spec ("duration 1.6s, ease-out").
-      ease: [0.22, 1, 0.36, 1],
-    });
-    return () => controls.stop();
-  }, [active, decimals, mv, prefersReducedMotion, target]);
-
-  return display;
+/** ease-out cubic — close match for the previous Motion ease [0.22, 1, 0.36, 1]. */
+function easeOutCubic(t: number): number {
+  return 1 - Math.pow(1 - t, 3);
 }
 
 export default function ScienceBioAge() {
   const statsRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(statsRef, {
-    once: true,
-    amount: 0.4,
-    margin: "0px 0px -100px 0px",
-  });
+  const chronologicalRef = useRef<HTMLSpanElement>(null);
+  const biologicalRef = useRef<HTMLSpanElement>(null);
+  const deltaRef = useRef<HTMLSpanElement>(null);
 
-  const chronological = useCounter(TARGETS.chronological, {
-    active: inView,
-    decimals: 0,
-  });
-  const biological = useCounter(TARGETS.biological, {
-    active: inView,
-    decimals: 1,
-  });
-  const delta = useCounter(TARGETS.delta, {
-    active: inView,
-    decimals: 1,
-  });
+  useEffect(() => {
+    const node = statsRef.current;
+    if (!node) return;
+    // Reduced motion: keep the server-rendered final values, no count-up.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const counters: Array<{
+      el: HTMLSpanElement | null;
+      target: number;
+      decimals: number;
+    }> = [
+      { el: chronologicalRef.current, target: TARGETS.chronological, decimals: 0 },
+      { el: biologicalRef.current, target: TARGETS.biological, decimals: 1 },
+      { el: deltaRef.current, target: TARGETS.delta, decimals: 1 },
+    ];
+
+    const render = (progress: number) => {
+      for (const { el, target, decimals } of counters) {
+        if (el) el.textContent = (target * progress).toFixed(decimals);
+      }
+    };
+
+    // Arm the count-up: reset to 0 while the cluster is still offscreen.
+    render(0);
+
+    let raf = 0;
+    const startCount = () => {
+      const t0 = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min((now - t0) / COUNTER_DURATION_MS, 1);
+        render(easeOutCubic(t));
+        if (t < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            observer.disconnect();
+            startCount();
+            break;
+          }
+        }
+      },
+      // Matches the previous useInView config: amount 0.4, bottom margin -100px.
+      { threshold: 0.4, rootMargin: "0px 0px -100px 0px" },
+    );
+    observer.observe(node);
+
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+      // If unmount interrupts the animation, leave the true values behind.
+      render(1);
+    };
+  }, []);
 
   return (
     <section
@@ -197,7 +203,9 @@ export default function ScienceBioAge() {
                 role="img"
                 aria-label={`${TARGETS.chronological} years`}
               >
-                <span aria-hidden>{chronological}</span>
+                <span aria-hidden ref={chronologicalRef}>
+                  {TARGETS.chronological.toFixed(0)}
+                </span>
               </p>
               <p
                 className="mt-3"
@@ -244,7 +252,9 @@ export default function ScienceBioAge() {
                 role="img"
                 aria-label={`${TARGETS.biological} years, estimated`}
               >
-                <span aria-hidden>{biological}</span>
+                <span aria-hidden ref={biologicalRef}>
+                  {TARGETS.biological.toFixed(1)}
+                </span>
               </p>
               <p
                 className="mt-3"
@@ -291,7 +301,9 @@ export default function ScienceBioAge() {
                 role="img"
                 aria-label={`${TARGETS.delta} years delta`}
               >
-                <span aria-hidden>{delta}</span>
+                <span aria-hidden ref={deltaRef}>
+                  {TARGETS.delta.toFixed(1)}
+                </span>
               </p>
               <p
                 className="mt-3"

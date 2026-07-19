@@ -1,7 +1,4 @@
-"use client";
-
-import { motion, useReducedMotion, type Variants } from "motion/react";
-import { easing, duration } from "@/lib/motion";
+import type { CSSProperties } from "react";
 
 interface TeamMember {
   name: string;
@@ -28,38 +25,14 @@ const TEAM: TeamMember[] = [
   },
 ];
 
+/**
+ * Server component — the previous motion/react whileInView stagger is now
+ * expressed as per-member `data-rv` reveals with incremental `--rv-delay`
+ * (globals.css Reveal v2 + the inline IntersectionObserver in layout.tsx).
+ * Content is visible by default in the static HTML; reduced motion is handled
+ * globally (html[data-anim] is never set).
+ */
 export default function TeamGrid() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const containerVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { staggerChildren: 0, duration: duration.quick },
-        },
-      }
-    : {
-        hidden: {},
-        visible: {
-          transition: { staggerChildren: 0.09, delayChildren: 0.05 },
-        },
-      };
-
-  const itemVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-      }
-    : {
-        hidden: { opacity: 0, y: 24 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: duration.slow, ease: easing.expo },
-        },
-      };
-
   return (
     <section
       className="px-6 md:px-10"
@@ -110,18 +83,17 @@ export default function TeamGrid() {
           </h2>
         </div>
 
-        <motion.ul
-          className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
-          variants={containerVariants}
-        >
-          {TEAM.map((member) => (
-            <motion.li
+        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+          {TEAM.map((member, i) => (
+            <li
               key={member.name}
-              variants={itemVariants}
+              data-rv=""
               className="flex flex-col gap-6 md:flex-row md:gap-8"
+              style={
+                {
+                  "--rv-delay": `${(0.05 + i * 0.09).toFixed(2)}s`,
+                } as CSSProperties
+              }
             >
               <div
                 aria-hidden
@@ -187,9 +159,9 @@ export default function TeamGrid() {
                   {member.bio}
                 </p>
               </div>
-            </motion.li>
+            </li>
           ))}
-        </motion.ul>
+        </ul>
       </div>
     </section>
   );

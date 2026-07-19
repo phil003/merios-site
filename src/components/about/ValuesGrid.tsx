@@ -1,7 +1,4 @@
-"use client";
-
-import { motion, useReducedMotion, type Variants } from "motion/react";
-import { easing, duration } from "@/lib/motion";
+import type { CSSProperties } from "react";
 
 interface Value {
   eyebrow: string;
@@ -30,38 +27,14 @@ const VALUES: Value[] = [
   },
 ];
 
+/**
+ * Server component — the previous motion/react whileInView stagger is now
+ * expressed as per-card `data-rv` reveals with incremental `--rv-delay`
+ * (globals.css Reveal v2 + the inline IntersectionObserver in layout.tsx).
+ * Cards are visible by default in the static HTML; reduced motion is handled
+ * globally (html[data-anim] is never set).
+ */
 export default function ValuesGrid() {
-  const prefersReducedMotion = useReducedMotion();
-
-  const containerVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { staggerChildren: 0, duration: duration.quick },
-        },
-      }
-    : {
-        hidden: {},
-        visible: {
-          transition: { staggerChildren: 0.09, delayChildren: 0.05 },
-        },
-      };
-
-  const itemVariants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1 },
-      }
-    : {
-        hidden: { opacity: 0, y: 24 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: duration.slow, ease: easing.expo },
-        },
-      };
-
   return (
     <section
       className="px-6 md:px-10"
@@ -112,74 +85,80 @@ export default function ValuesGrid() {
           </h2>
         </div>
 
-        <motion.ul
-          className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
-          variants={containerVariants}
-        >
-          {VALUES.map((v) => (
-            <motion.li
+        <ul className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
+          {VALUES.map((v, i) => (
+            <li
               key={v.title}
-              variants={itemVariants}
-              className="about-value-card group relative flex flex-col rounded-2xl p-8 md:p-9"
-              style={{
-                background: "var(--color-canvas-alt)",
-                border: "1px solid var(--color-grid)",
-                transition:
-                  "transform 300ms var(--ease-expo), box-shadow 300ms var(--ease-expo), border-color 300ms var(--ease-expo)",
-              }}
+              data-rv=""
+              style={
+                {
+                  "--rv-delay": `${(0.05 + i * 0.09).toFixed(2)}s`,
+                } as CSSProperties
+              }
             >
-              <span
-                aria-hidden
-                className="mb-8 inline-flex items-center gap-2"
+              <div
+                className="about-value-card group relative flex h-full flex-col rounded-2xl p-8 md:p-9"
                 style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                  fontWeight: 500,
+                  background: "var(--color-canvas-alt)",
+                  border: "1px solid var(--color-grid)",
                 }}
               >
                 <span
-                  className="inline-block h-px w-6"
-                  style={{ background: "var(--color-green-deep)" }}
-                />
-                {v.eyebrow}
-              </span>
+                  aria-hidden
+                  className="mb-8 inline-flex items-center gap-2"
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 11,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "var(--color-ink-tertiary)",
+                    fontWeight: 500,
+                  }}
+                >
+                  <span
+                    className="inline-block h-px w-6"
+                    style={{ background: "var(--color-green-deep)" }}
+                  />
+                  {v.eyebrow}
+                </span>
 
-              <h3
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(1.5rem, 2vw, 1.875rem)",
-                  fontWeight: 400,
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
-                  color: "var(--color-ink)",
-                }}
-              >
-                {v.title}
-              </h3>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "clamp(1.5rem, 2vw, 1.875rem)",
+                    fontWeight: 400,
+                    lineHeight: 1.1,
+                    letterSpacing: "-0.02em",
+                    color: "var(--color-ink)",
+                  }}
+                >
+                  {v.title}
+                </h3>
 
-              <p
-                className="mt-4"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.9375rem",
-                  lineHeight: 1.65,
-                  color: "var(--color-ink-secondary)",
-                }}
-              >
-                {v.description}
-              </p>
-            </motion.li>
+                <p
+                  className="mt-4"
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "0.9375rem",
+                    lineHeight: 1.65,
+                    color: "var(--color-ink-secondary)",
+                  }}
+                >
+                  {v.description}
+                </p>
+              </div>
+            </li>
           ))}
-        </motion.ul>
+        </ul>
       </div>
 
-      <style jsx>{`
+      <style>{`
+        .about-value-card {
+          transition:
+            transform 300ms var(--ease-expo),
+            box-shadow 300ms var(--ease-expo),
+            border-color 300ms var(--ease-expo);
+        }
         .about-value-card:hover {
           transform: translateY(-4px);
           border-color: color-mix(

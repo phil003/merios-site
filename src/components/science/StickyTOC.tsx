@@ -1,16 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-
-import { duration, easing } from "@/lib/motion";
 
 /**
  * Science — sticky table of contents.
  *
  * Desktop only (hidden below lg). Uses IntersectionObserver to detect the
- * active section and renders an animated underline via a shared Motion
- * `layoutId` across items. Respects prefers-reduced-motion.
+ * active section. The active underline cross-fades between items via a plain
+ * CSS opacity transition (motion-free) — same convention as ArticleTOC.
  */
 
 const TOC = [
@@ -24,7 +21,6 @@ const TOC = [
 ];
 
 export default function ScienceStickyTOC() {
-  const prefersReducedMotion = useReducedMotion();
   const [activeHref, setActiveHref] = useState<string>(TOC[0].href);
 
   useEffect(() => {
@@ -128,22 +124,15 @@ export default function ScienceStickyTOC() {
                 </span>
                 <span className="relative inline-block">
                   {t.label}
-                  {isActive && (
-                    <motion.span
-                      layoutId="science-toc-underline"
-                      aria-hidden
-                      className="absolute -bottom-0.5 left-0 right-0 h-px"
-                      style={{ background: "var(--color-green-deep)" }}
-                      transition={
-                        prefersReducedMotion
-                          ? { duration: 0 }
-                          : {
-                              duration: duration.normal,
-                              ease: easing.expo,
-                            }
-                      }
-                    />
-                  )}
+                  <span
+                    aria-hidden
+                    className="absolute -bottom-0.5 left-0 right-0 h-px"
+                    style={{
+                      background: "var(--color-green-deep)",
+                      opacity: isActive ? 1 : 0,
+                      transition: "opacity 240ms var(--ease-expo)",
+                    }}
+                  />
                 </span>
               </a>
             </li>

@@ -1,9 +1,15 @@
 "use client";
 
+// ContactForm — motion/react-free. All animation is CSS:
+// - State messages / button labels are keyed elements that remount with a
+//   small keyframe entrance (.cf-in / .cf-pop) — exits are immediate.
+// - Hover/press lifts are Tailwind `motion-safe:` utilities.
+// - Border / background / shadow changes ride plain CSS transitions.
+// Reduced motion is honored by the global
+// `@media (prefers-reduced-motion: reduce)` rule in globals.css.
+
 import { useEffect, useId, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { duration, easing } from "@/lib/motion";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -73,7 +79,6 @@ function Field({
   maxLength,
 }: FieldProps) {
   const [focused, setFocused] = useState(false);
-  const reduced = useReducedMotion();
   const floating = focused || value.length > 0;
 
   const borderColor = invalid
@@ -98,9 +103,8 @@ function Field({
             ? "translateY(-2px) scale(0.72)"
             : "translateY(22px) scale(1)",
           transformOrigin: "top left",
-          transition: reduced
-            ? `color ${duration.quick}s ${easing.smooth}`
-            : `transform ${duration.quick}s cubic-bezier(0.22, 1, 0.36, 1), color ${duration.quick}s ${easing.smooth}`,
+          transition:
+            "transform 300ms cubic-bezier(0.22, 1, 0.36, 1), color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
           fontSize: "1.0625rem",
           letterSpacing: "-0.01em",
           fontWeight: 400,
@@ -108,7 +112,7 @@ function Field({
       >
         {label}
       </label>
-      <motion.input
+      <input
         id={id}
         type={type}
         value={value}
@@ -125,17 +129,9 @@ function Field({
           fontFamily: "var(--font-sans)",
           color: "var(--color-ink)",
           letterSpacing: "-0.005em",
+          borderBottom: `1px solid ${borderColor}`,
+          transition: "border-color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
-        animate={{
-          borderBottomColor: borderColor,
-          borderBottomWidth: 1,
-          borderBottomStyle: "solid",
-        }}
-        transition={
-          reduced
-            ? { duration: duration.quick, ease: easing.smooth }
-            : { duration: duration.quick, ease: easing.smooth }
-        }
       />
     </div>
   );
@@ -165,7 +161,6 @@ function TextareaField({
   maxLength,
 }: TextareaFieldProps) {
   const [focused, setFocused] = useState(false);
-  const reduced = useReducedMotion();
   const floating = focused || value.length > 0;
 
   const borderColor = invalid
@@ -190,9 +185,8 @@ function TextareaField({
             ? "translateY(-2px) scale(0.72)"
             : "translateY(22px) scale(1)",
           transformOrigin: "top left",
-          transition: reduced
-            ? `color ${duration.quick}s ${easing.smooth}`
-            : `transform ${duration.quick}s cubic-bezier(0.22, 1, 0.36, 1), color ${duration.quick}s ${easing.smooth}`,
+          transition:
+            "transform 300ms cubic-bezier(0.22, 1, 0.36, 1), color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
           fontSize: "1.0625rem",
           letterSpacing: "-0.01em",
           fontWeight: 400,
@@ -200,7 +194,7 @@ function TextareaField({
       >
         {label}
       </label>
-      <motion.textarea
+      <textarea
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -217,13 +211,9 @@ function TextareaField({
           color: "var(--color-ink)",
           lineHeight: 1.6,
           letterSpacing: "-0.005em",
+          borderBottom: `1px solid ${borderColor}`,
+          transition: "border-color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
         }}
-        animate={{
-          borderBottomColor: borderColor,
-          borderBottomWidth: 1,
-          borderBottomStyle: "solid",
-        }}
-        transition={{ duration: duration.quick, ease: easing.smooth }}
       />
     </div>
   );
@@ -239,7 +229,6 @@ type TypeSelectorProps = {
 };
 
 function TypeSelector({ value, onChange, disabled, groupId }: TypeSelectorProps) {
-  const reduced = useReducedMotion();
   return (
     <fieldset disabled={disabled} className="contents">
       <legend
@@ -263,14 +252,16 @@ function TypeSelector({ value, onChange, disabled, groupId }: TypeSelectorProps)
         {INQUIRY_TYPES.map((t) => {
           const active = t.value === value;
           return (
-            <motion.button
+            <button
               key={t.value}
               type="button"
               role="radio"
               aria-checked={active}
               onClick={() => onChange(t.value)}
               disabled={disabled}
-              className="inline-flex items-center gap-2 rounded-full px-4 py-2 disabled:cursor-default disabled:opacity-60"
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:cursor-default disabled:opacity-60 ${
+                active ? "" : "motion-safe:enabled:hover:-translate-y-px"
+              }`}
               style={{
                 fontFamily: "var(--font-sans)",
                 fontSize: 13,
@@ -286,10 +277,6 @@ function TypeSelector({ value, onChange, disabled, groupId }: TypeSelectorProps)
                   : "var(--color-canvas-alt)",
                 cursor: disabled ? "default" : "pointer",
               }}
-              whileHover={
-                reduced || disabled || active ? undefined : { y: -1 }
-              }
-              transition={{ duration: duration.quick, ease: easing.smooth }}
             >
               <span
                 aria-hidden
@@ -301,7 +288,7 @@ function TypeSelector({ value, onChange, disabled, groupId }: TypeSelectorProps)
                 }}
               />
               {t.label}
-            </motion.button>
+            </button>
           );
         })}
       </div>
@@ -313,7 +300,6 @@ function TypeSelector({ value, onChange, disabled, groupId }: TypeSelectorProps)
 
 export default function ContactForm() {
   const searchParams = useSearchParams();
-  const reduced = useReducedMotion();
 
   const uid = useId();
   const nameId = `${uid}-name`;
@@ -328,6 +314,9 @@ export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [invalidField, setInvalidField] = useState<keyof FormState | null>(null);
+  // Entrance animations only play after the first submit attempt so the
+  // initial static content renders with zero animation (visible by default).
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   // Query param pre-fill — only runs once on mount.
   const hydratedRef = useRef(false);
@@ -388,6 +377,8 @@ export default function ContactForm() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === "loading" || status === "success") return;
+
+    setHasSubmitted(true);
 
     const local = validateLocal();
     if (local) {
@@ -513,60 +504,48 @@ export default function ContactForm() {
             letterSpacing: "0.08em",
           }}
         >
-          <AnimatePresence mode="wait" initial={false}>
-            {isError && errorMsg ? (
-              <motion.p
-                key="error"
-                id={errorId}
-                role="alert"
-                aria-live="polite"
-                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  color: "var(--color-accent-warm)",
-                }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                transition={{ duration: duration.quick, ease: easing.smooth }}
-              >
-                {errorMsg}
-              </motion.p>
-            ) : isSuccess ? (
-              <motion.p
-                key="success"
-                id={successId}
-                role="status"
-                aria-live="polite"
-                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0, color: "var(--color-pulse)" }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                transition={{ duration: duration.quick, ease: easing.smooth }}
-              >
-                Sent. We&rsquo;ll reply within 24h.
-              </motion.p>
-            ) : (
-              <motion.p
-                key="helper"
-                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  color: "var(--color-ink-tertiary)",
-                }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                transition={{ duration: duration.quick, ease: easing.smooth }}
-              >
-                We typically reply within 24h.
-              </motion.p>
-            )}
-          </AnimatePresence>
+          {isError && errorMsg ? (
+            <p
+              key="error"
+              id={errorId}
+              role="alert"
+              aria-live="polite"
+              className="cf-in"
+              style={{ color: "var(--color-accent-warm)" }}
+            >
+              {errorMsg}
+            </p>
+          ) : isSuccess ? (
+            <p
+              key="success"
+              id={successId}
+              role="status"
+              aria-live="polite"
+              className="cf-in"
+              style={{ color: "var(--color-pulse)" }}
+            >
+              Sent. We&rsquo;ll reply within 24h.
+            </p>
+          ) : (
+            <p
+              key="helper"
+              className={hasSubmitted ? "cf-in" : undefined}
+              style={{ color: "var(--color-ink-tertiary)" }}
+            >
+              We typically reply within 24h.
+            </p>
+          )}
         </div>
 
-        <motion.button
+        <button
           type="submit"
           disabled={isLoading || isSuccess}
           aria-busy={isLoading || undefined}
-          className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full px-7 py-3.5 disabled:cursor-default"
+          className={`group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full px-7 py-3.5 transition-[background-color,box-shadow,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:cursor-default ${
+            isSuccess
+              ? "shadow-none"
+              : "shadow-[0_12px_30px_-14px_rgba(30,61,42,0.55)] motion-safe:enabled:hover:-translate-y-0.5 motion-safe:enabled:hover:shadow-[0_16px_36px_-14px_rgba(30,61,42,0.65)] motion-safe:enabled:active:-translate-y-px"
+          }`}
           style={{
             fontFamily: "var(--font-serif)",
             fontWeight: 400,
@@ -574,136 +553,95 @@ export default function ContactForm() {
             fontSize: "1rem",
             color: "var(--color-canvas)",
             cursor: isLoading || isSuccess ? "default" : "pointer",
-          }}
-          animate={{
-            backgroundColor: isSuccess
+            background: isSuccess
               ? "rgba(30,61,42,0.55)"
               : "var(--color-green-deep)",
-            boxShadow: isSuccess
-              ? "0 0 0 0 rgba(30,61,42,0)"
-              : "0 12px 30px -14px rgba(30,61,42,0.55)",
           }}
-          whileHover={
-            reduced || isLoading || isSuccess
-              ? undefined
-              : { y: -2, boxShadow: "0 16px 36px -14px rgba(30,61,42,0.65)" }
-          }
-          whileTap={reduced || isLoading || isSuccess ? undefined : { y: -1 }}
-          transition={{ duration: duration.quick, ease: easing.smooth }}
         >
-          <AnimatePresence mode="wait" initial={false}>
-            {isLoading ? (
-              <motion.span
-                key="label-loading"
-                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                transition={{ duration: duration.quick, ease: easing.smooth }}
-              >
-                Sending
-              </motion.span>
-            ) : isSuccess ? (
-              <motion.span
-                key="label-success"
-                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                transition={{ duration: duration.quick, ease: easing.smooth }}
-              >
-                Message sent
-              </motion.span>
-            ) : (
-              <motion.span
-                key="label-idle"
-                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, y: -4 }}
-                transition={{ duration: duration.quick, ease: easing.smooth }}
-              >
-                Send message
-              </motion.span>
-            )}
-          </AnimatePresence>
+          {isLoading ? (
+            <span key="label-loading" className="cf-in">
+              Sending
+            </span>
+          ) : isSuccess ? (
+            <span key="label-success" className="cf-in">
+              Message sent
+            </span>
+          ) : (
+            <span
+              key="label-idle"
+              className={hasSubmitted ? "cf-in" : undefined}
+            >
+              Send message
+            </span>
+          )}
 
-          <AnimatePresence mode="wait" initial={false}>
-            {isLoading ? (
-              <motion.span
-                key="icon-loader"
-                aria-hidden
-                className="inline-block h-3.5 w-3.5 rounded-full border-2"
-                style={{
-                  borderColor: "var(--color-canvas)",
-                  borderRightColor: "transparent",
-                }}
-                initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.7 }}
-                animate={
-                  reduced
-                    ? { opacity: 1 }
-                    : { opacity: 1, scale: 1, rotate: 360 }
-                }
-                exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.7 }}
-                transition={
-                  reduced
-                    ? { duration: duration.quick }
-                    : {
-                        rotate: {
-                          duration: 0.9,
-                          ease: "linear",
-                          repeat: Infinity,
-                        },
-                        opacity: {
-                          duration: duration.quick,
-                          ease: easing.smooth,
-                        },
-                        scale: {
-                          duration: duration.quick,
-                          ease: easing.smooth,
-                        },
-                      }
-                }
-              />
-            ) : isSuccess ? (
-              <motion.svg
-                key="icon-check"
-                aria-hidden
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.7 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.7 }}
-                transition={{ duration: duration.quick, ease: easing.smooth }}
-              >
-                <path d="M20 6L9 17l-5-5" />
-              </motion.svg>
-            ) : (
-              <motion.span
-                key="icon-arrow"
-                aria-hidden
-                className="inline-block transition-transform motion-reduce:transition-none"
-                style={{
-                  transitionDuration: `${duration.quick * 1000}ms`,
-                  transitionTimingFunction:
-                    "cubic-bezier(0.22, 1, 0.36, 1)",
-                }}
-                initial={reduced ? { opacity: 0 } : { opacity: 0, x: -4 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={reduced ? { opacity: 0 } : { opacity: 0, x: 4 }}
-                transition={{ duration: duration.quick, ease: easing.smooth }}
-              >
-                <span className="group-hover:translate-x-1 inline-block transition-transform motion-reduce:transition-none">
-                  →
-                </span>
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </motion.button>
+          {isLoading ? (
+            <span
+              key="icon-loader"
+              aria-hidden
+              className="cf-spinner inline-block h-3.5 w-3.5 rounded-full border-2"
+              style={{
+                borderColor: "var(--color-canvas)",
+                borderRightColor: "transparent",
+              }}
+            />
+          ) : isSuccess ? (
+            <svg
+              key="icon-check"
+              aria-hidden
+              className="cf-pop"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
+          ) : (
+            <span
+              key="icon-arrow"
+              aria-hidden
+              className={
+                hasSubmitted ? "cf-in inline-block" : "inline-block"
+              }
+            >
+              <span className="group-hover:translate-x-1 inline-block transition-transform motion-reduce:transition-none">
+                →
+              </span>
+            </span>
+          )}
+        </button>
       </div>
+
+      <style>{styles}</style>
     </form>
   );
 }
+
+// ─── Scoped animation styles ─────────────────────────────────────────────────
+// Keyframe entrances replacing the previous AnimatePresence crossfades.
+// The global prefers-reduced-motion rule in globals.css collapses these
+// to 0.01ms / a single iteration.
+const styles = `
+@keyframes cf-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes cf-pop {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes cf-spin {
+  to { transform: rotate(360deg); }
+}
+.cf-in { animation: cf-in 300ms var(--ease-smooth) both; }
+.cf-pop { animation: cf-pop 300ms var(--ease-smooth) both; }
+.cf-spinner {
+  animation: cf-pop 300ms var(--ease-smooth) both,
+    cf-spin 0.9s linear infinite;
+}
+`;

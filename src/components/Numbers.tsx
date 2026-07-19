@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import {
-  animate,
-  useInView,
-  useMotionValue,
-  useReducedMotion,
-  useTransform,
-} from "motion/react";
+import { useEffect, useRef } from "react";
+
+/**
+ * Numbers — "At a glance" metric strip with count-up numerals.
+ *
+ * Motion-free: the static HTML renders the FINAL values (crawler / no-JS /
+ * LCP safe). On mount — unless prefers-reduced-motion — the counters are
+ * zeroed and a vanilla IntersectionObserver (40% of the section visible,
+ * once) starts a single requestAnimationFrame loop that counts every metric
+ * up over 1.6s with an expo-out ease, matching the previous Motion
+ * `animate()` timing ([0.16, 1, 0.3, 1]).
+ */
 
 type Metric = {
   value: number;
@@ -23,51 +27,78 @@ const METRICS: Metric[] = [
   { value: 1, label: "Unified score" },
 ];
 
-function Counter({
-  to,
-  suffix = "",
-  decimals = 0,
-  active,
-}: {
-  to: number;
-  suffix?: string;
-  decimals?: number;
-  active: boolean;
-}) {
-  const mv = useMotionValue(0);
-  const rounded = useTransform(mv, (v) =>
-    decimals > 0 ? v.toFixed(decimals) : Math.round(v).toString(),
-  );
-  const [display, setDisplay] = useState(
-    decimals > 0 ? (0).toFixed(decimals) : "0",
-  );
+const COUNT_DURATION_MS = 1600;
 
-  useEffect(() => {
-    const unsub = rounded.on("change", (v) => setDisplay(v));
-    return () => unsub();
-  }, [rounded]);
-
-  useEffect(() => {
-    if (!active) return;
-    const controls = animate(mv, to, {
-      duration: 1.6,
-      ease: [0.16, 1, 0.3, 1],
-    });
-    return () => controls.stop();
-  }, [active, mv, to]);
-
-  return (
-    <span className="tabular-nums">
-      {display}
-      {suffix}
-    </span>
-  );
+function formatValue(value: number, decimals: number): string {
+  return decimals > 0 ? value.toFixed(decimals) : Math.round(value).toString();
 }
 
 export default function Numbers() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
-  const reduced = useReducedMotion();
+
+  useEffect(() => {
+    const section = ref.current;
+    if (!section) return;
+
+    // Reduced motion: keep the statically-rendered final values, no tween.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const spans = Array.from(
+      section.querySelectorAll<HTMLElement>("[data-count-to]"),
+    );
+    if (spans.length === 0) return;
+
+    type Target = {
+      el: HTMLElement;
+      to: number;
+      decimals: number;
+      suffix: string;
+    };
+    const targets: Target[] = spans.map((el) => ({
+      el,
+      to: Number(el.dataset.countTo ?? "0"),
+      decimals: Number(el.dataset.countDecimals ?? "0"),
+      suffix: el.dataset.countSuffix ?? "",
+    }));
+
+    // Arm the count-up only once JS runs (mirrors the previous behaviour of
+    // showing zeros until the section scrolls into view).
+    for (const t of targets) {
+      t.el.textContent = formatValue(0, t.decimals) + t.suffix;
+    }
+
+    let raf = 0;
+
+    const run = () => {
+      let start: number | null = null;
+      const tick = (now: number) => {
+        if (start === null) start = now;
+        const p = Math.min((now - start) / COUNT_DURATION_MS, 1);
+        // Expo-out, visually equivalent to cubic-bezier(0.16, 1, 0.3, 1).
+        const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+        for (const t of targets) {
+          t.el.textContent = formatValue(t.to * eased, t.decimals) + t.suffix;
+        }
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        observer.disconnect();
+        run();
+      },
+      { threshold: 0.4 },
+    );
+    observer.observe(section);
+
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
     <section
@@ -119,50 +150,46 @@ export default function Numbers() {
             ]
               .filter(Boolean)
               .join(" ");
+            const decimals = m.decimals ?? 0;
+            const suffix = m.suffix ?? "";
             return (
               <div key={m.label} className={classes}>
-              <div className="flex items-baseline gap-1">
-                <span
+                <div className="flex items-baseline gap-1">
+                  <span
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: "clamp(3rem, 6.5vw, 5.25rem)",
+                      fontWeight: 300,
+                      lineHeight: 1,
+                      letterSpacing: "-0.035em",
+                      color: "var(--color-ink)",
+                    }}
+                  >
+                    <span
+                      className="tabular-nums"
+                      data-count-to={m.value}
+                      data-count-decimals={decimals}
+                      data-count-suffix={suffix}
+                    >
+                      {formatValue(m.value, decimals)}
+                      {suffix}
+                    </span>
+                  </span>
+                </div>
+                <p
+                  className="mt-4"
                   style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: "clamp(3rem, 6.5vw, 5.25rem)",
-                    fontWeight: 300,
-                    lineHeight: 1,
-                    letterSpacing: "-0.035em",
-                    color: "var(--color-ink)",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 10.5,
+                    fontWeight: 500,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: "var(--color-ink-tertiary)",
                   }}
                 >
-                  {reduced ? (
-                    <span className="tabular-nums">
-                      {m.decimals
-                        ? m.value.toFixed(m.decimals)
-                        : m.value}
-                      {m.suffix ?? ""}
-                    </span>
-                  ) : (
-                    <Counter
-                      to={m.value}
-                      suffix={m.suffix}
-                      decimals={m.decimals}
-                      active={Boolean(inView)}
-                    />
-                  )}
-                </span>
+                  {m.label}
+                </p>
               </div>
-              <p
-                className="mt-4"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
-                  fontWeight: 500,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                }}
-              >
-                {m.label}
-              </p>
-            </div>
             );
           })}
         </div>

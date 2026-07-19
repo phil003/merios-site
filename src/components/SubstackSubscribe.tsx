@@ -79,6 +79,7 @@ export default function SubstackSubscribe() {
           <iframe
             src="https://merioslife.substack.com/embed"
             title="Subscribe to Baseline"
+            loading="lazy"
             width="100%"
             height="150"
             style={{

@@ -55,7 +55,6 @@ export default function FeaturedCard({ post }: FeaturedCardProps) {
               background: "var(--color-canvas-alt)",
               border: "1px solid var(--color-grid)",
             }}
-            aria-label={`Read article: ${post.title}`}
           >
             {/* Left gradient panel */}
             <div

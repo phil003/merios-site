@@ -1,9 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-
-import { duration, easing } from "@/lib/motion";
 
 interface ShareButtonsProps {
   title: string;
@@ -15,12 +12,10 @@ interface ShareButtonsProps {
  *
  * - Three circular 40×40 buttons, canvas border, green-deep on hover.
  * - Copy-link uses `navigator.clipboard.writeText(window.location.href)` and
- *   shows a Motion-animated "Copied" toast for ~1.8s.
+ *   shows a CSS-transition "Copied" toast for ~1.8s (motion-free).
  * - External buttons open in a new tab with rel="noopener".
- * - Reduced motion disables the toast transition.
  */
 export default function ShareButtons({ title, slug }: ShareButtonsProps) {
-  const prefersReducedMotion = useReducedMotion();
   const [copied, setCopied] = useState(false);
 
   const url = `https://merios.life/blog/${slug}`;
@@ -119,32 +114,21 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
         </svg>
       </button>
 
-      <AnimatePresence>
-        {copied ? (
-          <motion.span
-            key="copied-toast"
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={
-              prefersReducedMotion
-                ? { duration: 0 }
-                : { duration: duration.quick, ease: easing.expo }
-            }
-            className="pointer-events-none absolute right-0 -bottom-8 inline-flex items-center gap-2 rounded-full px-3 py-1"
-            style={{
-              background: "var(--color-ink)",
-              color: "var(--color-canvas)",
-              fontFamily: "var(--font-mono)",
-              fontSize: 10.5,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-            }}
-          >
-            Copied
-          </motion.span>
-        ) : null}
-      </AnimatePresence>
+      <span
+        aria-live="polite"
+        data-show={copied ? "true" : "false"}
+        className="share-toast pointer-events-none absolute right-0 -bottom-8 inline-flex items-center gap-2 rounded-full px-3 py-1"
+        style={{
+          background: "var(--color-ink)",
+          color: "var(--color-canvas)",
+          fontFamily: "var(--font-mono)",
+          fontSize: 10.5,
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+        }}
+      >
+        {copied ? "Copied" : ""}
+      </span>
 
       <style>{`
         .share-btn {

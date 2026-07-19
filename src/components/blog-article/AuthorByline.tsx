@@ -1,7 +1,11 @@
+import Link from "next/link";
+
 /**
  * Author byline rendered at the end of the article body.
  * Placeholder avatar (40px circle, grid background, Fraunces "M"), name,
- * and a short mono bio line.
+ * a short mono bio line, and an E-E-A-T trust row linking to the scoring
+ * methodology (/science) — YMLY content should always expose its editorial
+ * standards one click away.
  */
 export default function AuthorByline() {
   return (
@@ -47,7 +51,29 @@ export default function AuthorByline() {
             color: "var(--color-ink-tertiary)",
           }}
         >
-          Research-backed health insights from the Merios team
+          Editorially reviewed · Sources cited inline
+        </span>
+        <span
+          className="mt-1.5"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: 13,
+            color: "var(--color-ink-secondary)",
+            letterSpacing: "-0.003em",
+          }}
+        >
+          Research-backed health insights from the Merios team.{" "}
+          <Link
+            href="/science"
+            style={{
+              color: "var(--color-green-deep)",
+              textDecoration: "underline",
+              textDecorationThickness: 1,
+              textUnderlineOffset: 3,
+            }}
+          >
+            Read our methodology
+          </Link>
         </span>
       </div>
     </div>

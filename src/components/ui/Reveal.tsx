@@ -1,72 +1,55 @@
-"use client";
-
-import { motion, useReducedMotion, type Variants } from "motion/react";
-import type { ReactNode } from "react";
-import { easing, duration } from "@/lib/motion";
+import type { CSSProperties, ReactNode } from "react";
 
 type Direction = "up" | "down" | "left" | "right";
-
-const OFFSETS: Record<Direction, { x: number; y: number }> = {
-  up: { x: 0, y: 32 },
-  down: { x: 0, y: -32 },
-  left: { x: 32, y: 0 },
-  right: { x: -32, y: 0 },
-};
 
 interface RevealProps {
   children: ReactNode;
   delay?: number;
   direction?: Direction;
+  /** Kept for API compatibility with the previous Motion implementation. */
   once?: boolean;
   staggerChildren?: number;
   amount?: number;
   className?: string;
 }
 
+/**
+ * Reveal v2 — scroll-triggered fade-up without framer-motion.
+ *
+ * Renders a plain server-compatible wrapper carrying `data-rv`. The actual
+ * animation is driven by globals.css (`html[data-anim] [data-rv]`) plus the
+ * tiny inline IntersectionObserver bootstrapped from the root layout — no
+ * JavaScript bundle involvement at all.
+ *
+ * Behaviour contract (why this exists — see perf-seo/core-fixes branch):
+ * - HTML is visible by default: crawler-safe, no-JS-safe, and the element
+ *   can paint the moment the observer fires (~DOMContentLoaded), instead of
+ *   waiting 10-20s for framework hydration on throttled mobile. This was the
+ *   root cause of LCP 20s+ on every /blog/[slug] page.
+ * - Reduced motion: the bootstrap never sets html[data-anim], so content is
+ *   simply visible with no transform.
+ *
+ * `once`, `staggerChildren` and `amount` are accepted so existing call sites
+ * compile unchanged; reveals are always once-only, and staggering is done
+ * with `delay` (mapped to a CSS transition-delay).
+ */
 export default function Reveal({
   children,
   delay = 0,
   direction = "up",
-  once = true,
-  staggerChildren,
-  amount = 0.2,
+  once: _once,
+  staggerChildren: _staggerChildren,
+  amount: _amount,
   className,
 }: RevealProps) {
-  const prefersReducedMotion = useReducedMotion();
-  const { x, y } = OFFSETS[direction];
-
-  const variants: Variants = prefersReducedMotion
-    ? {
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: { duration: duration.quick, delay, staggerChildren },
-        },
-      }
-    : {
-        hidden: { opacity: 0, x, y },
-        visible: {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          transition: {
-            duration: duration.slow,
-            ease: easing.expo,
-            delay,
-            staggerChildren,
-          },
-        },
-      };
+  const style =
+    delay > 0
+      ? ({ "--rv-delay": `${delay}s` } as CSSProperties)
+      : undefined;
 
   return (
-    <motion.div
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once, amount, margin: "0px 0px -80px 0px" }}
-      variants={variants}
-    >
+    <div data-rv={direction === "up" ? "" : direction} className={className} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }

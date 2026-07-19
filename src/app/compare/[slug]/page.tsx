@@ -49,13 +49,11 @@ export async function generateMetadata({
       publishedTime: post.date,
       modifiedTime: post.dateModified || post.date,
       url: `https://merios.life/compare/${post.slug}`,
-      images: post.image ? [{ url: post.image }] : [{ url: "/og-image.png" }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: post.image ? [post.image] : ["/og-image.png"],
     },
   };
 }

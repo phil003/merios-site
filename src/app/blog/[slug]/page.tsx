@@ -55,13 +55,13 @@ export async function generateMetadata({
       publishedTime: post.date,
       modifiedTime: post.dateModified || post.date,
       url: `https://merios.life/blog/${post.slug}`,
-      images: post.image ? [{ url: post.image }] : [{ url: "/og-image.png" }],
+      // og:image intentionally omitted — the opengraph-image.tsx file
+      // convention generates a branded per-article card and registers it.
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: post.image ? [post.image] : ["/og-image.png"],
     },
   };
 }

@@ -410,3 +410,101 @@ body {
   color: var(--color-ink-secondary);
   vertical-align: top;
 }
+
+/* ═══ Scroll-reveal v2 — CSS + inline IntersectionObserver, zero bundle JS ═══
+   Elements with [data-rv] are VISIBLE by default (no-JS safe, SEO safe).
+   The inline head script sets html[data-anim] (skipped under reduced motion),
+   which arms the hidden initial state; the same script reveals elements via
+   IntersectionObserver — independent of React hydration, so above-the-fold
+   content paints within ~1 frame of DOMContentLoaded instead of waiting for
+   the framework bundle. */
+html[data-anim] [data-rv] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s var(--ease-expo),
+    transform 0.7s var(--ease-expo);
+  transition-delay: var(--rv-delay, 0s);
+  will-change: opacity, transform;
+}
+html[data-anim] [data-rv="left"] { transform: translateX(32px); }
+html[data-anim] [data-rv="right"] { transform: translateX(-32px); }
+html[data-anim] [data-rv="down"] { transform: translateY(-24px); }
+html[data-anim] [data-rv="none"] { transform: none; }
+html[data-anim] [data-rv].rv-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ═══ Hero entrance — pure CSS keyframes (plays immediately at parse time,
+   never gates LCP behind JavaScript). Use on above-the-fold elements. ═══ */
+.he {
+  animation: fadeUp 0.8s var(--ease-expo) both;
+  animation-delay: var(--he-d, 0s);
+}
+
+/* Char-by-char headline reveal (PageHero) — CSS-only replacement for the
+   Motion variant. Words are overflow-hidden masks; chars rise from below. */
+.ph-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.ph-char {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: phRise 0.9s var(--ease-expo) forwards;
+  animation-delay: var(--ph-d, 0s);
+  will-change: transform;
+}
+@keyframes phRise {
+  to { transform: translateY(0); }
+}
+
+/* Details accordion icon (TOC / FAQ) — CSS replaces the Motion rotation */
+.acc-icon {
+  transition: transform 240ms var(--ease-smooth);
+}
+details[open] > summary .acc-icon {
+  transform: rotate(45deg);
+}
+
+/* Share copy toast */
+.share-toast {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 300ms var(--ease-expo), transform 300ms var(--ease-expo);
+}
+.share-toast[data-show="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reading progress bar */
+.reading-progress {
+  transform: scaleX(0);
+  transform-origin: left;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reading-progress { display: none; }
+  .ph-char { transform: none; animation: none; }
+  html[data-anim] [data-rv] { opacity: 1; transform: none; transition: none; }
+}
+
+/* Compare FAQ chevron flip (CSS replacement for the Motion rotate) */
+.acc-icon-flip {
+  transition: transform 240ms var(--ease-smooth);
+}
+details[open] > summary .acc-icon-flip {
+  transform: rotate(180deg);
+}
+
+/* Opacity-only entrance for elements whose transform is owned by GSAP */
+@keyframes fadeInOnly {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.he-fade {
+  animation: fadeInOnly 0.9s var(--ease-smooth) both;
+  animation-delay: var(--he-d, 0s);
+}

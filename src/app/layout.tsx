@@ -122,6 +122,18 @@ export default function RootLayout({
       lang="en"
       className={`${fraunces.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        {/* Scroll-reveal v2 bootstrap — inline so reveals never wait for the
+            framework bundle. Sets html[data-anim] (arming hidden states) and
+            reveals [data-rv] elements via IntersectionObserver from
+            DOMContentLoaded. MutationObserver keeps SPA navigations covered.
+            Reduced-motion users never get the hidden state at all. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var d=document.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.setAttribute('data-anim','');var init=function(){var io=new IntersectionObserver(function(es){for(var i=0;i<es.length;i++){if(es[i].isIntersecting){es[i].target.classList.add('rv-in');io.unobserve(es[i].target);}}},{rootMargin:'0px 0px -80px 0px',threshold:0.12});var watch=function(root){var els=root.querySelectorAll?root.querySelectorAll('[data-rv]:not(.rv-in)'):[];for(var i=0;i<els.length;i++)io.observe(els[i]);};watch(document);new MutationObserver(function(ms){for(var i=0;i<ms.length;i++){var ns=ms[i].addedNodes;for(var j=0;j<ns.length;j++){var n=ns[j];if(n.nodeType===1){if(n.hasAttribute&&n.hasAttribute('data-rv')&&!n.classList.contains('rv-in'))io.observe(n);watch(n);}}}}).observe(document.body,{childList:true,subtree:true});};if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);}catch(e){d.removeAttribute('data-anim');}})();`,
+          }}
+        />
+      </head>
       <body className="overflow-x-hidden">
         <LenisProvider>
           <OrganizationSchema />
@@ -133,9 +145,9 @@ export default function RootLayout({
         <Analytics />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="ga4-init" strategy="afterInteractive">
+        <Script id="ga4-init" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

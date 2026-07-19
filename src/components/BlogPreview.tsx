@@ -1,47 +1,29 @@
-"use client";
-
 import Reveal from "./ui/Reveal";
+import ArticleCover from "./blog/ArticleCover";
+import { getAllPosts, type BlogPost } from "@/lib/blog";
 
-type Article = {
-  slug: string;
-  category: string;
-  title: string;
-  date: string;
-  readTime: string;
-  accent: string;
-};
+/**
+ * Home « Journal » section — server component.
+ *
+ * Previously a hardcoded trio of placeholder articles left over from the
+ * redesign mockups (their slugs 404'd). Now pulls the three most recent
+ * real posts at build time and renders generative covers (ArticleCover),
+ * so the section updates itself with every publish.
+ */
 
-const ARTICLES: Article[] = [
-  {
-    slug: "hdl-ldl-ratio",
-    category: "Lipids",
-    title: "What your HDL/LDL ratio actually means.",
-    date: "Mar 2026",
-    readTime: "7 min",
-    accent:
-      "radial-gradient(130% 100% at 10% 90%, rgba(159,191,0,0.42), transparent 58%)",
-  },
-  {
-    slug: "ferritin-paradox",
-    category: "Minerals",
-    title: "The ferritin paradox in trained athletes.",
-    date: "Feb 2026",
-    readTime: "9 min",
-    accent:
-      "radial-gradient(120% 100% at 90% 10%, rgba(196,136,47,0.55), transparent 60%)",
-  },
-  {
-    slug: "why-we-built-merios",
-    category: "Manifesto",
-    title: "Why we built Merios.",
-    date: "Jan 2026",
-    readTime: "5 min",
-    accent:
-      "radial-gradient(140% 100% at 50% 100%, rgba(159,191,0,0.38), transparent 62%)",
-  },
-];
+function formatMonth(date: string): string {
+  const d = new Date(date);
+  if (Number.isNaN(d.getTime())) return date;
+  return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
+
+function shortReadTime(rt: string): string {
+  return rt.replace(/\s*read\s*$/i, "");
+}
 
 export default function BlogPreview() {
+  const latest = getAllPosts().slice(0, 3);
+
   return (
     <section
       id="journal"
@@ -114,8 +96,8 @@ export default function BlogPreview() {
 
         <Reveal staggerChildren={0.1} amount={0.15}>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-7">
-            {ARTICLES.map((a) => (
-              <ArticleCard key={a.slug} article={a} />
+            {latest.map((p) => (
+              <ArticleCard key={p.slug} post={p} />
             ))}
           </div>
         </Reveal>
@@ -124,44 +106,21 @@ export default function BlogPreview() {
   );
 }
 
-function ArticleCard({ article }: { article: Article }) {
+function ArticleCard({ post }: { post: BlogPost }) {
   return (
     <a
-      href={`/blog/${article.slug}`}
+      href={`/blog/${post.slug}`}
       className="group block overflow-hidden rounded-2xl"
       style={{ background: "var(--color-canvas-alt)" }}
     >
-      {/* thumb */}
-      <div
-        className="relative w-full overflow-hidden"
-        style={{ aspectRatio: "4 / 3", background: "var(--color-green-deep)" }}
-      >
+      {/* thumb — generative cover, 3:2 (matches the SVG viewBox: no crop) */}
+      <div className="relative aspect-[3/2] w-full overflow-hidden">
         <div
-          aria-hidden
           className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.03]"
-          style={{
-            background: article.accent,
-            transitionTimingFunction: "var(--ease-expo)",
-          }}
-        />
-        <span
-          className="absolute left-5 top-5 inline-flex items-center gap-2"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 10.5,
-            fontWeight: 500,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "var(--color-canvas)",
-          }}
+          style={{ transitionTimingFunction: "var(--ease-expo)" }}
         >
-          <span
-            aria-hidden
-            className="inline-block h-1 w-1 rounded-full"
-            style={{ background: "var(--color-pulse)" }}
-          />
-          {article.category}
-        </span>
+          <ArticleCover post={post} className="block h-full w-full" />
+        </div>
       </div>
 
       {/* body */}
@@ -181,7 +140,7 @@ function ArticleCard({ article }: { article: Article }) {
             className="bg-gradient-to-r from-[var(--color-ink)] to-[var(--color-ink)] bg-[length:0%_1px] bg-[position:0_92%] bg-no-repeat transition-[background-size] duration-500"
             style={{ transitionTimingFunction: "var(--ease-expo)" }}
           >
-            {article.title}
+            {post.title}
           </span>
         </h3>
 
@@ -195,13 +154,13 @@ function ArticleCard({ article }: { article: Article }) {
             color: "var(--color-ink-tertiary)",
           }}
         >
-          <span>{article.date}</span>
+          <span>{formatMonth(post.date)}</span>
           <span
             aria-hidden
             className="inline-block h-px w-3"
             style={{ background: "var(--color-grid)" }}
           />
-          <span>{article.readTime}</span>
+          <span>{shortReadTime(post.readTime)}</span>
         </div>
       </div>
     </a>

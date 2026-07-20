@@ -71,6 +71,7 @@ const TAG_ACCENT: Record<string, CoverAccent> = {
   HRV: "pulse",
   Cardiovascular: "deep",
   "Mental Health": "sage",
+  Wearables: "deep",
 };
 
 /* ─── Clinical ranges for gauge covers ───
@@ -156,6 +157,10 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "blood-test-without-doctor": { big: "DIY" },
   "blood-tests-before-starting-supplements": { big: "First" },
   "blood-tests-normal-but-feel-terrible": { big: "Gap", curve: "wave" },
+  "cgm-without-diabetes": { big: "CGM", curve: "wave" },
+  "optimal-vs-normal-blood-test-ranges": { big: "Opt", suffix: "vs N", curve: "dotted" },
+  "inflammation-markers-silent-threat": { big: "CRP", curve: "rise" },
+  "important-blood-biomarkers-explained": { big: "20", curve: "dotted" },
   "boron-supplement-testosterone-benefits": { big: "B", suffix: "boron" },
   "brain-aging-biomarkers-cognitive-decline": { big: "Brain", curve: "fall" },
   "cac-score-coronary-calcium-scan": { big: "CAC" },

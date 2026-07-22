@@ -157,6 +157,8 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "blood-test-without-doctor": { big: "DIY" },
   "blood-tests-before-starting-supplements": { big: "First" },
   "blood-tests-normal-but-feel-terrible": { big: "Gap", curve: "wave" },
+  "how-to-prepare-for-blood-test": { big: "Prep", curve: "dotted" },
+  "is-my-blood-test-result-bad": { big: "OK", suffix: "?", curve: "wave" },
   "cgm-without-diabetes": { big: "CGM", curve: "wave" },
   "optimal-vs-normal-blood-test-ranges": { big: "Opt", suffix: "vs N", curve: "dotted" },
   "inflammation-markers-silent-threat": { big: "CRP", curve: "rise" },

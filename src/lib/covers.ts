@@ -200,6 +200,7 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "low-ferritin-normal-hemoglobin": { big: "Fe", suffix: "low" },
   "low-testosterone-young-men-under-30": { big: "Low T", curve: "fall" },
   "lp-a-lipoprotein-a-high": { big: "Lp(a)" },
+  "longevity-blood-panel": { big: "Panel", curve: "dotted" },
   "magnesium-deficiency-symptoms-women": { big: "Mg", suffix: "low" },
   "magnesium-types-compared": { big: "Mg", suffix: "×8", curve: "dotted" },
   "omega-3-index-test": { big: "Ω-3" },

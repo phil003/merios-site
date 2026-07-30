@@ -3,6 +3,8 @@ import type { ComponentProps, ReactNode } from "react";
 import HomaIRCalculator from "@/components/calculators/HomaIRCalculator";
 import PhenoAgeCalculator from "@/components/calculators/PhenoAgeCalculator";
 import TrigHdlRatioCalculator from "@/components/calculators/TrigHdlRatioCalculator";
+import A1CConverter from "@/components/calculators/A1CConverter";
+import Zone2Calculator from "@/components/calculators/Zone2Calculator";
 import { slugify } from "./toc";
 
 /**
@@ -77,5 +79,14 @@ export function createMdxComponents() {
     );
   };
 
-  return { h2, h3, p, HomaIRCalculator, TrigHdlRatioCalculator, PhenoAgeCalculator };
+  return {
+    h2,
+    h3,
+    p,
+    HomaIRCalculator,
+    TrigHdlRatioCalculator,
+    PhenoAgeCalculator,
+    A1CConverter,
+    Zone2Calculator,
+  };
 }

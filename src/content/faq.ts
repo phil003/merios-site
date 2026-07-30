@@ -97,13 +97,13 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "how-much-does-merios-cost",
     group: "pricing",
     q: "How much does Merios cost?",
-    a: "Pricing is finalised at launch. Early access members get founding-rate pricing, locked in for the lifetime of their subscription. There is no free ad-supported tier — the product is paid and independent by design.",
+    a: "Merios Pro is $99.99/year with a 7-day free trial, $12.99/month, or $4.99/week — you choose on the App Store. There is no free ad-supported tier — the product is paid and independent by design.",
   },
   {
     id: "is-there-a-trial",
     group: "pricing",
     q: "Is there a trial?",
-    a: "Yes. You can trial the full product for 14 days. Cancel any time during that window and you won't be charged. No dark patterns, no friction — one tap to cancel.",
+    a: "Yes. The annual plan includes a 7-day free trial of the full product. Cancel any time during that window and you won't be charged. No dark patterns, no friction — one tap to cancel.",
   },
   {
     id: "do-you-bill-by-test",

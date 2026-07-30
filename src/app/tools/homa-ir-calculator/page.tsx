@@ -94,10 +94,109 @@ export default function HomaIRCalculatorPage() {
           <HomaIRCalculator />
 
           <section
-            className="mt-16 max-w-[720px]"
+            className="mt-14 max-w-[720px]"
             style={{ fontFamily: "var(--font-sans)" }}
           >
             <h2
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
+                fontWeight: 300,
+                letterSpacing: "-0.02em",
+                color: "var(--color-ink)",
+                marginBottom: "0.75rem",
+              }}
+            >
+              What your HOMA-IR score means
+            </h2>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--color-ink-secondary)",
+                marginBottom: "1.25rem",
+              }}
+            >
+              There is no single universal cutoff — labs and populations differ —
+              but these are the interpretation bands most widely used in research
+              and clinical practice. Read your score as a trend over time, not a
+              one-off verdict.
+            </p>
+            <div
+              style={{
+                border: "1px solid var(--color-grid)",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              {[
+                {
+                  dot: "var(--color-pulse)",
+                  range: "Below 1.0",
+                  label: "Optimal",
+                  note: "High insulin sensitivity. Common in lean, active, metabolically healthy people — athletes often score below 0.8.",
+                },
+                {
+                  dot: "var(--color-green-deep)",
+                  range: "1.0 – 2.0",
+                  label: "Normal",
+                  note: "The typical healthy band. Hold it here with sleep, fiber, weight, and resistance training.",
+                },
+                {
+                  dot: "var(--color-warm)",
+                  range: "2.0 – 2.9",
+                  label: "Early insulin resistance",
+                  note: "The compensatory phase — insulin is climbing while fasting glucose still looks fine. The most reversible stage.",
+                },
+                {
+                  dot: "#B4472F",
+                  range: "3.0 and above",
+                  label: "Significant insulin resistance",
+                  note: "A strong predictor of type-2 diabetes risk. Worth discussing with your doctor and acting on now.",
+                },
+              ].map((b, i) => (
+                <div
+                  key={b.range}
+                  className="flex gap-4 px-5 py-4"
+                  style={{
+                    borderTop:
+                      i === 0 ? undefined : "1px solid var(--color-grid)",
+                  }}
+                >
+                  <span
+                    aria-hidden
+                    className="mt-1.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ background: b.dot }}
+                  />
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        letterSpacing: "0.01em",
+                        color: "var(--color-ink)",
+                      }}
+                    >
+                      {b.range} — {b.label}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 14.5,
+                        lineHeight: 1.6,
+                        color: "var(--color-ink-secondary)",
+                        marginTop: 2,
+                      }}
+                    >
+                      {b.note}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <h2
+              className="mt-12"
               style={{
                 fontFamily: "var(--font-serif)",
                 fontSize: "clamp(1.625rem, 2.4vw, 2rem)",

@@ -50,6 +50,8 @@ const STATIC_ROUTES = [
   { path: '/tools/phenoage-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/homa-ir-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/triglyceride-hdl-ratio', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/a1c-calculator', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/zone-2-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/blog/category/blood-tests', priority: 0.7, changefreq: 'weekly' },
   { path: '/blog/category/biomarkers', priority: 0.7, changefreq: 'weekly' },
   { path: '/blog/category/wearables', priority: 0.7, changefreq: 'weekly' },

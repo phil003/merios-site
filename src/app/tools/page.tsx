@@ -60,6 +60,24 @@ const TOOLS = [
     inputs: "2 inputs",
     formula: "Triglycerides ÷ HDL (mg/dL)",
   },
+  {
+    slug: "a1c-calculator",
+    eyebrow: "A1C → eAG",
+    title: "A1C to Blood Sugar",
+    description:
+      "Convert your A1C to estimated average glucose (eAG) in mg/dL and mmol/L, with the full conversion chart from optimal to the diabetes range.",
+    inputs: "1 input",
+    formula: "ADAG study, Diabetes Care 2008",
+  },
+  {
+    slug: "zone-2-calculator",
+    eyebrow: "Zone 2 Training",
+    title: "Zone 2 Heart Rate",
+    description:
+      "Get your Zone 2 training band in bpm from your age — the low-intensity zone that builds aerobic base and raises VO2 max with the least fatigue.",
+    inputs: "1 input",
+    formula: "Tanaka max-HR, JACC 2001",
+  },
 ];
 
 export default function ToolsPage() {
@@ -101,7 +119,7 @@ export default function ToolsPage() {
       <PageHero
         eyebrow="Free Tools"
         title="Health calculators, backed by published research."
-        subline="Three peer-reviewed formulas turned into clean, free, interactive calculators. No signup. No email gate. Just type your numbers."
+        subline="Peer-reviewed formulas turned into clean, free, interactive calculators. No signup. No email gate. Just type your numbers."
         align="left"
       />
 

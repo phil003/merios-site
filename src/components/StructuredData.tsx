@@ -48,7 +48,7 @@ export function WebApplicationSchema() {
       price: "0",
       priceCurrency: "USD",
       description:
-        "Free to download. Merios Pro: $99.99/year with a 7-day free trial.",
+        "Free to download. Merios Pro: $44.00/year with a 7-day free trial.",
     },
     featureList: [
       "Blood test OCR analysis (130+ biomarkers)",

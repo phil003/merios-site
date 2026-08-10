@@ -97,7 +97,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "how-much-does-merios-cost",
     group: "pricing",
     q: "How much does Merios cost?",
-    a: "Merios Pro is $99.99/year with a 7-day free trial, $12.99/month, or $4.99/week — you choose on the App Store. There is no free ad-supported tier — the product is paid and independent by design.",
+    a: "Merios Pro is $44.00/year with a 7-day free trial, or a monthly and weekly option — you choose on the App Store, where the current price for your region is always shown. There is no free ad-supported tier: the product is paid and independent by design.",
   },
   {
     id: "is-there-a-trial",

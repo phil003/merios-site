@@ -23,6 +23,14 @@ const FAQ_ITEMS = [
     a: "Using the ADAG formula: 5.7% ≈ 117 mg/dL (6.5 mmol/L), the start of the prediabetes range; 6.0% ≈ 126 mg/dL (7.0 mmol/L); 6.5% ≈ 140 mg/dL (7.8 mmol/L), the diabetes threshold. The calculator above gives the exact number for any A1C you enter.",
   },
   {
+    q: "How do you convert blood glucose to A1C?",
+    a: "Rearrange the same ADAG formula: A1C (%) = (average glucose in mg/dL + 46.7) ÷ 28.7. If you work in mmol/L, multiply by 18 first. Switch the calculator above to Glucose → A1C and it does it for you. The input has to be an average — a meter average or a CGM mean glucose — not a single reading.",
+  },
+  {
+    q: "What A1C is a blood sugar of 200, 230, or 250 mg/dL?",
+    a: "As a sustained average: 200 mg/dL ≈ 8.6%, 230 mg/dL ≈ 9.6%, and 250 mg/dL ≈ 10.3%. These are well above the 6.5% diabetes threshold and warrant a same-week conversation with a clinician. But if 230 was one post-meal reading rather than your average, it says far less — post-meal peaks above 180 mg/dL are common even in people whose A1C sits near 7%.",
+  },
+  {
     q: "Why doesn't my eAG match my fasting glucose?",
     a: "eAG is a 2–3 month average across all hours of the day, while a fasting reading is a single morning snapshot. eAG includes post-meal peaks, so it is usually higher than fasting glucose. A large gap between the two can also point to unusual red-blood-cell turnover (anemia, recent blood loss), which affects A1C independently of glucose.",
   },
@@ -33,14 +41,14 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "A1C to Average Blood Sugar Calculator (eAG Chart) | Merios",
+  title: "A1C to Blood Glucose Calculator + Conversion Chart (eAG) | Merios",
   description:
-    "Free A1C to average blood sugar converter. Enter your A1C — get estimated average glucose (eAG) in mg/dL and mmol/L, plus the full conversion chart. ADAG formula.",
+    "Convert A1C to blood glucose — or blood glucose to A1C. Free two-way eAG calculator in mg/dL and mmol/L, plus the full conversion chart from 4% to 12%. ADAG formula.",
   alternates: { canonical: "https://merios.life/tools/a1c-calculator" },
   openGraph: {
-    title: "A1C → Average Blood Sugar Calculator (eAG)",
+    title: "A1C ↔ Blood Glucose Calculator and Conversion Chart",
     description:
-      "Convert A1C to estimated average glucose in mg/dL and mmol/L. Free, no signup. ADAG 2008 formula.",
+      "Two-way A1C and estimated average glucose converter, mg/dL and mmol/L, with the full chart. Free, no signup. ADAG 2008 formula.",
     url: "https://merios.life/tools/a1c-calculator",
     type: "website",
   },
@@ -51,12 +59,12 @@ export default function A1CCalculatorPage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "@id": "https://merios.life/tools/a1c-calculator#tool",
-    name: "A1C to Average Blood Sugar Calculator",
+    name: "A1C to Blood Glucose Calculator (two-way eAG converter)",
     url: "https://merios.life/tools/a1c-calculator",
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
     description:
-      "Free A1C to estimated average glucose (eAG) converter. ADAG study formula, mg/dL and mmol/L.",
+      "Free two-way converter between A1C and estimated average glucose (eAG). Converts A1C to blood glucose and blood glucose to A1C. ADAG study formula, mg/dL and mmol/L.",
     isAccessibleForFree: true,
     citation:
       "Nathan DM, Kuenen J, Borg R, et al. Translating the A1C assay into estimated average glucose values. Diabetes Care 2008;31(8):1473-1478.",
@@ -80,9 +88,9 @@ export default function A1CCalculatorPage() {
       />
 
       <PageHero
-        eyebrow="A1C → eAG — ADAG 2008"
-        title="Turn your A1C into an average blood sugar you can actually read."
-        subline="Enter one number — your A1C percentage — and get your estimated average glucose in both mg/dL and mmol/L, using the ADAG study formula clinicians use."
+        eyebrow="A1C ↔ eAG — ADAG 2008"
+        title="Convert A1C to blood glucose — or blood glucose back to A1C."
+        subline="Enter either number. Get the other one in mg/dL and mmol/L, with the full conversion chart, using the ADAG study formula clinicians use."
         align="left"
       />
 
@@ -104,7 +112,7 @@ export default function A1CCalculatorPage() {
                 marginBottom: "0.75rem",
               }}
             >
-              A1C to average blood sugar chart
+              A1C to blood glucose chart
             </h2>
             <p
               style={{
@@ -117,7 +125,7 @@ export default function A1CCalculatorPage() {
               Every A1C percentage maps to an estimated average glucose (eAG). The
               calculator above is exact for any value you type; the chart below
               covers the common reference points, from optimal through the
-              diabetes range.
+              uncontrolled range.
             </p>
             <div
               style={{
@@ -133,6 +141,10 @@ export default function A1CCalculatorPage() {
                 { a1c: "6.5%", mgdl: "140 mg/dL", mmol: "7.8 mmol/L", band: "Diabetes threshold", dot: "#B4472F" },
                 { a1c: "7.0%", mgdl: "154 mg/dL", mmol: "8.6 mmol/L", band: "Common treatment target", dot: "#B4472F" },
                 { a1c: "8.0%", mgdl: "183 mg/dL", mmol: "10.2 mmol/L", band: "Above target", dot: "#B4472F" },
+                { a1c: "9.0%", mgdl: "212 mg/dL", mmol: "11.8 mmol/L", band: "Above target", dot: "#B4472F" },
+                { a1c: "10.0%", mgdl: "240 mg/dL", mmol: "13.3 mmol/L", band: "Uncontrolled", dot: "#B4472F" },
+                { a1c: "11.0%", mgdl: "269 mg/dL", mmol: "14.9 mmol/L", band: "Uncontrolled", dot: "#B4472F" },
+                { a1c: "12.0%", mgdl: "298 mg/dL", mmol: "16.5 mmol/L", band: "Uncontrolled", dot: "#B4472F" },
               ].map((r, i) => (
                 <div
                   key={r.a1c}
@@ -155,6 +167,89 @@ export default function A1CCalculatorPage() {
                       }}
                     >
                       A1C {r.a1c} — {r.mgdl} ({r.mmol})
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 14.5,
+                        lineHeight: 1.6,
+                        color: "var(--color-ink-secondary)",
+                        marginTop: 2,
+                      }}
+                    >
+                      {r.band}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <h2
+              className="mt-12"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
+                fontWeight: 300,
+                letterSpacing: "-0.02em",
+                color: "var(--color-ink)",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Blood glucose to A1C chart
+            </h2>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--color-ink-secondary)",
+                marginBottom: "1.25rem",
+              }}
+            >
+              Working the other way — you have an average glucose from a meter or
+              a CGM and want the A1C it implies. Switch the calculator above to{" "}
+              <strong style={{ fontWeight: 500 }}>Glucose → A1C</strong>, or read
+              it off here. One caveat that matters: this needs an{" "}
+              <em>average</em>. A single post-meal spike of 230 mg/dL does not
+              mean an A1C of 9.6% — it means one reading was 230.
+            </p>
+            <div
+              style={{
+                border: "1px solid var(--color-grid)",
+                borderRadius: "12px",
+                overflow: "hidden",
+              }}
+            >
+              {[
+                { mgdl: "100 mg/dL", mmol: "5.6 mmol/L", a1c: "5.1%", band: "Normal", dot: "var(--color-pulse)" },
+                { mgdl: "120 mg/dL", mmol: "6.7 mmol/L", a1c: "5.8%", band: "Prediabetes", dot: "var(--color-warm)" },
+                { mgdl: "140 mg/dL", mmol: "7.8 mmol/L", a1c: "6.5%", band: "Diabetes threshold", dot: "#B4472F" },
+                { mgdl: "154 mg/dL", mmol: "8.6 mmol/L", a1c: "7.0%", band: "Common treatment target", dot: "#B4472F" },
+                { mgdl: "180 mg/dL", mmol: "10.0 mmol/L", a1c: "7.9%", band: "Above target", dot: "#B4472F" },
+                { mgdl: "200 mg/dL", mmol: "11.1 mmol/L", a1c: "8.6%", band: "Above target", dot: "#B4472F" },
+                { mgdl: "230 mg/dL", mmol: "12.8 mmol/L", a1c: "9.6%", band: "Uncontrolled", dot: "#B4472F" },
+                { mgdl: "250 mg/dL", mmol: "13.9 mmol/L", a1c: "10.3%", band: "Uncontrolled", dot: "#B4472F" },
+                { mgdl: "300 mg/dL", mmol: "16.7 mmol/L", a1c: "12.1%", band: "Uncontrolled", dot: "#B4472F" },
+              ].map((r, i) => (
+                <div
+                  key={r.mgdl}
+                  className="flex gap-4 px-5 py-4"
+                  style={{ borderTop: i === 0 ? undefined : "1px solid var(--color-grid)" }}
+                >
+                  <span
+                    aria-hidden
+                    className="mt-1.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full"
+                    style={{ background: r.dot }}
+                  />
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        letterSpacing: "0.01em",
+                        color: "var(--color-ink)",
+                      }}
+                    >
+                      {r.mgdl} ({r.mmol}) — A1C {r.a1c}
                     </div>
                     <div
                       style={{

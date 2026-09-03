@@ -156,6 +156,7 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "how-to-lower-biological-age": { big: "Reset", curve: "fall" },
   "how-to-improve-vo2-max": { big: "VO2", suffix: "max", curve: "rise" },
   "muscle-mass-and-longevity": { big: "Muscle", curve: "rise" },
+  "glp-1-muscle-loss-peptides": { big: "GLP-1", curve: "fall" },
   "blood-test-analysis-complete-guide": { big: "Guide" },
   "blood-test-results-normal-range-chart": { big: "Ranges", curve: "dotted" },
   "blood-test-without-doctor": { big: "DIY" },

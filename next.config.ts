@@ -32,6 +32,17 @@ const nextConfig: NextConfig = {
       // /pricing retired (pricing model not finalised pre App-Store launch).
       // All commercial intent flows now go through /early-access.
       { source: "/pricing", destination: "/early-access", permanent: true },
+      // Retired brand-vs comparison. "merios vs X" has no search demand
+      // (Google autocomplete returns nothing for "merios"), so this page
+      // targeted a query that does not exist. Its topic is now served by the
+      // competitor-vs-competitor page, where Merios is a labelled third
+      // column. The remaining /compare/merios-vs-* pages stay live until
+      // their own competitor-vs-competitor replacements are written.
+      {
+        source: "/compare/merios-vs-function-health",
+        destination: "/compare/function-health-vs-superpower",
+        permanent: true,
+      },
     ];
   },
 };

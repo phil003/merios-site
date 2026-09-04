@@ -33,7 +33,7 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "HOMA-IR Calculator (Free, Fasting Glucose + Insulin) | Merios",
+  title: "HOMA-IR Calculator (Free, Fasting Glucose + Insulin)",
   description:
     "Free HOMA-IR insulin resistance calculator. Enter fasting glucose and fasting insulin — get your score with interpretation band. Catches insulin resistance years before HbA1c.",
   alternates: { canonical: "https://merios.life/tools/homa-ir-calculator" },

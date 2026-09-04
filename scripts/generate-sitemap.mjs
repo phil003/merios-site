@@ -54,6 +54,9 @@ const STATIC_ROUTES = [
   { path: '/tools/zone-2-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/free-testosterone-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/tyg-index-calculator', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/transferrin-saturation-calculator', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/sarcopenia-index-calculator', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/lpa-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/blog/category/blood-tests', priority: 0.7, changefreq: 'weekly' },
   { path: '/blog/category/biomarkers', priority: 0.7, changefreq: 'weekly' },
   { path: '/blog/category/wearables', priority: 0.7, changefreq: 'weekly' },
@@ -101,11 +104,20 @@ function toIsoDate(input) {
   return d.toISOString().split('T')[0];
 }
 
+// Compare pages that are now 308 redirects in next.config.ts. Their .mdx files
+// are kept for history but the URLs must NOT appear here — a sitemap entry that
+// points at a redirect is read by Google as a soft-404 signal.
+const REDIRECTED_COMPARE = new Set([
+  'merios-vs-function-health',
+  'merios-vs-whoop-advanced-labs',
+]);
+
 function readMdxPostsFromDir(dir, urlPrefix, priority, changefreq) {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
     .filter((f) => f.endsWith('.mdx'))
+    .filter((f) => !(urlPrefix === '/compare' && REDIRECTED_COMPARE.has(f.replace(/\.mdx$/, ''))))
     .map((file) => {
       const raw = fs.readFileSync(path.join(dir, file), 'utf-8');
       const fm = parseFrontmatter(raw);

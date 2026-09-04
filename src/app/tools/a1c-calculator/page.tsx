@@ -33,7 +33,7 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "A1C to Average Blood Sugar Calculator (eAG Chart) | Merios",
+  title: "A1C to Average Blood Sugar Calculator (eAG Chart)",
   description:
     "Free A1C to average blood sugar converter. Enter your A1C — get estimated average glucose (eAG) in mg/dL and mmol/L, plus the full conversion chart. ADAG formula.",
   alternates: { canonical: "https://merios.life/tools/a1c-calculator" },

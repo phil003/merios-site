@@ -33,7 +33,7 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "Triglyceride / HDL Ratio Calculator (Free) | Merios",
+  title: "Triglyceride / HDL Ratio Calculator (Free)",
   description:
     "Free triglyceride/HDL ratio calculator. One of the strongest single-number predictors of insulin resistance and small-dense LDL pattern. No signup.",
   alternates: { canonical: "https://merios.life/tools/triglyceride-hdl-ratio" },

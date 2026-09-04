@@ -33,7 +33,7 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "Free Testosterone Calculator (Vermeulen Equation) | Merios",
+  title: "Free Testosterone Calculator (Vermeulen Equation)",
   description:
     "Free testosterone calculator using the Vermeulen equation. Enter total testosterone, SHBG and albumin — get free T in pg/mL, ng/dL, nmol/L, plus bioavailable T and FAI.",
   alternates: { canonical: "https://merios.life/tools/free-testosterone-calculator" },

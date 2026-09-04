@@ -29,7 +29,7 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "TyG Index Calculator (Triglyceride-Glucose Index) | Merios",
+  title: "TyG Index Calculator (Triglyceride-Glucose Index)",
   description:
     "Free TyG index calculator. Enter triglycerides and fasting glucose — get your triglyceride-glucose index, an insulin resistance marker that needs no fasting insulin.",
   alternates: { canonical: "https://merios.life/tools/tyg-index-calculator" },

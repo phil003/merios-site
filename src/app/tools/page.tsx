@@ -70,6 +70,24 @@ const TOOLS = [
     formula: "ADAG study, Diabetes Care 2008",
   },
   {
+    slug: "free-testosterone-calculator",
+    eyebrow: "Vermeulen 1999",
+    title: "Free Testosterone Calculator",
+    description:
+      "Total testosterone can look normal while the free fraction is low. Calculate free and bioavailable T from total T, SHBG and albumin, plus the free androgen index.",
+    inputs: "3 inputs",
+    formula: "Vermeulen, J Clin Endocrinol Metab 1999",
+  },
+  {
+    slug: "tyg-index-calculator",
+    eyebrow: "Insulin Resistance",
+    title: "TyG Index Calculator",
+    description:
+      "The triglyceride-glucose index estimates insulin resistance from two values already on your standard panel — no fasting insulin draw needed.",
+    inputs: "2 inputs",
+    formula: "ln[(TG × glucose) / 2]",
+  },
+  {
     slug: "zone-2-calculator",
     eyebrow: "Zone 2 Training",
     title: "Zone 2 Heart Rate",

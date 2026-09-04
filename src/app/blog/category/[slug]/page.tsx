@@ -48,8 +48,18 @@ const CATEGORIES: CategoryConfig[] = [
       "How to read what your Apple Watch, Oura, WHOOP, and Garmin actually measure — HRV, sleep, recovery, and zone-2 cardio interpretation.",
     metaDescription:
       "Wearable data decoded: Apple Watch HRV, Oura sleep scores, WHOOP recovery, zone-2 cardio. Turn daily metrics into actionable insights.",
-    tags: ["Sleep", "HRV", "Heart Rate", "Fitness"],
+    tags: ["Sleep", "HRV", "Heart Rate", "Fitness", "Wearables"],
     hookKeyword: "wearable",
+  },
+  {
+    slug: "metabolic-health",
+    title: "Metabolic Health",
+    description:
+      "Blood sugar, insulin resistance, and the metabolic markers that drift years before a diagnosis — HbA1c, fasting insulin, HOMA-IR, and what actually moves them.",
+    metaDescription:
+      "Metabolic health decoded: HbA1c, fasting glucose, insulin resistance, HOMA-IR, and prediabetes. What your numbers mean and how to reverse the drift.",
+    tags: ["Metabolic Health"],
+    hookKeyword: "metabolic health",
   },
   {
     slug: "longevity",
@@ -78,7 +88,7 @@ const CATEGORIES: CategoryConfig[] = [
       "Vitamin D, B12, magnesium, omega-3 — what your blood tests reveal about nutrient status and which supplements actually fix it.",
     metaDescription:
       "Nutrient deficiency decoded: vitamin D, B12, magnesium, omega-3, iron. What your blood work shows and how to supplement effectively.",
-    tags: ["Vitamins", "Supplements", "Nutrition"],
+    tags: ["Vitamins", "Supplements", "Nutrition", "Mental Health"],
     hookKeyword: "supplement",
   },
 ];

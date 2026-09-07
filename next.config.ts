@@ -43,6 +43,14 @@ const nextConfig: NextConfig = {
         destination: "/compare/function-health-vs-superpower",
         permanent: true,
       },
+      // Same rationale, and this one was also factually stale: it quoted a
+      // WHOOP price, marker count and hardware requirement that are all wrong
+      // as of Sept 2026, and would have contradicted the new page.
+      {
+        source: "/compare/merios-vs-whoop-advanced-labs",
+        destination: "/compare/whoop-advanced-labs-vs-function-health",
+        permanent: true,
+      },
     ];
   },
 };

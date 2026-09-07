@@ -88,6 +88,33 @@ const TOOLS = [
     formula: "ln[(TG × glucose) / 2]",
   },
   {
+    slug: "transferrin-saturation-calculator",
+    eyebrow: "Iron Status",
+    title: "Transferrin Saturation (TSAT)",
+    description:
+      "Ferritin rises with inflammation and can look normal while iron stores are empty. TSAT is the marker that does not. Accepts TIBC, UIBC or transferrin.",
+    inputs: "2 inputs",
+    formula: "Iron ÷ TIBC × 100",
+  },
+  {
+    slug: "sarcopenia-index-calculator",
+    eyebrow: "Muscle Proxy",
+    title: "Sarcopenia Index",
+    description:
+      "Creatinine comes from muscle, cystatin C does not — so their ratio carries a muscle signal neither marker shows alone. Shown without a false cutoff.",
+    inputs: "2 inputs",
+    formula: "Creatinine ÷ cystatin C × 100",
+  },
+  {
+    slug: "lpa-unit-converter",
+    eyebrow: "Lp(a) Units",
+    title: "Lp(a) Unit Converter",
+    description:
+      "US labs report mg/dL, most others nmol/L. Converts between them and returns a range, because no exact conversion between the two actually exists.",
+    inputs: "1 input",
+    formula: "No exact conversion — range shown",
+  },
+  {
     slug: "zone-2-calculator",
     eyebrow: "Zone 2 Training",
     title: "Zone 2 Heart Rate",

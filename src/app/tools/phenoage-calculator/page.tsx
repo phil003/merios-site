@@ -46,7 +46,7 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "PhenoAge Calculator (Free, Levine 2018 Formula) | Merios",
+  title: "PhenoAge Calculator (Free, Levine 2018 Formula)",
   description:
     "Free PhenoAge biological age calculator using the peer-reviewed Levine 2018 formula. Enter 9 blood markers + your age. Result in seconds. No signup.",
   alternates: { canonical: "https://merios.life/tools/phenoage-calculator" },

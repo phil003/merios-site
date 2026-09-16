@@ -10,15 +10,15 @@ import UnderstandPinned from "@/components/howitworks/UnderstandPinned";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
-  title: "How Merios Works — From Blood Tests to Action",
+  title: "Blood Test Tracking App: How Merios Works",
   description:
-    "How Merios turns your blood tests and wearables into one score, clear trends, and the next move worth making.",
+    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. Free during early access, on iPhone.",
   robots: { index: true, follow: true },
   alternates: { canonical: "https://merios.life/how-it-works" },
   openGraph: {
-    title: "How Merios Works — From Blood Tests to Action",
+    title: "Blood Test Tracking App: How Merios Works",
     description:
-      "How Merios turns your blood tests and wearables into one score, clear trends, and the next move worth making.",
+      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. Free during early access, on iPhone.",
     url: "https://merios.life/how-it-works",
     siteName: "Merios",
     type: "website",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "How Merios Works — From Blood Tests to Action",
+    title: "Blood Test Tracking App: How Merios Works",
     description:
-      "How Merios turns your blood tests and wearables into one score, clear trends, and the next move worth making.",
+      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. Free during early access, on iPhone.",
   },
 };
 
@@ -38,7 +38,7 @@ const howToJsonLd = {
   "@type": "HowTo",
   name: "How to interpret your blood test results with Merios",
   description:
-    "How Merios turns your blood tests and wearables into one score, clear trends, and the next move worth making.",
+    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. Free during early access, on iPhone.",
   step: [
     {
       "@type": "HowToStep",

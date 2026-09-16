@@ -9,7 +9,7 @@ import CompareGrid from "@/components/compare/CompareGrid";
 import { getAllComparePosts } from "@/lib/compare";
 
 export const metadata: Metadata = {
-  title: "Compare Merios vs Other Health Apps | Merios",
+  title: "Compare Merios vs Other Health Apps",
   description:
     "Side-by-side comparisons of Merios against Function Health, InsideTracker, WHOOP Advanced Labs, SiPhox Health and more. Find the blood biomarker platform that fits your health goals.",
   alternates: {

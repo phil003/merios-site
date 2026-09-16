@@ -40,7 +40,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  if (!post) return { title: "Article Not Found | Merios" };
+  if (!post) return { title: "Article Not Found" };
 
   return {
     title: post.title,

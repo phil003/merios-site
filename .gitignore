@@ -6,6 +6,11 @@ out/
 screenshots/
 
 
-# Artefact de build TypeScript : régénéré à chaque compilation,
-# il faisait gonfler chaque patch de plusieurs centaines de Ko.
+# Artefacts générés — ne pas versionner.
+# tsconfig.tsbuildinfo : réécrit à chaque compilation TypeScript.
+# public/sitemap.xml   : reconstruite par le hook prebuild
+#   (node scripts/generate-sitemap.mjs) à chaque build Vercel, qui lance
+#   "npm run build". La versionner faisait entrer chaque lot de contenu en
+#   conflit avec le suivant.
 tsconfig.tsbuildinfo
+public/sitemap.xml

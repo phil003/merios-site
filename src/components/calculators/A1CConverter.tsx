@@ -1,5 +1,6 @@
 "use client";
 
+import type React from "react";
 import { useState, useMemo } from "react";
 
 /**
@@ -8,24 +9,67 @@ import { useState, useMemo } from "react";
  * Formula (ADAG study): eAG (mg/dL) = 28.7 × A1C − 46.7.
  * mmol/L = mg/dL ÷ 18.
  *
- * Embedded in `/blog/a1c-to-blood-sugar-chart` to capture "a1c to blood sugar",
- * "hemoglobin a1c 5.7/5.8" and eAG-conversion SERP intent (striking-distance,
- * high impressions / low CTR in GSC).
+ * Runs both directions. A1C -> eAG serves "a1c to average glucose chart" and
+ * its variants; eAG -> A1C serves "blood glucose to a1c chart", "glucose to a1c
+ * conversion chart" and "average bg to a1c" - roughly 120 impressions a month
+ * that had no tool on the site at all.
  */
+const FIELD_LABEL: React.CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: "10.5px",
+  letterSpacing: "0.18em",
+  textTransform: "uppercase",
+  color: "var(--color-ink-tertiary)",
+  fontWeight: 500,
+  display: "block",
+  marginBottom: "0.4rem",
+};
+
+const FIELD_INPUT: React.CSSProperties = {
+  width: "100%",
+  padding: "0.75rem 0.85rem",
+  fontFamily: "var(--font-mono)",
+  fontSize: "1rem",
+  color: "var(--color-ink)",
+  background: "var(--color-canvas)",
+  border: "1px solid var(--color-grid)",
+  borderRadius: "8px",
+  outline: "none",
+};
+
 export default function A1CConverter() {
+  const [mode, setMode] = useState<"a1c" | "glucose">("a1c");
   const [a1c, setA1c] = useState<string>("");
+  const [glucose, setGlucose] = useState<string>("");
+  const [gUnit, setGUnit] = useState<"mgdl" | "mmol">("mgdl");
 
   const result = useMemo(() => {
-    const v = parseFloat(a1c);
-    if (!Number.isFinite(v) || v <= 0 || v > 20) return null;
-    const mgdl = 28.7 * v - 46.7;
-    const mmol = mgdl / 18;
+    if (mode === "a1c") {
+      const v = parseFloat(a1c);
+      if (!Number.isFinite(v) || v <= 0 || v > 20) return null;
+      const mgdl = 28.7 * v - 46.7;
+      return {
+        kind: "glucose" as const,
+        a1c: Math.round(v * 10) / 10,
+        mgdl: Math.round(mgdl),
+        mmol: Math.round((mgdl / 18) * 10) / 10,
+        band: getBand(v),
+      };
+    }
+    const g = parseFloat(glucose);
+    if (!Number.isFinite(g) || g <= 0) return null;
+    const mgdl = gUnit === "mmol" ? g * 18 : g;
+    // Outside this window the ADAG regression is extrapolation, not conversion.
+    if (mgdl < 40 || mgdl > 600) return null;
+    const v = (mgdl + 46.7) / 28.7;
     return {
+      kind: "a1c" as const,
+      a1c: Math.round(v * 10) / 10,
       mgdl: Math.round(mgdl),
-      mmol: Math.round(mmol * 10) / 10,
+      mmol: Math.round((mgdl / 18) * 10) / 10,
       band: getBand(v),
     };
-  }, [a1c]);
+  }, [mode, a1c, glucose, gUnit]);
 
   return (
     <section
@@ -67,46 +111,79 @@ export default function A1CConverter() {
         A1C to Blood Sugar Converter
       </h2>
 
-      <div style={{ maxWidth: "260px", marginBottom: "1.25rem" }}>
-        <label htmlFor="a1c-converter-input" style={{ display: "block" }}>
-          <span
+      <div role="group" aria-label="Conversion direction" style={{ display: "flex", gap: "0.5rem", marginBottom: "1.1rem", flexWrap: "wrap" }}>
+        {(["a1c", "glucose"] as const).map((m) => (
+          <button
+            key={m}
+            type="button"
+            onClick={() => setMode(m)}
+            aria-pressed={mode === m}
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "10.5px",
-              letterSpacing: "0.18em",
+              fontSize: "11px",
+              letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "var(--color-ink-tertiary)",
-              fontWeight: 500,
-              display: "block",
-              marginBottom: "0.4rem",
+              padding: "0.5rem 0.8rem",
+              borderRadius: "999px",
+              cursor: "pointer",
+              border: "1px solid " + (mode === m ? "var(--color-green-deep)" : "var(--color-grid)"),
+              background: mode === m ? "var(--color-green-deep)" : "transparent",
+              color: mode === m ? "#fff" : "var(--color-ink-secondary)",
             }}
           >
-            Hemoglobin A1C <span style={{ color: "var(--color-ink-tertiary)" }}>(%)</span>
-          </span>
-          <input
-            id="a1c-converter-input"
-            type="number"
-            inputMode="decimal"
-            min={0}
-            max={20}
-            step="0.1"
-            placeholder="e.g. 5.7"
-            value={a1c}
-            onChange={(e) => setA1c(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "0.75rem 0.85rem",
-              fontFamily: "var(--font-mono)",
-              fontSize: "1rem",
-              color: "var(--color-ink)",
-              background: "var(--color-canvas)",
-              border: "1px solid var(--color-grid)",
-              borderRadius: "8px",
-              outline: "none",
-            }}
-          />
-        </label>
+            {m === "a1c" ? "A1C to glucose" : "Glucose to A1C"}
+          </button>
+        ))}
       </div>
+
+      {mode === "a1c" ? (
+        <div style={{ maxWidth: "260px", marginBottom: "1.25rem" }}>
+          <label htmlFor="a1c-converter-input" style={{ display: "block" }}>
+            <span style={FIELD_LABEL}>Hemoglobin A1C (%)</span>
+            <input
+              id="a1c-converter-input"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              max={20}
+              step="0.1"
+              placeholder="e.g. 5.7"
+              value={a1c}
+              onChange={(e) => setA1c(e.target.value)}
+              style={FIELD_INPUT}
+            />
+          </label>
+        </div>
+      ) : (
+        <div style={{ display: "flex", gap: "0.75rem", marginBottom: "1.25rem", flexWrap: "wrap" }}>
+          <label htmlFor="a1c-glucose-input" style={{ display: "block", flex: "1 1 170px", maxWidth: "260px" }}>
+            <span style={FIELD_LABEL}>Average glucose</span>
+            <input
+              id="a1c-glucose-input"
+              type="number"
+              inputMode="decimal"
+              min={0}
+              step="1"
+              placeholder={gUnit === "mmol" ? "e.g. 6.5" : "e.g. 117"}
+              value={glucose}
+              onChange={(e) => setGlucose(e.target.value)}
+              style={FIELD_INPUT}
+            />
+          </label>
+          <label htmlFor="a1c-glucose-unit" style={{ display: "block", flex: "0 0 auto" }}>
+            <span style={FIELD_LABEL}>Unit</span>
+            <select
+              id="a1c-glucose-unit"
+              value={gUnit}
+              onChange={(e) => setGUnit(e.target.value as "mgdl" | "mmol")}
+              style={FIELD_INPUT}
+            >
+              <option value="mgdl">mg/dL</option>
+              <option value="mmol">mmol/L</option>
+            </select>
+          </label>
+        </div>
+      )}
 
       <div
         aria-live="polite"
@@ -133,7 +210,7 @@ export default function A1CConverter() {
                 marginBottom: "0.4rem",
               }}
             >
-              Estimated average glucose — {result.band.name}
+              {result.kind === "glucose" ? "Estimated average glucose" : "Estimated A1C"} — {result.band.name}
             </div>
             <div
               style={{
@@ -152,8 +229,10 @@ export default function A1CConverter() {
                   color: "var(--color-ink)",
                 }}
               >
-                {result.mgdl}
-                <span style={{ fontSize: "1.1rem", marginLeft: "0.35rem" }}>mg/dL</span>
+                {result.kind === "glucose" ? result.mgdl : result.a1c}
+                <span style={{ fontSize: "1.1rem", marginLeft: "0.35rem" }}>
+                  {result.kind === "glucose" ? "mg/dL" : "%"}
+                </span>
               </div>
               <div
                 style={{
@@ -164,8 +243,10 @@ export default function A1CConverter() {
                   color: "var(--color-ink-secondary)",
                 }}
               >
-                {result.mmol}
-                <span style={{ fontSize: "0.95rem", marginLeft: "0.3rem" }}>mmol/L</span>
+                {result.kind === "glucose" ? result.mmol : result.mgdl}
+                <span style={{ fontSize: "0.95rem", marginLeft: "0.3rem" }}>
+                  {result.kind === "glucose" ? "mmol/L" : "mg/dL average"}
+                </span>
               </div>
             </div>
             <p
@@ -190,8 +271,9 @@ export default function A1CConverter() {
               margin: 0,
             }}
           >
-            Enter your HbA1c percentage to see your estimated average glucose
-            (eAG) in both mg/dL and mmol/L.
+            {mode === "a1c"
+              ? "Enter your HbA1c percentage to see your estimated average glucose (eAG) in both mg/dL and mmol/L."
+              : "Enter an average glucose reading to see the HbA1c it corresponds to."}
           </p>
         )}
       </div>

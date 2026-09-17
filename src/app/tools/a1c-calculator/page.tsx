@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type React from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
@@ -8,6 +9,17 @@ import {
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
+
+const CELL: React.CSSProperties = {
+  padding: "0.6rem 1.1rem",
+  borderTop: "1px solid var(--color-grid)",
+  fontFamily: "var(--font-mono)",
+  fontSize: 13.5,
+  color: "var(--color-ink)",
+  whiteSpace: "nowrap",
+};
+const CELL_H: React.CSSProperties = { ...CELL, fontWeight: 600, textAlign: "left" };
+const CELL_N: React.CSSProperties = { ...CELL, fontFamily: "var(--font-sans)", color: "var(--color-ink-secondary)", whiteSpace: "normal" };
 
 const FAQ_ITEMS = [
   {
@@ -27,18 +39,30 @@ const FAQ_ITEMS = [
     a: "eAG is a 2–3 month average across all hours of the day, while a fasting reading is a single morning snapshot. eAG includes post-meal peaks, so it is usually higher than fasting glucose. A large gap between the two can also point to unusual red-blood-cell turnover (anemia, recent blood loss), which affects A1C independently of glucose.",
   },
   {
+    q: "How do you convert blood glucose back to A1C?",
+    a: "Rearrange the same ADAG equation: A1C = (average glucose in mg/dL + 46.7) ÷ 28.7. An average of 154 mg/dL comes back to about 7.0%. Switch the converter above to 'Glucose to A1C' and it does it for you, in mg/dL or mmol/L. One caveat: this works on a true average across the whole day, not on a single fasting reading, which runs lower than the average and will understate the A1C.",
+  },
+  {
+    q: "Is this the same as the ADA A1C calculator?",
+    a: "It uses the same equation. The American Diabetes Association's converter is built on the ADAG study (Nathan et al., 2008), the same regression used here, so the numbers match. The difference is that this page also prints the full chart and runs the conversion in reverse.",
+  },
+  {
+    q: "What A1C range does the chart cover?",
+    a: "From 4.0% to 14.0%, which spans the low end of normal through poorly controlled diabetes. Below 4% and above 14% the ADAG regression becomes extrapolation rather than conversion, so the converter declines to give a number there rather than inventing one.",
+  },
+  {
     q: "Does Merios store these numbers?",
     a: "No. The calculator runs entirely in your browser. Your inputs never leave your device and are not sent to a server.",
   },
 ];
 
 export const metadata: Metadata = {
-  title: "A1C to Average Blood Sugar Calculator (eAG Chart)",
+  title: "A1C to Average Glucose Chart (eAG Calculator)",
   description:
-    "Free A1C to average blood sugar converter. Enter your A1C — get estimated average glucose (eAG) in mg/dL and mmol/L, plus the full conversion chart. ADAG formula.",
+    "Full A1C to average glucose chart, 4.0% to 14.0%, in mg/dL and mmol/L — and it converts both ways, glucose back to A1C included. ADAG formula, free.",
   alternates: { canonical: "https://merios.life/tools/a1c-calculator" },
   openGraph: {
-    title: "A1C → Average Blood Sugar Calculator (eAG)",
+    title: "A1C to Average Glucose Chart & Converter (eAG)",
     description:
       "Convert A1C to estimated average glucose in mg/dL and mmol/L. Free, no signup. ADAG 2008 formula.",
     url: "https://merios.life/tools/a1c-calculator",
@@ -119,56 +143,41 @@ export default function A1CCalculatorPage() {
               covers the common reference points, from optimal through the
               diabetes range.
             </p>
-            <div
-              style={{
-                border: "1px solid var(--color-grid)",
-                borderRadius: "12px",
-                overflow: "hidden",
-              }}
-            >
-              {[
-                { a1c: "5.0%", mgdl: "97 mg/dL", mmol: "5.4 mmol/L", band: "Optimal", dot: "var(--color-pulse)" },
-                { a1c: "5.7%", mgdl: "117 mg/dL", mmol: "6.5 mmol/L", band: "Prediabetes starts", dot: "var(--color-green-deep)" },
-                { a1c: "6.0%", mgdl: "126 mg/dL", mmol: "7.0 mmol/L", band: "Prediabetes", dot: "var(--color-warm)" },
-                { a1c: "6.5%", mgdl: "140 mg/dL", mmol: "7.8 mmol/L", band: "Diabetes threshold", dot: "#B4472F" },
-                { a1c: "7.0%", mgdl: "154 mg/dL", mmol: "8.6 mmol/L", band: "Common treatment target", dot: "#B4472F" },
-                { a1c: "8.0%", mgdl: "183 mg/dL", mmol: "10.2 mmol/L", band: "Above target", dot: "#B4472F" },
-              ].map((r, i) => (
-                <div
-                  key={r.a1c}
-                  className="flex gap-4 px-5 py-4"
-                  style={{ borderTop: i === 0 ? undefined : "1px solid var(--color-grid)" }}
-                >
-                  <span
-                    aria-hidden
-                    className="mt-1.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-                    style={{ background: r.dot }}
-                  />
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 13,
-                        fontWeight: 600,
-                        letterSpacing: "0.01em",
-                        color: "var(--color-ink)",
-                      }}
-                    >
-                      A1C {r.a1c} — {r.mgdl} ({r.mmol})
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 14.5,
-                        lineHeight: 1.6,
-                        color: "var(--color-ink-secondary)",
-                        marginTop: 2,
-                      }}
-                    >
-                      {r.band}
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div style={{ border: "1px solid var(--color-grid)", borderRadius: "12px", overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14.5 }}>
+                <caption style={{ captionSide: "top", textAlign: "left", padding: "0.85rem 1.1rem 0.35rem", fontSize: 13.5, color: "var(--color-ink-tertiary)" }}>
+                  A1C to estimated average glucose (eAG), from 4.0% to 14.0%
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col" style={CELL_H}>A1C</th>
+                    <th scope="col" style={CELL_H}>eAG (mg/dL)</th>
+                    <th scope="col" style={CELL_H}>eAG (mmol/L)</th>
+                    <th scope="col" style={CELL_H}>Band</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr key="4.0"><th scope="row" style={CELL_H}>4.0%</th><td style={CELL}>68 mg/dL</td><td style={CELL}>3.8 mmol/L</td><td style={CELL_N}>Low end of normal</td></tr>
+                    <tr key="4.5"><th scope="row" style={CELL_H}>4.5%</th><td style={CELL}>82 mg/dL</td><td style={CELL}>4.6 mmol/L</td><td style={CELL_N}>Normal</td></tr>
+                    <tr key="5.0"><th scope="row" style={CELL_H}>5.0%</th><td style={CELL}>97 mg/dL</td><td style={CELL}>5.4 mmol/L</td><td style={CELL_N}>Optimal</td></tr>
+                    <tr key="5.5"><th scope="row" style={CELL_H}>5.5%</th><td style={CELL}>111 mg/dL</td><td style={CELL}>6.2 mmol/L</td><td style={CELL_N}>Normal</td></tr>
+                    <tr key="5.7"><th scope="row" style={CELL_H}>5.7%</th><td style={CELL}>117 mg/dL</td><td style={CELL}>6.5 mmol/L</td><td style={CELL_N}>Prediabetes starts</td></tr>
+                    <tr key="6.0"><th scope="row" style={CELL_H}>6.0%</th><td style={CELL}>126 mg/dL</td><td style={CELL}>7.0 mmol/L</td><td style={CELL_N}>Prediabetes</td></tr>
+                    <tr key="6.4"><th scope="row" style={CELL_H}>6.4%</th><td style={CELL}>137 mg/dL</td><td style={CELL}>7.6 mmol/L</td><td style={CELL_N}>Top of prediabetes</td></tr>
+                    <tr key="6.5"><th scope="row" style={CELL_H}>6.5%</th><td style={CELL}>140 mg/dL</td><td style={CELL}>7.8 mmol/L</td><td style={CELL_N}>Diabetes threshold</td></tr>
+                    <tr key="7.0"><th scope="row" style={CELL_H}>7.0%</th><td style={CELL}>154 mg/dL</td><td style={CELL}>8.6 mmol/L</td><td style={CELL_N}>Common treatment target</td></tr>
+                    <tr key="7.5"><th scope="row" style={CELL_H}>7.5%</th><td style={CELL}>169 mg/dL</td><td style={CELL}>9.4 mmol/L</td><td style={CELL_N}>Above target</td></tr>
+                    <tr key="8.0"><th scope="row" style={CELL_H}>8.0%</th><td style={CELL}>183 mg/dL</td><td style={CELL}>10.2 mmol/L</td><td style={CELL_N}>Above target</td></tr>
+                    <tr key="8.5"><th scope="row" style={CELL_H}>8.5%</th><td style={CELL}>197 mg/dL</td><td style={CELL}>11.0 mmol/L</td><td style={CELL_N}>Above target</td></tr>
+                    <tr key="9.0"><th scope="row" style={CELL_H}>9.0%</th><td style={CELL}>212 mg/dL</td><td style={CELL}>11.8 mmol/L</td><td style={CELL_N}>Well above target</td></tr>
+                    <tr key="9.5"><th scope="row" style={CELL_H}>9.5%</th><td style={CELL}>226 mg/dL</td><td style={CELL}>12.6 mmol/L</td><td style={CELL_N}>Well above target</td></tr>
+                    <tr key="10.0"><th scope="row" style={CELL_H}>10.0%</th><td style={CELL}>240 mg/dL</td><td style={CELL}>13.4 mmol/L</td><td style={CELL_N}>Well above target</td></tr>
+                    <tr key="11.0"><th scope="row" style={CELL_H}>11.0%</th><td style={CELL}>269 mg/dL</td><td style={CELL}>14.9 mmol/L</td><td style={CELL_N}>Very high</td></tr>
+                    <tr key="12.0"><th scope="row" style={CELL_H}>12.0%</th><td style={CELL}>298 mg/dL</td><td style={CELL}>16.5 mmol/L</td><td style={CELL_N}>Very high</td></tr>
+                    <tr key="13.0"><th scope="row" style={CELL_H}>13.0%</th><td style={CELL}>326 mg/dL</td><td style={CELL}>18.1 mmol/L</td><td style={CELL_N}>Very high</td></tr>
+                    <tr key="14.0"><th scope="row" style={CELL_H}>14.0%</th><td style={CELL}>355 mg/dL</td><td style={CELL}>19.7 mmol/L</td><td style={CELL_N}>Very high</td></tr>
+                </tbody>
+              </table>
             </div>
 
             <h2
@@ -317,14 +326,14 @@ export default function A1CCalculatorPage() {
                 Get the app
               </Link>
               <Link
-                href="/blog/a1c-to-blood-sugar-chart"
+                href="/blog/hba1c-5-7-pre-diabetic"
                 className="mt-5 ml-3 inline-flex items-center gap-2 px-3 py-3 text-[14px] font-medium"
                 style={{
                   color: "var(--color-ink-secondary)",
                   fontFamily: "var(--font-sans)",
                 }}
               >
-                Read the full chart →
+                What an A1C of 5.7% means →
               </Link>
             </div>
           </section>

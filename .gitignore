@@ -5,3 +5,7 @@ out/
 .claude/
 screenshots/
 
+
+# Artefact de build TypeScript : régénéré à chaque compilation,
+# il faisait gonfler chaque patch de plusieurs centaines de Ko.
+tsconfig.tsbuildinfo

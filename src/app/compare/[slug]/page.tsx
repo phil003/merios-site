@@ -37,7 +37,7 @@ export async function generateMetadata({
   if (!post) return { title: "Comparison Not Found" };
 
   return {
-    title: post.title,
+    title: post.seoTitle || post.title,
     description: post.description,
     alternates: {
       canonical: `https://merios.life/compare/${post.slug}`,

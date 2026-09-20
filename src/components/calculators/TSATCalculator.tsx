@@ -50,7 +50,7 @@ export default function TSATCalculator() {
   return (
     <Shell labelledBy="tsat-title">
       <div style={eyebrowStyle}>Free interactive tool</div>
-      <h2 id="tsat-title" style={titleStyle}>Transferrin Saturation (TSAT) Calculator</h2>
+      <h2 id="tsat-title" style={titleStyle}>Transferrin saturation from serum iron and TIBC</h2>
 
       <div style={{ marginBottom: "1.1rem" }}>
         <Toggle
@@ -93,17 +93,19 @@ export default function TSATCalculator() {
       </ResultPanel>
 
       <div style={{ marginTop: "1.25rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
-        <RefRow label="Low — iron deficiency range" range="under 20%" tone="bad" />
+        <RefRow label="Low — iron deficiency pattern" range="under 20%" tone="bad" />
         <RefRow label="Borderline low" range="20–25%" tone="warn" />
-        <RefRow label="Typical reference range" range="25–35%" tone="ok" />
-        <RefRow label="High — iron overload range" range="above 45%" tone="warn" />
+        <RefRow label="Functional band — iron supply comfortable" range="25–35%" tone="ok" />
+        <RefRow label="Overload screening trigger" range="above 45%" tone="warn" />
       </div>
 
       <p style={footnoteStyle}>
         Educational tool, not a diagnosis. TSAT is interpreted alongside ferritin, not instead of it — ferritin rises
         with inflammation and can look normal while iron stores are genuinely low, which is exactly when TSAT is most
         useful. A persistently high TSAT, particularly above 45%, is the standard trigger for investigating
-        hemochromatosis. Reference intervals vary between laboratories; compare against the range printed on your report.
+        hemochromatosis. Most US laboratories print a normal range of roughly 20 to 50 percent; the 25 to 35 percent
+        band above is the tighter zone where iron supply is comfortable rather than merely inside the lab range.
+        Reference intervals vary between laboratories; compare against the range printed on your report.
       </p>
       <Cta />
     </Shell>

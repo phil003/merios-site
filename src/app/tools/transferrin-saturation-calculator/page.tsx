@@ -11,6 +11,7 @@ const DESCRIPTION =
 
 const FAQ_ITEMS = [
   { q: "What is the TSAT formula?", a: "Transferrin saturation equals serum iron divided by total iron-binding capacity, multiplied by 100, with both values in micrograms per deciliter. A serum iron of 90 with a TIBC of 320 gives 90 divided by 320, or 28.1 percent. If your panel reports UIBC instead of TIBC, add UIBC to serum iron to get TIBC first. If it reports transferrin in grams per litre, multiply by 125 to get TIBC in micrograms per deciliter." },
+  { q: "Is transferrin saturation the same as iron saturation?", a: "Yes. Iron saturation, transferrin saturation, TSAT and the line printed simply as sat percent all name the same calculated value: the share of your transferrin carrying capacity that currently holds iron. Laboratories use the terms interchangeably, which is why two reports can look like they measured different things. It is not the same as ferritin, which measures stored iron rather than iron in transit." },
   { q: "Is a transferrin saturation of 28 percent normal?", a: "Yes. A TSAT of 28 percent sits inside the band most laboratories report as normal, which runs roughly 20 to 50 percent, and inside the tighter 25 to 35 percent zone where iron supply is comfortable rather than merely acceptable. If you feel unwell with a value there, the answer is more likely in ferritin, CRP or somewhere outside the iron panel." },
   { q: "What is a low transferrin saturation?", a: "Below 20 percent is the classic iron-deficiency pattern, and it can appear before hemoglobin falls. Below 10 percent is markedly low. Because TSAT is calculated from serum iron, which swings through the day and after an iron-containing meal, a low value is usually confirmed on a fasting morning draw rather than acted on from a single reading." },
   { q: "Why is my ferritin normal but my transferrin saturation low?", a: "This is the single most useful thing TSAT reveals. Ferritin is an acute-phase reactant, so inflammation, infection, obesity and liver disease all raise it — which can make ferritin look reassuring while iron stores are genuinely depleted. TSAT is far less affected by inflammation, so a low TSAT alongside a normal ferritin often means the ferritin is masking a real deficiency." },
@@ -107,6 +108,50 @@ export default function Page() {
               lab range — the distinction between a normal result and a good one, which is the distinction most panels
               never make.
             </p>
+
+            <div style={tableWrapStyle}>
+              <table style={tableStyle}>
+                <caption style={captionStyle}>
+                  Transferrin saturation bands commonly used in adults. Reference intervals differ between
+                  laboratories and assays — compare against the range printed on your own report.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col" style={thStyle}>TSAT</th>
+                    <th scope="col" style={thStyle}>How it is usually read</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" style={tdKeyStyle}>Under 20%</th>
+                    <td style={tdStyle}>The classic iron-deficiency pattern. Can appear before hemoglobin falls, so it often precedes anemia.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={tdKeyStyle}>20–25%</th>
+                    <td style={tdStyle}>Inside most flagged intervals but below the typical middle. Not diagnostic alone; read with ferritin and symptoms.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={tdKeyStyle}>25–35%</th>
+                    <td style={tdStyle}>Where most adults sit. Iron supply and carrying capacity are broadly matched.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={tdKeyStyle}>35–45%</th>
+                    <td style={tdStyle}>Still within many reported ranges. A recent iron supplement or a non-fasting draw can put a normal person here.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={tdKeyStyle}>45% and above</th>
+                    <td style={tdStyle}>The usual threshold for investigating iron overload, including hereditary hemochromatosis, when it persists on a repeat fasting sample.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p style={pStyle}>
+              The width of that lab interval is the point. A report that flags nothing between 20 and 50 percent
+              prints a result of 21 percent and a result of 45 percent without comment, despite the two pointing in
+              opposite directions. Where you sit inside the interval, and which way it moves between panels, carries
+              more information than whether a flag appeared.
+            </p>
             <p style={pStyle}>
               Below 20 percent is the classic deficiency pattern and can appear before hemoglobin falls. Above 45
               percent, repeated on a fasting sample, is the usual trigger to investigate iron overload including
@@ -165,3 +210,25 @@ const formulaStyle: React.CSSProperties = {
   border: "1px solid color-mix(in srgb, var(--color-pulse) 26%, transparent)",
 };
 const linkStyle: React.CSSProperties = { color: "var(--color-green-deep)", textUnderlineOffset: "3px" };
+const tableWrapStyle: React.CSSProperties = { overflowX: "auto", marginBottom: "1.4rem" };
+const tableStyle: React.CSSProperties = {
+  width: "100%", borderCollapse: "collapse", fontSize: 15, lineHeight: 1.55,
+};
+const captionStyle: React.CSSProperties = {
+  captionSide: "bottom", textAlign: "left", fontSize: "0.8125rem",
+  color: "var(--color-ink-tertiary)", paddingTop: "0.6rem", lineHeight: 1.5,
+};
+const thStyle: React.CSSProperties = {
+  textAlign: "left", fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.18em",
+  textTransform: "uppercase", color: "var(--color-ink-tertiary)", fontWeight: 500,
+  padding: "0.5rem 0.75rem 0.5rem 0", borderBottom: "1px solid var(--color-grid)",
+};
+const tdKeyStyle: React.CSSProperties = {
+  textAlign: "left", fontFamily: "var(--font-mono)", fontSize: 14, color: "var(--color-ink)",
+  fontWeight: 500, whiteSpace: "nowrap", verticalAlign: "top",
+  padding: "0.7rem 1rem 0.7rem 0", borderBottom: "1px solid var(--color-grid)",
+};
+const tdStyle: React.CSSProperties = {
+  fontSize: 15, lineHeight: 1.55, color: "var(--color-ink-secondary)", verticalAlign: "top",
+  padding: "0.7rem 0", borderBottom: "1px solid var(--color-grid)",
+};

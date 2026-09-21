@@ -8,6 +8,7 @@ const COMPARE_DIR = path.join(process.cwd(), 'content/compare');
 export interface ComparePost {
   slug: string;
   title: string;
+  seoTitle?: string;
   description: string;
   competitor: string;
   date: string;
@@ -23,6 +24,7 @@ function parseCompare(slug: string, raw: string): ComparePost {
   return {
     slug,
     title: data.title || '',
+    seoTitle: data.seoTitle || undefined,
     description: data.description || '',
     competitor: data.competitor || '',
     date: data.date || '',

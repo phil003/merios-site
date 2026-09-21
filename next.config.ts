@@ -38,6 +38,17 @@ const nextConfig: NextConfig = {
       // competitor-vs-competitor page, where Merios is a labelled third
       // column. The remaining /compare/merios-vs-* pages stay live until
       // their own competitor-vs-competitor replacements are written.
+      // /blog/a1c-to-blood-sugar-chart was a near-duplicate of the tool page:
+      // both titled "A1C to Average Blood Sugar ... eAG ... Chart", both
+      // chasing the same conversion cluster. Google ranked neither — positions
+      // 58 to 80 across roughly 500 impressions a month. Consolidated into the
+      // tool, which now carries the calculator, the full 4.0-14.0 chart and the
+      // reverse conversion. The article's 11 inbound links were repointed.
+      {
+        source: "/blog/a1c-to-blood-sugar-chart",
+        destination: "/tools/a1c-calculator",
+        permanent: true,
+      },
       {
         source: "/compare/merios-vs-function-health",
         destination: "/compare/function-health-vs-superpower",

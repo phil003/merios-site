@@ -140,7 +140,6 @@ const GAUGE: Record<string, { bio: keyof typeof BIO; value: number; display?: st
    improvement topics rise; reference charts are dotted. */
 
 const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["curve"] }> = {
-  "a1c-to-blood-sugar-chart": { big: "A1c", curve: "dotted" },
   "alt-ast-liver-enzymes-high": { big: "ALT", suffix: "AST" },
   "anti-tpo-antibodies-high-hashimotos": { big: "TPO" },
   "apob-heart-disease-risk": { big: "ApoB" },

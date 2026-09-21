@@ -90,7 +90,7 @@ const TOOLS = [
   {
     slug: "transferrin-saturation-calculator",
     eyebrow: "Iron Status",
-    title: "Transferrin Saturation (TSAT)",
+    title: "TSAT Calculator (Transferrin Saturation)",
     description:
       "Ferritin rises with inflammation and can look normal while iron stores are empty. TSAT is the marker that does not. Accepts TIBC, UIBC or transferrin.",
     inputs: "2 inputs",

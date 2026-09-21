@@ -1,0 +1,184 @@
+---
+title: "Best Longevity Apps 2026: Which Age Score Can You Trust?"
+description: "The best longevity apps in 2026 — Whoop, Oura, Apple Health Age, NOVOS, Elysium, Function Health — compared on price and, more importantly, on whether the number holds up."
+date: "2026-09-17"
+dateModified: "2026-09-17"
+tag: "Longevity"
+emoji: "⏳"
+readTime: "12 min read"
+image: "/og-image.png"
+faq:
+  - q: "What is the best longevity app in 2026?"
+    a: "It depends on which signal you want. For daily habit feedback, Whoop's Healthspan is the most transparent about its method and costs 239 dollars a year with hardware included. For a laboratory measure of aging, NOVOS Age at 349 dollars is the best value among epigenetic tests and is the only one with a real mobile app. For a longevity readout on bloodwork you already have, Humanity through Quest costs 29 dollars as an add-on. There is no single best app, because these three things measure genuinely different biology."
+  - q: "Are biological age apps accurate?"
+    a: "Less than their marketing suggests. A 2022 Nature Aging paper found that running the same blood sample twice through standard epigenetic clocks produced biological ages differing by up to nine years. A 2026 Aging Cell paper found something more awkward: fixing that technical noise does not fix the problem, because ordinary events like a meal, a stressful week or air pollution drop most clocks to moderate or poor reliability. Treat any single score as a wide estimate, not a measurement."
+  - q: "Is Apple's Health Age free?"
+    a: "Apple announced Health Age on 9 September 2026 as part of a new Longevity tab in the redesigned Health app, with no subscription attached. It is computed from VO2 max, resting heart rate, sleep and HRV, plus optional A1c and LDL values you enter yourself. As of mid-September 2026 it had not shipped yet — it arrives with iOS 27 and requires an Apple Intelligence-capable iPhone."
+  - q: "How often should you retest your biological age?"
+    a: "Less often than most companies suggest. NOVOS tells its own customers to wait 6 to 12 months because testing sooner tends to show measurement noise rather than real change. TruDiagnostic markets retesting every 3 to 6 months. Given the published reliability data, the shorter interval sits at or below the noise floor, so an apparent improvement over three months is as likely to be a meal or a stressful week as a biological change."
+  - q: "Do longevity apps replace blood tests?"
+    a: "No, and the good ones do not claim to. A wearable estimates an age from heart rate, sleep and fitness data; it has no access to your ApoB, your fasting insulin or your hs-CRP. Those come from a blood panel. The two are complementary layers, which is why several platforms now let you feed lab results into the same dashboard as your wearable data."
+---
+
+Every longevity app sells you the same thing: a number that is supposed to be your real age. Whoop calls it WHOOP Age. Oura calls it Cardiovascular Age. Apple will call it Health Age. NOVOS, Elysium, Function Health and Superpower all call it biological age. The pitch is identical, the price ranges from free to 849 dollars, and almost every comparison you will read ranks them on features.
+
+This one ranks them on something more useful: **how much you can trust the number.** Because the uncomfortable finding, published in 2026 and largely absent from the marketing, is that most of these scores are far less stable than they look.
+
+## The problem with every biological age score
+
+Two peer-reviewed papers frame this honestly, and they should shape how you read any result.
+
+The first is **Higgins-Chen et al., *Nature Aging*, 2022**. The researchers ran the same blood sample through standard epigenetic clocks twice. The biological age estimates came back differing by **up to nine years**. Their own framing: a clock could tell you that you are biologically 50 on one test and 59 on the next, from identical blood. They proposed a fix — principal-component recalibration, the basis of what vendors now call PC clocks — which cut the discrepancy to roughly one year.
+
+The second is worse, and newer. **Sehgal et al., *Aging Cell*, 2026** separated *technical* reliability from *biological* reliability. The technical side has genuinely improved: PhenoAge and Horvath now sit around ICC 0.7 to 0.8. But under ordinary perturbations — a meal, a stressful week, air pollution — most clocks fell to **ICC 0.4 to 0.7**, which is moderate to poor. DunedinPACE and GrimAge fell into the poor range under stress. And critically, the two kinds of reliability were **essentially uncorrelated**. A vendor citing an impressive technical reliability figure is not telling you your score will be stable from one month to the next. The authors' blunt summary: a meal can dramatically impact a score.
+
+Hold that in mind through everything below. It does not make these products useless. It does mean that **a single reading is an estimate with a wide error bar, and a trend over years is worth far more than any one number** — which is the same thing that is true of a cholesterol panel, and the reason we keep saying that two points is a guess. If you want the underlying idea before spending anything, [biological age versus chronological age](/blog/biological-age-vs-chronological-age) covers what these scores are trying to capture, and you can compute a PhenoAge from a standard blood panel for nothing with the free [PhenoAge calculator](/tools/phenoage-calculator).
+
+## How we picked
+
+We looked for products that produce an aging or healthspan score, are available to a US buyer, and come with an app or dashboard you actually use. For each one we went to the company's own pricing and science pages rather than to affiliate listicles, and we checked every price in **September 2026**. Where a company's own pages contradicted each other, we say so instead of picking the flattering number. Where we could not verify something, we say that too.
+
+We also asked a question most comparisons skip: **is the algorithm published?** For almost all of them, the answer is no.
+
+## Wearables that estimate an age
+
+These compute an age from movement, heart rate and sleep. They see your habits daily but have no access to your blood chemistry.
+
+### Whoop — the most transparent method
+
+Whoop's **Healthspan** feature contains two numbers: **WHOOP Age**, a physiological age in years, and **Pace of Aging**, a rate on a scale from −1x to 3x. It is built from nine inputs: sleep duration, sleep consistency, steps, time in heart-rate zones 1 to 3, time in zones 4 to 5, strength-activity time, VO2 max, resting heart rate and lean body mass percentage. Each is mapped to published hazard ratios for all-cause mortality, then converted into effective years using a Gompertz mortality model.
+
+That is more method disclosure than anyone else in this list offers, and Whoop publishes a white paper. But the algorithm itself has **no peer-reviewed publication**. Its only validation is an internal member survey. An independent critique makes a fair point: hazard ratios come with confidence intervals, and Whoop reports none, which gives the output a precision it has not earned.
+
+**Price (September 2026):** Whoop One 199 dollars a year, but it does **not** include Healthspan. Whoop Peak 239 dollars a year and Whoop Life 359 dollars a year both do. Hardware is included in the membership price. Healthspan is not available to users under 18.
+
+### Oura — the closest thing to validation, and an overstated headline
+
+Oura reports **Cardiovascular Age**, not a general biological age. It works by reading the shape of the overnight infrared PPG waveform and using it as a proxy for pulse wave velocity, the standard measure of arterial stiffness. The ring does not measure pulse wave velocity directly. You need a Gen3 ring or newer and at least 14 nights of data in the past 30.
+
+There is a real paper here — Yilmaz et al., *PLOS Digital Health*, March 2026 — and Oura's blog headlines it as validation. Read the paper and the claim softens considerably: the researchers built **their own** model on Oura PPG data, with 160 healthy adults at a median age of 31, reaching a mean absolute error of **7.25 years**. They did not test Oura's shipping algorithm. So the concept has academic support; the product's own implementation remains unvalidated, and a 7-year error bar is not a small thing when the output is an age.
+
+**Price (September 2026):** Oura Ring 5 from 399 dollars, Ring 4 still sold from 349 dollars, plus membership at 5.99 dollars a month or 69.99 a year. Cardiovascular Age requires the membership.
+
+### Apple Health Age — free, and about to change the pricing of this whole category
+
+Apple announced **Health Age** on 9 September 2026, inside a new Longevity tab in the redesigned Health app. It is computed from four Apple Watch metrics — VO2 max, resting heart rate, sleep and HRV — plus **optional A1c and LDL cholesterol values you enter yourself**, which is a notable acknowledgement that wrist data alone does not capture metabolic aging.
+
+Two things to be clear about. It **had not shipped** as of mid-September 2026: it arrives with iOS 27 and needs an Apple Intelligence-capable iPhone. And Apple cites no studies for the algorithm, only the phrase "informed by the best available science" — so it lands in exactly the same unvalidated bucket as the others, just at a price of zero.
+
+That matters strategically. A free, first-party age score built into the operating system puts real pressure on subscriptions in the 239 to 359 dollar range.
+
+### Garmin Fitness Age — the honest outlier
+
+Garmin's **Fitness Age** is derived from your VO2 max estimate, with newer devices also factoring in activity intensity, resting heart rate, and body fat percentage or BMI. Garmin cites no validation studies either — but Garmin also never claims this is a longevity or biological age. It is a fitness comparison against your age group, it is free, and it does not pretend to be more. Worth including precisely because it is the one product here that does not oversell.
+
+## Epigenetic tests with an app
+
+These read DNA methylation from a blood spot, swab or saliva sample. They measure a different biological layer than a wearable — and they are where the reliability caveats above bite hardest.
+
+### NOVOS Age — the best value, and the most honest about retesting
+
+NOVOS runs an Illumina MethylationEPIC array across roughly 850,000 CpG sites and returns a biological age, **DunedinPACE**, organ ages across 11 systems and telomere length. It is the only product in this group with a genuine mobile app on both iOS and Android.
+
+What earns it the top slot here is a line in its own marketing: NOVOS tells customers to **wait 6 to 12 months** before retesting, because testing sooner "tends to show measurement noise rather than meaningful change." A company arguing against selling you more tests is a signal worth paying attention to.
+
+**Price (September 2026):** 349 dollars for a single kit, 299 per kit for two or more. No subscription required. Finger-prick blood.
+
+### Elysium Index — built on the reliability fix
+
+Index reports a biological age, a pace of aging and **nine system ages**, from a saliva sample. It is built on principal-component clock methodology and Elysium cites the Higgins-Chen 2022 paper directly as its reliability basis, claiming replicate agreement within 0 to 1.5 years against 3 to 9 years for other published clocks.
+
+Whether that claim holds independently is not something we can verify, but it is at least the right paper to be citing, and Elysium carries the most explicit disclaimer of the group: Index is not a medical device and is not intended to screen, diagnose, treat, cure or prevent anything.
+
+**Price (September 2026):** 299 dollars, single kit, no subscription option. Results in about six weeks.
+
+### TruDiagnostic TruAge — the deepest panel, the most aggressive retesting
+
+TruAge is the most extensive report here: **OMICmAge** (Harvard), **SYMPHONYAge** (Yale, 11 organ-system ages), **DunedinPACE** (Duke and Columbia), telomere length and 75-plus longevity biomarkers, from a finger-stick blood sample.
+
+The reservation is commercial rather than scientific. TruDiagnostic markets retesting **every 3 to 6 months**. Set that against the *Aging Cell* finding that a meal or a stressful week moves these clocks, and against NOVOS telling its own customers to wait a year, and a three-month retest cycle sits at or below the noise floor.
+
+**Price (September 2026):** 499 dollars for TruAge, 849 for the TruAge plus TruHealth combination. Web portal, no consumer mobile app that we could find.
+
+### Tally Health — cheapest entry, now under the same roof as TruDiagnostic
+
+Tally Health uses a **cheek swab** rather than blood, run against a proprietary in-house clock trained on more than 8,000 adults. It is the cheapest way into epigenetic testing at 249 dollars a kit, 234 for members.
+
+One fact worth knowing if you are comparing options: Tally Health was **acquired in April 2026 by Infinite Epigenetics, the parent company of TruDiagnostic**. They are no longer independent alternatives to each other.
+
+**Price (September 2026):** 249 dollars per kit, or a 129 dollar monthly membership that includes two tests a year and a daily supplement.
+
+### A note on GlycanAge
+
+GlycanAge is frequently listed alongside the above, but it is **not an epigenetic test**. It measures IgG glycosylation — the sugar chains on your circulating antibodies — as a marker of inflammatory state, sometimes called inflammaging. That is a real and interesting signal, but it is a different biological layer and cannot be benchmarked against a methylation clock. Its US price is not published on its own store; its FAQ quotes an approximate range of 499 to 549 dollars for a single test.
+
+## Blood panel platforms with a biological age
+
+These run a full lab panel and fold an aging score into it. They see the chemistry a wearable cannot.
+
+### Function Health — 365 dollars a year, the volume leader
+
+Function Health runs **160-plus lab tests a year** across two draws, phlebotomy included at Quest locations, and includes a **Biological Age** score tested twice a year. You can upload past results. HSA and FSA eligible.
+
+The caveat is disclosure: Function does not publish how its Biological Age is computed. The page renders the methodology as a placeholder. Not available in Rhode Island, Hawaii or Puerto Rico, and New York and New Jersey carry higher costs.
+
+### Superpower — two tiers, which is why reports conflict
+
+Superpower sells a **Baseline membership at 199 dollars a year** (100-plus biomarkers, one draw) and a **Full membership at 349 dollars a year** (150-plus across two draws). It returns a biological age plus 17 health scores, accepts uploaded past labs, and syncs Oura, Whoop and Apple Health.
+
+For completeness, since it circulated widely and is usually reported backwards: in January 2026 **Function Health sued Superpower**, not the other way round, alleging false advertising. The parties settled and the case was dismissed in June 2026 **without any finding that Superpower did anything wrong**. We mention it only because the rumour usually reaches people inverted.
+
+### InsideTracker — the one built for labs you already have
+
+InsideTracker sells the analysis layer separately from the blood, which makes it unusual. A **149 dollar annual membership** exists specifically so you can upload existing results from another provider — up to 30 result sets a year. Its aging score is **InnerAge**, 249 dollars standalone or 99 as an add-on for existing members. A full Ultimate test covers up to 54 biomarkers.
+
+Two things to check before buying: InsideTracker's own pages disagree on the biomarker count (54 on the live store, 48 in an article), and the store labels the standalone membership "International Only" while the product page presents it as generally available. Worth confirming directly for a US purchase.
+
+### Humanity through Quest — the 29 dollar option nobody mentions
+
+Announced on **25 August 2026**, Humanity's Biological Age analysis is now sold directly through questhealth.com as a **29 dollar add-on** to lab panels people already buy, with no additional blood draw. If your question is "I have bloodwork, what does it say about my aging," this is by a wide margin the cheapest honest answer, and it is the incumbent lab infrastructure undercutting the membership startups by an order of magnitude.
+
+Similarly, Amazon One Medical members got **Health Insights** in February 2026 — an analysis of 50-plus biomarkers from labs drawn in the past year, at no extra cost.
+
+## Comparison table
+
+| Product | What it measures | Price (Sept 2026) | Algorithm published? |
+|---|---|---|---|
+| Apple Health Age | VO2 max, RHR, sleep, HRV + optional A1c, LDL | Free (not yet shipped) | No |
+| Garmin Fitness Age | VO2 max, activity, RHR, BMI | Free | No |
+| Whoop Healthspan | 9 habit and fitness inputs | 239/yr (Peak), hardware included | No — white paper only |
+| Oura Cardiovascular Age | Overnight PPG as a proxy for arterial stiffness | Ring from 399 + 69.99/yr | Concept yes, product no |
+| Tally Health | Cheek-swab methylation, proprietary clock | 249/kit | No |
+| Elysium Index | Saliva methylation, PC clocks, 9 system ages | 299 | Cites Higgins-Chen 2022 |
+| NOVOS Age | Blood methylation, DunedinPACE, 11 organ ages | 349 | Uses published clocks |
+| TruDiagnostic TruAge | Blood methylation, OMICmAge, SYMPHONYAge | 499 | Uses published clocks |
+| Humanity via Quest | Biological age from an existing Quest panel | 29 add-on | No |
+| Superpower | 100 to 150+ biomarkers + biological age | 199 or 349/yr | No |
+| Function Health | 160+ lab tests + biological age | 365/yr | Not disclosed |
+| InsideTracker InnerAge | Up to 54 biomarkers | 149/yr membership, InnerAge 249 | No |
+
+## How to choose
+
+**If you want daily feedback on habits**, a wearable is the right layer, and Apple Health Age will make it free once it ships. Until then Whoop Peak is the most transparent paid option.
+
+**If you want a laboratory measure of aging**, pick one epigenetic test and stay with it — switching vendors makes your history meaningless, because the clocks are not interchangeable. NOVOS at 349 dollars is the best balance of depth, a real app, and honesty about retest intervals. **Retest once a year, not quarterly.**
+
+**If you already have bloodwork**, do not buy a membership before trying the 29 dollar Humanity add-on through Quest, or InsideTracker's upload-only tier.
+
+**If the goal is to move the number rather than measure it**, the levers are unglamorous and well established — sleep, strength, cardiorespiratory fitness and metabolic health — and [how to lower your biological age](/blog/how-to-lower-biological-age) covers them without a purchase attached.
+
+**And whatever you pick, judge it on the trend, not the reading.** Everything in this article points the same direction: one number from one sample on one day carries an error bar the marketing does not show you. The signal is in the direction of travel across years, and that only exists if you keep the history in one place — which is the part most of these products quietly do not solve, because each keeps its own results inside its own app.
+
+## Disclosure
+
+Merios makes one of the tools in this category, so treat this article accordingly. We have tried to be even-handed: Merios is not ranked first, we have named cheaper alternatives that do parts of the job better, and there are no affiliate links anywhere on this page — we earn nothing if you buy any product mentioned. Every price was checked in September 2026 against the company's own pages, and where those pages contradicted each other we said so rather than choosing the flattering figure.
+
+**Merios is the wrong choice for you** if you want an epigenetic age — we do not sell a test and do not compute one. It is also the wrong choice if you have no bloodwork at all, because there is nothing to read.
+
+Where Merios fits is the gap the section above describes: you upload the lab reports you already have, from any provider, and every biomarker lands on one timeline alongside your wearable data, with each value read against a functional range rather than only the lab's normal range. No new test to buy, no results stranded in a fourth app. If you want the markers worth watching over time, start with [the biomarkers that actually predict lifespan](/blog/biomarkers-to-track-for-longevity), and if what you specifically want is a place to keep lab results rather than an aging score, the [blood test tracker apps compared](/blog/best-blood-test-tracking-apps) is the more useful list.
+
+[Put your existing blood tests on one timeline with Merios →](/early-access)
+
+---
+
+*This article is for informational purposes only and does not constitute medical advice. Biological age scores are wellness products, not diagnostic tests. Discuss any health decision with your physician.*

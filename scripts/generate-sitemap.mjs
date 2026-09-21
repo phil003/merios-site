@@ -14,11 +14,17 @@
  *   0.6  contact, security
  *   0.4  privacy, terms
  *
- * Note: /features, /support and /pricing are permanent redirects and MUST NOT
- * be listed here — Google treats sitemap entries pointing to redirects as
- * soft-404 signals. /features → /how-it-works and /support → /faq are 308s in
- * next.config.ts; /pricing → /early-access is a 308 set in the Vercel
- * dashboard (NOT in code — easy to miss; see README/CLAUDE notes).
+ * Note: /features and /support are permanent redirects and MUST NOT be listed
+ * here — Google treats sitemap entries pointing to redirects as soft-404
+ * signals. Both are 308s in next.config.ts (/features → /how-it-works,
+ * /support → /faq).
+ *
+ * /pricing used to be excluded for the same reason, with a comment claiming
+ * the redirect lived in the Vercel dashboard rather than in code. It did not:
+ * the project has no routing rules configured at all, and bulk redirects are
+ * not even available on its plan. The only /pricing redirect was the one in
+ * next.config.ts, now removed — /pricing is a real page again and belongs in
+ * the sitemap.
  *
  * dateModified (from frontmatter) takes precedence over date when present.
  */
@@ -35,14 +41,15 @@ const OUTPUT = path.join(ROOT, 'public/sitemap.xml');
 const SITE_URL = 'https://merios.life';
 
 // Static routes with their priorities and change frequencies
-// NOTE: /features, /support and /pricing are intentionally excluded — they are
-// 308 permanent redirects (/features → /how-it-works and /support → /faq in
-// next.config.ts; /pricing → /early-access in the Vercel dashboard). Listing a
-// redirect in the sitemap creates a soft-404 signal.
+// NOTE: /features and /support are intentionally excluded — they are 308
+// permanent redirects in next.config.ts (/features → /how-it-works,
+// /support → /faq). Listing a redirect in the sitemap creates a soft-404
+// signal.
 const STATIC_ROUTES = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
   { path: '/how-it-works', priority: 0.9, changefreq: 'monthly' },
   { path: '/early-access', priority: 0.9, changefreq: 'monthly' },
+  { path: '/pricing', priority: 0.9, changefreq: 'monthly' },
   { path: '/science', priority: 0.8, changefreq: 'monthly' },
   { path: '/blog', priority: 0.8, changefreq: 'weekly' },
   { path: '/compare', priority: 0.8, changefreq: 'monthly' },

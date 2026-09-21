@@ -27,6 +27,13 @@ export function generateStaticParams() {
   return getAllCompareSlugs().map((slug) => ({ slug }));
 }
 
+// Same reason as /blog/[slug]: without this, an unknown comparison slug is
+// rendered on demand and returns HTTP 200 with a "not found" body, which
+// Google treats as a soft 404. The redirected merios-vs-* slugs are excluded
+// from getAllCompareSlugs(), and next.config.ts 308s them, so they are
+// unaffected by this.
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: {

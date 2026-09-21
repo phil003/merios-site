@@ -33,6 +33,12 @@ export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
 
+// Every post is enumerated above, so any other slug is genuinely missing.
+// Without this, Next renders unknown slugs on demand and the page's own
+// "not found" branch returns HTTP 200 — a soft 404 across all of /blog/*.
+// With it, an unknown slug 404s at the routing layer, with a real 404 status.
+export const dynamicParams = false;
+
 export async function generateMetadata({
   params,
 }: {

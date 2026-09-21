@@ -338,6 +338,12 @@ export default function HomaIRCalculatorPage() {
                 Get the app
               </Link>
               <Link
+                href="/tools/tyg-index-calculator"
+                style={{ textDecoration: "underline" }}
+              >
+                No insulin on your report? Use the TyG index instead →
+              </Link>
+              <Link
                 href="/blog/homa-ir-insulin-resistance"
                 className="mt-5 ml-3 inline-flex items-center gap-2 px-3 py-3 text-[14px] font-medium"
                 style={{

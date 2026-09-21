@@ -34,10 +34,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const post = getComparePostBySlug(slug);
-  if (!post) return { title: "Comparison Not Found | Merios" };
+  if (!post) return { title: "Comparison Not Found" };
 
   return {
-    title: `${post.title} | Merios`,
+    title: post.title,
     description: post.description,
     alternates: {
       canonical: `https://merios.life/compare/${post.slug}`,

@@ -34,12 +34,23 @@ function parseCompare(slug: string, raw: string): ComparePost {
   };
 }
 
+// Compare pages that are now 308 permanent redirects in next.config.ts. Their
+// .mdx files are kept for history, but the slugs must not be surfaced anywhere
+// that produces a link: the /compare hub grid, its ItemList JSON-LD, and
+// generateStaticParams all read from here. Kept in sync with
+// REDIRECTED_COMPARE in scripts/generate-sitemap.mjs.
+const REDIRECTED_SLUGS = new Set([
+  'merios-vs-function-health',
+  'merios-vs-whoop-advanced-labs',
+]);
+
 export function getAllCompareSlugs(): string[] {
   if (!fs.existsSync(COMPARE_DIR)) return [];
   return fs
     .readdirSync(COMPARE_DIR)
     .filter((f) => f.endsWith('.mdx'))
-    .map((f) => f.replace(/\.mdx$/, ''));
+    .map((f) => f.replace(/\.mdx$/, ''))
+    .filter((slug) => !REDIRECTED_SLUGS.has(slug));
 }
 
 export function getComparePostBySlug(slug: string): ComparePost | null {

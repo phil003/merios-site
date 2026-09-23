@@ -7,6 +7,10 @@ import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/component
 
 const FAQ_ITEMS = [
   {
+    q: "Is the TyG index the same as the triglyceride glucose index?",
+    a: "Yes — two names for the same number. TyG is simply the abbreviation of triglyceride-glucose, so a triglyceride glucose index calculator and a TyG index calculator compute the same thing: ln[(triglycerides mg/dL × fasting glucose mg/dL) / 2]. You will also see it written as the triglyceride index, or occasionally the TyG ratio — the last one is a misnomer, since the formula multiplies the two values inside a logarithm rather than dividing one by the other.",
+  },
+  {
     q: "What is the TyG index formula?",
     a: "TyG = ln[(triglycerides mg/dL × fasting glucose mg/dL) / 2]. The division by 2 happens inside the natural logarithm — writing it as ln(triglycerides × glucose) / 2 gives a different and incorrect number, and that error is common enough that it has its own published correction literature.",
   },
@@ -62,6 +66,7 @@ export default function TyGCalculatorPage() {
     description:
       "Free triglyceride-glucose (TyG) index calculator for insulin resistance, using triglycerides and fasting glucose, in mg/dL or mmol/L.",
     isAccessibleForFree: true,
+    dateModified: "2026-09-23",
     citation:
       "Simental-Mendia LE, Rodriguez-Moran M, Guerrero-Romero F. The product of fasting glucose and triglycerides as surrogate for identifying insulin resistance in apparently healthy subjects. Metab Syndr Relat Disord 2008;6(4):299-304.",
     inLanguage: "en",
@@ -82,8 +87,8 @@ export default function TyGCalculatorPage() {
 
       <PageHero
         eyebrow="TyG index — insulin resistance"
-        title="Check your insulin resistance without a fasting insulin test."
-        subline="The TyG index calculator runs the triglyceride-glucose formula on two numbers that are already on your standard panel — in mg/dL or mmol/L, no separate insulin draw required."
+        title="TyG index calculator"
+        subline="Check your insulin resistance without a fasting insulin test. The triglyceride glucose index runs on two numbers already sitting on your standard panel — in mg/dL or mmol/L, no separate insulin draw required."
         align="left"
       />
 
@@ -114,23 +119,48 @@ export default function TyGCalculatorPage() {
               formula it came from is hiding the problem rather than solving it. On the natural-log, divide-by-2 version
               used here — the form from the original 2008 paper — the bands that recur most often in the literature are:
             </p>
-            <ul style={ulStyle}>
-              <li style={liStyle}>
-                <strong>Under 8.0</strong> — low. Both inputs are in good territory, which usually tracks with preserved
-                insulin sensitivity.
-              </li>
-              <li style={liStyle}>
-                <strong>8.0 to 8.5</strong> — typical for a general adult population. Not a red flag on its own.
-              </li>
-              <li style={liStyle}>
-                <strong>8.5 to 9.0</strong> — above the threshold most commonly cited for metabolic syndrome. Worth
-                confirming with fasting insulin, and worth repeating after a few months rather than acting on one reading.
-              </li>
-              <li style={liStyle}>
-                <strong>Above 9.0</strong> — high, driven by elevated triglycerides, elevated fasting glucose, or both.
-                This is a conversation with your physician and a fuller metabolic workup, not a self-management project.
-              </li>
-            </ul>
+            <div className="overflow-x-auto">
+              <table style={tableStyle}>
+                <caption style={captionStyle}>
+                  TyG index bands on the natural-log, divide-by-2 formula used by this calculator. Cutoffs are
+                  population-derived and vary between studies.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col" style={thStyle}>TyG index</th>
+                    <th scope="col" style={thStyle}>How it is usually read</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" style={thRowStyle}>Under 8.0</th>
+                    <td style={tdStyle}>
+                      Low. Both inputs are in good territory, which usually tracks with preserved insulin sensitivity.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={thRowStyle}>8.0 to 8.5</th>
+                    <td style={tdStyle}>
+                      Typical for a general adult population. Not a red flag on its own.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={thRowStyle}>8.5 to 9.0</th>
+                    <td style={tdStyle}>
+                      Above the threshold most commonly cited for metabolic syndrome. Worth confirming with fasting
+                      insulin, and worth repeating after a few months rather than acting on one reading.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" style={thRowStyle}>Above 9.0</th>
+                    <td style={tdStyle}>
+                      High, driven by elevated triglycerides, elevated fasting glucose, or both. This is a conversation
+                      with your physician and a fuller metabolic workup, not a self-management project.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <p style={pStyle}>
               How wide is the disagreement? A 2024 review in <em>Lipids in Health and Disease</em> found published
               cut-offs ranging from 4.5 to 9.5, with the vast majority of studies at or above 8.0. That spread is not
@@ -348,3 +378,47 @@ const liStyle: React.CSSProperties = {
   marginBottom: "0.5rem",
 };
 const linkStyle: React.CSSProperties = { color: "var(--color-green-deep)", textUnderlineOffset: "3px" };
+const tableStyle: React.CSSProperties = {
+  width: "100%",
+  borderCollapse: "collapse",
+  marginBottom: "1.1rem",
+  fontSize: 15.5,
+  lineHeight: 1.6,
+  color: "var(--color-ink-secondary)",
+};
+const captionStyle: React.CSSProperties = {
+  captionSide: "bottom",
+  marginTop: "0.75rem",
+  fontFamily: "var(--font-mono)",
+  fontSize: 11.5,
+  letterSpacing: "0.04em",
+  lineHeight: 1.6,
+  color: "var(--color-ink-tertiary)",
+  textAlign: "left",
+};
+const thStyle: React.CSSProperties = {
+  textAlign: "left",
+  padding: "0.6rem 0.9rem 0.6rem 0",
+  borderBottom: "1px solid var(--color-grid)",
+  fontFamily: "var(--font-mono)",
+  fontSize: 10.5,
+  letterSpacing: "0.18em",
+  textTransform: "uppercase",
+  color: "var(--color-green-deep)",
+  fontWeight: 500,
+  whiteSpace: "nowrap",
+};
+const thRowStyle: React.CSSProperties = {
+  textAlign: "left",
+  verticalAlign: "top",
+  padding: "0.75rem 1.25rem 0.75rem 0",
+  borderBottom: "1px solid var(--color-grid)",
+  color: "var(--color-ink)",
+  fontWeight: 500,
+  whiteSpace: "nowrap",
+};
+const tdStyle: React.CSSProperties = {
+  verticalAlign: "top",
+  padding: "0.75rem 0",
+  borderBottom: "1px solid var(--color-grid)",
+};

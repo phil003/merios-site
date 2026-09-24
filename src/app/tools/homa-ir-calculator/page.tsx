@@ -20,7 +20,23 @@ const FAQ_ITEMS = [
   },
   {
     q: "What's a healthy range?",
-    a: "Generally accepted cutoffs (population-dependent): below 1.0 — optimal insulin sensitivity. 1.0-2.0 — normal. 2.0-2.9 — early insulin resistance. 3.0 and above — significant insulin resistance, strong predictor of type-2 diabetes risk. Athletes and very lean metabolically healthy individuals often score below 0.8.",
+    a: "There is no single universal cutoff — thresholds shift with the population and the insulin assay. The bands most widely used in practice: below 1.0 — optimal insulin sensitivity. 1.0-1.9 — normal. 2.0-2.5 — borderline. Above 2.5 — insulin resistance. For scale, the EPIRCE general-population study derived cutoffs between the 70th and 75th percentiles: 3.46 on a 90th-percentile criterion, but 2.05 once metabolic-syndrome components were taken into account. Athletes and very lean metabolically healthy individuals often score below 0.8.",
+  },
+  {
+    q: "My lab reports glucose in mmol/L — which formula applies?",
+    a: "Both are the same model with a different constant. With glucose in mg/dL, divide by 405. With glucose in mmol/L, divide by 22.5. Switch the unit toggle on the calculator and it applies the matching denominator, so you never have to convert by hand. Insulin is in µIU/mL (numerically equal to mIU/L) either way.",
+  },
+  {
+    q: "How often should I retest?",
+    a: "If you are acting on an elevated score, every 3 to 6 months is enough to see whether an intervention is working — insulin sensitivity responds to training, fibre, sleep and weight change over weeks to months, not days. Once the number is stable, an annual check alongside your usual panel is reasonable. Read it as a trend across several draws, since a single fasting insulin is a noisy measurement.",
+  },
+  {
+    q: "Does HOMA-IR apply to type 1 diabetes?",
+    a: "No. The model assumes a pancreas still secreting insulin and back-calculates resistance from that secretion. In type 1 diabetes, insulin-producing beta cells are largely destroyed and circulating insulin mostly reflects injected doses, so the score is not interpretable. It is also unreliable in anyone on exogenous insulin, for the same reason.",
+  },
+  {
+    q: "Can HOMA-IR be normal while something is still wrong?",
+    a: "Yes, and this is its main limitation. HOMA-IR is built from fasting values, so it reflects mainly hepatic insulin resistance. Muscle and fat tissue can be resistant while fasting glucose and insulin still look unremarkable — that shows up after a meal, not in the fasted state. This is why HOMA-IR is read alongside the triglyceride-HDL ratio, HbA1c and waist circumference rather than on its own.",
   },
   {
     q: "Why measure insulin resistance if my fasting glucose is normal?",
@@ -35,12 +51,12 @@ const FAQ_ITEMS = [
 export const metadata: Metadata = {
   title: "HOMA-IR Calculator (Free, Fasting Glucose + Insulin)",
   description:
-    "Free HOMA-IR insulin resistance calculator. Enter fasting glucose and fasting insulin — get your score with interpretation band. Catches insulin resistance years before HbA1c.",
+    "Free HOMA-IR insulin resistance calculator. Enter fasting glucose and fasting insulin in mg/dL or mmol/L — get your score, the formula, and the interpretation bands. Catches insulin resistance years before HbA1c.",
   alternates: { canonical: "https://merios.life/tools/homa-ir-calculator" },
   openGraph: {
     title: "HOMA-IR Calculator — Free Insulin Resistance Score",
     description:
-      "Catches insulin resistance years before HbA1c. Free, no signup.",
+      "Fasting glucose and insulin in, HOMA-IR out — in mg/dL or mmol/L. Free, no signup.",
     url: "https://merios.life/tools/homa-ir-calculator",
     type: "website",
   },
@@ -56,7 +72,7 @@ export default function HomaIRCalculatorPage() {
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
     description:
-      "Free HOMA-IR insulin resistance calculator. Matthews et al. 1985 formula.",
+      "Free HOMA-IR insulin resistance calculator. Matthews et al. 1985 formula, accepting fasting glucose in mg/dL or mmol/L.",
     isAccessibleForFree: true,
     citation:
       "Matthews DR, Hosker JP, Rudenski AS, et al. Homeostasis model assessment. Diabetologia 1985;28(7):412-419.",
@@ -81,8 +97,8 @@ export default function HomaIRCalculatorPage() {
 
       <PageHero
         eyebrow="HOMA-IR — Matthews 1985"
-        title="Catch insulin resistance before it shows up in HbA1c."
-        subline="The Matthews 1985 HOMA-IR formula in a free, interactive calculator. Two numbers in — fasting glucose, fasting insulin — and a clean score with interpretation band out."
+        title="HOMA-IR calculator"
+        subline="Catch insulin resistance before it shows up in HbA1c. The Matthews 1985 formula on two numbers from your panel — fasting glucose and fasting insulin, in mg/dL or mmol/L — with the score and its interpretation band."
         align="left"
       />
 
@@ -117,10 +133,15 @@ export default function HomaIRCalculatorPage() {
                 marginBottom: "1.25rem",
               }}
             >
-              There is no single universal cutoff — labs and populations differ —
-              but these are the interpretation bands most widely used in research
-              and clinical practice. Read your score as a trend over time, not a
-              one-off verdict.
+              There is no single universal cutoff, and it is worth being blunt
+              about how wide the disagreement is. In the EPIRCE general-population
+              study, the threshold moved from 3.46 on a 90th-percentile criterion
+              to 2.05 once metabolic-syndrome components were taken into account —
+              with every derived cutoff landing between the 70th and 75th
+              percentiles of that population. The bands below are the ones most
+              widely used in practice, and they are what this calculator reports.
+              Read your score as a trend across several draws, not a one-off
+              verdict.
             </p>
             <div
               style={{
@@ -138,21 +159,21 @@ export default function HomaIRCalculatorPage() {
                 },
                 {
                   dot: "var(--color-green-deep)",
-                  range: "1.0 – 2.0",
+                  range: "1.0 – 1.9",
                   label: "Normal",
                   note: "The typical healthy band. Hold it here with sleep, fiber, weight, and resistance training.",
                 },
                 {
                   dot: "var(--color-warm)",
-                  range: "2.0 – 2.9",
-                  label: "Early insulin resistance",
-                  note: "The compensatory phase — insulin is climbing while fasting glucose still looks fine. The most reversible stage.",
+                  range: "2.0 – 2.5",
+                  label: "Borderline",
+                  note: "The compensatory phase — insulin is climbing while fasting glucose still looks fine. The most reversible stage, and the one where the lab's own reference range will usually still call you normal.",
                 },
                 {
                   dot: "#B4472F",
-                  range: "3.0 and above",
-                  label: "Significant insulin resistance",
-                  note: "A strong predictor of type-2 diabetes risk. Worth discussing with your doctor and acting on now.",
+                  range: "Above 2.5",
+                  label: "Insulin resistance",
+                  note: "Associated with markedly higher type-2 diabetes and metabolic-syndrome risk in cohort studies. Worth discussing with your doctor and acting on now.",
                 },
               ].map((b, i) => (
                 <div
@@ -194,6 +215,104 @@ export default function HomaIRCalculatorPage() {
                 </div>
               ))}
             </div>
+
+            <h2
+              className="mt-12"
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
+                fontWeight: 300,
+                letterSpacing: "-0.02em",
+                color: "var(--color-ink)",
+                marginBottom: "1rem",
+              }}
+            >
+              How HOMA-IR is calculated
+            </h2>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--color-ink-secondary)",
+                marginTop: "1rem",
+              }}
+            >
+              The model has one equation and two constants, and which constant you
+              use depends only on the unit your lab printed for glucose. Insulin is
+              in µIU/mL in both cases (numerically the same as mIU/L).
+            </p>
+            <div
+              className="mt-5 rounded-xl px-5 py-4"
+              style={{
+                border: "1px solid var(--color-grid)",
+                background: "var(--color-canvas-alt, #ffffff)",
+                fontFamily: "var(--font-mono)",
+                fontSize: 13.5,
+                lineHeight: 1.9,
+                color: "var(--color-ink)",
+                overflowX: "auto",
+              }}
+            >
+              HOMA-IR = (fasting insulin [µIU/mL] × fasting glucose [mg/dL]) ÷ 405
+              <br />
+              HOMA-IR = (fasting insulin [µIU/mL] × fasting glucose [mmol/L]) ÷ 22.5
+            </div>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--color-ink-secondary)",
+                marginTop: "1rem",
+              }}
+            >
+              The denominators are not arbitrary: each represents the product of
+              normal fasting glucose and normal fasting insulin in that unit
+              system, so a perfectly insulin-sensitive person lands near 1.0. The
+              two forms are the same model — 405 and 22.5 differ only by the
+              18.0 mg/dL-per-mmol/L glucose conversion. The calculator above
+              applies whichever matches the toggle you select.
+            </p>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--color-ink-secondary)",
+                marginTop: "1rem",
+              }}
+            >
+              A worked example. Fasting glucose 95 mg/dL, fasting insulin
+              8 µIU/mL: 8 × 95 = 760, and 760 ÷ 405 = 1.88. That falls in the
+              normal band but above the optimal one — insulin is doing more work
+              than it needs to while glucose still reads as unremarkable.
+            </p>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--color-ink-secondary)",
+                marginTop: "1rem",
+              }}
+            >
+              Both values must come from the same draw, fasted at least 8 hours,
+              water only. A non-fasted insulin will inflate the score enough to
+              make it meaningless.
+            </p>
+            <p
+              style={{
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "var(--color-ink-secondary)",
+                marginTop: "1rem",
+              }}
+            >
+              One caveat the literature is clear about: the score&rsquo;s accuracy is
+              not constant across people. In EPIRCE, the cutoff that best
+              identified metabolic syndrome was 1.85 in non-diabetic men and 2.07
+              in non-diabetic women at age 50, and its discriminating power in
+              women fell steadily with age — an area under the curve of 0.82 at
+              age 30 against 0.58 at age 70. HOMA-IR is a screening signal to act
+              on and re-measure, not a diagnosis.
+            </p>
 
             <h2
               className="mt-12"
@@ -282,6 +401,12 @@ export default function HomaIRCalculatorPage() {
               Treacher DF, Turner RC. <em>Homeostasis model assessment: insulin
               resistance and beta-cell function from fasting plasma glucose and
               insulin concentrations in man.</em> Diabetologia 1985;28(7):412-419.
+              <br />
+              Cutoffs: Gayoso-Diz P, Otero-Gonz&aacute;lez A, Rodriguez-Alvarez MX, et
+              al. <em>Insulin resistance (HOMA-IR) cut-off values and the metabolic
+              syndrome in a general adult population: effect of gender and age:
+              EPIRCE cross-sectional study.</em> BMC Endocrine Disorders
+              2013;13:47.
             </p>
 
             <div
@@ -326,33 +451,86 @@ export default function HomaIRCalculatorPage() {
               >
                 Merios recalculates HOMA-IR every time you upload a blood panel and overlays the curve with sleep, weight, and check-ins — so you can see what's actually moving the needle.
               </p>
-              <Link
-                href="/early-access"
-                className="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-[14px] font-medium transition-all hover:-translate-y-0.5"
+              <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
+                <Link
+                  href="/early-access"
+                  className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-[14px] font-medium transition-all hover:-translate-y-0.5"
+                  style={{
+                    background: "var(--color-green-deep)",
+                    color: "var(--color-canvas)",
+                    fontFamily: "var(--font-sans)",
+                  }}
+                >
+                  Get the app
+                </Link>
+                <Link
+                  href="/blog/homa-ir-insulin-resistance"
+                  className="inline-flex items-center gap-2 px-3 py-3 text-[14px] font-medium"
+                  style={{
+                    color: "var(--color-ink-secondary)",
+                    fontFamily: "var(--font-sans)",
+                  }}
+                >
+                  Read the primer →
+                </Link>
+              </div>
+            </div>
+
+            <div className="mt-10">
+              <p
                 style={{
-                  background: "var(--color-green-deep)",
-                  color: "var(--color-canvas)",
-                  fontFamily: "var(--font-sans)",
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 10.5,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "var(--color-ink-tertiary)",
+                  marginBottom: "0.75rem",
                 }}
               >
-                Get the app
-              </Link>
-              <Link
-                href="/tools/tyg-index-calculator"
-                style={{ textDecoration: "underline" }}
-              >
-                No insulin on your report? Use the TyG index instead →
-              </Link>
-              <Link
-                href="/blog/homa-ir-insulin-resistance"
-                className="mt-5 ml-3 inline-flex items-center gap-2 px-3 py-3 text-[14px] font-medium"
+                Read next
+              </p>
+              <ul
                 style={{
+                  fontSize: 15.5,
+                  lineHeight: 1.8,
                   color: "var(--color-ink-secondary)",
-                  fontFamily: "var(--font-sans)",
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
                 }}
               >
-                Read the primer →
-              </Link>
+                <li>
+                  <Link href="/tools/tyg-index-calculator" style={{ textDecoration: "underline" }}>
+                    TyG index calculator
+                  </Link>{" "}
+                  — no fasting insulin on your report? This estimates insulin
+                  resistance from triglycerides and glucose alone.
+                </li>
+                <li>
+                  <Link href="/blog/fasting-insulin-levels-chart" style={{ textDecoration: "underline" }}>
+                    Fasting insulin levels chart
+                  </Link>{" "}
+                  — what the insulin value on its own is telling you.
+                </li>
+                <li>
+                  <Link href="/tools/triglyceride-hdl-ratio" style={{ textDecoration: "underline" }}>
+                    Triglyceride-HDL ratio calculator
+                  </Link>{" "}
+                  — the marker most worth reading alongside HOMA-IR.
+                </li>
+                <li>
+                  <Link href="/tools/a1c-calculator" style={{ textDecoration: "underline" }}>
+                    A1C to average glucose calculator
+                  </Link>{" "}
+                  — the three-month view that HOMA-IR precedes by years.
+                </li>
+                <li>
+                  <Link href="/blog/fasting-glucose-100-borderline" style={{ textDecoration: "underline" }}>
+                    Fasting glucose 100 mg/dL
+                  </Link>{" "}
+                  — why a borderline glucose is worth a HOMA-IR.
+                </li>
+              </ul>
             </div>
           </section>
         </div>

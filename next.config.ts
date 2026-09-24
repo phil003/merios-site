@@ -46,6 +46,21 @@ const nextConfig: NextConfig = {
         destination: "/tools/a1c-calculator",
         permanent: true,
       },
+      // Same pattern as the A1C consolidation above. /blog/homa-ir-calculator
+      // and /tools/homa-ir-calculator were both indexed, both titled "HOMA-IR
+      // Calculator", and both embedded the same <HomaIRCalculator />. They split
+      // the signal for "homa ir calculator", which sits at position 28.0 despite
+      // a dedicated tool page. They also disagreed clinically: the article put
+      // early insulin resistance at 1.5-2.5 and "severe" above 5.0, the tool page
+      // at 2.0-2.9 and 3.0, the calculator widget at 2.0-2.5 and 2.5 — three
+      // different answers on one site for one score. The article's formula, its
+      // worked example, its mmol/L note and its unique FAQ entries now live on
+      // the tool page, which is the one Google has had indexed since 27/06.
+      {
+        source: "/blog/homa-ir-calculator",
+        destination: "/tools/homa-ir-calculator",
+        permanent: true,
+      },
       {
         source: "/compare/merios-vs-function-health",
         destination: "/compare/function-health-vs-superpower",

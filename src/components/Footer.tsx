@@ -30,7 +30,7 @@ const COLUMNS: { title: string; links: Link[] }[] = [
     links: [
       { label: "About", href: "/about" },
       { label: "FAQ", href: "/faq" },
-      { label: "Early access", href: "/early-access" },
+      { label: "Get the app", href: "/early-access" },
       { label: "Contact", href: "/contact" },
     ],
   },

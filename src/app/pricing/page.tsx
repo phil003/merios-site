@@ -8,7 +8,7 @@ const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
 
 const TITLE = "Merios Pricing";
 const DESCRIPTION =
-  "Merios is free to download on the US App Store. Merios Pro is $44/year with a 7-day free trial. Lab work is not included — you bring panels you already have.";
+  "Merios is free to download on the US App Store; the daily score is free for good. Merios Plus is $44/year with a 7-day free trial. Lab work is not included.";
 
 /**
  * A real pricing page, restored.
@@ -25,11 +25,11 @@ const DESCRIPTION =
 const FAQ_ITEMS = [
   {
     q: "How much does Merios cost?",
-    a: "Merios is free to download from the US App Store. Merios Pro is $44.00 per year and includes a 7-day free trial. Monthly and weekly options also exist; the App Store always shows the current price for your region, which is the figure that governs.",
+    a: "Merios is free to download from the US App Store. Merios Plus is $44.00 per year, with a 7-day free trial on the annual plan; it is also sold at $12.99 per month and $4.99 per week. The App Store always shows the current price for your region, which is the figure that governs.",
   },
   {
     q: "Is there a free version of Merios?",
-    a: "Yes. The app is free to download and you can upload a panel and see your results without paying. Merios Pro removes the upload limit and unlocks the full longitudinal view. There is no ad-supported tier — the product is paid, so it does not need to monetise your health data.",
+    a: "Yes. The daily side of the app is free for good: your daily Merios Score, the Activity, Recovery and Zen pillars, the live monitor, the journal and cycle logging. You can also enter blood markers by hand and see each one in its range, and any report already written for you stays readable. Scanning a lab report, the in-depth blood view with biological age, and Insights are part of Merios Plus. There is no ad-supported tier — Plus pays for the product, so it does not need to monetise your health data.",
   },
   {
     q: "Does the price include blood tests?",
@@ -37,11 +37,11 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is Merios available outside the United States?",
-    a: "Not yet. The App Store listing is US-only, so the app cannot be downloaded from other storefronts, and there is no Android app and no web version. Merios requires iOS 17.0 or later.",
+    a: "Not yet. The App Store listing is US-only, so the app cannot be downloaded from other storefronts, and there is no Android app and no web version. Merios runs on iPhone and requires iOS 15.1 or later.",
   },
   {
-    q: "Can I cancel Merios Pro?",
-    a: "Yes. Merios Pro is an Apple subscription, so it is cancelled from your iPhone's own subscription settings rather than through Merios, and it will not renew after you cancel. The 7-day trial can be cancelled before it converts.",
+    q: "Can I cancel Merios Plus?",
+    a: "Yes. Merios Plus is an Apple subscription, so it is cancelled from your iPhone's own subscription settings rather than through Merios, and it will not renew after you cancel. The 7-day trial on the annual plan can be cancelled before it converts.",
   },
 ];
 
@@ -78,17 +78,18 @@ export default function PricingPage() {
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
         url: APP_STORE_URL,
-        description: "Free to download and upload a panel. iOS 17.0 or later, US App Store.",
+        description:
+          "Free to download. The daily Merios Score, the Activity, Recovery and Zen pillars, the journal and manual marker entry are free for good. iPhone, iOS 15.1 or later, US App Store.",
       },
       {
         "@type": "Offer",
-        name: "Merios Pro",
+        name: "Merios Plus",
         price: "44.00",
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
         url: APP_STORE_URL,
         description:
-          "Unlimited panel uploads and the full longitudinal view. Billed yearly, with a 7-day free trial.",
+          "Lab report scans, blood in depth with biological age, Insights and the monthly report. Billed yearly, with a 7-day free trial.",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
           price: "44.00",
@@ -96,6 +97,42 @@ export default function PricingPage() {
           billingDuration: 1,
           billingIncrement: 1,
           unitCode: "ANN",
+        },
+      },
+      // Same plan, other billing periods. Same Offer shape as the annual one,
+      // with the UN/CEFACT unit code for the period (MON, WEE).
+      {
+        "@type": "Offer",
+        name: "Merios Plus (monthly)",
+        price: "12.99",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        url: APP_STORE_URL,
+        description: "Merios Plus, billed monthly.",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: "12.99",
+          priceCurrency: "USD",
+          billingDuration: 1,
+          billingIncrement: 1,
+          unitCode: "MON",
+        },
+      },
+      {
+        "@type": "Offer",
+        name: "Merios Plus (weekly)",
+        price: "4.99",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        url: APP_STORE_URL,
+        description: "Merios Plus, billed weekly.",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: "4.99",
+          priceCurrency: "USD",
+          billingDuration: 1,
+          billingIncrement: 1,
+          unitCode: "WEE",
         },
       },
     ],
@@ -115,8 +152,8 @@ export default function PricingPage() {
 
       <PageHero
         eyebrow="Pricing"
-        title="Merios Pro is $44 a year."
-        subline="The app is free to download on the US App Store. Pro costs $44/year with a 7-day free trial. Blood work is not included — Merios reads panels you already have."
+        title="Merios Plus is $44 a year."
+        subline="The app is free to download on the US App Store, and the daily score is free for good. Plus costs $44/year with a 7-day free trial on the annual plan. Blood work is not included — Merios reads panels you already have."
         align="left"
       />
 
@@ -142,17 +179,20 @@ export default function PricingPage() {
                     <th scope="row" style={tdKeyStyle}>Merios</th>
                     <td style={tdStyle}>Free</td>
                     <td style={tdStyle}>
-                      Download, upload a blood test PDF, see your biomarkers read against standard
-                      and longevity-optimised ranges, and get your PhenoAge biological age.
+                      The daily side of the app, free for good: your daily Merios Score, the
+                      Activity, Recovery and Zen pillars, the live monitor, the journal and cycle
+                      logging. You can also enter blood markers by hand and see each one in its
+                      range, and reports already written stay readable.
                     </td>
                   </tr>
                   <tr>
-                    <th scope="row" style={tdKeyStyle}>Merios Pro</th>
+                    <th scope="row" style={tdKeyStyle}>Merios Plus</th>
                     <td style={tdStyle}>$44 / year</td>
                     <td style={tdStyle}>
-                      Unlimited panel uploads and the full longitudinal view across every panel you
-                      have ever had, with Apple Health data alongside. 7-day free trial. Monthly and
-                      weekly options exist on the App Store.
+                      Lab report scans from a PDF or a photo, and blood in depth: trends, history,
+                      systems and your PhenoAge biological age. Insights and the monthly report.
+                      7-day free trial on the annual plan. Also sold at $12.99 a month or $4.99 a
+                      week.
                     </td>
                   </tr>
                   <tr>
@@ -202,9 +242,10 @@ export default function PricingPage() {
             <h2 style={h2Style}>Availability</h2>
             <p style={pStyle}>
               Merios is live on the{" "}
-              <a href={APP_STORE_URL} style={linkStyle}>US App Store</a> and requires iOS 17.0 or
-              later. It is US-only for now: there is no other storefront, no Android app and no web
-              version. If you are outside the US, the honest answer is that you cannot use it yet.
+              <a href={APP_STORE_URL} style={linkStyle}>US App Store</a> and runs on iPhone with
+              iOS 15.1 or later. It is US-only for now: there is no other storefront, no Android
+              app and no web version. If you are outside the US, the honest answer is that you
+              cannot use it yet.
             </p>
 
             <h2 style={h2Style}>Questions</h2>

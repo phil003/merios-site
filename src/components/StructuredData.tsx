@@ -40,7 +40,7 @@ export function WebApplicationSchema() {
     description:
       "Health score app that analyzes 130+ blood biomarkers, Apple Health data, and daily check-ins. Calculate your biological age and optimize your health.",
     applicationCategory: "HealthApplication",
-    operatingSystem: "iOS 17.0 or later",
+    operatingSystem: "iOS 15.1 or later",
     installUrl: "https://apps.apple.com/us/app/merios/id6760352598",
     downloadUrl: "https://apps.apple.com/us/app/merios/id6760352598",
     // Two offers, not one. A lone `price: "0"` with the real price in a
@@ -54,16 +54,18 @@ export function WebApplicationSchema() {
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
         url: "https://apps.apple.com/us/app/merios/id6760352598",
-        description: "Free to download and upload a panel. iOS 17.0 or later, US App Store.",
+        description:
+          "Free to download. The daily Merios Score, the journal and manual marker entry are free for good. iPhone, iOS 15.1 or later, US App Store.",
       },
       {
         "@type": "Offer",
-        name: "Merios Pro",
+        name: "Merios Plus",
         price: "44.00",
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
         url: "https://apps.apple.com/us/app/merios/id6760352598",
-        description: "Unlimited panel uploads, billed yearly, with a 7-day free trial.",
+        description:
+          "Lab report scans, blood in depth with biological age, and Insights. Billed yearly, with a 7-day free trial.",
       },
     ],
     featureList: [
@@ -97,7 +99,7 @@ export function SiteNavigationSchema() {
     { name: "Blog", url: "https://merios.life/blog" },
     { name: "Compare", url: "https://merios.life/compare" },
     { name: "Pricing", url: "https://merios.life/pricing" },
-    { name: "Early Access", url: "https://merios.life/early-access" },
+    { name: "Get the app", url: "https://merios.life/early-access" },
   ];
 
   const schema = {

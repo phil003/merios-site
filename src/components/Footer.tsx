@@ -1,4 +1,4 @@
-"use client";
+import Logo, { Mark } from "@/components/ui/Logo";
 
 type Link = { label: string; href: string };
 
@@ -45,100 +45,27 @@ const COLUMNS: { title: string; links: Link[] }[] = [
 
 const currentYear = new Date().getFullYear();
 
-function handleAnchorClick(
-  e: React.MouseEvent<HTMLAnchorElement>,
-  href: string,
-) {
-  if (!href.startsWith("/#")) return;
-  const id = href.slice(2);
-  const target = document.getElementById(id);
-  if (!target) return;
-  e.preventDefault();
-  target.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
 export default function Footer() {
   return (
-    <footer
-      className="relative"
-      style={{ background: "var(--color-canvas-alt)" }}
-    >
-      <div className="mx-auto max-w-[1280px] px-6 pt-20 pb-10 md:px-10 md:pt-28 md:pb-12">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-[1.5fr_1fr_1.1fr_1fr_0.9fr] md:gap-x-10 md:gap-y-0">
+    <footer className="v3-footer night" data-nav="dark">
+      <div className="v3-footer__inner">
+        <div className="v3-footer__top">
           {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <div className="inline-flex items-center gap-2.5">
-              <span
-                aria-hidden
-                className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
-                style={{ background: "var(--color-pulse)" }}
-              />
-              <span
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(2rem, 3vw, 2.75rem)",
-                  fontWeight: 300,
-                  lineHeight: 1,
-                  letterSpacing: "-0.02em",
-                  color: "var(--color-ink)",
-                }}
-              >
-                Merios
-              </span>
-            </div>
-            <p
-              className="mt-5 max-w-[320px]"
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: 14.5,
-                lineHeight: 1.6,
-                color: "var(--color-ink-secondary)",
-              }}
-            >
+          <div className="v3-footer__brand">
+            <Logo size="2rem" cut="#0E1316" />
+            <p>
               One score for every biomarker you&rsquo;ve ever produced.
               Quiet, composite, and built to last a decade.
             </p>
           </div>
 
           {COLUMNS.map((col) => (
-            <div key={col.title}>
-              <h3
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
-                  fontWeight: 500,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                  marginBottom: 18,
-                }}
-              >
-                {col.title}
-              </h3>
-              <ul className="flex flex-col gap-3">
+            <div key={col.title} className="v3-footer__col">
+              <h3>{col.title}</h3>
+              <ul>
                 {col.links.map((l) => (
                   <li key={l.label}>
-                    <a
-                      href={l.href}
-                      onClick={(e) => handleAnchorClick(e, l.href)}
-                      className="inline-block transition-colors"
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: 14,
-                        color: "var(--color-ink-secondary)",
-                        fontWeight: 400,
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.color =
-                          "var(--color-pulse)")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.color =
-                          "var(--color-ink-secondary)")
-                      }
-                    >
-                      {l.label}
-                    </a>
+                    <a href={l.href}>{l.label}</a>
                   </li>
                 ))}
               </ul>
@@ -146,59 +73,25 @@ export default function Footer() {
           ))}
         </div>
 
+        {/* The full logo, set big — never cropped */}
+        <div className="v3-footer__lockup" aria-hidden>
+          <Mark cut="#0C1013" color="#E3E7EB" style={{ width: "0.955em", height: "1.05em", flex: "none" }} />
+          <span>Merios</span>
+        </div>
+
         {/* Bottom strip */}
-        <div
-          className="mt-16 flex flex-col items-start justify-between gap-4 pt-6 md:mt-20 md:flex-row md:items-center"
-          style={{ borderTop: "1px solid var(--color-grid)" }}
-        >
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--color-ink-tertiary)",
-            }}
-          >
-            © {currentYear} Merios Health LLC · All rights reserved
-          </p>
-          <div
-            className="inline-flex items-center gap-2"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--color-ink-tertiary)",
-            }}
-            aria-label="Locale — English (French coming soon)"
-          >
-            <span
-              aria-current="true"
-              style={{ color: "var(--color-ink)", fontWeight: 500 }}
-            >
-              EN
-            </span>
-            <span
-              aria-hidden
-              className="inline-block h-px w-3"
-              style={{ background: "var(--color-grid)" }}
-            />
+        <div className="v3-footer__bottom">
+          <p>© {currentYear} Merios Health LLC · All rights reserved</p>
+          <div className="v3-footer__locale" aria-label="Locale — English (French coming soon)">
+            <span aria-current="true">EN</span>
+            <span aria-hidden className="v3-footer__locale-rule" />
             <span>FR</span>
           </div>
         </div>
 
         {/* Medical disclaimer — App Store compliance (must not be removed) */}
-        <p
-          className="mt-8 max-w-[880px]"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: 11,
-            lineHeight: 1.55,
-            color: "var(--color-ink-secondary)",
-          }}
-        >
-          <strong style={{ fontWeight: 600 }}>Medical disclaimer.</strong>{" "}
+        <p className="v3-footer__disclaimer">
+          <strong>Medical disclaimer.</strong>{" "}
           Merios is a wellness companion, not a medical device. It does not
           diagnose, treat, cure, or prevent any disease. Health scores and
           biological age estimates are algorithmic, not clinically validated.

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Newsreader, IBM_Plex_Mono, Caveat } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -11,32 +11,38 @@ import LenisProvider from "@/components/providers/LenisProvider";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 
-const fraunces = Fraunces({
+// v3 type system — Bricolage Grotesque (display + UI), Newsreader (long reads,
+// numerals, the wordmark), IBM Plex Mono (lab data, labels), Caveat (rare
+// hand-written annotations). Only the opsz axis is carried on the variable
+// faces: optical sizing shapes the display cuts of large headings while
+// keeping the latin woff2 files small.
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-bricolage",
   display: "swap",
-  // SOFT axis dropped: it was never set anywhere (default 0), and carrying it
-  // roughly doubled the latin woff2. opsz stays — optical sizing is applied
-  // automatically by the browser and shapes the display cuts of large headings.
   axes: ["opsz"],
-  // Fallback metrics are hand-tuned in globals.css (two-tier: Linux/Android
-  // serif first, real Times New Roman second). next/font's auto fallback
-  // assumed real Times metrics (size-adjust 115.45%), which renders ~16% too
-  // wide where 'Times New Roman' aliases to Liberation/Noto Serif (the PSI
-  // lab + Android) — the H1 wrapped differently pre/post swap → CLS 0.108.
-  adjustFontFallback: false,
 });
 
-const interTight = Inter_Tight({
+const newsreader = Newsreader({
   subsets: ["latin"],
-  variable: "--font-inter-tight",
+  variable: "--font-newsreader",
   display: "swap",
+  style: ["normal", "italic"],
+  axes: ["opsz"],
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains-mono",
+  variable: "--font-plex-mono",
   display: "swap",
+  weight: ["400", "500", "600"],
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
+  display: "swap",
+  weight: ["600", "700"],
 });
 
 const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";
@@ -129,7 +135,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
+      className={`${bricolage.variable} ${newsreader.variable} ${plexMono.variable} ${caveat.variable}`}
+      // The inline reveal bootstrap sets html[data-anim] before hydration.
+      suppressHydrationWarning
     >
       <head>
         {/* Scroll-reveal v2 bootstrap — inline so reveals never wait for the

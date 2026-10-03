@@ -4,14 +4,11 @@ import type { CSSProperties } from "react";
 // /contact, /compare, /blog, /blog/category/[slug], /tools/*, and the
 // LegalPageLayout used by /privacy /terms /security).
 //
-// v3 (perf): the char-by-char reveal is now pure CSS (.ph-word / .ph-char in
-// globals.css) rendered from a SERVER component. The previous Motion variant
-// shipped the whole motion/react runtime on every secondary route and — far
-// worse — served the H1 with `opacity: 0` inline in the static HTML, so the
-// LCP element stayed invisible until hydration finished (10-20s on throttled
-// mobile). CSS keyframes start at parse time: same cinematic entrance,
-// LCP-safe, zero bundle JS. Reduced motion is honored via the global
-// prefers-reduced-motion rules (animations collapse to 0.01ms).
+// v4 (site v3 art direction): a night masthead — graphite stage, chrome-lit
+// display type in Bricolage, the logo's heartbeat running along its lower
+// edge. Still a server component with the pure-CSS char reveal (.ph-word /
+// .ph-char), so the H1 is in the static HTML and paints at parse time: LCP
+// safe, zero bundle JS, reduced motion honoured by the global rules.
 
 type Align = "left" | "center";
 
@@ -22,8 +19,14 @@ interface PageHeroProps {
   align?: Align;
 }
 
-const CHAR_STAGGER_S = 0.015;
-const CHAR_STAGGER_CAP_S = 0.6; // long titles: don't stretch the cascade forever
+const CHAR_STAGGER_S = 0.014;
+const CHAR_STAGGER_CAP_S = 0.55; // long titles: don't stretch the cascade forever
+
+function titleSize(title: string): string {
+  if (title.length > 62) return "clamp(2.1rem, 1.05rem + 2.7vw, 3.9rem)";
+  if (title.length > 38) return "clamp(2.3rem, 1.15rem + 3.3vw, 4.7rem)";
+  return "var(--text-display-l)";
+}
 
 export default function PageHero({
   eyebrow,
@@ -31,7 +34,7 @@ export default function PageHero({
   subline,
   align = "left",
 }: PageHeroProps) {
-  const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
+  const centered = align === "center";
 
   // Split into words so wrapping stays word-level (inline-block chars would
   // otherwise allow mid-word line breaks). Each word is an overflow-hidden
@@ -40,48 +43,20 @@ export default function PageHero({
   let charIndex = 0;
 
   return (
-    <section
-      className="relative pt-32 pb-16 md:pt-40 md:pb-20"
-      style={{ background: "var(--color-canvas)" }}
-    >
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10">
-        <div className={`max-w-[880px] ${alignClass}`}>
+    <section className="v3-hero night" data-nav="dark">
+      <div className="v3-hero__inner">
+        <div className={`v3-hero__copy${centered ? " is-centered" : ""}`}>
           {eyebrow ? (
-            <div
-              className={`he inline-flex items-center gap-2.5 ${
-                align === "center" ? "justify-center" : ""
-              }`}
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              <span
-                aria-hidden
-                className="inline-block h-1.5 w-1.5 rounded-full"
-                style={{ background: "var(--color-pulse)" }}
-              />
-              <span
-                className="text-[10.5px] uppercase"
-                style={{
-                  color: "var(--color-green-deep)",
-                  letterSpacing: "0.22em",
-                  fontWeight: 500,
-                }}
-              >
-                {eyebrow}
-              </span>
+            <div className="he label v3-hero__eyebrow">
+              <span aria-hidden className="label-dot" />
+              <span>{eyebrow}</span>
             </div>
           ) : null}
 
           <h1
-            className="page-hero-title mt-8"
+            className="page-hero-title display"
             aria-label={title}
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "var(--text-display-l)",
-              fontWeight: 300,
-              lineHeight: 1.02,
-              letterSpacing: "-0.03em",
-              color: "var(--color-ink)",
-            }}
+            style={{ fontSize: titleSize(title) }}
           >
             {words.map((word, wi) => (
               <span key={`${word}-${wi}`} aria-hidden>
@@ -109,24 +84,41 @@ export default function PageHero({
 
           {subline ? (
             <p
-              className="he page-hero-subline mt-8 max-w-[640px]"
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "clamp(1.0625rem, 1.2vw, 1.1875rem)",
-                lineHeight: 1.6,
-                color: "var(--color-ink-secondary)",
-                letterSpacing: "-0.005em",
-                "--he-d": "0.2s",
-                ...(align === "center"
-                  ? { marginLeft: "auto", marginRight: "auto" }
-                  : null),
-              } as CSSProperties}
+              className="he page-hero-subline"
+              style={{ "--he-d": "0.2s" } as CSSProperties}
             >
               {subline}
             </p>
           ) : null}
         </div>
       </div>
+
+      {/* The logo's heartbeat as the masthead's horizon */}
+      <svg
+        className="v3-hero__pulse"
+        aria-hidden
+        focusable="false"
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="v3-hero-pulse-fade" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+            <stop offset="0.45" stopColor="#FFFFFF" stopOpacity="0.22" />
+            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.5" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
+          fill="none"
+          stroke="url(#v3-hero-pulse-fade)"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+      <span className="v3-hero__dot" aria-hidden />
     </section>
   );
 }

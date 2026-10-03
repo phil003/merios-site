@@ -94,7 +94,7 @@ export default function LegalPageLayout({
               onClick={() => setMobileOpen((v) => !v)}
               aria-expanded={mobileOpen}
               aria-controls="legal-mobile-toc"
-              className="flex w-full items-center justify-between rounded-md border px-4 py-3.5 text-left"
+              className="flex w-full items-center justify-between rounded-2xl border px-4 py-3.5 text-left"
               style={{
                 borderColor: "var(--color-grid)",
                 background: "var(--color-canvas-alt)",
@@ -120,7 +120,7 @@ export default function LegalPageLayout({
             {mobileOpen ? (
               <ul
                 id="legal-mobile-toc"
-                className="mt-3 space-y-2 rounded-md border px-4 py-4"
+                className="mt-3 space-y-2 rounded-2xl border px-4 py-4"
                 style={{
                   borderColor: "var(--color-grid)",
                   background: "var(--color-canvas-alt)",
@@ -234,10 +234,10 @@ export default function LegalPageLayout({
             href="/contact?type=general&subject=Legal%20question"
             className="inline-flex items-center gap-3 transition-transform duration-300 ease-out hover:translate-x-1"
             style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(1.25rem, 1.6vw, 1.5rem)",
-              fontWeight: 400,
-              letterSpacing: "-0.01em",
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(1.4rem, 1.1rem + 1vw, 2rem)",
+              fontWeight: 740,
+              letterSpacing: "-0.035em",
               color: "var(--color-ink)",
             }}
           >

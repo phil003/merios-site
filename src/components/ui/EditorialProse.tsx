@@ -3,9 +3,10 @@ import type { ReactNode } from "react";
 /**
  * EditorialProse — long-form reading wrapper for editorial pages.
  *
- * Applies max-width 680px, Fraunces for headings, Inter Tight for body at
- * 18px leading-relaxed, and standard vertical rhythm. A top-level paragraph
- * can opt into a drop-cap by adding className="drop-cap".
+ * Applies max-width 680px, Bricolage for headings, Newsreader for body at
+ * 19px with comfortable leading, and standard vertical rhythm (all in the
+ * .editorial-prose rules of globals.css). A top-level paragraph can opt into
+ * a drop-cap by adding className="drop-cap".
  */
 
 interface EditorialProseProps {
@@ -18,15 +19,7 @@ export default function EditorialProse({
   className = "",
 }: EditorialProseProps) {
   return (
-    <article
-      className={`editorial-prose mx-auto max-w-[680px] ${className}`}
-      style={{
-        fontFamily: "var(--font-sans)",
-        fontSize: 18,
-        lineHeight: 1.7,
-        color: "var(--color-ink-secondary)",
-      }}
-    >
+    <article className={`editorial-prose mx-auto max-w-[680px] ${className}`}>
       {children}
     </article>
   );
@@ -40,12 +33,14 @@ interface PullQuoteProps {
 export function PullQuote({ children, cite }: PullQuoteProps) {
   return (
     <figure
-      className="my-10"
-      style={{
-        borderLeft: "2px solid var(--color-green-deep)",
-        paddingLeft: 24,
-      }}
+      className="relative my-10"
+      style={{ paddingLeft: 26 }}
     >
+      <span
+        aria-hidden
+        className="absolute left-0 top-1 bottom-1 w-1 rounded-full"
+        style={{ background: "var(--color-lime)", boxShadow: "0 0 0 1px rgb(16 35 26 / 0.12)" }}
+      />
       <blockquote
         style={{
           fontFamily: "var(--font-serif)",

@@ -11,6 +11,7 @@ const COLUMNS: { title: string; links: Link[] }[] = [
       { label: "The science", href: "/science" },
       { label: "Calculators", href: "/tools" },
       { label: "Compare", href: "/compare" },
+      { label: "Pricing", href: "/pricing" },
     ],
   },
   {

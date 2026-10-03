@@ -29,9 +29,6 @@ const nextConfig: NextConfig = {
       // routes intentionally don't appear there.
       { source: "/features", destination: "/how-it-works", permanent: true },
       { source: "/support", destination: "/faq", permanent: true },
-      // /pricing retired (pricing model not finalised pre App-Store launch).
-      // All commercial intent flows now go through /early-access.
-      { source: "/pricing", destination: "/early-access", permanent: true },
       // Retired brand-vs comparison. "merios vs X" has no search demand
       // (Google autocomplete returns nothing for "merios"), so this page
       // targeted a query that does not exist. Its topic is now served by the

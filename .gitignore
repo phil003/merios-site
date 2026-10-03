@@ -14,3 +14,6 @@ screenshots/
 #   conflit avec le suivant.
 tsconfig.tsbuildinfo
 public/sitemap.xml
+
+# Orphaned FUSE temp files from the mounted working copy
+.fuse_hidden*

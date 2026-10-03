@@ -86,7 +86,7 @@ export default function TyGCalculatorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
       <PageHero
-        eyebrow="TyG index — insulin resistance"
+        eyebrow="Triglyceride-glucose index — insulin resistance"
         title="TyG index calculator"
         subline="Check your insulin resistance without a fasting insulin test. The triglyceride glucose index runs on two numbers already sitting on your standard panel — in mg/dL or mmol/L, no separate insulin draw required."
         align="left"

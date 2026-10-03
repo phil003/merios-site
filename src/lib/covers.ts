@@ -218,7 +218,6 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "hematocrit-levels-high-low-meaning": { big: "Hct" },
   "high-cortisol-symptoms-blood-work": { big: "AM", suffix: "cortisol" },
   "high-homocysteine-heart-risk": { big: "Hcy" },
-  "homa-ir-calculator": { big: "HOMA", curve: "dotted" },
   "homa-ir-insulin-resistance": { big: "IR" },
   "how-often-blood-work": { big: "2×/yr", curve: "dotted" },
   "how-to-lower-a1c-naturally": { big: "A1c", curve: "fall" },

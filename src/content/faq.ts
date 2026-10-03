@@ -97,19 +97,19 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "how-much-does-merios-cost",
     group: "pricing",
     q: "How much does Merios cost?",
-    a: "Merios is free to download, and the daily side stays free for good: your Merios Score, the Activity, Recovery and Zen rings, 365 days imported from Apple Health, journal, cycle, and any marker you enter by hand, shown in its range. Merios Plus is $44.00/year with a 7-day free trial, or a monthly and weekly option — you choose on the App Store, where the current price for your region is always shown. Plus adds lab report scans, trends report to report, biological age, the links between your blood work and your daily data, and a monthly report. There are no ads on either plan: the product is independent by design.",
+    a: "Merios is free to download, and the daily score is free for good. Merios Plus is $44.00/year with a 7-day free trial on the annual plan, or a monthly and weekly option — you choose on the App Store, where the current price for your region is always shown. There are no ads and no ad-supported tier: Plus pays for the product, which keeps it independent by design.",
   },
   {
     id: "is-there-a-trial",
     group: "pricing",
     q: "Is there a trial?",
-    a: "Yes. The annual Merios Plus plan includes a 7-day free trial of the full product. Cancel any time during that window and you won't be charged. No dark patterns, no friction — one tap to cancel.",
+    a: "Yes. The annual plan includes a 7-day free trial of the full product. Cancel any time during that window and you won't be charged. No dark patterns, no friction — one tap to cancel.",
   },
   {
     id: "do-you-bill-by-test",
     group: "pricing",
     q: "Do you bill per blood test?",
-    a: "No. Merios Plus covers unlimited biomarker uploads, score recalculations, and historical analysis. You bring the labs; we do the rest.",
+    a: "No. The subscription covers unlimited biomarker uploads, score recalculations, and historical analysis. You bring the labs; we do the rest.",
   },
 
   // ─── Support ──────────────────────────────────────────────────────────────

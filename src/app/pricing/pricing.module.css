@@ -1,0 +1,314 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   /pricing — v3 presentation (night masthead → fog body: the price sheet,
+   the reading column, the questions and the App Store button → footer).
+   Presentation only: every text node, heading level, href, table cell and
+   the JSON-LD live in page.tsx untouched. Tokens come from globals.css; the
+   long-read typography is the shared .editorial-prose primitive.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.main {
+  background: var(--color-canvas);
+  padding-block: clamp(28px, 4vw, 56px) clamp(80px, 10vw, 140px);
+}
+
+/* Same grid as PageHero: 1320px max + fluid gutter, so the body's left edge
+   lines up with the masthead headline. */
+.wrap {
+  width: 100%;
+  max-width: calc(1320px + 2 * var(--spacing-container));
+  margin-inline: auto;
+  padding-inline: var(--spacing-container);
+}
+
+.body {
+  font-family: var(--font-sans);
+}
+
+/* ─── The price sheet — a lab-report card ─────────────────────────────── */
+.sheet {
+  max-width: 1080px;
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-grid);
+  box-shadow:
+    inset 0 1px 0 #FFFFFF,
+    0 2px 6px rgb(16 35 26 / 0.04),
+    0 44px 80px -52px rgb(16 35 26 / 0.42);
+  overflow: hidden;
+}
+.table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* units and labels in mono; the column heads sit on the report's 2px rule */
+.colHead {
+  padding: 22px 26px 14px;
+  text-align: left;
+  vertical-align: bottom;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  border-bottom: 2px solid var(--color-ink);
+}
+
+.row + .row > * {
+  border-top: 1px solid var(--color-grid);
+}
+.plan,
+.price,
+.what {
+  padding: 26px 26px 28px;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* Plan name: display weight, with the status dot of the row */
+.plan {
+  width: 22%;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.02rem + 0.45vw, 1.45rem);
+  font-weight: 740;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+.plan::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 12px;
+  vertical-align: 0.16em;
+  border-radius: 999px;
+  background: var(--color-green-deep);
+}
+.row[data-plan="plus"] .plan::before {
+  background: var(--color-lime);
+  box-shadow: 0 0 0 1.5px var(--color-ink), 0 0 12px rgb(214 240 80 / 0.9);
+}
+.row[data-plan="lab"] .plan::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--color-ink-tertiary);
+}
+
+/* Price: a stat — Newsreader 500, lining tabular figures */
+.price {
+  width: 22%;
+  white-space: nowrap;
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 1.25rem + 1.5vw, 2.6rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}
+.row[data-plan="lab"] .price {
+  font-size: clamp(1.25rem, 1.05rem + 0.7vw, 1.7rem);
+  line-height: 1.1;
+  color: var(--color-ink-secondary);
+}
+
+.what {
+  font-size: 1rem;
+  line-height: 1.62;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+
+/* Merios Plus: the row the page is about — a soft lime wash and a lime bar */
+.row[data-plan="plus"] > * {
+  background: color-mix(in srgb, var(--color-lime) 16%, #FFFFFF);
+}
+.row[data-plan="plus"] .plan {
+  box-shadow: inset 4px 0 0 var(--color-lime);
+}
+.row[data-plan="plus"] .what {
+  color: var(--color-ink);
+}
+
+.caption {
+  caption-side: bottom;
+  padding: 16px 26px 20px;
+  text-align: left;
+  border-top: 1px solid var(--color-grid);
+  font-family: var(--font-mono);
+  font-size: 0.71875rem;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-tertiary);
+  text-wrap: pretty;
+}
+
+/* Phones: three columns stay side by side, set tighter */
+@media (max-width: 640px) {
+  .sheet {
+    border-radius: 22px;
+  }
+  .colHead {
+    padding: 16px 10px 11px;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+  }
+  .colHead:first-child,
+  .plan {
+    padding-left: 16px;
+  }
+  .colHead:last-child,
+  .what {
+    padding-right: 16px;
+  }
+  .plan,
+  .price,
+  .what {
+    padding-top: 18px;
+    padding-bottom: 20px;
+  }
+  .plan,
+  .price {
+    padding-right: 8px;
+  }
+  .price,
+  .what {
+    padding-left: 8px;
+  }
+  .plan {
+    width: auto;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  /* the dot hangs above the name, so a two-line name stays left-aligned */
+  .plan::before {
+    display: block;
+    width: 8px;
+    height: 8px;
+    margin: 4px 0 9px;
+  }
+  .price {
+    width: auto;
+    font-size: 1.16rem;
+    line-height: 1.15;
+  }
+  .row[data-plan="lab"] .price {
+    white-space: normal;
+    font-size: 0.98rem;
+  }
+  .what {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .caption {
+    padding: 14px 16px 16px;
+    font-size: 0.6875rem;
+  }
+}
+
+/* ─── Reading column ─────────────────────────────────────────────────── */
+.prose {
+  max-width: 720px;
+  margin-top: clamp(56px, 7vw, 104px);
+}
+.prose > h2:first-child {
+  margin-top: 0;
+}
+
+/* ─── Questions — heading left (sticky), answers right ─────────────────── */
+.faq {
+  margin-top: clamp(72px, 9vw, 128px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 26px;
+}
+.faqTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 1.15rem + 1.6vw, 2.45rem);
+  font-weight: 740;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.faqList {
+  margin: 0;
+  border-top: 2px solid var(--color-ink);
+}
+.faqItem {
+  display: grid;
+  gap: 10px;
+  padding: 24px 0 26px;
+  border-bottom: 1px solid var(--color-grid);
+}
+.faqQ {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 1.02rem + 0.35vw, 1.3rem);
+  font-weight: 650;
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.faqA {
+  margin: 0;
+  max-width: 68ch;
+  font-family: var(--font-serif);
+  font-size: 1.09375rem;
+  line-height: 1.62;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+
+/* The App Store button, under the answers */
+.cta {
+  margin: 14px 0 0;
+}
+.ctaBtn {
+  min-height: 56px;
+  padding: 0 26px 0 22px;
+  font-size: 1.0625rem;
+}
+.ctaBtn:hover {
+  box-shadow: 0 18px 34px -14px rgb(16 35 26 / 0.7);
+}
+.ctaBtn:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+.ctaBtn svg {
+  flex: none;
+  margin-top: -2px;
+}
+
+@media (min-width: 1024px) {
+  .faq {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: clamp(40px, 5vw, 88px);
+  }
+  .faqTitle {
+    position: sticky;
+    top: 112px;
+    align-self: start;
+  }
+  .faqList,
+  .cta {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 420px) {
+  .ctaBtn {
+    width: 100%;
+    white-space: normal;
+    padding: 14px 20px;
+    line-height: 1.25;
+    text-align: center;
+    text-wrap: balance;
+  }
+}

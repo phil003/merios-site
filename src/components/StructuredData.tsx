@@ -40,16 +40,34 @@ export function WebApplicationSchema() {
     description:
       "Health score app that analyzes 130+ blood biomarkers, Apple Health data, and daily check-ins. Calculate your biological age and optimize your health.",
     applicationCategory: "HealthApplication",
-    operatingSystem: "iOS 17.0 or later",
+    operatingSystem: "iOS 15.1 or later",
     installUrl: "https://apps.apple.com/us/app/merios/id6760352598",
     downloadUrl: "https://apps.apple.com/us/app/merios/id6760352598",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      description:
-        "Free to download. Merios Plus: $44.00/year with a 7-day free trial.",
-    },
+    // Two offers, not one. A lone `price: "0"` with the real price in a
+    // description string reads as "this app is free" to anything parsing the
+    // markup — which is how Merios ended up described as a pre-launch freebie.
+    offers: [
+      {
+        "@type": "Offer",
+        name: "Merios (free)",
+        price: "0",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        url: "https://apps.apple.com/us/app/merios/id6760352598",
+        description:
+          "Free to download. The daily Merios Score, the journal and manual marker entry are free for good. iPhone, iOS 15.1 or later, US App Store.",
+      },
+      {
+        "@type": "Offer",
+        name: "Merios Plus",
+        price: "44.00",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        url: "https://apps.apple.com/us/app/merios/id6760352598",
+        description:
+          "Lab report scans, blood in depth with biological age, and Insights. Billed yearly, with a 7-day free trial.",
+      },
+    ],
     featureList: [
       "Blood test OCR analysis (130+ biomarkers)",
       "Apple Health integration",
@@ -80,7 +98,8 @@ export function SiteNavigationSchema() {
     { name: "Health Calculators", url: "https://merios.life/tools" },
     { name: "Blog", url: "https://merios.life/blog" },
     { name: "Compare", url: "https://merios.life/compare" },
-    { name: "Early Access", url: "https://merios.life/early-access" },
+    { name: "Pricing", url: "https://merios.life/pricing" },
+    { name: "Get the app", url: "https://merios.life/early-access" },
   ];
 
   const schema = {

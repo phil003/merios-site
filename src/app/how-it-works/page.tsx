@@ -19,13 +19,13 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
   title: "Blood Test Tracking App: How Merios Works",
   description:
-    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. Free to download, on iPhone.",
+    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
   robots: { index: true, follow: true },
   alternates: { canonical: "https://merios.life/how-it-works" },
   openGraph: {
     title: "Blood Test Tracking App: How Merios Works",
     description:
-      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. Free to download, on iPhone.",
+      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
     url: "https://merios.life/how-it-works",
     siteName: "Merios",
     type: "website",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blood Test Tracking App: How Merios Works",
     description:
-      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. Free to download, on iPhone.",
+      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
   },
 };
 
@@ -45,7 +45,7 @@ const howToJsonLd = {
   "@type": "HowTo",
   name: "How to interpret your blood test results with Merios",
   description:
-    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. Free to download, on iPhone.",
+    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
   step: [
     {
       "@type": "HowToStep",

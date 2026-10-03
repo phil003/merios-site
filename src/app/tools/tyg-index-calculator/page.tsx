@@ -9,6 +9,10 @@ import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
   {
+    q: "Is the TyG index the same as the triglyceride glucose index?",
+    a: "Yes — two names for the same number. TyG is simply the abbreviation of triglyceride-glucose, so a triglyceride glucose index calculator and a TyG index calculator compute the same thing: ln[(triglycerides mg/dL × fasting glucose mg/dL) / 2]. You will also see it written as the triglyceride index, or occasionally the TyG ratio — the last one is a misnomer, since the formula multiplies the two values inside a logarithm rather than dividing one by the other.",
+  },
+  {
     q: "What is the TyG index formula?",
     a: "TyG = ln[(triglycerides mg/dL × fasting glucose mg/dL) / 2]. The division by 2 happens inside the natural logarithm — writing it as ln(triglycerides × glucose) / 2 gives a different and incorrect number, and that error is common enough that it has its own published correction literature.",
   },
@@ -64,6 +68,7 @@ export default function TyGCalculatorPage() {
     description:
       "Free triglyceride-glucose (TyG) index calculator for insulin resistance, using triglycerides and fasting glucose, in mg/dL or mmol/L.",
     isAccessibleForFree: true,
+    dateModified: "2026-09-23",
     citation:
       "Simental-Mendia LE, Rodriguez-Moran M, Guerrero-Romero F. The product of fasting glucose and triglycerides as surrogate for identifying insulin resistance in apparently healthy subjects. Metab Syndr Relat Disord 2008;6(4):299-304.",
     inLanguage: "en",
@@ -83,9 +88,9 @@ export default function TyGCalculatorPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
       <PageHero
-        eyebrow="TyG index — insulin resistance"
-        title="Check your insulin resistance without a fasting insulin test."
-        subline="The TyG index calculator runs the triglyceride-glucose formula on two numbers that are already on your standard panel — in mg/dL or mmol/L, no separate insulin draw required."
+        eyebrow="Triglyceride-glucose index — insulin resistance"
+        title="TyG index calculator"
+        subline="Check your insulin resistance without a fasting insulin test. The triglyceride glucose index runs on two numbers already sitting on your standard panel — in mg/dL or mmol/L, no separate insulin draw required."
         align="left"
       />
 
@@ -117,23 +122,48 @@ export default function TyGCalculatorPage() {
                 formula it came from is hiding the problem rather than solving it. On the natural-log, divide-by-2 version
                 used here — the form from the original 2008 paper — the bands that recur most often in the literature are:
               </p>
-              <ul>
-                <li>
-                  <strong>Under 8.0</strong> — low. Both inputs are in good territory, which usually tracks with preserved
-                  insulin sensitivity.
-                </li>
-                <li>
-                  <strong>8.0 to 8.5</strong> — typical for a general adult population. Not a red flag on its own.
-                </li>
-                <li>
-                  <strong>8.5 to 9.0</strong> — above the threshold most commonly cited for metabolic syndrome. Worth
-                  confirming with fasting insulin, and worth repeating after a few months rather than acting on one reading.
-                </li>
-                <li>
-                  <strong>Above 9.0</strong> — high, driven by elevated triglycerides, elevated fasting glucose, or both.
-                  This is a conversation with your physician and a fuller metabolic workup, not a self-management project.
-                </li>
-              </ul>
+              <div className={t.tableWrap} data-rv="">
+                <table className={`${t.table} ${t.tableKey}`}>
+                  <caption className={t.captionNote}>
+                    TyG index bands on the natural-log, divide-by-2 formula used by this calculator. Cutoffs are
+                    population-derived and vary between studies.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" className={t.colHead}>TyG index</th>
+                      <th scope="col" className={t.colHead}>How it is usually read</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-tone="ok">
+                      <th scope="row" className={t.rowHead}>Under 8.0</th>
+                      <td className={t.cellNote}>
+                        Low. Both inputs are in good territory, which usually tracks with preserved insulin sensitivity.
+                      </td>
+                    </tr>
+                    <tr data-tone="ok">
+                      <th scope="row" className={t.rowHead}>8.0 to 8.5</th>
+                      <td className={t.cellNote}>
+                        Typical for a general adult population. Not a red flag on its own.
+                      </td>
+                    </tr>
+                    <tr data-tone="warn">
+                      <th scope="row" className={t.rowHead}>8.5 to 9.0</th>
+                      <td className={t.cellNote}>
+                        Above the threshold most commonly cited for metabolic syndrome. Worth confirming with fasting
+                        insulin, and worth repeating after a few months rather than acting on one reading.
+                      </td>
+                    </tr>
+                    <tr data-tone="bad">
+                      <th scope="row" className={t.rowHead}>Above 9.0</th>
+                      <td className={t.cellNote}>
+                        High, driven by elevated triglycerides, elevated fasting glucose, or both. This is a conversation
+                        with your physician and a fuller metabolic workup, not a self-management project.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <p>
                 How wide is the disagreement? A 2024 review in <em>Lipids in Health and Disease</em> found published
                 cut-offs ranging from 4.5 to 9.5, with the vast majority of studies at or above 8.0. That spread is not

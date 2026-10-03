@@ -2,26 +2,27 @@
 
 import { useState, useMemo } from "react";
 import {
-  Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, CalcOutput, ResultPanel, ResultBody,
-  Empty, ResultLabel, Chip, RangeBar, Refs, RefRow, CalcFoot, Footnote, Cta, styles as s,
+  Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, Toggle, CalcOutput, ResultPanel,
+  ResultBody, Empty, ResultLabel, Chip, RangeBar, Refs, RefRow, CalcFoot, Footnote, Cta, styles as s,
   type Tone, type Zone,
 } from "./_shared";
 
 /**
  * HOMA-IR (Homeostatic Model Assessment for Insulin Resistance) calculator.
  *
- * Formula (US units):
- *   HOMA-IR = (fasting insulin [µIU/mL] × fasting glucose [mg/dL]) / 405
+ * Formula (Matthews et al., Diabetologia 1985;28(7):412-419):
+ *   glucose in mg/dL:  HOMA-IR = (insulin [µIU/mL] × glucose [mg/dL]) / 405
+ *   glucose in mmol/L: HOMA-IR = (insulin [µIU/mL] × glucose [mmol/L]) / 22.5
+ * The two denominators differ only by the 18.0 mg/dL-per-mmol/L conversion.
  *
- * Embedded in `/blog/homa-ir-calculator` to convert "homa ir calculator" SERP
- * intent (currently pos 68 with growing impressions) into a sticky page that:
- *   - increases dwell time (positive ranking signal)
- *   - earns natural backlinks (free interactive calculators are link magnets)
- *   - drives /early-access conversions via a contextual CTA on the result
+ * Owned by `/tools/homa-ir-calculator`. The former duplicate at
+ * `/blog/homa-ir-calculator` is a 308 to that page — both were indexed and
+ * split the signal for "homa ir calculator" (pos 28.0, 24/09).
  */
 export default function HomaIRCalculator() {
   const [glucose, setGlucose] = useState<string>("");
   const [insulin, setInsulin] = useState<string>("");
+  const [unit, setUnit] = useState<"mgdl" | "mmoll">("mgdl");
 
   const result = useMemo(() => {
     const g = parseFloat(glucose);
@@ -29,26 +30,39 @@ export default function HomaIRCalculator() {
     if (!Number.isFinite(g) || !Number.isFinite(i) || g <= 0 || i <= 0) {
       return null;
     }
-    const score = (g * i) / 405;
+    // Same model, unit-matched constant: 405 for mg/dL, 22.5 for mmol/L.
+    const score = (g * i) / (unit === "mgdl" ? 405 : 22.5);
     return {
       score: Math.round(score * 100) / 100,
       band: getBand(score),
     };
-  }, [glucose, insulin]);
+  }, [glucose, insulin, unit]);
 
   return (
     <Shell labelledBy="homa-ir-calculator-title">
       <CalcHead>
         <Eyebrow>Free interactive tool</Eyebrow>
-        <CalcTitle id="homa-ir-calculator-title">HOMA-IR Calculator</CalcTitle>
+        <CalcTitle id="homa-ir-calculator-title">Insulin resistance from fasting glucose and insulin</CalcTitle>
       </CalcHead>
 
       <CalcInputs>
+        <div>
+          <Toggle
+            legend="Glucose unit"
+            options={[
+              { key: "mgdl", label: "mg/dL" },
+              { key: "mmoll", label: "mmol/L" },
+            ]}
+            value={unit}
+            onChange={(v) => setUnit(v === "mmoll" ? "mmoll" : "mgdl")}
+          />
+        </div>
+
         <Fields>
           <Field
             label="Fasting glucose"
-            unit="mg/dL"
-            placeholder="e.g. 90"
+            unit={unit === "mgdl" ? "mg/dL" : "mmol/L"}
+            placeholder={unit === "mgdl" ? "e.g. 90" : "e.g. 5.0"}
             value={glucose}
             onChange={setGlucose}
             inputId="homa-ir-glucose"
@@ -93,9 +107,13 @@ export default function HomaIRCalculator() {
 
       <CalcFoot>
         <Footnote>
-          Educational tool, not a medical diagnosis. HOMA-IR uses fasting values —
-          if your insulin or glucose were drawn non-fasted, results will be
-          inflated. Discuss with your physician before adjusting medication.
+          Educational tool, not a medical diagnosis. Computed as insulin × glucose ÷{" "}
+          {unit === "mgdl" ? "405" : "22.5"}, the constant for{" "}
+          {unit === "mgdl" ? "mg/dL" : "mmol/L"} glucose. HOMA-IR uses fasting
+          values — if your insulin or glucose were drawn non-fasted, results will
+          be inflated. Cutoffs vary by population and insulin assay, so read the
+          score as a trend. Not interpretable in type 1 diabetes or on injected
+          insulin. Discuss with your physician before adjusting medication.
         </Footnote>
         <Cta />
       </CalcFoot>

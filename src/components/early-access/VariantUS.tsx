@@ -157,7 +157,7 @@ export default function VariantUS() {
               } as CSSProperties
             }
           >
-            iPhone · iOS 17+ · Free to start
+            iPhone · iOS 15.1+ · Free to start
           </p>
         </div>
 

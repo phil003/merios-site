@@ -60,6 +60,21 @@
   background: var(--color-lime);
   box-shadow: 0 0 0 1px rgb(16 35 26 / 0.12);
 }
+/* Two forms of one formula (HOMA-IR in mg/dL and mmol/L): one line each on
+   desktop; on phones a wrapped line hangs under its own start. */
+.prose .formulaPair {
+  font-size: clamp(0.8125rem, 0.7rem + 0.34vw, 0.9375rem);
+  line-height: 1.5;
+}
+.prose .formulaPair > span {
+  display: inline-block;
+  width: 100%;
+  padding-left: 2ch;
+  text-indent: -2ch;
+}
+.prose .formulaPair > span + br + span {
+  margin-top: 10px;
+}
 
 /* Interpretation bands / by-age rows — a lab report card */
 .prose .bands {
@@ -271,6 +286,94 @@
   .prose .cell { white-space: normal; }
 }
 
+/* Key tables (a band or a marker, then how it reads) — TSAT and TyG bands,
+   the Lp(a) page's conversion factors. The key column wraps on phones
+   instead of pushing the table sideways; a long caption that reads as a
+   footnote sits under the table, not over it. */
+.prose .tableKey .rowHead {
+  width: 30%;
+  min-width: 7.5em;
+  white-space: normal;
+  vertical-align: top;
+  text-wrap: balance;
+}
+.prose .tableKey .cellNote {
+  line-height: 1.5;
+}
+/* Range tables (Lp(a) nmol/L ↔ mg/dL): top-aligned rows, and on phones the
+   value column may wrap so the "where that sits" column keeps its width. */
+.prose .tableRange .rowHead,
+.prose .tableRange .cell,
+.prose .tableRange .cellNote,
+.prose .tableKey .cellNote {
+  vertical-align: top;
+}
+/* The status dot hangs in the cell's gutter, so a wrapped note lines up
+   under its own first word and the dot never sits alone on a line. */
+.prose .tableRange .cellNote,
+.prose .tableKey .cellNote {
+  position: relative;
+  padding-left: 38px;
+}
+.prose .tableRange .cellNote::before,
+.prose .tableKey .cellNote::before {
+  position: absolute;
+  left: 18px;
+  top: calc(10px + 0.7em - 4px);
+  margin: 0;
+}
+/* Captions that carry units (nmol/L, mg/dL) keep their case */
+.prose .captionPlain {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+.prose .cellText {
+  min-width: 180px;
+  padding: 10px 18px;
+  border-top: 1px solid var(--color-grid);
+  border-bottom: 0;
+  text-align: left;
+  vertical-align: top;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+}
+.prose .captionNote {
+  caption-side: bottom;
+  padding: 13px 18px 15px;
+  text-align: left;
+  border-top: 1px solid var(--color-grid);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-ink-tertiary);
+  text-wrap: pretty;
+}
+@media (max-width: 560px) {
+  .prose .cellText {
+    min-width: 0;
+    padding: 9px 12px 9px 8px;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+  .prose .captionNote { padding: 12px; }
+  .prose .tableRange .cell {
+    min-width: 6.2em;
+    white-space: normal;
+  }
+  .prose .tableRange .cellNote,
+  .prose .tableKey .cellNote {
+    padding-left: 24px;
+  }
+  .prose .tableRange .cellNote::before,
+  .prose .tableKey .cellNote::before {
+    left: 9px;
+    top: calc(9px + 0.68em - 4px);
+  }
+}
+
 /* ─── FAQ — heading left (sticky), questions right ─────────────────────── */
 .faq {
   margin-top: clamp(72px, 9vw, 128px);
@@ -439,6 +542,69 @@
   }
   .ctaTextLink {
     text-align: right;
+  }
+}
+
+/* ─── After the CTA card: sources and a "read next" rail on fog ───────── */
+.sources {
+  margin-top: clamp(40px, 5vw, 64px);
+}
+
+.next {
+  margin-top: clamp(56px, 7vw, 96px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 18px;
+}
+.nextLabel {
+  margin: 0;
+  color: var(--color-ink-secondary);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+.nextDot {
+  background: var(--color-lime);
+  box-shadow: 0 0 0 1.5px var(--color-ink);
+}
+.nextList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--color-ink);
+}
+.nextItem {
+  padding: 17px 0 18px;
+  border-bottom: 1px solid var(--color-grid);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+.nextLink {
+  font-family: var(--font-display);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-lime-deep) 70%, transparent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  transition:
+    background-color 200ms var(--ease-smooth),
+    text-decoration-color 200ms var(--ease-smooth);
+}
+.nextLink:hover {
+  background: color-mix(in srgb, var(--color-lime) 55%, transparent);
+  text-decoration-color: var(--color-ink);
+}
+@media (min-width: 1024px) {
+  .next {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    column-gap: clamp(40px, 5vw, 88px);
+  }
+  .nextLabel {
+    align-self: start;
+    margin-top: 20px;
   }
 }
 

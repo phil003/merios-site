@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import SarcopeniaIndexCalculator from "@/components/calculators/SarcopeniaIndexCalculator";
 import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
   { q: "What is the sarcopenia index?", a: "It is serum creatinine divided by cystatin C, multiplied by 100. The reasoning is that creatinine is produced by muscle while cystatin C is produced by all nucleated cells regardless of muscle mass, so the ratio between them carries a muscle signal that neither marker shows on its own." },
@@ -55,35 +56,37 @@ export default function Page() {
 
       <PageHero eyebrow="Creatinine / cystatin C" title="Two markers you probably already have, hiding a muscle signal." subline="Free sarcopenia index calculator. Divide creatinine by cystatin C for a cheap blood-based muscle-mass proxy — with an honest account of what it can and cannot tell you." align="left" />
 
-      <main className="pb-20 pt-2" style={{ background: "var(--color-canvas)" }}>
-        <div className="mx-auto max-w-[920px] px-6 md:px-10">
+      <main className={t.main}>
+        <div className={t.wrap}>
           <SarcopeniaIndexCalculator />
-          <section className="mt-14 max-w-[720px]" style={{ fontFamily: "var(--font-sans)" }}>
-            <h2 style={h2Style}>Why these two markers together</h2>
-            <p style={pStyle}>
-              Creatinine is a waste product of muscle metabolism, so how much you produce depends on how much muscle
-              you carry.{" "}
-              <Link href="/blog/cystatin-c-kidney-function" style={linkStyle}>Cystatin C</Link> is produced at a
-              near-constant rate by every nucleated cell and is not affected by muscle mass. Both are filtered by the
-              kidneys and both are used to estimate kidney function — which means their ratio strips out the kidney
-              signal and leaves something closer to a muscle signal.
-            </p>
-            <p style={pStyle}>
-              That same asymmetry is why{" "}
-              <Link href="/blog/creatinine-1-2-normal" style={linkStyle}>creatinine alone</Link> can mislead. Losing
-              muscle produces less creatinine, so a creatinine-based eGFR drifts upward and kidney function looks like
-              it is improving when the real story is lost muscle. The trap is covered in detail in{" "}
-              <Link href="/blog/glp-1-muscle-loss-peptides" style={linkStyle}>GLP-1 muscle loss and what your labs really show</Link>.
-            </p>
-            <h2 style={h2Style}>What to do with the number</h2>
-            <p style={pStyle}>
-              Treat it as a baseline, not a verdict. The value of a cheap marker like this is the trend across repeat
-              panels, and it is most informative when paired with something you can actually measure at home — grip
-              strength, or your working weights in the gym. The wider case for why this matters is in{" "}
-              <Link href="/blog/muscle-mass-and-longevity" style={linkStyle}>muscle mass and longevity</Link>, and it
-              belongs alongside the rest of a{" "}
-              <Link href="/blog/longevity-blood-panel" style={linkStyle}>longevity panel</Link>.
-            </p>
+          <section className={t.after}>
+            <div className={`editorial-prose ${t.prose}`}>
+              <h2>Why these two markers together</h2>
+              <p>
+                Creatinine is a waste product of muscle metabolism, so how much you produce depends on how much muscle
+                you carry.{" "}
+                <Link href="/blog/cystatin-c-kidney-function">Cystatin C</Link> is produced at a
+                near-constant rate by every nucleated cell and is not affected by muscle mass. Both are filtered by the
+                kidneys and both are used to estimate kidney function — which means their ratio strips out the kidney
+                signal and leaves something closer to a muscle signal.
+              </p>
+              <p>
+                That same asymmetry is why{" "}
+                <Link href="/blog/creatinine-1-2-normal">creatinine alone</Link> can mislead. Losing
+                muscle produces less creatinine, so a creatinine-based eGFR drifts upward and kidney function looks like
+                it is improving when the real story is lost muscle. The trap is covered in detail in{" "}
+                <Link href="/blog/glp-1-muscle-loss-peptides">GLP-1 muscle loss and what your labs really show</Link>.
+              </p>
+              <h2>What to do with the number</h2>
+              <p>
+                Treat it as a baseline, not a verdict. The value of a cheap marker like this is the trend across repeat
+                panels, and it is most informative when paired with something you can actually measure at home — grip
+                strength, or your working weights in the gym. The wider case for why this matters is in{" "}
+                <Link href="/blog/muscle-mass-and-longevity">muscle mass and longevity</Link>, and it
+                belongs alongside the rest of a{" "}
+                <Link href="/blog/longevity-blood-panel">longevity panel</Link>.
+              </p>
+            </div>
           </section>
         </div>
       </main>
@@ -91,12 +94,3 @@ export default function Page() {
     </>
   );
 }
-
-const h2Style: React.CSSProperties = {
-  fontFamily: "var(--font-serif)", fontSize: "clamp(1.625rem, 2.4vw, 2rem)", fontWeight: 300,
-  letterSpacing: "-0.02em", color: "var(--color-ink)", marginBottom: "0.75rem", marginTop: "3rem",
-};
-const pStyle: React.CSSProperties = {
-  fontSize: 16, lineHeight: 1.7, color: "var(--color-ink-secondary)", marginBottom: "1.1rem",
-};
-const linkStyle: React.CSSProperties = { color: "var(--color-green-deep)", textUnderlineOffset: "3px" };

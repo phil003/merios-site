@@ -253,7 +253,7 @@ body {
   transition: box-shadow 300ms var(--ease-expo), background-color 300ms var(--ease-expo), border-color 300ms var(--ease-expo), color 300ms var(--ease-expo), transform 300ms var(--ease-expo);
 }
 .btn:hover { transform: translateY(-1px); }
-.btn .btn-arrow { transition: transform 300ms var(--ease-expo); }
+.btn .btn-arrow { display: inline-block; transition: transform 300ms var(--ease-expo); }
 .btn:hover .btn-arrow { transform: translateX(3px); }
 .btn-lime {
   background: var(--color-lime);
@@ -290,17 +290,6 @@ body {
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 28'><path d='M0 14 H62 L67 19 L73 3 L81 26 L86 14 H160' fill='none' stroke='%2310231A' stroke-opacity='.55' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='154' cy='14' r='3.4' fill='%23D6F050' stroke='%2310231A' stroke-opacity='.35'/></svg>") center / 160px 28px no-repeat;
 }
 
-/* ═══ Legacy scroll-reveal (ScrollAnimator + existing sections) ═══ */
-.fade-in {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s var(--ease-expo), transform 0.7s var(--ease-expo);
-  will-change: opacity, transform;
-}
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -310,29 +299,11 @@ body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
-@keyframes scrollPulse {
-  0%, 100% { opacity: 0.5; transform: scaleY(1); }
-  50% { opacity: 1; transform: scaleY(1.15); }
-}
 
-.animate-fadeUp {
-  animation: fadeUp 1s var(--ease-expo) both;
-}
 .animate-pulse-dot {
   animation: pulse 2s var(--ease-smooth) infinite;
 }
-.animate-scroll-pulse {
-  animation: scrollPulse 2s var(--ease-smooth) infinite;
-}
 
-@keyframes heroFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-.hero-mockup-float {
-  animation: heroFloat 4s var(--ease-smooth) infinite;
-  will-change: transform;
-}
 
 /* ═══ Editorial prose — long reads set in Newsreader, headed in Bricolage ═══ */
 .editorial-prose {
@@ -780,15 +751,6 @@ details[open] > summary .acc-icon-flip {
   transform: rotate(180deg);
 }
 
-/* Opacity-only entrance for elements whose transform is owned by GSAP */
-@keyframes fadeInOnly {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.he-fade {
-  animation: fadeInOnly 0.9s var(--ease-smooth) both;
-  animation-delay: var(--he-d, 0s);
-}
 
 /* ═══ v3 navigation — floating liquid-glass bar ═══════════════════════════ */
 .v3-nav {
@@ -915,7 +877,13 @@ details[open] > summary .acc-icon-flip {
 }
 
 /* ═══ v3 footer — night, full logo, every link kept ════════════════════════ */
-.v3-footer { overflow: hidden; }
+/* The footer's glow sits low, behind the big lockup, so its top edge is the
+   darkest night: any night section above it (CTA bands, the homepage finale)
+   meets it without a seam. */
+.v3-footer {
+  overflow: hidden;
+  background: radial-gradient(95% 75% at 62% 100%, #172026 0%, #0C1013 52%, #08090B 100%);
+}
 .v3-footer__inner {
   max-width: calc(1320px + 2 * var(--spacing-container));
   margin-inline: auto;

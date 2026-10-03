@@ -2,15 +2,16 @@
 
 import { useLenis } from "@/components/providers/LenisProvider";
 import type { Heading } from "./toc";
+import styles from "./article.module.css";
 
 interface MobileTOCProps {
   headings: Heading[];
 }
 
 /**
- * Collapsible "Contents" accordion for mobile (<lg). Closed by default.
- * Uses native <details> for keyboard + a11y; the plus/minus icon rotates via
- * the CSS `.acc-icon` rule (motion-free).
+ * Collapsible "Contents" card for mobile (<lg). Closed by default.
+ * Uses native <details> for keyboard + a11y; the plus icon (ink disc, lime
+ * glyph) turns into a cross via the CSS `.acc-icon` rule.
  */
 export default function MobileTOC({ headings }: MobileTOCProps) {
   const lenis = useLenis();
@@ -40,40 +41,14 @@ export default function MobileTOC({ headings }: MobileTOCProps) {
   };
 
   return (
-    <details
-      className="lg:hidden"
-      style={{
-        borderTop: "1px solid var(--color-grid)",
-        borderBottom: "1px solid var(--color-grid)",
-        background:
-          "color-mix(in srgb, var(--color-canvas-alt) 60%, transparent)",
-      }}
-    >
-      <summary
-        className="flex cursor-pointer list-none items-center justify-between gap-4 px-6 py-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 10.5,
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-tertiary)",
-          fontWeight: 500,
-        }}
-      >
-        <span>Contents</span>
-        <span
-          aria-hidden
-          className="acc-icon inline-flex h-5 w-5 items-center justify-center"
-          style={{
-            color: "var(--color-green-deep)",
-            fontSize: 18,
-            lineHeight: 1,
-          }}
-        >
+    <details className={`lg:hidden ${styles.mtoc}`}>
+      <summary className={styles.mtocSummary}>
+        <span className={styles.mtocLabel}>Contents</span>
+        <span aria-hidden className={`acc-icon ${styles.mtocIcon}`}>
           +
         </span>
       </summary>
-      <ol className="flex flex-col gap-1 pb-5 pl-6 pr-6">
+      <ol className={styles.mtocList}>
         {headings.map((h, i) => {
           const indent = h.level === 3 ? 16 : 0;
           return (
@@ -81,25 +56,10 @@ export default function MobileTOC({ headings }: MobileTOCProps) {
               <a
                 href={`#${h.id}`}
                 onClick={(e) => handleClick(e, h.id)}
-                className="block rounded-sm py-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: h.level === 3 ? 13 : 14,
-                  color: "var(--color-ink-secondary)",
-                  letterSpacing: "-0.005em",
-                  lineHeight: 1.4,
-                }}
+                data-level={h.level}
+                className={styles.mtocLink}
               >
-                <span
-                  aria-hidden
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10.5,
-                    color: "var(--color-ink-tertiary)",
-                    marginRight: 10,
-                    letterSpacing: "0.06em",
-                  }}
-                >
+                <span aria-hidden className={styles.mtocNum}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 {h.text}

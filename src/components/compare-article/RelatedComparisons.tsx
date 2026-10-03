@@ -1,6 +1,7 @@
 import CompareCard from "@/components/compare/CompareCard";
 import Reveal from "@/components/ui/Reveal";
 import type { ComparePost } from "@/lib/compare";
+import styles from "./compareArticle.module.css";
 
 interface RelatedComparisonsProps {
   posts: ComparePost[];
@@ -16,58 +17,21 @@ export default function RelatedComparisons({
   if (posts.length === 0) return null;
 
   return (
-    <section
-      className="border-t"
-      style={{
-        background: "var(--color-canvas)",
-        borderColor: "var(--color-grid)",
-      }}
-    >
-      <div className="mx-auto max-w-[1200px] px-6 py-20 md:px-10 md:py-24">
+    <section className={styles.related}>
+      <div className={styles.wrap}>
         <Reveal>
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <div
-                className="inline-flex items-center gap-2.5"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                <span
-                  aria-hidden
-                  className="inline-block h-1.5 w-1.5 rounded-full"
-                  style={{ background: "var(--color-pulse)" }}
-                />
-                <span
-                  style={{
-                    fontSize: 10.5,
-                    letterSpacing: "0.22em",
-                    textTransform: "uppercase",
-                    color: "var(--color-green-deep)",
-                    fontWeight: 500,
-                  }}
-                >
-                  More comparisons
-                </span>
-              </div>
-              <h2
-                className="mt-5"
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(1.75rem, 2.6vw, 2.25rem)",
-                  fontWeight: 300,
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
-                  color: "var(--color-ink)",
-                }}
-              >
-                Keep exploring
-              </h2>
+          <div className={styles.sectionHead}>
+            <div className={`label ${styles.sectionLabel}`}>
+              <span aria-hidden className="label-dot label-dot--ink" />
+              <span>More comparisons</span>
             </div>
+            <h2 className={styles.sectionTitle}>Keep exploring</h2>
           </div>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <CompareCard key={post.slug} post={post} />
+        <div className={styles.relatedGrid}>
+          {posts.map((post, i) => (
+            <CompareCard key={post.slug} post={post} index={i} />
           ))}
         </div>
       </div>

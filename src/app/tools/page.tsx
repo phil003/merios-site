@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import { OrganizationSchema, BreadcrumbSchema } from "@/components/StructuredData";
+import t from "./tools.module.css";
 
 /**
  * /tools — Free Health Calculator Hub.
@@ -168,106 +170,58 @@ export default function ToolsPage() {
         align="left"
       />
 
-      <main
-        className="pb-24 pt-2"
-        style={{ background: "var(--color-canvas)" }}
-      >
-        <div className="mx-auto max-w-[1200px] px-6 md:px-10">
-          <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {TOOLS.map((tool) => (
-              <li key={tool.slug}>
-                <Link
-                  href={`/tools/${tool.slug}`}
-                  className="group flex h-full flex-col rounded-xl p-6 transition-colors"
-                  style={{
-                    border: "1px solid var(--color-grid)",
-                    background: "var(--color-canvas-alt, #ffffff)",
-                  }}
+      <main className={t.main}>
+        <div className={t.wrap} style={{ paddingTop: "clamp(28px, 4vw, 56px)" }}>
+          <ul className={t.grid}>
+            {TOOLS.map((tool, i) => {
+              const wide = i === 0 || i === TOOLS.length - 1;
+              const pop = i === 0 ? "lilac" : i === TOOLS.length - 1 ? "peach" : undefined;
+              const [band, span, dot] = GLYPHS[i % GLYPHS.length];
+              return (
+                <li
+                  key={tool.slug}
+                  className={wide ? t.wide : undefined}
+                  data-rv=""
+                  style={{ "--rv-delay": `${(i % 4) * 0.06}s` } as CSSProperties}
                 >
-                  <div
-                    className="inline-flex items-center gap-2.5"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    <span
-                      aria-hidden
-                      className="inline-block h-1.5 w-1.5 rounded-full"
-                      style={{ background: "var(--color-pulse)" }}
-                    />
-                    <span
-                      style={{
-                        fontSize: 10.5,
-                        letterSpacing: "0.22em",
-                        textTransform: "uppercase",
-                        color: "var(--color-green-deep)",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {tool.eyebrow}
-                    </span>
-                  </div>
+                  <Link href={`/tools/${tool.slug}`} className={t.card} data-pop={pop}>
+                    <div className={t.cardTop}>
+                      <div className={`label ${t.cardEyebrow}`}>
+                        <span aria-hidden className={`label-dot ${t.cardDot}`} />
+                        <span>{tool.eyebrow}</span>
+                      </div>
+                      <span aria-hidden className={t.glyph}>
+                        <i style={{ left: `${band}%`, width: `${span}%` }} />
+                        <b style={{ left: `${dot}%` }} />
+                      </span>
+                    </div>
 
-                  <h2
-                    className="mt-5"
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: "clamp(1.5rem, 2vw, 1.875rem)",
-                      fontWeight: 300,
-                      lineHeight: 1.1,
-                      letterSpacing: "-0.02em",
-                      color: "var(--color-ink)",
-                    }}
-                  >
-                    {tool.title}
-                  </h2>
+                    <h2 className={t.cardTitle}>{tool.title}</h2>
 
-                  <p
-                    className="mt-3 flex-1"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: 15,
-                      lineHeight: 1.55,
-                      color: "var(--color-ink-secondary)",
-                    }}
-                  >
-                    {tool.description}
-                  </p>
+                    <p className={t.cardDesc}>{tool.description}</p>
 
-                  <div
-                    className="mt-6 flex items-center justify-between border-t pt-4"
-                    style={{
-                      borderColor: "var(--color-grid)",
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 10.5,
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "var(--color-ink-tertiary)",
-                    }}
-                  >
-                    <span>{tool.inputs}</span>
-                    <span
-                      className="inline-flex items-center gap-1.5 transition-transform group-hover:translate-x-0.5"
-                      style={{ color: "var(--color-green-deep)" }}
-                    >
-                      Open
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
-                    </span>
-                  </div>
-                </Link>
-              </li>
-            ))}
+                    <div className={t.cardMeta}>
+                      <span>{tool.inputs}</span>
+                      <span className={t.cardOpen}>
+                        Open
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                          <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
+
+                    {wide ? (
+                      <span aria-hidden className={t.art}>
+                        {i === 0 ? <AgeRing /> : <ZoneBars />}
+                      </span>
+                    ) : null}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
-          <p
-            className="mt-12 max-w-[640px]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: 14,
-              lineHeight: 1.6,
-              color: "var(--color-ink-tertiary)",
-            }}
-          >
+          <p className={t.disclaimer}>
             These tools are educational, not diagnostic. Calculators implement
             the formulas exactly as published. They do not replace a clinical
             evaluation. If a result concerns you, talk to a physician.
@@ -276,5 +230,60 @@ export default function ToolsPage() {
       </main>
       <Footer />
     </>
+  );
+}
+
+/* ─── Decorative instruments (aria-hidden, no text) ──────────────────────── */
+
+// [band left %, band width %, dot left %] — each card's tiny range bar
+const GLYPHS: [number, number, number][] = [
+  [18, 40, 30], [10, 34, 52], [24, 30, 36], [30, 40, 62], [14, 44, 40],
+  [22, 36, 48], [26, 30, 70], [12, 42, 28], [20, 38, 58], [16, 40, 44],
+];
+
+/** PhenoAge: the app's score ring — biological age set against the calendar. */
+function AgeRing() {
+  return (
+    <svg viewBox="0 0 240 240" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
+      <circle cx="120" cy="120" r="78" fill="none" stroke="rgb(16 35 26 / 0.12)" strokeWidth="14" />
+      <circle
+        cx="120"
+        cy="120"
+        r="78"
+        fill="none"
+        stroke="#24503A"
+        strokeWidth="14"
+        strokeLinecap="round"
+        strokeDasharray="350 490"
+        transform="rotate(-90 120 120)"
+      />
+      <circle cx="120" cy="120" r="52" fill="none" stroke="rgb(16 35 26 / 0.18)" strokeWidth="1.5" strokeDasharray="2 6" />
+      <circle cx="44" cy="137.4" r="9" fill="#D6F050" stroke="#10231A" strokeWidth="3" />
+      <path d="M78 120 H100 L106 128 L114 98 L124 144 L130 120 H162" fill="none" stroke="#10231A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Zone 2: five heart-rate zones, the second one lit. */
+function ZoneBars() {
+  const h = [34, 52, 70, 88, 106];
+  return (
+    <svg viewBox="0 0 240 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
+      {h.map((v, i) => (
+        <rect
+          key={v}
+          x={22 + i * 42}
+          y={156 - v}
+          width="30"
+          height={v}
+          rx="8"
+          fill={i === 1 ? "#10231A" : "rgb(255 255 255 / 0.62)"}
+          stroke={i === 1 ? "#D6F050" : "rgb(16 35 26 / 0.12)"}
+          strokeWidth={i === 1 ? 3 : 1}
+        />
+      ))}
+      <path d="M14 178 H92 L100 186 L110 160 L122 196 L130 178 H226" fill="none" stroke="#10231A" strokeOpacity="0.55" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="226" cy="178" r="5.5" fill="#D6F050" stroke="#10231A" strokeWidth="1.6" />
+    </svg>
   );
 }

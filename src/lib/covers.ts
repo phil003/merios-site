@@ -1,23 +1,28 @@
 /**
  * Generative article-cover specs — pure data, no fs, safe in client bundles.
  *
- * Two directions (picked per article, chosen with Phil 19/07):
- *  - "gauge" (direction C, « rapport de labo ») — for articles centered on a
- *    specific biomarker value: green-deep panel, arc gauge at the article's
- *    value, canvas band with the clinical range bar + marker.
- *  - "chart" (direction A, « data editorial ») — for guides and broader
- *    topics: canvas panel, fine grid, trend curve, big Fraunces motif.
+ * Two directions (picked per article, chosen with Phil 19/07, re-dressed for
+ * the site v3 art direction on 03/10/2026):
+ *  - "gauge" (« rapport de labo ») — for articles centred on a specific
+ *    biomarker value: night graphite panel, chrome numeral in an arc gauge,
+ *    the clinical range bar with the article's marker.
+ *  - "chart" (« pop editorial ») — for guides and broader topics: a pop
+ *    surface (lime / lilac / sky / peach, by topic family), the big display
+ *    motif in ink, the trend curve ending on the brand's dot.
  *
  * Rendered by <ArticleCover/> as inline SVG — zero image bytes, crisp at any
- * size, brand fonts inherited from the page (var(--font-serif) etc.).
+ * size, brand fonts inherited from the page (var(--font-display) etc.).
+ * The text a cover carries (category, motif, gauge values) is content: keep
+ * it as it is when restyling.
  */
 
-export type CoverAccent = "pulse" | "warm" | "sage" | "deep";
+/** Pop surface of a chart cover — one per topic family. */
+export type CoverTone = "lime" | "lilac" | "sky" | "peach";
 
 export interface GaugeSpec {
   kind: "gauge";
   cat: string;
-  accent: CoverAccent;
+  tone: CoverTone;
   /** Biomarker short label, e.g. "HbA1c" */
   label: string;
   unit: string;
@@ -25,7 +30,7 @@ export interface GaugeSpec {
   /** Axis bounds for the range bar */
   min: number;
   max: number;
-  /** Optimal band [start, end] in axis units — drawn pulse-green */
+  /** Optimal band [start, end] in axis units — drawn lime */
   optimal: [number, number];
   /** Text shown in the arc, defaults to value */
   display?: string;
@@ -34,8 +39,8 @@ export interface GaugeSpec {
 export interface ChartSpec {
   kind: "chart";
   cat: string;
-  accent: CoverAccent;
-  /** Big Fraunces motif, ≤ 8 chars (auto-shrinks with length) */
+  tone: CoverTone;
+  /** Big display motif, ≤ 8 chars (auto-shrinks with length) */
   big: string;
   /** Small italic suffix rendered after `big` (e.g. "%", "ng") */
   suffix?: string;
@@ -45,34 +50,61 @@ export interface ChartSpec {
 
 export type CoverSpec = GaugeSpec | ChartSpec;
 
-/* ─── Accent per tag (palette tokens resolved in the component) ─── */
+/* ─── Pop tone per tag — four topic families, so a colour means a subject
+   (Longevity lilac, Metabolic lime, Blood tests peach, as in the approved
+   homepage mockup). Shared by covers, related-article panels and the
+   category cards. ─── */
 
-const TAG_ACCENT: Record<string, CoverAccent> = {
-  "Metabolic Health": "pulse",
-  Lipids: "deep",
-  "Blood Tests": "pulse",
-  Vitamins: "warm",
-  Supplements: "warm",
-  Hormones: "sage",
-  Tools: "deep",
-  Thyroid: "sage",
-  Sleep: "deep",
-  Liver: "warm",
-  Iron: "warm",
-  Inflammation: "warm",
-  Kidney: "sage",
-  Fitness: "pulse",
-  Pillar: "pulse",
-  Nutrition: "sage",
-  Biomarkers: "pulse",
-  Longevity: "sage",
-  "Heart Rate": "pulse",
-  "Heart Health": "deep",
-  HRV: "pulse",
-  Cardiovascular: "deep",
-  "Mental Health": "sage",
-  Wearables: "deep",
+const TAG_TONE: Record<string, CoverTone> = {
+  // metabolism & movement
+  "Metabolic Health": "lime",
+  Fitness: "lime",
+  HRV: "lime",
+  "Heart Rate": "lime",
+  Wearables: "lime",
+  Tools: "lime",
+  // longevity, hormones, sleep, mind
+  Longevity: "lilac",
+  Pillar: "lilac",
+  Hormones: "lilac",
+  Thyroid: "lilac",
+  Sleep: "lilac",
+  "Mental Health": "lilac",
+  // the lab: blood, inflammation, organs
+  "Blood Tests": "peach",
+  Inflammation: "peach",
+  Liver: "peach",
+  Iron: "peach",
+  Kidney: "peach",
+  // heart, lipids, nutrients
+  Lipids: "sky",
+  "Heart Health": "sky",
+  Cardiovascular: "sky",
+  Biomarkers: "sky",
+  Vitamins: "sky",
+  Supplements: "sky",
+  Nutrition: "sky",
 };
+
+/** Surface colours of the four tones (globals.css v3 tokens, as hex for SVG). */
+export const TONE_HEX: Record<CoverTone, string> = {
+  lime: "#D6F050",
+  lilac: "#C9B8FF",
+  sky: "#A9D4FF",
+  peach: "#FFB39A",
+};
+
+/** A lighter companion of each tone, for gradients and sheen. */
+export const TONE_LIGHT: Record<CoverTone, string> = {
+  lime: "#E7F78E",
+  lilac: "#DCD0FF",
+  sky: "#CBE5FF",
+  peach: "#FFCDBC",
+};
+
+export function getTagTone(tag: string): CoverTone {
+  return TAG_TONE[tag] ?? "lilac";
+}
 
 /* ─── Clinical ranges for gauge covers ───
    Axis bounds chosen for readable markers, optimal band per common adult
@@ -135,7 +167,7 @@ const GAUGE: Record<string, { bio: keyof typeof BIO; value: number; display?: st
   "hemoglobin-14-normal": { bio: "hgb", value: 14 },
 };
 
-/* ─── Chart motifs for the rest (big Fraunces text + curve shape) ───
+/* ─── Chart motifs for the rest (big display text + curve shape) ───
    "how to lower / reduce" articles get a falling curve; growth and
    improvement topics rise; reference charts are dotted. */
 
@@ -230,7 +262,7 @@ export function getCoverSpec(post: {
   tag: string;
 }): CoverSpec {
   const cat = post.tag || "Journal";
-  const accent = TAG_ACCENT[post.tag] ?? "deep";
+  const tone = getTagTone(post.tag);
 
   const g = GAUGE[post.slug];
   if (g) {
@@ -238,7 +270,7 @@ export function getCoverSpec(post: {
     return {
       kind: "gauge",
       cat,
-      accent,
+      tone,
       label: b.label,
       unit: b.unit,
       value: g.value,
@@ -257,7 +289,7 @@ export function getCoverSpec(post: {
   return {
     kind: "chart",
     cat,
-    accent,
+    tone,
     big: m?.big ?? cat.split(" ")[0],
     suffix: m?.suffix,
     curve: m?.curve ?? curves[slugHash % curves.length],

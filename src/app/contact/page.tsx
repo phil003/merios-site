@@ -109,127 +109,104 @@ export default function ContactPage() {
           align="left"
         />
 
-        {/* ─── Form + info grid ──────────────────────────────────────────── */}
+        {/* ─── Form + info: two white cards on fog ──────────────────────── */}
         <section
-          className="px-6 pb-24 md:px-10 md:pb-32"
+          className="px-[var(--spacing-container)]"
           style={{
-            borderTop: "1px solid var(--color-grid)",
-            paddingTop: "var(--spacing-section, 6rem)",
+            paddingTop: "clamp(56px, 7vw, 104px)",
+            paddingBottom: "clamp(20px, 3vw, 40px)",
           }}
         >
-          <div className="mx-auto max-w-[1200px]">
-            <div className="grid grid-cols-1 gap-16 md:grid-cols-5 md:gap-14 lg:gap-20">
-              {/* Form — 60% (3/5 cols) */}
-              <div className="md:col-span-3">
-                <div
-                  className="mb-10 flex items-center gap-2.5"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  <span
-                    aria-hidden
-                    className="inline-block h-1.5 w-1.5 rounded-full"
-                    style={{ background: "var(--color-pulse)" }}
-                  />
-                  <span
-                    className="text-[10.5px] uppercase"
-                    style={{
-                      color: "var(--color-green-deep)",
-                      letterSpacing: "0.22em",
-                      fontWeight: 500,
-                    }}
-                  >
-                    Send a message
-                  </span>
-                </div>
-                <Suspense
-                  fallback={
-                    <div
-                      style={{
-                        minHeight: "28rem",
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 11,
-                        letterSpacing: "0.08em",
-                        color: "var(--color-ink-tertiary)",
-                      }}
-                    >
-                      Loading form…
-                    </div>
-                  }
-                >
-                  <ContactForm />
-                </Suspense>
-              </div>
-
-              {/* Info — 40% (2/5 cols) */}
+          <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-5 lg:grid-cols-12 lg:gap-6">
+            {/* Form card */}
+            <div
+              className="lg:col-span-7"
+              style={{
+                background: "var(--color-canvas-alt)",
+                border: "1px solid var(--color-grid)",
+                borderRadius: "clamp(22px, 2.4vw, 30px)",
+                padding: "clamp(22px, 3.4vw, 48px)",
+              }}
+            >
               <div
-                className="md:col-span-2 md:pl-6 lg:pl-10"
-                style={{
-                  borderLeft: "1px solid transparent",
-                }}
+                className="label mb-9"
+                style={{ color: "var(--color-ink-tertiary)" }}
               >
-                <div
-                  className="mb-10 flex items-center gap-2.5"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  <span
-                    aria-hidden
-                    className="inline-block h-1.5 w-1.5 rounded-full"
-                    style={{ background: "var(--color-pulse)" }}
-                  />
-                  <span
-                    className="text-[10.5px] uppercase"
+                <span aria-hidden className="label-dot label-dot--ink" />
+                <span>Send a message</span>
+              </div>
+              <Suspense
+                fallback={
+                  <div
+                    className="min-h-[47rem] sm:min-h-[35.5rem]"
                     style={{
-                      color: "var(--color-green-deep)",
-                      letterSpacing: "0.22em",
-                      fontWeight: 500,
+                      fontFamily: "var(--font-mono)",
+                      fontSize: 11,
+                      letterSpacing: "0.08em",
+                      color: "var(--color-ink-tertiary)",
                     }}
                   >
-                    Direct channels
-                  </span>
-                </div>
-                <ContactInfo />
+                    Loading form…
+                  </div>
+                }
+              >
+                <ContactForm />
+              </Suspense>
+            </div>
+
+            {/* Direct channels card */}
+            <div
+              className="lg:col-span-5"
+              style={{
+                background: "var(--color-canvas-alt)",
+                border: "1px solid var(--color-grid)",
+                borderRadius: "clamp(22px, 2.4vw, 30px)",
+                padding: "clamp(22px, 3.4vw, 48px)",
+              }}
+            >
+              <div
+                className="label mb-9"
+                style={{ color: "var(--color-ink-tertiary)" }}
+              >
+                <span aria-hidden className="label-dot label-dot--ink" />
+                <span>Direct channels</span>
               </div>
+              <ContactInfo />
             </div>
           </div>
         </section>
 
-        {/* ─── FAQ nudge ─────────────────────────────────────────────────── */}
+        {/* ─── FAQ nudge — a lilac pop card ──────────────────────────────── */}
         <section
-          className="px-6 pb-32 md:px-10"
-          style={{
-            borderTop: "1px solid var(--color-grid)",
-            paddingTop: "var(--spacing-section, 6rem)",
-          }}
+          className="px-[var(--spacing-container)]"
+          style={{ paddingBottom: "clamp(72px, 9vw, 128px)" }}
         >
-          <div className="mx-auto flex max-w-[1200px] flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+          <div
+            className="relative mx-auto flex max-w-[1320px] flex-col items-start gap-7 overflow-hidden md:flex-row md:items-center md:justify-between"
+            style={{
+              background: "var(--color-lilac)",
+              color: "var(--color-ink)",
+              borderRadius: "clamp(22px, 2.4vw, 30px)",
+              padding: "clamp(28px, 4.4vw, 60px)",
+            }}
+          >
             <p
-              className="max-w-[48ch]"
+              className="relative max-w-[20ch]"
               style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.5rem, 2.4vw, 2rem)",
-                lineHeight: 1.15,
-                letterSpacing: "-0.02em",
+                fontFamily: "var(--font-display)",
+                fontSize: "clamp(1.75rem, 1.15rem + 1.9vw, 2.9rem)",
+                lineHeight: 1,
+                letterSpacing: "-0.04em",
                 color: "var(--color-ink)",
-                fontWeight: 400,
+                fontWeight: 740,
+                textWrap: "balance",
               }}
             >
               Most answers are already on our FAQ page.
             </p>
-            <Link
-              href="/faq"
-              className="inline-flex items-center gap-2"
-              style={{
-                color: "var(--color-ink)",
-                fontFamily: "var(--font-sans)",
-                fontWeight: 500,
-                fontSize: "0.9375rem",
-                letterSpacing: "-0.005em",
-                borderBottom: "1px solid var(--color-ink)",
-                paddingBottom: 2,
-              }}
-            >
+            <Link href="/faq" className="btn btn-ink relative flex-none">
               Browse the FAQ
-              <span aria-hidden>→</span>
+              <span aria-hidden className="btn-arrow">→</span>
             </Link>
           </div>
         </section>

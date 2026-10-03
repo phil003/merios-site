@@ -1,14 +1,15 @@
-// Tag → Tailwind gradient classes for editorial article hero / card panels.
-// Keep tag keys exactly as emitted by the MDX frontmatter (src/lib/blog.ts).
-export const BLOG_GRADIENTS: Record<string, string> = {
-  Biomarkers: "from-[#E8F0EB] to-[#D4E4DA]",
-  Sleep: "from-[#EDE4F5] to-[#DDD2EC]",
-  Nutrition: "from-[#FFF3E0] to-[#F5E6CC]",
-  Science: "from-[#E0F0FF] to-[#CCE4F5]",
-  Lifestyle: "from-[#FDE8E8] to-[#F5CCCC]",
-  default: "from-[#F0F0F0] to-[#E0E0E0]",
-};
+// Tag → pop surface for editorial panels (category cards, emoji stickers).
+// One colour per topic family (see getTagTone in src/lib/covers.ts), so the
+// same subject reads in the same colour on covers, panels and chips.
+import { getTagTone, TONE_HEX, TONE_LIGHT } from "@/lib/covers";
 
+/** CSS background for a pop panel: the tone with a soft light sheen. */
 export function getBlogGradient(tag: string): string {
-  return BLOG_GRADIENTS[tag] ?? BLOG_GRADIENTS.default;
+  const tone = getTagTone(tag);
+  return `radial-gradient(120% 90% at 18% 0%, ${TONE_LIGHT[tone]} 0%, ${TONE_HEX[tone]} 62%)`;
+}
+
+/** Flat tone colour (dots, small stickers). */
+export function getBlogToneHex(tag: string): string {
+  return TONE_HEX[getTagTone(tag)];
 }

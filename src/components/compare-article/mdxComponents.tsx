@@ -1,4 +1,5 @@
 import type { ComponentProps, ReactNode } from "react";
+import styles from "./compareArticle.module.css";
 
 /**
  * MDX components for the /compare/[slug] editorial article.
@@ -12,6 +13,10 @@ import type { ComponentProps, ReactNode } from "react";
  *   MDX renders synchronously inside a single React pass, so the counter
  *   is safe for one-shot use (and we provide `createMdxComponents()` to
  *   force a fresh closure per render anyway).
+ * - Tables: wrapped in a scroll container (presentation only — the table
+ *   markup and its cells are rendered exactly as MDX produced them). Wide
+ *   comparison tables scroll sideways inside it on phones instead of
+ *   widening the page; it is focusable so keyboard users can scroll it too.
  */
 
 function toPlainText(node: ReactNode): string {
@@ -36,6 +41,7 @@ export function slugify(raw: string): string {
 
 type HeadingProps = ComponentProps<"h2">;
 type ParagraphProps = ComponentProps<"p">;
+type TableProps = ComponentProps<"table">;
 
 export function createMdxComponents() {
   // Counter local to this render — incremented each time we render a top-level <p>.
@@ -73,5 +79,16 @@ export function createMdxComponents() {
     );
   };
 
-  return { h2, h3, p };
+  const table = ({ className, children, ...rest }: TableProps) => (
+    <div className={styles.tableScroll} tabIndex={0}>
+      <table
+        className={[styles.table, className].filter(Boolean).join(" ")}
+        {...rest}
+      >
+        {children}
+      </table>
+    </div>
+  );
+
+  return { h2, h3, p, table };
 }

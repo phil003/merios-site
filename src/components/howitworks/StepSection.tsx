@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import styles from "./hiw.module.css";
 
 /**
  * StepSection — shared wrapper for the three deep sub-sections on
@@ -111,31 +112,17 @@ export default function StepSection({
       aria-labelledby={headlineId}
       data-hiw-section={id}
       className={[
-        "relative scroll-mt-28 py-24 md:py-32 focus:outline-none",
+        styles.step,
+        "scroll-mt-28 focus:outline-none",
         className ?? "",
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <div className="max-w-[720px]">
-        <div
-          data-rv
-          className="inline-flex items-center gap-2.5"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          <span
-            aria-hidden
-            className="inline-block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--color-pulse)" }}
-          />
-          <span
-            className="text-[10.5px] uppercase"
-            style={{
-              color: "var(--color-green-deep)",
-              letterSpacing: "0.22em",
-              fontWeight: 500,
-            }}
-          >
+      <div className={styles.stepHead}>
+        <div data-rv className={`label ${styles.eyebrow}`}>
+          <span aria-hidden className="label-dot label-dot--ink" />
+          <span>
             {stepNumber !== undefined ? (
               <>
                 Step{" "}
@@ -153,40 +140,22 @@ export default function StepSection({
         <h2
           id={headlineId}
           data-rv
-          className="mt-6"
-          style={
-            {
-              fontFamily: "var(--font-serif)",
-              fontSize: "var(--text-display-m)",
-              fontWeight: 300,
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-              color: "var(--color-ink)",
-              "--rv-delay": "0.08s",
-            } as CSSProperties
-          }
+          className={styles.stepTitle}
+          style={{ "--rv-delay": "0.08s" } as CSSProperties}
         >
           {headline}
         </h2>
 
         <p
           data-rv
-          className="mt-6 max-w-[560px]"
-          style={
-            {
-              fontFamily: "var(--font-sans)",
-              fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
-              lineHeight: 1.65,
-              color: "var(--color-ink-secondary)",
-              "--rv-delay": "0.16s",
-            } as CSSProperties
-          }
+          className={styles.stepLead}
+          style={{ "--rv-delay": "0.16s" } as CSSProperties}
         >
           {lead}
         </p>
       </div>
 
-      <div className="mt-14 md:mt-20">{children}</div>
+      <div className={styles.stepBody}>{children}</div>
     </section>
   );
 }

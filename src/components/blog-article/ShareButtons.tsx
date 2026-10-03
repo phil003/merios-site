@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "./article.module.css";
 
 interface ShareButtonsProps {
   title: string;
@@ -10,7 +11,8 @@ interface ShareButtonsProps {
 /**
  * Row of share buttons (X, LinkedIn, copy-link) for a /blog/[slug] article.
  *
- * - Three circular 40×40 buttons, canvas border, green-deep on hover.
+ * - Three 44×44 paper discs, ink glyphs; on hover they turn ink with a lime
+ *   glyph. Focus uses the global :focus-visible ring.
  * - Copy-link uses `navigator.clipboard.writeText(window.location.href)` and
  *   shows a CSS-transition "Copied" toast for ~1.8s (motion-free).
  * - External buttons open in a new tab with rel="noopener".
@@ -41,27 +43,15 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
   };
 
   return (
-    <div className="relative flex items-center gap-3">
-      <span
-        className="mr-1"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 10.5,
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-tertiary)",
-          fontWeight: 500,
-        }}
-      >
-        Share
-      </span>
+    <div className={styles.share}>
+      <span className={styles.shareLabel}>Share</span>
 
       <a
         href={xUrl}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Share on X: ${title}`}
-        className="share-btn"
+        className={styles.shareBtn}
       >
         <svg
           width="16"
@@ -79,7 +69,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Share on LinkedIn: ${title}`}
-        className="share-btn"
+        className={styles.shareBtn}
       >
         <svg
           width="16"
@@ -96,7 +86,7 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
         type="button"
         onClick={handleCopy}
         aria-label={copied ? "Link copied" : "Copy link"}
-        className="share-btn"
+        className={styles.shareBtn}
       >
         <svg
           width="16"
@@ -117,53 +107,10 @@ export default function ShareButtons({ title, slug }: ShareButtonsProps) {
       <span
         aria-live="polite"
         data-show={copied ? "true" : "false"}
-        className="share-toast pointer-events-none absolute right-0 -bottom-8 inline-flex items-center gap-2 rounded-full px-3 py-1"
-        style={{
-          background: "var(--color-ink)",
-          color: "var(--color-canvas)",
-          fontFamily: "var(--font-mono)",
-          fontSize: 10.5,
-          letterSpacing: "0.18em",
-          textTransform: "uppercase",
-        }}
+        className={`share-toast ${styles.toast}`}
       >
         {copied ? "Copied" : ""}
       </span>
-
-      <style>{`
-        .share-btn {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 9999px;
-          background: transparent;
-          border: 1px solid var(--color-grid);
-          color: var(--color-ink-secondary);
-          transition:
-            color 240ms cubic-bezier(0.22, 1, 0.36, 1),
-            border-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
-            background 240ms cubic-bezier(0.22, 1, 0.36, 1);
-          cursor: pointer;
-        }
-        .share-btn:hover,
-        .share-btn:focus-visible {
-          color: var(--color-green-deep);
-          border-color: var(--color-green-deep);
-          background: var(--color-canvas-alt);
-          outline: none;
-        }
-        .share-btn:focus-visible {
-          box-shadow: 0 0 0 2px var(--color-green-deep);
-          box-shadow: 0 0 0 2px var(--color-green-deep), 0 0 0 4px var(--color-canvas);
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .share-btn {
-            transition: none;
-          }
-        }
-      `}</style>
     </div>
   );
 }

@@ -1,6 +1,11 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import {
+  Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, CalcOutput, ResultPanel, ResultBody,
+  Empty, ResultLabel, Chip, RangeBar, CalcFoot, Footnote, ctaInkClass, ctaGhostClass, styles as s,
+  type Tone, type Zone,
+} from "./_shared";
 
 /**
  * PhenoAge biological-age calculator (Levine et al., 2018).
@@ -110,231 +115,96 @@ export default function PhenoAgeCalculator() {
   }, [age, albumin, creatinine, glucose, crp, lympho, mcv, rdw, alp, wbc]);
 
   return (
-    <section
-      aria-labelledby="phenoage-calculator-title"
-      style={{
-        background: "var(--color-canvas-alt, #ffffff)",
-        border: "1px solid var(--color-grid)",
-        borderRadius: "16px",
-        padding: "1.75rem 1.5rem",
-        margin: "2rem 0",
-      }}
-    >
-      <div
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "10.5px",
-          letterSpacing: "0.2em",
-          textTransform: "uppercase",
-          color: "var(--color-green-deep)",
-          fontWeight: 500,
-          marginBottom: "0.5rem",
-        }}
-      >
-        Free interactive tool — Levine 2018 method
-      </div>
+    <Shell labelledBy="phenoage-calculator-title" layout="stack">
+      <CalcHead>
+        <Eyebrow>Free interactive tool — Levine 2018 method</Eyebrow>
+        <CalcTitle id="phenoage-calculator-title">PhenoAge Biological Age Calculator</CalcTitle>
+        <p className={s.intro}>
+          Enter the 9 blood biomarkers from your most recent lab panel (US units)
+          plus your chronological age. The formula is the peer-reviewed PhenoAge
+          method from Levine et al., <em>Aging</em> (Albany NY), 2018.
+        </p>
+      </CalcHead>
 
-      <h2
-        id="phenoage-calculator-title"
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "1.75rem",
-          lineHeight: 1.15,
-          letterSpacing: "-0.02em",
-          color: "var(--color-ink)",
-          marginBottom: "0.5rem",
-          fontWeight: 400,
-        }}
-      >
-        PhenoAge Biological Age Calculator
-      </h2>
+      <CalcInputs>
+        <Fields cols="panel">
+          <Field label="Chronological age" unit="years" placeholder="e.g. 35" value={age} onChange={setAge} inputId="phenoage-age" step="0.01" />
+          <Field label="Albumin" unit="g/dL" placeholder="e.g. 4.5" value={albumin} onChange={setAlbumin} inputId="phenoage-alb" step="0.01" />
+          <Field label="Creatinine" unit="mg/dL" placeholder="e.g. 0.9" value={creatinine} onChange={setCreatinine} inputId="phenoage-cr" step="0.01" />
+          <Field label="Glucose (fasting)" unit="mg/dL" placeholder="e.g. 90" value={glucose} onChange={setGlucose} inputId="phenoage-glu" step="0.01" />
+          <Field label="hs-CRP" unit="mg/L" placeholder="e.g. 0.8" value={crp} onChange={setCrp} inputId="phenoage-crp" step="0.01" />
+          <Field label="Lymphocytes" unit="%" placeholder="e.g. 30" value={lympho} onChange={setLympho} inputId="phenoage-ly" step="0.01" />
+          <Field label="MCV" unit="fL" placeholder="e.g. 90" value={mcv} onChange={setMcv} inputId="phenoage-mcv" step="0.01" />
+          <Field label="RDW" unit="%" placeholder="e.g. 13" value={rdw} onChange={setRdw} inputId="phenoage-rdw" step="0.01" />
+          <Field label="Alkaline phosphatase" unit="U/L" placeholder="e.g. 70" value={alp} onChange={setAlp} inputId="phenoage-alp" step="0.01" />
+          <Field label="WBC" unit="K/µL" placeholder="e.g. 5.5" value={wbc} onChange={setWbc} inputId="phenoage-wbc" step="0.01" />
+        </Fields>
+      </CalcInputs>
 
-      <p
-        style={{
-          fontFamily: "var(--font-sans)",
-          fontSize: "0.9375rem",
-          lineHeight: 1.55,
-          color: "var(--color-ink-secondary)",
-          marginBottom: "1.5rem",
-        }}
-      >
-        Enter the 9 blood biomarkers from your most recent lab panel (US units)
-        plus your chronological age. The formula is the peer-reviewed PhenoAge
-        method from Levine et al., <em>Aging</em> (Albany NY), 2018.
-      </p>
+      <CalcOutput>
+        <ResultPanel active={!!result}>
+          {result ? (
+            <ResultBody>
+              <ResultLabel>
+                <span>Your PhenoAge</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+              </ResultLabel>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1rem",
-          marginBottom: "1.25rem",
-        }}
-      >
-        <Field label="Chronological age" unit="years" placeholder="e.g. 35" value={age} onChange={setAge} id="phenoage-age" />
-        <Field label="Albumin" unit="g/dL" placeholder="e.g. 4.5" value={albumin} onChange={setAlbumin} id="phenoage-alb" />
-        <Field label="Creatinine" unit="mg/dL" placeholder="e.g. 0.9" value={creatinine} onChange={setCreatinine} id="phenoage-cr" />
-        <Field label="Glucose (fasting)" unit="mg/dL" placeholder="e.g. 90" value={glucose} onChange={setGlucose} id="phenoage-glu" />
-        <Field label="hs-CRP" unit="mg/L" placeholder="e.g. 0.8" value={crp} onChange={setCrp} id="phenoage-crp" />
-        <Field label="Lymphocytes" unit="%" placeholder="e.g. 30" value={lympho} onChange={setLympho} id="phenoage-ly" />
-        <Field label="MCV" unit="fL" placeholder="e.g. 90" value={mcv} onChange={setMcv} id="phenoage-mcv" />
-        <Field label="RDW" unit="%" placeholder="e.g. 13" value={rdw} onChange={setRdw} id="phenoage-rdw" />
-        <Field label="Alkaline phosphatase" unit="U/L" placeholder="e.g. 70" value={alp} onChange={setAlp} id="phenoage-alp" />
-        <Field label="WBC" unit="K/µL" placeholder="e.g. 5.5" value={wbc} onChange={setWbc} id="phenoage-wbc" />
-      </div>
-
-      <div
-        aria-live="polite"
-        style={{
-          padding: "1.5rem",
-          borderRadius: "10px",
-          background: result
-            ? result.band.bg
-            : "color-mix(in srgb, var(--color-grid) 30%, var(--color-canvas))",
-          border: result ? `1px solid ${result.band.border}` : "1px solid transparent",
-          transition: "background 220ms ease, border-color 220ms ease",
-        }}
-      >
-        {result ? (
-          <>
-            <div
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "10.5px",
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: result.band.label,
-                fontWeight: 600,
-                marginBottom: "0.4rem",
-              }}
-            >
-              Your PhenoAge — {result.band.name}
-            </div>
-
-            <div style={{ display: "flex", gap: "2rem", alignItems: "baseline", flexWrap: "wrap" }}>
-              <div>
-                <div style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "3rem",
-                  lineHeight: 1,
-                  letterSpacing: "-0.03em",
-                  color: "var(--color-ink)",
-                }}>
-                  {result.phenoAge}
-                  <span style={{ fontSize: "1rem", color: "var(--color-ink-tertiary)", marginLeft: "0.4rem" }}>yrs</span>
+              <div className={s.numbers}>
+                <div>
+                  <div className={s.bigNumber}>
+                    {result.phenoAge}
+                    <span className={s.unit}>yrs</span>
+                  </div>
+                  <div className={s.caption}>
+                    Biological age
+                  </div>
                 </div>
-                <div style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "10.5px",
-                  letterSpacing: "0.16em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                  marginTop: "0.3rem",
-                }}>
-                  Biological age
+
+                <div>
+                  <div className={s.midNumber} style={{ color: TONE_INK[result.band.tone] }}>
+                    {result.delta > 0 ? "+" : ""}{result.delta}
+                    <span className={s.unit}>yrs</span>
+                  </div>
+                  <div className={s.caption}>
+                    vs chronological
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <div style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "2rem",
-                  lineHeight: 1,
-                  letterSpacing: "-0.03em",
-                  color: result.band.label,
-                  fontWeight: 500,
-                }}>
-                  {result.delta > 0 ? "+" : ""}{result.delta}
-                  <span style={{ fontSize: "0.875rem", marginLeft: "0.3rem", color: "var(--color-ink-tertiary)" }}>yrs</span>
-                </div>
-                <div style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "10.5px",
-                  letterSpacing: "0.16em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                  marginTop: "0.3rem",
-                }}>
-                  vs chronological
-                </div>
-              </div>
-            </div>
+              <RangeBar min={-10} max={10} value={result.delta} tone={result.band.tone} zones={ZONES} />
 
-            <p style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "0.9375rem",
-              lineHeight: 1.55,
-              marginTop: "1rem",
-              color: "var(--color-ink-secondary)",
-            }}>
-              {result.band.description}
-            </p>
-          </>
-        ) : (
-          <p style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.9375rem",
-            lineHeight: 1.5,
-            color: "var(--color-ink-tertiary)",
-            margin: 0,
-          }}>
-            Fill in all 10 fields above to compute your PhenoAge biological age. All values come from a standard
-            comprehensive blood panel (CBC + CMP + lipids + hs-CRP).
-          </p>
-        )}
-      </div>
+              <p className={s.resultText}>
+                {result.band.description}
+              </p>
+            </ResultBody>
+          ) : (
+            <Empty>
+              Fill in all 10 fields above to compute your PhenoAge biological age. All values come from a standard
+              comprehensive blood panel (CBC + CMP + lipids + hs-CRP).
+            </Empty>
+          )}
+        </ResultPanel>
+      </CalcOutput>
 
-      <p style={{
-        fontFamily: "var(--font-sans)",
-        fontSize: "0.8125rem",
-        color: "var(--color-ink-tertiary)",
-        marginTop: "1rem",
-        lineHeight: 1.5,
-      }}>
-        Educational tool, not a medical diagnosis. PhenoAge is validated against
-        all-cause mortality in NHANES + UK Biobank cohorts. Most actionable
-        markers to lower it: hs-CRP, fasting glucose, albumin (protein status),
-        lymphocyte% (immune health). Improvement of 0.5–2 years over 6 months
-        is realistic with consistent lifestyle change.
-      </p>
+      <CalcFoot>
+        <Footnote>
+          Educational tool, not a medical diagnosis. PhenoAge is validated against
+          all-cause mortality in NHANES + UK Biobank cohorts. Most actionable
+          markers to lower it: hs-CRP, fasting glucose, albumin (protein status),
+          lymphocyte% (immune health). Improvement of 0.5–2 years over 6 months
+          is realistic with consistent lifestyle change.
+        </Footnote>
 
-      <div style={{ marginTop: "1.25rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-        <a
-          href="/early-access"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "12.5px",
-            letterSpacing: "0.16em",
-            textTransform: "uppercase",
-            background: "var(--color-green-deep)",
-            color: "var(--color-canvas)",
-            padding: "12px 18px",
-            borderRadius: "8px",
-            textDecoration: "none",
-            display: "inline-block",
-          }}
-        >
-          Track this in Merios →
-        </a>
-        <a
-          href="/blog/biological-age-vs-chronological-age"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "12.5px",
-            letterSpacing: "0.16em",
-            textTransform: "uppercase",
-            border: "1px solid var(--color-green-deep)",
-            color: "var(--color-green-deep)",
-            padding: "12px 18px",
-            borderRadius: "8px",
-            textDecoration: "none",
-            display: "inline-block",
-          }}
-        >
-          What does this mean? →
-        </a>
-      </div>
-    </section>
+        <div className={s.ctaRow}>
+          <a href="/early-access" className={ctaInkClass}>
+            Track this in Merios <span className={`btn-arrow ${s.arrow}`}>→</span>
+          </a>
+          <a href="/blog/biological-age-vs-chronological-age" className={ctaGhostClass}>
+            What does this mean? <span className={`btn-arrow ${s.arrow}`}>→</span>
+          </a>
+        </div>
+      </CalcFoot>
+    </Shell>
   );
 }
 
@@ -343,67 +213,27 @@ function num(s: string): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
-function Field({
-  label,
-  unit,
-  placeholder,
-  value,
-  onChange,
-  id,
-}: {
-  label: string;
-  unit: string;
-  placeholder: string;
-  value: string;
-  onChange: (v: string) => void;
-  id: string;
-}) {
-  return (
-    <label htmlFor={id} style={{ display: "block" }}>
-      <span style={{
-        fontFamily: "var(--font-mono)",
-        fontSize: "10.5px",
-        letterSpacing: "0.16em",
-        textTransform: "uppercase",
-        color: "var(--color-ink-tertiary)",
-        fontWeight: 500,
-        display: "block",
-        marginBottom: "0.4rem",
-      }}>
-        {label} <span style={{ color: "var(--color-ink-tertiary)" }}>({unit})</span>
-      </span>
-      <input
-        id={id}
-        type="number"
-        inputMode="decimal"
-        min={0}
-        step="0.01"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "0.7rem 0.8rem",
-          fontFamily: "var(--font-mono)",
-          fontSize: "0.9375rem",
-          color: "var(--color-ink)",
-          background: "var(--color-canvas)",
-          border: "1px solid var(--color-grid)",
-          borderRadius: "8px",
-          outline: "none",
-        }}
-      />
-    </label>
-  );
-}
+/* Delta colour — status text tokens (defined on the card in calculators.module.css). */
+const TONE_INK: Record<Tone, string> = {
+  ok: "var(--tone-ok)",
+  warn: "var(--tone-warn-ink)",
+  bad: "var(--tone-bad-ink)",
+  neutral: "var(--color-ink)",
+};
 
-function getBand(delta: number) {
+/* Range bar scale: delta in years (presentation only — mirrors getBand). */
+const ZONES: Zone[] = [
+  { from: -10, to: -3, tone: "ok" },
+  { from: -3, to: 1, tone: "ok" },
+  { from: 1, to: 4, tone: "warn" },
+  { from: 4, to: 10, tone: "bad" },
+];
+
+function getBand(delta: number): { name: string; tone: Tone; description: string } {
   if (delta <= -3) {
     return {
       name: "Aging slower",
-      label: "var(--color-green-deep)",
-      bg: "color-mix(in srgb, var(--color-pulse) 14%, var(--color-canvas))",
-      border: "color-mix(in srgb, var(--color-pulse) 32%, transparent)",
+      tone: "ok",
       description:
         "Excellent. Your biological age is meaningfully younger than your chronological age — your lifestyle, sleep, training, and metabolic health are paying off. Keep what you're doing and re-test in 6 months to confirm the trajectory.",
     };
@@ -411,9 +241,7 @@ function getBand(delta: number) {
   if (delta < 1) {
     return {
       name: "Aging in step",
-      label: "var(--color-green-deep)",
-      bg: "color-mix(in srgb, var(--color-pulse) 7%, var(--color-canvas))",
-      border: "color-mix(in srgb, var(--color-pulse) 18%, transparent)",
+      tone: "ok",
       description:
         "On par with your chronological age. Targeted improvements (better sleep, lower hs-CRP, fasting glucose < 90) typically pull this 1–3 years younger over 6 months.",
     };
@@ -421,18 +249,14 @@ function getBand(delta: number) {
   if (delta < 4) {
     return {
       name: "Aging faster",
-      label: "#8E5F1A",
-      bg: "color-mix(in srgb, var(--color-warm, #C4882F) 16%, var(--color-canvas))",
-      border: "color-mix(in srgb, var(--color-warm, #C4882F) 32%, transparent)",
+      tone: "warn",
       description:
         "Your biology is ahead of your birthday by a few years. Highest-leverage interventions: lower hs-CRP (sleep + omega-3 + remove ultra-processed foods), tighten fasting glucose, ensure protein intake supports albumin > 4.4 g/dL.",
     };
   }
   return {
     name: "Aging significantly faster",
-    label: "#A12C2C",
-    bg: "color-mix(in srgb, #D24343 14%, var(--color-canvas))",
-    border: "color-mix(in srgb, #D24343 32%, transparent)",
+    tone: "bad",
     description:
       "Your biology is meaningfully ahead of your chronological age. This is reversible — most intervention studies show 2–6 years of biological-age reduction within 8–12 months when the worst markers are systematically improved. Discuss this with your physician.",
   };

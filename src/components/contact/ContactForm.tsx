@@ -1,12 +1,14 @@
 "use client";
 
-// ContactForm — motion/react-free. All animation is CSS:
+// ContactForm — v3 art direction, motion/react-free. All animation is CSS:
+// - Fields: white inputs with a hairline grid border, mono labels, an ink
+//   focus ring; invalid fields turn soft-alert (never an alarm red).
 // - State messages / button labels are keyed elements that remount with a
 //   small keyframe entrance (.cf-in / .cf-pop) — exits are immediate.
-// - Hover/press lifts are Tailwind `motion-safe:` utilities.
 // - Border / background / shadow changes ride plain CSS transitions.
 // Reduced motion is honored by the global
 // `@media (prefers-reduced-motion: reduce)` rule in globals.css.
+// Every selector in the scoped styles is prefixed .cf-form.
 
 import { useEffect, useId, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
@@ -51,7 +53,7 @@ function isValidType(value: string): value is InquiryType {
   );
 }
 
-// ─── Floating-label field ────────────────────────────────────────────────────
+// ─── Field ───────────────────────────────────────────────────────────────────
 
 type FieldProps = {
   id: string;
@@ -78,38 +80,9 @@ function Field({
   disabled,
   maxLength,
 }: FieldProps) {
-  const [focused, setFocused] = useState(false);
-  const floating = focused || value.length > 0;
-
-  const borderColor = invalid
-    ? "var(--color-accent-warm)"
-    : focused
-      ? "var(--color-pulse)"
-      : "rgba(14,20,18,0.22)";
-
   return (
-    <div className="relative">
-      <label
-        htmlFor={id}
-        className="pointer-events-none absolute left-0 origin-top-left select-none"
-        style={{
-          fontFamily: "var(--font-serif)",
-          color: invalid
-            ? "var(--color-accent-warm)"
-            : focused
-              ? "var(--color-green-deep)"
-              : "var(--color-ink-secondary)",
-          transform: floating
-            ? "translateY(-2px) scale(0.72)"
-            : "translateY(22px) scale(1)",
-          transformOrigin: "top left",
-          transition:
-            "transform 300ms cubic-bezier(0.22, 1, 0.36, 1), color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
-          fontSize: "1.0625rem",
-          letterSpacing: "-0.01em",
-          fontWeight: 400,
-        }}
-      >
+    <div className="cf-field" data-invalid={invalid || undefined}>
+      <label htmlFor={id} className="cf-label">
         {label}
       </label>
       <input
@@ -117,27 +90,18 @@ function Field({
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
         disabled={disabled}
         autoComplete={autoComplete}
         maxLength={maxLength}
         aria-invalid={invalid || undefined}
         aria-describedby={describedBy}
-        className="w-full bg-transparent pb-2.5 pt-6 text-base outline-none disabled:opacity-60"
-        style={{
-          fontFamily: "var(--font-sans)",
-          color: "var(--color-ink)",
-          letterSpacing: "-0.005em",
-          borderBottom: `1px solid ${borderColor}`,
-          transition: "border-color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
-        }}
+        className="cf-input"
       />
     </div>
   );
 }
 
-// ─── Floating-label textarea ─────────────────────────────────────────────────
+// ─── Textarea field ──────────────────────────────────────────────────────────
 
 type TextareaFieldProps = {
   id: string;
@@ -160,60 +124,21 @@ function TextareaField({
   disabled,
   maxLength,
 }: TextareaFieldProps) {
-  const [focused, setFocused] = useState(false);
-  const floating = focused || value.length > 0;
-
-  const borderColor = invalid
-    ? "var(--color-accent-warm)"
-    : focused
-      ? "var(--color-pulse)"
-      : "rgba(14,20,18,0.22)";
-
   return (
-    <div className="relative">
-      <label
-        htmlFor={id}
-        className="pointer-events-none absolute left-0 origin-top-left select-none"
-        style={{
-          fontFamily: "var(--font-serif)",
-          color: invalid
-            ? "var(--color-accent-warm)"
-            : focused
-              ? "var(--color-green-deep)"
-              : "var(--color-ink-secondary)",
-          transform: floating
-            ? "translateY(-2px) scale(0.72)"
-            : "translateY(22px) scale(1)",
-          transformOrigin: "top left",
-          transition:
-            "transform 300ms cubic-bezier(0.22, 1, 0.36, 1), color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
-          fontSize: "1.0625rem",
-          letterSpacing: "-0.01em",
-          fontWeight: 400,
-        }}
-      >
+    <div className="cf-field" data-invalid={invalid || undefined}>
+      <label htmlFor={id} className="cf-label">
         {label}
       </label>
       <textarea
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
         disabled={disabled}
         rows={5}
         maxLength={maxLength}
         aria-invalid={invalid || undefined}
         aria-describedby={describedBy}
-        className="w-full resize-none bg-transparent pb-2.5 pt-6 text-base outline-none disabled:opacity-60"
-        style={{
-          fontFamily: "var(--font-sans)",
-          color: "var(--color-ink)",
-          lineHeight: 1.6,
-          letterSpacing: "-0.005em",
-          borderBottom: `1px solid ${borderColor}`,
-          transition: "border-color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
-        }}
+        className="cf-input cf-textarea"
       />
     </div>
   );
@@ -230,20 +155,8 @@ type TypeSelectorProps = {
 
 function TypeSelector({ value, onChange, disabled, groupId }: TypeSelectorProps) {
   return (
-    <fieldset disabled={disabled} className="contents">
-      <legend
-        className="mb-3 block"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-tertiary)",
-          fontWeight: 500,
-        }}
-      >
-        Inquiry type
-      </legend>
+    <fieldset disabled={disabled} className="min-w-0">
+      <legend className="cf-label mb-3 block">Inquiry type</legend>
       <div
         role="radiogroup"
         aria-labelledby={groupId}
@@ -259,34 +172,9 @@ function TypeSelector({ value, onChange, disabled, groupId }: TypeSelectorProps)
               aria-checked={active}
               onClick={() => onChange(t.value)}
               disabled={disabled}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:cursor-default disabled:opacity-60 ${
-                active ? "" : "motion-safe:enabled:hover:-translate-y-px"
-              }`}
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: 13,
-                fontWeight: 500,
-                letterSpacing: "-0.005em",
-                color: active ? "var(--color-canvas)" : "var(--color-ink)",
-                border: "1px solid",
-                borderColor: active
-                  ? "var(--color-green-deep)"
-                  : "var(--color-grid)",
-                background: active
-                  ? "var(--color-green-deep)"
-                  : "var(--color-canvas-alt)",
-                cursor: disabled ? "default" : "pointer",
-              }}
+              className="cf-type"
             >
-              <span
-                aria-hidden
-                className="inline-block h-1.5 w-1.5 rounded-full"
-                style={{
-                  background: active
-                    ? "var(--color-pulse)"
-                    : "var(--color-grid)",
-                }}
-              />
+              <span aria-hidden className="cf-type-dot" />
               {t.label}
             </button>
           );
@@ -435,7 +323,7 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-8">
+    <form onSubmit={onSubmit} noValidate className="cf-form flex flex-col gap-7">
       <div id={typeLegendId} className="sr-only">
         Inquiry type
       </div>
@@ -447,7 +335,7 @@ export default function ContactForm() {
         groupId={typeLegendId}
       />
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 sm:gap-5">
         <Field
           id={nameId}
           label="Your name"
@@ -495,24 +383,18 @@ export default function ContactForm() {
       />
 
       {/* Submit + state message row */}
-      <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row sm:items-center">
-        <div
-          className="min-h-[1.25rem]"
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            letterSpacing: "0.08em",
-          }}
-        >
+      <div className="cf-actions flex flex-col-reverse items-stretch justify-between gap-4 sm:flex-row sm:items-center sm:gap-6">
+        <div className="min-h-[1.25rem]">
           {isError && errorMsg ? (
             <p
               key="error"
               id={errorId}
               role="alert"
               aria-live="polite"
-              className="cf-in"
-              style={{ color: "var(--color-accent-warm)" }}
+              className="cf-in cf-msg"
+              data-tone="error"
             >
+              <span aria-hidden className="cf-msg-dot" />
               {errorMsg}
             </p>
           ) : isSuccess ? (
@@ -521,16 +403,17 @@ export default function ContactForm() {
               id={successId}
               role="status"
               aria-live="polite"
-              className="cf-in"
-              style={{ color: "var(--color-pulse)" }}
+              className="cf-in cf-msg"
+              data-tone="success"
             >
+              <span aria-hidden className="cf-msg-dot" />
               Sent. We&rsquo;ll reply within 24h.
             </p>
           ) : (
             <p
               key="helper"
-              className={hasSubmitted ? "cf-in" : undefined}
-              style={{ color: "var(--color-ink-tertiary)" }}
+              className={hasSubmitted ? "cf-in cf-msg" : "cf-msg"}
+              data-tone="idle"
             >
               We typically reply within 24h.
             </p>
@@ -541,22 +424,8 @@ export default function ContactForm() {
           type="submit"
           disabled={isLoading || isSuccess}
           aria-busy={isLoading || undefined}
-          className={`group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-full px-7 py-3.5 transition-[background-color,box-shadow,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:cursor-default ${
-            isSuccess
-              ? "shadow-none"
-              : "shadow-[0_12px_30px_-14px_rgba(30,61,42,0.55)] motion-safe:enabled:hover:-translate-y-0.5 motion-safe:enabled:hover:shadow-[0_16px_36px_-14px_rgba(30,61,42,0.65)] motion-safe:enabled:active:-translate-y-px"
-          }`}
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontWeight: 400,
-            letterSpacing: "-0.005em",
-            fontSize: "1rem",
-            color: "var(--color-canvas)",
-            cursor: isLoading || isSuccess ? "default" : "pointer",
-            background: isSuccess
-              ? "rgba(30,61,42,0.55)"
-              : "var(--color-green-deep)",
-          }}
+          className="btn btn-ink cf-submit"
+          data-state={isSuccess ? "success" : isLoading ? "loading" : "idle"}
         >
           {isLoading ? (
             <span key="label-loading" className="cf-in">
@@ -581,7 +450,7 @@ export default function ContactForm() {
               aria-hidden
               className="cf-spinner inline-block h-3.5 w-3.5 rounded-full border-2"
               style={{
-                borderColor: "var(--color-canvas)",
+                borderColor: "currentColor",
                 borderRightColor: "transparent",
               }}
             />
@@ -595,7 +464,7 @@ export default function ContactForm() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2"
+              strokeWidth="2.25"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
@@ -609,9 +478,7 @@ export default function ContactForm() {
                 hasSubmitted ? "cf-in inline-block" : "inline-block"
               }
             >
-              <span className="group-hover:translate-x-1 inline-block transition-transform motion-reduce:transition-none">
-                →
-              </span>
+              <span className="btn-arrow inline-block">→</span>
             </span>
           )}
         </button>
@@ -622,11 +489,179 @@ export default function ContactForm() {
   );
 }
 
-// ─── Scoped animation styles ─────────────────────────────────────────────────
-// Keyframe entrances replacing the previous AnimatePresence crossfades.
-// The global prefers-reduced-motion rule in globals.css collapses these
-// to 0.01ms / a single iteration.
+// ─── Scoped styles ───────────────────────────────────────────────────────────
+// Field look + keyframe entrances (replacing the previous AnimatePresence
+// crossfades). The global prefers-reduced-motion rule in globals.css collapses
+// the animations to 0.01ms / a single iteration.
 const styles = `
+.cf-form .cf-field {
+  display: grid;
+  gap: 9px;
+}
+.cf-form .cf-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+  transition: color 200ms var(--ease-smooth);
+}
+.cf-form .cf-field:focus-within .cf-label {
+  color: var(--color-ink);
+}
+.cf-form .cf-field[data-invalid] .cf-label {
+  color: var(--color-soft-alert);
+}
+.cf-form .cf-input {
+  display: block;
+  width: 100%;
+  height: 52px;
+  margin: 0;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-grid);
+  background: #FFFFFF;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  box-shadow: 0 1px 2px rgb(16 35 26 / 0.04);
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    border-color 300ms var(--ease-smooth),
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-smooth);
+}
+.cf-form .cf-textarea {
+  height: auto;
+  min-height: 168px;
+  padding: 14px 16px;
+  line-height: 1.6;
+  resize: none;
+}
+.cf-form .cf-input:hover:not(:disabled):not(:focus) {
+  border-color: color-mix(in srgb, var(--color-ink) 28%, var(--color-grid));
+}
+.cf-form .cf-input:focus {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+  border-color: var(--color-ink);
+}
+.cf-form .cf-input[aria-invalid="true"] {
+  border-color: var(--color-soft-alert);
+  background: color-mix(in srgb, var(--color-soft-alert) 5%, #FFFFFF);
+}
+.cf-form .cf-input[aria-invalid="true"]:focus {
+  outline-color: var(--color-soft-alert);
+}
+.cf-form .cf-input:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.cf-form .cf-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-grid);
+  background: #FFFFFF;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 550;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 300ms var(--ease-expo),
+    border-color 300ms var(--ease-expo),
+    color 300ms var(--ease-expo),
+    transform 300ms var(--ease-expo);
+}
+.cf-form .cf-type-dot {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--color-grid);
+  transition: background-color 300ms var(--ease-expo), box-shadow 300ms var(--ease-expo);
+}
+.cf-form .cf-type:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--color-ink) 38%, var(--color-grid));
+}
+.cf-form .cf-type[aria-checked="true"] {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: #FFFFFF;
+}
+.cf-form .cf-type[aria-checked="true"] .cf-type-dot {
+  background: var(--color-lime);
+  box-shadow: 0 0 10px rgb(214 240 80 / 0.7);
+}
+.cf-form .cf-type:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.cf-form .cf-type:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cf-form .cf-type[aria-checked="false"]:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+}
+
+.cf-form .cf-msg {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+.cf-form .cf-msg[data-tone="idle"] { color: var(--color-ink-tertiary); }
+.cf-form .cf-msg[data-tone="error"] { color: var(--color-soft-alert); }
+.cf-form .cf-msg[data-tone="success"] { color: var(--color-green-deep); }
+.cf-form .cf-msg-dot {
+  width: 7px;
+  height: 7px;
+  margin-top: 0.43em;
+  flex: none;
+  border-radius: 999px;
+  background: currentColor;
+}
+.cf-form .cf-msg[data-tone="success"] .cf-msg-dot {
+  background: var(--color-lime);
+  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.45);
+}
+
+.cf-form .cf-submit {
+  min-width: 188px;
+  cursor: pointer;
+}
+.cf-form .cf-submit:disabled {
+  cursor: default;
+  transform: none;
+}
+.cf-form .cf-submit[data-state="loading"] {
+  opacity: 0.88;
+}
+.cf-form .cf-submit[data-state="success"] {
+  background: var(--color-lime);
+  color: var(--color-ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6);
+}
+
 @keyframes cf-in {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -638,9 +673,9 @@ const styles = `
 @keyframes cf-spin {
   to { transform: rotate(360deg); }
 }
-.cf-in { animation: cf-in 300ms var(--ease-smooth) both; }
-.cf-pop { animation: cf-pop 300ms var(--ease-smooth) both; }
-.cf-spinner {
+.cf-form .cf-in { animation: cf-in 300ms var(--ease-smooth) both; }
+.cf-form .cf-pop { animation: cf-pop 300ms var(--ease-smooth) both; }
+.cf-form .cf-spinner {
   animation: cf-pop 300ms var(--ease-smooth) both,
     cf-spin 0.9s linear infinite;
 }

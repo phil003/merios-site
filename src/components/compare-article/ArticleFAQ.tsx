@@ -1,3 +1,5 @@
+import styles from "./compareArticle.module.css";
+
 interface FaqItem {
   q: string;
   a: string;
@@ -10,27 +12,16 @@ interface ArticleFAQProps {
 /**
  * Editorial FAQ accordion for the compare article.
  *
- * Uses native <details>/<summary> for semantics + keyboard + a11y,
- * layered with a CSS-rotated chevron (`.acc-icon-flip`) — server-rendered,
- * no client JS.
+ * Native <details>/<summary> for semantics + keyboard + a11y — server-rendered,
+ * no client JS. White v3 cards on fog; the question number is a CSS counter
+ * (presentation only, not in the HTML), the chevron flips via `.acc-icon-flip`
+ * and the answer eases open where `::details-content` is supported.
  */
 export default function ArticleFAQ({ items }: ArticleFAQProps) {
   return (
-    <section className="mt-24">
-      <h2
-        className="mb-10"
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "clamp(1.875rem, 3vw, 2.5rem)",
-          fontWeight: 300,
-          lineHeight: 1.1,
-          letterSpacing: "-0.02em",
-          color: "var(--color-ink)",
-        }}
-      >
-        Frequently asked questions
-      </h2>
-      <ul className="flex flex-col gap-3">
+    <section className={styles.faq}>
+      <h2 className={styles.faqTitle}>Frequently asked questions</h2>
+      <ul className={styles.faqList}>
         {items.map((item, idx) => (
           <FaqRow key={`${idx}-${item.q}`} item={item} />
         ))}
@@ -41,39 +32,18 @@ export default function ArticleFAQ({ items }: ArticleFAQProps) {
 
 function FaqRow({ item }: { item: FaqItem }) {
   return (
-    <li>
-      <details
-        className="group"
-        style={{
-          borderLeft: "2px solid var(--color-green-deep)",
-          background:
-            "color-mix(in srgb, var(--color-ink) 2%, transparent)",
-        }}
-      >
-        <summary
-          className="flex cursor-pointer list-none items-center justify-between gap-6 px-5 py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(1.0625rem, 1.35vw, 1.25rem)",
-            fontWeight: 400,
-            lineHeight: 1.3,
-            letterSpacing: "-0.01em",
-            color: "var(--color-ink)",
-          }}
-        >
+    <li className={styles.faqItem}>
+      <details className={styles.faqDetails}>
+        <summary className={styles.faqSummary}>
           <span>{item.q}</span>
-          <span
-            aria-hidden
-            className="acc-icon-flip inline-flex h-6 w-6 flex-shrink-0 items-center justify-center"
-            style={{ color: "var(--color-green-deep)" }}
-          >
+          <span aria-hidden className={`acc-icon-flip ${styles.faqIcon}`}>
             <svg
               width="14"
               height="14"
               viewBox="0 0 14 14"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="1.6"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
@@ -81,18 +51,7 @@ function FaqRow({ item }: { item: FaqItem }) {
             </svg>
           </span>
         </summary>
-        <div
-          className="px-5 pb-5"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: 15.5,
-            lineHeight: 1.65,
-            color: "var(--color-ink-secondary)",
-            letterSpacing: "-0.003em",
-          }}
-        >
-          {item.a}
-        </div>
+        <div className={styles.faqAnswer}>{item.a}</div>
       </details>
     </li>
   );

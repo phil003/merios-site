@@ -9,6 +9,7 @@ import RelatedComparisons from "@/components/compare-article/RelatedComparisons"
 import ArticleCTA from "@/components/compare-article/ArticleCTA";
 import ArticleNotFound from "@/components/compare-article/NotFound";
 import { createMdxComponents } from "@/components/compare-article/mdxComponents";
+import styles from "@/components/compare-article/compareArticle.module.css";
 import {
   ArticleSchema,
   BreadcrumbSchema,
@@ -125,16 +126,16 @@ export default async function ComparePage({
           competitor={post.competitor}
         />
 
-        <section className="pb-24">
-          <div className="mx-auto max-w-[1200px] px-6 md:px-10">
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[220px_1fr]">
+        <section className={styles.body}>
+          <div className={styles.wrap}>
+            <div className={styles.layout}>
               {/* Sticky TOC — desktop only */}
-              <aside className="lg:pt-2">
+              <aside className={styles.tocCol}>
                 <ArticleTOC />
               </aside>
 
               {/* Article body */}
-              <div>
+              <div className={styles.main}>
                 <div data-article-body="">
                   <EditorialProse>
                     <MDXRemote
@@ -146,12 +147,12 @@ export default async function ComparePage({
                 </div>
 
                 {post.faq && post.faq.length > 0 ? (
-                  <div className="mx-auto max-w-[680px]">
+                  <div className={styles.measure}>
                     <ArticleFAQ items={post.faq} />
                   </div>
                 ) : null}
 
-                <div className="mx-auto max-w-[680px]">
+                <div className={styles.measure}>
                   <ArticleVerdict text={post.description} />
                 </div>
               </div>

@@ -14,6 +14,7 @@
 
 import { useMemo, useState } from "react";
 import BlogCard, { type BlogCardData } from "./BlogCard";
+import styles from "./blog.module.css";
 
 interface BlogFilterGridProps {
   posts: BlogCardData[];
@@ -56,9 +57,9 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
 
   return (
     <div>
-      {/* Category filter bar */}
+      {/* Category filter bar — wraps on desktop, one swipeable row on mobile */}
       <div
-        className="flex flex-wrap items-center gap-2.5"
+        className={styles.chips}
         role="tablist"
         aria-label="Filter articles by category"
       >
@@ -72,24 +73,7 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
               aria-selected={active}
               data-active={active}
               onClick={() => handleCategoryChange(cat)}
-              className="blog-chip inline-flex items-center rounded-full px-4 py-2"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 10.5,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                fontWeight: 500,
-                background: active
-                  ? "var(--color-green-deep)"
-                  : "var(--color-canvas-alt)",
-                color: active
-                  ? "var(--color-canvas)"
-                  : "var(--color-ink-secondary)",
-                border: "1px solid",
-                borderColor: active
-                  ? "var(--color-green-deep)"
-                  : "var(--color-grid)",
-              }}
+              className={`blog-chip ${styles.chip}`}
             >
               {cat}
             </button>
@@ -98,17 +82,7 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
       </div>
 
       {/* Result count */}
-      <p
-        className="mt-6"
-        aria-live="polite"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-tertiary)",
-        }}
-      >
+      <p className={styles.count} aria-live="polite">
         {filtered.length}{" "}
         {filtered.length === 1 ? "article" : "articles"}
         {activeCategory !== ALL ? ` · ${activeCategory}` : ""}
@@ -116,10 +90,7 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
 
       {/* Grid — keyed by category so a filter change remounts (and re-animates)
           the full card set */}
-      <div
-        key={activeCategory}
-        className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
-      >
+      <div key={activeCategory} className={styles.grid}>
         {visible.map((post, index) => {
           const animate = animateFrom !== null && index >= animateFrom;
           return (
@@ -143,35 +114,16 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
       </div>
 
       {filtered.length === 0 ? (
-        <p
-          className="py-16 text-center"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: 15,
-            color: "var(--color-ink-tertiary)",
-          }}
-        >
-          No articles in this category yet.
-        </p>
+        <p className={styles.empty}>No articles in this category yet.</p>
       ) : null}
 
       {/* Load more */}
       {canLoadMore ? (
-        <div className="mt-14 flex justify-center">
+        <div className={styles.loadMoreRow}>
           <button
             type="button"
             onClick={handleLoadMore}
-            className="blog-loadmore inline-flex items-center gap-3 rounded-full px-7 py-3.5"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              fontWeight: 500,
-              color: "var(--color-ink)",
-              background: "var(--color-canvas-alt)",
-              border: "1px solid var(--color-grid)",
-            }}
+            className={`blog-loadmore btn btn-ghost ${styles.loadMore}`}
           >
             Load more
             <span aria-hidden>↓</span>
@@ -179,7 +131,7 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
         </div>
       ) : null}
 
-      <style>{styles}</style>
+      <style>{cardInStyles}</style>
     </div>
   );
 }
@@ -188,7 +140,7 @@ export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
 // CSS keyframe entrance replacing the previous AnimatePresence mount
 // animation (0.6s expo, y 16 → 0). The global prefers-reduced-motion rule in
 // globals.css collapses it to 0.01ms.
-const styles = `
+const cardInStyles = `
 @keyframes bfgCardIn {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }

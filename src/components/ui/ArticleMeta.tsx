@@ -5,6 +5,8 @@ interface ArticleMetaProps {
   readingTime: number | string;
   category?: string;
   author?: string;
+  /** "light" (default) on fog / white cards, "night" on a night stage. */
+  tone?: "light" | "night";
   className?: string;
   style?: CSSProperties;
 }
@@ -24,11 +26,16 @@ function formatReadingTime(rt: number | string): string {
   return /\bread\b/i.test(rt) ? rt : `${rt} read`;
 }
 
+/**
+ * Mono meta row (date · reading time · category · author) — IBM Plex Mono
+ * caps, tabular figures, small round separators.
+ */
 export default function ArticleMeta({
   date,
   readingTime,
   category,
   author,
+  tone = "light",
   className = "",
   style,
 }: ArticleMetaProps) {
@@ -39,14 +46,19 @@ export default function ArticleMeta({
     author ? author.toUpperCase() : null,
   ].filter((p): p is string => Boolean(p));
 
+  const night = tone === "night";
+
   return (
     <div
-      className={`flex flex-wrap items-center gap-x-2.5 gap-y-1 ${className}`}
+      className={`flex flex-wrap items-center gap-x-2.5 gap-y-1.5 ${className}`}
       style={{
         fontFamily: "var(--font-mono)",
         fontSize: 11,
+        fontWeight: 500,
+        lineHeight: 1.4,
         letterSpacing: "0.14em",
-        color: "color-mix(in srgb, var(--color-ink) 60%, transparent)",
+        fontVariantNumeric: "tabular-nums",
+        color: night ? "var(--color-on-night-2)" : "var(--color-ink-tertiary)",
         ...style,
       }}
     >
@@ -57,8 +69,9 @@ export default function ArticleMeta({
               aria-hidden
               className="inline-block h-[3px] w-[3px] rounded-full"
               style={{
-                background:
-                  "color-mix(in srgb, var(--color-ink) 35%, transparent)",
+                background: night
+                  ? "rgb(244 246 247 / 0.4)"
+                  : "rgb(16 35 26 / 0.32)",
               }}
             />
           ) : null}

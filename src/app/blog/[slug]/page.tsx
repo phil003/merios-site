@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import ReadingProgress from "@/components/ui/ReadingProgress";
 import EditorialProse from "@/components/ui/EditorialProse";
-import ArticleHero from "@/components/blog-article/ArticleHero";
+import ArticleHero, { ArticleFigure } from "@/components/blog-article/ArticleHero";
 import ArticleTOC from "@/components/blog-article/ArticleTOC";
 import MobileTOC from "@/components/blog-article/MobileTOC";
 import ShareButtons from "@/components/blog-article/ShareButtons";
@@ -13,6 +13,7 @@ import SubstackSubscribe from "@/components/SubstackSubscribe";
 import ArticleNotFound from "@/components/blog-article/NotFound";
 import { createMdxComponents } from "@/components/blog-article/mdxComponents";
 import { extractHeadings } from "@/components/blog-article/toc";
+import articleStyles from "@/components/blog-article/article.module.css";
 import {
   ArticleSchema,
   BreadcrumbSchema,
@@ -154,16 +155,20 @@ export default async function BlogPostPage({
 
         <MobileTOC headings={headings} />
 
-        <section className="pb-12 md:pb-20">
-          <div className="mx-auto max-w-[1200px] px-6 pt-12 md:px-10 md:pt-16">
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-[240px_1fr] lg:gap-16">
+        <section className={articleStyles.bodySection}>
+          <div className={articleStyles.container}>
+            <div className={articleStyles.bodyGrid}>
               {/* Desktop sticky TOC */}
-              <div className="lg:pt-2">
+              <div className="lg:pt-1">
                 <ArticleTOC headings={headings} />
               </div>
 
               {/* Article body */}
               <div className="min-w-0">
+                {post.image ? (
+                  <ArticleFigure image={post.image} title={post.title} slug={post.slug} tag={post.tag} />
+                ) : null}
+
                 <div data-article-body="">
                   <EditorialProse>
                     <MDXRemote
@@ -176,7 +181,7 @@ export default async function BlogPostPage({
 
                 <div className="mx-auto max-w-[680px]">
                   <AuthorByline />
-                  <div className="mt-10">
+                  <div className="mt-8">
                     <ShareButtons title={post.title} slug={post.slug} />
                   </div>
                   <SubstackSubscribe />
@@ -189,8 +194,6 @@ export default async function BlogPostPage({
         {post.faq && post.faq.length > 0 ? (
           <ArticleFAQ items={post.faq} />
         ) : null}
-
-        <div className="mt-16 md:mt-20" />
 
         <RelatedArticles posts={related} />
         <ArticleCTA />

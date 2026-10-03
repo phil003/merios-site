@@ -1,75 +1,68 @@
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
+import styles from "./compareArticle.module.css";
 
 /**
  * Final article CTA — "Try Merios →" linking to /early-access.
- * Ink background, canvas text, Fraunces headline, centered.
+ * Night band: chrome display headline, centred, and the lime button sitting
+ * on the logo's heartbeat line (decorative, aria-hidden).
  */
 export default function ArticleCTA() {
   return (
-    <section
-      style={{
-        background: "var(--color-ink)",
-        color: "var(--color-canvas)",
-      }}
-    >
-      <div className="mx-auto max-w-[1200px] px-6 py-20 text-center md:px-10 md:py-28">
+    <section className={`night ${styles.cta}`} data-nav="dark">
+      <div className={styles.wrap}>
         <Reveal>
-          <div
-            className="inline-flex items-center gap-2.5"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            <span
-              aria-hidden
-              className="inline-block h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--color-pulse)" }}
-            />
-            <span
-              style={{
-                fontSize: 10.5,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "var(--color-pulse)",
-                fontWeight: 500,
-              }}
-            >
-              Ready to decide?
-            </span>
-          </div>
-          <h2
-            className="mx-auto mt-6 max-w-[720px]"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(2rem, 4vw, 3.25rem)",
-              fontWeight: 300,
-              lineHeight: 1.05,
-              letterSpacing: "-0.025em",
-              color: "var(--color-canvas)",
-            }}
-          >
-            See your health in one clear score.
-          </h2>
-          <div className="mt-10 flex justify-center">
-            <Link
-              href="/early-access"
-              className="group inline-flex items-center gap-3 rounded-full px-8 py-4 transition-transform duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 hover:-translate-y-0.5"
-              style={{
-                background: "var(--color-pulse)",
-                color: "var(--color-ink)",
-                fontFamily: "var(--font-sans)",
-                fontSize: 15,
-                fontWeight: 500,
-                letterSpacing: "-0.005em",
-              }}
-            >
-              Try Merios
-              <span
+          <div className={styles.ctaInner}>
+            <div className={`label ${styles.ctaLabel}`}>
+              <span aria-hidden className="label-dot" />
+              <span>Ready to decide?</span>
+            </div>
+            <h2 className={`display chrome-text ${styles.ctaTitle}`}>
+              See your health in one clear score.
+            </h2>
+            <div className={styles.ctaRow}>
+              <svg
+                className={styles.ctaPulse}
                 aria-hidden
-                className="inline-block transition-transform duration-300 group-hover:translate-x-0.5"
+                focusable="false"
+                viewBox="0 0 1440 96"
+                preserveAspectRatio="none"
               >
-                →
-              </span>
-            </Link>
+                <defs>
+                  <linearGradient
+                    id="compare-cta-pulse"
+                    x1="0"
+                    x2="1"
+                    y1="0"
+                    y2="0"
+                  >
+                    <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+                    <stop offset="0.3" stopColor="#FFFFFF" stopOpacity="0.16" />
+                    <stop offset="0.62" stopColor="#FFFFFF" stopOpacity="0.3" />
+                    <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.5" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0 48 H1100 L1114 60 L1132 10 L1156 88 L1170 48 H1320"
+                  fill="none"
+                  stroke="url(#compare-cta-pulse)"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+              <span aria-hidden className={styles.ctaPulseDot} />
+              <Link
+                href="/early-access"
+                className={`btn btn-lime ${styles.ctaButton}`}
+              >
+                Try Merios
+                <span aria-hidden className="btn-arrow">
+                  →
+                </span>
+              </Link>
+            </div>
           </div>
         </Reveal>
       </div>

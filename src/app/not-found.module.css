@@ -1,0 +1,67 @@
+/* Global 404 — v3 presentation (site v3 "finally readable").
+   A night stage: the logo's heartbeat runs along the horizon but breaks off
+   where the page should be, then picks up again towards the lime dot. */
+
+.main {
+  display: grid;
+  place-items: center;
+  min-height: min(100svh, 980px);
+  padding: clamp(132px, 16vw, 200px) var(--spacing-container) clamp(140px, 14vw, 190px);
+  overflow: hidden;
+  text-align: center;
+}
+.inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  max-width: 760px;
+}
+.eyebrow {
+  margin: 0;
+  color: var(--color-on-night-2);
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--color-peach);
+  box-shadow: 0 0 12px rgb(255 179 154 / 0.75);
+}
+.title {
+  margin: 0;
+  font-size: clamp(2.7rem, 1.2rem + 5vw, 5.8rem);
+  line-height: 0.94;
+  color: var(--color-on-night);
+}
+.copy {
+  margin: 0;
+  max-width: 32em;
+  font-family: var(--font-sans);
+  font-size: var(--text-body-l);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--color-on-night-2);
+  text-wrap: pretty;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.glow {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(90vw, 760px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgb(255 179 154 / 0.07), transparent 72%);
+}

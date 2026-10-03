@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
+import CtaPulse from "@/app/tools/CtaPulse";
 import HomaIRCalculator from "@/components/calculators/HomaIRCalculator";
 import {
   OrganizationSchema,
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
+import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
   {
@@ -86,273 +88,127 @@ export default function HomaIRCalculatorPage() {
         align="left"
       />
 
-      <main
-        className="pb-20 pt-2"
-        style={{ background: "var(--color-canvas)" }}
-      >
-        <div className="mx-auto max-w-[920px] px-6 md:px-10">
+      <main className={t.main}>
+        <div className={t.wrap}>
           <HomaIRCalculator />
 
-          <section
-            className="mt-14 max-w-[720px]"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-                marginBottom: "0.75rem",
-              }}
-            >
-              What your HOMA-IR score means
-            </h2>
-            <p
-              style={{
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: "var(--color-ink-secondary)",
-                marginBottom: "1.25rem",
-              }}
-            >
-              There is no single universal cutoff — labs and populations differ —
-              but these are the interpretation bands most widely used in research
-              and clinical practice. Read your score as a trend over time, not a
-              one-off verdict.
-            </p>
-            <div
-              style={{
-                border: "1px solid var(--color-grid)",
-                borderRadius: "12px",
-                overflow: "hidden",
-              }}
-            >
-              {[
-                {
-                  dot: "var(--color-pulse)",
-                  range: "Below 1.0",
-                  label: "Optimal",
-                  note: "High insulin sensitivity. Common in lean, active, metabolically healthy people — athletes often score below 0.8.",
-                },
-                {
-                  dot: "var(--color-green-deep)",
-                  range: "1.0 – 2.0",
-                  label: "Normal",
-                  note: "The typical healthy band. Hold it here with sleep, fiber, weight, and resistance training.",
-                },
-                {
-                  dot: "var(--color-warm)",
-                  range: "2.0 – 2.9",
-                  label: "Early insulin resistance",
-                  note: "The compensatory phase — insulin is climbing while fasting glucose still looks fine. The most reversible stage.",
-                },
-                {
-                  dot: "#B4472F",
-                  range: "3.0 and above",
-                  label: "Significant insulin resistance",
-                  note: "A strong predictor of type-2 diabetes risk. Worth discussing with your doctor and acting on now.",
-                },
-              ].map((b, i) => (
-                <div
-                  key={b.range}
-                  className="flex gap-4 px-5 py-4"
-                  style={{
-                    borderTop:
-                      i === 0 ? undefined : "1px solid var(--color-grid)",
-                  }}
-                >
-                  <span
-                    aria-hidden
-                    className="mt-1.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-                    style={{ background: b.dot }}
-                  />
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 13,
-                        fontWeight: 600,
-                        letterSpacing: "0.01em",
-                        color: "var(--color-ink)",
-                      }}
-                    >
-                      {b.range} — {b.label}
+          <section className={t.after}>
+            <div className={`editorial-prose ${t.prose}`}>
+              <h2>What your HOMA-IR score means</h2>
+              <p>
+                There is no single universal cutoff — labs and populations differ —
+                but these are the interpretation bands most widely used in research
+                and clinical practice. Read your score as a trend over time, not a
+                one-off verdict.
+              </p>
+              <div className={t.bands} data-rv="">
+                {[
+                  {
+                    dot: "lime",
+                    from: 0,
+                    to: 1,
+                    range: "Below 1.0",
+                    label: "Optimal",
+                    note: "High insulin sensitivity. Common in lean, active, metabolically healthy people — athletes often score below 0.8.",
+                  },
+                  {
+                    dot: "ok",
+                    from: 1,
+                    to: 2,
+                    range: "1.0 – 2.0",
+                    label: "Normal",
+                    note: "The typical healthy band. Hold it here with sleep, fiber, weight, and resistance training.",
+                  },
+                  {
+                    dot: "warn",
+                    from: 2,
+                    to: 3,
+                    range: "2.0 – 2.9",
+                    label: "Early insulin resistance",
+                    note: "The compensatory phase — insulin is climbing while fasting glucose still looks fine. The most reversible stage.",
+                  },
+                  {
+                    dot: "bad",
+                    from: 3,
+                    to: 4,
+                    range: "3.0 and above",
+                    label: "Significant insulin resistance",
+                    note: "A strong predictor of type-2 diabetes risk. Worth discussing with your doctor and acting on now.",
+                  },
+                ].map((b) => (
+                  <div key={b.range} className={t.bandRow}>
+                    <span aria-hidden className={t.bandDot} data-tone={b.dot} />
+                    <div className={t.bandBody}>
+                      <div className={t.bandHead}>
+                        {b.range} — {b.label}
+                      </div>
+                      <div className={t.bandNote}>{b.note}</div>
                     </div>
-                    <div
-                      style={{
-                        fontSize: 14.5,
-                        lineHeight: 1.6,
-                        color: "var(--color-ink-secondary)",
-                        marginTop: 2,
-                      }}
-                    >
-                      {b.note}
-                    </div>
+                    <span aria-hidden className={t.bandScale}>
+                      <span
+                        data-tone={b.dot}
+                        style={{ left: `${(b.from / 4) * 100}%`, width: `${((b.to - b.from) / 4) * 100}%` }}
+                      />
+                    </span>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              <h2>Why this is the first metabolic marker that drifts</h2>
+              <p>
+                Fasting glucose is a lagging indicator. By the time it rises above
+                100 mg/dL, the pancreas has been over-secreting insulin for years.
+                HOMA-IR catches that compensatory phase early — when the trajectory
+                can still be reversed with sleep, weight, fiber, and resistance
+                training, with no medication. It is the cheapest, most underrated
+                early-warning system in a routine blood panel.
+              </p>
             </div>
 
-            <h2
-              className="mt-12"
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-                marginBottom: "1rem",
-              }}
-            >
-              Why this is the first metabolic marker that drifts
-            </h2>
-            <p
-              style={{
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: "var(--color-ink-secondary)",
-              }}
-            >
-              Fasting glucose is a lagging indicator. By the time it rises above
-              100 mg/dL, the pancreas has been over-secreting insulin for years.
-              HOMA-IR catches that compensatory phase early — when the trajectory
-              can still be reversed with sleep, weight, fiber, and resistance
-              training, with no medication. It is the cheapest, most underrated
-              early-warning system in a routine blood panel.
-            </p>
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <dl className={t.faqList}>
+                {FAQ_ITEMS.map(({ q, a }) => (
+                  <div key={q} className={t.faqItem}>
+                    <dt className={t.faqQ}>{q}</dt>
+                    <dd className={t.faqA}>{a}</dd>
+                  </div>
+                ))}
+              </dl>
 
-            <h2
-              className="mt-12"
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-                marginBottom: "1rem",
-              }}
-            >
-              Frequently asked questions
-            </h2>
-            <dl>
-              {FAQ_ITEMS.map(({ q, a }) => (
-                <div
-                  key={q}
-                  className="border-b py-5"
-                  style={{ borderColor: "var(--color-grid)" }}
-                >
-                  <dt
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: 19,
-                      fontWeight: 400,
-                      letterSpacing: "-0.01em",
-                      color: "var(--color-ink)",
-                    }}
-                  >
-                    {q}
-                  </dt>
-                  <dd
-                    className="mt-2"
-                    style={{
-                      fontSize: 15.5,
-                      lineHeight: 1.65,
-                      color: "var(--color-ink-secondary)",
-                    }}
-                  >
-                    {a}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+              <p className={t.reference}>
+                Reference: Matthews DR, Hosker JP, Rudenski AS, Naylor BA,
+                Treacher DF, Turner RC. <em>Homeostasis model assessment: insulin
+                resistance and beta-cell function from fasting plasma glucose and
+                insulin concentrations in man.</em> Diabetologia 1985;28(7):412-419.
+              </p>
+            </div>
 
-            <p
-              className="mt-10"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 12,
-                letterSpacing: "0.06em",
-                lineHeight: 1.7,
-                color: "var(--color-ink-tertiary)",
-              }}
-            >
-              Reference: Matthews DR, Hosker JP, Rudenski AS, Naylor BA,
-              Treacher DF, Turner RC. <em>Homeostasis model assessment: insulin
-              resistance and beta-cell function from fasting plasma glucose and
-              insulin concentrations in man.</em> Diabetologia 1985;28(7):412-419.
-            </p>
-
-            <div
-              className="mt-12 rounded-xl p-6 md:p-7"
-              style={{
-                background: "var(--color-canvas-alt, #ffffff)",
-                border: "1px solid var(--color-grid)",
-              }}
-            >
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-green-deep)",
-                  fontWeight: 500,
-                }}
-              >
-                Track this in Merios
-              </p>
-              <p
-                className="mt-3"
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: 22,
-                  fontWeight: 300,
-                  letterSpacing: "-0.02em",
-                  color: "var(--color-ink)",
-                  lineHeight: 1.25,
-                }}
-              >
-                A single HOMA-IR is a snapshot. Twelve are a story.
-              </p>
-              <p
-                className="mt-3"
-                style={{
-                  fontSize: 14.5,
-                  lineHeight: 1.6,
-                  color: "var(--color-ink-secondary)",
-                }}
-              >
-                Merios recalculates HOMA-IR every time you upload a blood panel and overlays the curve with sleep, weight, and check-ins — so you can see what's actually moving the needle.
-              </p>
-              <Link
-                href="/early-access"
-                className="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-[14px] font-medium transition-all hover:-translate-y-0.5"
-                style={{
-                  background: "var(--color-green-deep)",
-                  color: "var(--color-canvas)",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
-                Get the app
-              </Link>
-              <Link
-                href="/tools/tyg-index-calculator"
-                style={{ textDecoration: "underline" }}
-              >
-                No insulin on your report? Use the TyG index instead →
-              </Link>
-              <Link
-                href="/blog/homa-ir-insulin-resistance"
-                className="mt-5 ml-3 inline-flex items-center gap-2 px-3 py-3 text-[14px] font-medium"
-                style={{
-                  color: "var(--color-ink-secondary)",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
-                Read the primer →
-              </Link>
+            <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
+              <div className={t.ctaCopy}>
+                <p className={`label ${t.ctaEyebrow}`}>
+                  <span aria-hidden className="label-dot" />
+                  Track this in Merios
+                </p>
+                <p className={`chrome-text ${t.ctaQuote}`}>
+                  A single HOMA-IR is a snapshot. Twelve are a story.
+                </p>
+                <p className={t.ctaText}>
+                  Merios recalculates HOMA-IR every time you upload a blood panel and overlays the curve with sleep, weight, and check-ins — so you can see what's actually moving the needle.
+                </p>
+              </div>
+              <div className={t.ctaActions}>
+                <Link href="/early-access" className="btn btn-lime">
+                  Get the app
+                </Link>
+                <Link href="/tools/tyg-index-calculator" className={t.ctaTextLink}>
+                  No insulin on your report? Use the TyG index instead →
+                </Link>
+                <Link href="/blog/homa-ir-insulin-resistance" className="btn btn-ghost-night">
+                  Read the primer →
+                </Link>
+              </div>
+              <CtaPulse />
             </div>
           </section>
         </div>

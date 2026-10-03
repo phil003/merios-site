@@ -6,6 +6,7 @@ import { BreadcrumbSchema } from "@/components/StructuredData";
 import BlogJsonLd from "@/components/blog/BlogJsonLd";
 import FeaturedCard from "@/components/blog/FeaturedCard";
 import BlogFilterGrid from "@/components/blog/BlogFilterGrid";
+import styles from "@/components/blog/blog.module.css";
 import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -60,7 +61,7 @@ export default function BlogPage() {
             className="py-24 md:py-32"
             style={{ background: "var(--color-canvas)" }}
           >
-            <div className="mx-auto max-w-[1200px] px-6 md:px-10">
+            <div className={styles.container}>
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
@@ -85,7 +86,7 @@ export default function BlogPage() {
               className="relative pb-24 md:pb-32"
               style={{ background: "var(--color-canvas)" }}
             >
-              <div className="mx-auto max-w-[1200px] px-6 md:px-10">
+              <div className={styles.container}>
                 <BlogFilterGrid posts={rest} />
               </div>
             </section>

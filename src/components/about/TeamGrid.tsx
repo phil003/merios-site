@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 
+import styles from "./about.module.css";
+
 interface TeamMember {
   name: string;
   role: string;
@@ -31,136 +33,76 @@ const TEAM: TeamMember[] = [
  * (globals.css Reveal v2 + the inline IntersectionObserver in layout.tsx).
  * Content is visible by default in the static HTML; reduced motion is handled
  * globally (html[data-anim] is never set).
+ *
+ * v3: white cards. A filled seat gets a night tile with chrome initials over
+ * the logo's pulse; an open seat is drawn as a dashed, empty tile.
  */
 export default function TeamGrid() {
   return (
-    <section
-      className="px-6 md:px-10"
-      style={{
-        borderTop: "1px solid var(--color-grid)",
-        paddingTop: "var(--spacing-section)",
-        paddingBottom: "var(--spacing-section)",
-        background: "var(--color-canvas)",
-      }}
-      aria-labelledby="about-team-title"
-    >
-      <div className="mx-auto max-w-[1200px]">
-        <div className="mb-14 md:mb-20">
-          <div
-            className="mb-5 flex items-center gap-2.5"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            <span
-              aria-hidden
-              className="inline-block h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--color-pulse)" }}
-            />
-            <span
-              className="text-[10.5px] uppercase"
-              style={{
-                color: "var(--color-green-deep)",
-                letterSpacing: "0.22em",
-                fontWeight: 500,
-              }}
-            >
-              Team
-            </span>
+    <section className={styles.section} aria-labelledby="about-team-title">
+      <div className={styles.container}>
+        <div className={styles.head}>
+          <div className={`label ${styles.eyebrow}`}>
+            <span aria-hidden className="label-dot label-dot--ink" />
+            <span>Team</span>
           </div>
 
-          <h2
-            id="about-team-title"
-            className="max-w-[24ch]"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "var(--text-display-m)",
-              fontWeight: 400,
-              lineHeight: 1.08,
-              letterSpacing: "-0.03em",
-              color: "var(--color-ink)",
-            }}
-          >
+          <h2 id="about-team-title" className={styles.title}>
             Small team. Editorial standards.
           </h2>
         </div>
 
-        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-          {TEAM.map((member, i) => (
-            <li
-              key={member.name}
-              data-rv=""
-              className="flex flex-col gap-6 md:flex-row md:gap-8"
-              style={
-                {
-                  "--rv-delay": `${(0.05 + i * 0.09).toFixed(2)}s`,
-                } as CSSProperties
-              }
-            >
-              <div
-                aria-hidden
-                className="relative aspect-square w-full max-w-[200px] flex-shrink-0 overflow-hidden rounded-2xl md:w-[180px]"
-                style={{
-                  background:
-                    "linear-gradient(135deg, color-mix(in srgb, var(--color-green-deep) 8%, var(--color-canvas-alt)), var(--color-canvas-alt))",
-                  border: "1px solid var(--color-grid)",
-                }}
+        <ul className={styles.team}>
+          {TEAM.map((member, i) => {
+            const open = /open role/i.test(member.role);
+            return (
+              <li
+                key={member.name}
+                data-rv=""
+                style={
+                  {
+                    "--rv-delay": `${(0.05 + i * 0.09).toFixed(2)}s`,
+                  } as CSSProperties
+                }
               >
-                <span
-                  className="absolute inset-0 flex items-center justify-center"
-                  style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: "clamp(2.5rem, 5vw, 3.5rem)",
-                    fontWeight: 300,
-                    letterSpacing: "-0.04em",
-                    color:
-                      "color-mix(in srgb, var(--color-green-deep) 60%, transparent)",
-                  }}
-                >
-                  {member.initials}
-                </span>
-              </div>
+                <div className={styles.member}>
+                  <div
+                    aria-hidden
+                    className={`${styles.portrait} ${open ? styles.portraitOpen : `night ${styles.portraitNight}`}`}
+                  >
+                    {open ? null : (
+                      <svg
+                        className={styles.portraitPulse}
+                        viewBox="0 0 168 26"
+                        preserveAspectRatio="none"
+                        focusable="false"
+                      >
+                        <path
+                          d="M0 13 H96 L102 18 L109 3 L118 24 L123 13 H150"
+                          fill="none"
+                          stroke="rgb(255 255 255 / 0.32)"
+                          strokeWidth="1.4"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          vectorEffect="non-scaling-stroke"
+                        />
+                        <circle cx="150" cy="13" r="3.2" fill="#D6F050" />
+                      </svg>
+                    )}
+                    <span className={`${styles.initials} ${open ? "" : "chrome-text"}`}>
+                      {member.initials}
+                    </span>
+                  </div>
 
-              <div className="flex flex-col justify-center">
-                <h3
-                  style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: "clamp(1.5rem, 2vw, 1.875rem)",
-                    fontWeight: 400,
-                    lineHeight: 1.1,
-                    letterSpacing: "-0.02em",
-                    color: "var(--color-ink)",
-                  }}
-                >
-                  {member.name}
-                </h3>
-
-                <p
-                  className="mt-2"
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 11.5,
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    color: "var(--color-ink-tertiary)",
-                    fontWeight: 500,
-                  }}
-                >
-                  {member.role}
-                </p>
-
-                <p
-                  className="mt-4 max-w-[44ch]"
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "0.9375rem",
-                    lineHeight: 1.6,
-                    color: "var(--color-ink-secondary)",
-                  }}
-                >
-                  {member.bio}
-                </p>
-              </div>
-            </li>
-          ))}
+                  <div>
+                    <h3 className={styles.memberName}>{member.name}</h3>
+                    <p className={styles.memberRole}>{member.role}</p>
+                    <p className={styles.memberBio}>{member.bio}</p>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

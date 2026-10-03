@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import styles from "./compareArticle.module.css";
 
 interface TocItem {
   id: string;
@@ -13,7 +14,8 @@ interface TocItem {
  * On mount, scans the article body (`[data-article-body]`) for `h2[id]`
  * elements and renders them as anchor links. Uses IntersectionObserver with
  * `rootMargin: "-40% 0px -55% 0px"` to flag the currently-read section.
- * Active state underline fades via a plain CSS transition (motion-free).
+ * The active item gets an ink rail marker and an ink/lime number chip
+ * (plain CSS transitions in compareArticle.module.css).
  *
  * Desktop only (hidden below lg) — mobile users get the full article without
  * a TOC, which keeps the layout pragmatic.
@@ -76,67 +78,26 @@ export default function ArticleTOC() {
   return (
     <nav
       aria-label="On this page"
-      className="hidden lg:sticky lg:top-28 lg:block"
+      className={`hidden lg:sticky lg:top-28 lg:block ${styles.toc}`}
     >
-      <p
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 10.5,
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-tertiary)",
-          fontWeight: 500,
-          marginBottom: 18,
-        }}
-      >
+      <p className={styles.tocLabel}>
+        <span aria-hidden className="label-dot label-dot--ink" />
         On this page
       </p>
-      <ol
-        className="flex flex-col gap-3 border-l pl-4"
-        style={{ borderColor: "var(--color-grid)" }}
-      >
+      <ol className={styles.tocList}>
         {items.map((item, i) => {
           const isActive = activeId === item.id;
           return (
-            <li key={item.id} className="relative">
+            <li key={item.id}>
               <a
                 href={`#${item.id}`}
                 aria-current={isActive ? "location" : undefined}
-                className="group relative inline-flex items-baseline gap-3 rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 13.5,
-                  color: isActive
-                    ? "var(--color-ink)"
-                    : "var(--color-ink-secondary)",
-                  letterSpacing: "-0.005em",
-                }}
+                className={styles.tocLink}
               >
-                <span
-                  aria-hidden
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10.5,
-                    letterSpacing: "0.08em",
-                    color: isActive
-                      ? "var(--color-green-deep)"
-                      : "var(--color-ink-tertiary)",
-                  }}
-                >
+                <span aria-hidden className={styles.tocNum}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="relative inline-block">
-                  {item.label}
-                  <span
-                    aria-hidden
-                    className="absolute -bottom-0.5 left-0 right-0 h-px"
-                    style={{
-                      background: "var(--color-green-deep)",
-                      opacity: isActive ? 1 : 0,
-                      transition: "opacity 240ms var(--ease-expo)",
-                    }}
-                  />
-                </span>
+                <span>{item.label}</span>
               </a>
             </li>
           );

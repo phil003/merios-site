@@ -35,35 +35,56 @@ card-level surface, no detail route:
 Code source of truth: `src/content/biomarkers.ts` (exports `PILLARS` +
 `BLOOD_SYSTEMS`).
 
-## Design direction
+## Design direction (site v3, October 2026)
 
-Premium editorial biotech. Intersection of hundred.com (polish, minimalism) and
-Oura/Whoop (data-forward, clinical precision). Calm authority, not warm wellness.
+"Your health, finally readable." Motion · Chrome × pop — the art direction of the
+organic ads and App Store v2. Night graphite stages lit like chrome, lime as the only
+signal colour, lilac / sky / peach as pop accents, fog as the reading surface.
+Full spec: `docs/superpowers/specs/2026-10-03-site-v3-design.md`. Approved mockup:
+`../design/site-v3_2026-10-03/` (Desktop/Merios).
+
+Page skeleton: night masthead (`PageHero` or an article hero, `data-nav="dark"`) →
+fog body → night footer. Primitives live in globals.css (`.night`, `.display`,
+`.label` + `.label-dot`, `.btn-lime/-ink/-ghost/-ghost-night`, `.glass`,
+`.glass-light`, `.pulse-rule`, `.editorial-prose`); the logo is `src/components/ui/Logo.tsx`
+(never redraw it by hand).
 
 ## Typography
 
-- Display: Fraunces (variable, opsz+soft axes) via Google Fonts
-- Sans: Inter Tight via Google Fonts
-- Mono: JetBrains Mono via Google Fonts
+- Display + UI: Bricolage Grotesque (`--font-display` / `--font-sans`), 740–760 for
+  headlines, tight tracking (-0.035em…-0.045em)
+- Long reads, numerals, pull quotes, wordmark: Newsreader (`--font-serif`)
+- Data, labels, eyebrows, lab values: IBM Plex Mono (`--font-mono`)
+- Rare hand annotations: Caveat (`--font-hand`)
 
-Never use Inter, Roboto, Arial, Space Grotesk alone for display — they're banned
-by the frontend-design skill rules and are overused.
+All via `next/font/google` in `src/app/layout.tsx`. OG images use the
+`@fontsource/*` .woff files (satori cannot read woff2).
 
 ## Palette (tokens in globals.css)
 
-- Ink: #0E1412 (primary text, dominant)
-- Canvas: #F7F5EF (dominant background)
-- Green deep: #1E3D2A (CTA, accents)
-- Pulse: #9FBF00 (data indicators, sparks)
-- Warm: #C4882F (alerts)
-- Grid: #E8E3D6 (dividers)
+- Night: #090C0E / #12171B / #1A2126 (night stages — use `.night`)
+- Fog: #EFF1EC (reading surface, `--color-canvas`) · Paper/cards: #FFFFFF
+- Ink: #10231A (text on light) · secondary #3E4C44 (AAA) · tertiary #5B6760
+- Lime: #D6F050 (the only signal colour: dots, bars, highlights, primary CTA —
+  never body text on light; use #5E7400 for lime-family text)
+- Pop accents: lilac #C9B8FF · sky #A9D4FF · peach #FFB39A
+- Forest: #24503A ("in range", icons) · soft alert: #A45B3C ("outside your range",
+  never an alert red) · warm: #B9762C (borderline)
+- Coral: #FF5A3C — only for a lab's own H/L flags
+- Grid: #D9DED4 (hairlines on fog)
+
+Legacy token names (`--color-green-deep`, `--color-pulse`, `--color-canvas`, …) are
+remapped to the v3 values, so older components re-theme automatically.
 
 ## Motion
 
-- Use GSAP + ScrollTrigger for scroll-driven cinematic effects (pinning, scrub,
-  stagger reveals).
-- Use Lenis for smooth scroll globally (wrap in LenisProvider, sync with GSAP).
-- Use Motion (motion.dev) for React component micro-interactions.
+- CSS first: entrances above the fold use parse-time keyframes (`.he`, `.ph-char`,
+  `.rd-word`) so LCP never waits for JavaScript; scroll reveals use `data-rv` /
+  `<Reveal>` (inline IntersectionObserver, zero bundle JS).
+- The homepage scenes (`src/components/home/*`) are scroll-driven with small
+  rAF-throttled handlers — no GSAP. GSAP / ScrollTrigger only where a page really
+  needs scrubbing, loaded with dynamic `import()`. Lenis stays desktop-only
+  (LenisProvider).
 - Canonical easings: expo out [0.16, 1, 0.3, 1], smooth [0.22, 1, 0.36, 1].
 - Durations: quick 300ms, normal 600ms, slow 1100ms. Never exceed 1200ms.
 - Always respect prefers-reduced-motion — disable Lenis, fade opacity only.

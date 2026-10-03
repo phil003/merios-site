@@ -13,6 +13,7 @@ import ScienceAdvisoryBoard from "@/components/science/AdvisoryBoard";
 import ScienceCitations from "@/components/science/Citations";
 import { CITATIONS } from "@/components/science/data";
 import ScienceStickyTOC from "@/components/science/StickyTOC";
+import styles from "@/components/science/science.module.css";
 
 export const metadata: Metadata = {
   title:
@@ -67,23 +68,14 @@ export default function SciencePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main style={{ background: "var(--color-canvas)" }}>
-        {/* 1 · Hero — full-bleed, TOC not yet visible to avoid visual noise */}
+      <main className={styles.page}>
+        {/* 1 · Hero — full-bleed night masthead, TOC not yet visible */}
         <ScienceHero />
 
         {/* 2+ · Editorial body with sticky TOC on lg+ */}
-        <div
-          className="relative"
-          style={{ background: "var(--color-canvas)" }}
-        >
-          <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-x-10 px-6 md:px-10 lg:grid-cols-[200px_1fr] lg:gap-x-12">
-            <aside
-              className="hidden lg:block"
-              style={{
-                // Ensure the sticky TOC sits below the navbar
-                paddingTop: "7rem",
-              }}
-            >
+        <div className={styles.container}>
+          <div className={styles.bodyGrid}>
+            <aside className={`hidden lg:block ${styles.tocAside}`}>
               <ScienceStickyTOC />
             </aside>
 
@@ -95,99 +87,73 @@ export default function SciencePage() {
               <ScienceBioAge />
               <ScienceAdvisoryBoard />
               <ScienceCitations />
-
-              {/* 8 · Closing CTA — NOT a waitlist form. */}
-              <section
-                id="next"
-                aria-labelledby="science-next-heading"
-                className="relative border-t py-28 md:py-36"
-                style={{
-                  background: "var(--color-canvas)",
-                  borderColor: "var(--color-grid)",
-                }}
-              >
-                <div className="mx-auto max-w-[960px]">
-                  <Reveal amount={0.2}>
-                    <span
-                      className="inline-flex items-center gap-2.5"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      <span
-                        aria-hidden
-                        className="inline-block h-1.5 w-1.5 rounded-full"
-                        style={{ background: "var(--color-pulse)" }}
-                      />
-                      <span
-                        className="text-[10.5px] uppercase"
-                        style={{
-                          color: "var(--color-green-deep)",
-                          letterSpacing: "0.22em",
-                          fontWeight: 500,
-                        }}
-                      >
-                        Next
-                      </span>
-                    </span>
-                  </Reveal>
-
-                  <Reveal amount={0.2} delay={0.1}>
-                    <h2
-                      id="science-next-heading"
-                      className="mt-6 max-w-[18ch]"
-                      style={{
-                        fontFamily: "var(--font-serif)",
-                        fontSize: "var(--text-display-l)",
-                        fontWeight: 300,
-                        lineHeight: 1.02,
-                        letterSpacing: "-0.03em",
-                        color: "var(--color-ink)",
-                      }}
-                    >
-                      Get Merios&nbsp;→
-                    </h2>
-                  </Reveal>
-
-                  <Reveal amount={0.2} delay={0.2}>
-                    <div className="mt-10 flex flex-col items-start gap-6 md:flex-row md:items-center md:gap-10">
-                      <Link
-                        href="/early-access"
-                        className="inline-flex items-center gap-3 rounded-full px-7 py-3.5 transition-colors"
-                        style={{
-                          background: "var(--color-green-deep)",
-                          color: "var(--color-canvas)",
-                          fontFamily: "var(--font-sans)",
-                          fontSize: 15,
-                          fontWeight: 500,
-                          letterSpacing: "-0.005em",
-                        }}
-                      >
-                        Get the app
-                        <span aria-hidden>→</span>
-                      </Link>
-
-                      <Link
-                        href="/blog"
-                        className="inline-flex items-center gap-2 transition-colors"
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontSize: 15,
-                          color: "var(--color-ink)",
-                          letterSpacing: "-0.005em",
-                          borderBottom:
-                            "1px solid var(--color-grid)",
-                          paddingBottom: 2,
-                        }}
-                      >
-                        Read the journal
-                        <span aria-hidden>→</span>
-                      </Link>
-                    </div>
-                  </Reveal>
-                </div>
-              </section>
             </div>
           </div>
         </div>
+
+        {/* 8 · Closing CTA — NOT a waitlist form. A night band that hands
+            over to the night footer, the heartbeat along its lower edge. */}
+        <section
+          id="next"
+          aria-labelledby="science-next-heading"
+          className={`night ${styles.next}`}
+          data-nav="dark"
+        >
+          <div className={styles.container}>
+            <Reveal amount={0.2}>
+              <span className="label" style={{ color: "var(--color-on-night-2)" }}>
+                <span aria-hidden className="label-dot" />
+                <span>Next</span>
+              </span>
+            </Reveal>
+
+            <Reveal amount={0.2} delay={0.1}>
+              <h2 id="science-next-heading" className={styles.nextTitle}>
+                Get Merios&nbsp;<span className={styles.nextArrow}>→</span>
+              </h2>
+            </Reveal>
+
+            <Reveal amount={0.2} delay={0.2}>
+              <div className={styles.nextActions}>
+                <Link href="/early-access" className="btn btn-lime">
+                  Get the app
+                  <span aria-hidden className="btn-arrow">→</span>
+                </Link>
+
+                <Link href="/blog" className="btn btn-ghost-night">
+                  Read the journal
+                  <span aria-hidden className="btn-arrow">→</span>
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+
+          <svg
+            className="v3-hero__pulse"
+            aria-hidden
+            focusable="false"
+            viewBox="0 0 1440 120"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <linearGradient id="sci-next-pulse-fade" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+                <stop offset="0.45" stopColor="#FFFFFF" stopOpacity="0.22" />
+                <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.5" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
+              fill="none"
+              stroke="url(#sci-next-pulse-fade)"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+          <span className="v3-hero__dot" aria-hidden />
+        </section>
       </main>
       <Footer />
     </>

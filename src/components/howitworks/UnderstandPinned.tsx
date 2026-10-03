@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import styles from "./hiw.module.css";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -15,6 +16,9 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  *       desktopFull  → ScrollTrigger pin + scrub 0.8, pins the inner child
  *                      (not the wrapper section). pinSpacing: true. Breakpoint
  *                      `(min-width: 768px)` so tablets get the scrub too.
+ *                      v3: the pin is anchored on the night stage itself
+ *                      ("center center") so the stage holds mid-viewport
+ *                      instead of below the fold.
  *       mobileFull   → below 768px: stacked flow, one-shot onEnter reveal
  *                      (no pin, everything sits as regular sections).
  *       reduced      → everything visible, zero animation, no pin.
@@ -29,8 +33,12 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  *
  * Sub-animations folded into the scrubbed timeline:
  *   - Score counter animates 0 → 76
+ *   - Four pillar arcs (Blood · Activity · Recovery · Zen) sweep in around it
  *   - Three sparklines draw in via strokeDashoffset 0
  *   - Three copy lines fade + slide up, staggered
+ *
+ * The static HTML ships the arcs fully drawn (no-JS / reduced-motion safe);
+ * only the animated branches arm the hidden starting state.
  */
 
 const SPARKLINES = [
@@ -50,6 +58,27 @@ const COPY_LINES = [
 
 // Parallax travel in px at the end of the scrub.
 const PARALLAX_TRAVEL = 90;
+
+// Four concentric pillar arcs around the score (outer → inner). Purely
+// illustrative sweeps — no labels, no values — whose mean echoes the 76.
+const RING_CENTER = 180;
+const RING_STROKE = 13;
+const ARCS = [
+  { r: 166, sweep: 0.82, color: "var(--hiw-blood)" },
+  { r: 145, sweep: 0.7, color: "var(--hiw-activity)" },
+  { r: 124, sweep: 0.78, color: "var(--hiw-recovery)" },
+  { r: 103, sweep: 0.74, color: "var(--hiw-zen)" },
+].map((a) => {
+  const c = 2 * Math.PI * a.r;
+  // dash = c, gap = 2c: the empty state (offset c + 2) leaves no zero-length
+  // dash behind, so round caps never paint a dot at 12 o'clock.
+  return {
+    ...a,
+    dash: `${c.toFixed(2)} ${(c * 2).toFixed(2)}`,
+    empty: c + 2,
+    off: c * (1 - a.sweep),
+  };
+});
 
 export default function UnderstandPinned() {
   const container = useRef<HTMLDivElement>(null);
@@ -85,7 +114,16 @@ export default function UnderstandPinned() {
             });
           });
 
+          const arcs = root.querySelectorAll<SVGCircleElement>(
+            ".hiw-understand-arc",
+          );
+          const arcFinal = (_: number, el: SVGCircleElement) =>
+            Number(el.dataset.off ?? 0);
+          const arcEmpty = (_: number, el: SVGCircleElement) =>
+            Number(el.dataset.empty ?? 0);
+
           if (c.reduced) {
+            gsap.set(arcs, { strokeDashoffset: arcFinal });
             gsap.set(
               [
                 ".hiw-understand-score",
@@ -102,22 +140,25 @@ export default function UnderstandPinned() {
             return;
           }
 
-          // Shared starting state.
-          gsap.set(".hiw-understand-line", { opacity: 0, y: 18 });
+          // Shared starting state. v3: the night stage is visible before
+          // the pin, so it waits "dimmed" (empty tracks, faint copy) rather
+          // than as an empty panel; the scrub fills it in.
+          gsap.set(".hiw-understand-line", { opacity: 0.22, y: 18 });
           gsap.set(".hiw-understand-ring", {
-            opacity: 0,
+            opacity: 1,
             scale: 0.94,
             transformOrigin: "50% 50%",
           });
-          gsap.set(".hiw-understand-score", { opacity: 0 });
+          gsap.set(".hiw-understand-score", { opacity: 0.35 });
+          gsap.set(arcs, { strokeDashoffset: arcEmpty });
           const scoreProxy = { value: 0 };
 
           if (c.desktopFull && pinTarget.current) {
             const tl = gsap.timeline({
               defaults: { ease: "power2.out" },
               scrollTrigger: {
-                trigger: root,
-                start: "top top",
+                trigger: pinTarget.current,
+                start: "center center",
                 end: "+=800",
                 pin: pinTarget.current,
                 pinSpacing: true,
@@ -149,6 +190,16 @@ export default function UnderstandPinned() {
                       );
                     }
                   },
+                },
+                0.05,
+              )
+              .to(
+                arcs,
+                {
+                  strokeDashoffset: arcFinal,
+                  duration: 0.7,
+                  stagger: 0.06,
+                  ease: "power2.out",
                 },
                 0.05,
               )
@@ -226,6 +277,13 @@ export default function UnderstandPinned() {
                     }
                   },
                 });
+                gsap.to(arcs, {
+                  strokeDashoffset: arcFinal,
+                  duration: 1.1,
+                  stagger: 0.06,
+                  ease: "expo.out",
+                  delay: 0.15,
+                });
                 gsap.to(sparkPaths, {
                   strokeDashoffset: 0,
                   duration: 1.1,
@@ -259,187 +317,100 @@ export default function UnderstandPinned() {
       aria-labelledby={headlineId}
       data-hiw-section="understand"
       ref={container}
-      className="relative scroll-mt-28 py-24 md:py-32 focus:outline-none"
+      className={`${styles.step} scroll-mt-28 focus:outline-none`}
     >
-      <div className="max-w-[720px]">
-        <div
-          className="inline-flex items-center gap-2.5"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          <span
-            aria-hidden
-            className="inline-block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--color-pulse)" }}
-          />
-          <span
-            className="text-[10.5px] uppercase"
-            style={{
-              color: "var(--color-green-deep)",
-              letterSpacing: "0.22em",
-              fontWeight: 500,
-            }}
-          >
-            Step 02 — Understand
-          </span>
+      <div className={styles.stepHead}>
+        <div className={`label ${styles.eyebrow}`}>
+          <span aria-hidden className="label-dot label-dot--ink" />
+          <span>Step 02 — Understand</span>
         </div>
 
-        <h2
-          id={headlineId}
-          className="mt-6"
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "var(--text-display-m)",
-            fontWeight: 300,
-            lineHeight: 1.05,
-            letterSpacing: "-0.025em",
-            color: "var(--color-ink)",
-          }}
-        >
+        <h2 id={headlineId} className={styles.stepTitle}>
           One score. Every marker. Clear trends.
         </h2>
 
-        <p
-          className="mt-6 max-w-[560px]"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "clamp(1rem, 1.2vw, 1.125rem)",
-            lineHeight: 1.65,
-            color: "var(--color-ink-secondary)",
-          }}
-        >
+        <p className={styles.stepLead}>
           Merios compresses 150+ biomarkers into a single number — then expands
           them back into the trend view your body actually needs.
         </p>
       </div>
 
-      {/* Pinned stage — the inner ref is what ScrollTrigger pins. */}
-      <div
-        ref={pinTarget}
-        className="mt-14 grid grid-cols-1 items-center gap-12 md:mt-20 md:grid-cols-[1fr_1.1fr] md:gap-16"
-      >
-        {/* LEFT — score visual (parallax layer A: background rings) */}
-        <div className="relative flex items-center justify-center">
-          <div className="relative h-[280px] w-[280px] md:h-[360px] md:w-[360px]">
-            {/* Parallax A — background rings, speed -0.3 */}
+      {/* Pinned stage — the inner ref is what ScrollTrigger pins. A night
+          panel so the lime traces read at full strength. */}
+      <div ref={pinTarget} className={`night ${styles.stage}`}>
+        <span aria-hidden className={styles.stageGlow} />
+        <div className={styles.stageGrid}>
+          {/* LEFT — score visual (parallax layer A: background rings) */}
+          <div className={styles.ringBox}>
+            {/* Parallax A — pillar rings, speed -0.3 */}
             <div className="hiw-parallax-a absolute inset-0 will-change-transform">
               <svg
                 viewBox="0 0 360 360"
-                className="hiw-understand-ring absolute inset-0 h-full w-full"
+                className={`hiw-understand-ring ${styles.ringSvg}`}
                 aria-hidden
               >
-                <circle
-                  cx="180"
-                  cy="180"
-                  r="150"
-                  fill="none"
-                  stroke="var(--color-grid)"
-                  strokeWidth="1"
-                />
-                <circle
-                  cx="180"
-                  cy="180"
-                  r="120"
-                  fill="none"
-                  stroke="var(--color-grid)"
-                  strokeWidth="1"
-                  opacity="0.6"
-                />
-                <circle
-                  cx="180"
-                  cy="180"
-                  r="150"
-                  fill="none"
-                  stroke="var(--color-green-deep)"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeDasharray="720 1000"
-                  transform="rotate(-90 180 180)"
-                  opacity="0.85"
-                />
+                {ARCS.map((a) => (
+                  <circle
+                    key={`track-${a.r}`}
+                    className={styles.ringTrack}
+                    cx={RING_CENTER}
+                    cy={RING_CENTER}
+                    r={a.r}
+                    strokeWidth={RING_STROKE}
+                  />
+                ))}
+                {ARCS.map((a) => (
+                  <circle
+                    key={`arc-${a.r}`}
+                    className={`hiw-understand-arc ${styles.ringArc}`}
+                    cx={RING_CENTER}
+                    cy={RING_CENTER}
+                    r={a.r}
+                    stroke={a.color}
+                    strokeWidth={RING_STROKE}
+                    strokeDasharray={a.dash}
+                    strokeDashoffset={a.off.toFixed(2)}
+                    data-empty={a.empty.toFixed(2)}
+                    data-off={a.off.toFixed(2)}
+                    transform={`rotate(-90 ${RING_CENTER} ${RING_CENTER})`}
+                  />
+                ))}
               </svg>
             </div>
             {/* Parallax B — anchor layer, speed 0 (score text) */}
-            <div className="hiw-parallax-b hiw-understand-score absolute inset-0 flex flex-col items-center justify-center">
-              <span
-                ref={scoreRef}
-                className="tabular-nums"
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(5rem, 11vw, 8rem)",
-                  fontWeight: 300,
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1,
-                  color: "var(--color-ink)",
-                }}
-              >
+            <div className={`hiw-parallax-b hiw-understand-score ${styles.scoreBox}`}>
+              <span ref={scoreRef} className={styles.score}>
                 0
               </span>
-              <span
-                className="mt-3"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                }}
-              >
-                Merios Score
-              </span>
+              <span className={styles.scoreLabel}>Merios Score</span>
             </div>
           </div>
-        </div>
 
-        {/* RIGHT — copy + sparklines (parallax layer C, speed +0.3) */}
-        <div className="hiw-parallax-c will-change-transform">
-          <ul className="flex flex-col gap-7">
-            {COPY_LINES.map((line, i) => (
-              <li
-                key={line}
-                className="hiw-understand-line flex items-center gap-5"
-              >
-                <svg
-                  viewBox="0 0 82 36"
-                  className="h-8 w-[120px] flex-shrink-0"
-                  aria-hidden
-                >
-                  <path
-                    d={SPARKLINES[i] ?? SPARKLINES[0]}
-                    fill="none"
-                    stroke="var(--color-pulse)"
-                    strokeWidth="1.25"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="hiw-understand-spark"
-                  />
-                </svg>
-                <span
-                  style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: "clamp(1.125rem, 1.5vw, 1.375rem)",
-                    lineHeight: 1.35,
-                    fontWeight: 400,
-                    letterSpacing: "-0.015em",
-                    color: "var(--color-ink)",
-                  }}
-                >
-                  {line}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <p
-            className="hiw-understand-line mt-10 max-w-[460px]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: 15,
-              lineHeight: 1.6,
-              color: "var(--color-ink-secondary)",
-            }}
-          >
-            The score is a signal, not a verdict — each subsystem stays legible
-            on its own page, so you always know where the number comes from.
-          </p>
+          {/* RIGHT — copy + sparklines (parallax layer C, speed +0.3) */}
+          <div className="hiw-parallax-c will-change-transform">
+            <ul className={styles.lines}>
+              {COPY_LINES.map((line, i) => (
+                <li key={line} className={`hiw-understand-line ${styles.line}`}>
+                  <svg viewBox="0 0 82 36" className={styles.spark} aria-hidden>
+                    <path
+                      d={SPARKLINES[i] ?? SPARKLINES[0]}
+                      fill="none"
+                      stroke="var(--color-lime)"
+                      strokeWidth="1.9"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="hiw-understand-spark"
+                    />
+                  </svg>
+                  <span className={styles.lineText}>{line}</span>
+                </li>
+              ))}
+            </ul>
+            <p className={`hiw-understand-line ${styles.note}`}>
+              The score is a signal, not a verdict — each subsystem stays legible
+              on its own page, so you always know where the number comes from.
+            </p>
+          </div>
         </div>
       </div>
     </section>

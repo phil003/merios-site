@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-// ─── Inline SVG icons (currentColor, 20x20, stroke-width 1.25) ───────────────
+// ─── Inline SVG icons (currentColor, 20x20, stroke-width 1.5) ────────────────
 
 function MailIcon() {
   return (
@@ -10,7 +10,7 @@ function MailIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.25"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
@@ -29,7 +29,7 @@ function PressIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.25"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
@@ -51,7 +51,7 @@ function PartnershipIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.25"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
@@ -72,7 +72,7 @@ function ClockIcon() {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.25"
+      strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden
@@ -94,19 +94,21 @@ type BlockProps = {
 
 function Block({ icon, eyebrow, title, body }: BlockProps) {
   return (
-    <div className="flex flex-col gap-2.5">
-      <div className="flex items-center gap-3">
-        <span
-          aria-hidden
-          className="inline-flex h-8 w-8 items-center justify-center rounded-full"
-          style={{
-            border: "1px solid var(--color-grid)",
-            background: "var(--color-canvas-alt)",
-            color: "var(--color-green-deep)",
-          }}
-        >
-          {icon}
-        </span>
+    <div
+      className="flex gap-4 border-b py-6 first:pt-0 last:border-b-0 last:pb-0"
+      style={{ borderColor: "var(--color-grid)" }}
+    >
+      <span
+        aria-hidden
+        className="mt-0.5 inline-flex h-10 w-10 flex-none items-center justify-center rounded-full"
+        style={{
+          background: "var(--color-ink)",
+          color: "var(--color-lime)",
+        }}
+      >
+        {icon}
+      </span>
+      <div className="flex min-w-0 flex-col gap-2">
         <span
           style={{
             fontFamily: "var(--font-mono)",
@@ -115,43 +117,57 @@ function Block({ icon, eyebrow, title, body }: BlockProps) {
             textTransform: "uppercase",
             color: "var(--color-ink-tertiary)",
             fontWeight: 500,
+            lineHeight: 1.2,
           }}
         >
           {eyebrow}
         </span>
-      </div>
-      <h2
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "1.375rem",
-          lineHeight: 1.15,
-          letterSpacing: "-0.02em",
-          color: "var(--color-ink)",
-          fontWeight: 400,
-        }}
-      >
-        {title}
-      </h2>
-      <div
-        style={{
-          fontFamily: "var(--font-sans)",
-          fontSize: "0.9375rem",
-          lineHeight: 1.55,
-          color: "var(--color-ink-secondary)",
-          letterSpacing: "-0.005em",
-        }}
-      >
-        {body}
+        <h2
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(1.25rem, 1.1rem + 0.45vw, 1.45rem)",
+            lineHeight: 1.1,
+            letterSpacing: "-0.03em",
+            color: "var(--color-ink)",
+            fontWeight: 720,
+            overflowWrap: "anywhere",
+          }}
+        >
+          {title}
+        </h2>
+        <div
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "0.9375rem",
+            lineHeight: 1.55,
+            color: "var(--color-ink-secondary)",
+            letterSpacing: "-0.005em",
+          }}
+        >
+          {body}
+        </div>
       </div>
     </div>
   );
 }
 
+// Link + helper presentation shared by the three mail blocks.
+const LINK_CLASS =
+  "font-medium underline decoration-2 underline-offset-4 transition-colors duration-200 decoration-[color-mix(in_srgb,var(--color-lime-deep)_70%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-lime)_55%,transparent)] hover:decoration-[var(--color-ink)]";
+
+const HELPER_STYLE = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 11,
+  letterSpacing: "0.08em",
+  lineHeight: 1.5,
+  color: "var(--color-ink-tertiary)",
+} as const;
+
 // ─── Info sidebar ────────────────────────────────────────────────────────────
 
 export default function ContactInfo() {
   return (
-    <aside aria-label="Direct channels" className="flex flex-col gap-10">
+    <aside aria-label="Direct channels" className="flex flex-col">
       <Block
         icon={<MailIcon />}
         eyebrow="Support"
@@ -160,24 +176,12 @@ export default function ContactInfo() {
           <>
             <a
               href="mailto:hello@merios.life"
-              style={{
-                color: "var(--color-ink)",
-                borderBottom: "1px solid var(--color-grid)",
-                paddingBottom: 1,
-              }}
-              className="hover:border-[color:var(--color-ink)]"
+              style={{ color: "var(--color-ink)" }}
+              className={LINK_CLASS}
             >
               Email our team directly
             </a>
-            <span
-              className="mt-2 block"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                letterSpacing: "0.08em",
-                color: "var(--color-ink-tertiary)",
-              }}
-            >
+            <span className="mt-2 block" style={HELPER_STYLE}>
               General product & account questions.
             </span>
           </>
@@ -192,24 +196,12 @@ export default function ContactInfo() {
           <>
             <a
               href="mailto:press@merios.life"
-              style={{
-                color: "var(--color-ink)",
-                borderBottom: "1px solid var(--color-grid)",
-                paddingBottom: 1,
-              }}
-              className="hover:border-[color:var(--color-ink)]"
+              style={{ color: "var(--color-ink)" }}
+              className={LINK_CLASS}
             >
               Editorial & media inquiries
             </a>
-            <span
-              className="mt-2 block"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                letterSpacing: "0.08em",
-                color: "var(--color-ink-tertiary)",
-              }}
-            >
+            <span className="mt-2 block" style={HELPER_STYLE}>
               Press kit on request.
             </span>
           </>
@@ -224,24 +216,12 @@ export default function ContactInfo() {
           <>
             <a
               href="mailto:partners@merios.life"
-              style={{
-                color: "var(--color-ink)",
-                borderBottom: "1px solid var(--color-grid)",
-                paddingBottom: 1,
-              }}
-              className="hover:border-[color:var(--color-ink)]"
+              style={{ color: "var(--color-ink)" }}
+              className={LINK_CLASS}
             >
               Clinical, lab & brand partnerships
             </a>
-            <span
-              className="mt-2 block"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                letterSpacing: "0.08em",
-                color: "var(--color-ink-tertiary)",
-              }}
-            >
+            <span className="mt-2 block" style={HELPER_STYLE}>
               For labs, clinicians, and distribution.
             </span>
           </>
@@ -253,14 +233,7 @@ export default function ContactInfo() {
         eyebrow="Response time"
         title="Within 24 hours"
         body={
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              letterSpacing: "0.08em",
-              color: "var(--color-ink-tertiary)",
-            }}
-          >
+          <span style={HELPER_STYLE}>
             Mon – Fri, CET. A human reads everything.
           </span>
         }

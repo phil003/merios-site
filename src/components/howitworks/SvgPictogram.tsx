@@ -4,8 +4,11 @@
  * All variants share:
  *   - viewBox="0 0 44 44"
  *   - stroke="currentColor" (colour is controlled by parent `style={{ color }}`)
- *   - stroke-width 1.25
+ *   - stroke-width 1.6 (v3: confident line-art that holds up on pop tiles)
  *   - round joins/caps for soft editorial feel
+ *   - accent marks (end nodes, scan line, score core) paint with
+ *     `var(--picto-accent, currentColor)` so a parent can light them in lime
+ *     on ink tiles while staying single-colour everywhere else.
  *
  * Motion-free (Reveal v2 conventions):
  *   - Server component. The SVG is fully visible by default in static HTML
@@ -37,17 +40,18 @@ type Props = {
   height?: number | string;
 };
 
-const STROKE_WIDTH = 1.25;
+const STROKE_WIDTH = 1.6;
+const ACCENT = "var(--picto-accent, currentColor)";
 
 function Paths({ variant }: { variant: PictogramVariant }) {
   switch (variant) {
     case "apple-health":
-      // Heart outline — Apple Health echo.
+      // Heart outline — Apple Health echo — crossed by the Merios pulse.
       return (
-        <path
-          d="M22 34 C12 27 6 22 6 16 A7 7 0 0 1 22 14 A7 7 0 0 1 38 16 C38 22 32 27 22 34 Z"
-          fill="none"
-        />
+        <g fill="none">
+          <path d="M22 34 C12 27 6 22 6 16 A7 7 0 0 1 22 14 A7 7 0 0 1 38 16 C38 22 32 27 22 34 Z" />
+          <path d="M11 21 H17 L19 24 L22 16 L25 27 L27 21 H33" stroke={ACCENT} />
+        </g>
       );
     case "ocr":
       // Document with scan line + frame corners.
@@ -58,7 +62,7 @@ function Paths({ variant }: { variant: PictogramVariant }) {
           <path d="M16 20 H28" />
           <path d="M16 25 H26" />
           <path d="M16 30 H24" />
-          <path d="M8 22 H38" opacity="0.45" />
+          <path d="M8 22 H38" stroke={ACCENT} opacity="0.85" />
         </g>
       );
     case "manual":
@@ -68,6 +72,7 @@ function Paths({ variant }: { variant: PictogramVariant }) {
           <path d="M8 34 H36" />
           <path d="M14 28 L28 14 L32 18 L18 32 Z" />
           <path d="M26 16 L30 20" />
+          <circle cx="12" cy="34" r="2.2" fill={ACCENT} stroke="none" />
         </g>
       );
     case "score":
@@ -76,7 +81,7 @@ function Paths({ variant }: { variant: PictogramVariant }) {
         <g fill="none">
           <circle cx="22" cy="22" r="15" opacity="0.35" />
           <circle cx="22" cy="22" r="10" opacity="0.65" />
-          <circle cx="22" cy="22" r="5" />
+          <circle cx="22" cy="22" r="5" fill={ACCENT} stroke="none" />
         </g>
       );
     case "trend":
@@ -84,7 +89,7 @@ function Paths({ variant }: { variant: PictogramVariant }) {
       return (
         <g fill="none">
           <path d="M6 30 L14 24 L20 27 L28 15 L36 11" />
-          <circle cx="36" cy="11" r="2" fill="currentColor" />
+          <circle cx="36" cy="11" r="2.6" fill={ACCENT} stroke="none" />
           <path d="M6 36 H38" opacity="0.35" />
         </g>
       );
@@ -105,7 +110,7 @@ function Paths({ variant }: { variant: PictogramVariant }) {
           <path d="M18 8 H26 V12 H18 Z" />
           <path d="M16 18 H28" />
           <path d="M16 23 H28" />
-          <path d="M16 28 H24" />
+          <path d="M16 28 H24" stroke={ACCENT} />
         </g>
       );
     case "leverage":
@@ -115,7 +120,7 @@ function Paths({ variant }: { variant: PictogramVariant }) {
           <path d="M6 32 L38 14" />
           <path d="M16 36 L28 24" opacity="0.55" />
           <path d="M18 32 L22 36 L26 32 Z" />
-          <circle cx="38" cy="14" r="2" fill="currentColor" />
+          <circle cx="38" cy="14" r="2.6" fill={ACCENT} stroke="none" />
         </g>
       );
     case "followup":

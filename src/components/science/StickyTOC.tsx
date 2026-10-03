@@ -2,12 +2,15 @@
 
 import { useEffect, useState } from "react";
 
+import styles from "./science.module.css";
+
 /**
  * Science — sticky table of contents.
  *
  * Desktop only (hidden below lg). Uses IntersectionObserver to detect the
- * active section. The active underline cross-fades between items via a plain
- * CSS opacity transition (motion-free) — same convention as ArticleTOC.
+ * active section. v3: the active item (aria-current="location") becomes a
+ * white pill whose number turns into an ink chip with a lime numeral — a
+ * plain CSS transition in science.module.css.
  */
 
 const TOC = [
@@ -75,23 +78,8 @@ export default function ScienceStickyTOC() {
       aria-label="On this page"
       className="hidden lg:sticky lg:top-28 lg:block"
     >
-      <p
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 10.5,
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-tertiary)",
-          fontWeight: 500,
-          marginBottom: 18,
-        }}
-      >
-        On this page
-      </p>
-      <ol
-        className="flex flex-col gap-3 border-l pl-4"
-        style={{ borderColor: "var(--color-grid)" }}
-      >
+      <p className={styles.tocTitle}>On this page</p>
+      <ol className={styles.tocList}>
         {TOC.map((t, i) => {
           const isActive = activeHref === t.href;
           return (
@@ -99,41 +87,12 @@ export default function ScienceStickyTOC() {
               <a
                 href={t.href}
                 aria-current={isActive ? "location" : undefined}
-                className="relative inline-flex items-baseline gap-3 transition-colors"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 13.5,
-                  color: isActive
-                    ? "var(--color-ink)"
-                    : "var(--color-ink-secondary)",
-                  letterSpacing: "-0.005em",
-                }}
+                className={styles.tocLink}
               >
-                <span
-                  aria-hidden
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10.5,
-                    letterSpacing: "0.08em",
-                    color: isActive
-                      ? "var(--color-green-deep)"
-                      : "var(--color-ink-tertiary)",
-                  }}
-                >
+                <span aria-hidden className={styles.tocNum}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="relative inline-block">
-                  {t.label}
-                  <span
-                    aria-hidden
-                    className="absolute -bottom-0.5 left-0 right-0 h-px"
-                    style={{
-                      background: "var(--color-green-deep)",
-                      opacity: isActive ? 1 : 0,
-                      transition: "opacity 240ms var(--ease-expo)",
-                    }}
-                  />
-                </span>
+                <span>{t.label}</span>
               </a>
             </li>
           );

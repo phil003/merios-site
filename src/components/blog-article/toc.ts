@@ -33,13 +33,29 @@ const HEADING_RE = /^(#{2,3})\s+(.+?)\s*$/;
  * text so the slug + visible label reads cleanly.
  */
 function stripInlineMarkdown(raw: string): string {
+  return decodeEntities(
+    raw
+      .replace(/`([^`]+)`/g, "$1")
+      .replace(/\*\*([^*]+)\*\*/g, "$1")
+      .replace(/\*([^*]+)\*/g, "$1")
+      .replace(/_([^_]+)_/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"),
+  ).trim();
+}
+
+/**
+ * MDX renders `&lt;` in a heading as "<"; the TOC reads the raw source, so it
+ * must decode the same entities — otherwise the label shows "&lt;" and its
+ * slug no longer matches the heading's id.
+ */
+function decodeEntities(raw: string): string {
   return raw
-    .replace(/`([^`]+)`/g, "$1")
-    .replace(/\*\*([^*]+)\*\*/g, "$1")
-    .replace(/\*([^*]+)\*/g, "$1")
-    .replace(/_([^_]+)_/g, "$1")
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .trim();
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&");
 }
 
 export function extractHeadings(markdown: string): Heading[] {

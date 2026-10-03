@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import { BreadcrumbSchema } from "@/components/StructuredData";
+import { getBlogGradient } from "@/components/blog/gradients";
+import styles from "@/components/blog/blog.module.css";
 import { getAllPosts, type BlogPost } from "@/lib/blog";
 
 // ── Category configuration ──────────────────────────────────────────────────
@@ -198,88 +200,36 @@ export default async function BlogCategoryPage({
           subline={category.description}
         />
 
-        <section className="px-6 pb-20 md:px-10 md:pb-32">
-          <div className="mx-auto max-w-[1100px]">
+        <section className={`pb-24 md:pb-32 ${styles.catSection}`}>
+          <div className={styles.container}>
             {posts.length === 0 ? (
-              <p
-                className="mt-10 text-center"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  color: "var(--color-ink-secondary)",
-                }}
-              >
+              <p className={styles.catEmpty}>
                 Articles coming soon. In the meantime, see our{" "}
-                <Link
-                  href="/blog"
-                  style={{
-                    color: "var(--color-green-deep)",
-                    borderBottom: "1px solid var(--color-green-deep)",
-                  }}
-                >
-                  full blog index
-                </Link>
-                .
+                <Link href="/blog">full blog index</Link>.
               </p>
             ) : (
-              <ul className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <ul className={styles.catGrid}>
                 {posts.map((post) => (
                   <li key={post.slug}>
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="group block h-full"
-                      style={{
-                        background: "var(--color-canvas-alt, #ffffff)",
-                        border: "1px solid var(--color-grid)",
-                        borderRadius: "12px",
-                        padding: "1.5rem",
-                        transition: "border-color 200ms ease, transform 200ms ease",
-                      }}
+                      className={`blog-card group ${styles.catCard}`}
                     >
-                      <div
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "10.5px",
-                          letterSpacing: "0.18em",
-                          textTransform: "uppercase",
-                          color: "var(--color-green-deep)",
-                          fontWeight: 500,
-                        }}
-                      >
-                        {post.emoji} {post.tag}
+                      <div className={styles.catTop}>
+                        <span
+                          className={styles.sticker}
+                          style={{ background: getBlogGradient(post.tag) }}
+                        >
+                          {post.emoji}
+                        </span>{" "}
+                        <span>{post.tag}</span>
                       </div>
-                      <h3
-                        className="mt-3"
-                        style={{
-                          fontFamily: "var(--font-serif)",
-                          fontSize: "1.375rem",
-                          lineHeight: 1.2,
-                          letterSpacing: "-0.02em",
-                          color: "var(--color-ink)",
-                        }}
-                      >
-                        {post.title}
-                      </h3>
-                      <p
-                        className="mt-3"
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "0.9375rem",
-                          lineHeight: 1.55,
-                          color: "var(--color-ink-secondary)",
-                        }}
-                      >
-                        {post.description}
-                      </p>
-                      <div
-                        className="mt-4"
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "11px",
-                          color: "var(--color-ink-tertiary)",
-                          letterSpacing: "0.08em",
-                        }}
-                      >
-                        {post.readTime}
+                      <h3 className={styles.catTitle}>{post.title}</h3>
+                      <p className={styles.catDesc}>{post.description}</p>
+                      <div className={styles.catRead}>
+                        <span className={styles.catReadInner}>
+                          {post.readTime}
+                        </span>
                       </div>
                     </Link>
                   </li>
@@ -287,19 +237,8 @@ export default async function BlogCategoryPage({
               </ul>
             )}
 
-            <div className="mt-16 text-center">
-              <Link
-                href="/blog"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "12.5px",
-                  letterSpacing: "0.16em",
-                  textTransform: "uppercase",
-                  color: "var(--color-green-deep)",
-                  borderBottom: "1px solid var(--color-green-deep)",
-                  paddingBottom: "2px",
-                }}
-              >
+            <div className={styles.backRow}>
+              <Link href="/blog" className="btn btn-ghost">
                 ← Back to all articles
               </Link>
             </div>

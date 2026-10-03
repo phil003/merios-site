@@ -1,0 +1,158 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Legal page bodies — /privacy, /terms, /security (site v3).
+   Applied to a wrapper div inside LegalPageLayout's <article>. Reading
+   typography: Bricolage body at 17px / 1.72 in ink-secondary (AAA), display
+   section headings with a mono number pill, lime list markers, white cards
+   for boxed notes. Presentation only: every heading, paragraph and list item
+   is unchanged in the page files.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.body {
+  font-size: 1.0625rem;
+  line-height: 1.72;
+  letter-spacing: -0.003em;
+  color: var(--color-ink-secondary);
+}
+
+/* LegalPageLayout reveals its whole <article> with data-rv, but the inline
+   observer's 12% threshold can never be met by an article several viewports
+   tall, so the policy text stayed at opacity 0 (also on production). Keep the
+   legal text visible; the fix belongs upstream in LegalPageLayout. */
+html[data-anim] [data-rv]:has(> .body) {
+  opacity: 1;
+  transform: none;
+}
+
+.body p {
+  text-wrap: pretty;
+}
+
+.body strong {
+  color: var(--color-ink);
+  font-weight: 650;
+}
+
+/* The opening paragraph reads as a lead */
+.body > section:first-child > p:first-child {
+  font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  line-height: 1.6;
+  letter-spacing: -0.012em;
+  color: var(--color-ink);
+}
+
+/* ── Section headings ── */
+.h2 {
+  margin-top: clamp(56px, 7vw, 84px);
+  padding-top: clamp(30px, 3.6vw, 42px);
+  border-top: 1px solid var(--color-grid);
+  scroll-margin-top: 110px;
+}
+
+/* A page that opens straight on section 1 (security): no rule above it */
+.body > section:first-child > .h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* "1." — the section number, as a mono pill above the title */
+.num {
+  display: block;
+  width: fit-content;
+  margin-bottom: 16px;
+  padding: 6px 10px 5px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-lime);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Lists: lime markers with a thin ink ring ── */
+.body ul {
+  list-style: none;
+  padding-left: 0;
+}
+.body ul > li {
+  position: relative;
+  padding-left: 1.7rem;
+  line-height: 1.6;
+}
+.body ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.32rem;
+  top: calc(0.8em - 3.5px);
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-lime);
+  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
+}
+
+/* ── Inline code ── */
+.body code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  padding: 0.12em 0.42em;
+  border-radius: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-grid);
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+
+/* ── Links ── */
+.link {
+  color: var(--color-ink);
+  font-weight: 550;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-lime-deep) 70%, transparent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  transition:
+    background-color 200ms var(--ease-smooth),
+    text-decoration-color 200ms var(--ease-smooth);
+}
+.link:hover {
+  background: color-mix(in srgb, var(--color-lime) 55%, transparent);
+  text-decoration-color: var(--color-ink);
+}
+
+/* ── Boxed notes ── */
+.card {
+  background: #FFFFFF;
+  border: 1px solid var(--color-grid);
+  border-radius: 20px;
+  padding: clamp(20px, 3vw, 28px) clamp(20px, 3vw, 30px);
+}
+
+/* The wellness disclaimer: a lime rule down the card's left edge */
+.note {
+  position: relative;
+  padding-left: clamp(30px, 3.8vw, 40px);
+}
+.note::before {
+  content: "";
+  position: absolute;
+  left: clamp(14px, 1.7vw, 18px);
+  top: 24px;
+  bottom: 24px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--color-lime);
+  box-shadow: 0 0 0 1px rgb(16 35 26 / 0.16);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 720;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}

@@ -201,12 +201,9 @@ export default function LegalPageLayout({
             </aside>
           ) : null}
 
-          {/* Main legal content — scroll reveal via Reveal v2 (data-rv +
-              globals.css + the inline IntersectionObserver in layout.tsx).
-              Visible by default in the static HTML; reduced motion handled
-              globally (html[data-anim] is never set). */}
+          {/* Main legal content — never behind a scroll reveal: it is long
+              (7,000px+), it must simply be there. */}
           <article
-            data-rv=""
             className="legal-prose max-w-[720px]"
             style={{
               fontFamily: "var(--font-sans)",

@@ -1,0 +1,740 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Calculators — v3 "finally readable" instrument cards.
+
+   A white lab card: mono labels and units, big Newsreader numbers, and a lilac
+   "Merios says" sticker for the result with a status chip and the range bar
+   (band + value dot) from the homepage translator.
+
+   Presentation only. Every rule is scoped under .calc with at least two
+   classes, so it outranks the .editorial-prose element rules (h2, p, a…) when
+   a calculator is embedded in a blog article (/blog/[slug]).
+
+   Status colours (never an alert red): in range = forest, borderline = warm,
+   outside = soft-alert. Text variants are darkened toward ink for AA.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.calc {
+  --tone-ok: var(--color-green-deep);
+  --tone-warn: var(--color-warm);
+  --tone-bad: var(--color-soft-alert);
+  /* text / fills that carry white or sit on light — AA ≥ 4.5:1 */
+  --tone-warn-ink: color-mix(in srgb, var(--color-warm) 72%, var(--color-ink));
+  --tone-bad-ink: color-mix(in srgb, var(--color-soft-alert) 86%, var(--color-ink));
+  --tone-warn-fill: color-mix(in srgb, var(--color-warm) 78%, var(--color-ink));
+  --tone-bad-fill: color-mix(in srgb, var(--color-soft-alert) 90%, var(--color-ink));
+
+  position: relative;
+  container: calccard / inline-size;
+  padding: clamp(20px, 3.4vw, 44px);
+  border-radius: 28px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-grid);
+  box-shadow:
+    inset 0 1px 0 #FFFFFF,
+    0 2px 6px rgb(16 35 26 / 0.04),
+    0 44px 80px -52px rgb(16 35 26 / 0.42);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-align: left;
+}
+section.calc {
+  margin: 2rem 0;
+}
+
+/* ─── Layout ─────────────────────────────────────────────────────────────
+   Narrow (mobile, blog column): head → inputs → result → foot.
+   Wide split: inputs left, the result sticker right, disclaimer + CTA at the
+   foot of the left column. DOM order never changes. */
+.calc .layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "head" "inputs" "output" "foot";
+  row-gap: 26px;
+}
+.calc .head { grid-area: head; }
+.calc .inputs { grid-area: inputs; }
+.calc .output { grid-area: output; }
+.calc .foot { grid-area: foot; }
+
+@container calccard (min-width: 820px) {
+  .calc[data-layout="split"] .layout {
+    grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "head   head"
+      "inputs output"
+      "foot   output";
+    column-gap: clamp(36px, 4.6vw, 68px);
+    row-gap: 30px;
+  }
+  .calc[data-layout="split"] .output {
+    position: sticky;
+    top: 104px;
+    align-self: start;
+  }
+  .calc[data-layout="split"] .foot {
+    align-self: end;
+  }
+  .calc[data-layout="stack"] .foot {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 48px;
+  }
+}
+
+/* ─── Head: eyebrow, display title, the lab report's 2px rule ──────────── */
+.calc .head {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  padding-bottom: 22px;
+  border-bottom: 2px solid var(--color-ink);
+}
+.calc .eyebrow {
+  color: var(--color-ink-secondary);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  padding-right: 120px;
+}
+.calc .eyebrowDot {
+  background: var(--color-lime);
+  box-shadow: 0 0 0 1.5px var(--color-ink);
+}
+.calc .pulse {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  width: 120px;
+  background-size: 120px 21px;
+  opacity: 0.9;
+}
+.calc .title {
+  margin: 0;
+  max-width: 22em;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 1.15rem + 1.5vw, 2.5rem);
+  font-weight: 740;
+  line-height: 1.02;
+  letter-spacing: -0.036em;
+  color: var(--color-ink);
+  text-wrap: balance;
+  scroll-margin-top: 110px;
+}
+.calc .intro {
+  margin: 2px 0 0;
+  max-width: 64ch;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+@container calccard (max-width: 520px) {
+  .calc .pulse { display: none; }
+  .calc .eyebrow { padding-right: 0; }
+}
+
+/* ─── Inputs ───────────────────────────────────────────────────────────── */
+.calc .inputs {
+  display: grid;
+  align-content: start;
+  gap: 22px;
+}
+.calc .controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 22px;
+}
+.calc .fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end; /* a wrapped label never knocks its input off the row */
+  gap: 18px 16px;
+}
+.calc .fields[data-cols="1"] {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 300px;
+}
+.calc .fields[data-cols="pair"] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.calc .fields[data-cols="3"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+@container calccard (min-width: 600px) {
+  .calc .fields[data-cols="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@container calccard (min-width: 760px) {
+  .calc .fields[data-cols="panel"] {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.calc .field {
+  display: block;
+  min-width: 0;
+}
+.calc .fieldLabel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2px 10px;
+  margin-bottom: 9px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+/* units are case-sensitive (µIU/mL ≠ MIU/ML): never uppercase them */
+.calc .fieldUnit {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--color-ink-tertiary);
+}
+.calc .input,
+.calc .select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 58px;
+  margin: 0;
+  padding: 0 16px;
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+  background-color: var(--color-canvas);
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  box-shadow: inset 0 1px 2px rgb(16 35 26 / 0.07);
+  transition:
+    background-color 220ms var(--ease-smooth),
+    border-color 220ms var(--ease-smooth),
+    box-shadow 220ms var(--ease-smooth);
+}
+.calc .input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.calc .input::-webkit-outer-spin-button,
+.calc .input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.calc .input::placeholder {
+  color: var(--color-ink-tertiary);
+  opacity: 1;
+}
+.calc .select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 44px;
+  font-size: 1.0625rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%2310231A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+.calc .input:hover,
+.calc .select:hover {
+  border-color: rgb(16 35 26 / 0.18);
+}
+/* focus: ink border, a 3px lime bezel, then the 2px ink ring right outside it */
+.calc .input:focus,
+.calc .select:focus {
+  outline: none;
+  background-color: #FFFFFF;
+  border-color: var(--color-ink);
+  box-shadow: 0 0 0 3px rgb(214 240 80 / 0.7);
+}
+.calc .input:focus-visible,
+.calc .select:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+/* ─── Segmented toggles ───────────────────────────────────────────────── */
+.calc .fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.calc .legend {
+  display: block;
+  margin: 0 0 9px;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.calc .seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--color-canvas);
+  box-shadow: inset 0 1px 2px rgb(16 35 26 / 0.07);
+}
+.calc .segBtn {
+  min-height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--color-ink-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 260ms var(--ease-smooth),
+    color 260ms var(--ease-smooth),
+    box-shadow 260ms var(--ease-smooth);
+}
+.calc .segBtn:hover {
+  color: var(--color-ink);
+  background: rgb(16 35 26 / 0.06);
+}
+.calc .segBtn[aria-pressed="true"] {
+  color: #FFFFFF;
+  background: var(--color-ink);
+  box-shadow: 0 8px 16px -10px rgb(16 35 26 / 0.7);
+}
+.calc .segBtn:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* ─── Output column ───────────────────────────────────────────────────── */
+.calc .output {
+  container: calcout / inline-size;
+  display: grid;
+  align-content: start;
+}
+
+/* The result panel: a quiet dashed slot until there is a number, then the
+   lilac "Merios says" sticker. It stays mounted so aria-live announces. */
+.calc .result {
+  position: relative;
+  min-width: 0;
+  padding: clamp(20px, 2.6vw, 30px);
+  border-radius: 24px;
+  background: var(--color-canvas);
+  border: 1.5px dashed rgb(16 35 26 / 0.22);
+  transition:
+    background-color 480ms var(--ease-expo),
+    box-shadow 480ms var(--ease-expo),
+    transform 700ms var(--ease-expo);
+}
+.calc .result[data-active="true"] {
+  background: var(--color-lilac);
+  border: 1.5px solid rgb(255 255 255 / 0.55);
+  box-shadow:
+    inset 0 2px 0 rgb(255 255 255 / 0.5),
+    0 40px 70px -34px rgb(16 35 26 / 0.5);
+  transform: rotate(-0.6deg);
+}
+@container calccard (max-width: 560px) {
+  .calc .result[data-active="true"] { transform: none; }
+}
+.calc .resultBody {
+  animation: calcResultIn 620ms var(--ease-expo) both;
+}
+@keyframes calcResultIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.calc .emptyWrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.calc .emptyMark {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  margin-top: -2px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 1px var(--color-grid);
+}
+.calc .empty {
+  margin: 0;
+  max-width: 58ch;
+  font-family: var(--font-sans);
+  font-size: 0.96875rem;
+  line-height: 1.55;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+
+.calc .resultLabel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin: 0 0 16px;
+  font-family: var(--font-mono);
+  font-size: 0.71875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.calc .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 5px 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.65625rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: var(--color-ink);
+  transition: background-color 320ms var(--ease-smooth);
+}
+.calc .chip::before {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #FFFFFF;
+}
+.calc .chip[data-tone="ok"] { background: var(--tone-ok); }
+.calc .chip[data-tone="ok"]::before {
+  background: var(--color-lime);
+  box-shadow: 0 0 8px rgb(214 240 80 / 0.8);
+}
+.calc .chip[data-tone="warn"] { background: var(--tone-warn-fill); }
+.calc .chip[data-tone="bad"] { background: var(--tone-bad-fill); }
+
+/* Big numbers: Newsreader, lining tabular figures; units in mono */
+.calc .numbers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 30px;
+}
+.calc .bigNumber {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 2.1rem + 3.2vw, 4.6rem);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-ink);
+}
+.calc .midNumber {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 1.5rem + 1.3vw, 2.5rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-ink);
+}
+.calc .unit {
+  margin-left: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgb(16 35 26 / 0.8);
+}
+.calc .unitTight {
+  margin-left: 0.04em;
+  font-family: var(--font-serif);
+  font-size: 0.5em;
+  letter-spacing: 0;
+}
+.calc .caption {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.65625rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(16 35 26 / 0.8);
+}
+.calc .monoLine {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+}
+.calc .resultText {
+  margin: 16px 0 0;
+  max-width: 62ch;
+  font-family: var(--font-sans);
+  font-size: 0.96875rem;
+  line-height: 1.58;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+.calc .resultText + .resultText { margin-top: 10px; }
+.calc .resultNote {
+  margin: 10px 0 0;
+  max-width: 62ch;
+  font-family: var(--font-sans);
+  font-size: 0.84375rem;
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+.calc .resultText strong,
+.calc .resultNote strong {
+  font-weight: 650;
+  color: var(--color-ink);
+}
+
+/* Stats (free testosterone: bioavailable T, FAI) */
+.calc .stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+.calc .stat {
+  padding: 12px 14px 13px;
+  border-radius: 16px;
+  background: rgb(255 255 255 / 0.42);
+  box-shadow: inset 0 0 0 1px rgb(16 35 26 / 0.08);
+}
+.calc .statLabel {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(16 35 26 / 0.8);
+}
+.calc .statValue {
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-ink);
+}
+.calc .statSub {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgb(16 35 26 / 0.8);
+}
+
+/* ─── Range bar: the lab band and your value (aria-hidden, no text) ───── */
+.calc .range {
+  position: relative;
+  margin: 22px 2px 4px;
+}
+.calc .rangeTrack {
+  position: relative;
+  height: 10px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.55);
+  box-shadow: inset 0 0 0 1px rgb(16 35 26 / 0.1);
+}
+.calc .rangeZones {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.calc .rangeZone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+/* the band (forest) and its borderline shoulders (warm); outside stays bare,
+   as on the homepage translator */
+.calc .rangeZone[data-tone="ok"] { background: rgb(36 80 58 / 0.86); }
+.calc .rangeZone[data-tone="warn"] { background: color-mix(in srgb, var(--color-warm) 78%, transparent); }
+.calc .rangeZone[data-tone="bad"] { background: transparent; }
+.calc .rangeTick {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 2px;
+  background: rgb(16 35 26 / 0.34);
+}
+.calc .rangeDot {
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 4px solid var(--color-ink);
+  box-shadow: 0 5px 12px rgb(16 35 26 / 0.28);
+  transition: left 760ms var(--ease-expo), border-color 320ms var(--ease-smooth);
+}
+.calc .range[data-tone="warn"] .rangeDot { border-color: var(--tone-warn-fill); }
+.calc .range[data-tone="bad"] .rangeDot { border-color: var(--tone-bad); }
+
+/* Zone 2: five heart-rate zones, zone 2 lit */
+.calc .zones {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: end;
+  gap: 6px;
+  height: 46px;
+  margin: 22px 0 4px;
+}
+.calc .zone {
+  border-radius: 8px;
+  background: rgb(255 255 255 / 0.5);
+  box-shadow: inset 0 0 0 1px rgb(16 35 26 / 0.1);
+}
+.calc .zone[data-on="true"] {
+  background: var(--tone-ok);
+  box-shadow: inset 0 0 0 2px rgb(214 240 80 / 0.9);
+}
+
+/* ─── Reference legend ────────────────────────────────────────────────── */
+.calc .refs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 26px;
+  margin-top: 22px;
+}
+@container calcout (min-width: 500px) {
+  .calc .refs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.calc .refRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px 2px;
+  border-top: 1px solid var(--color-grid);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+.calc .refDot {
+  flex: none;
+  align-self: center;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-ink-tertiary);
+}
+.calc .refRow[data-tone="ok"] .refDot { background: var(--tone-ok); }
+.calc .refRow[data-tone="warn"] .refDot { background: var(--tone-warn); }
+.calc .refRow[data-tone="bad"] .refDot { background: var(--tone-bad); }
+.calc .refRow[data-tone="neutral"] .refDot {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--color-ink-tertiary);
+}
+.calc .refLabel {
+  min-width: 0;
+  color: var(--color-ink);
+}
+.calc .refRange {
+  margin-left: auto;
+  padding-left: 12px;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-secondary);
+}
+
+/* ─── Foot: the disclaimer and the CTA ───────────────────────────────── */
+.calc .foot {
+  display: grid;
+  gap: 20px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-grid);
+}
+.calc .footnote {
+  margin: 0;
+  max-width: 76ch;
+  font-family: var(--font-sans);
+  font-size: 0.84375rem;
+  line-height: 1.62;
+  color: var(--color-ink-tertiary);
+  text-wrap: pretty;
+}
+.calc .footnote strong {
+  font-weight: 600;
+  color: var(--color-ink-secondary);
+}
+.calc .ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+}
+/* .btn primitives from globals.css, re-asserted against .editorial-prose a */
+.calc a.cta {
+  min-height: 50px;
+  padding: 0 22px;
+  font-size: 0.96875rem;
+  text-decoration: none;
+  transition:
+    box-shadow 300ms var(--ease-expo),
+    background-color 300ms var(--ease-expo),
+    border-color 300ms var(--ease-expo),
+    transform 300ms var(--ease-expo);
+}
+.calc a.ctaInk,
+.calc a.ctaInk:hover {
+  color: #FFFFFF;
+  background: var(--color-ink);
+  text-decoration: none;
+}
+.calc a.ctaInk:hover {
+  box-shadow: 0 18px 34px -14px rgb(16 35 26 / 0.7);
+}
+.calc a.ctaGhost,
+.calc a.ctaGhost:hover {
+  color: var(--color-ink);
+  background: transparent;
+  text-decoration: none;
+}
+.calc .arrow {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calc .result[data-active="true"] { transform: none; }
+  .calc .resultBody { animation: none; }
+}

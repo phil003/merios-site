@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLenis } from "@/components/providers/LenisProvider";
 import type { Heading } from "./toc";
+import styles from "./article.module.css";
 
 interface ArticleTOCProps {
   headings: Heading[];
@@ -13,8 +14,8 @@ interface ArticleTOCProps {
  *
  * - Renders server-extracted headings as anchor links.
  * - IntersectionObserver with rootMargin "-40% 0px -55% 0px" sets the active id.
- * - Active row has a left-border + ink text; the active marker fades
- *   between rows via a plain CSS transition (motion-free).
+ * - A hairline track runs down the list; the active row gets ink text and a
+ *   lime "you are here" dot on the track (CSS transition, reduced-motion safe).
  * - Click uses Lenis (when available) for a smooth programmatic scroll with an
  *   offset equal to the sticky top, falling back to `scrollIntoView` when
  *   Lenis is not mounted (SSR / prefers-reduced-motion).
@@ -86,69 +87,29 @@ export default function ArticleTOC({ headings }: ArticleTOCProps) {
   return (
     <nav
       aria-label="On this page"
-      className="hidden lg:sticky lg:top-28 lg:block"
-      style={{ maxHeight: "calc(100vh - 7rem)", overflow: "auto" }}
+      className={`hidden lg:sticky lg:top-28 lg:block ${styles.toc}`}
+      style={{ maxHeight: "calc(100vh - 8rem)", overflow: "auto" }}
     >
-      <p
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 10.5,
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-tertiary)",
-          fontWeight: 500,
-          marginBottom: 18,
-        }}
-      >
-        Contents
-      </p>
-      <ol className="relative flex flex-col">
+      <p className={styles.tocLabel}>Contents</p>
+      <ol className={styles.tocList}>
         {headings.map((item) => {
           const isActive = activeId === item.id;
-          const indent = item.level === 3 ? 16 : 0;
           return (
             <li key={item.id} className="relative">
               <a
                 href={`#${item.id}`}
                 onClick={(e) => handleClick(e, item.id)}
                 aria-current={isActive ? "location" : undefined}
-                className="group relative block rounded-sm py-1.5 pl-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: item.level === 3 ? 12.5 : 13.5,
-                  color: isActive
-                    ? "var(--color-ink)"
-                    : "var(--color-ink-tertiary)",
-                  letterSpacing: "-0.005em",
-                  borderLeft: "2px solid",
-                  borderColor: isActive
-                    ? "transparent"
-                    : "var(--color-grid)",
-                  marginLeft: indent,
-                  lineHeight: 1.4,
-                }}
+                data-level={item.level}
+                className={styles.tocLink}
               >
-                <span
-                  aria-hidden
-                  className="absolute left-0 top-0 bottom-0 w-[2px]"
-                  style={{
-                    background: "var(--color-green-deep)",
-                    opacity: isActive ? 1 : 0,
-                    transition: "opacity 240ms var(--ease-expo)",
-                  }}
-                />
+                <span aria-hidden className={styles.tocDot} />
                 <span className="block">{item.text}</span>
               </a>
             </li>
           );
         })}
       </ol>
-
-      <style>{`
-        nav[aria-label="On this page"] a:hover {
-          color: var(--color-ink) !important;
-        }
-      `}</style>
     </nav>
   );
 }

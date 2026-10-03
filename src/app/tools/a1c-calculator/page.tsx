@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type React from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
@@ -9,17 +8,8 @@ import {
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
-
-const CELL: React.CSSProperties = {
-  padding: "0.6rem 1.1rem",
-  borderTop: "1px solid var(--color-grid)",
-  fontFamily: "var(--font-mono)",
-  fontSize: 13.5,
-  color: "var(--color-ink)",
-  whiteSpace: "nowrap",
-};
-const CELL_H: React.CSSProperties = { ...CELL, fontWeight: 600, textAlign: "left" };
-const CELL_N: React.CSSProperties = { ...CELL, fontFamily: "var(--font-sans)", color: "var(--color-ink-secondary)", whiteSpace: "normal" };
+import CtaPulse from "../CtaPulse";
+import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
   {
@@ -110,231 +100,119 @@ export default function A1CCalculatorPage() {
         align="left"
       />
 
-      <main className="pb-20 pt-2" style={{ background: "var(--color-canvas)" }}>
-        <div className="mx-auto max-w-[920px] px-6 md:px-10">
+      <main className={t.main}>
+        <div className={t.wrap}>
           <A1CConverter />
 
-          <section
-            className="mt-14 max-w-[720px]"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-                marginBottom: "0.75rem",
-              }}
-            >
-              A1C to average blood sugar chart
-            </h2>
-            <p
-              style={{
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: "var(--color-ink-secondary)",
-                marginBottom: "1.25rem",
-              }}
-            >
-              Every A1C percentage maps to an estimated average glucose (eAG). The
-              calculator above is exact for any value you type; the chart below
-              covers the common reference points, from optimal through the
-              diabetes range.
-            </p>
-            <div style={{ border: "1px solid var(--color-grid)", borderRadius: "12px", overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14.5 }}>
-                <caption style={{ captionSide: "top", textAlign: "left", padding: "0.85rem 1.1rem 0.35rem", fontSize: 13.5, color: "var(--color-ink-tertiary)" }}>
-                  A1C to estimated average glucose (eAG), from 4.0% to 14.0%
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col" style={CELL_H}>A1C</th>
-                    <th scope="col" style={CELL_H}>eAG (mg/dL)</th>
-                    <th scope="col" style={CELL_H}>eAG (mmol/L)</th>
-                    <th scope="col" style={CELL_H}>Band</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr key="4.0"><th scope="row" style={CELL_H}>4.0%</th><td style={CELL}>68 mg/dL</td><td style={CELL}>3.8 mmol/L</td><td style={CELL_N}>Low end of normal</td></tr>
-                    <tr key="4.5"><th scope="row" style={CELL_H}>4.5%</th><td style={CELL}>82 mg/dL</td><td style={CELL}>4.6 mmol/L</td><td style={CELL_N}>Normal</td></tr>
-                    <tr key="5.0"><th scope="row" style={CELL_H}>5.0%</th><td style={CELL}>97 mg/dL</td><td style={CELL}>5.4 mmol/L</td><td style={CELL_N}>Optimal</td></tr>
-                    <tr key="5.5"><th scope="row" style={CELL_H}>5.5%</th><td style={CELL}>111 mg/dL</td><td style={CELL}>6.2 mmol/L</td><td style={CELL_N}>Normal</td></tr>
-                    <tr key="5.7"><th scope="row" style={CELL_H}>5.7%</th><td style={CELL}>117 mg/dL</td><td style={CELL}>6.5 mmol/L</td><td style={CELL_N}>Prediabetes starts</td></tr>
-                    <tr key="6.0"><th scope="row" style={CELL_H}>6.0%</th><td style={CELL}>126 mg/dL</td><td style={CELL}>7.0 mmol/L</td><td style={CELL_N}>Prediabetes</td></tr>
-                    <tr key="6.4"><th scope="row" style={CELL_H}>6.4%</th><td style={CELL}>137 mg/dL</td><td style={CELL}>7.6 mmol/L</td><td style={CELL_N}>Top of prediabetes</td></tr>
-                    <tr key="6.5"><th scope="row" style={CELL_H}>6.5%</th><td style={CELL}>140 mg/dL</td><td style={CELL}>7.8 mmol/L</td><td style={CELL_N}>Diabetes threshold</td></tr>
-                    <tr key="7.0"><th scope="row" style={CELL_H}>7.0%</th><td style={CELL}>154 mg/dL</td><td style={CELL}>8.6 mmol/L</td><td style={CELL_N}>Common treatment target</td></tr>
-                    <tr key="7.5"><th scope="row" style={CELL_H}>7.5%</th><td style={CELL}>169 mg/dL</td><td style={CELL}>9.4 mmol/L</td><td style={CELL_N}>Above target</td></tr>
-                    <tr key="8.0"><th scope="row" style={CELL_H}>8.0%</th><td style={CELL}>183 mg/dL</td><td style={CELL}>10.2 mmol/L</td><td style={CELL_N}>Above target</td></tr>
-                    <tr key="8.5"><th scope="row" style={CELL_H}>8.5%</th><td style={CELL}>197 mg/dL</td><td style={CELL}>11.0 mmol/L</td><td style={CELL_N}>Above target</td></tr>
-                    <tr key="9.0"><th scope="row" style={CELL_H}>9.0%</th><td style={CELL}>212 mg/dL</td><td style={CELL}>11.8 mmol/L</td><td style={CELL_N}>Well above target</td></tr>
-                    <tr key="9.5"><th scope="row" style={CELL_H}>9.5%</th><td style={CELL}>226 mg/dL</td><td style={CELL}>12.6 mmol/L</td><td style={CELL_N}>Well above target</td></tr>
-                    <tr key="10.0"><th scope="row" style={CELL_H}>10.0%</th><td style={CELL}>240 mg/dL</td><td style={CELL}>13.4 mmol/L</td><td style={CELL_N}>Well above target</td></tr>
-                    <tr key="11.0"><th scope="row" style={CELL_H}>11.0%</th><td style={CELL}>269 mg/dL</td><td style={CELL}>14.9 mmol/L</td><td style={CELL_N}>Very high</td></tr>
-                    <tr key="12.0"><th scope="row" style={CELL_H}>12.0%</th><td style={CELL}>298 mg/dL</td><td style={CELL}>16.5 mmol/L</td><td style={CELL_N}>Very high</td></tr>
-                    <tr key="13.0"><th scope="row" style={CELL_H}>13.0%</th><td style={CELL}>326 mg/dL</td><td style={CELL}>18.1 mmol/L</td><td style={CELL_N}>Very high</td></tr>
-                    <tr key="14.0"><th scope="row" style={CELL_H}>14.0%</th><td style={CELL}>355 mg/dL</td><td style={CELL}>19.7 mmol/L</td><td style={CELL_N}>Very high</td></tr>
-                </tbody>
-              </table>
+          <section className={t.after}>
+            <div className={`editorial-prose ${t.prose}`}>
+              <h2>
+                A1C to average blood sugar chart
+              </h2>
+              <p>
+                Every A1C percentage maps to an estimated average glucose (eAG). The
+                calculator above is exact for any value you type; the chart below
+                covers the common reference points, from optimal through the
+                diabetes range.
+              </p>
+              <div className={t.tableWrap} data-rv="">
+                <table className={t.table}>
+                  <caption className={t.caption}>
+                    A1C to estimated average glucose (eAG), from 4.0% to 14.0%
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" className={t.colHead}>A1C</th>
+                      <th scope="col" className={t.colHead}>eAG (mg/dL)</th>
+                      <th scope="col" className={t.colHead}>eAG (mmol/L)</th>
+                      <th scope="col" className={t.colHead}>Band</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr key="4.0" data-tone="ok"><th scope="row" className={t.rowHead}>4.0%</th><td className={t.cell}>68 mg/dL</td><td className={t.cell}>3.8 mmol/L</td><td className={t.cellNote}>Low end of normal</td></tr>
+                      <tr key="4.5" data-tone="ok"><th scope="row" className={t.rowHead}>4.5%</th><td className={t.cell}>82 mg/dL</td><td className={t.cell}>4.6 mmol/L</td><td className={t.cellNote}>Normal</td></tr>
+                      <tr key="5.0" data-tone="ok"><th scope="row" className={t.rowHead}>5.0%</th><td className={t.cell}>97 mg/dL</td><td className={t.cell}>5.4 mmol/L</td><td className={t.cellNote}>Optimal</td></tr>
+                      <tr key="5.5" data-tone="ok"><th scope="row" className={t.rowHead}>5.5%</th><td className={t.cell}>111 mg/dL</td><td className={t.cell}>6.2 mmol/L</td><td className={t.cellNote}>Normal</td></tr>
+                      <tr key="5.7" data-tone="warn"><th scope="row" className={t.rowHead}>5.7%</th><td className={t.cell}>117 mg/dL</td><td className={t.cell}>6.5 mmol/L</td><td className={t.cellNote}>Prediabetes starts</td></tr>
+                      <tr key="6.0" data-tone="warn"><th scope="row" className={t.rowHead}>6.0%</th><td className={t.cell}>126 mg/dL</td><td className={t.cell}>7.0 mmol/L</td><td className={t.cellNote}>Prediabetes</td></tr>
+                      <tr key="6.4" data-tone="warn"><th scope="row" className={t.rowHead}>6.4%</th><td className={t.cell}>137 mg/dL</td><td className={t.cell}>7.6 mmol/L</td><td className={t.cellNote}>Top of prediabetes</td></tr>
+                      <tr key="6.5" data-tone="bad"><th scope="row" className={t.rowHead}>6.5%</th><td className={t.cell}>140 mg/dL</td><td className={t.cell}>7.8 mmol/L</td><td className={t.cellNote}>Diabetes threshold</td></tr>
+                      <tr key="7.0" data-tone="bad"><th scope="row" className={t.rowHead}>7.0%</th><td className={t.cell}>154 mg/dL</td><td className={t.cell}>8.6 mmol/L</td><td className={t.cellNote}>Common treatment target</td></tr>
+                      <tr key="7.5" data-tone="bad"><th scope="row" className={t.rowHead}>7.5%</th><td className={t.cell}>169 mg/dL</td><td className={t.cell}>9.4 mmol/L</td><td className={t.cellNote}>Above target</td></tr>
+                      <tr key="8.0" data-tone="bad"><th scope="row" className={t.rowHead}>8.0%</th><td className={t.cell}>183 mg/dL</td><td className={t.cell}>10.2 mmol/L</td><td className={t.cellNote}>Above target</td></tr>
+                      <tr key="8.5" data-tone="bad"><th scope="row" className={t.rowHead}>8.5%</th><td className={t.cell}>197 mg/dL</td><td className={t.cell}>11.0 mmol/L</td><td className={t.cellNote}>Above target</td></tr>
+                      <tr key="9.0" data-tone="bad"><th scope="row" className={t.rowHead}>9.0%</th><td className={t.cell}>212 mg/dL</td><td className={t.cell}>11.8 mmol/L</td><td className={t.cellNote}>Well above target</td></tr>
+                      <tr key="9.5" data-tone="bad"><th scope="row" className={t.rowHead}>9.5%</th><td className={t.cell}>226 mg/dL</td><td className={t.cell}>12.6 mmol/L</td><td className={t.cellNote}>Well above target</td></tr>
+                      <tr key="10.0" data-tone="bad"><th scope="row" className={t.rowHead}>10.0%</th><td className={t.cell}>240 mg/dL</td><td className={t.cell}>13.4 mmol/L</td><td className={t.cellNote}>Well above target</td></tr>
+                      <tr key="11.0" data-tone="bad"><th scope="row" className={t.rowHead}>11.0%</th><td className={t.cell}>269 mg/dL</td><td className={t.cell}>14.9 mmol/L</td><td className={t.cellNote}>Very high</td></tr>
+                      <tr key="12.0" data-tone="bad"><th scope="row" className={t.rowHead}>12.0%</th><td className={t.cell}>298 mg/dL</td><td className={t.cell}>16.5 mmol/L</td><td className={t.cellNote}>Very high</td></tr>
+                      <tr key="13.0" data-tone="bad"><th scope="row" className={t.rowHead}>13.0%</th><td className={t.cell}>326 mg/dL</td><td className={t.cell}>18.1 mmol/L</td><td className={t.cellNote}>Very high</td></tr>
+                      <tr key="14.0" data-tone="bad"><th scope="row" className={t.rowHead}>14.0%</th><td className={t.cell}>355 mg/dL</td><td className={t.cell}>19.7 mmol/L</td><td className={t.cellNote}>Very high</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h2>
+                Why A1C and average glucose tell different stories
+              </h2>
+              <p>
+                A1C measures the fraction of your hemoglobin that has sugar attached
+                to it, which reflects your average glucose over the 2–3 month
+                lifespan of a red blood cell. A fasting glucose reading, by contrast,
+                is a single morning snapshot. eAG bridges the two: it restates A1C in
+                the mg/dL units your meter shows, so a lab result and a home reading
+                finally speak the same language. When the two diverge sharply, it is
+                worth looking at red-blood-cell turnover — anemia and recent blood
+                loss can move A1C on their own.
+              </p>
             </div>
 
-            <h2
-              className="mt-12"
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-                marginBottom: "1rem",
-              }}
-            >
-              Why A1C and average glucose tell different stories
-            </h2>
-            <p
-              style={{
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: "var(--color-ink-secondary)",
-              }}
-            >
-              A1C measures the fraction of your hemoglobin that has sugar attached
-              to it, which reflects your average glucose over the 2–3 month
-              lifespan of a red blood cell. A fasting glucose reading, by contrast,
-              is a single morning snapshot. eAG bridges the two: it restates A1C in
-              the mg/dL units your meter shows, so a lab result and a home reading
-              finally speak the same language. When the two diverge sharply, it is
-              worth looking at red-blood-cell turnover — anemia and recent blood
-              loss can move A1C on their own.
-            </p>
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <dl className={t.faqList}>
+                {FAQ_ITEMS.map(({ q, a }) => (
+                  <div key={q} className={t.faqItem}>
+                    <dt className={t.faqQ}>
+                      {q}
+                    </dt>
+                    <dd className={t.faqA}>
+                      {a}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
 
-            <h2
-              className="mt-12"
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-                marginBottom: "1rem",
-              }}
-            >
-              Frequently asked questions
-            </h2>
-            <dl>
-              {FAQ_ITEMS.map(({ q, a }) => (
-                <div
-                  key={q}
-                  className="border-b py-5"
-                  style={{ borderColor: "var(--color-grid)" }}
-                >
-                  <dt
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: 19,
-                      fontWeight: 400,
-                      letterSpacing: "-0.01em",
-                      color: "var(--color-ink)",
-                    }}
-                  >
-                    {q}
-                  </dt>
-                  <dd
-                    className="mt-2"
-                    style={{
-                      fontSize: 15.5,
-                      lineHeight: 1.65,
-                      color: "var(--color-ink-secondary)",
-                    }}
-                  >
-                    {a}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+              <p className={t.reference}>
+                Reference: Nathan DM, Kuenen J, Borg R, Zheng H, Schoenfeld D,
+                Heine RJ. <em>Translating the A1C assay into estimated average
+                glucose values.</em> Diabetes Care 2008;31(8):1473-1478.
+              </p>
+            </div>
 
-            <p
-              className="mt-10"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 12,
-                letterSpacing: "0.06em",
-                lineHeight: 1.7,
-                color: "var(--color-ink-tertiary)",
-              }}
-            >
-              Reference: Nathan DM, Kuenen J, Borg R, Zheng H, Schoenfeld D,
-              Heine RJ. <em>Translating the A1C assay into estimated average
-              glucose values.</em> Diabetes Care 2008;31(8):1473-1478.
-            </p>
-
-            <div
-              className="mt-12 rounded-xl p-6 md:p-7"
-              style={{
-                background: "var(--color-canvas-alt, #ffffff)",
-                border: "1px solid var(--color-grid)",
-              }}
-            >
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-green-deep)",
-                  fontWeight: 500,
-                }}
-              >
-                Track this in Merios
-              </p>
-              <p
-                className="mt-3"
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: 22,
-                  fontWeight: 300,
-                  letterSpacing: "-0.02em",
-                  color: "var(--color-ink)",
-                  lineHeight: 1.25,
-                }}
-              >
-                One A1C is a number. A trend line is a warning — or an all-clear.
-              </p>
-              <p
-                className="mt-3"
-                style={{
-                  fontSize: 14.5,
-                  lineHeight: 1.6,
-                  color: "var(--color-ink-secondary)",
-                }}
-              >
-                Merios converts every A1C you upload to eAG automatically and plots
-                it against your fasting glucose, weight, and sleep — so you can see
-                whether the line is bending the right way.
-              </p>
-              <Link
-                href="/early-access"
-                className="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-[14px] font-medium transition-all hover:-translate-y-0.5"
-                style={{
-                  background: "var(--color-green-deep)",
-                  color: "var(--color-canvas)",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
-                Get the app
-              </Link>
-              <Link
-                href="/blog/hba1c-5-7-pre-diabetic"
-                className="mt-5 ml-3 inline-flex items-center gap-2 px-3 py-3 text-[14px] font-medium"
-                style={{
-                  color: "var(--color-ink-secondary)",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
-                What an A1C of 5.7% means →
-              </Link>
+            <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
+              <div className={t.ctaCopy}>
+                <p className={`label ${t.ctaEyebrow}`}>
+                  <span aria-hidden className="label-dot" />
+                  Track this in Merios
+                </p>
+                <p className={`chrome-text ${t.ctaQuote}`}>
+                  One A1C is a number. A trend line is a warning — or an all-clear.
+                </p>
+                <p className={t.ctaText}>
+                  Merios converts every A1C you upload to eAG automatically and plots
+                  it against your fasting glucose, weight, and sleep — so you can see
+                  whether the line is bending the right way.
+                </p>
+              </div>
+              <div className={t.ctaActions}>
+                <Link href="/early-access" className="btn btn-lime">
+                  Get the app
+                </Link>
+                <Link href="/blog/hba1c-5-7-pre-diabetic" className="btn btn-ghost-night">
+                  What an A1C of 5.7% means →
+                </Link>
+              </div>
+              <CtaPulse />
             </div>
           </section>
         </div>

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import TSATCalculator from "@/components/calculators/TSATCalculator";
 import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import t from "../tools.module.css";
 
 const TITLE = "TSAT Calculator (Transferrin Saturation)";
 const DESCRIPTION =
@@ -65,84 +66,86 @@ export default function Page() {
         align="left"
       />
 
-      <main className="pb-20 pt-2" style={{ background: "var(--color-canvas)" }}>
-        <div className="mx-auto max-w-[920px] px-6 md:px-10">
+      <main className={t.main}>
+        <div className={t.wrap}>
           <TSATCalculator />
-          <section className="mt-14 max-w-[720px]" style={{ fontFamily: "var(--font-sans)" }}>
-            <h2 style={h2Style}>The TSAT formula</h2>
-            <p style={pStyle}>
-              Transferrin saturation is not measured directly. It is a ratio, calculated from two numbers your lab
-              already printed:
-            </p>
-            <p style={formulaStyle}>TSAT (%) = serum iron ÷ TIBC × 100</p>
-            <p style={pStyle}>
-              Both values are in micrograms per deciliter on a US panel. A serum iron of 90 with a TIBC of 320 gives
-              90 ÷ 320 = 0.281, so a saturation of 28.1 percent. That is the whole calculation — the difficulty is
-              almost never the arithmetic, it is that your report may not contain a line called TIBC at all.
-            </p>
+          <section className={t.after}>
+            <div className={`editorial-prose ${t.prose}`}>
+              <h2>The TSAT formula</h2>
+              <p>
+                Transferrin saturation is not measured directly. It is a ratio, calculated from two numbers your lab
+                already printed:
+              </p>
+              <p className={t.formula}>TSAT (%) = serum iron ÷ TIBC × 100</p>
+              <p>
+                Both values are in micrograms per deciliter on a US panel. A serum iron of 90 with a TIBC of 320 gives
+                90 ÷ 320 = 0.281, so a saturation of 28.1 percent. That is the whole calculation — the difficulty is
+                almost never the arithmetic, it is that your report may not contain a line called TIBC at all.
+              </p>
 
-            <h2 style={h2Style}>When your lab prints UIBC or transferrin instead</h2>
-            <p style={pStyle}>
-              Three assays are in common use, and most calculators only handle the first one. All three get you to
-              the same place:
-            </p>
-            <p style={pStyle}>
-              <strong>TIBC</strong> — use it directly. <strong>UIBC</strong>, the unsaturated portion, adds to serum
-              iron to give TIBC: 90 + 230 = 320. <strong>Transferrin</strong> in grams per litre converts with a
-              factor of 125, because one milligram per deciliter of transferrin binds about 1.25 micrograms per
-              deciliter of iron and one gram per litre is 100 milligrams per deciliter: 2.56 × 125 = 320.
-            </p>
-            <p style={pStyle}>
-              A factor of about 25 also circulates for the transferrin path, and it is correct in its own context:
-              it gives TIBC in micromoles per litre, for use with a serum iron also reported in micromoles per litre.
-              Applied to a US panel, where serum iron is in micrograms per deciliter, it produces saturations far
-              above 100 percent — physiologically impossible, and a common way to frighten yourself over nothing. The
-              toggle above picks the right path so the question does not arise.
-            </p>
+              <h2>When your lab prints UIBC or transferrin instead</h2>
+              <p>
+                Three assays are in common use, and most calculators only handle the first one. All three get you to
+                the same place:
+              </p>
+              <p>
+                <strong>TIBC</strong> — use it directly. <strong>UIBC</strong>, the unsaturated portion, adds to serum
+                iron to give TIBC: 90 + 230 = 320. <strong>Transferrin</strong> in grams per litre converts with a
+                factor of 125, because one milligram per deciliter of transferrin binds about 1.25 micrograms per
+                deciliter of iron and one gram per litre is 100 milligrams per deciliter: 2.56 × 125 = 320.
+              </p>
+              <p>
+                A factor of about 25 also circulates for the transferrin path, and it is correct in its own context:
+                it gives TIBC in micromoles per litre, for use with a serum iron also reported in micromoles per litre.
+                Applied to a US panel, where serum iron is in micrograms per deciliter, it produces saturations far
+                above 100 percent — physiologically impossible, and a common way to frighten yourself over nothing. The
+                toggle above picks the right path so the question does not arise.
+              </p>
 
-            <h2 style={h2Style}>Reading the percentage you get</h2>
-            <p style={pStyle}>
-              Most US laboratories print a normal range of roughly 20 to 50 percent. The tighter 25 to 35 percent
-              band shown with your result is the zone where iron supply is comfortable rather than merely inside the
-              lab range — the distinction between a normal result and a good one, which is the distinction most panels
-              never make.
-            </p>
-            <p style={pStyle}>
-              Below 20 percent is the classic deficiency pattern and can appear before hemoglobin falls. Above 45
-              percent, repeated on a fasting sample, is the usual trigger to investigate iron overload including
-              hereditary hemochromatosis. Two things move the number without your iron having changed: a
-              non-fasting draw or a recent iron supplement pushes it up, and anything that shifts transferrin —
-              pregnancy, oral contraceptives, liver disease — moves the ratio from the denominator. A fasting morning
-              draw is the one worth comparing over time.
-            </p>
+              <h2>Reading the percentage you get</h2>
+              <p>
+                Most US laboratories print a normal range of roughly 20 to 50 percent. The tighter 25 to 35 percent
+                band shown with your result is the zone where iron supply is comfortable rather than merely inside the
+                lab range — the distinction between a normal result and a good one, which is the distinction most panels
+                never make.
+              </p>
+              <p>
+                Below 20 percent is the classic deficiency pattern and can appear before hemoglobin falls. Above 45
+                percent, repeated on a fasting sample, is the usual trigger to investigate iron overload including
+                hereditary hemochromatosis. Two things move the number without your iron having changed: a
+                non-fasting draw or a recent iron supplement pushes it up, and anything that shifts transferrin —
+                pregnancy, oral contraceptives, liver disease — moves the ratio from the denominator. A fasting morning
+                draw is the one worth comparing over time.
+              </p>
 
-            <h2 style={h2Style}>Why TSAT catches what ferritin misses</h2>
-            <p style={pStyle}>
-              Ferritin is the marker most people know, and it is a good one — but it has a well-documented blind spot.
-              Ferritin is an acute-phase reactant, meaning it rises with inflammation, infection, obesity and liver
-              disease regardless of how much iron you actually have. That is how someone can be told their{" "}
-              <Link href="/blog/ferritin-30-low-normal" style={linkStyle}>ferritin is normal</Link> while being
-              genuinely iron deficient. Transferrin saturation is not distorted the same way, so a low TSAT alongside
-              a normal-looking ferritin is one of the most informative patterns on a panel — the case covered in{" "}
-              <Link href="/blog/ferritin-vs-iron-saturation" style={linkStyle}>ferritin versus iron saturation</Link>.
-            </p>
+              <h2>Why TSAT catches what ferritin misses</h2>
+              <p>
+                Ferritin is the marker most people know, and it is a good one — but it has a well-documented blind spot.
+                Ferritin is an acute-phase reactant, meaning it rises with inflammation, infection, obesity and liver
+                disease regardless of how much iron you actually have. That is how someone can be told their{" "}
+                <Link href="/blog/ferritin-30-low-normal">ferritin is normal</Link> while being
+                genuinely iron deficient. Transferrin saturation is not distorted the same way, so a low TSAT alongside
+                a normal-looking ferritin is one of the most informative patterns on a panel — the case covered in{" "}
+                <Link href="/blog/ferritin-vs-iron-saturation">ferritin versus iron saturation</Link>.
+              </p>
 
-            <h2 style={h2Style}>Reading it alongside the rest of your panel</h2>
-            <p style={pStyle}>
-              TSAT is rarely interpreted alone. Low TSAT with{" "}
-              <Link href="/blog/low-ferritin-normal-hemoglobin" style={linkStyle}>normal hemoglobin</Link> suggests
-              depletion that has not yet become anemia. Low TSAT with a low{" "}
-              <Link href="/blog/mcv-mch-blood-test-meaning" style={linkStyle}>MCV and MCH</Link> points toward
-              established iron-deficiency anemia. If you have been supplementing without improvement, the reasons are
-              covered in{" "}
-              <Link href="/blog/iron-supplements-not-working" style={linkStyle}>why iron supplements stop working</Link>.
-            </p>
-            <p style={pStyle}>
-              One saturation is a snapshot of a value that moves. The pattern worth having is the same fasting draw
-              tracked across several panels, with ferritin beside it — which is what{" "}
-              <Link href="/early-access" style={linkStyle}>Merios</Link> is built to do from the reports you already
-              have.
-            </p>
+              <h2>Reading it alongside the rest of your panel</h2>
+              <p>
+                TSAT is rarely interpreted alone. Low TSAT with{" "}
+                <Link href="/blog/low-ferritin-normal-hemoglobin">normal hemoglobin</Link> suggests
+                depletion that has not yet become anemia. Low TSAT with a low{" "}
+                <Link href="/blog/mcv-mch-blood-test-meaning">MCV and MCH</Link> points toward
+                established iron-deficiency anemia. If you have been supplementing without improvement, the reasons are
+                covered in{" "}
+                <Link href="/blog/iron-supplements-not-working">why iron supplements stop working</Link>.
+              </p>
+              <p>
+                One saturation is a snapshot of a value that moves. The pattern worth having is the same fasting draw
+                tracked across several panels, with ferritin beside it — which is what{" "}
+                <Link href="/early-access">Merios</Link> is built to do from the reports you already
+                have.
+              </p>
+            </div>
           </section>
         </div>
       </main>
@@ -150,18 +153,3 @@ export default function Page() {
     </>
   );
 }
-
-const h2Style: React.CSSProperties = {
-  fontFamily: "var(--font-serif)", fontSize: "clamp(1.625rem, 2.4vw, 2rem)", fontWeight: 300,
-  letterSpacing: "-0.02em", color: "var(--color-ink)", marginBottom: "0.75rem", marginTop: "3rem",
-};
-const pStyle: React.CSSProperties = {
-  fontSize: 16, lineHeight: 1.7, color: "var(--color-ink-secondary)", marginBottom: "1.1rem",
-};
-const formulaStyle: React.CSSProperties = {
-  fontFamily: "var(--font-mono)", fontSize: 15, lineHeight: 1.6, color: "var(--color-ink)",
-  marginBottom: "1.1rem", padding: "0.85rem 1rem", borderRadius: 10,
-  background: "color-mix(in srgb, var(--color-pulse) 10%, var(--color-canvas))",
-  border: "1px solid color-mix(in srgb, var(--color-pulse) 26%, transparent)",
-};
-const linkStyle: React.CSSProperties = { color: "var(--color-green-deep)", textUnderlineOffset: "3px" };

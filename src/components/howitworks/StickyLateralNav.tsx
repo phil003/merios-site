@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useLenis } from "@/components/providers/LenisProvider";
+import styles from "./hiw.module.css";
 
 /**
  * StickyLateralNav — desktop-only sticky table-of-contents for
- * /how-it-works. Desktop ≥ 1024 px only; hidden on mobile/tablet where the
- * sections stack naturally.
+ * /how-it-works. Desktop ≥ 1200 px only (v3: below that the step cards need
+ * the full width); hidden on mobile/tablet where the sections stack naturally.
  *
  * Active-step detection:
  *   - IntersectionObserver watches each [data-hiw-section] element.
@@ -15,10 +16,10 @@ import { useLenis } from "@/components/providers/LenisProvider";
  *     mirrors a "top 45%" heuristic without triggering React re-renders
  *     per scroll tick (only re-renders when the active id changes).
  *
- * Active-state visual (motion-free, same convention as ArticleTOC):
- *   - Each label owns an underline span; the active one crossfades in via
- *     a plain CSS opacity transition. (Replaces the previous Motion
- *     `layoutId` shared-layout spring that slid between links.)
+ * Active-state visual (motion-free, v3):
+ *   - The active link (aria-current="location") becomes a white pill and
+ *     its step number turns into an ink chip with a lime numeral — a plain
+ *     CSS transition in hiw.module.css, no React-driven inline styles.
  *
  * Click behaviour:
  *   - If a Lenis instance is available, scroll with
@@ -114,22 +115,10 @@ export default function StickyLateralNav() {
   return (
     <nav
       aria-label="How Merios works — sections"
-      className="hidden lg:sticky lg:top-28 lg:block lg:self-start"
+      className={styles.lateral}
     >
-      <p
-        className="mb-5"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 10.5,
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
-          color: "var(--color-ink-tertiary)",
-          fontWeight: 500,
-        }}
-      >
-        On this page
-      </p>
-      <ol className="flex flex-col gap-3">
+      <p className={styles.navTitle}>On this page</p>
+      <ol className={styles.navList}>
         {LINKS.map((link, i) => {
           const isActive = link.id === activeId;
           return (
@@ -139,40 +128,12 @@ export default function StickyLateralNav() {
                 data-anchor={link.id}
                 onClick={handleClick(link.id)}
                 aria-current={isActive ? "location" : undefined}
-                className="hiw-nav-link group flex items-baseline gap-3 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 14.5,
-                  color: isActive
-                    ? "var(--color-ink)"
-                    : "var(--color-ink-secondary)",
-                  transition: "color 300ms var(--ease-expo)",
-                }}
+                className={`hiw-nav-link ${styles.navLink}`}
               >
-                <span
-                  aria-hidden
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 11,
-                    letterSpacing: "0.12em",
-                    color: "var(--color-ink-tertiary)",
-                    fontVariantNumeric: "tabular-nums",
-                  }}
-                >
+                <span aria-hidden className={styles.navNum}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="hiw-nav-label relative inline-block">
-                  {link.label}
-                  <span
-                    aria-hidden
-                    className="absolute left-0 -bottom-0.5 block h-px w-full"
-                    style={{
-                      background: "var(--color-green-deep)",
-                      opacity: isActive ? 1 : 0,
-                      transition: "opacity 240ms var(--ease-expo)",
-                    }}
-                  />
-                </span>
+                <span className="hiw-nav-label">{link.label}</span>
               </a>
             </li>
           );

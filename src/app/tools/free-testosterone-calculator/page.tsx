@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import FreeTestosteroneCalculator from "@/components/calculators/FreeTestosteroneCalculator";
 import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
   {
@@ -86,69 +87,71 @@ export default function FreeTestosteroneCalculatorPage() {
         align="left"
       />
 
-      <main className="pb-20 pt-2" style={{ background: "var(--color-canvas)" }}>
-        <div className="mx-auto max-w-[920px] px-6 md:px-10">
+      <main className={t.main}>
+        <div className={t.wrap}>
           <FreeTestosteroneCalculator />
 
-          <section className="mt-14 max-w-[720px]" style={{ fontFamily: "var(--font-sans)" }}>
-            <h2 style={h2Style}>Why total testosterone can mislead you</h2>
-            <p style={pStyle}>
-              Most of the testosterone circulating in your blood is not available to your tissues. Roughly two thirds is
-              bound tightly to SHBG and effectively locked away; most of the rest is bound loosely to albumin and can
-              still be released. Only about 1 to 3 percent circulates completely unbound.
-            </p>
-            <p style={pStyle}>
-              That matters because SHBG varies enormously between people and rises with age, thyroid excess, liver
-              disease, and several medications. Two men with an identical total testosterone of 500 ng/dL can have very
-              different free levels if one has an SHBG of 20 and the other 60. This is the single most common reason a
-              result looks reassuring on paper while symptoms persist — and it is exactly what this calculation is for.
-              The distinction is covered in more depth in{" "}
-              <Link href="/blog/free-testosterone-vs-total-testosterone" style={linkStyle}>
-                free testosterone versus total testosterone
-              </Link>
-              .
-            </p>
+          <section className={t.after}>
+            <div className={`editorial-prose ${t.prose}`}>
+              <h2>Why total testosterone can mislead you</h2>
+              <p>
+                Most of the testosterone circulating in your blood is not available to your tissues. Roughly two thirds is
+                bound tightly to SHBG and effectively locked away; most of the rest is bound loosely to albumin and can
+                still be released. Only about 1 to 3 percent circulates completely unbound.
+              </p>
+              <p>
+                That matters because SHBG varies enormously between people and rises with age, thyroid excess, liver
+                disease, and several medications. Two men with an identical total testosterone of 500 ng/dL can have very
+                different free levels if one has an SHBG of 20 and the other 60. This is the single most common reason a
+                result looks reassuring on paper while symptoms persist — and it is exactly what this calculation is for.
+                The distinction is covered in more depth in{" "}
+                <Link href="/blog/free-testosterone-vs-total-testosterone">
+                  free testosterone versus total testosterone
+                </Link>
+                .
+              </p>
 
-            <h2 style={h2Style}>Why calculated, not the direct test</h2>
-            <p style={pStyle}>
-              Many labs offer a direct free testosterone immunoassay. It is inexpensive and widely regarded as
-              unreliable. The reference method, equilibrium dialysis, is accurate but costly and not always available.
-              Calculated free testosterone using the Vermeulen equation agrees closely with equilibrium dialysis in most
-              patients, which is why it has become the practical standard — and why it is worth running the numbers
-              yourself if your report only shows a direct value.
-            </p>
+              <h2>Why calculated, not the direct test</h2>
+              <p>
+                Many labs offer a direct free testosterone immunoassay. It is inexpensive and widely regarded as
+                unreliable. The reference method, equilibrium dialysis, is accurate but costly and not always available.
+                Calculated free testosterone using the Vermeulen equation agrees closely with equilibrium dialysis in most
+                patients, which is why it has become the practical standard — and why it is worth running the numbers
+                yourself if your report only shows a direct value.
+              </p>
 
-            <h2 style={h2Style}>Getting the units right</h2>
-            <p style={pStyle}>
-              Two unit errors account for most wrong answers from calculators like this one. The first is albumin: US
-              reports use g/dL (typically around 4.3) while many other countries use g/L (around 43), and entering one
-              for the other silently produces a plausible but wrong result. The second is the output: free testosterone
-              in pg/mL is ten times the ng/dL figure, so a value of 110 pg/mL and 11 ng/dL are the same number. The unit
-              switches above handle both.
-            </p>
-            <p style={pStyle}>
-              If albumin was not measured on your panel, 4.3 g/dL is the standard assumed value and is prefilled. Using
-              the assumption introduces only a small error in most people, but it matters more in liver disease,
-              nephrotic syndrome, or significant malnutrition, where albumin genuinely deviates.
-            </p>
+              <h2>Getting the units right</h2>
+              <p>
+                Two unit errors account for most wrong answers from calculators like this one. The first is albumin: US
+                reports use g/dL (typically around 4.3) while many other countries use g/L (around 43), and entering one
+                for the other silently produces a plausible but wrong result. The second is the output: free testosterone
+                in pg/mL is ten times the ng/dL figure, so a value of 110 pg/mL and 11 ng/dL are the same number. The unit
+                switches above handle both.
+              </p>
+              <p>
+                If albumin was not measured on your panel, 4.3 g/dL is the standard assumed value and is prefilled. Using
+                the assumption introduces only a small error in most people, but it matters more in liver disease,
+                nephrotic syndrome, or significant malnutrition, where albumin genuinely deviates.
+              </p>
 
-            <h2 style={h2Style}>Where to go next</h2>
-            <p style={pStyle}>
-              Testosterone is diurnal and varies between draws, so a morning sample and a repeat before any conclusion
-              are both standard practice. For context on how levels shift across a lifetime, see{" "}
-              <Link href="/blog/testosterone-levels-by-age" style={linkStyle}>
-                testosterone levels by age
-              </Link>
-              ; for what a specific mid-range number means, see{" "}
-              <Link href="/blog/testosterone-400-normal" style={linkStyle}>
-                whether a testosterone of 400 is normal
-              </Link>
-              ; and for the younger cohort,{" "}
-              <Link href="/blog/low-testosterone-young-men-under-30" style={linkStyle}>
-                low testosterone in men under 30
-              </Link>
-              .
-            </p>
+              <h2>Where to go next</h2>
+              <p>
+                Testosterone is diurnal and varies between draws, so a morning sample and a repeat before any conclusion
+                are both standard practice. For context on how levels shift across a lifetime, see{" "}
+                <Link href="/blog/testosterone-levels-by-age">
+                  testosterone levels by age
+                </Link>
+                ; for what a specific mid-range number means, see{" "}
+                <Link href="/blog/testosterone-400-normal">
+                  whether a testosterone of 400 is normal
+                </Link>
+                ; and for the younger cohort,{" "}
+                <Link href="/blog/low-testosterone-young-men-under-30">
+                  low testosterone in men under 30
+                </Link>
+                .
+              </p>
+            </div>
           </section>
         </div>
       </main>
@@ -156,20 +159,3 @@ export default function FreeTestosteroneCalculatorPage() {
     </>
   );
 }
-
-const h2Style: React.CSSProperties = {
-  fontFamily: "var(--font-serif)",
-  fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-  fontWeight: 300,
-  letterSpacing: "-0.02em",
-  color: "var(--color-ink)",
-  marginBottom: "0.75rem",
-  marginTop: "3rem",
-};
-const pStyle: React.CSSProperties = {
-  fontSize: 16,
-  lineHeight: 1.7,
-  color: "var(--color-ink-secondary)",
-  marginBottom: "1.1rem",
-};
-const linkStyle: React.CSSProperties = { color: "var(--color-green-deep)", textUnderlineOffset: "3px" };

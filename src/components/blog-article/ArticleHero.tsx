@@ -1,7 +1,9 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ArticleCover from "@/components/blog/ArticleCover";
 import ArticleMeta from "@/components/ui/ArticleMeta";
+import styles from "./article.module.css";
 
 interface ArticleHeroProps {
   title: string;
@@ -11,18 +13,27 @@ interface ArticleHeroProps {
   readingMinutes: number;
   category: string;
   slug: string;
+  /** Kept for API compatibility — the image renders via <ArticleFigure />. */
   image?: string;
 }
 
+/** Display size by title length — long SEO titles stay at 3–4 lines. */
+function titleSize(title: string): string {
+  if (title.length > 92) return "clamp(2rem, 1.1rem + 2.15vw, 3.3rem)";
+  if (title.length > 64) return "clamp(2.1rem, 1.1rem + 2.6vw, 3.75rem)";
+  if (title.length > 38) return "clamp(2.3rem, 1.15rem + 3.1vw, 4.4rem)";
+  return "var(--text-display-l)";
+}
+
 /**
- * Editorial hero for the /blog/[slug] article.
+ * Night masthead for the /blog/[slug] article (site v3).
  *
- * - Top-level breadcrumb (Home / Blog / [Title])
- * - Category eyebrow (pulse dot + mono uppercase, same spec as PageHero)
- * - Fraunces title (weight 300, -0.03em, line-height 1.02)
- * - Sans subline (Inter Tight, clamp 17 → 19px, line-height 1.6)
- * - ArticleMeta row (date · reading · category · author)
- * - Optional featured image (rounded-xl, 1200 × 675 target)
+ * - Breadcrumb (Home / Blog / [Title]) in mono caps on the night stage
+ * - Category eyebrow (.label + lime dot)
+ * - Display H1 in Bricolage, white, tight tracking — kept as one plain text
+ *   node (no per-character spans) so crawlers read the exact title
+ * - Lead paragraph + mono meta row (date · reading · category · author)
+ * - The logo's heartbeat as the masthead horizon, like PageHero
  *
  * Staggered fade-up via CSS `.he` keyframes (LCP-safe: plays at parse time,
  * never gated behind JS hydration — see globals.css).
@@ -34,174 +45,149 @@ export default function ArticleHero({
   dateModified,
   readingMinutes,
   category,
-  slug,
-  image,
 }: ArticleHeroProps) {
   return (
-    <header
-      className="relative pt-28 pb-12 md:pt-32 md:pb-16"
-      style={{ background: "var(--color-canvas)" }}
-    >
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10">
+    <header className="v3-hero night relative" data-nav="dark">
+      <div className={`${styles.container} ${styles.heroInner}`}>
         {/* Breadcrumb */}
-        <nav
-          aria-label="Breadcrumb"
-          className="inline-flex flex-wrap items-center gap-2"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          <ol className="inline-flex flex-wrap items-center gap-2">
+        <nav aria-label="Breadcrumb" className={`he ${styles.crumbs}`}>
+          <ol>
             <li>
-              <Link
-                href="/"
-                className="breadcrumb-link rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                  fontWeight: 500,
-                }}
-              >
+              <Link href="/" className={styles.crumbLink}>
                 Home
               </Link>
             </li>
-            <li aria-hidden style={{ color: "var(--color-ink-tertiary)" }}>
+            <li aria-hidden className={styles.crumbSep}>
               /
             </li>
             <li>
-              <Link
-                href="/blog"
-                className="breadcrumb-link rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                  fontWeight: 500,
-                }}
-              >
+              <Link href="/blog" className={styles.crumbLink}>
                 Blog
               </Link>
             </li>
-            <li aria-hidden style={{ color: "var(--color-ink-tertiary)" }}>
+            <li aria-hidden className={styles.crumbSep}>
               /
             </li>
-            <li
-              aria-current="page"
-              className="max-w-[240px] truncate"
-              style={{
-                fontSize: 10.5,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "var(--color-green-deep)",
-                fontWeight: 500,
-              }}
-            >
+            <li aria-current="page" className={styles.crumbCurrent}>
               {title}
             </li>
           </ol>
         </nav>
 
         {/* Content stack */}
-        <div className="mt-10 max-w-[900px]">
-          <div className="he">
-            {/* Category chip (pulse dot + mono caps) */}
-            <div
-              className="inline-flex items-center gap-2.5"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              <span
-                aria-hidden
-                className="inline-block h-1.5 w-1.5 rounded-full"
-                style={{ background: "var(--color-pulse)" }}
-              />
-              <span
-                style={{
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-green-deep)",
-                  fontWeight: 500,
-                }}
-              >
-                {category}
-              </span>
-            </div>
-
-            <h1
-              className="mt-7"
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
-                fontWeight: 300,
-                lineHeight: 1.02,
-                letterSpacing: "-0.03em",
-                color: "var(--color-ink)",
-              }}
-            >
-              {title}
-            </h1>
+        <div className={styles.heroCopy}>
+          <div
+            className={`he label ${styles.heroEyebrow}`}
+            style={{ "--he-d": "0.04s" } as CSSProperties}
+          >
+            <span aria-hidden className="label-dot" />
+            <span>{category}</span>
           </div>
 
-          <div className="he" style={{ "--he-d": "0.12s" } as CSSProperties}>
-            <p
-              className="mt-7 max-w-[720px]"
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "clamp(1.0625rem, 1.2vw, 1.1875rem)",
-                lineHeight: 1.6,
-                color: "var(--color-ink-secondary)",
-                letterSpacing: "-0.005em",
-              }}
-            >
-              {description}
-            </p>
-          </div>
+          <h1
+            className={`he display ${styles.heroTitle}`}
+            style={
+              {
+                fontSize: titleSize(title),
+                "--he-d": "0.08s",
+              } as CSSProperties
+            }
+          >
+            {title}
+          </h1>
 
-          <div className="he" style={{ "--he-d": "0.24s" } as CSSProperties}>
-            <div
-              className="mt-8 pt-7 border-t"
-              style={{ borderColor: "var(--color-grid)" }}
-            >
-              <ArticleMeta
-                date={dateModified && dateModified !== date ? dateModified : date}
-                readingTime={readingMinutes}
-                category={category}
-                author="Merios Editorial"
-              />
-            </div>
+          <p
+            className={`he ${styles.heroLead}`}
+            style={{ "--he-d": "0.18s" } as CSSProperties}
+          >
+            {description}
+          </p>
+
+          <div
+            className={`he ${styles.heroMeta}`}
+            style={{ "--he-d": "0.28s" } as CSSProperties}
+          >
+            <ArticleMeta
+              tone="night"
+              date={dateModified && dateModified !== date ? dateModified : date}
+              readingTime={readingMinutes}
+              category={category}
+              author="Merios Editorial"
+            />
           </div>
         </div>
-
-        {/* Featured image */}
-        {image ? (
-          <div className="he" style={{ "--he-d": "0.36s" } as CSSProperties}>
-            <figure
-              className="mt-12 overflow-hidden rounded-xl"
-              style={{
-                border: "1px solid var(--color-grid)",
-                background: "var(--color-canvas-alt)",
-              }}
-            >
-              <Image
-                src={image}
-                alt={title}
-                width={1200}
-                height={675}
-                priority={false}
-                sizes="(min-width: 1200px) 1200px, 100vw"
-                style={{ width: "100%", height: "auto", display: "block" }}
-              />
-            </figure>
-          </div>
-        ) : null}
       </div>
 
-      <style>{`
-        .breadcrumb-link:hover {
-          color: var(--color-green-deep) !important;
-        }
-      `}</style>
+      {/* The logo's heartbeat as the masthead's horizon */}
+      <svg
+        className="v3-hero__pulse"
+        aria-hidden
+        focusable="false"
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="article-hero-pulse-fade" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+            <stop offset="0.45" stopColor="#FFFFFF" stopOpacity="0.22" />
+            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.5" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
+          fill="none"
+          stroke="url(#article-hero-pulse-fade)"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+      <span className="v3-hero__dot" aria-hidden />
     </header>
+  );
+}
+
+/**
+ * The article's featured image (frontmatter `image`), set as a rounded plate
+ * at the head of the reading column, below the masthead.
+ */
+// Most articles carry the site-wide share card as their "featured image"
+// (frontmatter `image: "/og-image.png"`). Inside an article that card reads
+// as a banner, so the slot shows the article's own cover instead — the same
+// art as its card on /blog — keeping the image role and its alt (the title).
+// A genuine per-article image still renders as a photo.
+const SITE_SHARE_CARD = "/og-image.png";
+
+export function ArticleFigure({
+  image,
+  title,
+  slug,
+  tag,
+}: {
+  image: string;
+  title: string;
+  slug: string;
+  tag: string;
+}) {
+  if (image === SITE_SHARE_CARD) {
+    return (
+      <figure className={`${styles.figure} ${styles.figureCover}`} role="img" aria-label={title}>
+        <ArticleCover post={{ slug, title, tag }} className="block h-full w-full" />
+      </figure>
+    );
+  }
+  return (
+    <figure className={styles.figure}>
+      <Image
+        src={image}
+        alt={title}
+        width={1200}
+        height={675}
+        priority={false}
+        sizes="(min-width: 1024px) 680px, 100vw"
+        style={{ width: "100%", height: "auto", display: "block" }}
+      />
+    </figure>
   );
 }

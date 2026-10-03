@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 
 /**
  * Reading-progress bar. Fixed top of the viewport, scales with scroll.
+ * Site v3: a lime bar with an olive underline (lime-deep) so it reads on the
+ * night masthead (glow) and on the fog reading surface alike.
  *
  * Vanilla rAF-throttled scroll listener — replaces the previous motion/react
  * useScroll implementation so the blog route ships no animation runtime.
@@ -46,8 +48,12 @@ export default function ReadingProgress() {
     <div
       ref={barRef}
       aria-hidden
-      className="reading-progress pointer-events-none fixed top-0 left-0 right-0 z-40 h-[2px]"
-      style={{ background: "var(--color-green-deep)" }}
+      className="reading-progress pointer-events-none fixed top-0 left-0 right-0 z-40 h-[3px]"
+      style={{
+        background: "var(--color-lime)",
+        boxShadow:
+          "inset 0 -1px 0 var(--color-lime-deep), 0 0 12px rgb(214 240 80 / 0.55)",
+      }}
     />
   );
 }

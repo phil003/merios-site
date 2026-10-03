@@ -1,151 +1,162 @@
 "use client";
 
 /**
- * Shared UI primitives for the calculator components.
+ * Shared UI primitives for the calculator components (site v3).
  *
- * The first five calculators each inlined their own copies of these. Rather
- * than paste a sixth, seventh and eighth copy, the common pieces live here.
- * Visual output is identical to the inlined versions — this is a de-duplication,
- * not a redesign.
+ * Presentation only: every calculator keeps its own maths, validation, units,
+ * thresholds, labels and copy. These pieces render the v3 "instrument card":
+ * a white lab card (mono labels, units never uppercased, generous inputs), and
+ * the lilac "Merios says" result sticker with a status chip and the range bar
+ * from the homepage translator. Styles live in calculators.module.css and are
+ * scoped so they also hold inside .editorial-prose (calculators embedded in
+ * blog articles).
  */
 
 import type { CSSProperties, ReactNode } from "react";
+import s from "./calculators.module.css";
 
-export const eyebrowStyle: CSSProperties = {
-  fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.2em",
-  textTransform: "uppercase", color: "var(--color-green-deep)", fontWeight: 500, marginBottom: "0.5rem",
-};
-export const titleStyle: CSSProperties = {
-  fontFamily: "var(--font-serif)", fontSize: "1.75rem", lineHeight: 1.15, letterSpacing: "-0.02em",
-  color: "var(--color-ink)", marginBottom: "1.25rem", fontWeight: 400,
-};
-export const resultLabelStyle: CSSProperties = {
-  fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.18em",
-  textTransform: "uppercase", fontWeight: 600, marginBottom: "0.4rem",
-};
-export const bigNumberStyle: CSSProperties = {
-  fontFamily: "var(--font-serif)", fontSize: "2.75rem", lineHeight: 1,
-  letterSpacing: "-0.03em", color: "var(--color-ink)",
-};
-export const resultTextStyle: CSSProperties = {
-  fontFamily: "var(--font-sans)", fontSize: "0.9375rem", lineHeight: 1.5,
-  marginTop: "0.75rem", color: "var(--color-ink-secondary)",
-};
-export const emptyStyle: CSSProperties = {
-  fontFamily: "var(--font-sans)", fontSize: "0.9375rem", lineHeight: 1.5,
-  color: "var(--color-ink-tertiary)", margin: 0,
-};
-export const footnoteStyle: CSSProperties = {
-  fontFamily: "var(--font-sans)", fontSize: "0.8125rem", color: "var(--color-ink-tertiary)",
-  marginTop: "1rem", lineHeight: 1.5,
-};
-export const ctaStyle: CSSProperties = {
-  fontFamily: "var(--font-mono)", fontSize: "12.5px", letterSpacing: "0.16em",
-  textTransform: "uppercase", background: "var(--color-green-deep)", color: "var(--color-canvas)",
-  padding: "12px 18px", borderRadius: "8px", textDecoration: "none", display: "inline-block",
-};
+/** Status family: in range = forest, borderline = warm, outside = soft-alert. */
+export type Tone = "ok" | "warn" | "bad" | "neutral";
 
-export function Shell({ labelledBy, children }: { labelledBy: string; children: ReactNode }) {
+/** Class names, for the few calculators that keep a bespoke control group. */
+export const styles = s;
+
+export function Shell({
+  labelledBy,
+  layout = "split",
+  children,
+}: {
+  labelledBy: string;
+  layout?: "split" | "stack";
+  children: ReactNode;
+}) {
   return (
-    <section
-      aria-labelledby={labelledBy}
-      style={{
-        background: "var(--color-canvas-alt, #ffffff)",
-        border: "1px solid var(--color-grid)",
-        borderRadius: "16px",
-        padding: "1.75rem 1.5rem",
-        margin: "2rem 0",
-      }}
-    >
-      {children}
+    <section aria-labelledby={labelledBy} className={s.calc} data-layout={layout}>
+      <div className={s.layout}>{children}</div>
     </section>
   );
 }
 
-export function ResultPanel({
-  active, bg, border, children,
-}: { active: boolean; bg?: string; border?: string; children: ReactNode }) {
+export function CalcHead({ children }: { children: ReactNode }) {
   return (
-    <div
-      aria-live="polite"
-      style={{
-        padding: "1.25rem",
-        borderRadius: "10px",
-        background: active && bg ? bg : "color-mix(in srgb, var(--color-grid) 30%, var(--color-canvas))",
-        border: active && border ? `1px solid ${border}` : "1px solid transparent",
-        transition: "background 220ms ease, border-color 220ms ease",
-      }}
-    >
+    <div className={s.head}>
+      {children}
+      <span aria-hidden className={`pulse-rule ${s.pulse}`} />
+    </div>
+  );
+}
+
+export function Eyebrow({ children }: { children: ReactNode }) {
+  return (
+    <div className={`label ${s.eyebrow}`}>
+      <span aria-hidden className={`label-dot ${s.eyebrowDot}`} />
+      <span>{children}</span>
+    </div>
+  );
+}
+
+export function CalcTitle({ id, children }: { id: string; children: ReactNode }) {
+  return (
+    <h2 id={id} className={s.title}>
+      {children}
+    </h2>
+  );
+}
+
+export function CalcInputs({ children }: { children: ReactNode }) {
+  return <div className={s.inputs}>{children}</div>;
+}
+
+export function Controls({ children }: { children: ReactNode }) {
+  return <div className={s.controls}>{children}</div>;
+}
+
+export function Fields({
+  cols = "2",
+  style,
+  children,
+}: {
+  cols?: "1" | "2" | "3" | "pair" | "panel";
+  style?: CSSProperties;
+  children: ReactNode;
+}) {
+  return (
+    <div className={s.fields} data-cols={cols} style={style}>
       {children}
     </div>
   );
 }
 
 export function Field({
-  label, unit, placeholder, value, onChange, inputId, step = "0.1",
+  label,
+  unit,
+  placeholder,
+  value,
+  onChange,
+  inputId,
+  step = "0.1",
+  min = 0,
+  max,
+  inputMode = "decimal",
+  literalUnit = false,
+  style,
 }: {
-  label: string; unit: string; placeholder: string; value: string;
-  onChange: (v: string) => void; inputId: string; step?: string;
+  label: string;
+  unit?: string;
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+  inputId: string;
+  step?: string;
+  min?: number;
+  max?: number;
+  inputMode?: "decimal" | "numeric";
+  /** render "(unit)" as one text node, for labels that were a single literal */
+  literalUnit?: boolean;
+  style?: CSSProperties;
 }) {
   return (
-    <label htmlFor={inputId} style={{ display: "block" }}>
-      <span
-        style={{
-          fontFamily: "var(--font-mono)", fontSize: "10.5px", letterSpacing: "0.18em",
-          textTransform: "uppercase", color: "var(--color-ink-tertiary)", fontWeight: 500,
-          display: "block", marginBottom: "0.4rem",
-        }}
-      >
-        {label} <span style={{ color: "var(--color-ink-tertiary)" }}>({unit})</span>
+    <label htmlFor={inputId} className={s.field} style={style}>
+      <span className={s.fieldLabel}>
+        {unit === undefined ? (
+          label
+        ) : (
+          <>
+            {label} <span className={s.fieldUnit}>{literalUnit ? `(${unit})` : <>({unit})</>}</span>
+          </>
+        )}
       </span>
       <input
         id={inputId}
         type="number"
-        inputMode="decimal"
-        min={0}
+        inputMode={inputMode}
+        min={min}
+        max={max}
         step={step}
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        style={{
-          width: "100%", padding: "0.75rem 0.85rem", fontFamily: "var(--font-mono)",
-          fontSize: "1rem", color: "var(--color-ink)", background: "var(--color-canvas)",
-          border: "1px solid var(--color-grid)", borderRadius: "8px", outline: "none",
-        }}
+        className={s.input}
       />
     </label>
   );
 }
 
-export function RefRow({ label, range, tone }: { label: string; range: string; tone: "ok" | "warn" | "bad" }) {
-  const dot = tone === "ok" ? "var(--color-pulse)" : tone === "warn" ? "var(--color-warm, #C4882F)" : "#D24343";
-  return (
-    <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", fontFamily: "var(--font-sans)", fontSize: "0.875rem" }}>
-      <span aria-hidden style={{ width: "8px", height: "8px", borderRadius: "50%", background: dot, flexShrink: 0, alignSelf: "center" }} />
-      <span style={{ color: "var(--color-ink)" }}>{label}</span>
-      <span style={{ color: "var(--color-ink-tertiary)", fontFamily: "var(--font-mono)", fontSize: "0.8125rem", marginLeft: "auto" }}>
-        {range}
-      </span>
-    </div>
-  );
-}
-
 export function Toggle({
-  legend, options, value, onChange,
+  legend,
+  options,
+  value,
+  onChange,
 }: {
-  legend: string; options: { key: string; label: string }[]; value: string; onChange: (v: string) => void;
+  legend: string;
+  options: { key: string; label: string }[];
+  value: string;
+  onChange: (v: string) => void;
 }) {
   return (
-    <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
-      <legend
-        style={{
-          fontFamily: "var(--font-mono)", fontSize: "10px", letterSpacing: "0.18em",
-          textTransform: "uppercase", color: "var(--color-ink-tertiary)", marginBottom: "0.4rem", padding: 0,
-        }}
-      >
-        {legend}
-      </legend>
-      <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+    <fieldset className={s.fieldset}>
+      <legend className={s.legend}>{legend}</legend>
+      <div className={s.seg}>
         {options.map((o) => {
           const active = o.key === value;
           return (
@@ -154,13 +165,7 @@ export function Toggle({
               type="button"
               aria-pressed={active}
               onClick={() => onChange(o.key)}
-              style={{
-                fontFamily: "var(--font-mono)", fontSize: "11px", letterSpacing: "0.1em",
-                textTransform: "uppercase", padding: "6px 11px", borderRadius: "7px", cursor: "pointer",
-                border: `1px solid ${active ? "var(--color-green-deep)" : "var(--color-grid)"}`,
-                background: active ? "var(--color-green-deep)" : "transparent",
-                color: active ? "var(--color-canvas)" : "var(--color-ink-secondary)",
-              }}
+              className={s.segBtn}
             >
               {o.label}
             </button>
@@ -171,10 +176,131 @@ export function Toggle({
   );
 }
 
+export function CalcOutput({ children }: { children: ReactNode }) {
+  return <div className={s.output}>{children}</div>;
+}
+
+export function ResultPanel({ active, children }: { active: boolean; children: ReactNode }) {
+  return (
+    <div aria-live="polite" className={s.result} data-active={active ? "true" : "false"}>
+      {children}
+    </div>
+  );
+}
+
+/** Wraps a live result so it settles in once, when it first appears. */
+export function ResultBody({ children }: { children: ReactNode }) {
+  return <div className={s.resultBody}>{children}</div>;
+}
+
+export function Empty({ children }: { children: ReactNode }) {
+  return (
+    <div className={s.emptyWrap}>
+      <span aria-hidden className={s.emptyMark}>
+        <svg width="20" height="10" viewBox="0 0 40 20" focusable="false">
+          <path
+            d="M1 10 H14 L17 13 L21 2 L26 18 L29 10 H34"
+            fill="none"
+            stroke="#10231A"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="36.5" cy="10" r="2.6" fill="#D6F050" stroke="#10231A" strokeWidth="1.2" />
+        </svg>
+      </span>
+      <p className={s.empty}>{children}</p>
+    </div>
+  );
+}
+
+export function ResultLabel({ children }: { children: ReactNode }) {
+  return <div className={s.resultLabel}>{children}</div>;
+}
+
+export function Chip({ tone, children }: { tone: Tone; children: ReactNode }) {
+  return (
+    <span className={s.chip} data-tone={tone}>
+      {children}
+    </span>
+  );
+}
+
+export type Zone = { from: number; to: number; tone: Tone };
+
+/**
+ * The translator's range bar: the in-range band (forest), borderline zones
+ * (warm) and outside zones, with a dot at the value. Decorative — the value
+ * and its band are always spelled out in text next to it.
+ */
+export function RangeBar({
+  min,
+  max,
+  value,
+  zones,
+  tone,
+}: {
+  min: number;
+  max: number;
+  value: number;
+  zones: Zone[];
+  tone: Tone;
+}) {
+  const pct = (x: number) => Math.min(Math.max((x - min) / (max - min), 0), 1) * 100;
+  const ticks = zones.slice(1).map((z) => z.from).filter((x) => x > min && x < max);
+  return (
+    <div aria-hidden className={s.range} data-tone={tone}>
+      <div className={s.rangeTrack}>
+        <div className={s.rangeZones}>
+          {zones.map((z) => (
+            <span
+              key={`${z.from}-${z.to}`}
+              className={s.rangeZone}
+              data-tone={z.tone}
+              style={{ left: `${pct(z.from)}%`, width: `${pct(z.to) - pct(z.from)}%` }}
+            />
+          ))}
+        </div>
+        {ticks.map((t) => (
+          <span key={t} className={s.rangeTick} style={{ left: `${pct(t)}%` }} />
+        ))}
+        <span className={s.rangeDot} style={{ left: `${pct(value)}%` }} />
+      </div>
+    </div>
+  );
+}
+
+export function Refs({ children }: { children: ReactNode }) {
+  return <div className={s.refs}>{children}</div>;
+}
+
+export function RefRow({ label, range, tone }: { label: string; range: string; tone: Tone }) {
+  return (
+    <div className={s.refRow} data-tone={tone}>
+      <span aria-hidden className={s.refDot} />
+      <span className={s.refLabel}>{label}</span>
+      <span className={s.refRange}>{range}</span>
+    </div>
+  );
+}
+
+export function CalcFoot({ children }: { children: ReactNode }) {
+  return <div className={s.foot}>{children}</div>;
+}
+
+export function Footnote({ children }: { children: ReactNode }) {
+  return <p className={s.footnote}>{children}</p>;
+}
+
+export const ctaInkClass = `btn btn-ink ${s.cta} ${s.ctaInk}`;
+export const ctaGhostClass = `btn btn-ghost ${s.cta} ${s.ctaGhost}`;
+
 export function Cta() {
   return (
-    <div style={{ marginTop: "1.25rem" }}>
-      <a href="/early-access" style={ctaStyle}>Track this in Merios →</a>
+    <div className={s.ctaRow}>
+      <a href="/early-access" className={ctaInkClass}>
+        Track this in Merios <span className={`btn-arrow ${s.arrow}`}>→</span>
+      </a>
     </div>
   );
 }

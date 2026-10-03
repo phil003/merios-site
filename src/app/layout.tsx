@@ -13,9 +13,8 @@ import "./globals.css";
 
 // v3 type system — Bricolage Grotesque (display + UI), Newsreader (long reads,
 // numerals, the wordmark), IBM Plex Mono (lab data, labels), Caveat (rare
-// hand-written annotations). Only the opsz axis is carried on the variable
-// faces: optical sizing shapes the display cuts of large headings while
-// keeping the latin woff2 files small.
+// hand-written annotations). Bricolage keeps its opsz axis: optical sizing
+// shapes the display cuts of large headings.
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-bricolage",
@@ -23,12 +22,16 @@ const bricolage = Bricolage_Grotesque({
   axes: ["opsz"],
 });
 
+// Newsreader and Plex Mono are not preloaded: only the display face (the
+// LCP headline) competes for the first bytes. Newsreader carries no opsz axis
+// (half the weight per file) and its italic is fetched only by pages that
+// actually set italic text.
 const newsreader = Newsreader({
   subsets: ["latin"],
   variable: "--font-newsreader",
   display: "swap",
   style: ["normal", "italic"],
-  axes: ["opsz"],
+  preload: false,
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -36,13 +39,17 @@ const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   display: "swap",
   weight: ["400", "500", "600"],
+  preload: false,
 });
 
+// Homepage annotations only: not preloaded, so it never competes with the
+// faces above the fold on other routes.
 const caveat = Caveat({
   subsets: ["latin"],
   variable: "--font-caveat",
   display: "swap",
-  weight: ["600", "700"],
+  weight: ["700"],
+  preload: false,
 });
 
 const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";
@@ -144,10 +151,14 @@ export default function RootLayout({
             framework bundle. Sets html[data-anim] (arming hidden states) and
             reveals [data-rv] elements via IntersectionObserver from
             DOMContentLoaded. MutationObserver keeps SPA navigations covered.
-            Reduced-motion users never get the hidden state at all. */}
+            Reduced-motion users never get the hidden state at all.
+            threshold 0 + a bottom margin: an element reveals as soon as its
+            top enters the viewport, whatever its height (a ratio threshold
+            could never be met by elements taller than ~8 viewports, which
+            left the privacy policy invisible). */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var d=document.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.setAttribute('data-anim','');var init=function(){var io=new IntersectionObserver(function(es){for(var i=0;i<es.length;i++){if(es[i].isIntersecting){es[i].target.classList.add('rv-in');io.unobserve(es[i].target);}}},{rootMargin:'0px 0px -80px 0px',threshold:0.12});var watch=function(root){var els=root.querySelectorAll?root.querySelectorAll('[data-rv]:not(.rv-in)'):[];for(var i=0;i<els.length;i++)io.observe(els[i]);};watch(document);new MutationObserver(function(ms){for(var i=0;i<ms.length;i++){var ns=ms[i].addedNodes;for(var j=0;j<ns.length;j++){var n=ns[j];if(n.nodeType===1){if(n.hasAttribute&&n.hasAttribute('data-rv')&&!n.classList.contains('rv-in'))io.observe(n);watch(n);}}}}).observe(document.body,{childList:true,subtree:true});};if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);}catch(e){d.removeAttribute('data-anim');}})();`,
+            __html: `(function(){var d=document.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;d.setAttribute('data-anim','');var init=function(){var io=new IntersectionObserver(function(es){for(var i=0;i<es.length;i++){if(es[i].isIntersecting){es[i].target.classList.add('rv-in');io.unobserve(es[i].target);}}},{rootMargin:'0px 0px -8% 0px',threshold:0});var watch=function(root){var els=root.querySelectorAll?root.querySelectorAll('[data-rv]:not(.rv-in)'):[];for(var i=0;i<els.length;i++)io.observe(els[i]);};watch(document);new MutationObserver(function(ms){for(var i=0;i<ms.length;i++){var ns=ms[i].addedNodes;for(var j=0;j<ns.length;j++){var n=ns[j];if(n.nodeType===1){if(n.hasAttribute&&n.hasAttribute('data-rv')&&!n.classList.contains('rv-in'))io.observe(n);watch(n);}}}}).observe(document.body,{childList:true,subtree:true});};if(document.readyState!=='loading')init();else document.addEventListener('DOMContentLoaded',init);}catch(e){d.removeAttribute('data-anim');}})();`,
           }}
         />
       </head>

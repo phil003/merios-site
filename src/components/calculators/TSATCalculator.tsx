@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from "react";
 import {
-  Shell, ResultPanel, Field, RefRow, Toggle, Cta, round,
-  eyebrowStyle, titleStyle, resultLabelStyle, bigNumberStyle, resultTextStyle, emptyStyle, footnoteStyle,
+  Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, Toggle, CalcOutput, ResultPanel,
+  ResultBody, Empty, ResultLabel, Chip, RangeBar, Refs, RefRow, CalcFoot, Footnote, Cta, round,
+  styles as s, type Tone, type Zone,
 } from "./_shared";
 
 /**
@@ -49,95 +50,104 @@ export default function TSATCalculator() {
 
   return (
     <Shell labelledBy="tsat-title">
-      <div style={eyebrowStyle}>Free interactive tool</div>
-      <h2 id="tsat-title" style={titleStyle}>Transferrin saturation from serum iron and TIBC</h2>
+      <CalcHead>
+        <Eyebrow>Free interactive tool</Eyebrow>
+        <CalcTitle id="tsat-title">Transferrin saturation from serum iron and TIBC</CalcTitle>
+      </CalcHead>
 
-      <div style={{ marginBottom: "1.1rem" }}>
-        <Toggle
-          legend="What your lab reported alongside iron"
-          options={[
-            { key: "tibc", label: "TIBC" },
-            { key: "uibc", label: "UIBC" },
-            { key: "transferrin", label: "Transferrin" },
-          ]}
-          value={mode}
-          onChange={(v) => { setMode(v as typeof mode); setSecond(""); }}
-        />
-      </div>
+      <CalcInputs>
+        <div>
+          <Toggle
+            legend="What your lab reported alongside iron"
+            options={[
+              { key: "tibc", label: "TIBC" },
+              { key: "uibc", label: "UIBC" },
+              { key: "transferrin", label: "Transferrin" },
+            ]}
+            value={mode}
+            onChange={(v) => { setMode(v as typeof mode); setSecond(""); }}
+          />
+        </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1.25rem" }}>
-        <Field label="Serum iron" unit="µg/dL" placeholder="e.g. 90" value={iron} onChange={setIron} inputId="tsat-iron" />
-        <Field label={secondLabel} unit={secondUnit} placeholder={secondPlaceholder} value={second} onChange={setSecond} inputId="tsat-second" />
-      </div>
+        <Fields>
+          <Field label="Serum iron" unit="µg/dL" placeholder="e.g. 90" value={iron} onChange={setIron} inputId="tsat-iron" />
+          <Field label={secondLabel} unit={secondUnit} placeholder={secondPlaceholder} value={second} onChange={setSecond} inputId="tsat-second" />
+        </Fields>
+      </CalcInputs>
 
-      <ResultPanel active={!!result} bg={result?.band.bg} border={result?.band.border}>
-        {result ? (
-          <>
-            <div style={{ ...resultLabelStyle, color: result.band.label }}>
-              Transferrin saturation — {result.band.name}
-            </div>
-            <div style={bigNumberStyle}>{result.tsat}<span style={{ fontSize: "1.4rem" }}>%</span></div>
-            {mode !== "tibc" && (
-              <div style={{ ...resultTextStyle, fontFamily: "var(--font-mono)", fontSize: "0.85rem", marginTop: "0.5rem" }}>
-                Derived TIBC: {result.tibc} µg/dL
-              </div>
-            )}
-            <p style={resultTextStyle}>{result.band.description}</p>
-          </>
-        ) : (
-          <p style={emptyStyle}>
-            Enter serum iron plus whichever second value your panel reports. Labs differ: some print TIBC, some
-            UIBC, some transferrin. Switch the toggle to match your report rather than converting by hand.
-          </p>
-        )}
-      </ResultPanel>
+      <CalcOutput>
+        <ResultPanel active={!!result}>
+          {result ? (
+            <ResultBody>
+              <ResultLabel>
+                <span>Transferrin saturation</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+              </ResultLabel>
+              <div className={s.bigNumber}>{result.tsat}<span className={s.unitTight}>%</span></div>
+              {mode !== "tibc" && (
+                <div className={s.monoLine}>
+                  Derived TIBC: {result.tibc} µg/dL
+                </div>
+              )}
+              <RangeBar min={0} max={70} value={result.tsat} tone={result.band.tone} zones={ZONES} />
+              <p className={s.resultText}>{result.band.description}</p>
+            </ResultBody>
+          ) : (
+            <Empty>
+              Enter serum iron plus whichever second value your panel reports. Labs differ: some print TIBC, some
+              UIBC, some transferrin. Switch the toggle to match your report rather than converting by hand.
+            </Empty>
+          )}
+        </ResultPanel>
 
-      <div style={{ marginTop: "1.25rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem" }}>
-        <RefRow label="Low — iron deficiency pattern" range="under 20%" tone="bad" />
-        <RefRow label="Borderline low" range="20–25%" tone="warn" />
-        <RefRow label="Functional band — iron supply comfortable" range="25–35%" tone="ok" />
-        <RefRow label="Overload screening trigger" range="above 45%" tone="warn" />
-      </div>
+        <Refs>
+          <RefRow label="Low — iron deficiency pattern" range="under 20%" tone="bad" />
+          <RefRow label="Borderline low" range="20–25%" tone="warn" />
+          <RefRow label="Functional band — iron supply comfortable" range="25–35%" tone="ok" />
+          <RefRow label="Overload screening trigger" range="above 45%" tone="warn" />
+        </Refs>
+      </CalcOutput>
 
-      <p style={footnoteStyle}>
-        Educational tool, not a diagnosis. TSAT is interpreted alongside ferritin, not instead of it — ferritin rises
-        with inflammation and can look normal while iron stores are genuinely low, which is exactly when TSAT is most
-        useful. A persistently high TSAT, particularly above 45%, is the standard trigger for investigating
-        hemochromatosis. Most US laboratories print a normal range of roughly 20 to 50 percent; the 25 to 35 percent
-        band above is the tighter zone where iron supply is comfortable rather than merely inside the lab range.
-        Reference intervals vary between laboratories; compare against the range printed on your report.
-      </p>
-      <Cta />
+      <CalcFoot>
+        <Footnote>
+          Educational tool, not a diagnosis. TSAT is interpreted alongside ferritin, not instead of it — ferritin rises
+          with inflammation and can look normal while iron stores are genuinely low, which is exactly when TSAT is most
+          useful. A persistently high TSAT, particularly above 45%, is the standard trigger for investigating
+          hemochromatosis. Most US laboratories print a normal range of roughly 20 to 50 percent; the 25 to 35 percent
+          band above is the tighter zone where iron supply is comfortable rather than merely inside the lab range.
+          Reference intervals vary between laboratories; compare against the range printed on your report.
+        </Footnote>
+        <Cta />
+      </CalcFoot>
     </Shell>
   );
 }
 
-function band(t: number) {
+/* Range bar scale (presentation only — mirrors the bands in band()). */
+const ZONES: Zone[] = [
+  { from: 0, to: 20, tone: "bad" },
+  { from: 20, to: 25, tone: "warn" },
+  { from: 25, to: 45, tone: "ok" },
+  { from: 45, to: 70, tone: "warn" },
+];
+
+function band(t: number): { name: string; tone: Tone; description: string } {
   if (t < 20) return {
-    name: "Low", label: "#A12C2C",
-    bg: "color-mix(in srgb, #D24343 14%, var(--color-canvas))",
-    border: "color-mix(in srgb, #D24343 32%, transparent)",
+    name: "Low", tone: "bad",
     description:
       "Below the usual reference range, which is the classic pattern of iron deficiency — and it can appear before hemoglobin falls, so it often precedes anemia. Worth reading together with ferritin and a full blood count.",
   };
   if (t < 25) return {
-    name: "Borderline low", label: "#8E5F1A",
-    bg: "color-mix(in srgb, var(--color-warm, #C4882F) 16%, var(--color-canvas))",
-    border: "color-mix(in srgb, var(--color-warm, #C4882F) 32%, transparent)",
+    name: "Borderline low", tone: "warn",
     description:
       "Just under the typical range. On its own this is not diagnostic, but combined with low-normal ferritin or symptoms of fatigue it is the pattern worth investigating rather than dismissing.",
   };
   if (t <= 45) return {
-    name: "Within typical range", label: "var(--color-green-deep)",
-    bg: "color-mix(in srgb, var(--color-pulse) 12%, var(--color-canvas))",
-    border: "color-mix(in srgb, var(--color-pulse) 30%, transparent)",
+    name: "Within typical range", tone: "ok",
     description:
       "Within the range most laboratories report. TSAT reflects how much of your iron-carrying capacity is actually in use, which is why it can reveal a problem that ferritin alone hides.",
   };
   return {
-    name: "High", label: "#8E5F1A",
-    bg: "color-mix(in srgb, var(--color-warm, #C4882F) 16%, var(--color-canvas))",
-    border: "color-mix(in srgb, var(--color-warm, #C4882F) 32%, transparent)",
+    name: "High", tone: "warn",
     description:
       "Above the usual range. A TSAT above roughly 45% that persists on a repeat fasting sample is the standard threshold for investigating iron overload, including hereditary hemochromatosis. Recent iron supplements or a non-fasting draw can also raise it, so a single reading is not enough.",
   };

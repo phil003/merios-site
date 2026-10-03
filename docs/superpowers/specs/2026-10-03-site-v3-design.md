@@ -122,12 +122,40 @@ visible focus (`:focus-visible` 2px ink / lime on night), keyboard reachable, al
 
 ## 3. Homepage
 
-Ported from the approved mockup (piste A): night hero "Your health, finally readable." with the logo's
-pulse line that becomes the year (one coral blood-test day → 364 daily ticks → daily trend and three
-reports read together); lab report translator (lime); "5 PDFs. 3 portals. 2 forgotten passwords." →
-"Every report. One place."; scan tour with real app screens; the year in 365 dots; Daily rings; "Then
-your blood joins in"; Free vs Plus; private by design; journal + free tools; finale; footer.
-Homepage metadata and JSON-LD stay as they are.
+Ported from the approved mockup (piste A) into `src/components/home/*` (CSS in `home.css`, every
+selector prefixed `hv3-`), composed by `src/app/page.tsx`:
+
+| Section | Component | Ground | Notes |
+|---|---|---|---|
+| Hero "Your health, finally readable." | `Hero` (server) | night | H1 paints at parse (`.rd-word`); CTA → /early-access |
+| Overture: the pulse line becomes the year | `Overture` (client) | night | fixed SVG, one rAF scroll handler, three H2 captions |
+| Lab report translator | `Translator` (client) | lime | example report, keyboard + hover, autoplay while in view |
+| 5 PDFs → one place, scan tour | `Scan` (client) | mist | sticky before/after, 4 steps, real app screens (next/image) |
+| The year in 365 dots | `Year` (client) | night | canvas, redrawn on scroll only |
+| Daily rings + Merios Score | `Daily` (server) | lilac | rings fill on reveal (CSS) |
+| Then your blood joins in | `LinkSection` (server) | night | chart computed at build, wide/narrow variants |
+| Free vs Plus | `Plans` (server) | fog | facts in §1 |
+| Private by design | `Private` (server) | fog | 4 facts from privacy policy v2.0.0 |
+| Journal + free tools | `Learn` (server) | fog | 3 latest posts (`getAllPosts`), 8 calculators |
+| Finale + waitlist | `Finale` + `WaitlistForm` | night | App Store link, QR, the pre-redesign waitlist form (same Supabase table and messages) |
+
+The colour stage (`HomeStage`) crossfades fixed layers when a section crosses the viewport's centre
+line; content that would sit on the wrong ground fades out with the crossfade, so every scene
+stays readable during hand-overs. No GSAP on the homepage. Reduced motion: line static, captions
+fade only, no tilt, no autoplay.
+
+Homepage metadata and JSON-LD stay as they are. Internal links: every pre-redesign link is kept;
+8 calculator links are added.
+
+### Factual corrections (approved 2026-10-03)
+
+- "Merios Pro" → "Merios Plus" everywhere (JSON-LD Offer, FAQ, 7 comparison pages, 1 blog post).
+- The free tier exists: FAQ "How much does Merios cost?" rewritten (free daily side, what Plus
+  adds, $44.00/year with a 7-day trial, monthly and weekly options); "no free ad-supported tier"
+  removed.
+- `/compare/merios-vs-insidetracker` FAQ quoted "$14.99 per month (~$180 per year)": now $44/year.
+- `/blog/best-blood-test-tracking-apps`: "free during early access" (×3), "Biological age:
+  Planned", "Free tier: Early access" corrected.
 
 ## 4. Work split
 

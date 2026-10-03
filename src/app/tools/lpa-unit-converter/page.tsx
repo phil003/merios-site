@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import LpaConverter from "@/components/calculators/LpaConverter";
 import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
   { q: "How do you convert Lp(a) from nmol/L to mg/dL?", a: "There is no exact conversion, and any calculator giving you a single number is overstating its precision. The two units measure different things: mg/dL is the mass of the particle and nmol/L is the number of particles, and apo(a) particle size varies between individuals. Commonly used approximations divide nmol/L by somewhere between 2.15 and 2.5, which is why this tool returns a range." },
@@ -55,34 +56,36 @@ export default function Page() {
 
       <PageHero eyebrow="Lp(a) — nmol/L ↔ mg/dL" title="Two labs, two numbers, one lipoprotein." subline="Convert Lp(a) between nmol/L and mg/dL. Returns a range rather than a false single number, because no exact conversion between these units exists." align="left" />
 
-      <main className="pb-20 pt-2" style={{ background: "var(--color-canvas)" }}>
-        <div className="mx-auto max-w-[920px] px-6 md:px-10">
+      <main className={t.main}>
+        <div className={t.wrap}>
           <LpaConverter />
-          <section className="mt-14 max-w-[720px]" style={{ fontFamily: "var(--font-sans)" }}>
-            <h2 style={h2Style}>Why there is no exact conversion</h2>
-            <p style={pStyle}>
-              This is the part every other converter skips. Milligrams per deciliter measures the total mass of Lp(a)
-              in your blood. Nanomoles per litre counts how many Lp(a) particles are there. Converting between them
-              requires knowing the mass of one particle — and that is not a constant, because the apo(a) protein comes
-              in different sizes from person to person, determined genetically.
-            </p>
-            <p style={pStyle}>
-              So a conversion factor is a population average applied to an individual. It gets you in the right
-              neighbourhood, which is genuinely useful when you are staring at a number in an unfamiliar unit, but it
-              is not a translation. Presenting one decimal place of false precision would be worse than showing the
-              range honestly.
-            </p>
-            <h2 style={h2Style}>What actually matters about Lp(a)</h2>
-            <p style={pStyle}>
-              Lp(a) is an independent, largely inherited cardiovascular risk factor — the fuller picture is in{" "}
-              <Link href="/blog/lp-a-lipoprotein-a-high" style={linkStyle}>what a high Lp(a) means</Link>. Because you
-              cannot change it much through lifestyle, an elevated result is best read as a reason to be more
-              deliberate about the risks you can change:{" "}
-              <Link href="/blog/apob-heart-disease-risk" style={linkStyle}>ApoB</Link>, blood pressure, and the rest
-              of the{" "}
-              <Link href="/blog/how-to-lower-cholesterol-without-medication" style={linkStyle}>modifiable lipid picture</Link>.
-              It is also worth knowing that an elevated Lp(a) is a reason for first-degree relatives to be tested.
-            </p>
+          <section className={t.after}>
+            <div className={`editorial-prose ${t.prose}`}>
+              <h2>Why there is no exact conversion</h2>
+              <p>
+                This is the part every other converter skips. Milligrams per deciliter measures the total mass of Lp(a)
+                in your blood. Nanomoles per litre counts how many Lp(a) particles are there. Converting between them
+                requires knowing the mass of one particle — and that is not a constant, because the apo(a) protein comes
+                in different sizes from person to person, determined genetically.
+              </p>
+              <p>
+                So a conversion factor is a population average applied to an individual. It gets you in the right
+                neighbourhood, which is genuinely useful when you are staring at a number in an unfamiliar unit, but it
+                is not a translation. Presenting one decimal place of false precision would be worse than showing the
+                range honestly.
+              </p>
+              <h2>What actually matters about Lp(a)</h2>
+              <p>
+                Lp(a) is an independent, largely inherited cardiovascular risk factor — the fuller picture is in{" "}
+                <Link href="/blog/lp-a-lipoprotein-a-high">what a high Lp(a) means</Link>. Because you
+                cannot change it much through lifestyle, an elevated result is best read as a reason to be more
+                deliberate about the risks you can change:{" "}
+                <Link href="/blog/apob-heart-disease-risk">ApoB</Link>, blood pressure, and the rest
+                of the{" "}
+                <Link href="/blog/how-to-lower-cholesterol-without-medication">modifiable lipid picture</Link>.
+                It is also worth knowing that an elevated Lp(a) is a reason for first-degree relatives to be tested.
+              </p>
+            </div>
           </section>
         </div>
       </main>
@@ -90,12 +93,3 @@ export default function Page() {
     </>
   );
 }
-
-const h2Style: React.CSSProperties = {
-  fontFamily: "var(--font-serif)", fontSize: "clamp(1.625rem, 2.4vw, 2rem)", fontWeight: 300,
-  letterSpacing: "-0.02em", color: "var(--color-ink)", marginBottom: "0.75rem", marginTop: "3rem",
-};
-const pStyle: React.CSSProperties = {
-  fontSize: 16, lineHeight: 1.7, color: "var(--color-ink-secondary)", marginBottom: "1.1rem",
-};
-const linkStyle: React.CSSProperties = { color: "var(--color-green-deep)", textUnderlineOffset: "3px" };

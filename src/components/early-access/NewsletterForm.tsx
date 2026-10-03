@@ -1,10 +1,13 @@
 "use client";
 
-// NewsletterForm — motion/react-free. State swaps (label, icon, helper
-// message) are keyed elements that remount with a CSS keyframe entrance;
-// border / background / shadow changes ride plain CSS transitions, and the
-// hover lift is a Tailwind `motion-safe:` utility. Reduced motion is honored
-// by the global `@media (prefers-reduced-motion: reduce)` rule in globals.css.
+// NewsletterForm — v3 art direction, motion/react-free. Tone "dark" sits on a
+// night stage (glass input, lime button, lime focus ring); tone "light" sits
+// on white / fog (white input with a grid hairline, ink button, ink focus
+// ring). Invalid states use soft-alert, never an alarm red; success is lime on
+// night, forest on light. State swaps (label, icon, helper message) are keyed
+// elements that remount with a CSS keyframe entrance. Reduced motion is
+// honored by the global `@media (prefers-reduced-motion: reduce)` rule in
+// globals.css. Every selector in the scoped styles is prefixed .nf-form.
 
 import { useState } from "react";
 
@@ -54,7 +57,6 @@ export default function NewsletterForm({
 }: NewsletterFormProps) {
   const [status, setStatus] = useState<Status>("idle");
   const [email, setEmail] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
   // Entrance animations only play after the first submit attempt so the
   // initial static content renders with zero animation (visible by default).
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -114,35 +116,14 @@ export default function NewsletterForm({
             ? "That email doesn't look right."
             : idleMessage;
 
-  // Tone-aware color tokens. Copied logic pattern from Waitlist.tsx.
   const isDark = tone === "dark";
-  const baseTextMuted = isDark
-    ? "rgba(247,245,239,0.5)"
-    : "var(--color-ink-tertiary)";
-  const baseBorder = isDark
-    ? "rgba(247,245,239,0.35)"
-    : "rgba(14,20,18,0.22)";
-  const inputColor = isDark ? "var(--color-canvas)" : "var(--color-ink)";
-  const placeholderColor = isDark
-    ? "rgba(247,245,239,0.45)"
-    : "rgba(14,20,18,0.4)";
 
-  // Derived border color by visual state (idle | focus | loading | success | invalid).
-  const borderColor =
-    status === "invalid"
-      ? "var(--color-accent-warm)"
-      : isSuccess
-        ? "var(--color-pulse)"
-        : isFocused || isLoading
-          ? "var(--color-pulse)"
-          : baseBorder;
-
-  const messageTone =
-    isSuccess
-      ? "var(--color-pulse)"
-      : status === "error" || status === "invalid"
-        ? "var(--color-accent-warm)"
-        : baseTextMuted;
+  // Visual tone of the helper line: idle | error | success.
+  const messageTone = isSuccess
+    ? "success"
+    : status === "error" || status === "invalid"
+      ? "error"
+      : "idle";
 
   const buttonLabel = isLoading
     ? "Sending"
@@ -155,7 +136,8 @@ export default function NewsletterForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
+      className={`nf-form nf-form--${tone}`}
+      data-status={status}
       noValidate
     >
       <label className="sr-only" htmlFor={inputId}>
@@ -173,40 +155,15 @@ export default function NewsletterForm({
           setEmail(e.target.value);
           if (status === "invalid" || status === "error") setStatus("idle");
         }}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        className="flex-1 bg-transparent py-3 text-base outline-none disabled:opacity-60"
-        style={
-          {
-            fontFamily: "var(--font-sans)",
-            color: inputColor,
-            "--placeholder-color": placeholderColor,
-            borderBottom: `1px solid ${borderColor}`,
-            transition: "border-color 300ms cubic-bezier(0.22, 1, 0.36, 1)",
-          } as React.CSSProperties
-        }
+        className="nf-input"
       />
       <button
         type="submit"
         disabled={locked || isLoading}
         aria-busy={isLoading || undefined}
         aria-live="polite"
-        className={`group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 transition-[background-color,box-shadow,translate] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:cursor-default disabled:opacity-90 ${
-          isSuccess
-            ? "shadow-none"
-            : "shadow-[0_10px_28px_-12px_rgba(159,191,0,0.55)] motion-safe:enabled:hover:-translate-y-0.5 motion-safe:enabled:hover:shadow-[0_14px_34px_-12px_rgba(159,191,0,0.65)] motion-safe:enabled:active:-translate-y-px"
-        }`}
-        style={{
-          color: "var(--color-ink)",
-          fontFamily: "var(--font-sans)",
-          fontSize: 13.5,
-          fontWeight: 600,
-          letterSpacing: "0.01em",
-          cursor: locked || isLoading ? "default" : "pointer",
-          background: isSuccess
-            ? "rgba(159,191,0,0.35)"
-            : "var(--color-pulse)",
-        }}
+        className={`btn ${isDark ? "btn-lime" : "btn-ink"} nf-submit`}
+        data-state={isSuccess ? "success" : isLoading ? "loading" : "idle"}
       >
         {isLoading ? (
           <span
@@ -214,7 +171,7 @@ export default function NewsletterForm({
             aria-hidden
             className="nf-spinner inline-block h-3.5 w-3.5 rounded-full border-2"
             style={{
-              borderColor: "var(--color-ink)",
+              borderColor: "currentColor",
               borderRightColor: "transparent",
             }}
           />
@@ -238,8 +195,7 @@ export default function NewsletterForm({
           <span
             key="dot"
             aria-hidden
-            className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--color-ink)" }}
+            className="animate-pulse-dot nf-submit-dot inline-block h-1.5 w-1.5 rounded-full"
           />
         )}
         <span
@@ -257,19 +213,11 @@ export default function NewsletterForm({
       >
         {message}
       </p>
-      <div
-        aria-hidden
-        className="mt-1 basis-full overflow-hidden"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: 11,
-          letterSpacing: "0.08em",
-        }}
-      >
+      <div aria-hidden className="nf-msg">
         <p
           key={`${status}-${message}`}
           className={hasSubmitted ? "nf-in" : undefined}
-          style={{ color: messageTone }}
+          data-tone={messageTone}
         >
           {message}
         </p>
@@ -280,11 +228,131 @@ export default function NewsletterForm({
   );
 }
 
-// ─── Scoped animation styles ─────────────────────────────────────────────────
-// Keyframe entrances replacing the previous AnimatePresence crossfades.
-// The global prefers-reduced-motion rule in globals.css collapses these
-// to 0.01ms / a single iteration.
+// ─── Scoped styles ───────────────────────────────────────────────────────────
+// Field look + keyframe entrances (replacing the previous AnimatePresence
+// crossfades). The global prefers-reduced-motion rule in globals.css collapses
+// the animations to 0.01ms / a single iteration.
 const styles = `
+.nf-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+/* input takes the row; the button wraps under it (full width) when the
+   column is too narrow for both */
+.nf-form .nf-input {
+  flex: 999 1 220px;
+  min-width: 0;
+  height: 52px;
+  margin: 0;
+  padding: 0 18px;
+  border-radius: 14px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  letter-spacing: -0.005em;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    border-color 300ms var(--ease-smooth),
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-smooth);
+}
+.nf-form .nf-input:disabled {
+  opacity: 0.6;
+}
+.nf-form .nf-submit {
+  flex: 1 0 auto;
+  cursor: pointer;
+}
+.nf-form .nf-submit:disabled {
+  cursor: default;
+  transform: none;
+}
+.nf-form .nf-submit[data-state="loading"] {
+  opacity: 0.88;
+}
+.nf-form .nf-msg {
+  flex: 1 1 100%;
+  margin-top: 4px;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+.nf-form .nf-msg p {
+  margin: 0;
+}
+
+/* dark — on a night stage */
+.nf-form--dark .nf-input {
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid var(--color-line-night);
+  color: var(--color-on-night);
+}
+.nf-form--dark .nf-input::placeholder {
+  color: rgb(244 246 247 / 0.55);
+}
+.nf-form--dark .nf-input:hover:not(:disabled):not(:focus) {
+  border-color: rgb(255 255 255 / 0.3);
+}
+.nf-form--dark .nf-input:focus {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 2px;
+  border-color: rgb(255 255 255 / 0.4);
+  background: rgb(255 255 255 / 0.09);
+}
+.nf-form--dark[data-status="invalid"] .nf-input {
+  border-color: color-mix(in srgb, var(--color-peach) 70%, var(--color-soft-alert));
+}
+.nf-form--dark .nf-submit-dot {
+  background: var(--color-ink);
+}
+.nf-form--dark .nf-submit[data-state="success"] {
+  background: rgb(214 240 80 / 0.14);
+  color: var(--color-lime);
+  box-shadow: inset 0 0 0 1.5px rgb(214 240 80 / 0.5);
+}
+.nf-form--dark .nf-msg [data-tone="idle"] { color: var(--color-on-night-2); }
+.nf-form--dark .nf-msg [data-tone="error"] { color: color-mix(in srgb, var(--color-peach) 88%, var(--color-soft-alert)); }
+.nf-form--dark .nf-msg [data-tone="success"] { color: var(--color-lime); }
+
+/* light — on white / fog */
+.nf-form--light .nf-input {
+  background: #FFFFFF;
+  border: 1px solid var(--color-grid);
+  color: var(--color-ink);
+  box-shadow: 0 1px 2px rgb(16 35 26 / 0.04);
+}
+.nf-form--light .nf-input::placeholder {
+  color: var(--color-ink-tertiary);
+}
+.nf-form--light .nf-input:hover:not(:disabled):not(:focus) {
+  border-color: color-mix(in srgb, var(--color-ink) 28%, var(--color-grid));
+}
+.nf-form--light .nf-input:focus {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+  border-color: var(--color-ink);
+}
+.nf-form--light[data-status="invalid"] .nf-input {
+  border-color: var(--color-soft-alert);
+  background: color-mix(in srgb, var(--color-soft-alert) 5%, #FFFFFF);
+}
+.nf-form--light .nf-submit-dot {
+  background: var(--color-lime);
+}
+.nf-form--light .nf-submit[data-state="success"] {
+  background: var(--color-green-deep);
+  color: #FFFFFF;
+  box-shadow: none;
+}
+.nf-form--light .nf-msg [data-tone="idle"] { color: var(--color-ink-tertiary); }
+.nf-form--light .nf-msg [data-tone="error"] { color: var(--color-soft-alert); }
+.nf-form--light .nf-msg [data-tone="success"] { color: var(--color-green-deep); }
+
 @keyframes nf-in {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
@@ -296,9 +364,9 @@ const styles = `
 @keyframes nf-spin {
   to { transform: rotate(360deg); }
 }
-.nf-in { animation: nf-in 300ms var(--ease-smooth) both; }
-.nf-pop { animation: nf-pop 300ms var(--ease-smooth) both; }
-.nf-spinner {
+.nf-form .nf-in { animation: nf-in 300ms var(--ease-smooth) both; }
+.nf-form .nf-pop { animation: nf-pop 300ms var(--ease-smooth) both; }
+.nf-form .nf-spinner {
   animation: nf-pop 300ms var(--ease-smooth) both,
     nf-spin 0.9s linear infinite;
 }

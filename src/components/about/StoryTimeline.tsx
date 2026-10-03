@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 
+import styles from "./about.module.css";
+
 interface Milestone {
   date: string;
   title: string;
@@ -39,71 +41,43 @@ const MILESTONES: Milestone[] = [
  * (globals.css Reveal v2 + the inline IntersectionObserver in layout.tsx).
  * Content is visible by default in the static HTML; reduced motion is handled
  * globally (html[data-anim] is never set).
+ *
+ * v3: a night chapter. The four milestones sit on one line — the logo's
+ * heartbeat — calm until the beat that leads to launch, which lands on the
+ * lime dot (desktop: horizontal; mobile: a vertical rail).
  */
 export default function StoryTimeline() {
   return (
     <section
-      className="px-6 md:px-10"
-      style={{
-        borderTop: "1px solid var(--color-grid)",
-        paddingTop: "var(--spacing-section)",
-        paddingBottom: "var(--spacing-section)",
-        background: "var(--color-canvas)",
-      }}
+      className={`night ${styles.story}`}
+      data-nav="dark"
       aria-labelledby="about-story-title"
     >
-      <div className="mx-auto max-w-[1200px]">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-[220px_1fr] md:gap-20">
-          <div>
-            <div
-              className="flex items-center gap-2.5"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              <span
-                aria-hidden
-                className="inline-block h-1.5 w-1.5 rounded-full"
-                style={{ background: "var(--color-pulse)" }}
-              />
-              <span
-                className="text-[10.5px] uppercase"
-                style={{
-                  color: "var(--color-green-deep)",
-                  letterSpacing: "0.22em",
-                  fontWeight: 500,
-                }}
-              >
-                Story
-              </span>
-            </div>
-
-            <h2
-              id="about-story-title"
-              className="mt-6"
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "var(--text-headline)",
-                fontWeight: 400,
-                lineHeight: 1.1,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-              }}
-            >
-              Four quiet milestones.
-            </h2>
+      <div className={styles.container}>
+        <div className={styles.head}>
+          <div className={`label ${styles.storyEyebrow}`}>
+            <span aria-hidden className="label-dot" />
+            <span>Story</span>
           </div>
 
-          <ol className="relative max-w-[680px]">
-            <span
-              aria-hidden
-              className="absolute left-0 top-2 bottom-2 w-px"
-              style={{ background: "var(--color-grid)" }}
-            />
+          <h2
+            id="about-story-title"
+            className={`${styles.title} ${styles.storyTitle}`}
+          >
+            Four quiet milestones.
+          </h2>
+        </div>
 
-            {MILESTONES.map((m, i) => (
+        <ol className={styles.timeline}>
+          {MILESTONES.map((m, i) => {
+            const isLast = i === MILESTONES.length - 1;
+            const leadsToLaunch = i === MILESTONES.length - 2;
+            return (
               <li
                 key={m.date}
                 data-rv=""
-                className="relative grid grid-cols-[120px_1fr] gap-6 pb-12 pl-8 last:pb-0 md:grid-cols-[140px_1fr] md:gap-10"
+                data-beat={leadsToLaunch ? "true" : undefined}
+                className={styles.milestone}
                 style={
                   {
                     "--rv-delay": `${(0.05 + i * 0.1).toFixed(2)}s`,
@@ -112,57 +86,38 @@ export default function StoryTimeline() {
               >
                 <span
                   aria-hidden
-                  className="absolute left-0 top-[7px] inline-block h-1.5 w-1.5 -translate-x-[3px] rounded-full"
-                  style={{
-                    background: "var(--color-green-deep)",
-                    boxShadow:
-                      "0 0 0 4px color-mix(in srgb, var(--color-canvas) 100%, transparent)",
-                  }}
+                  className={`${styles.node} ${isLast ? styles.nodeNow : ""}`}
                 />
+                {leadsToLaunch ? (
+                  <svg
+                    className={styles.beat}
+                    viewBox="0 0 300 66"
+                    preserveAspectRatio="none"
+                    aria-hidden
+                    focusable="false"
+                  >
+                    <path
+                      d="M0 33 H170 L182 41 L198 6 L218 62 L230 33 H300"
+                      fill="none"
+                      stroke="rgb(255 255 255 / 0.62)"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                  </svg>
+                ) : null}
 
-                <div
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 12,
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    color: "var(--color-ink-tertiary)",
-                    fontWeight: 500,
-                    paddingTop: 2,
-                  }}
-                >
-                  {m.date}
-                </div>
+                <div className={styles.date}>{m.date}</div>
 
                 <div>
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: "var(--text-title)",
-                      fontWeight: 400,
-                      lineHeight: 1.2,
-                      letterSpacing: "-0.015em",
-                      color: "var(--color-ink)",
-                    }}
-                  >
-                    {m.title}
-                  </h3>
-                  <p
-                    className="mt-2 max-w-[52ch]"
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "0.9375rem",
-                      lineHeight: 1.65,
-                      color: "var(--color-ink-secondary)",
-                    }}
-                  >
-                    {m.description}
-                  </p>
+                  <h3 className={styles.milestoneTitle}>{m.title}</h3>
+                  <p className={styles.milestoneCopy}>{m.description}</p>
                 </div>
               </li>
-            ))}
-          </ol>
-        </div>
+            );
+          })}
+        </ol>
       </div>
     </section>
   );

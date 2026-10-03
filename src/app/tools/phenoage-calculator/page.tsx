@@ -8,6 +8,8 @@ import {
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
+import CtaPulse from "../CtaPulse";
+import t from "../tools.module.css";
 
 /**
  * Standalone /tools/phenoage-calculator page.
@@ -99,169 +101,71 @@ export default function PhenoAgeCalculatorPage() {
         align="left"
       />
 
-      <main
-        className="pb-20 pt-2"
-        style={{ background: "var(--color-canvas)" }}
-      >
-        <div className="mx-auto max-w-[920px] px-6 md:px-10">
+      <main className={t.main}>
+        <div className={t.wrap}>
           <PhenoAgeCalculator />
 
-          <section
-            className="mt-16 max-w-[720px]"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-                marginBottom: "1rem",
-              }}
-            >
-              What does the result mean?
-            </h2>
-            <p
-              style={{
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: "var(--color-ink-secondary)",
-              }}
-            >
-              PhenoAge is an <em>estimate</em> of how your body has aged
-              biologically, derived from 9 inflammation, metabolic, kidney,
-              liver, and hematology markers. If your PhenoAge is lower than your
-              chronological age, you are aging more slowly than average for your
-              cohort. If higher, the model is flagging measurable wear: chronic
-              inflammation, glycation, kidney stress, or red-cell volume drift.
-              None of this is destiny — every biomarker is modifiable.
-            </p>
-
-            <h2
-              className="mt-12"
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(1.625rem, 2.4vw, 2rem)",
-                fontWeight: 300,
-                letterSpacing: "-0.02em",
-                color: "var(--color-ink)",
-                marginBottom: "1rem",
-              }}
-            >
-              Frequently asked questions
-            </h2>
-            <dl>
-              {FAQ_ITEMS.map(({ q, a }) => (
-                <div
-                  key={q}
-                  className="border-b py-5"
-                  style={{ borderColor: "var(--color-grid)" }}
-                >
-                  <dt
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: 19,
-                      fontWeight: 400,
-                      letterSpacing: "-0.01em",
-                      color: "var(--color-ink)",
-                    }}
-                  >
-                    {q}
-                  </dt>
-                  <dd
-                    className="mt-2"
-                    style={{
-                      fontSize: 15.5,
-                      lineHeight: 1.65,
-                      color: "var(--color-ink-secondary)",
-                    }}
-                  >
-                    {a}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            <p
-              className="mt-10"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 12,
-                letterSpacing: "0.06em",
-                lineHeight: 1.7,
-                color: "var(--color-ink-tertiary)",
-              }}
-            >
-              Reference: Levine ME, Lu AT, Quach A, et al. <em>An epigenetic
-              biomarker of aging for lifespan and healthspan.</em> Aging
-              (Albany NY). 2018;10(4):573-591.
-              doi:10.18632/aging.101414
-            </p>
-
-            <div
-              className="mt-12 rounded-xl p-6 md:p-7"
-              style={{
-                background: "var(--color-canvas-alt, #ffffff)",
-                border: "1px solid var(--color-grid)",
-              }}
-            >
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-green-deep)",
-                  fontWeight: 500,
-                }}
-              >
-                Track this in Merios
+          <section className={t.after}>
+            <div className={`editorial-prose ${t.prose}`}>
+              <h2>
+                What does the result mean?
+              </h2>
+              <p>
+                PhenoAge is an <em>estimate</em> of how your body has aged
+                biologically, derived from 9 inflammation, metabolic, kidney,
+                liver, and hematology markers. If your PhenoAge is lower than your
+                chronological age, you are aging more slowly than average for your
+                cohort. If higher, the model is flagging measurable wear: chronic
+                inflammation, glycation, kidney stress, or red-cell volume drift.
+                None of this is destiny — every biomarker is modifiable.
               </p>
-              <p
-                className="mt-3"
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: 22,
-                  fontWeight: 300,
-                  letterSpacing: "-0.02em",
-                  color: "var(--color-ink)",
-                  lineHeight: 1.25,
-                }}
-              >
-                One PhenoAge today is information. Twelve PhenoAges over a year is a trend.
+            </div>
+
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <dl className={t.faqList}>
+                {FAQ_ITEMS.map(({ q, a }) => (
+                  <div key={q} className={t.faqItem}>
+                    <dt className={t.faqQ}>
+                      {q}
+                    </dt>
+                    <dd className={t.faqA}>
+                      {a}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+
+              <p className={t.reference}>
+                Reference: Levine ME, Lu AT, Quach A, et al. <em>An epigenetic
+                biomarker of aging for lifespan and healthspan.</em> Aging
+                (Albany NY). 2018;10(4):573-591.
+                doi:10.18632/aging.101414
               </p>
-              <p
-                className="mt-3"
-                style={{
-                  fontSize: 14.5,
-                  lineHeight: 1.6,
-                  color: "var(--color-ink-secondary)",
-                }}
-              >
-                Merios reads your blood tests automatically, recalculates PhenoAge with each upload, and tracks the curve — so you can see if a protocol is actually moving the needle.
-              </p>
-              <Link
-                href="/early-access"
-                className="mt-5 inline-flex items-center gap-2 rounded-full px-6 py-3 text-[14px] font-medium transition-all hover:-translate-y-0.5"
-                style={{
-                  background: "var(--color-green-deep)",
-                  color: "var(--color-canvas)",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
-                Get the app
-              </Link>
-              <Link
-                href="/blog/biological-age-calculator-blood-test"
-                className="mt-5 ml-3 inline-flex items-center gap-2 px-3 py-3 text-[14px] font-medium"
-                style={{
-                  color: "var(--color-ink-secondary)",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
-                Read the primer →
-              </Link>
+            </div>
+
+            <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
+              <div className={t.ctaCopy}>
+                <p className={`label ${t.ctaEyebrow}`}>
+                  <span aria-hidden className="label-dot" />
+                  Track this in Merios
+                </p>
+                <p className={`chrome-text ${t.ctaQuote}`}>
+                  One PhenoAge today is information. Twelve PhenoAges over a year is a trend.
+                </p>
+                <p className={t.ctaText}>
+                  Merios reads your blood tests automatically, recalculates PhenoAge with each upload, and tracks the curve — so you can see if a protocol is actually moving the needle.
+                </p>
+              </div>
+              <div className={t.ctaActions}>
+                <Link href="/early-access" className="btn btn-lime">
+                  Get the app
+                </Link>
+                <Link href="/blog/biological-age-calculator-blood-test" className="btn btn-ghost-night">
+                  Read the primer →
+                </Link>
+              </div>
+              <CtaPulse />
             </div>
           </section>
         </div>

@@ -1,0 +1,761 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   /compare/[slug] — v3 presentation (night masthead → fog reading body →
+   chrome-bordered verdict → related cards → night CTA band).
+   Presentation only: every text node, heading level and href lives in the
+   TSX/MDX and is untouched. Tokens come from globals.css.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Same grid as PageHero / the homepage mockup: 1320px max + fluid gutter */
+.wrap {
+  width: 100%;
+  max-width: calc(1320px + 2 * var(--spacing-container));
+  margin-inline: auto;
+  padding-inline: var(--spacing-container);
+}
+
+/* ─── Masthead ─────────────────────────────────────────────────────────── */
+.hero {
+  overflow: hidden;
+  padding-block: clamp(128px, 13.5vw, 178px) clamp(112px, 10.5vw, 152px);
+}
+.heroInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+  gap: 26px;
+  max-width: 1080px;
+}
+
+.crumbs {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.crumbDot {
+  /* centred on the first line of the trail, even when it wraps */
+  margin-top: calc((0.72rem * 1.3 - 8px) / 2);
+}
+.crumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-on-night-3);
+}
+.crumbLink {
+  border-radius: 4px;
+  color: var(--color-on-night-2);
+  transition: color 200ms var(--ease-smooth);
+}
+.crumbLink:hover {
+  color: var(--color-on-night);
+}
+.crumbSep {
+  color: var(--color-on-night-3);
+}
+.crumbCurrent {
+  color: var(--color-lime);
+}
+
+.title {
+  margin: 0;
+  max-width: 17em;
+  font-family: var(--font-display);
+  font-size: clamp(2.15rem, 1.05rem + 3.2vw, 4.5rem);
+  font-weight: 760;
+  line-height: 0.99;
+  letter-spacing: -0.042em;
+  font-variation-settings: "opsz" 96;
+  text-wrap: balance;
+  color: var(--color-on-night);
+}
+
+.dek {
+  margin: 0;
+  max-width: 38em;
+  font-size: var(--text-body-l);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--color-on-night-2);
+  text-wrap: pretty;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 6px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-line-night);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-on-night-3);
+}
+.meta time,
+.meta span:last-child {
+  color: var(--color-on-night-2);
+}
+
+/* The logo's heartbeat as the masthead's horizon (same drawing as PageHero) */
+.horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  width: 100%;
+  height: 84px;
+  pointer-events: none;
+}
+.horizonDot {
+  position: absolute;
+  left: calc(90.28% - 6px);
+  bottom: calc(20px + 42px - 6px);
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--color-lime);
+  box-shadow: 0 0 14px rgb(214 240 80 / 0.9);
+  animation: dotBeat 2.4s var(--ease-smooth) infinite;
+}
+@keyframes dotBeat {
+  0%, 100% { box-shadow: 0 0 10px rgb(214 240 80 / 0.7); transform: scale(1); }
+  12% { box-shadow: 0 0 22px rgb(214 240 80 / 1); transform: scale(1.35); }
+  30% { transform: scale(1); }
+}
+@media (max-width: 640px) {
+  .horizon { height: 60px; bottom: 14px; }
+  .horizonDot { bottom: calc(14px + 30px - 6px); }
+}
+
+/* ─── Reading body ─────────────────────────────────────────────────────── */
+.body {
+  background: var(--color-canvas);
+  padding-block: clamp(56px, 7vw, 104px) clamp(88px, 10vw, 148px);
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.tocCol {
+  display: none;
+}
+.main {
+  min-width: 0;
+  /* lets wide tables size against the whole column (cqw), not the 680px measure */
+  container-type: inline-size;
+}
+.measure {
+  max-width: 680px;
+  margin-inline: auto;
+}
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: 216px minmax(0, 1fr);
+    column-gap: clamp(40px, 4vw, 72px);
+  }
+  .tocCol {
+    display: block;
+    padding-top: 8px;
+  }
+}
+
+/* ─── Table of contents (desktop) ──────────────────────────────────────── */
+.toc {
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  /* room for focus rings inside the scroll box, without shifting the layout */
+  margin: -6px;
+  padding: 6px;
+}
+.toc::-webkit-scrollbar {
+  display: none;
+}
+.tocLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+}
+.tocList {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--color-grid);
+}
+.tocLink {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 8px 7px 14px;
+  border-radius: 0 10px 10px 0;
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  line-height: 1.38;
+  letter-spacing: -0.005em;
+  color: var(--color-ink-secondary);
+  transition: color 240ms var(--ease-smooth), background-color 240ms var(--ease-smooth);
+}
+.tocLink::before {
+  content: "";
+  position: absolute;
+  left: -1.5px;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--color-ink);
+  transform: scaleY(0);
+  transition: transform 300ms var(--ease-expo);
+}
+.tocLink:hover {
+  color: var(--color-ink);
+  background: rgb(16 35 26 / 0.04);
+}
+.tocNum {
+  justify-self: start;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--color-ink-tertiary);
+  transition: background-color 240ms var(--ease-smooth), color 240ms var(--ease-smooth);
+}
+.tocLink[aria-current="location"] {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.tocLink[aria-current="location"]::before {
+  transform: scaleY(1);
+}
+.tocLink[aria-current="location"] .tocNum {
+  background: var(--color-ink);
+  color: var(--color-lime);
+}
+
+/* ─── Comparison tables (MDX) — lab-report look, scroll inside on small screens */
+div.tableScroll {
+  position: relative;
+  margin-block: 2.4rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--color-grid);
+  border-radius: 18px;
+  /* scroll shadows: white covers travel with the content, ink shades stay on
+     the edges — a shade only shows where more columns are hidden */
+  background:
+    linear-gradient(90deg, #FFFFFF 35%, rgb(255 255 255 / 0)) left center / 36px 100% no-repeat local,
+    linear-gradient(270deg, #FFFFFF 35%, rgb(255 255 255 / 0)) right center / 36px 100% no-repeat local,
+    radial-gradient(farthest-side at 0 50%, rgb(16 35 26 / 0.2), rgb(16 35 26 / 0)) left center / 14px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgb(16 35 26 / 0.2), rgb(16 35 26 / 0)) right center / 14px 100% no-repeat scroll,
+    #FFFFFF;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.9) inset;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(16 35 26 / 0.28) transparent;
+}
+div.tableScroll:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+}
+.tableScroll > .table {
+  width: 100%;
+  min-width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+.tableScroll .table th {
+  padding: 14px 18px 12px;
+  vertical-align: bottom;
+  line-height: 1.35;
+}
+.tableScroll .table td {
+  padding: 14px 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  transition: background-color 200ms var(--ease-smooth);
+}
+.tableScroll .table tbody tr:hover td {
+  background: color-mix(in srgb, var(--color-lime) 13%, #FFFFFF);
+}
+.tableScroll .table td strong {
+  font-weight: 650;
+}
+
+/* Small screens: the table becomes a full-bleed white strip that scrolls
+   sideways inside itself; text still lines up with the paragraphs. */
+@media (max-width: 639px) {
+  div.tableScroll {
+    margin-inline: calc(-1 * var(--spacing-container));
+    border-radius: 0;
+    border-inline: 0;
+  }
+  .tableScroll .table th:first-child,
+  .tableScroll .table td:first-child {
+    padding-left: var(--spacing-container);
+  }
+  .tableScroll .table th:last-child,
+  .tableScroll .table td:last-child {
+    padding-right: var(--spacing-container);
+  }
+  .tableScroll .table th,
+  .tableScroll .table td {
+    padding-inline: 14px;
+    /* in auto table layout a cell's width is its column's minimum: no column
+       collapses to a word per line next to a long source link */
+    width: 7.5rem;
+  }
+  .tableScroll .table td {
+    font-size: 14.5px;
+  }
+  /* Two or three columns fit the phone and stay side by side — unless they
+     carry source links, which then get room to the right instead of
+     squeezing the values. From four columns on, the table keeps readable
+     columns and scrolls, with its first column (the row label) frozen so
+     every value keeps its context. */
+  .tableScroll > .table:has(td:not(:first-child) a):not(:has(tr > :nth-child(4))) {
+    min-width: 32rem;
+  }
+  .tableScroll > .table:has(tr > :nth-child(4)) {
+    min-width: 36rem;
+  }
+  .tableScroll > .table:has(tr > :nth-child(4)) :is(th, td):first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    width: 8.5rem;
+    background: #FFFFFF;
+    box-shadow: 1px 0 0 var(--color-grid), 10px 0 14px -12px rgb(16 35 26 / 0.45);
+  }
+  .tableScroll > .table:has(tr > :nth-child(4)) th:first-child {
+    background: color-mix(in srgb, var(--color-fog) 70%, #FFFFFF);
+  }
+  .tableScroll > .table:has(tr > :nth-child(4)) tbody tr:hover td:first-child {
+    background: color-mix(in srgb, var(--color-lime) 13%, #FFFFFF);
+  }
+}
+/* Five columns and more: give them room to breathe everywhere… */
+@media (max-width: 1023px) {
+  .tableScroll > .table:has(tr > :nth-child(5)) {
+    min-width: 52rem;
+  }
+}
+/* …and on desktop let them widen past the 680px measure, centred on it */
+@media (min-width: 1024px) {
+  div.tableScroll:has(> .table tr > :nth-child(5)) {
+    width: min(100cqw, 62rem);
+    margin-inline: calc((100% - min(100cqw, 62rem)) / 2);
+  }
+}
+
+/* ─── FAQ accordion ────────────────────────────────────────────────────── */
+.faq {
+  margin-top: clamp(72px, 9vw, 120px);
+}
+.faqTitle {
+  margin: 0 0 clamp(24px, 3vw, 36px);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.25rem + 2.2vw, 3rem);
+  font-weight: 740;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variation-settings: "opsz" 96;
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+.faqList {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: faq;
+}
+.faqItem {
+  counter-increment: faq;
+}
+.faqDetails {
+  border: 1px solid var(--color-grid);
+  border-radius: 20px;
+  background: #FFFFFF;
+  transition: border-color 300ms var(--ease-expo), box-shadow 300ms var(--ease-expo);
+  interpolate-size: allow-keywords;
+}
+.faqDetails:hover {
+  border-color: color-mix(in srgb, var(--color-ink) 22%, var(--color-grid));
+}
+.faqDetails[open] {
+  border-color: color-mix(in srgb, var(--color-ink) 18%, var(--color-grid));
+  box-shadow: 0 22px 44px -30px rgb(16 35 26 / 0.38);
+}
+.faqSummary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 18px 18px 20px;
+  cursor: pointer;
+  list-style: none;
+  border-radius: 20px;
+  font-family: var(--font-display);
+  font-size: clamp(1.02rem, 0.96rem + 0.3vw, 1.16rem);
+  font-weight: 650;
+  line-height: 1.32;
+  letter-spacing: -0.018em;
+  color: var(--color-ink);
+}
+.faqSummary::-webkit-details-marker {
+  display: none;
+}
+.faqSummary::marker {
+  content: "";
+}
+.faqSummary::before {
+  content: counter(faq, decimal-leading-zero);
+  align-self: start;
+  box-sizing: border-box;
+  min-width: 30px;
+  margin-top: 0.2em;
+  padding: 2px 6px;
+  text-align: center;
+  border-radius: 999px;
+  border: 1px solid var(--color-grid);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.45;
+  color: var(--color-ink-tertiary);
+  transition: background-color 240ms var(--ease-smooth), color 240ms var(--ease-smooth), border-color 240ms var(--ease-smooth);
+}
+.faqDetails[open] > .faqSummary::before {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-lime);
+}
+.faqIcon {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--color-grid);
+  color: var(--color-ink);
+  transition: transform 240ms var(--ease-smooth), background-color 240ms var(--ease-smooth), border-color 240ms var(--ease-smooth);
+}
+.faqSummary:hover .faqIcon {
+  border-color: var(--color-ink);
+}
+.faqDetails[open] .faqIcon {
+  background: var(--color-lime);
+  border-color: var(--color-lime);
+}
+.faqAnswer {
+  /* lines up with the question text: summary padding + number chip + gap */
+  padding: 0 22px 22px calc(20px + 30px + 14px);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.66;
+  letter-spacing: -0.003em;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+@media (max-width: 520px) {
+  .faqSummary {
+    gap: 12px;
+    padding: 16px 14px 16px 16px;
+  }
+  .faqAnswer {
+    padding: 0 18px 20px 16px;
+  }
+}
+/* progressive: the answer eases open where ::details-content is supported */
+.faqDetails::details-content {
+  block-size: 0;
+  overflow-y: clip;
+  transition: block-size 380ms var(--ease-smooth), content-visibility 380ms allow-discrete;
+}
+.faqDetails[open]::details-content {
+  block-size: auto;
+}
+
+/* ─── Verdict — the night card with a chrome rim ───────────────────────── */
+.verdict {
+  margin-top: clamp(56px, 7vw, 88px);
+  overflow: hidden;
+  border-radius: 30px;
+  padding: clamp(28px, 4.2vw, 52px) clamp(24px, 4.2vw, 52px) clamp(76px, 8vw, 104px);
+  box-shadow: 0 50px 90px -46px rgb(16 35 26 / 0.75);
+}
+.verdict::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: var(--chrome-sweep);
+  background-size: 220% 100%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.9;
+  animation: rimSweep 7s linear infinite;
+}
+@keyframes rimSweep {
+  to { background-position: 220% 0; }
+}
+.verdictOrb {
+  position: absolute;
+  right: -70px;
+  top: -80px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #FFFFFF 0%, #F4F6F8 9%, #B8C0C8 26%, #59636C 48%, #1F262B 62%, #8F98A1 80%, #E9EDF0 94%, #FFFFFF 100%);
+  opacity: 0.15;
+  filter: blur(1px);
+  pointer-events: none;
+}
+.verdictInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 20px;
+}
+.verdictLabel {
+  color: var(--color-lime);
+}
+.verdictText {
+  margin: 0;
+  max-width: 30em;
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 1.08rem + 1.15vw, 2.05rem);
+  font-weight: 450;
+  line-height: 1.3;
+  letter-spacing: -0.016em;
+  color: var(--color-on-night);
+  text-wrap: pretty;
+}
+.verdictPulse {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  width: 100%;
+  height: 56px;
+  pointer-events: none;
+}
+.verdictDot {
+  position: absolute;
+  left: calc(88% - 5px);
+  bottom: calc(18px + 28px - 5px);
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-lime);
+  box-shadow: 0 0 14px rgb(214 240 80 / 0.85);
+}
+
+/* ─── Related comparisons ──────────────────────────────────────────────── */
+.related {
+  border-top: 1px solid var(--color-grid);
+  background: var(--color-canvas);
+  padding-block: clamp(72px, 9vw, 128px);
+}
+.sectionHead {
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+}
+.sectionLabel {
+  color: var(--color-ink-tertiary);
+}
+.sectionTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-display-m);
+  font-weight: 740;
+  line-height: 0.98;
+  letter-spacing: -0.042em;
+  font-variation-settings: "opsz" 96;
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+.relatedGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(14px, 1.8vw, 22px);
+  margin-top: clamp(36px, 4.5vw, 60px);
+}
+@media (min-width: 768px) {
+  .relatedGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  .relatedGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ─── Final CTA — night band, the button sits on the pulse ─────────────── */
+.cta {
+  overflow: hidden;
+  padding-block: clamp(96px, 12vw, 176px) clamp(104px, 12vw, 180px);
+  text-align: center;
+}
+/* lit from above the headline, settling into the footer's tone so the two
+   night stages meet without a seam */
+section.cta {
+  background:
+    radial-gradient(70% 85% at 50% 16%, #1A2227 0%, #0D1114 62%, #0B0F11 100%);
+}
+/* a fading hairline where the band hands over to the footer's own stage */
+section.cta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgb(255 255 255 / 0) 0%, rgb(255 255 255 / 0.13) 20%, rgb(255 255 255 / 0.13) 80%, rgb(255 255 255 / 0) 100%);
+  pointer-events: none;
+}
+.ctaInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 26px;
+}
+.ctaLabel {
+  color: var(--color-on-night-2);
+}
+.ctaTitle {
+  margin: 0;
+  max-width: 13em;
+  font-size: clamp(2.5rem, 1.2rem + 4.4vw, 5.6rem);
+  line-height: 0.95;
+}
+.ctaRow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 18px;
+}
+.ctaPulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.ctaPulseDot {
+  position: absolute;
+  top: 50%;
+  /* the path ends at x = 1320 of a 1440-wide, 100vw drawing centred on the row */
+  left: calc(50% + 41.67vw);
+  width: 11px;
+  height: 11px;
+  margin: -5.5px 0 0 -5.5px;
+  border-radius: 999px;
+  background: var(--color-lime);
+  box-shadow: 0 0 14px rgb(214 240 80 / 0.9);
+  animation: dotBeat 2.4s var(--ease-smooth) infinite;
+  pointer-events: none;
+}
+.ctaButton {
+  position: relative;
+  z-index: 1;
+  min-height: 58px;
+  padding-inline: 30px;
+  font-size: 1.06rem;
+}
+
+/* ─── Not found — night stage ──────────────────────────────────────────── */
+.notFound {
+  display: flex;
+  min-height: 72vh;
+  align-items: center;
+  padding-block: clamp(140px, 16vw, 200px) clamp(96px, 10vw, 140px);
+  text-align: center;
+}
+.notFoundInner {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  max-width: 600px;
+  margin-inline: auto;
+}
+.notFoundLabel {
+  color: var(--color-on-night-2);
+}
+.notFoundLabel .notFoundDot {
+  background: var(--color-warm);
+  box-shadow: 0 0 12px rgb(185 118 44 / 0.7);
+}
+.notFoundTitle {
+  margin: 0;
+  font-size: clamp(2.6rem, 1.4rem + 4vw, 4.6rem);
+  line-height: 0.95;
+  color: var(--color-on-night);
+}
+.notFoundText {
+  margin: 0;
+  max-width: 28em;
+  font-size: 1.06rem;
+  line-height: 1.6;
+  color: var(--color-on-night-2);
+  text-wrap: pretty;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .verdict::before,
+  .horizonDot,
+  .ctaPulseDot {
+    animation: none;
+  }
+  .tocLink::before,
+  .faqDetails,
+  .faqIcon {
+    transition: none;
+  }
+  .faqDetails::details-content {
+    transition: none;
+  }
+}

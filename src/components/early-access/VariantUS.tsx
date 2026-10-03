@@ -1,103 +1,53 @@
 "use client";
 
-import { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import { useGSAP } from "@gsap/react";
+import type { CSSProperties, ReactNode } from "react";
 import NewsletterForm from "./NewsletterForm";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
-}
 
 // Merios on the US App Store (ascAppId 6760352598).
 const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
 
 // Official Apple Media Services badge. 250x83 @1x renders at ~125x42 CSS px on
-// retina. Use the black variant to sit on cream canvas.
+// retina. The black variant carries its own hairline, so it reads on the
+// night stage too.
 const APP_STORE_BADGE =
   "https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83";
 
-export default function VariantUS() {
-  const container = useRef<HTMLElement>(null);
-
-  // GSAP: headline char-by-char split + scroll-triggered stagger. Subline
-  // fades up with 200ms delay. All gated by prefers-reduced-motion via
-  // matchMedia so the scrub never runs when the user opted out.
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-
-      mm.add(
-        {
-          reduced: "(prefers-reduced-motion: reduce)",
-          full: "(prefers-reduced-motion: no-preference)",
-        },
-        (context) => {
-          const isReduced = context.conditions?.reduced;
-
-          if (isReduced) {
-            gsap.set([".ea-us-headline", ".ea-us-subline"], { opacity: 1 });
-            return;
-          }
-
-          gsap.set(".ea-us-subline", { opacity: 0, y: 16 });
-
-          SplitText.create(".ea-us-headline", {
-            type: "chars, lines",
-            autoSplit: true,
-            mask: "lines",
-            charsClass: "ea-us-char",
-            linesClass: "ea-us-line",
-            onSplit(self) {
-              const tl = gsap.timeline({
-                scrollTrigger: {
-                  trigger: ".ea-us-headline",
-                  start: "top 80%",
-                  toggleActions: "play none none none",
-                },
-                defaults: { ease: "expo.out" },
-              });
-
-              tl.from(self.chars, {
-                yPercent: 110,
-                opacity: 0,
-                duration: 0.9,
-                stagger: 0.015,
-              });
-              tl.to(
-                ".ea-us-subline",
-                { opacity: 1, y: 0, duration: 0.9 },
-                0.2,
-              );
-
-              return tl;
-            },
-          });
-        },
-      );
-    },
-    { scope: container },
-  );
-
+// Headline words rise out of a mask (the PageHero .ph-word / .ph-char CSS
+// keyframes). CSS-only and started at parse time — the H1 is never held at
+// opacity 0 waiting for JavaScript, and its text stays exactly
+// "Your score, in your pocket." in the server HTML.
+function Rise({ d, children }: { d: number; children: ReactNode }) {
   return (
-    <main ref={container}>
-      {/* ─── Hero: cream canvas, centered editorial ─── */}
+    <span className="ph-word">
+      <span className="ph-char" style={{ "--ph-d": `${d}s` } as CSSProperties}>
+        {children}
+      </span>
+    </span>
+  );
+}
+
+export default function VariantUS() {
+  return (
+    <main className="ea-us">
+      {/* ─── Hero: night stage, centered ─── */}
       <section
-        className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32"
-        style={{ background: "var(--color-canvas)" }}
+        className="night relative overflow-hidden"
+        data-nav="dark"
         aria-label="Download Merios on the US App Store"
+        style={{
+          paddingTop: "clamp(140px, 16vw, 200px)",
+          paddingBottom: "clamp(128px, 13vw, 184px)",
+        }}
       >
-        {/* Ambient animated gradient — slow 8s CSS loop, opacity capped at
-            0.15. The static fallback shows under reduced-motion; the animated
-            layer is hidden there (motion-reduce / motion-safe variants). */}
+        {/* Ambient light — slow 8s CSS loop, opacity capped low. The static
+            fallback shows under reduced-motion; the animated layer is hidden
+            there (motion-reduce / motion-safe variants). */}
         <div
           aria-hidden
           className="pointer-events-none absolute top-0 left-1/2 h-[60%] w-[80%] -translate-x-1/2 motion-safe:hidden"
           style={{
             background:
-              "radial-gradient(50% 55% at 50% 20%, rgba(159,191,0,0.08), transparent 70%)",
+              "radial-gradient(closest-side at 50% 42%, rgb(214 240 80 / 0.07), transparent)",
           }}
         />
         <div
@@ -105,75 +55,64 @@ export default function VariantUS() {
           className="ea-us-drift pointer-events-none absolute top-0 left-1/2 h-[80%] w-[110%] motion-reduce:hidden"
           style={{
             background:
-              "radial-gradient(48% 52% at 50% 30%, rgba(159,191,0,0.15), transparent 70%), radial-gradient(40% 45% at 70% 40%, rgba(30,61,42,0.10), transparent 70%)",
+              "radial-gradient(closest-side at 50% 40%, rgb(214 240 80 / 0.1), transparent), radial-gradient(40% 45% at 70% 44%, rgb(201 184 255 / 0.08), transparent 70%)",
             willChange: "transform, opacity",
           }}
         />
 
-        <div className="relative mx-auto max-w-[720px] px-6 text-center md:px-10">
+        <div className="relative z-[1] mx-auto max-w-[820px] px-[var(--spacing-container)] text-center">
           {/* Eyebrow */}
-          <div
-            className="inline-flex items-center gap-2.5"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            <span
-              aria-hidden
-              className="animate-pulse-dot inline-block h-1.5 w-1.5 rounded-full"
-              style={{ background: "var(--color-pulse)" }}
-            />
-            <span
-              className="text-[10.5px] uppercase"
-              style={{
-                color: "var(--color-green-deep)",
-                letterSpacing: "0.22em",
-                fontWeight: 500,
-              }}
-            >
-              Available on iOS
-            </span>
+          <div className="he label" style={{ color: "var(--color-on-night-2)" }}>
+            <span aria-hidden className="label-dot animate-pulse-dot" />
+            <span>Available on iOS</span>
           </div>
 
-          {/* Display headline — GSAP SplitText animates chars on scroll */}
+          {/* Display headline */}
           <h1
-            className="ea-us-headline mt-8"
+            className="display mt-7"
             style={{
-              fontFamily: "var(--font-serif)",
               fontSize: "var(--text-display-l)",
-              fontWeight: 300,
-              lineHeight: 1.02,
-              letterSpacing: "-0.03em",
-              color: "var(--color-ink)",
+              color: "var(--color-on-night)",
             }}
           >
-            Your score,
+            <Rise d={0.06}>Your</Rise> <Rise d={0.12}>score,</Rise>
             <br />
-            in your pocket.
+            <Rise d={0.2}>in</Rise> <Rise d={0.26}>your</Rise>{" "}
+            <Rise d={0.32}>pocket.</Rise>
           </h1>
 
-          {/* Lead — fades up 200ms after headline */}
+          {/* Lead */}
           <p
-            className="ea-us-subline mx-auto mt-7 max-w-[520px]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "clamp(1rem, 1.15vw, 1.0625rem)",
-              lineHeight: 1.6,
-              color: "var(--color-ink-secondary)",
-            }}
+            className="he mx-auto mt-7 max-w-[540px]"
+            style={
+              {
+                "--he-d": "0.3s",
+                fontFamily: "var(--font-sans)",
+                fontSize: "var(--text-body-l)",
+                lineHeight: 1.5,
+                letterSpacing: "-0.01em",
+                color: "var(--color-on-night-2)",
+                textWrap: "pretty",
+              } as CSSProperties
+            }
           >
             Merios is live on the US App Store. Upload a blood test, connect
             Apple Health, and read your body with clinical precision —
             right from your iPhone.
           </p>
 
-          {/* CTA: App Store badge with 2 concentric pulse rings */}
-          <div className="relative mx-auto mt-12 inline-block">
+          {/* CTA: App Store badge with 2 concentric lime pulse rings */}
+          <div
+            className="he relative mx-auto mt-12 inline-block"
+            style={{ "--he-d": "0.42s" } as CSSProperties}
+          >
             {/* Pulse ring #1 — inner, expands + fades over 3s (CSS keyframes,
                 hidden under reduced-motion) */}
             <span
               aria-hidden
               className="ea-us-ring pointer-events-none absolute inset-0 rounded-2xl motion-reduce:hidden"
               style={{
-                boxShadow: "0 0 0 2px var(--color-pulse)",
+                boxShadow: "0 0 0 2px var(--color-lime)",
               }}
             />
             {/* Pulse ring #2 — outer, offset by 1.5s (half of the loop) */}
@@ -181,7 +120,7 @@ export default function VariantUS() {
               aria-hidden
               className="ea-us-ring pointer-events-none absolute inset-0 rounded-2xl motion-reduce:hidden"
               style={{
-                boxShadow: "0 0 0 2px var(--color-pulse)",
+                boxShadow: "0 0 0 2px var(--color-lime)",
                 animationDelay: "1.5s",
               }}
             />
@@ -191,10 +130,7 @@ export default function VariantUS() {
               href={APP_STORE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative inline-block rounded-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-deep focus-visible:ring-offset-2 motion-safe:hover:-translate-y-0.5 motion-safe:hover:rotate-[4deg] motion-safe:focus-visible:-translate-y-0.5 motion-safe:focus-visible:rotate-[4deg] motion-safe:active:-translate-y-px motion-safe:active:rotate-[2deg]"
-              style={{
-                outlineOffset: 2,
-              }}
+              className="ea-us-badge relative inline-block rounded-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:hover:-translate-y-0.5 motion-safe:hover:rotate-[4deg] motion-safe:focus-visible:-translate-y-0.5 motion-safe:focus-visible:rotate-[4deg] motion-safe:active:-translate-y-px motion-safe:active:rotate-[2deg]"
               aria-label="Download Merios on the App Store"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -210,73 +146,110 @@ export default function VariantUS() {
 
           {/* Caption under CTA */}
           <p
-            className="mt-6"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              letterSpacing: "0.08em",
-              color: "var(--color-ink-tertiary)",
-            }}
+            className="he mt-7"
+            style={
+              {
+                "--he-d": "0.5s",
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                letterSpacing: "0.1em",
+                color: "var(--color-on-night-2)",
+              } as CSSProperties
+            }
           >
             iPhone · iOS 17+ · Free to start
           </p>
         </div>
+
+        {/* The logo's heartbeat as the stage's horizon */}
+        <svg
+          className="v3-hero__pulse"
+          aria-hidden
+          focusable="false"
+          viewBox="0 0 1440 120"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="ea-us-pulse-fade" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+              <stop offset="0.45" stopColor="#FFFFFF" stopOpacity="0.2" />
+              <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.45" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
+            fill="none"
+            stroke="url(#ea-us-pulse-fade)"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        <span className="v3-hero__dot" aria-hidden />
       </section>
 
       {/* ─── Newsletter: "Stay informed as the US rollout expands" ─── */}
       <section
-        className="relative py-24 md:py-28"
+        className="relative px-[var(--spacing-container)]"
         style={{
-          background: "var(--color-canvas-alt)",
-          borderTop: "1px solid var(--color-grid)",
+          background: "var(--color-canvas)",
+          paddingTop: "clamp(64px, 8vw, 120px)",
+          paddingBottom: "clamp(72px, 9vw, 128px)",
         }}
         aria-label="Stay informed as Merios rolls out across the US"
       >
-        <div className="mx-auto max-w-[560px] px-6 md:px-10">
-          <div
-            className="inline-flex items-center gap-2.5"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            <span
-              className="text-[10.5px] uppercase"
+        <div
+          className="mx-auto grid max-w-[1320px] grid-cols-1 items-end gap-10 lg:grid-cols-12 lg:gap-12"
+          style={{
+            background: "var(--color-canvas-alt)",
+            border: "1px solid var(--color-grid)",
+            borderRadius: "clamp(24px, 2.8vw, 34px)",
+            padding: "clamp(26px, 4.4vw, 64px)",
+          }}
+        >
+          <div className="lg:col-span-7">
+            <div
+              className="label"
+              style={{ color: "var(--color-ink-tertiary)" }}
+            >
+              <span aria-hidden className="label-dot label-dot--ink" />
+              <span>Rollout updates</span>
+            </div>
+
+            <h2
+              className="mt-6 max-w-[15ch]"
               style={{
-                color: "var(--color-ink-tertiary)",
-                letterSpacing: "0.22em",
-                fontWeight: 500,
+                fontFamily: "var(--font-display)",
+                fontSize: "var(--text-display-m)",
+                fontWeight: 740,
+                lineHeight: 0.98,
+                letterSpacing: "-0.04em",
+                fontVariationSettings: '"opsz" 96',
+                color: "var(--color-ink)",
+                textWrap: "balance",
               }}
             >
-              Rollout updates
-            </span>
+              Stay informed as the US rollout expands.
+            </h2>
+
+            <p
+              className="mt-6 max-w-[460px]"
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "var(--text-body-l)",
+                lineHeight: 1.5,
+                letterSpacing: "-0.01em",
+                color: "var(--color-ink-secondary)",
+                textWrap: "pretty",
+              }}
+            >
+              New lab integrations, new biomarkers, new coverage — once a month,
+              in your inbox.
+            </p>
           </div>
 
-          <h2
-            className="mt-5"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "var(--text-display-m)",
-              fontWeight: 300,
-              lineHeight: 1.05,
-              letterSpacing: "-0.02em",
-              color: "var(--color-ink)",
-            }}
-          >
-            Stay informed as the US rollout expands.
-          </h2>
-
-          <p
-            className="mt-5 max-w-[460px]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "1rem",
-              lineHeight: 1.6,
-              color: "var(--color-ink-secondary)",
-            }}
-          >
-            New lab integrations, new biomarkers, new coverage — once a month,
-            in your inbox.
-          </p>
-
-          <div className="mt-10">
+          <div className="lg:col-span-5">
             <NewsletterForm
               source="early-access-us"
               tone="light"
@@ -284,9 +257,12 @@ export default function VariantUS() {
               submitLabel="Subscribe"
             />
             <p
-              className="mt-4 text-xs"
+              className="mt-3"
               style={{
-                fontFamily: "var(--font-sans)",
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                letterSpacing: "0.06em",
+                lineHeight: 1.5,
                 color: "var(--color-ink-tertiary)",
               }}
             >
@@ -302,11 +278,10 @@ export default function VariantUS() {
 }
 
 // ─── Scoped animation styles ─────────────────────────────────────────────────
-// CSS keyframes replacing the previous motion/react infinite loops. The drift
-// keyframes fold the original rotate / x / opacity tracks into one timeline;
-// translateX(-50%) keeps the layer centered (the class-based -translate-x-1/2
-// is owned by the animation here). Hidden under reduced-motion via the
-// motion-reduce:hidden utility on the elements.
+// CSS keyframes for the ambient drift (translateX(-50%) keeps the layer
+// centered — the class-based -translate-x-1/2 is owned by the animation here)
+// and the badge's lime pulse rings. Hidden under reduced-motion via the
+// motion-reduce:hidden utility on the elements. Prefixed .ea-us.
 const styles = `
 @keyframes eaUsDrift {
   0% { transform: translateX(-50%) rotate(0deg); opacity: 0.85; }
@@ -315,15 +290,19 @@ const styles = `
   75% { transform: translateX(-51.5%) rotate(-8deg); opacity: 0.95; }
   100% { transform: translateX(-50%) rotate(0deg); opacity: 0.85; }
 }
-.ea-us-drift {
+.ea-us .ea-us-drift {
   animation: eaUsDrift 8s linear infinite;
 }
 @keyframes eaUsRing {
-  0% { transform: scale(1); opacity: 0.55; }
-  50% { transform: scale(1.18); opacity: 0.2; }
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.18); opacity: 0.22; }
   100% { transform: scale(1.35); opacity: 0; }
 }
-.ea-us-ring {
+.ea-us .ea-us-ring {
   animation: eaUsRing 3s var(--ease-smooth) infinite backwards;
+}
+.ea-us .ea-us-badge:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 4px;
 }
 `;

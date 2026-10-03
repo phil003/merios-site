@@ -1,58 +1,55 @@
 import Reveal from "@/components/ui/Reveal";
+import styles from "./compareArticle.module.css";
 
 interface ArticleVerdictProps {
   text: string;
 }
 
 /**
- * Editorial "Our take" box — dark editorial section at the end of the article.
- * Ink background, canvas text, Fraunces headline.
+ * Editorial "Our take" box at the end of the article — a night card with a
+ * slow chrome rim (the homepage's Plus-plan card), the summary set in
+ * Newsreader, the logo's heartbeat along its lower edge. Purely decorative
+ * ornaments (aria-hidden); the text is rendered exactly as given.
  */
 export default function ArticleVerdict({ text }: ArticleVerdictProps) {
   return (
-    <aside
-      className="mt-20 rounded-2xl px-7 py-10 md:px-10 md:py-12"
-      style={{
-        background: "var(--color-ink)",
-        color: "var(--color-canvas)",
-      }}
-    >
+    <aside className={`night ${styles.verdict}`}>
+      <span aria-hidden className={styles.verdictOrb} />
       <Reveal amount={0.3}>
-        <div
-          className="inline-flex items-center gap-2.5"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          <span
-            aria-hidden
-            className="inline-block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--color-pulse)" }}
-          />
-          <span
-            style={{
-              fontSize: 10.5,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "var(--color-pulse)",
-              fontWeight: 500,
-            }}
-          >
-            Our take
-          </span>
+        <div className={styles.verdictInner}>
+          <div className={`label ${styles.verdictLabel}`}>
+            <span aria-hidden className="label-dot" />
+            <span>Our take</span>
+          </div>
+          <p className={styles.verdictText}>{text}</p>
         </div>
-        <p
-          className="mt-5 max-w-[620px]"
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(1.25rem, 1.8vw, 1.625rem)",
-            fontWeight: 300,
-            lineHeight: 1.35,
-            letterSpacing: "-0.015em",
-            color: "var(--color-canvas)",
-          }}
-        >
-          {text}
-        </p>
       </Reveal>
+
+      <svg
+        className={styles.verdictPulse}
+        aria-hidden
+        focusable="false"
+        viewBox="0 0 1000 56"
+        preserveAspectRatio="none"
+      >
+        <defs>
+          <linearGradient id="compare-verdict-pulse" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+            <stop offset="0.5" stopColor="#FFFFFF" stopOpacity="0.18" />
+            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.46" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M0 28 H700 L712 35 L726 6 L744 50 L756 28 H880"
+          fill="none"
+          stroke="url(#compare-verdict-pulse)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+      <span aria-hidden className={styles.verdictDot} />
     </aside>
   );
 }

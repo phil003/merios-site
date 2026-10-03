@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ComparePost } from "@/lib/compare";
+import styles from "./compare.module.css";
 
 interface CompareCardProps {
   post: ComparePost;
@@ -8,6 +9,11 @@ interface CompareCardProps {
    * stays consistent across every comparison — the MDX layer owns detail.
    */
   tags?: readonly [string, string, string];
+  /**
+   * Position in the rendered list — picks the cover's pop tone so a grid
+   * reads lime → lilac → sky → peach. Falls back to a stable slug hash.
+   */
+  index?: number;
 }
 
 const DEFAULT_TAGS: readonly [string, string, string] = [
@@ -16,160 +22,92 @@ const DEFAULT_TAGS: readonly [string, string, string] = [
   "iOS",
 ];
 
-/**
- * Scoped hover/focus styles. Inlined as a plain <style> tag so the card stays
- * a server component and we avoid hex colours (CSS vars only). The rule set
- * is tiny; no duplication across the grid because the browser dedupes by
- * identical text content in practice.
- */
-const CARD_STYLES = `
-.compare-card:hover,
-.compare-card:focus-visible {
-  border-color: color-mix(in srgb, var(--color-green-deep) 35%, var(--color-grid));
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--color-green-deep) 20%, transparent),
-    0 12px 30px -18px color-mix(in srgb, var(--color-ink) 40%, transparent);
-}
-.compare-card:focus-visible {
-  outline: 2px solid var(--color-green-deep);
-  outline-offset: 3px;
-}
-.compare-card:hover .compare-card-arrow,
-.compare-card:focus-visible .compare-card-arrow {
-  transform: translateX(4px);
-}
-`;
+const TONES = ["lime", "lilac", "sky", "peach"] as const;
+type Tone = (typeof TONES)[number];
 
+function toneFor(slug: string, index?: number): Tone {
+  if (typeof index === "number") return TONES[index % TONES.length];
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return TONES[h % TONES.length];
+}
+
+/**
+ * Comparison card — white v3 card with a pop cover. Server component; the
+ * hover lift/shadow is the global `.blog-card` rule, the arrow nudge and the
+ * cover dot live in compare.module.css. Every text node (eyebrow, title,
+ * description, tags, read time, "Read comparison") is unchanged.
+ */
 export default function CompareCard({
   post,
   tags = DEFAULT_TAGS,
+  index,
 }: CompareCardProps) {
   return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: CARD_STYLES }} />
-      <Link
-        href={`/compare/${post.slug}`}
-        className="compare-card group relative flex h-full flex-col rounded-2xl p-6 md:p-7 transition-[transform,box-shadow,border-color] duration-300 ease-out will-change-transform hover:-translate-y-1 focus-visible:-translate-y-1 focus-visible:outline-none"
-        style={{
-          background: "var(--color-canvas-alt)",
-          border: "1px solid var(--color-grid)",
-        }}
-      >
-        {/* vs {competitor} — mono eyebrow */}
-        <div
-          className="inline-flex items-center gap-2"
-          style={{ fontFamily: "var(--font-mono)" }}
+    <Link href={`/compare/${post.slug}`} className={`blog-card ${styles.card}`}>
+      {/* vs {competitor} — the eyebrow, set as the cover's headline */}
+      <div className={styles.cover} data-tone={toneFor(post.slug, index)}>
+        <svg
+          className={styles.coverArt}
+          aria-hidden
+          focusable="false"
+          viewBox="0 0 230 64"
+          preserveAspectRatio="xMaxYMid meet"
         >
-          <span
-            aria-hidden
-            className="inline-block h-1 w-1 rounded-full"
-            style={{ background: "var(--color-pulse)" }}
+          <path
+            d="M0 32 H128 L136 38 L147 12 L160 54 L168 32 H210"
+            fill="none"
+            stroke="currentColor"
+            strokeOpacity="0.42"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
-          <span
-            style={{
-              fontSize: 10.5,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "var(--color-ink-tertiary)",
-              fontWeight: 500,
-            }}
-          >
-            vs {post.competitor}
-          </span>
+          <circle
+            className={styles.coverDot}
+            cx="216"
+            cy="32"
+            r="5.5"
+            fill="#FFFFFF"
+            stroke="currentColor"
+            strokeOpacity="0.55"
+            strokeWidth="1.5"
+          />
+        </svg>
+        <div className={styles.vs}>
+          <span className={styles.vsWord}>vs</span>{" "}
+          <span className={styles.vsName}>{post.competitor}</span>
         </div>
+      </div>
 
+      <div className={styles.body}>
         {/* Title */}
-        <h2
-          className="mt-5"
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(1.375rem, 1.6vw, 1.6875rem)",
-            fontWeight: 350,
-            lineHeight: 1.15,
-            letterSpacing: "-0.02em",
-            color: "var(--color-ink)",
-          }}
-        >
-          {post.title}
-        </h2>
+        <h2 className={styles.title}>{post.title}</h2>
 
         {/* Description */}
-        <p
-          className="mt-3"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: 15,
-            lineHeight: 1.55,
-            color: "var(--color-ink-secondary)",
-            letterSpacing: "-0.003em",
-          }}
-        >
-          {post.description}
-        </p>
+        <p className={styles.desc}>{post.description}</p>
 
         {/* Tags */}
-        <ul
-          className="mt-6 flex flex-wrap gap-2"
-          aria-label="Comparison topics"
-        >
+        <ul className={styles.tags} aria-label="Comparison topics">
           {tags.map((tag) => (
-            <li
-              key={tag}
-              className="inline-flex items-center rounded-full px-2.5 py-1"
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: 10.5,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "var(--color-ink-secondary)",
-                border: "1px solid var(--color-grid)",
-                fontWeight: 500,
-              }}
-            >
-              {tag}
-            </li>
+            <li key={tag}>{tag}</li>
           ))}
         </ul>
 
         {/* Spacer to push CTA to bottom */}
-        <div className="flex-1" />
+        <div className={styles.spacer} />
 
         {/* Footer meta + CTA */}
-        <div
-          className="mt-7 flex items-center justify-between gap-4 pt-5"
-          style={{ borderTop: "1px solid var(--color-grid)" }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 10.5,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "var(--color-ink-tertiary)",
-            }}
-          >
-            {post.readTime}
-          </span>
-          <span
-            className="inline-flex items-center gap-2"
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: 15,
-              fontWeight: 400,
-              color: "var(--color-green-deep)",
-              letterSpacing: "-0.005em",
-            }}
-          >
+        <div className={styles.foot}>
+          <span className={styles.readTime}>{post.readTime}</span>
+          <span className={styles.more}>
             Read comparison
-            <span
-              aria-hidden
-              className="compare-card-arrow inline-block transition-transform duration-300 ease-out"
-            >
+            <span aria-hidden className={styles.arrow}>
               →
             </span>
           </span>
         </div>
-      </Link>
-    </>
+      </div>
+    </Link>
   );
 }

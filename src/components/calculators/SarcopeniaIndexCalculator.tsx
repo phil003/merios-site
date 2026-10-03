@@ -2,8 +2,8 @@
 
 import { useState, useMemo } from "react";
 import {
-  Shell, ResultPanel, Field, Cta, round,
-  eyebrowStyle, titleStyle, resultLabelStyle, bigNumberStyle, resultTextStyle, emptyStyle, footnoteStyle,
+  Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, CalcOutput, ResultPanel, ResultBody,
+  Empty, ResultLabel, CalcFoot, Footnote, Cta, round, styles as s,
 } from "./_shared";
 
 /**
@@ -18,7 +18,7 @@ import {
  * population (77.3 in one T2DM cohort, 67.5 among those with eGFR ≥ 60), and
  * discrimination degrades with impaired renal function. Presenting a single
  * threshold here would be false precision on a YMYL page, so the tool gives
- * the number, the context, and the limits.
+ * the number, the context, and the limits — and no range bar either.
  */
 export default function SarcopeniaIndexCalculator() {
   const [creat, setCreat] = useState("");
@@ -33,47 +33,51 @@ export default function SarcopeniaIndexCalculator() {
 
   return (
     <Shell labelledBy="si-title">
-      <div style={eyebrowStyle}>Free interactive tool</div>
-      <h2 id="si-title" style={titleStyle}>Sarcopenia Index Calculator</h2>
+      <CalcHead>
+        <Eyebrow>Free interactive tool</Eyebrow>
+        <CalcTitle id="si-title">Sarcopenia Index Calculator</CalcTitle>
+      </CalcHead>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1.25rem" }}>
-        <Field label="Creatinine" unit="mg/dL" placeholder="e.g. 0.95" value={creat} onChange={setCreat} inputId="si-creat" step="0.01" />
-        <Field label="Cystatin C" unit="mg/L" placeholder="e.g. 0.85" value={cysc} onChange={setCysc} inputId="si-cysc" step="0.01" />
-      </div>
+      <CalcInputs>
+        <Fields>
+          <Field label="Creatinine" unit="mg/dL" placeholder="e.g. 0.95" value={creat} onChange={setCreat} inputId="si-creat" step="0.01" />
+          <Field label="Cystatin C" unit="mg/L" placeholder="e.g. 0.85" value={cysc} onChange={setCysc} inputId="si-cysc" step="0.01" />
+        </Fields>
+      </CalcInputs>
 
-      <ResultPanel
-        active={!!result}
-        bg="color-mix(in srgb, var(--color-pulse) 10%, var(--color-canvas))"
-        border="color-mix(in srgb, var(--color-pulse) 26%, transparent)"
-      >
-        {result ? (
-          <>
-            <div style={{ ...resultLabelStyle, color: "var(--color-green-deep)" }}>Your sarcopenia index</div>
-            <div style={bigNumberStyle}>{result.si}</div>
-            <p style={resultTextStyle}>
-              Deliberately shown without a pass or fail band. Published cutoffs disagree substantially between
-              populations — values near 77 and near 67 have both been proposed in different cohorts — so a single
-              threshold would give you false confidence. Read this as a personal baseline: the number to compare
-              against is <strong>your own</strong> on the next panel, not someone else&rsquo;s cutoff.
-            </p>
-          </>
-        ) : (
-          <p style={emptyStyle}>
-            Enter creatinine and cystatin C from the same blood draw. Both must come from one panel, since the whole
-            point of the ratio is that the two markers respond differently to muscle mass.
-          </p>
-        )}
-      </ResultPanel>
+      <CalcOutput>
+        <ResultPanel active={!!result}>
+          {result ? (
+            <ResultBody>
+              <ResultLabel>Your sarcopenia index</ResultLabel>
+              <div className={s.bigNumber}>{result.si}</div>
+              <p className={s.resultText}>
+                Deliberately shown without a pass or fail band. Published cutoffs disagree substantially between
+                populations — values near 77 and near 67 have both been proposed in different cohorts — so a single
+                threshold would give you false confidence. Read this as a personal baseline: the number to compare
+                against is <strong>your own</strong>{" "}on the next panel, not someone else&rsquo;s cutoff.
+              </p>
+            </ResultBody>
+          ) : (
+            <Empty>
+              Enter creatinine and cystatin C from the same blood draw. Both must come from one panel, since the whole
+              point of the ratio is that the two markers respond differently to muscle mass.
+            </Empty>
+          )}
+        </ResultPanel>
+      </CalcOutput>
 
-      <p style={footnoteStyle}>
-        Educational tool, not a diagnosis. The idea is simple: creatinine comes from muscle, cystatin C does not, so
-        their ratio carries a muscle signal neither marker shows alone. In 458,702 UK Biobank participants it
-        discriminated sarcopenia with an area under the curve of roughly 0.72 — acceptable, not excellent. Two honest
-        limits: it tracks grip strength better than it tracks muscle mass, and its performance degrades when kidney
-        function is impaired. It has also never been validated specifically in people taking GLP-1 medications, which
-        is the group most likely to be watching muscle loss. Treat it as a cheap trend line, not a test.
-      </p>
-      <Cta />
+      <CalcFoot>
+        <Footnote>
+          Educational tool, not a diagnosis. The idea is simple: creatinine comes from muscle, cystatin C does not, so
+          their ratio carries a muscle signal neither marker shows alone. In 458,702 UK Biobank participants it
+          discriminated sarcopenia with an area under the curve of roughly 0.72 — acceptable, not excellent. Two honest
+          limits: it tracks grip strength better than it tracks muscle mass, and its performance degrades when kidney
+          function is impaired. It has also never been validated specifically in people taking GLP-1 medications, which
+          is the group most likely to be watching muscle loss. Treat it as a cheap trend line, not a test.
+        </Footnote>
+        <Cta />
+      </CalcFoot>
     </Shell>
   );
 }

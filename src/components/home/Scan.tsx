@@ -317,6 +317,8 @@ export default function Scan() {
               <div className="hv3-phone">
                 <div className="hv3-phone__bezel">
                   <div className="hv3-phone__screen">
+                    {/* Decorative copies of the step screenshots above, which
+                        carry the descriptive alt text: empty alt on purpose. */}
                     {STEPS.map((s) => (
                       <Image
                         key={s.key}

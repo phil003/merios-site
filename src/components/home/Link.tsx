@@ -98,7 +98,7 @@ export default function LinkSection() {
           <div className="hv3-photo">
             <Image
               src="/images/v3/photo-runner.webp"
-              alt=""
+              alt="A runner mid-stride with a smartwatch on his wrist."
               fill
               sizes="(max-width: 1080px) 92vw, 42vw"
             />

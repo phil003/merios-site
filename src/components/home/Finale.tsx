@@ -47,7 +47,13 @@ export default function Finale() {
             </a>
             <div className="glass hv3-qr">
               <div className="hv3-qr__code">
-                <Image src="/images/v3/qr-app-store.svg" alt="" width={64} height={64} unoptimized />
+                <Image
+                  src="/images/v3/qr-app-store.svg"
+                  alt="QR code that opens Merios on the App Store"
+                  width={64}
+                  height={64}
+                  unoptimized
+                />
               </div>
               <span>
                 <b>On a computer?</b>Point your iPhone camera here.

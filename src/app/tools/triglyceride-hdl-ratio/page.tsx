@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import TrigHdlRatioCalculator from "@/components/calculators/TrigHdlRatioCalculator";
 import {
-  OrganizationSchema,
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
@@ -65,7 +64,6 @@ export default function TrigHdlRatioPage() {
 
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

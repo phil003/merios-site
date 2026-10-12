@@ -4,7 +4,6 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import {
   OrganizationSchema,
-  WebApplicationSchema,
   SiteNavigationSchema,
 } from "@/components/StructuredData";
 import LenisProvider from "@/components/providers/LenisProvider";
@@ -165,7 +164,6 @@ export default function RootLayout({
       <body className="overflow-x-hidden">
         <LenisProvider>
           <OrganizationSchema />
-          <WebApplicationSchema />
           <SiteNavigationSchema />
           <Navbar />
           {children}

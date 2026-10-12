@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
-import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import {
+  BreadcrumbSchema,
+  FAQPageSchema,
+  WebApplicationSchema,
+} from "@/components/StructuredData";
 import { AppleGlyph } from "@/components/home/icons";
 import s from "./pricing.module.css";
 
@@ -146,7 +150,7 @@ export default function PricingPage() {
 
   return (
     <>
-      <OrganizationSchema />
+      <WebApplicationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import LpaConverter from "@/components/calculators/LpaConverter";
-import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
@@ -89,7 +89,6 @@ export default function Page() {
   };
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

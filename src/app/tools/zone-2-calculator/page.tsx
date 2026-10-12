@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import Zone2Calculator from "@/components/calculators/Zone2Calculator";
 import {
-  OrganizationSchema,
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
@@ -67,7 +66,6 @@ export default function Zone2CalculatorPage() {
 
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

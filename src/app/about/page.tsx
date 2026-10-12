@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
-import {
-  OrganizationSchema,
-  BreadcrumbSchema,
-} from "@/components/StructuredData";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 import MissionSection from "@/components/about/MissionSection";
 import StoryTimeline from "@/components/about/StoryTimeline";
 import ValuesGrid from "@/components/about/ValuesGrid";
@@ -30,8 +27,9 @@ export const metadata: Metadata = {
 
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function AboutPage() {
-  // AboutPage JSON-LD — rendered inline alongside Organization + Breadcrumb
-  // schemas so every surface Google parses on /about is self-describing.
+  // AboutPage JSON-LD — rendered inline alongside the Breadcrumb schema (the
+  // Organization entity comes from the root layout, once per page) so every
+  // surface Google parses on /about is self-describing.
   const aboutPageSchema = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -51,7 +49,6 @@ export default function AboutPage() {
 
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

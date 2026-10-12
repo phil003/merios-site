@@ -5,7 +5,6 @@ import PageHero from "@/components/ui/PageHero";
 import CtaPulse from "@/app/tools/CtaPulse";
 import HomaIRCalculator from "@/components/calculators/HomaIRCalculator";
 import {
-  OrganizationSchema,
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
@@ -83,7 +82,6 @@ export default function HomaIRCalculatorPage() {
 
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

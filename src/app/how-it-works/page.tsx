@@ -14,6 +14,7 @@ import {
   LoopEmblem,
 } from "@/components/howitworks/Decor";
 import styles from "@/components/howitworks/hiw.module.css";
+import { WebApplicationSchema } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
@@ -140,11 +141,12 @@ const ACT_PROTOCOLS: ActProtocol[] = [
 export default function HowItWorksPage() {
   return (
     <>
-      {/* JSON-LD — HowTo structured data */}
+      {/* JSON-LD — HowTo structured data, plus the app itself */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
+      <WebApplicationSchema />
 
       {/* Skip-link for keyboard users */}
       <a

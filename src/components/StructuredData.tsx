@@ -1,10 +1,21 @@
 // JSON-LD Structured Data for SEO
-// Organization + WebApplication schemas injected site-wide
+//
+// Where each entity renders:
+// - Organization: site-wide, once, from the root layout.
+// - SiteNavigationElement list: site-wide, from the root layout.
+// - WebSite: the homepage only (it is what Google reads for the site name).
+// - MobileApplication: only on the pages about the app itself — /,
+//   /how-it-works, /pricing and /early-access. On a blood-test explainer or a
+//   calculator it described a different thing than the page.
+
+const ORGANIZATION_ID = "https://merios.life/#organization";
+const WEBSITE_ID = "https://merios.life/#website";
 
 export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORGANIZATION_ID,
     name: "Merios",
     url: "https://merios.life",
     logo: "https://merios.life/logo.png",
@@ -31,6 +42,31 @@ export function OrganizationSchema() {
   );
 }
 
+// Homepage only. Google picks the site name shown in results from a WebSite
+// entity on the home page; alternateName gives it the domain as a fallback.
+// The @id is the one other pages already point at (isPartOf).
+export function WebSiteSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    name: "Merios",
+    alternateName: "merios.life",
+    url: "https://merios.life/",
+    inLanguage: "en",
+    publisher: { "@id": ORGANIZATION_ID },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// MobileApplication — render only on /, /how-it-works, /pricing and
+// /early-access (see the note at the top of this file).
 export function WebApplicationSchema() {
   const schema = {
     "@context": "https://schema.org",

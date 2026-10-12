@@ -192,12 +192,24 @@ export function ArticleSchema({
   slug,
   urlPath,
   image,
+  citations,
 }: {
   title: string;
   description: string;
   datePublished: string;
   dateModified?: string;
   slug: string;
+  /** Resolved article sources → schema.org `citation`. */
+  citations?: {
+    title: string;
+    url: string;
+    authors: string;
+    container: string;
+    year: string;
+    pmid?: string;
+    doi?: string;
+    kind: "paper" | "web";
+  }[];
   /**
    * Optional URL path override. Defaults to `/blog/{slug}`.
    * Use e.g. `/compare/merios-vs-function-health` for comparison pages.
@@ -239,6 +251,24 @@ export function ArticleSchema({
       "@type": "WebPage",
       "@id": pageUrl,
     },
+    ...(citations?.length
+      ? {
+          citation: citations.map((c) => ({
+            "@type": c.kind === "paper" ? "ScholarlyArticle" : "CreativeWork",
+            name: c.title,
+            url: c.url,
+            ...(c.authors ? { author: c.authors.replace(/\.$/, "") } : {}),
+            ...(c.year ? { datePublished: c.year } : {}),
+            ...(c.kind === "paper" && c.container
+              ? { isPartOf: { "@type": "Periodical", name: c.container } }
+              : c.container
+                ? { publisher: { "@type": "Organization", name: c.container } }
+                : {}),
+            ...(c.doi ? { sameAs: `https://doi.org/${c.doi}` } : {}),
+            ...(c.pmid ? { identifier: `PMID:${c.pmid}` } : {}),
+          })),
+        }
+      : {}),
   };
 
   return (

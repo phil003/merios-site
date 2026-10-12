@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import type { SourceRef } from './sources';
 
 const BLOG_DIR = path.join(process.cwd(), 'content/blog');
 
@@ -12,6 +13,8 @@ export interface FAQItem {
 export interface BlogPost {
   slug: string;
   title: string;
+  /** Shorter <title> for search results when `title` (the H1) runs past 60 characters. */
+  seoTitle?: string;
   description: string;
   date: string;
   dateModified?: string;
@@ -20,6 +23,7 @@ export interface BlogPost {
   readTime: string;
   image?: string;
   faq?: FAQItem[];
+  sources?: SourceRef[];
   content: string;
 }
 
@@ -28,6 +32,7 @@ function parsePost(slug: string, raw: string): BlogPost {
   return {
     slug,
     title: data.title || '',
+    seoTitle: data.seoTitle || undefined,
     description: data.description || '',
     date: data.date || '',
     dateModified: data.dateModified || data.date || '',
@@ -36,6 +41,7 @@ function parsePost(slug: string, raw: string): BlogPost {
     readTime: data.readTime || '5 min read',
     image: data.image || undefined,
     faq: Array.isArray(data.faq) ? data.faq : undefined,
+    sources: Array.isArray(data.sources) ? data.sources : undefined,
     content,
   };
 }

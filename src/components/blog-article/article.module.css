@@ -1040,3 +1040,120 @@ details[open] > .faqSummary .faqIcon {
     transform: none !important;
   }
 }
+
+/* ─── Inline citations (<Cite />) ───
+   A mono superscript inside the Newsreader long read; doubled class beats the
+   global `.editorial-prose a` underline. Adjacent citations read "3,4". */
+.cite.cite {
+  margin-left: 1px;
+  font-family: var(--font-mono);
+  font-size: 0.6em;
+  font-weight: 500;
+  line-height: 0;
+  vertical-align: super;
+}
+.cite.cite + .cite.cite::before {
+  content: ",";
+  color: var(--color-ink-tertiary);
+}
+.cite.cite a {
+  padding: 0 2px;
+  border-radius: 4px;
+  color: var(--color-lime-deep, #5e7400);
+  text-decoration: none;
+  transition: background-color 200ms var(--ease-smooth);
+}
+.cite.cite a:hover,
+.cite.cite a:focus-visible {
+  background: color-mix(in srgb, var(--color-lime) 60%, transparent);
+  color: var(--color-ink);
+}
+
+/* ─── Sources ─── */
+.sources {
+  margin-top: 56px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-grid);
+}
+.sourcesTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 740;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  color: var(--color-ink);
+}
+.sourcesNote {
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+}
+.sourcesList {
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+.sourcesItem {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 10px 8px 0;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--color-ink-secondary);
+  overflow-wrap: anywhere;
+  scroll-margin-top: 96px;
+  transition: background-color 300ms var(--ease-smooth);
+}
+.sourcesItem:target {
+  background: color-mix(in srgb, var(--color-lime) 28%, transparent);
+}
+.sourcesNum {
+  padding-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: right;
+  color: var(--color-ink-tertiary);
+}
+.sourceTitle {
+  font-weight: 600;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-lime-deep, #5e7400) 45%, transparent);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.sourceTitle:hover {
+  background: color-mix(in srgb, var(--color-lime) 55%, transparent);
+}
+.sourceContainer {
+  font-style: italic;
+}
+.sourceIds {
+  display: inline-flex;
+  gap: 10px;
+  margin-left: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-tertiary);
+}
+.sourceIds a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sourcesItem,
+  .cite.cite a {
+    transition: none;
+  }
+}

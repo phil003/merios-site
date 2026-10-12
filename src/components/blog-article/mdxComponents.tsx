@@ -124,7 +124,28 @@ function countColumns(children: ReactNode): number {
   return 2;
 }
 
-export function createMdxComponents() {
+/**
+ * `<Cite id="…" />` in an article → a superscript number linking to the
+ * matching entry of the Sources list. Numbers come from `resolveSources`
+ * (order of first citation), passed in so text and list always agree.
+ */
+function makeCite(citeNumbers: ReadonlyMap<string, number>) {
+  return function Cite({ id }: { id: string }) {
+    const number = citeNumbers.get(id);
+    if (number === undefined) return null;
+    return (
+      <sup className={styles.cite}>
+        <a href={`#source-${id}`} aria-label={`Source ${number}`}>
+          {number}
+        </a>
+      </sup>
+    );
+  };
+}
+
+export function createMdxComponents(
+  citeNumbers: ReadonlyMap<string, number> = new Map(),
+) {
   // Counters restart on every render.
   const slugCounts = new Map<string, number>();
   let paragraphIndex = 0;
@@ -209,6 +230,7 @@ export function createMdxComponents() {
     p,
     table,
     blockquote,
+    Cite: makeCite(citeNumbers),
     HomaIRCalculator,
     TrigHdlRatioCalculator,
     PhenoAgeCalculator,

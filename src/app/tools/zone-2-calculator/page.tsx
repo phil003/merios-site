@@ -36,7 +36,7 @@ const FAQ_ITEMS = [
 export const metadata: Metadata = {
   title: "Zone 2 Heart Rate Calculator (by Age, Free)",
   description:
-    "Free Zone 2 heart rate calculator. Enter your age — get your Zone 2 training band in bpm using the Tanaka max-HR formula, plus how to verify it with the talk test.",
+    "Free Zone 2 heart rate calculator. Enter your age to get your Zone 2 band in bpm from the Tanaka max-HR formula, plus how to check it with the talk test.",
   alternates: { canonical: "https://merios.life/tools/zone-2-calculator" },
   openGraph: {
     title: "Zone 2 Heart Rate Calculator — by Age",

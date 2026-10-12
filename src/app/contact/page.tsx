@@ -8,7 +8,9 @@ import ContactInfo from "@/components/contact/ContactInfo";
 
 // ─── Metadata (SEO preserved verbatim) ───────────────────────────────────────
 export const metadata: Metadata = {
-  title: "Contact Merios — Get in Touch",
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: "Contact Merios — Get in Touch" },
   description:
     "Have questions about Merios? Contact our team for support with blood test analysis, biomarker tracking, health score questions, or partnership inquiries.",
   alternates: {

@@ -9,17 +9,18 @@ import BlogFilterGrid from "@/components/blog/BlogFilterGrid";
 import styles from "@/components/blog/blog.module.css";
 import { getAllPosts } from "@/lib/blog";
 
+const DESCRIPTION =
+  "Expert articles on blood biomarkers, biological age and longevity. Learn what your blood test results mean and how to improve your health score.";
+
 export const metadata: Metadata = {
   title: "Blog — Health, Biomarkers & Longevity Insights",
-  description:
-    "Expert articles on blood biomarkers, biological age, health optimization, and longevity. Learn how to understand your blood test results and improve your health score.",
+  description: DESCRIPTION,
   alternates: {
     canonical: "https://merios.life/blog",
   },
   openGraph: {
     title: "Blog — Health, Biomarkers & Longevity Insights",
-    description:
-      "Expert articles on blood biomarkers, biological age, health optimization, and longevity. Learn how to understand your blood test results and improve your health score.",
+    description: DESCRIPTION,
     url: "https://merios.life/blog",
     type: "website",
   },

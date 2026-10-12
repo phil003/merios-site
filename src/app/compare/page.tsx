@@ -11,9 +11,11 @@ import styles from "@/components/compare/compare.module.css";
 import { getAllComparePosts } from "@/lib/compare";
 
 export const metadata: Metadata = {
-  title: "Compare Merios vs Other Health Apps",
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: "Compare Merios vs Other Health Apps" },
   description:
-    "Side-by-side comparisons of Merios against Function Health, InsideTracker, WHOOP Advanced Labs, SiPhox Health and more. Find the blood biomarker platform that fits your health goals.",
+    "Side-by-side comparisons of Merios against Function Health, InsideTracker, WHOOP Advanced Labs, SiPhox Health and more blood biomarker platforms.",
   alternates: {
     canonical: "https://merios.life/compare",
   },

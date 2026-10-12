@@ -10,7 +10,9 @@ import { FAQ_ENTRIES, FAQ_GROUPS, getEntriesByGroup } from "@/content/faq";
 
 // ─── Metadata ────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: "FAQ — Merios",
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: "FAQ — Merios" },
   description:
     "Everything worth asking about Merios: how the score is built, what we measure, how we handle your data, and how to start.",
   alternates: {

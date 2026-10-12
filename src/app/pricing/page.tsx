@@ -56,7 +56,9 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: TITLE,
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: "https://merios.life/pricing" },
   openGraph: {

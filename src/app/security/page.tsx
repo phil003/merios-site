@@ -5,7 +5,9 @@ import legal from "@/components/legal/legalBody.module.css";
 import { BreadcrumbSchema } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
-  title: "Security — Merios",
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: "Security — Merios" },
   description:
     "How Merios protects your health data: encryption, infrastructure, retention, and disclosure policy.",
   alternates: {

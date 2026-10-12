@@ -50,9 +50,11 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "HOMA-IR Calculator (Free, Fasting Glucose + Insulin)",
+  // Absolute: with the template's "| Merios" this ran to 61 characters, one
+  // over the limit. The page title itself is kept word for word.
+  title: { absolute: "HOMA-IR Calculator (Free, Fasting Glucose + Insulin)" },
   description:
-    "Free HOMA-IR insulin resistance calculator. Enter fasting glucose and fasting insulin in mg/dL or mmol/L — get your score, the formula, and the interpretation bands. Catches insulin resistance years before HbA1c.",
+    "Free HOMA-IR calculator. Enter fasting glucose (mg/dL or mmol/L) and insulin to get your score and bands. Catches insulin resistance years before HbA1c.",
   alternates: { canonical: "https://merios.life/tools/homa-ir-calculator" },
   openGraph: {
     title: "HOMA-IR Calculator — Free Insulin Resistance Score",

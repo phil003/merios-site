@@ -44,8 +44,11 @@ export async function generateMetadata({
   const post = getComparePostBySlug(slug);
   if (!post) return { title: "Comparison Not Found" };
 
+  // "Merios vs X (2026 Comparison)" already names the brand: set it absolute
+  // so the layout template does not append a second "| Merios".
+  const seoTitle = post.seoTitle || post.title;
   return {
-    title: post.seoTitle || post.title,
+    title: /\bMerios\b/.test(seoTitle) ? { absolute: seoTitle } : seoTitle,
     description: post.description,
     alternates: {
       canonical: `https://merios.life/compare/${post.slug}`,

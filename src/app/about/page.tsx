@@ -10,9 +10,11 @@ import FinalCTA from "@/components/about/FinalCTA";
 
 // ─── Metadata ────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: "About Merios — Health Analytics Built for You",
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: "About Merios — Health Analytics Built for You" },
   description:
-    "Merios — the health analytics app that combines blood tests, Apple Health, and daily check-ins into one actionable health score. Our mission: make health data understandable.",
+    "Merios combines blood tests, Apple Health and daily check-ins into one actionable health score. Our mission: make health data understandable.",
   alternates: {
     canonical: "https://merios.life/about",
   },

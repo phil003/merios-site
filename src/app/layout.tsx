@@ -53,15 +53,21 @@ const caveat = Caveat({
 
 const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";
 
+// Homepage title and description (the defaults below). Titles stay within 60
+// characters and descriptions within 155, so neither is cut off in results.
+const HOME_TITLE = "Merios — Health Score App | Blood Test & Biomarker Tracking";
+const HOME_DESCRIPTION =
+  "Track 130+ biomarkers, calculate your biological age and get a personalized health score. Upload blood tests, sync Apple Health. Free to start.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
+  // A page whose own title already names the brand sets `title.absolute`, so
+  // the template never produces "… — Merios | Merios".
   title: {
-    default:
-      "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
+    default: HOME_TITLE,
     template: "%s | Merios",
   },
-  description:
-    "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests with OCR, sync Apple Health, and optimize your longevity. Free to start.",
+  description: HOME_DESCRIPTION,
   keywords: [
     "health score app",
     "blood test analysis app",
@@ -91,9 +97,8 @@ export const metadata: Metadata = {
     canonical: "https://merios.life",
   },
   openGraph: {
-    title: "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
-    description:
-      "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests, sync Apple Health, optimize your longevity.",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     url: "https://merios.life",
     siteName: "Merios",
     type: "website",

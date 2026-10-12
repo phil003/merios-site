@@ -3,12 +3,12 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import TSATCalculator from "@/components/calculators/TSATCalculator";
-import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
 
 const TITLE = "TSAT Calculator (Transferrin Saturation)";
 const DESCRIPTION =
-  "Free TSAT calculator. Transferrin saturation is serum iron divided by TIBC, times 100. Enter serum iron with TIBC, UIBC or transferrin — whichever your lab printed — and get your percentage.";
+  "Free TSAT calculator: transferrin saturation is serum iron ÷ TIBC × 100. Enter serum iron with TIBC, UIBC or transferrin, whichever your lab printed.";
 
 const FAQ_ITEMS = [
   { q: "What is the TSAT formula?", a: "Transferrin saturation equals serum iron divided by total iron-binding capacity, multiplied by 100, with both values in micrograms per deciliter. A serum iron of 90 with a TIBC of 320 gives 90 divided by 320, or 28.1 percent. If your panel reports UIBC instead of TIBC, add UIBC to serum iron to get TIBC first. If it reports transferrin in grams per litre, multiply by 125 to get TIBC in micrograms per deciliter." },
@@ -49,7 +49,6 @@ export default function Page() {
   };
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

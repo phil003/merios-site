@@ -3,7 +3,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import FreeTestosteroneCalculator from "@/components/calculators/FreeTestosteroneCalculator";
-import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
@@ -36,7 +36,7 @@ const FAQ_ITEMS = [
 export const metadata: Metadata = {
   title: "Free Testosterone Calculator (Vermeulen Equation)",
   description:
-    "Free testosterone calculator using the Vermeulen equation. Enter total testosterone, SHBG and albumin — get free T in pg/mL, ng/dL, nmol/L, plus bioavailable T and FAI.",
+    "Free testosterone calculator (Vermeulen equation). Enter total T, SHBG and albumin to get free T in pg/mL, ng/dL or nmol/L, plus bioavailable T and FAI.",
   alternates: { canonical: "https://merios.life/tools/free-testosterone-calculator" },
   openGraph: {
     title: "Free Testosterone Calculator — Vermeulen Equation",
@@ -66,7 +66,6 @@ export default function FreeTestosteroneCalculatorPage() {
 
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

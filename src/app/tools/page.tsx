@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
-import { OrganizationSchema, BreadcrumbSchema } from "@/components/StructuredData";
+import { BreadcrumbSchema } from "@/components/StructuredData";
 import t from "./tools.module.css";
 
 /**
@@ -21,9 +21,12 @@ import t from "./tools.module.css";
  */
 
 export const metadata: Metadata = {
-  title: "Free Health Calculators | PhenoAge, HOMA-IR, Trig/HDL — Merios",
+  // Absolute: "— Merios" plus the template's "| Merios" named the brand twice
+  // (71 characters). Without either it is 53; the brand stays in the social
+  // title below and in the site name Google shows above the result.
+  title: { absolute: "Free Health Calculators | PhenoAge, HOMA-IR, Trig/HDL" },
   description:
-    "Free interactive health calculators based on peer-reviewed formulas: PhenoAge biological age (Levine 2018), HOMA-IR insulin resistance, Triglyceride/HDL cardiovascular ratio. No signup required.",
+    "Free health calculators based on peer-reviewed formulas: PhenoAge biological age (Levine 2018), HOMA-IR insulin resistance, Trig/HDL ratio. No signup.",
   alternates: { canonical: "https://merios.life/tools" },
   openGraph: {
     title: "Free Health Calculators — Merios",
@@ -151,7 +154,6 @@ export default function ToolsPage() {
 
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

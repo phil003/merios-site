@@ -356,6 +356,49 @@
   cursor: pointer;
 }
 
+/* ─── Topic navigation (CategoryNav): links to every category hub ───
+   Reuses the filter-chip anatomy (.chip); the chips wrap rather than scroll
+   on mobile so all seven stay visible. */
+.topics {
+  display: grid;
+  gap: 18px;
+}
+.topics[data-align="center"] {
+  justify-items: center;
+  text-align: center;
+}
+.topicsLabel {
+  color: var(--color-ink-tertiary);
+}
+.topicList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 6px;
+}
+.topics[data-align="center"] .topicList {
+  justify-content: center;
+}
+.topicCount {
+  color: var(--color-ink-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.chip[data-active="true"] .topicCount {
+  color: rgb(255 255 255 / 0.72);
+}
+/* On /blog, after the article grid */
+.topicsAfterGrid {
+  margin-top: clamp(64px, 8vw, 104px);
+  padding-top: clamp(28px, 3vw, 36px);
+  border-top: 1px solid var(--color-grid);
+}
+/* On a category page, above the "Back to all articles" row */
+.topicsAfterCat {
+  margin-top: clamp(56px, 7vw, 88px);
+}
+.topicsAfterCat + .backRow {
+  margin-top: 32px;
+}
+
 /* ─── Category page cards (text cards with an emoji sticker) ─── */
 .catSection {
   padding-top: clamp(44px, 5vw, 72px);

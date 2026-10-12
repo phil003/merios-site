@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import A1CConverter from "@/components/calculators/A1CConverter";
 import {
-  OrganizationSchema,
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
@@ -79,7 +78,6 @@ export default function A1CCalculatorPage() {
 
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

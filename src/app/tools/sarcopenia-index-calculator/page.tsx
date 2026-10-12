@@ -3,7 +3,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import SarcopeniaIndexCalculator from "@/components/calculators/SarcopeniaIndexCalculator";
-import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
@@ -14,14 +14,18 @@ const FAQ_ITEMS = [
   { q: "Does Merios store these numbers?", a: "No. The calculator runs entirely in your browser. Your inputs never leave your device and are not sent to a server." }
 ];
 
+const DESCRIPTION =
+  "Free sarcopenia index calculator: creatinine ÷ cystatin C, a cheap blood-based muscle-mass proxy, with an honest account of what it can and can't tell you.";
+
 export const metadata: Metadata = {
-  title: "Sarcopenia Index Calculator (Creatinine / Cystatin C)",
-  description:
-    "Free sarcopenia index calculator. Divide creatinine by cystatin C for a cheap blood-based muscle-mass proxy — with an honest account of what it can and cannot tell you.",
+  // Absolute: with the template's "| Merios" this ran to 62 characters. The
+  // page title itself is kept word for word.
+  title: { absolute: "Sarcopenia Index Calculator (Creatinine / Cystatin C)" },
+  description: DESCRIPTION,
   alternates: { canonical: "https://merios.life/tools/sarcopenia-index-calculator" },
   openGraph: {
     title: "Sarcopenia Index Calculator (Creatinine / Cystatin C)",
-    description: "Free sarcopenia index calculator. Divide creatinine by cystatin C for a cheap blood-based muscle-mass proxy — with an honest account of what it can and cannot tell you.",
+    description: DESCRIPTION,
     url: "https://merios.life/tools/sarcopenia-index-calculator",
     type: "website",
   },
@@ -43,7 +47,6 @@ export default function Page() {
   };
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

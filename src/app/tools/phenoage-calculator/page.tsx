@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import PhenoAgeCalculator from "@/components/calculators/PhenoAgeCalculator";
 import {
-  OrganizationSchema,
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
@@ -80,7 +79,6 @@ export default function PhenoAgeCalculatorPage() {
 
   return (
     <>
-      <OrganizationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },

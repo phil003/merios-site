@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
-import { OrganizationSchema, BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
+import {
+  BreadcrumbSchema,
+  FAQPageSchema,
+  WebApplicationSchema,
+} from "@/components/StructuredData";
 import { AppleGlyph } from "@/components/home/icons";
 import s from "./pricing.module.css";
 
@@ -52,7 +56,9 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: TITLE,
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: TITLE },
   description: DESCRIPTION,
   alternates: { canonical: "https://merios.life/pricing" },
   openGraph: {
@@ -146,7 +152,7 @@ export default function PricingPage() {
 
   return (
     <>
-      <OrganizationSchema />
+      <WebApplicationSchema />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://merios.life" },
@@ -218,7 +224,7 @@ export default function PricingPage() {
               <p>
                 Merios costs less than every service it gets compared to, and that comparison is
                 unfair in Merios&rsquo; favour. Function Health is $365 a year and{" "}
-                <Link href="/compare/merios-vs-function-health">
+                <Link href="/compare/function-health-vs-superpower">
                   includes two panels
                 </Link>
                 . InsideTracker&rsquo;s membership is $149 before test bundles that run $489 to

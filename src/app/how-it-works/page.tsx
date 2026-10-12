@@ -14,10 +14,13 @@ import {
   LoopEmblem,
 } from "@/components/howitworks/Decor";
 import styles from "@/components/howitworks/hiw.module.css";
+import { WebApplicationSchema } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
-  title: "Blood Test Tracking App: How Merios Works",
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: "Blood Test Tracking App: How Merios Works" },
   description:
     "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
   robots: { index: true, follow: true },
@@ -140,11 +143,12 @@ const ACT_PROTOCOLS: ActProtocol[] = [
 export default function HowItWorksPage() {
   return (
     <>
-      {/* JSON-LD — HowTo structured data */}
+      {/* JSON-LD — HowTo structured data, plus the app itself */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd) }}
       />
+      <WebApplicationSchema />
 
       {/* Skip-link for keyboard users */}
       <a

@@ -45,6 +45,10 @@ const SITE_URL = 'https://merios.life';
 // permanent redirects in next.config.ts (/features → /how-it-works,
 // /support → /faq). Listing a redirect in the sitemap creates a soft-404
 // signal.
+// NOTE: /early-access/us and /early-access/rest are intentionally excluded
+// too. They are the prerendered variants that src/middleware.ts serves at
+// /early-access, both canonicalised to /early-access; only that URL belongs
+// here.
 const STATIC_ROUTES = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
   { path: '/how-it-works', priority: 0.9, changefreq: 'monthly' },

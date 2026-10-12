@@ -5,7 +5,9 @@ import legal from "@/components/legal/legalBody.module.css";
 import { BreadcrumbSchema } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
-  title: "Security — Merios",
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: "Security — Merios" },
   description:
     "How Merios protects your health data: encryption, infrastructure, retention, and disclosure policy.",
   alternates: {
@@ -196,7 +198,7 @@ export default function SecurityPage() {
               <li>
                 Submit a deletion request through our{" "}
                 <a
-                  href="/contact?type=general&subject=Data%20deletion%20request"
+                  href="/contact#subject=Data%20deletion%20request&type=general"
                   className={legal.link}
                 >
                   contact form
@@ -360,7 +362,7 @@ export default function SecurityPage() {
             <p className="mt-4">
               For general data questions, deletion requests, or compliance
               inquiries, please use our{" "}
-              <a href="/contact?type=general" className={legal.link}>
+              <a href="/contact#type=general" className={legal.link}>
                 contact form
               </a>
               .

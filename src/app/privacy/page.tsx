@@ -14,14 +14,14 @@ const POLICY_DATE_ISO = "2026-09-23";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Merios Privacy Policy (v2.0.0). What health data Merios reads, why, who processes it, and how to export or delete it. Data hosted in the EU, never sold, never used for advertising.",
+    `Merios Privacy Policy (v${POLICY_VERSION}): what health data we read, why, who processes it, how to export or delete it. Hosted in the EU, never sold or used for ads.`,
   alternates: {
     canonical: "https://merios.life/privacy",
   },
   openGraph: {
     title: "Privacy Policy",
     description:
-      "Merios Privacy Policy (v2.0.0). What health data Merios reads, why, who processes it, and how to export or delete it.",
+      `Merios Privacy Policy (v${POLICY_VERSION}). What health data Merios reads, why, who processes it, and how to export or delete it.`,
     url: "https://merios.life/privacy",
     type: "website",
   },

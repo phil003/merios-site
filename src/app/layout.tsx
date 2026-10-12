@@ -4,7 +4,6 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import {
   OrganizationSchema,
-  WebApplicationSchema,
   SiteNavigationSchema,
 } from "@/components/StructuredData";
 import LenisProvider from "@/components/providers/LenisProvider";
@@ -54,15 +53,21 @@ const caveat = Caveat({
 
 const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";
 
+// Homepage title and description (the defaults below). Titles stay within 60
+// characters and descriptions within 155, so neither is cut off in results.
+const HOME_TITLE = "Merios — Health Score App | Blood Test & Biomarker Tracking";
+const HOME_DESCRIPTION =
+  "Track 130+ biomarkers, calculate your biological age and get a personalized health score. Upload blood tests, sync Apple Health. Free to start.";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),
+  // A page whose own title already names the brand sets `title.absolute`, so
+  // the template never produces "… — Merios | Merios".
   title: {
-    default:
-      "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
+    default: HOME_TITLE,
     template: "%s | Merios",
   },
-  description:
-    "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests with OCR, sync Apple Health, and optimize your longevity. Free to start.",
+  description: HOME_DESCRIPTION,
   keywords: [
     "health score app",
     "blood test analysis app",
@@ -91,10 +96,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://merios.life",
   },
+  // Pages that set their own `openGraph` replace this whole object (Next
+  // merges metadata one key deep), so each of them gets its image from an
+  // opengraph-image.tsx next to its page.tsx rather than from here.
   openGraph: {
-    title: "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
-    description:
-      "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests, sync Apple Health, optimize your longevity.",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
     url: "https://merios.life",
     siteName: "Merios",
     type: "website",
@@ -110,12 +117,12 @@ export const metadata: Metadata = {
       },
     ],
   },
+  // Card type only. With no title, description or image here, Next fills
+  // each page's Twitter card from that page's own Open Graph values; spelling
+  // them out at the root made every page that sets no `twitter` key inherit
+  // the homepage's title and image.
   twitter: {
     card: "summary_large_image",
-    title: "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
-    description:
-      "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests, sync Apple Health, optimize your longevity.",
-    images: ["/og-image.png"],
   },
   icons: {
     icon: [
@@ -165,7 +172,6 @@ export default function RootLayout({
       <body className="overflow-x-hidden">
         <LenisProvider>
           <OrganizationSchema />
-          <WebApplicationSchema />
           <SiteNavigationSchema />
           <Navbar />
           {children}

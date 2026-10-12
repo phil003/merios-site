@@ -11,19 +11,21 @@ import styles from "@/components/compare/compare.module.css";
 import { getAllComparePosts } from "@/lib/compare";
 
 export const metadata: Metadata = {
-  title: "Compare Merios vs Other Health Apps",
+  // Already names the brand: absolute, so the layout template does not
+  // append a second "| Merios".
+  title: { absolute: "Compare Merios vs Other Health Apps" },
   description:
-    "Side-by-side comparisons of Merios against Function Health, InsideTracker, WHOOP Advanced Labs, SiPhox Health and more. Find the blood biomarker platform that fits your health goals.",
+    "Side-by-side comparisons of Merios against Function Health, InsideTracker, WHOOP Advanced Labs, SiPhox Health and more blood biomarker platforms.",
   alternates: {
     canonical: "https://merios.life/compare",
   },
+  // og:image comes from ./opengraph-image.tsx (a branded card).
   openGraph: {
     title: "Compare Merios vs Other Health Apps",
     description:
       "Side-by-side comparisons of Merios against Function Health, InsideTracker, WHOOP Advanced Labs, SiPhox Health and more.",
     url: "https://merios.life/compare",
     type: "website",
-    images: [{ url: "/og-image.png" }],
   },
 };
 
@@ -127,7 +129,7 @@ export default function CompareIndexPage() {
                   </p>
                 </div>
                 <Link
-                  href="/contact?type=general&subject=Suggest%20a%20comparison"
+                  href="/contact#subject=Suggest%20a%20comparison&type=general"
                   className={`btn btn-ink ${styles.requestAction}`}
                 >
                   Suggest one

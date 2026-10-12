@@ -10,8 +10,7 @@
 // `@media (prefers-reduced-motion: reduce)` rule in globals.css.
 // Every selector in the scoped styles is prefixed .cf-form.
 
-import { useEffect, useId, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useId, useState } from "react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -51,6 +50,29 @@ function isValidType(value: string): value is InquiryType {
     value === "partnership" ||
     value === "support"
   );
+}
+
+// ─── URL pre-fill ────────────────────────────────────────────────────────────
+// Links on the site pre-fill the form through the URL fragment, e.g.
+// /contact#subject=Legal%20question&type=general — a fragment is not a new
+// URL to crawlers, where a query string made every variant a separate,
+// canonicalised duplicate of /contact. The query string is still read so
+// older links (/contact?type=general&subject=…) keep working; when both carry
+// a key, the fragment wins.
+
+const PREFILL_KEYS = ["type", "subject", "name", "email", "message"] as const;
+type PrefillKey = (typeof PREFILL_KEYS)[number];
+
+function readPrefill(): Partial<Record<PrefillKey, string>> {
+  const found: Partial<Record<PrefillKey, string>> = {};
+  for (const part of [window.location.search, window.location.hash]) {
+    const params = new URLSearchParams(part.replace(/^[?#]/, ""));
+    for (const key of PREFILL_KEYS) {
+      const value = params.get(key);
+      if (value) found[key] = value;
+    }
+  }
+  return found;
 }
 
 // ─── Field ───────────────────────────────────────────────────────────────────
@@ -187,8 +209,6 @@ function TypeSelector({ value, onChange, disabled, groupId }: TypeSelectorProps)
 // ─── Main form ───────────────────────────────────────────────────────────────
 
 export default function ContactForm() {
-  const searchParams = useSearchParams();
-
   const uid = useId();
   const nameId = `${uid}-name`;
   const emailId = `${uid}-email`;
@@ -206,28 +226,26 @@ export default function ContactForm() {
   // initial static content renders with zero animation (visible by default).
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  // Query param pre-fill — only runs once on mount.
-  const hydratedRef = useRef(false);
+  // URL pre-fill (see readPrefill) — after mount, so the server HTML is the
+  // empty form and nothing waits on the URL; again if the fragment changes
+  // while the page is open.
   useEffect(() => {
-    if (hydratedRef.current) return;
-    hydratedRef.current = true;
-    if (!searchParams) return;
-
-    const qType = searchParams.get("type");
-    const qSubject = searchParams.get("subject");
-    const qName = searchParams.get("name");
-    const qEmail = searchParams.get("email");
-    const qMessage = searchParams.get("message");
-
-    setState((prev) => ({
-      ...prev,
-      type: qType && isValidType(qType) ? qType : prev.type,
-      subject: qSubject ? qSubject.slice(0, 200) : prev.subject,
-      name: qName ? qName.slice(0, 120) : prev.name,
-      email: qEmail ?? prev.email,
-      message: qMessage ? qMessage.slice(0, 4000) : prev.message,
-    }));
-  }, [searchParams]);
+    const applyPrefill = () => {
+      const p = readPrefill();
+      if (Object.keys(p).length === 0) return;
+      setState((prev) => ({
+        ...prev,
+        type: p.type && isValidType(p.type) ? p.type : prev.type,
+        subject: p.subject ? p.subject.slice(0, 200) : prev.subject,
+        name: p.name ? p.name.slice(0, 120) : prev.name,
+        email: p.email ?? prev.email,
+        message: p.message ? p.message.slice(0, 4000) : prev.message,
+      }));
+    };
+    applyPrefill();
+    window.addEventListener("hashchange", applyPrefill);
+    return () => window.removeEventListener("hashchange", applyPrefill);
+  }, []);
 
   const update =
     <K extends keyof FormState>(key: K) =>

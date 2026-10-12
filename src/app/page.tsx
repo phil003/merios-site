@@ -12,12 +12,16 @@ import Private from "@/components/home/Private";
 import Learn from "@/components/home/Learn";
 import Finale from "@/components/home/Finale";
 import Footer from "@/components/Footer";
+import { WebApplicationSchema, WebSiteSchema } from "@/components/StructuredData";
 
-// Homepage v3 — "Your health, finally readable." Metadata and JSON-LD for "/"
-// come from the root layout (unchanged by the redesign).
+// Homepage v3 — "Your health, finally readable." Metadata for "/" is the root
+// layout's default. JSON-LD: Organization comes from the layout; the WebSite
+// entity (site name) and the MobileApplication entity are rendered here.
 export default function Home() {
   return (
     <>
+      <WebSiteSchema />
+      <WebApplicationSchema />
       <HomeStage />
       <main className="hv3">
         <Hero />

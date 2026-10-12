@@ -9,6 +9,7 @@ import AuthorByline from "@/components/blog-article/AuthorByline";
 import ArticleFAQ from "@/components/blog-article/ArticleFAQ";
 import RelatedArticles from "@/components/blog-article/RelatedArticles";
 import ArticleCTA from "@/components/blog-article/ArticleCTA";
+import ArticleSources from "@/components/blog-article/ArticleSources";
 import SubstackSubscribe from "@/components/SubstackSubscribe";
 import ArticleNotFound from "@/components/blog-article/NotFound";
 import { createMdxComponents } from "@/components/blog-article/mdxComponents";
@@ -25,6 +26,7 @@ import {
   getPostBySlug,
   type BlogPost,
 } from "@/lib/blog";
+import { resolveSources } from "@/lib/sources";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import type { Metadata } from "next";
@@ -50,7 +52,9 @@ export async function generateMetadata({
   if (!post) return { title: "Article Not Found" };
 
   return {
-    title: post.title,
+    // No " | Merios" suffix on articles: Google shows the site name on its own
+    // line (WebSite schema), and the suffix pushed most titles past 60 chars.
+    title: { absolute: post.seoTitle ?? post.title },
     description: post.description,
     alternates: {
       canonical: `https://merios.life/blog/${post.slug}`,
@@ -110,8 +114,14 @@ export default async function BlogPostPage({
     );
   }
 
-  const mdxComponents = createMdxComponents();
+  const sources = resolveSources(post.content, post.sources);
+  const mdxComponents = createMdxComponents(
+    new Map(sources.map((s) => [s.id, s.number])),
+  );
   const headings = extractHeadings(post.content);
+  if (sources.length > 0) {
+    headings.push({ id: "sources", text: "Sources", level: 2 });
+  }
   const readingMinutes = parseReadingMinutes(post.readTime);
   const related = buildRelated(post, getAllPosts());
 
@@ -124,6 +134,7 @@ export default async function BlogPostPage({
         dateModified={post.dateModified}
         slug={post.slug}
         image={post.image}
+        citations={sources}
       />
       <BreadcrumbSchema
         items={[
@@ -180,6 +191,10 @@ export default async function BlogPostPage({
                 </div>
 
                 <div className="mx-auto max-w-[680px]">
+                  <ArticleSources
+                    sources={sources}
+                    checkedOn={post.dateModified}
+                  />
                   <AuthorByline />
                   <div className="mt-8">
                     <ShareButtons title={post.title} slug={post.slug} />

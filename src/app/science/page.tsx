@@ -16,8 +16,12 @@ import ScienceStickyTOC from "@/components/science/StickyTOC";
 import styles from "@/components/science/science.module.css";
 
 export const metadata: Metadata = {
-  title:
-    "The Science — Merios | Composite Biomarker Index & Biological Age",
+  // Absolute: the title already names the brand, and with the template's
+  // "| Merios" it ran to 74 characters. Trimmed to 55 by dropping
+  // "Composite"; the social title below keeps the full wording.
+  title: {
+    absolute: "The Science — Merios | Biomarker Index & Biological Age",
+  },
   description:
     "How Merios turns 150+ peer-reviewed blood biomarkers into a single composite health score, grounded in preventive medicine literature.",
   alternates: {

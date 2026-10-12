@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import PageHero from "@/components/ui/PageHero";
 import ContactForm from "@/components/contact/ContactForm";
 import ContactInfo from "@/components/contact/ContactInfo";
+import ContactGuide, {
+  type ContactGuideItem,
+} from "@/components/contact/ContactGuide";
 
 // ─── Metadata (SEO preserved verbatim) ───────────────────────────────────────
 export const metadata: Metadata = {
@@ -84,6 +86,89 @@ const breadcrumbSchema = {
   ],
 };
 
+// ─── "Before you write" copy ─────────────────────────────────────────────────
+// Every fact here is restated from pages that already say it: the iOS
+// requirement (/pricing), the in-app export and deletion paths and the
+// privacy contact (/privacy), the deletion-request route and the
+// vulnerability address (/security), the FAQ topics (/faq).
+const CONTACT_GUIDE: ContactGuideItem[] = [
+  {
+    id: "bug-report",
+    title: "Reporting a bug",
+    body: (
+      <>
+        <p>
+          Choose <strong>Support</strong> as the inquiry type, then tell us:
+        </p>
+        <ul>
+          <li>
+            your iPhone model and iOS version (Merios requires iOS 15.1 or
+            later);
+          </li>
+          <li>
+            what you did, step by step, what you expected, and what happened
+            instead;
+          </li>
+          <li>
+            if a lab report was read wrongly: the lab&rsquo;s name and the
+            marker concerned.
+          </li>
+        </ul>
+        <p>
+          The form takes text only. If a screenshot would help, email it to{" "}
+          <a href="mailto:hello@merios.life">hello@merios.life</a>.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "your-data",
+    title: "Exporting or deleting your data",
+    body: (
+      <>
+        <p>
+          Both take a few taps in the app:{" "}
+          <strong className="cg-path">Settings › Export my data</strong> gives
+          you a complete copy in JSON, and{" "}
+          <strong className="cg-path">Settings › Delete my account</strong>{" "}
+          erases your account and all its data.
+        </p>
+        <p>
+          To have other personal data we hold deleted (a newsletter or
+          waitlist sign-up, or a message sent here), use this form with the
+          type <strong>General</strong>; the{" "}
+          <Link href="/security#data-retention-and-deletion">Security page</Link>{" "}
+          explains how deletion works. For any other privacy request, write to{" "}
+          <a href="mailto:privacy@merios.life">privacy@merios.life</a> — your
+          rights are set out in the{" "}
+          <Link href="/privacy#your-rights">Privacy Policy</Link>.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "security",
+    title: "Security reports and quick answers",
+    body: (
+      <>
+        <p>
+          Found a vulnerability? Send it to{" "}
+          <a href="mailto:security@merios.life">security@merios.life</a> with
+          the affected endpoint, the steps to reproduce it and its impact. Our{" "}
+          <Link href="/security#responsible-disclosure">
+            responsible-disclosure policy
+          </Link>{" "}
+          explains what we ask of researchers.
+        </p>
+        <p>
+          How the score is built, what we measure, how we handle your data and
+          how to start are all answered in the <Link href="/faq">FAQ</Link>.
+        </p>
+      </>
+    ),
+  },
+];
+
 // ─── Page ────────────────────────────────────────────────────────────────────
 export default function ContactPage() {
   return (
@@ -137,23 +222,9 @@ export default function ContactPage() {
                 <span aria-hidden className="label-dot label-dot--ink" />
                 <span>Send a message</span>
               </div>
-              <Suspense
-                fallback={
-                  <div
-                    className="min-h-[47rem] sm:min-h-[35.5rem]"
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: 11,
-                      letterSpacing: "0.08em",
-                      color: "var(--color-ink-tertiary)",
-                    }}
-                  >
-                    Loading form…
-                  </div>
-                }
-              >
-                <ContactForm />
-              </Suspense>
+              {/* Server-rendered: the form reads its pre-fill from the URL
+                  after mount, so it no longer needs a Suspense boundary. */}
+              <ContactForm />
             </div>
 
             {/* Direct channels card */}
@@ -177,6 +248,13 @@ export default function ContactPage() {
             </div>
           </div>
         </section>
+
+        {/* ─── Before you write — bug reports, data requests, security ─── */}
+        <ContactGuide
+          eyebrow="Before you write"
+          title="Get the right answer the first time."
+          items={CONTACT_GUIDE}
+        />
 
         {/* ─── FAQ nudge — a lilac pop card ──────────────────────────────── */}
         <section

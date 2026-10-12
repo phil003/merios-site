@@ -129,7 +129,7 @@ export default function CompareIndexPage() {
                   </p>
                 </div>
                 <Link
-                  href="/contact?type=general&subject=Suggest%20a%20comparison"
+                  href="/contact#subject=Suggest%20a%20comparison&type=general"
                   className={`btn btn-ink ${styles.requestAction}`}
                 >
                   Suggest one

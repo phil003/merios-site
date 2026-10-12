@@ -198,7 +198,7 @@ export default function SecurityPage() {
               <li>
                 Submit a deletion request through our{" "}
                 <a
-                  href="/contact?type=general&subject=Data%20deletion%20request"
+                  href="/contact#subject=Data%20deletion%20request&type=general"
                   className={legal.link}
                 >
                   contact form
@@ -362,7 +362,7 @@ export default function SecurityPage() {
             <p className="mt-4">
               For general data questions, deletion requests, or compliance
               inquiries, please use our{" "}
-              <a href="/contact?type=general" className={legal.link}>
+              <a href="/contact#type=general" className={legal.link}>
                 contact form
               </a>
               .

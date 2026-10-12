@@ -228,7 +228,7 @@ export default function LegalPageLayout({
       >
         <div className="mx-auto max-w-[1200px] px-6 py-14 md:px-10 md:py-20">
           <Link
-            href="/contact?type=general&subject=Legal%20question"
+            href="/contact#subject=Legal%20question&type=general"
             className="inline-flex items-center gap-3 transition-transform duration-300 ease-out hover:translate-x-1"
             style={{
               fontFamily: "var(--font-display)",

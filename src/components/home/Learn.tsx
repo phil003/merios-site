@@ -12,7 +12,7 @@ const TOOLS: [string, string, string][] = [
   ["A1C ↔ glucose", "eAG = 28.7 × A1C − 46.7", "/tools/a1c-calculator"],
   ["HOMA-IR", "glucose × insulin ÷ 405", "/tools/homa-ir-calculator"],
   ["Transferrin saturation", "iron ÷ TIBC × 100", "/tools/transferrin-saturation-calculator"],
-  ["TG / HDL ratio", "triglycerides ÷ HDL", "/tools/triglyceride-hdl-ratio"],
+  ["TG / HDL ratio", "triglycerides ÷ HDL", "/blog/triglyceride-hdl-ratio-calculator"],
   ["Zone 2", "heart rate range", "/tools/zone-2-calculator"],
 ];
 

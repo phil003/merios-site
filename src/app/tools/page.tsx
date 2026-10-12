@@ -17,7 +17,7 @@ import t from "./tools.module.css";
  * Three tools shipped in batch 7 (May 2026):
  *   - /tools/phenoage-calculator (Levine 2018, top backlink target)
  *   - /tools/homa-ir-calculator (insulin resistance)
- *   - /tools/triglyceride-hdl-ratio (heart-risk single-number)
+ *   - /blog/triglyceride-hdl-ratio-calculator (heart-risk single-number)
  */
 
 export const metadata: Metadata = {
@@ -58,6 +58,9 @@ const TOOLS = [
   },
   {
     slug: "triglyceride-hdl-ratio",
+    // The calculator lives in its full guide (the thin /tools page was merged
+    // into it and now redirects there, see next.config.ts).
+    href: "/blog/triglyceride-hdl-ratio-calculator",
     eyebrow: "Cardiovascular Risk",
     title: "Triglyceride / HDL Ratio",
     description:
@@ -146,7 +149,7 @@ export default function ToolsPage() {
       itemListElement: TOOLS.map((t, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `https://merios.life/tools/${t.slug}`,
+        url: `https://merios.life${t.href ?? `/tools/${t.slug}`}`,
         name: t.title,
       })),
     },
@@ -186,7 +189,7 @@ export default function ToolsPage() {
                   data-rv=""
                   style={{ "--rv-delay": `${(i % 4) * 0.06}s` } as CSSProperties}
                 >
-                  <Link href={`/tools/${tool.slug}`} className={t.card} data-pop={pop}>
+                  <Link href={tool.href ?? `/tools/${tool.slug}`} className={t.card} data-pop={pop}>
                     <div className={t.cardTop}>
                       <div className={`label ${t.cardEyebrow}`}>
                         <span aria-hidden className={`label-dot ${t.cardDot}`} />

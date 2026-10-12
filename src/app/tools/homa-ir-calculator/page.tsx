@@ -295,7 +295,7 @@ export default function HomaIRCalculatorPage() {
                   — what the insulin value on its own is telling you.
                 </li>
                 <li className={t.nextItem}>
-                  <Link href="/tools/triglyceride-hdl-ratio" className={t.nextLink}>
+                  <Link href="/blog/triglyceride-hdl-ratio-calculator" className={t.nextLink}>
                     Triglyceride-HDL ratio calculator
                   </Link>{" "}
                   — the marker most worth reading alongside HOMA-IR.

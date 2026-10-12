@@ -27,6 +27,12 @@
  * the sitemap.
  *
  * dateModified (from frontmatter) takes precedence over date when present.
+ *
+ * lastmod has to be true or Google stops reading it. Articles carry their own
+ * date; /blog and each category hub take the newest date among the articles
+ * they list. Other static pages carry no lastmod rather than the build date:
+ * stamping every page "modified today" on each deploy taught Google to ignore
+ * the field, including on articles that really did change.
  */
 
 import fs from 'fs';
@@ -60,7 +66,6 @@ const STATIC_ROUTES = [
   { path: '/tools', priority: 0.8, changefreq: 'monthly' },
   { path: '/tools/phenoage-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/homa-ir-calculator', priority: 0.7, changefreq: 'monthly' },
-  { path: '/tools/triglyceride-hdl-ratio', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/a1c-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/zone-2-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/free-testosterone-calculator', priority: 0.7, changefreq: 'monthly' },
@@ -139,6 +144,7 @@ function readMdxPostsFromDir(dir, urlPrefix, priority, changefreq) {
         new Date().toISOString().split('T')[0];
       const isPillar = (fm.tag || '').toLowerCase() === 'pillar';
       return {
+        tag: fm.tag || '',
         path: `${urlPrefix}/${slug}`,
         lastmod,
         priority: isPillar ? 0.8 : priority,
@@ -147,17 +153,37 @@ function readMdxPostsFromDir(dir, urlPrefix, priority, changefreq) {
     });
 }
 
-function generateSitemap() {
-  const today = new Date().toISOString().split('T')[0];
+// Category slug -> frontmatter tags, read from src/lib/blog-categories.ts
+// (the single source for the hubs) so a hub's lastmod follows its articles.
+function readCategoryTags() {
+  const src = fs.readFileSync(path.join(ROOT, 'src/lib/blog-categories.ts'), 'utf-8');
+  const map = {};
+  for (const m of src.matchAll(/slug:\s*"([^"]+)"[\s\S]*?tags:\s*\[([^\]]*)\]/g)) {
+    map[m[1]] = [...m[2].matchAll(/"([^"]+)"/g)].map((t) => t[1]);
+  }
+  return map;
+}
 
+const newest = (dates) => dates.filter(Boolean).sort().at(-1);
+
+function generateSitemap() {
   const blogPosts = readMdxPostsFromDir(BLOG_DIR, '/blog', 0.7, 'monthly');
   const comparePages = readMdxPostsFromDir(COMPARE_DIR, '/compare', 0.7, 'monthly');
+  const categoryTags = readCategoryTags();
+
+  const lastmodFor = (route) => {
+    if (route.path === '/blog') return newest(blogPosts.map((p) => p.lastmod));
+    const hub = route.path.match(/^\/blog\/category\/(.+)$/);
+    if (hub) {
+      const tags = categoryTags[hub[1]] ?? [];
+      return newest(blogPosts.filter((p) => tags.includes(p.tag)).map((p) => p.lastmod));
+    }
+    if (route.path === '/compare') return newest(comparePages.map((p) => p.lastmod));
+    return undefined;
+  };
 
   const urls = [
-    ...STATIC_ROUTES.map((route) => ({
-      ...route,
-      lastmod: today,
-    })),
+    ...STATIC_ROUTES.map((route) => ({ ...route, lastmod: lastmodFor(route) })),
     ...blogPosts,
     ...comparePages,
   ];
@@ -167,8 +193,8 @@ function generateSitemap() {
 ${urls
   .map(
     (url) => `  <url>
-    <loc>${SITE_URL}${url.path}</loc>
-    <lastmod>${url.lastmod}</lastmod>
+    <loc>${SITE_URL}${url.path}</loc>${url.lastmod ? `
+    <lastmod>${url.lastmod}</lastmod>` : ''}
     <changefreq>${url.changefreq}</changefreq>
     <priority>${url.priority}</priority>
   </url>`

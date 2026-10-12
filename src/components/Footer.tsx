@@ -16,13 +16,19 @@ const COLUMNS: { title: string; links: Link[] }[] = [
   },
   {
     // Health / practical persona — the "what does my result mean" path.
+    // Every topic hub is listed: the three that were missing here were the
+    // least-linked hubs on the site, and two of them were left out of
+    // Google's index.
     title: "Health library",
     links: [
       { label: "Blog", href: "/blog" },
       { label: "Blood tests", href: "/blog/category/blood-tests" },
       { label: "Biomarkers", href: "/blog/category/biomarkers" },
-      { label: "Longevity", href: "/blog/category/longevity" },
+      { label: "Metabolic health", href: "/blog/category/metabolic-health" },
       { label: "Hormones", href: "/blog/category/hormones" },
+      { label: "Nutrition", href: "/blog/category/nutrition" },
+      { label: "Longevity", href: "/blog/category/longevity" },
+      { label: "Wearables", href: "/blog/category/wearables" },
     ],
   },
   {

@@ -20,12 +20,9 @@ import {
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
-import {
-  getAllSlugs,
-  getAllPosts,
-  getPostBySlug,
-  type BlogPost,
-} from "@/lib/blog";
+import { getAllSlugs, getAllPosts, getPostBySlug } from "@/lib/blog";
+import { BLOG_CATEGORIES } from "@/lib/blog-categories";
+import { getRelated } from "@/lib/related";
 import { resolveSources } from "@/lib/sources";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
@@ -82,21 +79,6 @@ function parseReadingMinutes(readTime: string): number {
   return match ? parseInt(match[0], 10) : 5;
 }
 
-function buildRelated(current: BlogPost, all: BlogPost[]): BlogPost[] {
-  const sameTag = all.filter(
-    (p) => p.slug !== current.slug && p.tag === current.tag,
-  );
-  if (sameTag.length >= 3) return sameTag.slice(0, 3);
-  const filler = all
-    .filter(
-      (p) =>
-        p.slug !== current.slug &&
-        !sameTag.some((s) => s.slug === p.slug),
-    )
-    .slice(0, 3 - sameTag.length);
-  return [...sameTag, ...filler];
-}
-
 export default async function BlogPostPage({
   params,
 }: {
@@ -123,7 +105,13 @@ export default async function BlogPostPage({
     headings.push({ id: "sources", text: "Sources", level: 2 });
   }
   const readingMinutes = parseReadingMinutes(post.readTime);
-  const related = buildRelated(post, getAllPosts());
+  const related = getRelated(post.slug, getAllPosts());
+  // The topic hub the article belongs to: a crumb in the hero and in the
+  // breadcrumb schema, so every article links up to its category page.
+  const hub = BLOG_CATEGORIES.find((c) => c.tags.includes(post.tag));
+  const hubCrumb = hub
+    ? { title: hub.title, href: `/blog/category/${hub.slug}` }
+    : undefined;
 
   return (
     <>
@@ -140,6 +128,9 @@ export default async function BlogPostPage({
         items={[
           { name: "Home", url: "https://merios.life" },
           { name: "Blog", url: "https://merios.life/blog" },
+          ...(hubCrumb
+            ? [{ name: hubCrumb.title, url: `https://merios.life${hubCrumb.href}` }]
+            : []),
           {
             name: post.title,
             url: `https://merios.life/blog/${post.slug}`,
@@ -160,6 +151,7 @@ export default async function BlogPostPage({
           dateModified={post.dateModified}
           readingMinutes={readingMinutes}
           category={post.tag}
+          hub={hubCrumb}
           slug={post.slug}
           image={post.image}
         />
@@ -210,7 +202,7 @@ export default async function BlogPostPage({
           <ArticleFAQ items={post.faq} />
         ) : null}
 
-        <RelatedArticles posts={related} />
+        <RelatedArticles posts={related.cards} more={related.more} />
         <ArticleCTA />
       </main>
 

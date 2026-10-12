@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 
 import type { BlogPost } from "@/lib/blog";
+import type { RelatedLink } from "@/lib/related";
 import ArticleMeta from "@/components/ui/ArticleMeta";
 import Reveal from "@/components/ui/Reveal";
 import { CoverBackdrop } from "@/components/blog/ArticleCover";
@@ -10,6 +11,8 @@ import styles from "./article.module.css";
 
 interface RelatedArticlesProps {
   posts: BlogPost[];
+  /** Further reading on the same topic (and its calculator), as plain links. */
+  more?: RelatedLink[];
 }
 
 function parseMinutes(readTime: string): number {
@@ -20,10 +23,14 @@ function parseMinutes(readTime: string): number {
 /**
  * "Keep reading" grid — up to 3 related blog posts. Paper cards mirroring the
  * Journal index: an inset pop panel (the article's cover surface, text-free)
- * carrying its emoji, then tag, title, lead and meta.
+ * carrying its emoji, then tag, title, lead and meta. Below, a quiet list of
+ * further reading on the same topic (see src/lib/related.ts).
  */
-export default function RelatedArticles({ posts }: RelatedArticlesProps) {
-  if (posts.length === 0) return null;
+export default function RelatedArticles({
+  posts,
+  more = [],
+}: RelatedArticlesProps) {
+  if (posts.length === 0 && more.length === 0) return null;
 
   return (
     <section className={styles.related}>
@@ -41,6 +48,25 @@ export default function RelatedArticles({ posts }: RelatedArticlesProps) {
             <RelatedArticleCard key={post.slug} post={post} />
           ))}
         </div>
+
+        {more.length > 0 ? (
+          <nav aria-labelledby="more-on-topic" className={styles.relatedMore}>
+            <h3 id="more-on-topic" className={`label ${styles.relatedMoreLabel}`}>
+              <span aria-hidden className="label-dot" />
+              <span>More on this topic</span>
+            </h3>
+            <ul className={styles.relatedMoreList}>
+              {more.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className={styles.relatedMoreLink}>
+                    <span className={styles.relatedMoreKind}>{link.kind}</span>
+                    <span className={styles.relatedMoreTitle}>{link.title}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
       </div>
     </section>
   );

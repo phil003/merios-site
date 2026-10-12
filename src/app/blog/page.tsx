@@ -6,8 +6,10 @@ import { BreadcrumbSchema } from "@/components/StructuredData";
 import BlogJsonLd from "@/components/blog/BlogJsonLd";
 import FeaturedCard from "@/components/blog/FeaturedCard";
 import BlogFilterGrid from "@/components/blog/BlogFilterGrid";
+import CategoryNav from "@/components/blog/CategoryNav";
 import styles from "@/components/blog/blog.module.css";
 import { getAllPosts } from "@/lib/blog";
+import { getCategoryCounts } from "@/lib/blog-categories";
 
 const DESCRIPTION =
   "Expert articles on blood biomarkers, biological age and longevity. Learn what your blood test results mean and how to improve your health score.";
@@ -89,6 +91,15 @@ export default function BlogPage() {
             >
               <div className={styles.container}>
                 <BlogFilterGrid posts={rest} />
+
+                {/* Category hubs. The chips above filter in place; these
+                    link to each topic page (/blog/category/*). */}
+                <CategoryNav
+                  heading="Browse by topic"
+                  id="browse-by-topic"
+                  counts={getCategoryCounts(posts)}
+                  className={styles.topicsAfterGrid}
+                />
               </div>
             </section>
           </>

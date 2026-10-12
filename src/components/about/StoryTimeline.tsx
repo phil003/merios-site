@@ -23,15 +23,15 @@ const MILESTONES: Milestone[] = [
   },
   {
     date: "Q2 2026",
-    title: "Beta launch",
+    title: "Beta",
     description:
-      "Early access opens to a limited cohort. We gather signal, iterate on the score, and tune the experience.",
+      "A limited beta cohort tries the app. We gather signal, iterate on the score, and tune the experience.",
   },
   {
     date: "Q3 2026",
     title: "Public launch",
     description:
-      "Merios opens to everyone. A decade of health intelligence, in a single place you actually own.",
+      "Merios launches on the US App Store for iPhone. A decade of health intelligence, in a single place you actually own.",
   },
 ];
 

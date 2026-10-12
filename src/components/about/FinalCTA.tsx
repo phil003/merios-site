@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import styles from "./about.module.css";
+
+const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
 
 // The logo's pulse, drawn large: a calm line, one beat, and the lime dot it
 // arrives on — with a comet that keeps making the trip (CSS only).
@@ -59,33 +60,39 @@ export default function FinalCTA() {
             <Reveal>
               <div className={`label ${styles.ctaEyebrow}`}>
                 <span aria-hidden className="label-dot animate-pulse-dot" />
-                <span>Early access</span>
+                <span>Now on the App Store</span>
               </div>
             </Reveal>
 
             <Reveal delay={0.1}>
               <h2 id="about-cta-title" className={styles.ctaTitle}>
-                Join the early
+                Get Merios
                 <br />
-                <span className="chrome-text">access.</span>
+                <span className="chrome-text">on iPhone.</span>
               </h2>
             </Reveal>
 
             <Reveal delay={0.2}>
               <p className={styles.ctaCopy}>
                 One composite score. Four pillars. A decade of health intelligence
-                that stays yours. Be among the first to see it clearly.
+                that stays yours. Free to download on iPhone (iOS 15.1 or later).
               </p>
             </Reveal>
 
             <Reveal delay={0.3}>
               <div className={styles.ctaAction}>
-                <Link href="/early-access" className="btn btn-lime">
-                  Get the app
+                <a
+                  className="btn btn-lime"
+                  href={APP_STORE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Download Merios on the App Store"
+                >
+                  Download on the App Store
                   <span aria-hidden className="btn-arrow">
                     →
                   </span>
-                </Link>
+                </a>
               </div>
             </Reveal>
           </div>

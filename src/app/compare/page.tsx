@@ -19,13 +19,13 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://merios.life/compare",
   },
+  // og:image comes from ./opengraph-image.tsx (a branded card).
   openGraph: {
     title: "Compare Merios vs Other Health Apps",
     description:
       "Side-by-side comparisons of Merios against Function Health, InsideTracker, WHOOP Advanced Labs, SiPhox Health and more.",
     url: "https://merios.life/compare",
     type: "website",
-    images: [{ url: "/og-image.png" }],
   },
 };
 

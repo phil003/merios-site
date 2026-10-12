@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://merios.life/blog",
   },
+  // og:image comes from ./opengraph-image.tsx (a branded card).
   openGraph: {
     title: "Blog — Health, Biomarkers & Longevity Insights",
     description: DESCRIPTION,

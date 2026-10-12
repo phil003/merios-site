@@ -96,6 +96,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://merios.life",
   },
+  // Pages that set their own `openGraph` replace this whole object (Next
+  // merges metadata one key deep), so each of them gets its image from an
+  // opengraph-image.tsx next to its page.tsx rather than from here.
   openGraph: {
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
@@ -114,12 +117,12 @@ export const metadata: Metadata = {
       },
     ],
   },
+  // Card type only. With no title, description or image here, Next fills
+  // each page's Twitter card from that page's own Open Graph values; spelling
+  // them out at the root made every page that sets no `twitter` key inherit
+  // the homepage's title and image.
   twitter: {
     card: "summary_large_image",
-    title: "Merios — Health Score App | Blood Test Analysis & Biomarker Tracking",
-    description:
-      "Track 130+ biomarkers, calculate your biological age, and get a personalized health score. Upload blood tests, sync Apple Health, optimize your longevity.",
-    images: ["/og-image.png"],
   },
   icons: {
     icon: [

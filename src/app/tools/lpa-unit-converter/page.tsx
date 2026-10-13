@@ -207,7 +207,7 @@ export default function Page() {
                     <tr>
                       <th scope="row" className={t.rowHead}>25-OH vitamin D</th>
                       <td className={t.cellText}>nmol/L divided by 2.496 = ng/mL. A level of 75 nmol/L is 30 ng/mL —{" "}
-                        <Link href="/blog/vitamin-d-level-30">what 30 actually means</Link>.
+                        <Link href="/blog/vitamin-d-30-low">what 30 actually means</Link>.
                       </td>
                     </tr>
                     <tr>

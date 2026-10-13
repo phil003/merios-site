@@ -238,7 +238,7 @@ export default function TyGCalculatorPage() {
                   fasting insulin
                 </Link>
                 , and with the{" "}
-                <Link href="/tools/triglyceride-hdl-ratio">
+                <Link href="/blog/triglyceride-hdl-ratio-calculator">
                   triglyceride to HDL ratio
                 </Link>
                 .

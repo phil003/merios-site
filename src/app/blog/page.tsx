@@ -7,6 +7,7 @@ import BlogJsonLd from "@/components/blog/BlogJsonLd";
 import FeaturedCard from "@/components/blog/FeaturedCard";
 import BlogFilterGrid from "@/components/blog/BlogFilterGrid";
 import CategoryNav from "@/components/blog/CategoryNav";
+import ArticleIndex from "@/components/blog/ArticleIndex";
 import styles from "@/components/blog/blog.module.css";
 import { getAllPosts } from "@/lib/blog";
 import { getCategoryCounts } from "@/lib/blog-categories";
@@ -101,6 +102,10 @@ export default function BlogPage() {
                   counts={getCategoryCounts(posts)}
                   className={styles.topicsAfterGrid}
                 />
+
+                {/* The full journal as crawlable links (the grid above loads
+                    18 cards at a time, client-side). */}
+                <ArticleIndex posts={posts} />
               </div>
             </section>
           </>

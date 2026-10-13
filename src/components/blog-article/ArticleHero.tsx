@@ -12,6 +12,8 @@ interface ArticleHeroProps {
   dateModified?: string;
   readingMinutes: number;
   category: string;
+  /** Topic hub (/blog/category/*) the article belongs to, shown as a crumb. */
+  hub?: { title: string; href: string };
   slug: string;
   /** Kept for API compatibility — the image renders via <ArticleFigure />. */
   image?: string;
@@ -28,7 +30,8 @@ function titleSize(title: string): string {
 /**
  * Night masthead for the /blog/[slug] article (site v3).
  *
- * - Breadcrumb (Home / Blog / [Title]) in mono caps on the night stage
+ * - Breadcrumb (Home / Blog / [Topic hub] / [Title]) in mono caps on the
+ *   night stage
  * - Category eyebrow (.label + lime dot)
  * - Display H1 in Bricolage, white, tight tracking — kept as one plain text
  *   node (no per-character spans) so crawlers read the exact title
@@ -45,6 +48,7 @@ export default function ArticleHero({
   dateModified,
   readingMinutes,
   category,
+  hub,
 }: ArticleHeroProps) {
   return (
     <header className="v3-hero night relative" data-nav="dark">
@@ -68,6 +72,18 @@ export default function ArticleHero({
             <li aria-hidden className={styles.crumbSep}>
               /
             </li>
+            {hub ? (
+              <>
+                <li>
+                  <Link href={hub.href} className={styles.crumbLink}>
+                    {hub.title}
+                  </Link>
+                </li>
+                <li aria-hidden className={styles.crumbSep}>
+                  /
+                </li>
+              </>
+            ) : null}
             <li aria-current="page" className={styles.crumbCurrent}>
               {title}
             </li>

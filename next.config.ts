@@ -74,6 +74,35 @@ const nextConfig: NextConfig = {
         destination: "/compare/whoop-advanced-labs-vs-function-health",
         permanent: true,
       },
+      // October 2026 consolidation. Search Console listed every page below as
+      // "crawled, currently not indexed": each repeated another article on the
+      // same value or topic, often with the same template ("Where does X
+      // fall?"), and Google indexed neither copy. Each was merged into the
+      // stronger page, which now carries its unique sections, sources and FAQ
+      // (one, LDL 130, also had the guideline category wrong). None of them
+      // had search traffic. Internal links were repointed.
+      { source: "/blog/vitamin-d-level-30", destination: "/blog/vitamin-d-30-low", permanent: true },
+      { source: "/blog/ldl-cholesterol-130", destination: "/blog/ldl-130-borderline", permanent: true },
+      { source: "/blog/crp-3-elevated", destination: "/blog/crp-level-above-3-heart-risk", permanent: true },
+      // Values inside one range: the 5.7% article now covers 5.7 to 6.4%,
+      // the 100 mg/dL article covers 100 to 125, the 4.5 article covers 3.0.
+      { source: "/blog/hba1c-5-8-prediabetes", destination: "/blog/hba1c-5-7-pre-diabetic", permanent: true },
+      { source: "/blog/hba1c-6-0-prediabetes", destination: "/blog/hba1c-5-7-pre-diabetic", permanent: true },
+      { source: "/blog/fasting-glucose-110", destination: "/blog/fasting-glucose-100-borderline", permanent: true },
+      { source: "/blog/tsh-level-3", destination: "/blog/tsh-4-5-normal-or-high", permanent: true },
+      // Two general "how to read your blood test" guides on one query.
+      {
+        source: "/blog/blood-test-analysis-complete-guide",
+        destination: "/blog/how-to-read-blood-test-results",
+        permanent: true,
+      },
+      // The thin calculator page duplicated the full guide, which already
+      // embeds the same <TrigHdlRatioCalculator />; the guide is the one kept.
+      {
+        source: "/tools/triglyceride-hdl-ratio",
+        destination: "/blog/triglyceride-hdl-ratio-calculator",
+        permanent: true,
+      },
     ];
   },
 };

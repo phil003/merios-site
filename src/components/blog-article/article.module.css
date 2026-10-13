@@ -811,6 +811,74 @@ details[open] > .faqSummary .faqIcon {
     gap: 20px;
   }
 }
+
+/* Further reading under the cards: plain links on the fog, hairline rows,
+   the same topic first (src/lib/related.ts). */
+.relatedMore {
+  margin-top: clamp(40px, 5vw, 56px);
+}
+.relatedMoreLabel {
+  margin: 0;
+  color: var(--color-ink);
+}
+.relatedMoreList {
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border-top: 1px solid var(--color-grid);
+}
+@media (min-width: 768px) {
+  .relatedMoreList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+}
+.relatedMoreList li {
+  border-bottom: 1px solid var(--color-grid);
+}
+.relatedMoreLink {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 2px;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.relatedMoreKind {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+}
+.relatedMoreTitle {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 650;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.relatedMoreLink:hover .relatedMoreTitle,
+.relatedMoreLink:focus-visible .relatedMoreTitle {
+  text-decoration-color: var(--color-lime-deep);
+}
+.relatedMoreLink:focus-visible {
+  outline: 2px solid var(--color-green-deep);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .relatedMoreTitle {
+    transition: none;
+  }
+}
 .relCard {
   position: relative;
   display: flex;

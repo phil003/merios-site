@@ -105,6 +105,32 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // Philippe's digital card (/phil): Safari only hands a pass to Wallet when
+  // it is served as application/vnd.apple.pkpass, and opens the contact
+  // sheet for text/vcard. Neither file belongs in a search index.
+  async headers() {
+    return [
+      {
+        source: "/phil/philippe-tohme.pkpass",
+        headers: [
+          { key: "Content-Type", value: "application/vnd.apple.pkpass" },
+          { key: "X-Robots-Tag", value: "noindex" },
+        ],
+      },
+      {
+        source: "/phil/philippe-tohme.vcf",
+        headers: [
+          { key: "Content-Type", value: "text/vcard; charset=utf-8" },
+          { key: "Content-Disposition", value: 'inline; filename="philippe-tohme.vcf"' },
+          { key: "X-Robots-Tag", value: "noindex" },
+        ],
+      },
+      {
+        source: "/phil/merios-founding-program.pdf",
+        headers: [{ key: "X-Robots-Tag", value: "noindex" }],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

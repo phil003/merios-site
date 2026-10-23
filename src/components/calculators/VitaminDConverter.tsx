@@ -120,7 +120,7 @@ function bandFromNg(ng: number): { name: string; tone: Tone; description: string
   if (ng < 20) return {
     name: "inadequate for some people", tone: "warn",
     description:
-      "Between 12 and 20 ng/mL (30 to 50 nmol/L) is generally considered inadequate for bone and overall health in some people. UK guidance uses 25 nmol/L (10 ng/mL) as its deficiency line, so the same number can be read differently depending on where your lab is.",
+      "Between 12 and 20 ng/mL (30 to 50 nmol/L) is generally considered inadequate for bone and overall health in some people. UK guidance uses 25 nmol/L (10 ng/mL) as its deficiency line, so the same number can be read differently depending on where your lab is. The Endocrine Society's 2011 guideline called anything below 20 ng/mL deficient.",
   };
   if (ng < 30) return {
     name: "adequate by the IOM definition", tone: "ok",
@@ -132,7 +132,7 @@ function bandFromNg(ng: number): { name: string; tone: Tone; description: string
     description:
       "30 to 50 ng/mL (75 to 125 nmol/L) is sufficient under both the Institute of Medicine and the older Endocrine Society definitions. Trials have not shown that pushing higher than this improves outcomes in people who are not deficient.",
   };
-  if (ng <= 100) return {
+  if (ng <= 100.2) return {
     name: "above 50 ng/mL", tone: "warn",
     description:
       "Above 50 ng/mL (125 nmol/L) is the level the Institute of Medicine links to potential adverse effects, though many lab reference ranges run up to 100 ng/mL. If you take high-dose vitamin D, this is worth reviewing with your clinician.",
@@ -140,6 +140,6 @@ function bandFromNg(ng: number): { name: string; tone: Tone; description: string
   return {
     name: "above most lab ranges", tone: "bad",
     description:
-      "Above 100 ng/mL (250 nmol/L) is beyond the upper end of most lab reference ranges. Toxicity is typically reported above 150 ng/mL (375 nmol/L) and almost always comes from high-dose supplements. Discuss this result with your clinician.",
+      "Above 100 ng/mL (250 nmol/L) is beyond the upper end of most lab reference ranges. Toxicity is typically reported above 150 ng/mL (374 nmol/L) and almost always comes from high-dose supplements. Discuss this result with your clinician.",
   };
 }

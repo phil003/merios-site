@@ -242,9 +242,9 @@ Wearables add context around a single draw and trends over months. Almost all of
 
 **Illness.** Acute infection can raise resting heart rate: data from 47,249 Fitbit users improved state-level tracking of flu-like illness,<Cite id="radin-2020-fitbit-ili" /> and in one smartwatch study, 26 of 32 people with COVID-19 showed changes in heart rate, steps or sleep.<Cite id="mishra-2020-smartwatch-covid" /> Infection is also the most common cause of a markedly raised CRP,<Cite id="landry-2017-crp-causes" /> and hs-CRP swings widely within the same person (median coefficient of variation around 44%).<Cite id="gough-2024-crp-variation" /> Because hs-CRP is read against cut-points of under 1, 1 to 3, and above 3 mg/L for cardiovascular risk,<Cite id="ridker-2016-hscrp" /> a result drawn in a week when your watch showed a raised resting heart rate is a reason to retest once well, not your baseline.
 
-Across studies, lower HRV goes with higher inflammatory markers, with SDNN, the HRV statistic Apple Health stores, among the most consistent measures.<Cite id="williams-2019-hrv-inflammation" /><Cite id="apple-healthkit-sdnn" /> That is a population finding; your HRV cannot stand in for a CRP test. Why devices disagree on HRV is covered in [recovery HRV vs Apple Watch HRV](/blog/heart-rate-variability-explained), and how watches fold these signals into one number in [Apple Watch recovery, HRV and readiness scores](/blog/apple-watch-recovery-hrv-readiness-score).
+Across studies, lower HRV goes with higher inflammatory markers, with SDNN, the HRV statistic Apple Watch has long reported to Apple Health, among the most consistent measures.<Cite id="williams-2019-hrv-inflammation" /><Cite id="apple-healthkit-sdnn" /> That is a population finding; your HRV cannot stand in for a CRP test. Why devices disagree on HRV is covered in [why WHOOP and Apple Watch HRV numbers differ](/blog/heart-rate-variability-explained), and how watches fold these signals into one number in [Apple Watch recovery, HRV and readiness scores](/blog/apple-watch-recovery-hrv-readiness-score).
 
-**Short sleep.** Six nights of four hours in bed lowered glucose tolerance and TSH and raised evening cortisol in young men,<Cite id="spiegel-1999-sleep-debt" /> and a single four-hour night cut insulin sensitivity by about a quarter on a clamp test.<Cite id="donga-2010-one-night" /> After a bad week, glucose, insulin, TSH and cortisol deserve a second look. How far to trust the tracker's sleep figure is its own question: see [Apple Watch vs Oura sleep tracking accuracy](/blog/apple-watch-sleep-vs-oura-ring).
+**Short sleep.** Six nights of four hours in bed lowered glucose tolerance and TSH and raised evening cortisol in young men,<Cite id="spiegel-1999-sleep-debt" /> and a single four-hour night cut whole-body insulin sensitivity by about a fifth on a clamp test in nine healthy adults.<Cite id="donga-2010-one-night" /> After a bad week, glucose, insulin, TSH and cortisol deserve a second look. How far to trust the tracker's sleep figure is its own question: see [Apple Watch vs Oura sleep tracking accuracy](/blog/apple-watch-sleep-vs-oura-ring).
 
 ### Slow trends side by side
 
@@ -263,7 +263,7 @@ Be skeptical of any app that links your cholesterol to last night's sleep score.
 ## What to look for when choosing a wearable or app that integrates blood test data
 
 - **Any lab, or its own lab only.** WHOOP and Oura both accept uploads of past results, which matters if you have years of bloodwork.<Cite id="whoop-2025-uploads" /><Cite id="oura-health-panels" /> If a service shows only its own panels, your timeline starts the day you join.
-- **Which wearable metrics actually sync.** Oura's Apple Health page, updated 14 October 2026, lists sleep, heart rate, respiratory rate, steps and workouts among what it writes, but not HRV, resting heart rate or Readiness,<Cite id="oura-apple-health" /> so an app reading Oura data through Apple Health will not see those.
+- **Which wearable metrics actually sync.** Oura's Apple Health page, updated 14 October 2026, lists sleep, heart rate, respiratory rate, steps and workouts among what it writes, but not HRV, resting heart rate or Readiness,<Cite id="oura-apple-health" /> so an app reading Oura data through Apple Health may not see those.
 - **Unit handling.** The same marker can come in different units; the European consensus on lipid testing, for instance, gives every cut-point in both mmol/L and mg/dL.<Cite id="nordestgaard-2016-nonfasting" /> An app that mixes units without converting will draw a false trend, so check one past result by hand after importing.
 - **Who reviews results.** WHOOP and Oura include clinician review; Apple's announced panel uses third-party providers.<Cite id="quest-2026-apple-labs" /> Software-only apps have no clinician.
 - **Privacy and control.** On iPhone, Health data is encrypted while the phone is locked, and you choose which record categories each app may read.<Cite id="apple-download-health-records" /><Cite id="apple-view-health-records" /> Check how you get your values back out; Function, for example, offers a PDF download.<Cite id="function-faq" />
@@ -287,7 +287,7 @@ No consumer wearable measures testosterone, estradiol, cortisol or TSH. What wea
 | Wearable-native labs | Ultrahuman Blood Vision | $499 a year | At-home collection, 100+ markers | Sleep, resting HR, HRV, movement |
 | Lab membership | Function Health | $365 a year | 160+ lab tests a year, tested twice a year; uploads | "Supported apps," not named publicly |
 | Lab membership | Superpower | $199 a year | One draw a year, 100+ markers; uploads | Apple Health, WHOOP, Oura |
-| Own kits plus app | SiPhox Health | $124 a kit plus shipping | Upper-arm home kit, up to 62 markers; uploads | Apple Watch, Oura, Fitbit shown |
+| Own kits plus app | SiPhox Health | From $124 a kit plus shipping (varies by panel) | Upper-arm home kit, panels up to 62 markers; uploads | Apple Watch, Oura, Fitbit shown |
 | Lab-agnostic app | Merios (publisher) | Free; Plus $44 a year | Any lab PDF or photo (Plus) | Whatever is in Apple Health |
 | Do it yourself | Apple Health | Free; $119 panel announced, not live | Health Records from supporting providers | Apple Watch and apps that write to Health |
 
@@ -297,7 +297,7 @@ Sources for the rows: WHOOP,<Cite id="whoop-panels" /><Cite id="whoop-advanced-l
 
 ## How to keep wearable data and bloodwork in one place with Apple Health
 
-1. **Let each wearable write to Health.** Turn on Apple Health sharing in the wearable's app, then check its export list; Oura, for one, does not write HRV or resting heart rate.<Cite id="oura-apple-health" />
+1. **Let each wearable write to Health.** Turn on Apple Health sharing in the wearable's app, then check its export list; Oura, for one, does not list HRV or resting heart rate among what it writes.<Cite id="oura-apple-health" />
 2. **Connect your lab results.** In the Health app, tap Summary, then your picture or initials, then Health Records, then Get Started (or Add Account). Find your clinic, hospital or lab, tap Connect Account and sign in with your patient-portal login. New records then download automatically.<Cite id="apple-download-health-records" />
 3. **Find and pin markers.** Tap Browse, scroll to Lab Results, and pin the markers you follow so they stay at the top.<Cite id="apple-view-health-records" />
 4. **Keep the PDFs anyway.** Health Records works only with organizations that support it, so results from a lab or clinic outside that list will not appear.<Cite id="apple-download-health-records" />

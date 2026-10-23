@@ -55,9 +55,9 @@ const NMOL_ROWS: [string, string, string][] = [
 
 /* Row status dot (presentation only), the same bands the converter applies. */
 function toneOf(band: string): "ok" | "warn" | "bad" {
-  if (band.startsWith("Deficien")) return "bad";
+  if (band.startsWith("Deficient")) return "bad";
   if (band === "Toxicity reported above this") return "bad";
-  if (band === "Inadequate for some people" || band === "Above 50 ng/mL" || band === "Top of most lab ranges") return "warn";
+  if (band === "Deficiency threshold (IOM)" || band === "Inadequate for some people" || band === "Above 50 ng/mL" || band === "Top of most lab ranges") return "warn";
   return "ok";
 }
 
@@ -192,9 +192,9 @@ export default function Page() {
               <p>
                 The unit is the easy part. The harder part is that the people who set the thresholds do not agree on
                 them. The IOM, which set the US dietary reference intakes in 2011, considers 20 ng/mL (50 nmol/L) enough
-                for bone health in nearly everyone. The Endocrine Society&apos;s 2011 guideline called 30 ng/mL (75
-                nmol/L) &ldquo;sufficient&rdquo; and 21 to 29 ng/mL &ldquo;insufficient&rdquo;, and many US lab reports
-                still print that 30 to 100 ng/mL range. In 2024 the Society published a new guideline that no longer
+                for bone health in nearly everyone. The Endocrine Society&apos;s 2011 guideline called below 20 ng/mL (50
+                nmol/L) &ldquo;deficient&rdquo;, 21 to 29 ng/mL &ldquo;insufficient&rdquo; and 30 ng/mL (75 nmol/L) and
+                above &ldquo;sufficient&rdquo;, and many US lab reports still print that 30 to 100 ng/mL range. In 2024 the Society published a new guideline that no longer
                 endorses a specific sufficiency level and advises against routine vitamin D testing in healthy adults
                 under 75. The UK uses a lower deficiency line again, 25 nmol/L.
               </p>

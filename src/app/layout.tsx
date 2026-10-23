@@ -57,7 +57,7 @@ const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";
 // characters and descriptions within 155, so neither is cut off in results.
 const HOME_TITLE = "Merios — Health Score App | Blood Test & Biomarker Tracking";
 const HOME_DESCRIPTION =
-  "Track 160+ biomarkers, calculate your biological age and get a personalized health score. Upload blood tests, sync Apple Health. Free to start.";
+  "Track 130+ biomarkers, calculate your biological age and get a personalized health score. Upload blood tests, sync Apple Health. Free to start.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://merios.life"),

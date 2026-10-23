@@ -123,6 +123,33 @@ const TOOLS = [
     formula: "No exact conversion — range shown",
   },
   {
+    slug: "vitamin-d-unit-converter",
+    eyebrow: "Vitamin D Units",
+    title: "Vitamin D Converter",
+    description:
+      "US labs report 25-OH vitamin D in ng/mL, the UK, Canada and Europe in nmol/L. Converts exactly in both directions and shows where your level sits.",
+    inputs: "1 input",
+    formula: "1 ng/mL = 2.496 nmol/L",
+  },
+  {
+    slug: "testosterone-unit-converter",
+    eyebrow: "Testosterone Units",
+    title: "Testosterone Converter",
+    description:
+      "US labs report total testosterone in ng/dL, most others in nmol/L. Converts exactly both ways and shows where the number sits for adult men.",
+    inputs: "1 input",
+    formula: "1 nmol/L = 28.84 ng/dL",
+  },
+  {
+    slug: "cholesterol-unit-converter",
+    eyebrow: "Lipid Units",
+    title: "Cholesterol Converter",
+    description:
+      "LDL, HDL, total and non-HDL cholesterol, triglycerides and ApoB between mg/dL, mmol/L and g/L, with the right factor for each marker.",
+    inputs: "1 input",
+    formula: "×38.67 cholesterol · ×88.57 triglycerides",
+  },
+  {
     slug: "zone-2-calculator",
     eyebrow: "Zone 2 Training",
     title: "Zone 2 Heart Rate",

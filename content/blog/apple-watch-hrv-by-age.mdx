@@ -36,17 +36,17 @@ In clinical settings, researchers measure HRV in two ways:
 - **SDNN** (Standard Deviation of N-N intervals): The standard deviation of all heartbeat intervals over 24 hours. This captures both slow variations (respiration) and fast variations (nervous system activity).
 - **RMSSD** (Root Mean Square of Successive Differences): The square root of the mean of squared successive differences between heartbeats. This isolates the parasympathetic (rest-and-digest) nervous system response.
 
-Apple Watch primarily uses **RMSSD** because it's more stable day-to-day and more responsive to real changes in autonomic balance. It measures HRV during sleep when you're at baseline, minimizing noise from activity and stress.
+Apple Watch reports **SDNN**, according to Apple's own [HealthKit documentation](https://developer.apple.com/documentation/healthkit/hkquantitytypeidentifier/heartratevariabilitysdnn), from short readings it takes periodically in the background. On Apple Watch Series 12 and Ultra 4 with watchOS 27, Apple also shows a separate Recovery HRV that is read against your overnight baseline: [what Recovery HRV and the Readiness score mean](/blog/apple-watch-recovery-hrv-readiness-score).
 
 ### Why Apple's Method Matters
 
-By measuring HRV during sleep, Apple captures your parasympathetic tone at its peak. This is more reliable than waking measurements, which get contaminated by activity, posture, and immediate stressors. It's also more comparable across days.
+Because those readings are short and taken whenever you happen to be still, a single Apple Watch HRV value is noisier than a long overnight recording, so your trend over several weeks says more than any one number. It is also why Apple Watch figures are not interchangeable with WHOOP or Oura, which typically report RMSSD from sleep.
 
 ## HRV Reference Ranges by Age
 
 Here's where most people get confused: there's no universal "good" HRV number. Context matters enormously. Age, sex, fitness level, and individual variation all shift the range.
 
-That said, here are approximate RMSSD ranges (in milliseconds) based on research:
+That said, here are approximate RMSSD ranges (in milliseconds) based on research. Apple Watch reports SDNN from short samples, so read them as orientation rather than a benchmark for your watch:
 
 ### **20s**
 - **Average**: 50–100 ms

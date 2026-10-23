@@ -636,19 +636,6 @@
   "doi": "10.1093/ajcn/79.4.600",
   "pmid": "15051603"
  },
- "pmid:15093761": {
-  "title": "Positive association between 25-hydroxy vitamin D levels and bone mineral density: a population-based study of younger and older adults",
-  "authors": [
-   "Bischoff-Ferrari HA",
-   "Dietrich T",
-   "Orav EJ",
-   "Dawson-Hughes B"
-  ],
-  "journal": "Am J Med",
-  "year": "2004",
-  "doi": "10.1016/j.amjmed.2003.12.029",
-  "pmid": "15093761"
- },
  "pmid:15161807": {
   "title": "Use and abuse of HOMA modeling",
   "authors": [
@@ -858,19 +845,6 @@
   "year": "2005",
   "doi": "10.1210/jc.2005-0212",
   "pmid": "15827095"
- },
- "pmid:15870128": {
-  "title": "Small differences in thyroid function may be important for body mass index and the occurrence of obesity in the population",
-  "authors": [
-   "Knudsen N",
-   "Laurberg P",
-   "Rasmussen LB",
-   "Bülow I"
-  ],
-  "journal": "J Clin Endocrinol Metab",
-  "year": "2005",
-  "doi": "10.1210/jc.2004-2225",
-  "pmid": "15870128"
  },
  "pmid:15893167": {
   "title": "The effects of physical activity on serum C-reactive protein and inflammatory markers: a systematic review",
@@ -2271,6 +2245,18 @@
   "doi": "10.1177/039463201002300220",
   "pmid": "20646353"
  },
+ "pmid:20663071": {
+  "title": "A quantitative systematic review of normal values for short-term heart rate variability in healthy adults",
+  "authors": [
+   "Nunan D",
+   "Sandercock GR",
+   "Brodie DA"
+  ],
+  "journal": "Pacing Clin Electrophysiol",
+  "year": "2010",
+  "doi": "10.1111/j.1540-8159.2010.02841.x",
+  "pmid": "20663071"
+ },
  "pmid:20682679": {
   "title": "A 1-year lifestyle intervention for weight loss in individuals with type 2 diabetes reduces high C-reactive protein levels and identifies metabolic predictors of change: from the Look AHEAD (Action for Health in Diabetes) study",
   "authors": [
@@ -3196,6 +3182,19 @@
   "doi": "10.1093/nar/gkt370",
   "pmid": "23671336"
  },
+ "pmid:23685233": {
+  "title": "Influence of dietary behavior on the circadian rhythm of the autonomic nervous system as assessed by heart rate variability",
+  "authors": [
+   "Yoshizaki T",
+   "Tada Y",
+   "Hida A",
+   "Sunami A"
+  ],
+  "journal": "Physiol Behav",
+  "year": "2013",
+  "doi": "10.1016/j.physbeh.2013.05.010",
+  "pmid": "23685233"
+ },
  "pmid:23702118": {
   "title": "Anemia in pregnancy",
   "authors": [
@@ -3221,6 +3220,19 @@
   "doi": "10.1016/j.jacc.2013.04.080",
   "pmid": "23770166"
  },
+ "pmid:23852425": {
+  "title": "Training adaptation and heart rate variability in elite endurance athletes: opening the door to effective monitoring",
+  "authors": [
+   "Plews DJ",
+   "Laursen PB",
+   "Stanley J",
+   "Kilding AE"
+  ],
+  "journal": "Sports Med",
+  "year": "2013",
+  "doi": "10.1007/s40279-013-0071-8",
+  "pmid": "23852425"
+ },
  "pmid:23867520": {
   "title": "Evidence-based recommendations for optimal dietary protein intake in older people: a position paper from the PROT-AGE Study Group",
   "authors": [
@@ -3244,6 +3256,18 @@
   "year": "2013",
   "doi": "10.1152/physrev.00038.2012",
   "pmid": "23899560"
+ },
+ "pmid:23912805": {
+  "title": "Cardiac parasympathetic reactivation following exercise: implications for training prescription",
+  "authors": [
+   "Stanley J",
+   "Peake JM",
+   "Buchheit M"
+  ],
+  "journal": "Sports Med",
+  "year": "2013",
+  "doi": "10.1007/s40279-013-0083-4",
+  "pmid": "23912805"
  },
  "pmid:23922235": {
   "title": "Are curcuminoids effective C-reactive protein-lowering agents in clinical practice? Evidence from a meta-analysis",
@@ -3430,6 +3454,19 @@
   "year": "2014",
   "doi": "10.1097/GME.0000000000000093",
   "pmid": "24281237"
+ },
+ "pmid:24334285": {
+  "title": "Monitoring training with heart rate-variability: how much compliance is needed for valid assessment?",
+  "authors": [
+   "Plews DJ",
+   "Laursen PB",
+   "Le Meur Y",
+   "Hausswirth C"
+  ],
+  "journal": "Int J Sports Physiol Perform",
+  "year": "2014",
+  "doi": "10.1123/ijspp.2013-0455",
+  "pmid": "24334285"
  },
  "pmid:24353357": {
   "title": "The de ritis ratio: the test of time",
@@ -4842,6 +4879,17 @@
   "doi": "10.1016/S2352-3026(17)30182-5",
   "pmid": "29032957"
  },
+ "pmid:29034226": {
+  "title": "An Overview of Heart Rate Variability Metrics and Norms",
+  "authors": [
+   "Shaffer F",
+   "Ginsberg JP"
+  ],
+  "journal": "Front Public Health",
+  "year": "2017",
+  "doi": "10.3389/fpubh.2017.00258",
+  "pmid": "29034226"
+ },
  "pmid:29059584": {
   "title": "Lactoferrin or ferrous salts for iron deficiency anemia in pregnancy: A meta-analysis of randomized trials",
   "authors": [
@@ -5396,6 +5444,19 @@
   "doi": "10.1038/s41398-018-0233-4",
   "pmid": "30185790"
  },
+ "pmid:30224348": {
+  "title": "Glucose Management Indicator (GMI): A New Term for Estimating A1C From Continuous Glucose Monitoring",
+  "authors": [
+   "Bergenstal RM",
+   "Beck RW",
+   "Close KL",
+   "Grunberger G"
+  ],
+  "journal": "Diabetes Care",
+  "year": "2018",
+  "doi": "10.2337/dc18-1581",
+  "pmid": "30224348"
+ },
  "pmid:30233497": {
   "title": "A Renewed Focus on the Association Between Thyroid Hormones and Lipid Metabolism",
   "authors": [
@@ -5772,6 +5833,19 @@
   "year": "2019",
   "doi": "10.1002/14651858.CD009825.pub3",
   "pmid": "30864165"
+ },
+ "pmid:30872091": {
+  "title": "Heart rate variability and inflammation: A meta-analysis of human studies",
+  "authors": [
+   "Williams DP",
+   "Koenig J",
+   "Carnevali L",
+   "Sgoifo A"
+  ],
+  "journal": "Brain Behav Immun",
+  "year": "2019",
+  "doi": "10.1016/j.bbi.2019.03.009",
+  "pmid": "30872091"
  },
  "pmid:30879355": {
   "title": "2019 ACC/AHA Guideline on the Primary Prevention of Cardiovascular Disease: A Report of the American College of Cardiology/American Heart Association Task Force on Clinical Practice Guidelines",
@@ -6484,6 +6558,19 @@
   "doi": "10.1001/jamanetworkopen.2020.23644",
   "pmid": "33136134"
  },
+ "pmid:33208926": {
+  "title": "Pre-symptomatic detection of COVID-19 from smartwatch data",
+  "authors": [
+   "Mishra T",
+   "Wang M",
+   "Metwally AA",
+   "Bogu GK"
+  ],
+  "journal": "Nat Biomed Eng",
+  "year": "2020",
+  "doi": "10.1038/s41551-020-00640-6",
+  "pmid": "33208926"
+ },
  "pmid:33230689": {
   "title": "Nightmare Disorder and Isolated Sleep Paralysis",
   "authors": [
@@ -6518,6 +6605,19 @@
   "doi": "10.1016/S0140-6736(20)32594-0",
   "pmid": "33285139"
  },
+ "pmid:33334565": {
+  "title": "Harnessing wearable device data to improve state-level real-time surveillance of influenza-like illness in the USA: a population-based study",
+  "authors": [
+   "Radin JM",
+   "Wineinger NE",
+   "Topol EJ",
+   "Steinhubl SR"
+  ],
+  "journal": "Lancet Digit Health",
+  "year": "2020",
+  "doi": "10.1016/S2589-7500(19)30222-5",
+  "pmid": "33334565"
+ },
  "pmid:33417682": {
   "title": "The neutrophil-lymphocyte ratio and incident atherosclerotic events: analyses from five contemporary randomized trials",
   "authors": [
@@ -6530,6 +6630,31 @@
   "year": "2021",
   "doi": "10.1093/eurheartj/ehaa1034",
   "pmid": "33417682"
+ },
+ "pmid:33426778": {
+  "title": "Effects of late-night eating of easily-or slowly-digestible meals on sleep, hypothalamo-pituitary-adrenal axis, and autonomic nervous system in healthy young males",
+  "authors": [
+   "Uçar C",
+   "Özgöçer T",
+   "Yıldız S"
+  ],
+  "journal": "Stress Health",
+  "year": "2021",
+  "doi": "10.1002/smi.3025",
+  "pmid": "33426778"
+ },
+ "pmid:33529156": {
+  "title": "Use of Physiological Data From a Wearable Device to Identify SARS-CoV-2 Infection and Symptoms and Predict COVID-19 Diagnosis: Observational Study",
+  "authors": [
+   "Hirten RP",
+   "Danieletto M",
+   "Tomalin L",
+   "Choi KH"
+  ],
+  "journal": "J Med Internet Res",
+  "year": "2021",
+  "doi": "10.2196/26107",
+  "pmid": "33529156"
  },
  "pmid:33762368": {
   "title": "Iron deficiency without anaemia: a diagnosis that matters",
@@ -6876,19 +7001,6 @@
   "year": "2022",
   "doi": "10.1016/j.smrv.2022.101594",
   "pmid": "35189549"
- },
- "pmid:35247352": {
-  "title": "Daily steps and all-cause mortality: a meta-analysis of 15 international cohorts",
-  "authors": [
-   "Paluch AE",
-   "Bajpai S",
-   "Bassett DR",
-   "Carnethon MR"
-  ],
-  "journal": "Lancet Public Health",
-  "year": "2022",
-  "doi": "10.1016/S2468-2667(21)00302-9",
-  "pmid": "35247352"
  },
  "pmid:35276902": {
   "title": "Comparative Effects between Oral Lactoferrin and Ferrous Sulfate Supplementation on Iron-Deficiency Anemia: A Comprehensive Review and Meta-Analysis of Clinical Trials",
@@ -7341,6 +7453,19 @@
   "doi": "10.1093/gerona/glad106",
   "pmid": "37068054"
  },
+ "pmid:37083166": {
+  "title": "Potentials and pitfalls of ChatGPT and natural-language artificial intelligence models for the understanding of laboratory medicine test results. An assessment by the European Federation of Clinical Chemistry and Laboratory Medicine (EFLM) Working Group on Artificial Intelligence (WG-AI)",
+  "authors": [
+   "Cadamuro J",
+   "Cabitza F",
+   "Debeljak Z",
+   "De Bruyne S"
+  ],
+  "journal": "Clin Chem Lab Med",
+  "year": "2023",
+  "doi": "10.1515/cclm-2023-0355",
+  "pmid": "37083166"
+ },
  "pmid:37118425": {
   "title": "Effect of long-term caloric restriction on DNA methylation measures of biological aging in healthy adults from the CALERIE trial",
   "authors": [
@@ -7456,6 +7581,18 @@
   "doi": "10.1016/j.cell.2023.08.003",
   "pmid": "37657418"
  },
+ "pmid:37699796": {
+  "title": "Can artificial intelligence replace biochemists? A study comparing interpretation of thyroid function test results by ChatGPT and Google Bard to practising biochemists",
+  "authors": [
+   "Stevenson E",
+   "Walsh C",
+   "Hibberd L"
+  ],
+  "journal": "Ann Clin Biochem",
+  "year": "2024",
+  "doi": "10.1177/00045632231203473",
+  "pmid": "37699796"
+ },
  "pmid:37824153": {
   "title": "Red Blood Cell Transfusion: 2023 AABB International Guidelines",
   "authors": [
@@ -7517,19 +7654,6 @@
   "doi": "10.1021/acs.jafc.3c06887",
   "pmid": "38091520"
  },
- "pmid:38243784": {
-  "title": "Selenium Supplementation in Patients with Hashimoto Thyroiditis: A Systematic Review and Meta-Analysis of Randomized Clinical Trials",
-  "authors": [
-   "Huwiler VV",
-   "Maissen-Abgottspon S",
-   "Stanga Z",
-   "Mühlebach S"
-  ],
-  "journal": "Thyroid",
-  "year": "2024",
-  "doi": "10.1089/thy.2023.0556",
-  "pmid": "38243784"
- },
  "pmid:38291525": {
   "title": "The effectiveness of oral bovine lactoferrin compared to iron supplementation in patients with a low hemoglobin profile: A systematic review and meta-analysis of randomized clinical trials",
   "authors": [
@@ -7590,6 +7714,19 @@
   "doi": "10.1016/j.jacl.2024.03.001",
   "pmid": "38565461"
  },
+ "pmid:38630520": {
+  "title": "Quality of Answers of Generative Large Language Models Versus Peer Users for Interpreting Laboratory Test Results for Lay Patients: Evaluation Study",
+  "authors": [
+   "He Z",
+   "Bhasuran B",
+   "Jin Q",
+   "Tian S"
+  ],
+  "journal": "J Med Internet Res",
+  "year": "2024",
+  "doi": "10.2196/56655",
+  "pmid": "38630520"
+ },
  "pmid:38710950": {
   "title": "APOE4 homozygozity represents a distinct genetic form of Alzheimer's disease",
   "authors": [
@@ -7627,6 +7764,19 @@
   "year": "2024",
   "doi": "10.1038/s41593-024-01638-y",
   "pmid": "38741022"
+ },
+ "pmid:38804035": {
+  "title": "Comparison of ChatGPT, Gemini, and Le Chat with physician interpretations of medical laboratory questions from an online health forum",
+  "authors": [
+   "Meyer A",
+   "Soleman A",
+   "Riese J",
+   "Streichert T"
+  ],
+  "journal": "Clin Chem Lab Med",
+  "year": "2024",
+  "doi": "10.1515/cclm-2024-0246",
+  "pmid": "38804035"
  },
  "pmid:38828931": {
   "title": "Vitamin D for the Prevention of Disease: An Endocrine Society Clinical Practice Guideline",
@@ -7715,6 +7865,19 @@
   "year": "1985",
   "doi": "10.1007/BF00280883",
   "pmid": "3899825"
+ },
+ "pmid:39013110": {
+  "title": "ChatGPT vs Medical Professional: Analyzing Responses to Laboratory Medicine Questions on Social Media",
+  "authors": [
+   "Girton MR",
+   "Greene DN",
+   "Messerlian G",
+   "Keren DF"
+  ],
+  "journal": "Clin Chem",
+  "year": "2024",
+  "doi": "10.1093/clinchem/hvae093",
+  "pmid": "39013110"
  },
  "pmid:39111551": {
   "title": "Variation of LDL cholesterol in response to the replacement of saturated with unsaturated fatty acids: a nonrandomized, sequential dietary intervention; the Reading, Imperial, Surrey, Saturated fat Cholesterol Intervention (\"RISSCI\"-1) study",
@@ -7987,6 +8150,19 @@
   "doi": "10.1093/eurheartj/ehaf190",
   "pmid": "40878289"
  },
+ "pmid:40895095": {
+  "title": "Effects of sleep deprivation on heart rate variability: a systematic review and meta-analysis",
+  "authors": [
+   "Zhang S",
+   "Niu X",
+   "Ma J",
+   "Wei X"
+  ],
+  "journal": "Front Neurol",
+  "year": "2025",
+  "doi": "10.3389/fneur.2025.1556784",
+  "pmid": "40895095"
+ },
  "pmid:41010537": {
   "title": "Ultra-Processed Food Consumption and Systemic Inflammatory Biomarkers: A Scoping Review",
   "authors": [
@@ -8070,6 +8246,18 @@
   "doi": "10.1001/jamacardio.2025.4491",
   "pmid": "41369941"
  },
+ "pmid:41459577": {
+  "title": "ChatGPT and reference intervals: a comparative analysis of repeatability in GPT-3.5 Turbo, GPT-4, and GPT-4o",
+  "authors": [
+   "Meyer A",
+   "Schömig E",
+   "Streichert T"
+  ],
+  "journal": "Front Artif Intell",
+  "year": "2025",
+  "doi": "10.3389/frai.2025.1681979",
+  "pmid": "41459577"
+ },
  "pmid:41533406": {
   "title": "Neutropenia: Evaluation and Management in the Primary Care Setting",
   "authors": [
@@ -8093,6 +8281,32 @@
   "year": "2026",
   "doi": "10.1111/sms.70208",
   "pmid": "41543030"
+ },
+ "pmid:41663592": {
+  "title": "Reliability of LLMs as medical assistants for the general public: a randomized preregistered study",
+  "authors": [
+   "Bean AM",
+   "Payne RE",
+   "Parsons G",
+   "Kirk HR"
+  ],
+  "journal": "Nat Med",
+  "year": "2026",
+  "doi": "10.1038/s41591-025-04074-y",
+  "pmid": "41663592"
+ },
+ "pmid:41731097": {
+  "title": "ChatGPT Health performance in a structured test of triage recommendations",
+  "authors": [
+   "Ramaswamy A",
+   "Tyagi A",
+   "Hugo H",
+   "Jiang J"
+  ],
+  "journal": "Nat Med",
+  "year": "2026",
+  "doi": "10.1038/s41591-026-04297-7",
+  "pmid": "41731097"
  },
  "pmid:41824552": {
   "title": "2026 ACC/AHA/AACVPR/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA Guideline on the Management of Dyslipidemia: A Report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines",
@@ -8164,6 +8378,32 @@
   "year": "2026",
   "doi": "10.1177/10507256261445624",
   "pmid": "42219800"
+ },
+ "pmid:42247415": {
+  "title": "Performance Evaluation of GPT-5, Grok 4, and DeepSeek R1 in Interpreting Complete Blood Count Reports for Hematologic Diseases: Retrospective Comparative Study",
+  "authors": [
+   "Ye X",
+   "Qi X",
+   "Fan L",
+   "Yu Q"
+  ],
+  "journal": "J Med Internet Res",
+  "year": "2026",
+  "doi": "10.2196/87802",
+  "pmid": "42247415"
+ },
+ "pmid:42515370": {
+  "title": "Consumer Smartwatch Technology in Health and Performance Research: Validity, Limitations, and Real-World Applications",
+  "authors": [
+   "Lepley AS",
+   "Davis F",
+   "Melvin AC",
+   "Zhao ZY"
+  ],
+  "journal": "Sensors (Basel)",
+  "year": "2026",
+  "doi": "10.3390/s26144486",
+  "pmid": "42515370"
  },
  "pmid:42525215": {
   "title": "Biological Versus Technical Reliability of Epigenetic Clocks and Implications for Disease Prognosis and Intervention Response",

@@ -79,7 +79,7 @@ export default function PricingPage() {
     "@id": "https://merios.life/pricing#product",
     name: "Merios",
     description:
-      "iOS app that reads any blood test PDF, extracts 130+ biomarkers, computes PhenoAge biological age, and tracks trends alongside Apple Health data.",
+      "iOS app that reads any blood test PDF, extracts 160+ biomarkers, computes PhenoAge biological age, and tracks trends alongside Apple Health data.",
     brand: { "@type": "Brand", name: "Merios" },
     url: "https://merios.life/pricing",
     offers: [

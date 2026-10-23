@@ -1,7 +1,7 @@
 {
   "name": "Merios",
   "short_name": "Merios",
-  "description": "Track 130+ biomarkers, calculate your biological age, and get a personalized health score.",
+  "description": "Track 160+ biomarkers, calculate your biological age, and get a personalized health score.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F7F5EF",

@@ -74,7 +74,7 @@ export function WebApplicationSchema() {
     name: "Merios",
     url: "https://merios.life",
     description:
-      "Health score app that analyzes 130+ blood biomarkers, Apple Health data, and daily check-ins. Calculate your biological age and optimize your health.",
+      "Health score app that analyzes 160+ blood biomarkers, Apple Health data, and daily check-ins. Calculate your biological age and optimize your health.",
     applicationCategory: "HealthApplication",
     operatingSystem: "iOS 15.1 or later",
     installUrl: "https://apps.apple.com/us/app/merios/id6760352598",
@@ -105,7 +105,7 @@ export function WebApplicationSchema() {
       },
     ],
     featureList: [
-      "Blood test OCR analysis (130+ biomarkers)",
+      "Blood test OCR analysis (160+ biomarkers)",
       "Apple Health integration",
       "Biological age calculation (PhenoAge)",
       "Merios Health Score (4 pillars)",

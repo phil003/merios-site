@@ -29,7 +29,7 @@ export default function TestosteroneConverter() {
   const result = useMemo(() => {
     const v = parseFloat(value);
     if (!Number.isFinite(v) || v <= 0) return null;
-    const ngdl = from === "ngdl" ? v : v * NMOL_TO_NGDL;
+    const ngdl = from === "ngdl" ? v : round(v * NMOL_TO_NGDL, 0);
     const out = from === "ngdl" ? round(v / NMOL_TO_NGDL, 1) : round(v * NMOL_TO_NGDL, 0);
     return { out, unit: from === "ngdl" ? "nmol/L" : "ng/dL", ngdl, band: sex === "male" ? bandMale(ngdl) : bandFemale() };
   }, [value, from, sex]);
@@ -104,7 +104,7 @@ export default function TestosteroneConverter() {
       <CalcFoot>
         <Footnote>
           Educational tool, not a diagnosis. It converts <strong>total</strong> testosterone. A single result does not
-          establish low testosterone: guidelines ask for two morning, fasting measurements plus symptoms, and the
+          establish low testosterone: guidelines ask for two early-morning measurements (the Endocrine Society specifies fasting) plus symptoms, and the
           free fraction (which depends on SHBG) can tell a different story — the free testosterone calculator handles
           that. Interpret with the range on your own report and with your clinician.
         </Footnote>
@@ -133,7 +133,7 @@ function bandMale(ngdl: number): { name: string; tone: Tone; description: string
     description:
       "Between 264 and 300 ng/dL (9.2 to 10.4 nmol/L): inside the harmonized reference range, but below the 300 ng/dL cut-off the American Urological Association uses to define low testosterone. Morning timing, sleep, illness and weight all move this number, so a repeat test is the usual next step.",
   };
-  if (ngdl <= 916) return {
+  if (ngdl <= 917) return {
     name: "within the reference range", tone: "ok",
     description:
       "Within the CDC-harmonized range of 264 to 916 ng/dL (9.2 to 31.8 nmol/L) for adult men. If you have symptoms despite a normal total, the free testosterone fraction, which depends on SHBG, is the number worth checking next.",
@@ -149,6 +149,6 @@ function bandFemale(): { name: string; tone: Tone; description: string } {
   return {
     name: "use your lab's range", tone: "neutral",
     description:
-      "Testosterone in women is roughly ten times lower than in men, and reference ranges vary a lot between assays, so this tool does not apply a band. Many US reports show a premenopausal range somewhere around 15 to 70 ng/dL (0.5 to 2.4 nmol/L); compare your number with the range printed on your own report.",
+      "Testosterone in women is roughly ten times lower than in men, and reference ranges vary a lot between assays, so this tool does not apply a band. Compare your number with the range printed on your own report.",
   };
 }

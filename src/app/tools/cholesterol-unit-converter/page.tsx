@@ -16,7 +16,7 @@ const FAQ_ITEMS = [
   { q: "How do you convert cholesterol from mmol/L to mg/dL?", a: "Multiply by 38.67. This works for total, LDL, HDL and non-HDL cholesterol: an LDL of 3.0 mmol/L is 116 mg/dL and a total cholesterol of 5.2 mmol/L is 201 mg/dL. To go the other way, divide mg/dL by 38.67." },
   { q: "How do you convert triglycerides from mmol/L to mg/dL?", a: "Multiply by 88.57, not by 38.67. Triglycerides have their own factor because a triglyceride molecule is more than twice as heavy as a cholesterol molecule. A triglyceride level of 1.7 mmol/L is 151 mg/dL; using the cholesterol factor by mistake would give 66, a completely different result." },
   { q: "How do you convert ApoB from g/L to mg/dL?", a: "Multiply by 100. ApoB is reported by mass in both systems, so 0.9 g/L is 90 mg/dL and 1.3 g/L is 130 mg/dL. No molar mass is involved." },
-  { q: "What is a normal LDL in mmol/L?", a: "In the US categories, an LDL below 100 mg/dL (2.6 mmol/L) is optimal and 100 to 129 mg/dL (2.6 to 3.3 mmol/L) near optimal. European guidelines set an LDL goal of below 3.0 mmol/L (116 mg/dL) for people at low risk. People at high cardiovascular risk are given lower targets, typically below 1.8 or 1.4 mmol/L (70 or 55 mg/dL)." },
+  { q: "What is a normal LDL in mmol/L?", a: "In the US categories, an LDL below 100 mg/dL (2.6 mmol/L) is optimal and 100 to 129 mg/dL (2.6 to 3.3 mmol/L) near optimal. European guidelines set an LDL goal of below 3.0 mmol/L (116 mg/dL) for people at low risk. People at high cardiovascular risk are given lower targets, typically below 1.8 or 1.4 mmol/L (about 70 or 55 mg/dL)." },
   { q: "Can I convert Lp(a) the same way?", a: "No. Lp(a) is the one lipid marker with no exact conversion between mg/dL and nmol/L, because the size of the Lp(a) particle varies from person to person. It needs its own converter, which returns a range." },
   { q: "Does Merios store these numbers?", a: "No. The converter runs entirely in your browser. Your inputs never leave your device and are not sent to a server." },
 ];
@@ -266,7 +266,9 @@ export default function Page() {
               Circulation 2002;106(25):3143-3421. · Grundy SM, Stone NJ, Bailey AL, et al.{" "}
               <em>2018 AHA/ACC/AACVPR/AAPA/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA guideline on the management of blood cholesterol.</em>{" "}
               Circulation 2019;139(25):e1082-e1143. · Mach F, Baigent C, Catapano AL, et al.{" "}
-              <em>2019 ESC/EAS guidelines for the management of dyslipidaemias.</em> Eur Heart J 2020;41(1):111-188. ·
+              <em>2019 ESC/EAS guidelines for the management of dyslipidaemias.</em> Eur Heart J 2020;41(1):111-188. · National Lipid Association.{" "}
+              <em>Role of ApoB in clinical management of cardiovascular risk in adults: expert clinical consensus.</em>{" "}
+              J Clin Lipidol 2024. ·
               Educational tool, not a diagnosis; interpret any result with the reference range printed on your own
               report and with your physician.
             </p>

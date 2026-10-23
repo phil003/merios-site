@@ -262,7 +262,9 @@ export default function Page() {
                 <Link href="/blog/apob-heart-disease-risk">ApoB</Link>, blood pressure, and the rest
                 of the{" "}
                 <Link href="/blog/how-to-lower-cholesterol-without-medication">modifiable lipid picture</Link>.
-                It is also worth knowing that an elevated Lp(a) is a reason for first-degree relatives to be tested.
+                It is also worth knowing that an elevated Lp(a) is a reason for first-degree relatives to be tested. Where
+                Lp(a)-lowering drugs stand is covered in{" "}
+                <Link href="/blog/lp-a-treatment-after-pelacarsen">Lp(a) drugs after pelacarsen</Link>.
               </p>
             </div>
 

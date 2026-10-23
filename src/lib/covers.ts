@@ -229,6 +229,7 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "low-testosterone-young-men-under-30": { big: "Low T", curve: "fall" },
   "lp-a-lipoprotein-a-high": { big: "Lp(a)" },
   "longevity-blood-panel": { big: "Panel", curve: "dotted" },
+  "lp-a-treatment-after-pelacarsen": { big: "Lp(a)", curve: "fall" },
   "magnesium-deficiency-symptoms-women": { big: "Mg", suffix: "low" },
   "magnesium-types-compared": { big: "Mg", suffix: "×8", curve: "dotted" },
   "mcv-mch-blood-test-meaning": { big: "MCV", suffix: "MCH" },

@@ -1,0 +1,212 @@
+---
+title: "Apple Watch Recovery HRV vs HRV, and the Readiness Score"
+description: "Recovery HRV is the daily stress-and-recovery HRV on Apple Watch Series 12 and Ultra 4. How it differs from overall HRV, and how the 0-10 Readiness score works."
+date: "2026-10-23"
+dateModified: "2026-10-23"
+tag: "HRV"
+emoji: "⌚"
+readTime: "9 min read"
+image: "/og-image.png"
+faq:
+  - q: "What is Recovery HRV on Apple Watch?"
+    a: "Recovery HRV is one of two heart rate variability numbers on Apple Watch Series 12 and Ultra 4 running watchOS 27. Apple says it is best for identifying daily signals of stress and recovery. The watch samples it while you are still, and overnight it is compared with your personal baseline in the Vitals app, which in turn feeds the Readiness score. Older Apple Watch models do not show it."
+  - q: "What is the difference between Recovery HRV and HRV on Apple Watch?"
+    a: "On Series 12 and Ultra 4, Apple splits HRV into Recovery HRV, for day-to-day stress and recovery, and overall HRV, for broader health including cardiovascular health. Older watches show a single HRV number, which Apple's developer documentation defines as SDNN, the standard deviation of the intervals between heartbeats. Apple has not said which formula each new number uses; trade press suggests Recovery HRV is RMSSD, but Apple has not confirmed it."
+  - q: "Why is my Recovery HRV different from my old Apple Watch HRV?"
+    a: "Because they are probably different statistics taken under different conditions. Your older Apple Watch HRV is SDNN, while Recovery HRV is sampled while you are still and judged against your own overnight baseline. SDNN and RMSSD summarize the same heartbeat signal in different ways and do not always move together. Treat a new watch as the start of a new baseline rather than comparing the two numbers directly."
+  - q: "What does Recovery HRV mean on Apple Watch, and is higher better?"
+    a: "Apple says higher variability is generally associated with better overall recovery, and a lower value is an indicator of stress. There is no universal good number, though: what matters is your Recovery HRV compared with your own baseline, which is how the Vitals app uses it. A single low reading after a hard workout, a short night or a few drinks is expected. A drop that lasts for weeks without an obvious reason is worth a closer look."
+  - q: "Is Apple Watch Recovery HRV the same as recovery on WHOOP or Oura?"
+    a: "No. Apple's Recovery HRV and Readiness score are Apple's own calculations, and Apple has not published the formula behind either, so there is no way to convert them into another brand's numbers. Two devices on the same wrist can disagree while both work as designed. Compare each device only with its own history."
+sources:
+  - id: apple-2026-series-12
+    url: "https://www.apple.com/newsroom/2026/09/introducing-apple-watch-series-12-with-the-all-new-health-sensing-system/"
+    title: "Introducing Apple Watch Series 12, with the all-new Health Sensing System"
+    publisher: "Apple Newsroom"
+    year: 2026
+  - id: apple-2026-health-fitness
+    url: "https://www.apple.com/newsroom/2026/09/apple-advances-health-and-fitness-capabilities-using-apple-intelligence/"
+    title: "Apple advances health and fitness capabilities using Apple Intelligence and the most accurate heart rate sensing in a wearable"
+    publisher: "Apple Newsroom"
+    year: 2026
+  - id: apple-2026-ultra-4
+    url: "https://www.apple.com/newsroom/2026/09/apple-unveils-apple-watch-ultra-4/"
+    title: "Apple unveils Apple Watch Ultra 4"
+    publisher: "Apple Newsroom"
+    year: 2026
+  - id: apple-support-heart-rate
+    url: "https://support.apple.com/en-us/120277"
+    title: "Monitor your heart rate with Apple Watch"
+    publisher: "Apple Support"
+    year: 2026
+  - id: apple-support-vitals
+    url: "https://support.apple.com/en-us/120142"
+    title: "Track your overnight and daytime vitals with Apple Watch"
+    publisher: "Apple Support"
+    year: 2026
+  - id: apple-guide-vitals
+    url: "https://support.apple.com/guide/watch/apd15aa7ed96/watchos"
+    title: "Track your vitals on Apple Watch"
+    publisher: "Apple Support (Apple Watch User Guide)"
+    year: 2026
+  - id: apple-support-readiness
+    url: "https://support.apple.com/en-us/128112"
+    title: "Understand your readiness score on Apple Watch"
+    publisher: "Apple Support"
+    year: 2026
+  - id: apple-guide-readiness
+    url: "https://support.apple.com/guide/watch/flx4gnzby346/watchos"
+    title: "Use the Readiness app on Apple Watch"
+    publisher: "Apple Support (Apple Watch User Guide)"
+    year: 2026
+  - id: apple-watch-compare
+    url: "https://www.apple.com/watch/compare/"
+    title: "Apple Watch - Compare"
+    publisher: "Apple"
+    year: 2026
+  - id: healthkit-sdnn
+    url: "https://developer.apple.com/documentation/healthkit/hkquantitytypeidentifier/heartratevariabilitysdnn"
+    title: "heartRateVariabilitySDNN"
+    publisher: "Apple Developer Documentation"
+    year: 2026
+  - id: healthkit-rmssd
+    url: "https://developer.apple.com/documentation/healthkit/hkquantitytypeidentifier/heartratevariabilityrmssd"
+    title: "heartRateVariabilityRMSSD"
+    publisher: "Apple Developer Documentation"
+    year: 2026
+  - id: gadgetsandwearables-2026-recovery-hrv
+    url: "https://gadgetsandwearables.com/2026/09/11/apple-watch-recovery-hrv-overall-hrv-rmssd/"
+    title: "Apple Watch Recovery HRV and Overall HRV are not the same thing"
+    publisher: "Gadgets and Wearables"
+    year: 2026
+  - id: shaffer-2017-hrv-metrics
+    pmid: "29034226"
+  - id: nunan-2010-short-term-norms
+    pmid: "20663071"
+  - id: zhang-2025-sleep-deprivation-hrv
+    pmid: "40895095"
+  - id: plews-2014-hrv-compliance
+    pmid: "24334285"
+  - id: pietila-2018-alcohol-hrv
+    pmid: "29549064"
+  - id: hirten-2021-warrior-watch
+    pmid: "33529156"
+  - id: stanley-2013-parasympathetic-reactivation
+    pmid: "23912805"
+  - id: plews-2013-elite-hrv
+    pmid: "23852425"
+  - id: yoshizaki-2013-late-meals
+    pmid: "23685233"
+  - id: ucar-2021-late-night-eating
+    pmid: "33426778"
+  - id: medlineplus-palpitations
+    url: "https://medlineplus.gov/ency/article/003081.htm"
+    title: "Heart palpitations"
+    publisher: "MedlinePlus, US National Library of Medicine"
+    year: 2026
+  - id: lepley-2026-smartwatch-validity
+    pmid: "42515370"
+---
+
+Recovery HRV is the heart rate variability reading that Apple Watch Series 12 and Apple Watch Ultra 4 use as a daily signal of stress and recovery: the watch samples it while you are still, and overnight it is compared with your own baseline in the Vitals app, which feeds the new Readiness score.<Cite id="apple-2026-series-12" /><Cite id="apple-support-heart-rate" /> The second number, which Apple calls overall HRV, is meant for insight into your broader health, including cardiovascular health, while older watches show a single HRV figure that Apple's developer documentation defines as SDNN.<Cite id="apple-watch-compare" /><Cite id="healthkit-sdnn" />
+
+Both numbers arrived with watchOS 27, released on 14 September 2026, and with the two new watches, which reached stores on 18 September.<Cite id="apple-2026-series-12" /><Cite id="apple-2026-ultra-4" /> Apple has not published the formula behind either one, so this page keeps what Apple says separate from what others have inferred.
+
+**Bottom line:** Recovery HRV is your day-to-day HRV, read against your own baseline; overall HRV is aimed at your broader health, including your heart. Higher is generally associated with better recovery, but only your own history tells you what higher means. Readiness turns your activity, vitals and sleep score into a 0 to 10 score, and it exists only on Series 12 and Ultra 4. None of these numbers is a medical measurement.
+
+## Recovery HRV vs overall HRV: what Apple actually says
+
+Apple's own wording, from its September 2026 announcement: "Recovery HRV is best for identifying daily signals of stress and recovery, while overall HRV is best for insights into a user's broader health, including cardiovascular health."<Cite id="apple-2026-series-12" /> Both names are Apple's own, although "overall HRV" appears only in the announcements: the Apple support pages we read document Recovery HRV alone.<Cite id="apple-support-heart-rate" /> Apple adds that HRV is now measured as often as every five minutes, which it describes as 24 times more frequently than before, and that it has its own section in the Heart Rate app.<Cite id="apple-2026-health-fitness" />
+
+| | Recovery HRV | Overall HRV | HRV on older watches |
+|---|---|---|---|
+| Apple's description | Daily signals of stress and recovery | Broader health, including cardiovascular health | Listed simply as HRV |
+| Watches | Series 12, Ultra 4 | Series 12, Ultra 4 | Series 11, Ultra 3, SE 3 and earlier |
+| How it is sampled | While you are still; the overnight value is compared with your personal baseline | Not published by Apple | Recorded automatically in the background |
+| Where you see it | Heart Rate app, overnight Vitals, and through Vitals the Readiness score | Heart Rate app | Health app |
+| Formula | Not stated by Apple; trade press suggests RMSSD | Not stated by Apple; trade press suggests SDNN | SDNN, per Apple's developer documentation |
+
+The table draws on Apple's announcement, its support pages, its model comparison and its HealthKit documentation.<Cite id="apple-2026-series-12" /><Cite id="apple-support-heart-rate" /><Cite id="apple-watch-compare" /><Cite id="healthkit-sdnn" /> To find the number on the watch, open the Heart Rate app and turn the Digital Crown to Recovery HRV.<Cite id="apple-support-heart-rate" /> Apple notes that HRV is sampled while you are still, so the number of measurements you see depends on how active you were that day.<Cite id="apple-support-heart-rate" /> On iPhone, your vitals history sits in the Health app under Browse, then Vitals.<Cite id="apple-guide-vitals" />
+
+### What Apple has not said
+
+- **Which formula each number uses.** HealthKit in iOS 27 and watchOS 27 adds a new data type, `heartRateVariabilityRMSSD`, next to the SDNN type it has carried since iOS 11, and Apple's page for it gives no description at all.<Cite id="healthkit-rmssd" /><Cite id="healthkit-sdnn" /> Trade press reads this as Recovery HRV being RMSSD and overall HRV being SDNN, while acknowledging that Apple has not confirmed it.<Cite id="gadgetsandwearables-2026-recovery-hrv" /> That is a reasonable guess, and it remains a guess.
+- **A target range.** None of the Apple announcement or support pages we read gives a "good" value for either number.
+- **What the old sampling interval was.** Apple gives the "24 times" multiplier and the five-minute figure, but not how often older watches measured.
+
+### Does an older Apple Watch get Recovery HRV?
+
+No. Apple's comparison page lists Recovery HRV, the Readiness app and high-frequency background heart rate tracking only for Series 12 and Ultra 4; Series 11, Ultra 3 and SE 3 are listed with "HRV".<Cite id="apple-watch-compare" /> watchOS 27 itself runs on Series 9 and later, SE 3 and Ultra 2 and later, but on those watches the Vitals app keeps its previous overnight metrics, with sleep duration where the new models show HRV, and no daytime view.<Cite id="apple-2026-series-12" /><Cite id="apple-support-vitals" />
+
+## Why Recovery HRV doesn't match your old Apple Watch HRV
+
+If you upgraded and your HRV suddenly looks higher or lower, that jump on its own is not a sign of a problem. Three things differ at once.
+
+**The statistic.** The two classic time-domain HRV measures summarize the same heartbeat intervals in different ways:
+
+- **RMSSD** looks at how much each interval differs from the one just before it. It "reflects the beat-to-beat variance in HR and is the primary time-domain measure used to estimate the vagally mediated changes reflected in HRV", meaning the parasympathetic, rest-and-recover side of the nervous system, and researchers have proposed using it on recordings as short as 10 to 60 seconds.<Cite id="shaffer-2017-hrv-metrics" />
+- **SDNN** is the standard deviation of all the intervals in the window. Both the sympathetic and parasympathetic branches contribute to it, slower rhythms count, and its size depends on how long the recording is: Shaffer and Ginsberg call it "inappropriate to compare metrics like SDNN when they are calculated from epochs of different length."<Cite id="shaffer-2017-hrv-metrics" />
+
+**The conditions.** Recovery HRV is sampled while you are still and judged against your overnight baseline.<Cite id="apple-support-heart-rate" /><Cite id="apple-2026-series-12" /> Short readings and 24-hour readings are not interchangeable, and their physiological meaning can differ.<Cite id="shaffer-2017-hrv-metrics" />
+
+**There is no fixed conversion.** In a review of short-term recordings from 44 studies covering 21,438 healthy adults, average SDNN was 50 ms and average RMSSD 42 ms, so under comparable conditions the two often land in the same range.<Cite id="nunan-2010-short-term-norms" /><Cite id="shaffer-2017-hrv-metrics" /> A large gap between two numbers therefore says as much about when, and for how long, they were measured as about the formula. They can also respond differently: in a meta-analysis of 11 sleep-deprivation trials, RMSSD fell significantly, while the fall in SDNN was not statistically significant.<Cite id="zhang-2025-sleep-deprivation-hrv" />
+
+The practical rule follows from all three: treat a new watch as the start of a new baseline, and don't read your Recovery HRV against years of older HRV data. The same logic applies across brands, which is covered in [comparing WHOOP or Oura HRV with Apple Watch](/blog/heart-rate-variability-explained). Age matters too, since HRV time-domain measures decline with age;<Cite id="shaffer-2017-hrv-metrics" /> [Apple Watch HRV by age](/blog/apple-watch-hrv-by-age) gives the broad picture.
+
+## The Readiness score: bands, inputs and which watches
+
+Readiness is a new app on Apple Watch Series 12 and Ultra 4, for ages 13 and older, that gives one 0 to 10 score with a recommendation.<Cite id="apple-guide-readiness" /> It is not available on Series 11, Ultra 3 or SE 3, even after updating to watchOS 27.<Cite id="apple-watch-compare" /> Apple's bands:<Cite id="apple-support-readiness" />
+
+- **Go For It:** 8 to 10
+- **Ready:** 5 to 7
+- **Pace Yourself:** 2 to 4
+- **Recover:** 0 to 1
+
+### What goes into it
+
+Apple lists three inputs and says which way each pushes the score:<Cite id="apple-support-readiness" />
+
+- **Activity**, today and recently: active calories, workout effort ratings and Training Load. More activity generally lowers the score, steady or reduced activity raises it, and the score can drop during the day after a workout.
+- **Vitals**, daytime and overnight. Metrics flagged Notably or Slightly off reduce the score; when all are Typical or Favorable, it rises. Higher-than-usual HRV can lead to Favorable vitals and a high score.
+- **Sleep**: the previous night's sleep score and your recent history. Poor or inconsistent sleep lowers it; a high or improving sleep score raises it.
+
+The vitals are analyzed against a baseline that needs you to have slept with the watch on at least 7 of the past 49 nights, and the score updates through the day with calories burned, naps and daytime heart rate.<Cite id="apple-guide-readiness" /> Apple says the algorithm was developed using data from the Apple Heart and Movement Study, with exercise scientists and physicians at Apple, and that the app shows which factors are driving the score.<Cite id="apple-2026-health-fitness" /> On iPhone, Apple's user guide places the score in the Fitness app; Apple's announcement also shows it in the Insights tab of a redesigned Health app that Apple said would arrive later in 2026.<Cite id="apple-guide-readiness" /><Cite id="apple-2026-health-fitness" />
+
+If you see no score, Apple's checklist is: height, weight and age entered, Activity set up, overnight vitals set up with at least 7 nights of sleeping in the watch, and Sleep enabled with the watch worn last night.<Cite id="apple-support-readiness" />
+
+### How to use it sensibly
+
+- **Expect hard training to cost points.** Because more activity lowers the score, a planned hard week can pull it down to Pace Yourself or lower. That is the score doing what Apple describes, not a sign you are doing something wrong.
+- **Read the drivers, not just the number.** A 4 driven by one short night is a different story from a 4 driven by vitals that are Notably off.
+- **Treat it as a prompt, not a permission slip.** Apple says Readiness does not account for existing conditions or medications and should not be solely relied on to decide whether it is safe to exercise.<Cite id="apple-support-readiness" />
+
+## How to read your Recovery HRV, and what moves it
+
+**Compare only with yourself.** Apple itself analyzes Recovery HRV against your personal baseline,<Cite id="apple-2026-series-12" /> and that is the only comparison that means much. Someone else's number, or a chart average, is orientation at best.
+
+**Look at the week, not the morning.** In trained triathletes, averaging at least three valid readings a week gave results equivalent to a full weekly average, while a single day's reading captured much less of the training effect.<Cite id="plews-2014-hrv-compliance" /> A rolling weekly view of your Recovery HRV is more useful than any one reading.
+
+**Know the usual suspects.** Apple itself lists medications, elevation, alcohol intake and illness among the factors that can move your vitals.<Cite id="apple-support-vitals" /> The research behind the common ones:
+
+- **Alcohol.** In 4,098 Finnish employees, RMSSD in the first three hours of sleep was lower by about 2, 6 and 13 ms after low, moderate and high intake (scaled to body weight), and heart rate higher by 1.4, 4.0 and 8.7 bpm, in a dose-dependent pattern.<Cite id="pietila-2018-alcohol-hrv" />
+- **Illness.** In health-care workers wearing Apple Watch, the daily pattern of SDNN changed in the week before and after a COVID-19 diagnosis compared with uninfected periods.<Cite id="hirten-2021-warrior-watch" />
+- **Sleep loss.** Across 11 randomized trials, sleep deprivation significantly lowered RMSSD.<Cite id="zhang-2025-sleep-deprivation-hrv" />
+- **Training load.** After a single aerobic session, full cardiac autonomic recovery took up to 24 hours after low-intensity work such as [zone 2 cardio](/blog/zone-2-cardio-heart-rate), 24 to 48 hours after threshold work and at least 48 hours after high-intensity work, and it came faster in fitter people.<Cite id="stanley-2013-parasympathetic-reactivation" /> In elite athletes, both rises and falls in HRV have accompanied poor adaptation, so context matters.<Cite id="plews-2013-elite-hrv" />
+- **Late meals.** The evidence is thin and mixed. Shifting all meals five hours later for two weeks shifted the daily timing of heart rate and SDNN in seven young men,<Cite id="yoshizaki-2013-late-meals" /> while a high-calorie meal at 10 pm, sugary or protein-and-fat-rich, did not change HRV in 16 young men, although the protein-and-fat meal disturbed their sleep.<Cite id="ucar-2021-late-night-eating" /> If late dinners reliably precede your low readings, your own data is the better guide.
+
+## When an HRV change is worth discussing with a clinician
+
+Most dips have an obvious cause and pass within a day or two. A conversation with your clinician makes sense when:
+
+- your HRV stays down for weeks with no clear reason, such as a training block, travel, drinking or an infection, especially if your [resting heart rate stays higher than usual](/blog/resting-heart-rate-suddenly-high);
+- your resting pulse is more than 100 beats per minute without exercise, anxiety or fever, or you notice new or different palpitations, which MedlinePlus says warrant contacting your provider right away;<Cite id="medlineplus-palpitations" />
+- overnight readings worry you, in which case [heart rate spikes while sleeping](/blog/heart-rate-spike-while-sleeping) covers the common harmless causes and the ones to raise;
+- you have a condition or take a medication that affects heart rate, since Readiness does not account for either.<Cite id="apple-support-readiness" />
+
+Call 911 if a racing or irregular heartbeat comes with chest pain, shortness of breath, fainting, unusual sweating or dizziness.<Cite id="medlineplus-palpitations" /> Apple is explicit about the limits too: the Vitals app is for wellness purposes and not for medical use.<Cite id="apple-2026-series-12" />
+
+## A readiness score is a proprietary composite, not a medical test
+
+Apple calls Readiness "a general wellness feature" that "should not be used as a substitute for professional medical judgment."<Cite id="apple-support-readiness" /> It has described the inputs, not the weights, and as of 23 October 2026 we found no published validation study of the Readiness algorithm. That is not unique to Apple. A 2026 review of consumer smartwatch metrics notes that scores like these are estimates produced by proprietary algorithms rather than direct measurements, that their validity varies by device, algorithm and population, and that they are most useful for tracking trends within one person, not for diagnosis or comparing devices.<Cite id="lepley-2026-smartwatch-validity" />
+
+Used that way, the new numbers are genuinely useful: a denser, baseline-aware HRV signal and a plain-language nudge about the day ahead. Their limit is time, since a daily score says little about the slow shifts that play out over months. If you also get blood work, [combining wearable data with blood tests](/blog/combine-wearable-data-with-blood-tests) covers what lining the two up can and cannot show. Merios reads your HRV and sleep from Apple Health and puts the trend next to your blood work, so a months-long change sits beside your lab results instead of in a separate app ([Merios on the App Store](https://apps.apple.com/us/app/merios/id6760352598)).

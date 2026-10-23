@@ -123,6 +123,15 @@ const TOOLS = [
     formula: "No exact conversion — range shown",
   },
   {
+    slug: "vitamin-d-unit-converter",
+    eyebrow: "Vitamin D Units",
+    title: "Vitamin D Converter",
+    description:
+      "US labs report 25-OH vitamin D in ng/mL, the UK, Canada and Europe in nmol/L. Converts exactly in both directions and shows where your level sits.",
+    inputs: "1 input",
+    formula: "1 ng/mL = 2.496 nmol/L",
+  },
+  {
     slug: "zone-2-calculator",
     eyebrow: "Zone 2 Training",
     title: "Zone 2 Heart Rate",

@@ -175,7 +175,7 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "best-supplement-stack-men-health": { big: "Stack" },
   "biological-age-calculator-blood-test": { big: "Bio", suffix: "age" },
   "biological-age-vs-chronological-age": { big: "−4.2", suffix: "yrs", curve: "fall" },
-  "biomarkers-to-track-for-longevity": { big: "130+", curve: "dotted" },
+  "biomarkers-to-track-for-longevity": { big: "160+", curve: "dotted" },
   "best-foods-for-longevity": { big: "Eat", curve: "rise" },
   "how-to-lower-biological-age": { big: "Reset", curve: "fall" },
   "how-to-improve-vo2-max": { big: "VO2", suffix: "max", curve: "rise" },

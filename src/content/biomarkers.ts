@@ -8,7 +8,7 @@ export const PILLARS = [
   {
     slug: "blood",
     label: "Blood",
-    tagline: "The deepest signal — 130+ biomarkers across 11 systems.",
+    tagline: "The deepest signal — 160+ biomarkers across 11 systems.",
   },
   {
     slug: "movement",

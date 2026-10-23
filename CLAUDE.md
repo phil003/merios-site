@@ -130,23 +130,51 @@ remapped to the v3 values, so older components re-theme automatically.
 
 ## ⛔ Deploy rules (CRITICAL — do not break)
 
-- NEVER push to `main` during this redesign — the production site merios.life
-  is served from `main` and must remain untouched until the user validates
-  the full refresh.
-- NEVER run `vercel --prod` or any production deployment command.
-- NEVER modify Vercel production settings (env vars, domains, git integration).
-- ALWAYS work on the branch `redesign/premium-v2`.
-- ALWAYS test via `npm run dev` on http://localhost:3000 and show Playwright
-  screenshots of localhost to the user.
-- Preview deploys on Vercel are allowed ONLY when the user explicitly asks
-  ("deploy a preview so I can test on my phone"). Use `vercel deploy` without
-  `--prod` — this creates a unique non-indexed preview URL.
-- If a git push to `origin redesign/premium-v2` is needed (e.g. to share the
-  branch), confirm with the user first. By default, keep the work 100% local
-  until the user asks to push.
-- Before any deploy or push action, output a clear confirmation request like:
-  "⚠️ About to run `<command>`. This will <effect>. Confirm?" and wait for
-  explicit approval.
+How production actually works (verified 23 Oct 2026):
+
+- **Production is the branch `seo/site-indexing-2026-06-04`**, not `main`. The
+  Vercel project `merios-site` (team `phil003s-projects`) deploys merios.life from
+  it: every merge or push to that branch goes live within minutes.
+- **`main` is frozen** (last commit 15 June 2026). Never branch from it, never open
+  a PR against it, never push to it. Its copy of this file was out of date.
+- Every other branch gets a Vercel **preview** deployment on push (GitHub status
+  "Vercel – merios-site"). Previews are behind Vercel Authentication and are the
+  place to check a change before it ships.
+
+The workflow:
+
+1. Branch from `origin/seo/site-indexing-2026-06-04`.
+2. Run `npm ci && npm run build`. `prebuild` regenerates `public/sitemap.xml`
+   (git-ignored) and runs `scripts/check-sources.mjs`, which fails the build on an
+   unresolved citation. If the local build cannot run (the Cowork sandbox fails on
+   `@next/swc`, scheduled tasks hit their shell time limit), the gate is the
+   Vercel preview build plus its GitHub checks.
+3. Push the branch and open a PR **into `seo/site-indexing-2026-06-04`**. Check
+   the preview on the pages you changed.
+4. **Only Phil merges**, or a session acting on his explicit go for that PR. The
+   merge is the production deploy. Automated tasks (the daily "Merios SEO" task)
+   deliver a branch and a PR and never merge.
+
+Never:
+
+- push directly to `seo/site-indexing-2026-06-04`;
+- run `vercel`, `vercel deploy` or `vercel --prod` from the command line — previews
+  come from git pushes, production from the merge;
+- change Vercel project settings (production branch, env vars, domains, git
+  integration) without Phil.
+
+Side effects to know about:
+
+- A push to the production branch that touches `content/blog/**` or
+  `content/compare/**` pings IndexNow (`.github/workflows/indexnow.yml`). If the
+  production branch ever changes, update `branches` in that workflow at the same
+  time, and this section.
+- Retired URLs are 308s in `next.config.ts`. A redirected compare slug must also be
+  listed in `REDIRECTED_SLUGS` (`src/lib/compare.ts`) and `REDIRECTED_COMPARE`
+  (`scripts/generate-sitemap.mjs`), and nothing on the site may link to it.
+- SEO cooldown: on a page whose title, meta or content changed in the last 21 days,
+  fix broken rendering or a wrong fact only; leave the title, meta description and
+  heading structure alone until the change has been measured.
 
 ## Brief reference
 

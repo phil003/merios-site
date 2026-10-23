@@ -76,7 +76,7 @@ const ANALYTES: Record<Key, Analyte> = {
     example: { mg: "e.g. 150", si: "e.g. 3.9" },
     bar: { max: 250, zones: [{ from: 0, to: 130, tone: "ok" }, { from: 130, to: 160, tone: "ok" }, { from: 160, to: 190, tone: "warn" }, { from: 190, to: 250, tone: "bad" }] },
     bands: [
-      { upTo: 129.99, name: "optimal", tone: "ok", description: "Below 130 mg/dL (3.36 mmol/L), 30 mg/dL above the optimal LDL line. Non-HDL is total cholesterol minus HDL: it counts the cholesterol in every atherogenic particle, not just LDL." },
+      { upTo: 129.99, name: "optimal", tone: "ok", description: "Below 130 mg/dL (3.36 mmol/L), which is 30 mg/dL above the optimal LDL line of 100 mg/dL. Non-HDL is total cholesterol minus HDL: it counts the cholesterol in every atherogenic particle, not just LDL." },
       { upTo: 159.99, name: "near optimal", tone: "ok", description: "130 to 159 mg/dL (3.36 to 4.11 mmol/L), the non-HDL equivalent of a near-optimal LDL." },
       { upTo: 189.99, name: "borderline high", tone: "warn", description: "160 to 189 mg/dL (4.14 to 4.89 mmol/L), the non-HDL equivalent of a borderline-high LDL. Useful when triglycerides are high, because LDL alone then understates risk." },
       { upTo: Infinity, name: "high", tone: "bad", description: "190 mg/dL (4.91 mmol/L) and above. Worth discussing with your clinician alongside LDL, triglycerides and your overall risk." },
@@ -116,7 +116,7 @@ export default function CholesterolConverter() {
   const result = useMemo(() => {
     const v = parseFloat(value);
     if (!Number.isFinite(v) || v <= 0) return null;
-    const mg = from === "mg" ? v : v * a.factor;
+    const mg = from === "mg" ? v : round(v * a.factor, 0);
     const out = from === "mg" ? round(v / a.factor, a.siDecimals) : round(v * a.factor, 0);
     const band = a.bands.find((b) => mg <= b.upTo) ?? a.bands[a.bands.length - 1];
     return { out, unit: from === "mg" ? a.siUnit : "mg/dL", mg, band };
@@ -198,7 +198,7 @@ export default function CholesterolConverter() {
         <Footnote>
           Educational tool, not a diagnosis. Bands are the US adult categories (NCEP ATP III for the lipid panel, the
           2018 AHA/ACC risk-enhancer line for ApoB); your own targets depend on your overall cardiovascular risk, which
-          is for your clinician to assess. Lp(a) has no exact conversion and is handled by its own converter.
+          is for your clinician to assess. Non-HDL bands are the LDL bands plus 30 mg/dL. Lp(a) has no exact conversion and is handled by its own converter.
         </Footnote>
         <Cta />
       </CalcFoot>

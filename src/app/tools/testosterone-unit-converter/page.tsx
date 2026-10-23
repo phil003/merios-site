@@ -113,7 +113,7 @@ export default function Page() {
                 To go from nmol/L to ng/dL, multiply by 28.84. To go from ng/dL to nmol/L, divide by 28.84 (or multiply
                 by 0.0347). The factor is fixed: one mole of testosterone weighs 288.4 grams, so a count of molecules
                 and a weight of them are locked together. If you need it in your head, dividing ng/dL by 29 gets you
-                within a few hundredths.
+                within about half a percent (450 ng/dL comes out at 15.5 instead of 15.6).
               </p>
 
               <h2>ng/dL to nmol/L: the reference table</h2>
@@ -180,6 +180,10 @@ export default function Page() {
                 albumin as well, and why{" "}
                 <Link href="/blog/free-testosterone-vs-total-testosterone">free versus total testosterone</Link> is
                 worth understanding before reading too much into a single total.
+              </p>
+              <p>
+                Bioavailable testosterone is the free fraction plus the part loosely bound to albumin, which can still
+                reach tissues; routine panels rarely report it, but the free testosterone calculator estimates it.
               </p>
               <p>
                 Free testosterone comes in smaller units: 1 ng/dL is 10 pg/mL, and 1 pg/mL is 3.467 pmol/L. So a free

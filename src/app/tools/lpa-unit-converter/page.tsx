@@ -206,13 +206,15 @@ export default function Page() {
                   <tbody>
                     <tr>
                       <th scope="row" className={t.rowHead}>25-OH vitamin D</th>
-                      <td className={t.cellText}>nmol/L divided by 2.496 = ng/mL. A level of 75 nmol/L is 30 ng/mL —{" "}
+                      <td className={t.cellText}>nmol/L divided by 2.496 = ng/mL. A level of 75 nmol/L is 30 ng/mL. The{" "}
+                        <Link href="/tools/vitamin-d-unit-converter">vitamin D converter</Link> does both directions; see also{" "}
                         <Link href="/blog/vitamin-d-30-low">what 30 actually means</Link>.
                       </td>
                     </tr>
                     <tr>
                       <th scope="row" className={t.rowHead}>Total testosterone</th>
-                      <td className={t.cellText}>nmol/L multiplied by 28.84 = ng/dL. Feeds the{" "}
+                      <td className={t.cellText}>nmol/L multiplied by 28.84 = ng/dL; the{" "}
+                        <Link href="/tools/testosterone-unit-converter">testosterone converter</Link> does both directions. Feeds the{" "}
                         <Link href="/tools/free-testosterone-calculator">free testosterone calculator</Link>.
                       </td>
                     </tr>
@@ -228,7 +230,10 @@ export default function Page() {
                     </tr>
                     <tr>
                       <th scope="row" className={t.rowHead}>Total, LDL and HDL cholesterol</th>
-                      <td className={t.cellText}>mmol/L multiplied by 38.67 = mg/dL.</td>
+                      <td className={t.cellText}>mmol/L multiplied by 38.67 = mg/dL. The{" "}
+                        <Link href="/tools/cholesterol-unit-converter">cholesterol converter</Link> also handles
+                        triglycerides and ApoB.
+                      </td>
                     </tr>
                     <tr>
                       <th scope="row" className={t.rowHead}>Fasting insulin</th>
@@ -257,7 +262,9 @@ export default function Page() {
                 <Link href="/blog/apob-heart-disease-risk">ApoB</Link>, blood pressure, and the rest
                 of the{" "}
                 <Link href="/blog/how-to-lower-cholesterol-without-medication">modifiable lipid picture</Link>.
-                It is also worth knowing that an elevated Lp(a) is a reason for first-degree relatives to be tested.
+                It is also worth knowing that an elevated Lp(a) is a reason for first-degree relatives to be tested. Where
+                Lp(a)-lowering drugs stand is covered in{" "}
+                <Link href="/blog/lp-a-treatment-after-pelacarsen">Lp(a) drugs after pelacarsen</Link>.
               </p>
             </div>
 

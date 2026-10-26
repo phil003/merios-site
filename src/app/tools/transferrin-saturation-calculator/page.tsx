@@ -6,12 +6,13 @@ import TSATCalculator from "@/components/calculators/TSATCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
 
-const TITLE = "TSAT Calculator (Transferrin Saturation)";
+const TITLE = "TSAT Calculator: Transferrin Saturation from TIBC";
+const NAME = "TSAT Calculator (Transferrin Saturation)";
 const DESCRIPTION =
-  "Free TSAT calculator: transferrin saturation is serum iron ÷ TIBC × 100. Enter serum iron with TIBC, UIBC or transferrin, whichever your lab printed.";
+  "TSAT calculator: transferrin saturation = serum iron ÷ TIBC × 100. Works with TIBC, UIBC or transferrin (g/L), compared with the typical 20–50% lab range.";
 
 const FAQ_ITEMS = [
-  { q: "What is the TSAT formula?", a: "Transferrin saturation equals serum iron divided by total iron-binding capacity, multiplied by 100, with both values in micrograms per deciliter. A serum iron of 90 with a TIBC of 320 gives 90 divided by 320, or 28.1 percent. If your panel reports UIBC instead of TIBC, add UIBC to serum iron to get TIBC first. If it reports transferrin in grams per litre, multiply by 125 to get TIBC in micrograms per deciliter." },
+  { q: "How do you calculate TSAT?", a: "Transferrin saturation equals serum iron divided by total iron-binding capacity, multiplied by 100, with both values in micrograms per deciliter. A serum iron of 90 with a TIBC of 320 gives 90 divided by 320, or 28.1 percent. If your panel reports UIBC instead of TIBC, add UIBC to serum iron to get TIBC first. If it reports transferrin in grams per litre, multiply by 125 to get TIBC in micrograms per deciliter." },
   { q: "Is transferrin saturation the same as iron saturation?", a: "Yes. Iron saturation, transferrin saturation, TSAT and the line printed simply as sat percent all name the same calculated value: the share of your transferrin carrying capacity that currently holds iron. Laboratories use the terms interchangeably, which is why two reports can look like they measured different things. It is not the same as ferritin, which measures stored iron rather than iron in transit." },
   { q: "Is a transferrin saturation of 28 percent normal?", a: "Yes. A TSAT of 28 percent sits inside the band most laboratories report as normal, which runs roughly 20 to 50 percent, and inside the tighter 25 to 35 percent zone where iron supply is comfortable rather than merely acceptable. If you feel unwell with a value there, the answer is more likely in ferritin, CRP or somewhere outside the iron panel." },
   { q: "What is a low transferrin saturation?", a: "Below 20 percent is the classic iron-deficiency pattern, and it can appear before hemoglobin falls. Below 10 percent is markedly low. Because TSAT is calculated from serum iron, which swings through the day and after an iron-containing meal, a low value is usually confirmed on a fasting morning draw rather than acted on from a single reading." },
@@ -37,8 +38,8 @@ export default function Page() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "@id": "https://merios.life/tools/transferrin-saturation-calculator#tool",
-    name: TITLE,
-    alternateName: "Transferrin Saturation (TSAT) Calculator",
+    name: NAME,
+    alternateName: ["Transferrin Saturation Calculator", "Iron Saturation Calculator", "TSAT Calculation"],
     url: "https://merios.life/tools/transferrin-saturation-calculator",
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
@@ -53,7 +54,7 @@ export default function Page() {
         items={[
           { name: "Home", url: "https://merios.life" },
           { name: "Tools", url: "https://merios.life/tools" },
-          { name: TITLE, url: "https://merios.life/tools/transferrin-saturation-calculator" },
+          { name: NAME, url: "https://merios.life/tools/transferrin-saturation-calculator" },
         ]}
       />
       <FAQPageSchema questions={FAQ_ITEMS} />
@@ -61,7 +62,7 @@ export default function Page() {
 
       <PageHero
         eyebrow="Transferrin saturation — iron in transit"
-        title="TSAT calculator"
+        title="TSAT calculator (transferrin saturation)"
         subline="Serum iron divided by TIBC, times 100. Enter what your panel actually printed — TIBC, UIBC or transferrin — and get your saturation. Ferritin can look fine while this number does not."
         align="left"
       />
@@ -71,7 +72,7 @@ export default function Page() {
           <TSATCalculator />
           <section className={t.after}>
             <div className={`editorial-prose ${t.prose}`}>
-              <h2>The TSAT formula</h2>
+              <h2>How to calculate TSAT</h2>
               <p>
                 Transferrin saturation is not measured directly. It is a ratio, calculated from two numbers your lab
                 already printed:
@@ -186,7 +187,7 @@ export default function Page() {
               <p>
                 One saturation is a snapshot of a value that moves. The pattern worth having is the same fasting draw
                 tracked across several panels, with ferritin beside it — which is what{" "}
-                <Link href="/early-access">Merios</Link> is built to do from the reports you already
+                <a href="https://apps.apple.com/us/app/merios/id6760352598">Merios</a> is built to do from the reports you already
                 have.
               </p>
             </div>

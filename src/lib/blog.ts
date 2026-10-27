@@ -24,6 +24,12 @@ export interface BlogPost {
   image?: string;
   faq?: FAQItem[];
   sources?: SourceRef[];
+  /**
+   * Kept online for readers who follow a link, but out of Google's index:
+   * `noindex, follow`, left out of the sitemap, the journal, the category hubs
+   * and the related-reading links. Set with `noindex: true` in the frontmatter.
+   */
+  noindex?: boolean;
   content: string;
 }
 
@@ -42,6 +48,7 @@ function parsePost(slug: string, raw: string): BlogPost {
     image: data.image || undefined,
     faq: Array.isArray(data.faq) ? data.faq : undefined,
     sources: Array.isArray(data.sources) ? data.sources : undefined,
+    noindex: data.noindex === true || undefined,
     content,
   };
 }
@@ -59,6 +66,11 @@ export function getAllPosts(): BlogPost[] {
 
   // Sort by date descending (newest first)
   return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/** Articles that belong in listings: the journal, category hubs, the homepage. */
+export function getListedPosts(): BlogPost[] {
+  return getAllPosts().filter((p) => !p.noindex);
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {

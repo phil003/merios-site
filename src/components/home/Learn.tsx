@@ -1,5 +1,5 @@
 import ArticleCover from "@/components/blog/ArticleCover";
-import { getAllPosts } from "@/lib/blog";
+import { getListedPosts } from "@/lib/blog";
 import { Arrow } from "./icons";
 
 /* From the Journal: the three latest posts (updates itself with every
@@ -23,7 +23,7 @@ function formatMonth(date: string): string {
 }
 
 export default function Learn() {
-  const latest = getAllPosts().slice(0, 3);
+  const latest = getListedPosts().slice(0, 3);
 
   return (
     <section id="learn" className="hv3-learn" data-stage="fog" aria-labelledby="learn-title">

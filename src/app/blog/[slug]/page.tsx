@@ -56,6 +56,7 @@ export async function generateMetadata({
     alternates: {
       canonical: `https://merios.life/blog/${post.slug}`,
     },
+    ...(post.noindex ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: post.title,
       description: post.description,

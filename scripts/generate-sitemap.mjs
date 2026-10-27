@@ -137,7 +137,12 @@ function readMdxPostsFromDir(dir, urlPrefix, priority, changefreq) {
     .filter((f) => !(urlPrefix === '/compare' && REDIRECTED_COMPARE.has(f.replace(/\.mdx$/, ''))))
     .map((file) => {
       const raw = fs.readFileSync(path.join(dir, file), 'utf-8');
-      const fm = parseFrontmatter(raw);
+      return { file, raw, fm: parseFrontmatter(raw) };
+    })
+    // `noindex: true` articles stay online but out of the index: a sitemap
+    // entry for a noindex page sends Google two opposite signals.
+    .filter(({ fm }) => fm.noindex !== 'true')
+    .map(({ file, fm }) => {
       const slug = file.replace(/\.mdx$/, '');
       const lastmod =
         toIsoDate(fm.dateModified) ||

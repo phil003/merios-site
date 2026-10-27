@@ -1,4 +1,4 @@
-import { getAllPosts, type BlogPost } from "@/lib/blog";
+import { getListedPosts, type BlogPost } from "@/lib/blog";
 
 // Blog category hubs (/blog/category/[slug]). Single source for the category
 // pages, their Open Graph cards and the topic navigation on /blog and on every
@@ -99,7 +99,7 @@ export function getBlogCategory(slug: string): BlogCategory | undefined {
 /** Posts whose frontmatter tag belongs to the category, newest first. */
 export function getPostsInCategory(
   category: BlogCategory,
-  posts: BlogPost[] = getAllPosts(),
+  posts: BlogPost[] = getListedPosts(),
 ): BlogPost[] {
   return posts.filter((p) => category.tags.includes(p.tag));
 }

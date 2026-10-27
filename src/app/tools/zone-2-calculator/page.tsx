@@ -183,9 +183,6 @@ export default function Zone2CalculatorPage() {
                 <Link href="/early-access" className="btn btn-lime">
                   Get the app
                 </Link>
-                <Link href="/blog/zone-2-cardio-heart-rate" className="btn btn-ghost-night">
-                  Read the Zone 2 guide →
-                </Link>
               </div>
               <CtaPulse />
             </div>

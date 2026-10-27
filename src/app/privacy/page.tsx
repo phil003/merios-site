@@ -7,9 +7,9 @@ import { BreadcrumbSchema } from "@/components/StructuredData";
 // Privacy Policy v2.0.0 — the version users accept in the app
 // (CURRENT_PRIVACY_VERSION in meryos/src/services/consent-service.ts).
 // Bump POLICY_VERSION, POLICY_DATE and the history table together.
-const POLICY_VERSION = "2.0.0";
-const POLICY_DATE = "September 23, 2026";
-const POLICY_DATE_ISO = "2026-09-23";
+const POLICY_VERSION = "2.0.1";
+const POLICY_DATE = "October 27, 2026";
+const POLICY_DATE_ISO = "2026-10-27";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -148,7 +148,7 @@ export default function PrivacyPage() {
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Blood test results</h3>
             <p>
-              Biomarker values you enter by hand or confirm after scanning a lab report, with their dates and units, and the photos or PDFs you choose to scan (see Section 4: they are processed to read the values and are not stored by Merios).
+              Biomarker values you enter by hand or confirm after scanning a lab report, with their dates and units, and the photos or PDFs you choose to scan (see Section 4: they are processed to read the values and are not kept on Merios&rsquo;s servers).
             </p>
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Journal and cycle</h3>
@@ -202,7 +202,7 @@ export default function PrivacyPage() {
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Reading a lab report</h3>
             <p>
-              When you scan a lab report, the photo or PDF is sent over an encrypted connection to OpenAI, which reads the biomarker values; a second automated pass re-checks the reading against the same document and flags anything you should verify. You review the values before they are saved. Merios does not store the photo or PDF: only the values you confirm are kept in your account.
+              When you scan a lab report, the photo or PDF is sent over an encrypted connection to OpenAI, which reads the biomarker values. The document is sent as you captured it, including any name or date of birth printed on it. When a reading looks uncertain, a second automated pass re-checks it against the same document and flags anything you should verify. You review the values before they are saved. Merios does not keep the photo or PDF on its servers: only the values you confirm are kept in your account.
             </p>
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Reports and insights</h3>
@@ -212,7 +212,7 @@ export default function PrivacyPage() {
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Safeguards</h3>
             <p>
-              OpenAI processes this data under a data processing agreement, does not use it to train its models and does not retain it after processing (zero data retention). Every AI request is logged by Merios with a request ID, without its content, for audit purposes.
+              OpenAI does not use data sent through its API to train its models. It may keep requests in its abuse-monitoring logs for up to 30 days, unless the law requires longer (<a href="https://developers.openai.com/api/docs/guides/your-data" target="_blank" rel="noopener noreferrer" className="underline">OpenAI, &ldquo;Your data&rdquo;</a>). Every AI request is logged by Merios with a request ID, without its content, for audit purposes.
             </p>
           </section>
 
@@ -305,7 +305,7 @@ export default function PrivacyPage() {
             </h2>
             <ul className="mt-4 space-y-2 list-disc pl-5">
               <li>Your account and health data are kept as long as your account exists.</li>
-              <li>Scanned lab report photos and PDFs are not stored by Merios; OpenAI does not retain them after processing.</li>
+              <li>Scanned lab report photos and PDFs are not kept on Merios&rsquo;s servers. OpenAI may keep them in its abuse-monitoring logs for up to 30 days (Section 4).</li>
               <li>When you delete your account in the app, your account and all its data are deleted permanently. Residual copies in encrypted backups are erased as those backups expire.</li>
               <li>AI request logs (without content) are kept for 12 months.</li>
               <li>Consent records are kept for the life of your account and 3 years after deletion, to prove what you agreed to.</li>
@@ -359,6 +359,7 @@ export default function PrivacyPage() {
               Each version of this policy has a number. When a change affects what data we process, where it goes or who has access, the app shows you what changed and asks you to accept the new version before you continue; your acceptance is recorded with the version number. Other changes are announced on this page.
             </p>
             <ul className="mt-4 space-y-2 list-disc pl-5">
+              <li><strong>2.0.1 (October 27, 2026):</strong> corrected how long OpenAI may keep the data we send it (up to 30 days in its abuse-monitoring logs, not zero retention) and removed the mention of a data processing agreement; stated that a scanned document is sent with any name or date of birth printed on it, and that the second automated pass runs only when a reading looks uncertain. Nothing changed in what Merios collects or where it sends it.</li>
               <li><strong>2.0.0 (September 2026):</strong> Merios 2.0. Import of up to 365 days of Apple Health history for daily scores and baselines; journal and cycle logging; reports written by an AI model from aggregated figures only and checked against our wellness charter; clarified that scanned lab report files are not stored.</li>
               <li><strong>1.2.0 (April 28, 2026):</strong> separate consent for AI insights.</li>
               <li><strong>1.1.0 (April 27, 2026):</strong> automated second pass re-checking lab report readings.</li>

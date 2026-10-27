@@ -96,11 +96,11 @@ export type Advisor = {
 // engagement. Replace this with named advisors as they are signed in.
 export const ADVISORS: Advisor[] = [
   {
-    name: "Clinical Advisory Board",
-    initials: "CAB",
-    credentials: "MD · PhD",
-    specialty: "Engagement open — 2026",
+    name: "Clinical reviewers",
+    initials: "CR",
+    credentials: "seats open",
+    specialty: "Recruiting — 2026",
     affiliation: "Merios",
-    bio: "Our scoring rules, reference intervals and methodology will be reviewed by a panel of practising clinicians and researchers before public launch. Three-reviewer sign-off is required for any scoring change. Named members will be announced ahead of release.",
+    bio: "We're looking for practising clinicians and researchers to review Merios's scoring rules, reference intervals and methodology. Their names and the date of each review will be published here once a review is done.",
   },
 ];

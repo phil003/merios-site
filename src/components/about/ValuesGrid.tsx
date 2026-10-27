@@ -13,7 +13,7 @@ const VALUES: Value[] = [
     eyebrow: "01",
     title: "Rigor",
     description:
-      "Every insight is grounded in peer-reviewed research. Algorithms are transparent, validated, and continuously audited.",
+      "Every insight is grounded in published research, and we say plainly that our scores are algorithmic, not clinically validated.",
   },
   {
     eyebrow: "02",

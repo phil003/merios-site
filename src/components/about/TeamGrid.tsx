@@ -23,7 +23,7 @@ const TEAM: TeamMember[] = [
     name: "Clinical Advisory",
     role: "Open Role — 2026",
     initials: "CA",
-    bio: "A clinical voice shapes our scoring models, reference ranges, and medical review pipeline. We're engaging clinicians before launch — reach out if this is you.",
+    bio: "This seat is open. We're looking for a practising clinician to review our scoring models and reference ranges — reach out if this is you.",
   },
 ];
 

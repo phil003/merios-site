@@ -59,13 +59,13 @@ const howToJsonLd = {
     {
       "@type": "HowToStep",
       name: "Understand",
-      text: "150+ biomarkers are compressed into one Merios Score, with every subsystem expanded into a clear, trend-first view.",
+      text: "160+ biomarkers are compressed into one Merios Score, with every subsystem expanded into a clear, trend-first view.",
       url: "https://merios.life/how-it-works#understand",
     },
     {
       "@type": "HowToStep",
       name: "Act",
-      text: "A short list of ranked protocols, each with its expected biomarker lift and a scheduled follow-up lab to verify the change.",
+      text: "See what changed since your last test and read a plain-language monthly report. Merios describes your trends; it does not prescribe supplements, doses or treatments.",
       url: "https://merios.life/how-it-works#act",
     },
   ],
@@ -107,36 +107,39 @@ const CONNECT_TILE: Partial<Record<PictogramVariant, string>> = {
   manual: styles.tileLilac,
 };
 
-// ─── Content: Step 03 — Act protocols + follow-up ─────────────────────────
-type ActProtocol = {
+// ─── Content: Step 03 — Act: what Merios actually does after a test ───────
+// 27/10/2026 — the previous cards promised biomarker lifts (+18/+11/+7 %) and
+// an omega-3 dose that the app never computes nor recommends (audit P0-06,
+// decision D-4). Merios describes; it does not prescribe.
+type ActStep = {
   variant: PictogramVariant;
   title: string;
   copy: string;
-  lift: string;
+  index: string;
   target: string;
 };
 
-const ACT_PROTOCOLS: ActProtocol[] = [
-  {
-    variant: "leverage",
-    title: "Tighten sleep window",
-    copy: "Shift lights-out by 40 minutes to raise deep-sleep share — the single biggest nudge on morning HRV for your current pattern.",
-    lift: "+18%",
-    target: "HRV · 8 weeks",
-  },
-  {
-    variant: "protocol",
-    title: "Add omega-3 protocol",
-    copy: "Daily EPA/DHA at 2g to move triglycerides into the safer band while nudging LDL-particle size toward large-buoyant.",
-    lift: "+11%",
-    target: "Lipids · 12 weeks",
-  },
+const ACT_STEPS: ActStep[] = [
   {
     variant: "trend",
-    title: "Strength sessions × 3",
-    copy: "Three short resistance sessions a week to lift fasting glucose stability and grip strength — a high-leverage pair for your age window.",
-    lift: "+7%",
-    target: "Glucose · 10 weeks",
+    title: "See what changed",
+    copy: "Each new lab report lines up with the ones before it. Every marker shows its trend, the date it was drawn and where it sits against the reference range.",
+    index: "01",
+    target: "every new test",
+  },
+  {
+    variant: "leverage",
+    title: "Read your month in plain words",
+    copy: "With Merios Plus, a monthly report sums up your sleep, activity, stress and blood markers in plain language. It describes what moved; it never prescribes.",
+    index: "02",
+    target: "monthly, with Plus",
+  },
+  {
+    variant: "followup",
+    title: "Decide with your clinician",
+    copy: "Merios doesn't recommend supplements, doses or treatments. Take the trend to your doctor, change what you choose to change, and let your next test show whether the marker moved.",
+    index: "03",
+    target: "your next test",
   },
 ];
 
@@ -192,9 +195,9 @@ export default function HowItWorksPage() {
                 className={`he ${styles.heroSub}`}
                 style={{ "--he-d": "0.16s" } as CSSProperties}
               >
-                Connect every source, read one score, act on the handful of
-                moves that actually matter. Merios makes the loop between
-                result and response short — and obvious.
+                Connect every source, read one score, and see what changed
+                since your last test. Merios makes the loop between result and
+                response short — and obvious.
               </p>
             </div>
           </div>
@@ -253,14 +256,14 @@ export default function HowItWorksPage() {
                   stepNumber={3}
                   headline={
                     <>
-                      The three moves
-                      <br aria-hidden /> worth making next.
+                      See what changed,
+                      <br aria-hidden /> then decide.
                     </>
                   }
-                  lead="Protocols are ranked by leverage, not noise — each one lists the expected biomarker lift and the follow-up lab that will confirm it."
+                  lead="Merios shows what changed and leaves the decision with you — no protocols, no doses, no promised gains."
                 >
                   <ol className={styles.cardGrid}>
-                    {ACT_PROTOCOLS.map((p, i) => (
+                    {ACT_STEPS.map((p, i) => (
                       <li key={p.title} className={styles.cardItem}>
                         <Reveal delay={i * 0.08} className={styles.cardReveal}>
                           <div className={styles.card}>
@@ -268,7 +271,7 @@ export default function HowItWorksPage() {
                               <span className={`${styles.tile} ${styles.tileInk}`}>
                                 <SvgPictogram variant={p.variant} />
                               </span>
-                              <span className={styles.lift}>{p.lift}</span>
+                              <span aria-hidden className={styles.lift}>{p.index}</span>
                             </div>
                             <div className={styles.actBody}>
                               <h3 className={styles.cardTitle}>{p.title}</h3>

@@ -43,7 +43,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "what-does-merios-measure",
     group: "product",
     q: "What does Merios actually measure?",
-    a: "More than 150 biomarkers across four pillars — metabolic, cardiovascular, hormonal and inflammatory — combined with sleep, recovery and activity signals from Apple Health. Every reading is contextualised against reference ranges and your personal baseline.",
+    a: "More than 160 blood biomarkers read from your lab reports, combined with sleep, recovery and activity signals from Apple Health. Every reading is contextualised against reference ranges and your personal baseline.",
   },
   {
     id: "who-is-merios-for",
@@ -57,13 +57,13 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "how-is-the-score-built",
     group: "science",
     q: "How is the Merios score built?",
-    a: "The score aggregates weighted inputs across four pillars, using models validated against peer-reviewed reference ranges and longitudinal cohort data. Each pillar is visible and auditable — you see how your score is constructed, not just the final number.",
+    a: "The score combines four pillars, each computed from your own data and shown next to the total, so you see more than the final number. It is an algorithmic wellness indicator: it has not been clinically validated.",
   },
   {
     id: "who-reviews-the-methodology",
     group: "science",
     q: "Who reviews the methodology?",
-    a: "Our methodology is reviewed by an internal board of medical doctors and clinical researchers, with external peer review for each major model update. Reference ranges follow current clinical consensus; where evidence is limited, we say so.",
+    a: "Not yet. As of October 2026, no external clinician has reviewed Merios's scoring rules or reference ranges. We're looking for practising clinicians to do it, and we'll publish their names and the date of the review on our Science page once it's done. Until then, treat Merios as a wellness tool: it doesn't diagnose, and it doesn't replace your doctor.",
   },
   {
     id: "is-merios-a-medical-device",

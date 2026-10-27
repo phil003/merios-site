@@ -20,7 +20,7 @@ export function OrganizationSchema() {
     url: "https://merios.life",
     logo: "https://merios.life/logo.png",
     description:
-      "Merios is a health analytics app that transforms blood tests, Apple Health data, and daily check-ins into one clear health score with personalized action plans.",
+      "Merios is a health analytics app that transforms blood tests, Apple Health data, and daily check-ins into one clear health score and plain-language reports.",
     foundingDate: "2026",
     sameAs: [
       "https://twitter.com/merios_health",
@@ -111,7 +111,7 @@ export function WebApplicationSchema() {
       "Merios Health Score (4 pillars)",
       "11 health system tracking",
       "Daily wellness check-ins",
-      "Personalized action plans",
+      "Plain-language monthly reports",
     ],
     screenshot: "https://merios.life/app-preview.png",
   };

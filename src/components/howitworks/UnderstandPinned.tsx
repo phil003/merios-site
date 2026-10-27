@@ -51,7 +51,7 @@ const SPARKLINES = [
 ];
 
 const COPY_LINES = [
-  "150+ biomarkers become one clear figure.",
+  "160+ biomarkers become one clear figure.",
   "Trends replace single-point anxiety.",
   "Every system graded, every outlier flagged.",
 ];
@@ -330,7 +330,7 @@ export default function UnderstandPinned() {
         </h2>
 
         <p className={styles.stepLead}>
-          Merios compresses 150+ biomarkers into a single number — then expands
+          Merios compresses 160+ biomarkers into a single number — then expands
           them back into the trend view your body actually needs.
         </p>
       </div>

@@ -9,7 +9,7 @@ import BlogFilterGrid from "@/components/blog/BlogFilterGrid";
 import CategoryNav from "@/components/blog/CategoryNav";
 import ArticleIndex from "@/components/blog/ArticleIndex";
 import styles from "@/components/blog/blog.module.css";
-import { getAllPosts } from "@/lib/blog";
+import { getListedPosts } from "@/lib/blog";
 import { getCategoryCounts } from "@/lib/blog-categories";
 
 const DESCRIPTION =
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
-  const posts = getAllPosts().map((p) => ({
+  const posts = getListedPosts().map((p) => ({
     slug: p.slug,
     title: p.title,
     description: p.description,

@@ -103,6 +103,34 @@ const nextConfig: NextConfig = {
         destination: "/blog/triglyceride-hdl-ratio-calculator",
         permanent: true,
       },
+      // Second consolidation, 27 Oct 2026. The URL Inspection API still showed
+      // each of these as "crawled, currently not indexed" (or never crawled),
+      // with no impressions over 28 days, while a page on the same question was
+      // indexed. Two articles on one intent split the signal and Google kept
+      // neither, so each now points at the page Google already chose.
+      { source: "/blog/how-to-lower-crp-levels", destination: "/blog/understanding-crp-inflammation", permanent: true },
+      {
+        source: "/blog/inflammation-markers-silent-threat",
+        destination: "/blog/understanding-crp-inflammation",
+        permanent: true,
+      },
+      { source: "/blog/alt-ast-liver-enzymes-high", destination: "/blog/alt-level-40-high", permanent: true },
+      { source: "/blog/fasting-before-blood-test", destination: "/blog/how-to-prepare-for-blood-test", permanent: true },
+      // The free-testosterone calculator page explains total vs free and the
+      // role of SHBG; the two articles repeated it without the calculation.
+      {
+        source: "/blog/free-testosterone-vs-total-testosterone",
+        destination: "/tools/free-testosterone-calculator",
+        permanent: true,
+      },
+      { source: "/blog/shbg-high-low-meaning", destination: "/tools/free-testosterone-calculator", permanent: true },
+      {
+        source: "/blog/low-testosterone-young-men-under-30",
+        destination: "/blog/testosterone-levels-by-age",
+        permanent: true,
+      },
+      // Same pattern as the A1C consolidation: article and calculator on one query.
+      { source: "/blog/zone-2-cardio-heart-rate", destination: "/tools/zone-2-calculator", permanent: true },
     ];
   },
   // Philippe's digital card (/phil): Safari only hands a pass to Wallet when

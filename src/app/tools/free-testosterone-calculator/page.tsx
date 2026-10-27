@@ -103,11 +103,6 @@ export default function FreeTestosteroneCalculatorPage() {
                 disease, and several medications. Two men with an identical total testosterone of 500 ng/dL can have very
                 different free levels if one has an SHBG of 20 and the other 60. This is the single most common reason a
                 result looks reassuring on paper while symptoms persist — and it is exactly what this calculation is for.
-                The distinction is covered in more depth in{" "}
-                <Link href="/blog/free-testosterone-vs-total-testosterone">
-                  free testosterone versus total testosterone
-                </Link>
-                .
               </p>
 
               <h2>Why calculated, not the direct test</h2>
@@ -143,10 +138,6 @@ export default function FreeTestosteroneCalculatorPage() {
                 ; for what a specific mid-range number means, see{" "}
                 <Link href="/blog/testosterone-400-normal">
                   whether a testosterone of 400 is normal
-                </Link>
-                ; and for the younger cohort,{" "}
-                <Link href="/blog/low-testosterone-young-men-under-30">
-                  low testosterone in men under 30
                 </Link>
                 .
               </p>

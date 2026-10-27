@@ -13,8 +13,8 @@ import {
  * (208 − 0.7 × age), which is more accurate across ages than 220 − age,
  * and takes 60–70% of it as the zone 2 range.
  *
- * Embedded in `/blog/zone-2-cardio-heart-rate` to target "zone 2 heart rate"
- * SERP intent (striking-distance, high impressions / low CTR in GSC).
+ * Embedded in `/tools/zone-2-calculator`, which targets "zone 2 heart rate"
+ * (the former article `/blog/zone-2-cardio-heart-rate` now redirects there).
  */
 export default function Zone2Calculator() {
   const [age, setAge] = useState<string>("");

@@ -177,9 +177,8 @@ export default function Page() {
                 is bound to SHBG and albumin; only about 2 percent circulates free. When SHBG is high, a normal-looking
                 total can hide a low free fraction, and when SHBG is low the opposite happens. That is why the{" "}
                 <Link href="/tools/free-testosterone-calculator">free testosterone calculator</Link> asks for SHBG and
-                albumin as well, and why{" "}
-                <Link href="/blog/free-testosterone-vs-total-testosterone">free versus total testosterone</Link> is
-                worth understanding before reading too much into a single total.
+                albumin as well, and why the free fraction is worth checking before reading too much into a single
+                total.
               </p>
               <p>
                 Bioavailable testosterone is the free fraction plus the part loosely bound to albumin, which can still

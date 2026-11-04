@@ -7453,6 +7453,19 @@
   "doi": "10.1093/gerona/glad106",
   "pmid": "37068054"
  },
+ "pmid:37083166": {
+  "title": "Potentials and pitfalls of ChatGPT and natural-language artificial intelligence models for the understanding of laboratory medicine test results. An assessment by the European Federation of Clinical Chemistry and Laboratory Medicine (EFLM) Working Group on Artificial Intelligence (WG-AI)",
+  "authors": [
+   "Cadamuro J",
+   "Cabitza F",
+   "Debeljak Z",
+   "De Bruyne S"
+  ],
+  "journal": "Clin Chem Lab Med",
+  "year": "2023",
+  "doi": "10.1515/cclm-2023-0355",
+  "pmid": "37083166"
+ },
  "pmid:37118425": {
   "title": "Effect of long-term caloric restriction on DNA methylation measures of biological aging in healthy adults from the CALERIE trial",
   "authors": [
@@ -7567,6 +7580,18 @@
   "year": "2023",
   "doi": "10.1016/j.cell.2023.08.003",
   "pmid": "37657418"
+ },
+ "pmid:37699796": {
+  "title": "Can artificial intelligence replace biochemists? A study comparing interpretation of thyroid function test results by ChatGPT and Google Bard to practising biochemists",
+  "authors": [
+   "Stevenson E",
+   "Walsh C",
+   "Hibberd L"
+  ],
+  "journal": "Ann Clin Biochem",
+  "year": "2024",
+  "doi": "10.1177/00045632231203473",
+  "pmid": "37699796"
  },
  "pmid:37824153": {
   "title": "Red Blood Cell Transfusion: 2023 AABB International Guidelines",
@@ -7689,6 +7714,19 @@
   "doi": "10.1016/j.jacl.2024.03.001",
   "pmid": "38565461"
  },
+ "pmid:38630520": {
+  "title": "Quality of Answers of Generative Large Language Models Versus Peer Users for Interpreting Laboratory Test Results for Lay Patients: Evaluation Study",
+  "authors": [
+   "He Z",
+   "Bhasuran B",
+   "Jin Q",
+   "Tian S"
+  ],
+  "journal": "J Med Internet Res",
+  "year": "2024",
+  "doi": "10.2196/56655",
+  "pmid": "38630520"
+ },
  "pmid:38710950": {
   "title": "APOE4 homozygozity represents a distinct genetic form of Alzheimer's disease",
   "authors": [
@@ -7726,6 +7764,19 @@
   "year": "2024",
   "doi": "10.1038/s41593-024-01638-y",
   "pmid": "38741022"
+ },
+ "pmid:38804035": {
+  "title": "Comparison of ChatGPT, Gemini, and Le Chat with physician interpretations of medical laboratory questions from an online health forum",
+  "authors": [
+   "Meyer A",
+   "Soleman A",
+   "Riese J",
+   "Streichert T"
+  ],
+  "journal": "Clin Chem Lab Med",
+  "year": "2024",
+  "doi": "10.1515/cclm-2024-0246",
+  "pmid": "38804035"
  },
  "pmid:38828931": {
   "title": "Vitamin D for the Prevention of Disease: An Endocrine Society Clinical Practice Guideline",
@@ -7814,6 +7865,19 @@
   "year": "1985",
   "doi": "10.1007/BF00280883",
   "pmid": "3899825"
+ },
+ "pmid:39013110": {
+  "title": "ChatGPT vs Medical Professional: Analyzing Responses to Laboratory Medicine Questions on Social Media",
+  "authors": [
+   "Girton MR",
+   "Greene DN",
+   "Messerlian G",
+   "Keren DF"
+  ],
+  "journal": "Clin Chem",
+  "year": "2024",
+  "doi": "10.1093/clinchem/hvae093",
+  "pmid": "39013110"
  },
  "pmid:39111551": {
   "title": "Variation of LDL cholesterol in response to the replacement of saturated with unsaturated fatty acids: a nonrandomized, sequential dietary intervention; the Reading, Imperial, Surrey, Saturated fat Cholesterol Intervention (\"RISSCI\"-1) study",
@@ -8182,6 +8246,18 @@
   "doi": "10.1001/jamacardio.2025.4491",
   "pmid": "41369941"
  },
+ "pmid:41459577": {
+  "title": "ChatGPT and reference intervals: a comparative analysis of repeatability in GPT-3.5 Turbo, GPT-4, and GPT-4o",
+  "authors": [
+   "Meyer A",
+   "Schömig E",
+   "Streichert T"
+  ],
+  "journal": "Front Artif Intell",
+  "year": "2025",
+  "doi": "10.3389/frai.2025.1681979",
+  "pmid": "41459577"
+ },
  "pmid:41533406": {
   "title": "Neutropenia: Evaluation and Management in the Primary Care Setting",
   "authors": [
@@ -8205,6 +8281,32 @@
   "year": "2026",
   "doi": "10.1111/sms.70208",
   "pmid": "41543030"
+ },
+ "pmid:41663592": {
+  "title": "Reliability of LLMs as medical assistants for the general public: a randomized preregistered study",
+  "authors": [
+   "Bean AM",
+   "Payne RE",
+   "Parsons G",
+   "Kirk HR"
+  ],
+  "journal": "Nat Med",
+  "year": "2026",
+  "doi": "10.1038/s41591-025-04074-y",
+  "pmid": "41663592"
+ },
+ "pmid:41731097": {
+  "title": "ChatGPT Health performance in a structured test of triage recommendations",
+  "authors": [
+   "Ramaswamy A",
+   "Tyagi A",
+   "Hugo H",
+   "Jiang J"
+  ],
+  "journal": "Nat Med",
+  "year": "2026",
+  "doi": "10.1038/s41591-026-04297-7",
+  "pmid": "41731097"
  },
  "pmid:41824552": {
   "title": "2026 ACC/AHA/AACVPR/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA Guideline on the Management of Dyslipidemia: A Report of the American College of Cardiology/American Heart Association Joint Committee on Clinical Practice Guidelines",
@@ -8276,6 +8378,19 @@
   "year": "2026",
   "doi": "10.1177/10507256261445624",
   "pmid": "42219800"
+ },
+ "pmid:42247415": {
+  "title": "Performance Evaluation of GPT-5, Grok 4, and DeepSeek R1 in Interpreting Complete Blood Count Reports for Hematologic Diseases: Retrospective Comparative Study",
+  "authors": [
+   "Ye X",
+   "Qi X",
+   "Fan L",
+   "Yu Q"
+  ],
+  "journal": "J Med Internet Res",
+  "year": "2026",
+  "doi": "10.2196/87802",
+  "pmid": "42247415"
  },
  "pmid:42515370": {
   "title": "Consumer Smartwatch Technology in Health and Performance Research: Validity, Limitations, and Real-World Applications",

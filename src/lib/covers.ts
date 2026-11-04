@@ -195,6 +195,7 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "boron-supplement-testosterone-benefits": { big: "B", suffix: "boron" },
   "brain-aging-biomarkers-cognitive-decline": { big: "Brain", curve: "fall" },
   "cac-score-coronary-calcium-scan": { big: "CAC" },
+  "can-chatgpt-read-blood-test-results": { big: "AI", curve: "dotted" },
   "cbc-blood-test-results-explained": { big: "CBC", curve: "dotted" },
   "cholesterol-ratio-calculator": { big: "TC/H", curve: "dotted" },
   "cystatin-c-kidney-function": { big: "CysC" },

@@ -151,9 +151,18 @@ The workflow:
    Vercel preview build plus its GitHub checks.
 3. Push the branch and open a PR **into `seo/site-indexing-2026-06-04`**. Check
    the preview on the pages you changed.
-4. **Only Phil merges**, or a session acting on his explicit go for that PR. The
-   merge is the production deploy. Automated tasks (the daily "Merios SEO" task)
-   deliver a branch and a PR and never merge.
+4. **Who merges (Phil's decision, 4 Nov 2026).** The merge is the production deploy.
+   - **SEO content publishes itself.** The daily "Merios SEO" task merges its own
+     PR with `seo-autopilot/bin/github.py merge <n>`, which refuses unless the PR
+     targets the production branch, is not a draft, is mergeable, its Vercel
+     checks are green, and every file is inside the auto zone listed in
+     `seo-autopilot/config.json` → `auto_merge.allowed` (articles, comparisons,
+     references, calculators/tools, covers, sitemap generator) with none in
+     `auto_merge.denied`. An independent fact-check must pass first.
+   - **Everything else needs Phil's explicit go for that PR**: site code outside
+     the tools, `next.config.ts`, packages, workflows, the home page, pricing,
+     privacy/terms, this file. A PR waiting for Phil never blocks the SEO task:
+     it keeps publishing from the production branch.
 
 Never:
 

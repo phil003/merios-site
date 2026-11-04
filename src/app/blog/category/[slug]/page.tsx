@@ -8,7 +8,7 @@ import { BreadcrumbSchema } from "@/components/StructuredData";
 import CategoryNav from "@/components/blog/CategoryNav";
 import { getBlogGradient } from "@/components/blog/gradients";
 import styles from "@/components/blog/blog.module.css";
-import { getAllPosts } from "@/lib/blog";
+import { getListedPosts } from "@/lib/blog";
 import {
   BLOG_CATEGORIES,
   getBlogCategory,
@@ -67,7 +67,7 @@ export default async function BlogCategoryPage({
   const category = getBlogCategory(slug);
   if (!category) notFound();
 
-  const allPosts = getAllPosts();
+  const allPosts = getListedPosts();
   const posts = getPostsInCategory(category, allPosts);
   const counts = getCategoryCounts(allPosts);
   const url = `${SITE_URL}/blog/category/${category.slug}`;

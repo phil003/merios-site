@@ -134,9 +134,18 @@ function build(input: BlogPost[]): Map<string, Related> {
   const byScore = (i: number) => (a: number, b: number) =>
     sim[i][b] - sim[i][a] || inbound[a] - inbound[b] || a - b;
 
+  // Articles marked `noindex` keep their own related links (readers who land
+  // there still get somewhere useful) but are never picked as a target: the
+  // site should not spend its internal links on pages kept out of the index.
+  const linkable = (j: number) => !posts[j].noindex;
+
   // 1. Cards: the three closest articles.
   for (let i = 0; i < n; i++) {
-    const picks = posts.map((_, j) => j).filter((j) => j !== i).sort(byScore(i)).slice(0, CARDS);
+    const picks = posts
+      .map((_, j) => j)
+      .filter((j) => j !== i && linkable(j))
+      .sort(byScore(i))
+      .slice(0, CARDS);
     for (const j of picks) {
       cards[i].push(j);
       links[i].add(j);
@@ -147,7 +156,7 @@ function build(input: BlogPost[]): Map<string, Related> {
   // 2. Coverage: the least-linked article gets a link from the closest
   //    article that still has a free slot, until all reach MIN_INBOUND.
   for (;;) {
-    const order = posts.map((_, j) => j).filter((j) => inbound[j] < MIN_INBOUND);
+    const order = posts.map((_, j) => j).filter((j) => linkable(j) && inbound[j] < MIN_INBOUND);
     if (order.length === 0) break;
     order.sort((a, b) => inbound[a] - inbound[b] || a - b);
     let assigned = false;
@@ -170,7 +179,7 @@ function build(input: BlogPost[]): Map<string, Related> {
   for (let i = 0; i < n; i++) {
     const picks = posts
       .map((_, j) => j)
-      .filter((j) => j !== i && !links[i].has(j))
+      .filter((j) => j !== i && linkable(j) && !links[i].has(j))
       .sort(byScore(i))
       .slice(0, MORE - more[i].length);
     for (const j of picks) {

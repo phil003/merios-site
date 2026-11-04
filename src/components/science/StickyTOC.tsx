@@ -19,7 +19,7 @@ const TOC = [
   { href: "#coverage", label: "Coverage" },
   { href: "#model", label: "The model" },
   { href: "#bioage", label: "Biological age" },
-  { href: "#advisors", label: "Reviewed by" },
+  { href: "#advisors", label: "Clinical review" },
   { href: "#references", label: "References" },
 ];
 

@@ -30,18 +30,19 @@ export default function ScienceAdvisoryBoard() {
       <Reveal amount={0.2}>
         <span className={`label ${styles.eyebrow}`}>
           <span aria-hidden className="label-dot label-dot--ink" />
-          <span>05 · Reviewed by</span>
+          <span>05 · Clinical review</span>
         </span>
 
         <h2 id="science-advisors-heading" className={styles.title}>
-          Reviewed by clinicians.
+          Clinical review: not done yet.
         </h2>
 
         <p className={styles.lead}>
-          The methodology, thresholds and literature base of Merios will be
-          reviewed by practising clinicians and researchers ahead of public
-          launch. No single-person decisions; every scoring rule survives a
-          three-reviewer sign-off.
+          As of October 2026, no practising clinician has reviewed the
+          methodology, thresholds or literature base of Merios. We&rsquo;re
+          recruiting reviewers; their names and the date of their review will
+          be published here once it&rsquo;s done. Until then, Merios is a
+          wellness tool, not a medical device.
         </p>
       </Reveal>
 

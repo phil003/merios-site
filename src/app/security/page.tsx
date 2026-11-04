@@ -242,16 +242,16 @@ export default function SecurityPage() {
                 backend. Stores user-scoped records under Row-Level Security.
               </li>
               <li>
-                <strong>OpenAI</strong> — Powers AI-generated health insights
-                under a{" "}
-                <strong>zero-retention policy</strong>. Prompts and completions
-                are not stored by OpenAI and not used for model training. See
-                our Privacy Policy for full detail.
+                <strong>OpenAI</strong> — Reads scanned lab reports and writes
+                monthly reports, only with your consent. OpenAI does not use API
+                data for model training and may keep requests in its
+                abuse-monitoring logs for up to 30 days. See our Privacy Policy
+                for full detail.
               </li>
               <li>
                 <strong>RevenueCat</strong> — Subscription billing and receipt
-                validation, active once the Merios mobile app ships. PCI-DSS
-                compliant, with no access to health data.
+                validation for the Merios iPhone app. PCI-DSS compliant, with no
+                access to health data.
               </li>
               <li>
                 <strong>Apple HealthKit</strong> — Optional on-device

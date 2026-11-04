@@ -14,10 +14,10 @@ import styles from "./science.module.css";
  */
 
 const STATS = [
-  { k: "Markers", v: "150+" },
+  { k: "Markers", v: "160+" },
   { k: "Pillars", v: "4" },
-  { k: "Advisors", v: "MD · PhD" },
-  { k: "Updated", v: "Apr 2026" },
+  { k: "Clinicians", v: "Not yet" },
+  { k: "Updated", v: "Oct 2026" },
 ];
 
 // ─── Decorative network: 11 systems on an orbit, one composite core ───────
@@ -159,11 +159,10 @@ export default function ScienceHero() {
               className={`science-hero-subline he ${styles.heroSub}`}
               style={{ "--he-d": "0.24s" } as CSSProperties}
             >
-              Merios turns {/* Phase 4: confirm with product team */}150+
-              peer-reviewed biomarkers into a single composite score and a
-              biological-age estimate, grounded in the preventive-medicine
+              Merios turns 160+ blood biomarkers into a single composite score
+              and a biological-age estimate, grounded in the preventive-medicine
               literature. This page is the full argument — the model, the
-              markers, the references, and the advisors who reviewed it.
+              markers and the references. No clinician has reviewed it yet.
             </p>
 
             <dl

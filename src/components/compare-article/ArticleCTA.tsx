@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import styles from "./compareArticle.module.css";
 
@@ -53,7 +52,7 @@ export default function ArticleCTA() {
                 />
               </svg>
               <span aria-hidden className={styles.ctaPulseDot} />
-              <Link
+              <a
                 href="/early-access"
                 className={`btn btn-lime ${styles.ctaButton}`}
               >
@@ -61,7 +60,7 @@ export default function ArticleCTA() {
                 <span aria-hidden className="btn-arrow">
                   →
                 </span>
-              </Link>
+              </a>
             </div>
           </div>
         </Reveal>

@@ -187,7 +187,7 @@ export default function Page() {
               <p>
                 One saturation is a snapshot of a value that moves. The pattern worth having is the same fasting draw
                 tracked across several panels, with ferritin beside it — which is what{" "}
-                <a href="https://apps.apple.com/us/app/merios/id6760352598">Merios</a> is built to do from the reports you already
+                <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-transferrin-saturation-calculator&mt=8">Merios</a> is built to do from the reports you already
                 have.
               </p>
             </div>

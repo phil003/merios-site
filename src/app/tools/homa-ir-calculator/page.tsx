@@ -265,7 +265,7 @@ export default function HomaIRCalculatorPage() {
                 </p>
               </div>
               <div className={t.ctaActions}>
-                <Link href="/early-access" className="btn btn-lime">
+                <Link href="/early-access?from=homa-ir-calculator" className="btn btn-lime">
                   Get the app
                 </Link>
                 <Link href="/blog/homa-ir-insulin-resistance" className="btn btn-ghost-night">

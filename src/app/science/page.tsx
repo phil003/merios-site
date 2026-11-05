@@ -119,7 +119,7 @@ export default function SciencePage() {
 
             <Reveal amount={0.2} delay={0.2}>
               <div className={styles.nextActions}>
-                <Link href="/early-access" className="btn btn-lime">
+                <Link href="/early-access?from=science" className="btn btn-lime">
                   Get the app
                   <span aria-hidden className="btn-arrow">→</span>
                 </Link>

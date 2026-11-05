@@ -188,7 +188,7 @@ export default function FAQPage() {
 
             <Reveal delay={0.2}>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-                <Link href="/early-access" className="btn btn-lime">
+                <Link href="/early-access?from=faq" className="btn btn-lime">
                   Get Merios
                   <span aria-hidden className="btn-arrow">→</span>
                 </Link>

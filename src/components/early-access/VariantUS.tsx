@@ -2,9 +2,12 @@
 
 import type { CSSProperties, ReactNode } from "react";
 import NewsletterForm from "./NewsletterForm";
+import { appStoreUrl, campaignFromPath } from "@/lib/appStore";
 
 // Merios on the US App Store (ascAppId 6760352598).
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
+// Default campaign "web-early-access"; on click, the page the visitor came from
+// (same-site referrer) becomes the campaign, so installs are attributed to it.
+const APP_STORE_URL = appStoreUrl("web-early-access");
 
 // Official Apple Media Services badge. 250x83 @1x renders at ~125x42 CSS px on
 // retina. The black variant carries its own hairline, so it reads on the
@@ -128,6 +131,23 @@ export default function VariantUS() {
             {/* App Store badge — CSS tilt + lift on hover/focus/press */}
             <a
               href={APP_STORE_URL}
+              onClick={(e) => {
+                try {
+                  const from = new URLSearchParams(window.location.search).get("from");
+                  const ref = document.referrer ? new URL(document.referrer) : null;
+                  if (from) {
+                    e.currentTarget.href = appStoreUrl(`web-${from}`);
+                  } else if (
+                    ref &&
+                    ref.host === window.location.host &&
+                    !ref.pathname.startsWith("/early-access")
+                  ) {
+                    e.currentTarget.href = appStoreUrl(campaignFromPath(ref.pathname));
+                  }
+                } catch {
+                  // keep the default campaign
+                }
+              }}
               target="_blank"
               rel="noopener noreferrer"
               className="ea-us-badge relative inline-block rounded-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:hover:-translate-y-0.5 motion-safe:hover:rotate-[4deg] motion-safe:focus-visible:-translate-y-0.5 motion-safe:focus-visible:rotate-[4deg] motion-safe:active:-translate-y-px motion-safe:active:rotate-[2deg]"

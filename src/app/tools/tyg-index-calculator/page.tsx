@@ -294,7 +294,7 @@ export default function TyGCalculatorPage() {
                 </p>
               </div>
               <div className={t.ctaActions}>
-                <Link href="/early-access" className="btn btn-lime">
+                <Link href="/early-access?from=tyg-index-calculator" className="btn btn-lime">
                   Get the app
                 </Link>
                 <Link href="/blog/homa-ir-insulin-resistance" className="btn btn-ghost-night">

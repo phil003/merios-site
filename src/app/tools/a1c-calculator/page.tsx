@@ -203,7 +203,7 @@ export default function A1CCalculatorPage() {
                 </p>
               </div>
               <div className={t.ctaActions}>
-                <Link href="/early-access" className="btn btn-lime">
+                <Link href="/early-access?from=a1c-calculator" className="btn btn-lime">
                   Get the app
                 </Link>
                 <Link href="/blog/hba1c-5-7-pre-diabetic" className="btn btn-ghost-night">

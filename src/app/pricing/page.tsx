@@ -11,6 +11,8 @@ import { AppleGlyph } from "@/components/home/icons";
 import s from "./pricing.module.css";
 
 const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
+// Tracked link for the buttons (the schema keeps the canonical URL above).
+const APP_STORE_LINK = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-pricing&mt=8";
 
 const TITLE = "Merios Pricing";
 const DESCRIPTION =
@@ -255,7 +257,7 @@ export default function PricingPage() {
               <h2>Availability</h2>
               <p>
                 Merios is live on the{" "}
-                <a href={APP_STORE_URL}>US App Store</a> and runs on iPhone with
+                <a href={APP_STORE_LINK}>US App Store</a> and runs on iPhone with
                 iOS 15.1 or later. It is US-only for now: there is no other storefront, no Android
                 app and no web version. If you are outside the US, the honest answer is that you
                 cannot use it yet.
@@ -276,7 +278,7 @@ export default function PricingPage() {
               </dl>
 
               <p className={s.cta}>
-                <a href={APP_STORE_URL} className={`btn btn-ink ${s.ctaBtn}`}>
+                <a href={APP_STORE_LINK} className={`btn btn-ink ${s.ctaBtn}`}>
                   <AppleGlyph size={15} />
                   Download Merios on the App Store <span className="btn-arrow">→</span>
                 </a>

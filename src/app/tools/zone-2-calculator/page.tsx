@@ -180,7 +180,7 @@ export default function Zone2CalculatorPage() {
                 </p>
               </div>
               <div className={t.ctaActions}>
-                <Link href="/early-access" className="btn btn-lime">
+                <Link href="/early-access?from=zone-2-calculator" className="btn btn-lime">
                   Get the app
                 </Link>
               </div>

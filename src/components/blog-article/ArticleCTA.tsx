@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import styles from "./article.module.css";
 
@@ -28,12 +27,12 @@ export default function ArticleCTA() {
           </p>
 
           <div className={styles.ctaActions}>
-            <Link href="/early-access" className="btn btn-lime">
+            <a href="/early-access" className="btn btn-lime">
               Get the app
               <span aria-hidden className="btn-arrow">
                 →
               </span>
-            </Link>
+            </a>
           </div>
         </Reveal>
       </div>

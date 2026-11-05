@@ -7,7 +7,7 @@ import WaitlistForm from "./WaitlistForm";
    desktop visitors, and the waitlist for everyone outside the US. */
 
 const BEAT = heartbeatPath(150, 720, 470, 270, 150);
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
+const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-home&mt=8";
 
 export default function Finale() {
   return (

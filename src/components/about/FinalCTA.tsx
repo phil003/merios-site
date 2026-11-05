@@ -3,7 +3,7 @@
 import Reveal from "@/components/ui/Reveal";
 import styles from "./about.module.css";
 
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
+const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-about&mt=8";
 
 // The logo's pulse, drawn large: a calm line, one beat, and the lime dot it
 // arrives on — with a comet that keeps making the trip (CSS only).

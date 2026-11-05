@@ -259,7 +259,7 @@ export default function Page() {
                 </p>
               </div>
               <div className={t.ctaActions}>
-                <Link href="/early-access" className="btn btn-lime">
+                <Link href="/early-access?from=vitamin-d-unit-converter" className="btn btn-lime">
                   Get the app
                 </Link>
               </div>

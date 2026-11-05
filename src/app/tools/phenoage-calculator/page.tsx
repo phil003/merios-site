@@ -156,7 +156,7 @@ export default function PhenoAgeCalculatorPage() {
                 </p>
               </div>
               <div className={t.ctaActions}>
-                <Link href="/early-access" className="btn btn-lime">
+                <Link href="/early-access?from=phenoage-calculator" className="btn btn-lime">
                   Get the app
                 </Link>
                 <Link href="/blog/biological-age-calculator-blood-test" className="btn btn-ghost-night">

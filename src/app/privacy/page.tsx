@@ -4,12 +4,12 @@ import LegalPageLayout, { type TocItem } from "@/components/ui/LegalPageLayout";
 import legal from "@/components/legal/legalBody.module.css";
 import { BreadcrumbSchema } from "@/components/StructuredData";
 
-// Privacy Policy v2.0.0 — the version users accept in the app
+// Privacy Policy v2.1.0 — the version users accept in the app
 // (CURRENT_PRIVACY_VERSION in meryos/src/services/consent-service.ts).
 // Bump POLICY_VERSION, POLICY_DATE and the history table together.
-const POLICY_VERSION = "2.0.1";
-const POLICY_DATE = "October 27, 2026";
-const POLICY_DATE_ISO = "2026-10-27";
+const POLICY_VERSION = "2.1.0";
+const POLICY_DATE = "November 5, 2026";
+const POLICY_DATE_ISO = "2026-11-05";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -148,7 +148,7 @@ export default function PrivacyPage() {
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Blood test results</h3>
             <p>
-              Biomarker values you enter by hand or confirm after scanning a lab report, with their dates and units, and the photos or PDFs you choose to scan (see Section 4: they are processed to read the values and are not kept on Merios&rsquo;s servers).
+              Biomarker values you enter by hand or confirm after scanning a lab report, with their dates and units, and the photos or PDFs you choose to scan (see Section 4: they are processed to read the values and are not kept on Merios&rsquo;s servers). When your first lab report is read for free, we also keep a fingerprint of each file read for free for 24 hours, then only the date and number of free reads (Section 9).
             </p>
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Journal and cycle</h3>
@@ -156,6 +156,10 @@ export default function PrivacyPage() {
               What you choose to log: how you feel, symptoms, sleep, stress, exercise, nutrition, medications, a free-text daily note and, if you use cycle tracking, your period days and related symptoms.
             </p>
 
+            <h3 className="mt-8 mb-3" style={H3_STYLE}>Data kept on your iPhone</h3>
+            <p>
+              Your streak, badges, records, weekly challenges and reminder time are kept on your iPhone, not on Merios&rsquo;s servers. Deleting your account erases them from the iPhone you use; deleting the app erases them too.
+            </p>
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Data we derive</h3>
             <p>
               Your daily Merios Score and its pillars (Activity, Recovery, Zen), your personal baselines, biomarker trends, biological age estimate, insights and, if you subscribe to Merios Plus, your written reports.
@@ -168,7 +172,7 @@ export default function PrivacyPage() {
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Technical data</h3>
             <p>
-              Crash reports and diagnostics (device model, OS and app version, error traces) and product events such as &ldquo;subscription screen viewed&rdquo; or &ldquo;plan selected&rdquo;, linked to your account, which tell us whether the app works. These events never contain health values.
+              Crash reports and diagnostics (device model, OS and app version, error traces) and product events such as &ldquo;subscription screen viewed&rdquo; or &ldquo;plan selected&rdquo;, linked to your account, which tell us whether the app works. These events never contain health values or Apple Health samples. A few record that a milestone was reached in the app, such as a badge earned or a weekly challenge completed and on how many days.
             </p>
           </section>
 
@@ -182,6 +186,7 @@ export default function PrivacyPage() {
               <li>Show your trends and your blood results over time, in plain language</li>
               <li>Read the values from a lab report you scan, when you ask for it (Section 4)</li>
               <li>Write your monthly report and insights, if you subscribe and consent (Section 4)</li>
+              <li>Send the notifications you allow: your weekly recap, a report when it is ready, the end of a challenge you chose, and an optional daily reminder. They are scheduled on your iPhone and never show a health value.</li>
               <li>Manage your account and subscription, and send service emails (sign-in, password reset, account notices)</li>
               <li>Fix crashes, measure whether key screens work, and keep the service secure</li>
               <li>Comply with our legal obligations</li>
@@ -202,7 +207,7 @@ export default function PrivacyPage() {
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Reading a lab report</h3>
             <p>
-              When you scan a lab report, the photo or PDF is sent over an encrypted connection to OpenAI, which reads the biomarker values. The document is sent as you captured it, including any name or date of birth printed on it. When a reading looks uncertain, a second automated pass re-checks it against the same document and flags anything you should verify. You review the values before they are saved. Merios does not keep the photo or PDF on its servers: only the values you confirm are kept in your account.
+              When you scan a lab report, the photo or PDF is sent over an encrypted connection to OpenAI, which reads the biomarker values. The document is sent as you captured it, including any name or date of birth printed on it. When a reading looks uncertain, a second automated pass re-checks it against the same document and flags anything you should verify. You review the values before they are saved. Merios does not keep the photo or PDF on its servers: only the values you confirm are kept in your account, and, for a file read under the free first report, the fingerprint described in Section 9.
             </p>
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Reports and insights</h3>
@@ -306,6 +311,7 @@ export default function PrivacyPage() {
             <ul className="mt-4 space-y-2 list-disc pl-5">
               <li>Your account and health data are kept as long as your account exists.</li>
               <li>Scanned lab report photos and PDFs are not kept on Merios&rsquo;s servers. OpenAI may keep them in its abuse-monitoring logs for up to 30 days (Section 4).</li>
+              <li>Free first report: to count the same file only once, Merios keeps a fingerprint of each file read for free (a SHA-256 hash, from which the document cannot be rebuilt) for 24 hours. After that, only the date and number of free reads are kept, for the life of your account.</li>
               <li>When you delete your account in the app, your account and all its data are deleted permanently. Residual copies in encrypted backups are erased as those backups expire.</li>
               <li>AI request logs (without content) are kept for 12 months.</li>
               <li>Consent records are kept for the life of your account and 3 years after deletion, to prove what you agreed to.</li>
@@ -359,6 +365,7 @@ export default function PrivacyPage() {
               Each version of this policy has a number. When a change affects what data we process, where it goes or who has access, the app shows you what changed and asks you to accept the new version before you continue; your acceptance is recorded with the version number. Other changes are announced on this page.
             </p>
             <ul className="mt-4 space-y-2 list-disc pl-5">
+              <li><strong>2.1.0 (November 5, 2026):</strong> the first lab report is read for free, and to count it Merios keeps a fingerprint of each file read for free for 24 hours, then only the date and number of free reads; streak, badges, records, weekly challenges and reminder time are kept on your iPhone only; product events may record that a badge or a challenge was completed; notifications described. Nothing changed in the health data Merios collects or in who it is sent to.</li>
               <li><strong>2.0.1 (October 27, 2026):</strong> corrected how long OpenAI may keep the data we send it (up to 30 days in its abuse-monitoring logs, not zero retention) and removed the mention of a data processing agreement; stated that a scanned document is sent with any name or date of birth printed on it, and that the second automated pass runs only when a reading looks uncertain. Nothing changed in what Merios collects or where it sends it.</li>
               <li><strong>2.0.0 (September 2026):</strong> Merios 2.0. Import of up to 365 days of Apple Health history for daily scores and baselines; journal and cycle logging; reports written by an AI model from aggregated figures only and checked against our wellness charter; clarified that scanned lab report files are not stored.</li>
               <li><strong>1.2.0 (April 28, 2026):</strong> separate consent for AI insights.</li>

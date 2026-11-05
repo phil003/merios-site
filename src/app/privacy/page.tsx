@@ -143,7 +143,7 @@ export default function PrivacyPage() {
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Apple Health data</h3>
             <p>
-              If you connect Apple Health, we read the data types you allow, including up to 365 days of history when you first connect: activity (steps, distance, active energy, exercise and stand time, flights climbed), heart (heart rate, resting and walking heart rate, heart rate variability, heart rate recovery), sleep, vitals (respiratory rate, blood oxygen, blood pressure, blood glucose, wrist and basal body temperature, VO2 max), body measurements (weight, height, body fat, lean mass), mobility, time in daylight, mindful minutes and, if you track them in Apple Health, menstrual cycle data and symptoms. See Section 5 for the rules that apply to this data.
+              If you connect Apple Health, we read the data types you allow, including up to 365 days of history when you first connect: activity (steps, distance, active energy, exercise and stand time, flights climbed), heart (heart rate, resting heart rate, heart rate variability, heart rate recovery), sleep, vitals (respiratory rate, blood oxygen, wrist and basal body temperature, VO2 max), body measurements (weight, height, body fat), mobility, time in daylight, mindful minutes and, if you track them in Apple Health, menstrual cycle data and symptoms. See Section 5 for the rules that apply to this data.
             </p>
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Blood test results</h3>
@@ -172,7 +172,7 @@ export default function PrivacyPage() {
 
             <h3 className="mt-8 mb-3" style={H3_STYLE}>Technical data</h3>
             <p>
-              Crash reports and diagnostics (device model, OS and app version, error traces) and product events such as &ldquo;subscription screen viewed&rdquo; or &ldquo;plan selected&rdquo;, linked to your account, which tell us whether the app works. These events never contain health values or Apple Health samples. A few record that a milestone was reached in the app, such as a badge earned or a weekly challenge completed and on how many days.
+              Crash reports and diagnostics (device model, OS and app version, error traces) and product events such as &ldquo;subscription screen viewed&rdquo; or &ldquo;plan selected&rdquo;, linked to your account, which tell us whether the app works. These events never contain health values or anything derived from your Apple Health data or your lab results.
             </p>
           </section>
 
@@ -365,7 +365,7 @@ export default function PrivacyPage() {
               Each version of this policy has a number. When a change affects what data we process, where it goes or who has access, the app shows you what changed and asks you to accept the new version before you continue; your acceptance is recorded with the version number. Other changes are announced on this page.
             </p>
             <ul className="mt-4 space-y-2 list-disc pl-5">
-              <li><strong>2.1.0 (November 5, 2026):</strong> the first lab report is read for free, and to count it Merios keeps a fingerprint of each file read for free for 24 hours, then only the date and number of free reads; streak, badges, records, weekly challenges and reminder time are kept on your iPhone only; product events may record that a badge or a challenge was completed; notifications described. Nothing changed in the health data Merios collects or in who it is sent to.</li>
+              <li><strong>2.1.0 (November 5, 2026):</strong> the first lab report is read for free, and to count it Merios keeps a fingerprint of each file read for free for 24 hours, then only the date and number of free reads; streak, badges, records, weekly challenges and reminder time are kept on your iPhone only; product events never contain anything derived from Apple Health or lab results; Merios no longer reads blood pressure, blood glucose, lean body mass, walking heart rate, sleep apnea events, cervical mucus, intermenstrual bleeding or state of mind; notifications described. Nothing changed in the health data Merios collects or in who it is sent to.</li>
               <li><strong>2.0.1 (October 27, 2026):</strong> corrected how long OpenAI may keep the data we send it (up to 30 days in its abuse-monitoring logs, not zero retention) and removed the mention of a data processing agreement; stated that a scanned document is sent with any name or date of birth printed on it, and that the second automated pass runs only when a reading looks uncertain. Nothing changed in what Merios collects or where it sends it.</li>
               <li><strong>2.0.0 (September 2026):</strong> Merios 2.0. Import of up to 365 days of Apple Health history for daily scores and baselines; journal and cycle logging; reports written by an AI model from aggregated figures only and checked against our wellness charter; clarified that scanned lab report files are not stored.</li>
               <li><strong>1.2.0 (April 28, 2026):</strong> separate consent for AI insights.</li>

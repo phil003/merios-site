@@ -101,7 +101,7 @@ export default function PricingPage() {
         availability: "https://schema.org/InStock",
         url: APP_STORE_URL,
         description:
-          "Lab report scans, blood in depth with biological age, Insights and the monthly report. Billed yearly, with a 3-day free trial.",
+          "Following your blood work over time: further lab report scans, comparison with your next report, trends, systems, biological age, Insights and the monthly report. Your first scanned lab report is free. Billed yearly, with a 3-day free trial.",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
           price: "44.00",
@@ -204,8 +204,9 @@ export default function PricingPage() {
                     <th scope="row" className={s.plan}>Merios Plus</th>
                     <td className={s.price}>$44 / year</td>
                     <td className={s.what}>
-                      Lab report scans from a PDF or a photo, and blood in depth: trends, history,
-                      systems and your PhenoAge biological age. Insights and the monthly report.
+                      Following your blood work over time: further lab report scans from a PDF or a
+                      photo, comparison with your next report, trends, history, systems and your
+                      PhenoAge biological age. Insights and the monthly report.
                       3-day free trial on the annual plan. Also sold at $12.99 a month or $4.99 a
                       week.
                     </td>

@@ -12,7 +12,7 @@ const FREE = [
   "Enter a marker by hand and see it in its range",
 ];
 const PLUS = [
-  "Photo and PDF scans, every marker read and tracked report to report",
+  "Further photo and PDF scans, compared with your next report and tracked over time",
   "Biological age, recomputed with every new report",
   "Links between your blood work and your daily data",
   "Your monthly report, written from your own numbers",

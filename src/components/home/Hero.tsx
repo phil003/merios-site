@@ -49,7 +49,7 @@ export default function Hero() {
           </div>
           <div className="hv3-hero__meta he" style={he(0.75)}>
             <span>Free on iPhone</span>
-            <span>Merios Plus for your blood</span>
+            <span>First blood scan free</span>
             <span>Example data</span>
           </div>
         </div>

@@ -14,6 +14,6 @@ export default function OgImage() {
   return renderOgCard({
     eyebrow: "Pricing",
     title: "Merios Plus is $44 a year.",
-    meta: "Free to download · 7-day free trial",
+    meta: "Free to download · 3-day free trial",
   });
 }

@@ -101,7 +101,7 @@ export function WebApplicationSchema() {
         availability: "https://schema.org/InStock",
         url: "https://apps.apple.com/us/app/merios/id6760352598",
         description:
-          "Lab report scans, blood in depth with biological age, and Insights. Billed yearly, with a 7-day free trial.",
+          "Lab report scans, blood in depth with biological age, and Insights. Billed yearly, with a 3-day free trial.",
       },
     ],
     featureList: [

@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { AppleGlyph, Arrow, Check } from "./icons";
 
 /* Free and Plus. Facts as of the App Store listing (Oct 2026): the daily side
-   is free for good; Merios Plus is $44/year after a 7-day free trial on the
+   is free for good; Merios Plus is $44/year after a 3-day free trial on the
    annual plan, with monthly and weekly plans also available. */
 
 const FREE = [
@@ -69,13 +69,13 @@ export default function Plans() {
               <div className="hv3-plan__top">
                 <span className="hv3-plan__name chrome-text">Merios Plus</span>
                 <span className="hv3-pill" style={{ color: "var(--color-lime)" }}>
-                  7 days free
+                  3 days free
                 </span>
               </div>
               <div className="hv3-plan__price">
                 <b>$44</b>
                 <span>a year</span>
-                <em>After a 7-day free trial on the annual plan · monthly and weekly plans also available</em>
+                <em>After a 3-day free trial on the annual plan · monthly and weekly plans also available</em>
               </div>
               <ul>
                 {PLUS.map((f) => (
@@ -87,7 +87,7 @@ export default function Plans() {
               </ul>
               <div className="hv3-plan__cta">
                 <a className="btn btn-lime" href="/early-access">
-                  Start 7 days free <Arrow className="btn-arrow" />
+                  Start 3 days free <Arrow className="btn-arrow" />
                 </a>
                 <span className="hv3-plan__note">
                   Cancel any time in the App Store. Cancelling deletes nothing.

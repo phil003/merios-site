@@ -97,13 +97,13 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "how-much-does-merios-cost",
     group: "pricing",
     q: "How much does Merios cost?",
-    a: "Merios is free to download, and the daily score is free for good. Merios Plus is $44.00/year with a 7-day free trial on the annual plan, or a monthly and weekly option — you choose on the App Store, where the current price for your region is always shown. There are no ads and no ad-supported tier: Plus pays for the product, which keeps it independent by design.",
+    a: "Merios is free to download, and the daily score is free for good. Your first scanned lab report is free too; Merios Plus adds following your blood work over time: comparison with your next report, trends, systems, biological age and the monthly report. Merios Plus is $44.00/year with a 3-day free trial on the annual plan, or a monthly and weekly option — you choose on the App Store, where the current price for your region is always shown. There are no ads and no ad-supported tier: Plus pays for the product, which keeps it independent by design.",
   },
   {
     id: "is-there-a-trial",
     group: "pricing",
     q: "Is there a trial?",
-    a: "Yes. The annual plan includes a 7-day free trial of the full product. Cancel any time during that window and you won't be charged. No dark patterns, no friction — one tap to cancel.",
+    a: "Yes. The annual plan includes a 3-day free trial of the full product. Cancel any time during that window and you won't be charged. No dark patterns, no friction — one tap to cancel.",
   },
   {
     id: "do-you-bill-by-test",

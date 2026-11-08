@@ -76,6 +76,7 @@ const STATIC_ROUTES = [
   { path: '/tools/vitamin-d-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/testosterone-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/cholesterol-unit-converter', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/uric-acid-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/blog/category/blood-tests', priority: 0.7, changefreq: 'weekly' },
   { path: '/blog/category/biomarkers', priority: 0.7, changefreq: 'weekly' },
   { path: '/blog/category/wearables', priority: 0.7, changefreq: 'weekly' },

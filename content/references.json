@@ -1,17 +1,4 @@
 {
- "pmid:10051464": {
-  "title": "Chronic unexplained hypertransaminasemia may be caused by occult celiac disease",
-  "authors": [
-   "Bardella MT",
-   "Vecchi M",
-   "Conte D",
-   "Del Ninno E"
-  ],
-  "journal": "Hepatology",
-  "year": "1999",
-  "doi": "10.1002/hep.510290318",
-  "pmid": "10051464"
- },
  "pmid:10198571": {
   "title": "Gamma-glutamyl transpeptidase-dependent iron reduction and LDL oxidation--a potential mechanism in atherosclerosis",
   "authors": [
@@ -549,18 +536,6 @@
   "doi": "10.1373/49.8.1358",
   "pmid": "12881453"
  },
- "pmid:13447217": {
-  "title": "An enzymic test for the diagnosis of viral hepatitis; the transaminase serum activities",
-  "authors": [
-   "DE RITIS F",
-   "COLTORTI M",
-   "GIUSTI G"
-  ],
-  "journal": "Clin Chim Acta",
-  "year": "1957",
-  "doi": "10.1016/0009-8981(57)90027-x",
-  "pmid": "13447217"
- },
  "pmid:1386186": {
   "title": "Effects of weight reduction on blood lipids and lipoproteins: a meta-analysis",
   "authors": [
@@ -773,17 +748,6 @@
   "doi": "10.1089/thy.2004.14.1047",
   "pmid": "15650357"
  },
- "pmid:15694941": {
-  "title": "Association between serum gamma-glutamyltransferase and C-reactive protein",
-  "authors": [
-   "Lee DH",
-   "Jacobs DR Jr"
-  ],
-  "journal": "Atherosclerosis",
-  "year": "2005",
-  "doi": "10.1016/j.atherosclerosis.2004.08.027",
-  "pmid": "15694941"
- },
  "pmid:15741842": {
   "title": "Effects of exercise on heart rate variability: inferences from meta-analysis",
   "authors": [
@@ -988,19 +952,6 @@
   "year": "2005",
   "doi": "10.1093/ajcn/82.4.806",
   "pmid": "16210710"
- },
- "pmid:16219884": {
-  "title": "Plasma fibrinogen level and the risk of major cardiovascular diseases and nonvascular mortality: an individual participant meta-analysis",
-  "authors": [
-   "Danesh J",
-   "Lewington S",
-   "Thompson SG",
-   "Lowe GD"
-  ],
-  "journal": "JAMA",
-  "year": "2005",
-  "doi": "10.1001/jama.294.14.1799",
-  "pmid": "16219884"
  },
  "pmid:16318865": {
   "title": "A new approach to the concept and computation of biological age",
@@ -1538,18 +1489,6 @@
   "year": "2008",
   "doi": "10.1111/j.1600-051X.2007.01173.x",
   "pmid": "18294231"
- },
- "pmid:18316753": {
-  "title": "Brief communication: clinical implications of short-term variability in liver function test results",
-  "authors": [
-   "Lazo M",
-   "Selvin E",
-   "Clark JM"
-  ],
-  "journal": "Ann Intern Med",
-  "year": "2008",
-  "doi": "10.7326/0003-4819-148-5-200803040-00005",
-  "pmid": "18316753"
  },
  "pmid:18365240": {
   "title": "Athletic induced iron deficiency: new insights into the role of inflammation, cytokines and hormones",
@@ -2659,19 +2598,6 @@
   "doi": "10.3109/00365513.2011.602422",
   "pmid": "21988588"
  },
- "pmid:22023985": {
-  "title": "Omega-3 supplementation and non-alcoholic fatty liver disease: a systematic review and meta-analysis",
-  "authors": [
-   "Parker HM",
-   "Johnson NA",
-   "Burdon CA",
-   "Cohn JS"
-  ],
-  "journal": "J Hepatol",
-  "year": "2012",
-  "doi": "10.1016/j.jhep.2011.08.018",
-  "pmid": "22023985"
- },
  "pmid:22071480": {
   "title": "Sleep and immune function",
   "authors": [
@@ -2760,19 +2686,6 @@
   "year": "2012",
   "doi": "10.1001/archinternmed.2011.2287",
   "pmid": "22412075"
- },
- "pmid:22414768": {
-  "title": "Exercise and non-alcoholic fatty liver disease: a systematic review and meta-analysis",
-  "authors": [
-   "Keating SE",
-   "Hackett DA",
-   "George J",
-   "Johnson NA"
-  ],
-  "journal": "J Hepatol",
-  "year": "2012",
-  "doi": "10.1016/j.jhep.2012.02.023",
-  "pmid": "22414768"
  },
  "pmid:22534274": {
   "title": "Thrombocytopenia",
@@ -3467,16 +3380,6 @@
   "year": "2014",
   "doi": "10.1123/ijspp.2013-0455",
   "pmid": "24334285"
- },
- "pmid:24353357": {
-  "title": "The de ritis ratio: the test of time",
-  "authors": [
-   "Botros M",
-   "Sikaris KA"
-  ],
-  "journal": "Clin Biochem Rev",
-  "year": "2013",
-  "pmid": "24353357"
  },
  "pmid:24468148": {
   "title": "Plant sterols and plant stanols in the management of dyslipidaemia and prevention of cardiovascular disease",
@@ -4363,19 +4266,6 @@
   "year": "2016",
   "doi": "10.1016/j.pmedr.2016.08.009",
   "pmid": "27583199"
- },
- "pmid:27592340": {
-  "title": "Inflammation and frailty in the elderly: A systematic review and meta-analysis",
-  "authors": [
-   "Soysal P",
-   "Stubbs B",
-   "Lucato P",
-   "Luchini C"
-  ],
-  "journal": "Ageing Res Rev",
-  "year": "2016",
-  "doi": "10.1016/j.arr.2016.08.006",
-  "pmid": "27592340"
  },
  "pmid:27639843": {
   "title": "Aerobic vs. resistance exercise in non-alcoholic fatty liver disease: A systematic review",
@@ -5284,6 +5174,19 @@
   "doi": "10.1093/jnci/djy087",
   "pmid": "29912394"
  },
+ "pmid:29926099": {
+  "title": "Association of LPA Variants With Risk of Coronary Disease and the Implications for Lipoprotein(a)-Lowering Therapies: A Mendelian Randomization Analysis",
+  "authors": [
+   "Burgess S",
+   "Ference BA",
+   "Staley JR",
+   "Freitag DF"
+  ],
+  "journal": "JAMA Cardiol",
+  "year": "2018",
+  "doi": "10.1001/jamacardio.2018.1470",
+  "pmid": "29926099"
+ },
  "pmid:29931038": {
   "title": "Effects of fruit and vegetable consumption on inflammatory biomarkers and immune cell populations: a systematic literature review and meta-analysis",
   "authors": [
@@ -5644,19 +5547,6 @@
   "doi": "10.3390/jcm7120503",
   "pmid": "30513777"
  },
- "pmid:30534554": {
-  "title": "Neutrophil Lymphocyte Ratio and Cardiovascular Disease Risk: A Systematic Review and Meta-Analysis",
-  "authors": [
-   "Angkananard T",
-   "Anothaisintawee T",
-   "McEvoy M",
-   "Attia J"
-  ],
-  "journal": "Biomed Res Int",
-  "year": "2018",
-  "doi": "10.1155/2018/2703518",
-  "pmid": "30534554"
- },
  "pmid:30535132": {
   "title": "The Top 25 Laboratory Tests by Volume and Revenue in Five Different Countries",
   "authors": [
@@ -5695,6 +5585,19 @@
   "year": "2019",
   "doi": "10.1111/nyas.13996",
   "pmid": "30575050"
+ },
+ "pmid:30586750": {
+  "title": "Lipoprotein(a), PCSK9 Inhibition, and Cardiovascular Risk",
+  "authors": [
+   "O'Donoghue ML",
+   "Fazio S",
+   "Giugliano RP",
+   "Stroes ESG"
+  ],
+  "journal": "Circulation",
+  "year": "2019",
+  "doi": "10.1161/CIRCULATIONAHA.118.037184",
+  "pmid": "30586750"
  },
  "pmid:30586774": {
   "title": "2018 AHA/ACC/AACVPR/AAPA/ABC/ACPM/ADA/AGS/APhA/ASPC/NLA/PCNA Guideline on the Management of Blood Cholesterol: A Report of the American College of Cardiology/American Heart Association Task Force on Clinical Practice Guidelines",
@@ -5911,6 +5814,17 @@
   "doi": "10.1016/S2213-2600(19)30057-8",
   "pmid": "31006560"
  },
+ "pmid:31017618": {
+  "title": "Estimation of the Required Lipoprotein(a)-Lowering Therapeutic Effect Size for Reduction in Coronary Heart Disease Outcomes: A Mendelian Randomization Analysis",
+  "authors": [
+   "Lamina C",
+   "Kronenberg F"
+  ],
+  "journal": "JAMA Cardiol",
+  "year": "2019",
+  "doi": "10.1001/jamacardio.2019.1041",
+  "pmid": "31017618"
+ },
  "pmid:31055680": {
   "title": "Iron considerations for the athlete: a narrative review",
   "authors": [
@@ -5975,6 +5889,19 @@
   "year": "2019",
   "doi": "10.1016/j.cmet.2019.05.008",
   "pmid": "31105044"
+ },
+ "pmid:31111151": {
+  "title": "Statin therapy increases lipoprotein(a) levels",
+  "authors": [
+   "Tsimikas S",
+   "Gordts PLSM",
+   "Nora C",
+   "Yeang C"
+  ],
+  "journal": "Eur Heart J",
+  "year": "2020",
+  "doi": "10.1093/eurheartj/ehz310",
+  "pmid": "31111151"
  },
  "pmid:31127824": {
   "title": "Continuous Glucose Monitoring Profiles in Healthy Nondiabetic Participants: A Multicenter Prospective Study",
@@ -6256,6 +6183,19 @@
   "year": "2019",
   "doi": "10.1186/s12884-019-2619-6",
   "pmid": "31856759"
+ },
+ "pmid:31893580": {
+  "title": "Lipoprotein(a) Reduction in Persons with Cardiovascular Disease",
+  "authors": [
+   "Tsimikas S",
+   "Karwatowska-Prokopczuk E",
+   "Gouni-Berthold I",
+   "Tardif JC"
+  ],
+  "journal": "N Engl J Med",
+  "year": "2020",
+  "doi": "10.1056/NEJMoa1905239",
+  "pmid": "31893580"
  },
  "pmid:31981007": {
   "title": "One-year Mediterranean diet promotes epigenetic rejuvenation with country- and sex-specific effects: a pilot study from the NU-AGE project",
@@ -6887,6 +6827,19 @@
   "doi": "10.1007/s00125-021-05608-y",
   "pmid": "34845532"
  },
+ "pmid:34849724": {
+  "title": "Statin therapy and lipoprotein(a) levels: a systematic review and meta-analysis",
+  "authors": [
+   "de Boer LM",
+   "Oorthuys AOJ",
+   "Wiegman A",
+   "Langendam MW"
+  ],
+  "journal": "Eur J Prev Cardiol",
+  "year": "2022",
+  "doi": "10.1093/eurjpc/zwab171",
+  "pmid": "34849724"
+ },
  "pmid:34927215": {
   "title": "Comparison of Efficacy and Safety of Statin-Ezetimibe Combination Therapy with Statin Monotherapy in Patients with Diabetes: A Meta-Analysis of Randomized Controlled Studies",
   "authors": [
@@ -7271,6 +7224,19 @@
   "year": "2022",
   "doi": "10.1038/s43587-022-00248-2",
   "pmid": "36277076"
+ },
+ "pmid:36342163": {
+  "title": "Small Interfering RNA to Reduce Lipoprotein(a) in Cardiovascular Disease",
+  "authors": [
+   "O'Donoghue ML",
+   "Rosenson RS",
+   "Gencer B",
+   "López JAG"
+  ],
+  "journal": "N Engl J Med",
+  "year": "2022",
+  "doi": "10.1056/NEJMoa2211023",
+  "pmid": "36342163"
  },
  "pmid:36531435": {
   "title": "Iron Deficiency and Blood Donation: Links, Risks and Management",
@@ -7994,6 +7960,32 @@
   "doi": "10.1093/nutrit/nuae166",
   "pmid": "39530776"
  },
+ "pmid:39556768": {
+  "title": "Oral Muvalaplin for Lowering of Lipoprotein(a): A Randomized Clinical Trial",
+  "authors": [
+   "Nicholls SJ",
+   "Ni W",
+   "Rhodes GM",
+   "Nissen SE"
+  ],
+  "journal": "JAMA",
+  "year": "2025",
+  "doi": "10.1001/jama.2024.24017",
+  "pmid": "39556768"
+ },
+ "pmid:39556769": {
+  "title": "Zerlasiran-A Small-Interfering RNA Targeting Lipoprotein(a): A Phase 2 Randomized Clinical Trial",
+  "authors": [
+   "Nissen SE",
+   "Wang Q",
+   "Nicholls SJ",
+   "Navar AM"
+  ],
+  "journal": "JAMA",
+  "year": "2024",
+  "doi": "10.1001/jama.2024.21957",
+  "pmid": "39556769"
+ },
  "pmid:39631226": {
   "title": "The effect of alcohol on subsequent sleep in healthy adults: A systematic review and meta-analysis",
   "authors": [
@@ -8084,6 +8076,19 @@
   "year": "2025",
   "doi": "10.1001/jama.2025.0452",
   "pmid": "40159291"
+ },
+ "pmid:40162643": {
+  "title": "Lepodisiran - A Long-Duration Small Interfering RNA Targeting Lipoprotein(a)",
+  "authors": [
+   "Nissen SE",
+   "Ni W",
+   "Shen X",
+   "Wang Q"
+  ],
+  "journal": "N Engl J Med",
+  "year": "2025",
+  "doi": "10.1056/NEJMoa2415818",
+  "pmid": "40162643"
  },
  "pmid:40580481": {
   "title": "Effects of Garlic Supplementation on Cardiovascular Risk Factors in Adults: A Comprehensive Updated Systematic Review and Meta-Analysis of Randomized Controlled Trials",
@@ -8431,6 +8436,29 @@
   "doi": "10.1002/fsn3.72357",
   "pmid": "42746152"
  },
+ "pmid:42880684": {
+  "title": "Pelacarsen and Lp(a)HORIZON: Interpreting the disconnect between lipoprotein(a) lowering and cardiovascular outcomes",
+  "authors": [
+   "Sabouret P",
+   "Giamundo DM",
+   "Asher E",
+   "De Rosa S"
+  ],
+  "journal": "Am J Med",
+  "year": "2026",
+  "doi": "10.1016/j.amjmed.2026.10.005",
+  "pmid": "42880684"
+ },
+ "pmid:42886494": {
+  "title": "Lp(a)-Reducing Agent Pelacarsen Misses the Mark in Phase 3-Now What?",
+  "authors": [
+   "Abbasi J"
+  ],
+  "journal": "JAMA",
+  "year": "2026",
+  "doi": "10.1001/jama.2026.20002",
+  "pmid": "42886494"
+ },
  "pmid:6119494": {
   "title": "Increased skin pigment reduces the capacity of skin to synthesise vitamin D3",
   "authors": [
@@ -8706,19 +8734,6 @@
   "journal": "MMWR Recomm Rep",
   "year": "1998",
   "pmid": "9563847"
- },
- "pmid:9600484": {
-  "title": "Association of fibrinogen, C-reactive protein, albumin, or leukocyte count with coronary heart disease: meta-analyses of prospective studies",
-  "authors": [
-   "Danesh J",
-   "Collins R",
-   "Appleby P",
-   "Peto R"
-  ],
-  "journal": "JAMA",
-  "year": "1998",
-  "doi": "10.1001/jama.279.18.1477",
-  "pmid": "9600484"
  },
  "pmid:9753305": {
   "title": "Prevalence of insulin resistance in metabolic disorders: the Bruneck Study",

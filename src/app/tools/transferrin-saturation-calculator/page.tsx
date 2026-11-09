@@ -9,7 +9,17 @@ import t from "../tools.module.css";
 const TITLE = "TSAT Calculator: Transferrin Saturation from TIBC";
 const NAME = "TSAT Calculator (Transferrin Saturation)";
 const DESCRIPTION =
-  "TSAT calculator: transferrin saturation = serum iron ÷ TIBC × 100. Works with TIBC, UIBC or transferrin (g/L), compared with the typical 20–50% lab range.";
+  "Free TSAT calculator: serum iron ÷ TIBC × 100. Enter TIBC, UIBC or transferrin, get your saturation in seconds, with worked examples and the 20–50% range.";
+
+// Worked TSAT examples: serum iron ÷ TIBC × 100 (values checked by hand, one decimal).
+const TSAT_EXAMPLES: [string, string, string, string][] = [
+  ["40 µg/dL", "450 µg/dL", "40 ÷ 450 × 100", "8.9% (below the usual 20–50% range)"],
+  ["60 µg/dL", "400 µg/dL", "60 ÷ 400 × 100", "15.0% (below the usual range)"],
+  ["90 µg/dL", "320 µg/dL", "90 ÷ 320 × 100", "28.1% (within the usual range)"],
+  ["120 µg/dL", "300 µg/dL", "120 ÷ 300 × 100", "40.0% (within the usual range)"],
+  ["180 µg/dL", "300 µg/dL", "180 ÷ 300 × 100", "60.0% (above the usual range)"],
+  ["16 µmol/L", "57 µmol/L", "16 ÷ 57 × 100", "28.1% (same result in SI units)"],
+];
 
 const FAQ_ITEMS = [
   { q: "How do you calculate TSAT?", a: "Transferrin saturation equals serum iron divided by total iron-binding capacity, multiplied by 100, with both values in micrograms per deciliter. A serum iron of 90 with a TIBC of 320 gives 90 divided by 320, or 28.1 percent. If your panel reports UIBC instead of TIBC, add UIBC to serum iron to get TIBC first. If it reports transferrin in grams per litre, multiply by 125 to get TIBC in micrograms per deciliter." },
@@ -63,7 +73,7 @@ export default function Page() {
       <PageHero
         eyebrow="Transferrin saturation — iron in transit"
         title="TSAT calculator (transferrin saturation)"
-        subline="Serum iron divided by TIBC, times 100. Enter what your panel actually printed — TIBC, UIBC or transferrin — and get your saturation. Ferritin can look fine while this number does not."
+        subline="TSAT (or T sat) is serum iron divided by TIBC, times 100. Enter what your panel actually printed — TIBC, UIBC or transferrin — and get your saturation. Ferritin can look fine while this number does not."
         align="left"
       />
 
@@ -83,6 +93,36 @@ export default function Page() {
                 90 ÷ 320 = 0.281, so a saturation of 28.1 percent. That is the whole calculation — the difficulty is
                 almost never the arithmetic, it is that your report may not contain a line called TIBC at all.
               </p>
+
+              <h2>TSAT calculation: worked examples</h2>
+              <p>
+                Five common panels plus one in SI units, worked through with the same formula. Serum iron and TIBC are in micrograms per
+                deciliter, as on a US report; the last row shows that a panel in micromoles per litre gives the same
+                percentage, because the units cancel.
+              </p>
+              <div className={t.tableWrap} data-rv="">
+                <table className={t.table}>
+                  <caption className={`${t.caption} ${t.captionPlain}`}>Transferrin saturation calculated from serum iron and TIBC</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" className={t.colHead}>Serum iron</th>
+                      <th scope="col" className={t.colHead}>TIBC</th>
+                      <th scope="col" className={t.colHead}>Calculation</th>
+                      <th scope="col" className={t.colHead}>TSAT</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {TSAT_EXAMPLES.map(([iron, tibc, calc, pct]) => (
+                      <tr key={calc}>
+                        <th scope="row" className={t.rowHead}>{iron}</th>
+                        <td className={t.cell}>{tibc}</td>
+                        <td className={t.cell}>{calc}</td>
+                        <td className={t.cellNote}>{pct}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
               <h2>When your lab prints UIBC or transferrin instead</h2>
               <p>

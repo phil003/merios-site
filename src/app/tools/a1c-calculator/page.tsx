@@ -46,14 +46,14 @@ const FAQ_ITEMS = [
 ];
 
 export const metadata: Metadata = {
-  title: "A1C to Average Glucose Chart (eAG Calculator)",
+  title: "A1C Calculator: A1C to Average Glucose Chart (eAG)",
   description:
-    "Full A1C to average glucose chart, 4.0% to 14.0%, in mg/dL and mmol/L — and it converts both ways, glucose back to A1C included. ADAG formula, free.",
+    "Free A1C calculator: convert A1C to estimated average glucose (eAG) in mg/dL or mmol/L, or glucose back to A1C. Full 4–14% chart, ADAG formula.",
   alternates: { canonical: "https://merios.life/tools/a1c-calculator" },
   openGraph: {
-    title: "A1C to Average Glucose Chart & Converter (eAG)",
+    title: "A1C Calculator: A1C to Average Glucose Chart (eAG)",
     description:
-      "Convert A1C to estimated average glucose in mg/dL and mmol/L. Free, no signup. ADAG 2008 formula.",
+      "Free A1C calculator: A1C to estimated average glucose in mg/dL and mmol/L, and back. No signup. ADAG 2008 formula.",
     url: "https://merios.life/tools/a1c-calculator",
     type: "website",
   },
@@ -64,12 +64,13 @@ export default function A1CCalculatorPage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "@id": "https://merios.life/tools/a1c-calculator#tool",
-    name: "A1C to Average Blood Sugar Calculator",
+    name: "A1C Calculator",
+    alternateName: ["A1C to Average Blood Sugar Calculator", "eAG Calculator", "Glucose to A1C Calculator"],
     url: "https://merios.life/tools/a1c-calculator",
     applicationCategory: "HealthApplication",
     operatingSystem: "Web",
     description:
-      "Free A1C to estimated average glucose (eAG) converter. ADAG study formula, mg/dL and mmol/L.",
+      "Free A1C calculator: A1C to estimated average glucose (eAG) and glucose back to A1C. ADAG study formula, mg/dL and mmol/L.",
     isAccessibleForFree: true,
     citation:
       "Nathan DM, Kuenen J, Borg R, et al. Translating the A1C assay into estimated average glucose values. Diabetes Care 2008;31(8):1473-1478.",
@@ -92,9 +93,9 @@ export default function A1CCalculatorPage() {
       />
 
       <PageHero
-        eyebrow="A1C → eAG — ADAG 2008"
-        title="Turn your A1C into an average blood sugar you can actually read."
-        subline="Enter one number — your A1C percentage — and get your estimated average glucose in both mg/dL and mmol/L, using the ADAG study formula clinicians use."
+        eyebrow="A1C ↔ average glucose — ADAG 2008"
+        title="A1C calculator"
+        subline="Turn your A1C into an average blood sugar you can actually read. Enter your A1C percentage and get your estimated average glucose (eAG) in mg/dL and mmol/L, or go the other way, glucose to A1C, with the ADAG study formula."
         align="left"
       />
 

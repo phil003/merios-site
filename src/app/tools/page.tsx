@@ -39,6 +39,42 @@ export const metadata: Metadata = {
 
 const TOOLS = [
   {
+    slug: "mmol-to-mg-dl-converter",
+    eyebrow: "Lab Units",
+    title: "mmol/L to mg/dL Converter",
+    description:
+      "There is no single factor: glucose, cholesterol and triglycerides each convert differently. Eight markers, each with its exact molar-mass factor, both directions.",
+    inputs: "1 input",
+    formula: "mmol/L × molar mass ÷ 10",
+  },
+  {
+    slug: "non-hdl-cholesterol-calculator",
+    eyebrow: "Lipids",
+    title: "Non-HDL Cholesterol Calculator",
+    description:
+      "Total cholesterol minus HDL: the cholesterol carried by every particle that can build plaque, not just LDL. No fasting needed, and closer to ApoB than LDL is.",
+    inputs: "2 inputs",
+    formula: "Total cholesterol − HDL (NLA 2014)",
+  },
+  {
+    slug: "anion-gap-calculator",
+    eyebrow: "Acid-Base",
+    title: "Anion Gap Calculator",
+    description:
+      "A value calculated from three electrolytes on your metabolic panel. Low albumin can hide a raised gap, so this one applies the Figge correction when you add it.",
+    inputs: "3–5 inputs",
+    formula: "Na − (Cl + HCO3)",
+  },
+  {
+    slug: "bun-creatinine-ratio-calculator",
+    eyebrow: "Kidney Pattern",
+    title: "BUN/Creatinine Ratio Calculator",
+    description:
+      "A high ratio with a normal creatinine often points to hydration or diet rather than the kidneys. Accepts US units or SI urea and creatinine.",
+    inputs: "2 inputs",
+    formula: "BUN ÷ creatinine",
+  },
+  {
     slug: "phenoage-calculator",
     eyebrow: "Levine 2018",
     title: "PhenoAge Calculator",

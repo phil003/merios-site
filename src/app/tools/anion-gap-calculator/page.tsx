@@ -24,7 +24,7 @@ const AG_EXAMPLES: [string, string, string][] = [
 const FAQ_ITEMS = [
   { q: "How do you calculate the anion gap?", a: "The anion gap is sodium minus the sum of chloride and bicarbonate, all in mEq/L (the same numbers as mmol/L). With a sodium of 140, chloride of 104 and bicarbonate of 24, the gap is 140 minus 128, or 12. Some laboratories add potassium to the sodium side, which raises the result by roughly 4 mEq/L, so always check which version your report uses. Bicarbonate usually appears on a metabolic panel as CO2 or total CO2." },
   { q: "What does a high anion gap mean?", a: "A clearly raised anion gap suggests that the blood contains more unmeasured acids than usual, which is the pattern of a high anion gap metabolic acidosis. It is associated with ketoacidosis, lactic acidosis, advanced kidney failure and certain toxins such as methanol, ethylene glycol or large amounts of aspirin. A mildly raised value can also come from dehydration, lab variation or a reference range from an older analyzer. The gap itself does not identify the cause; a clinician reads it with pH, bicarbonate, kidney function and symptoms." },
-  { q: "What does a low anion gap mean?", a: "The most common reason for a low anion gap is a low albumin level, because albumin is the main unmeasured anion in blood. Laboratory error is the next most common explanation. Rarer causes include high levels of abnormal antibodies (paraproteins, as seen in multiple myeloma) and exposure to lithium or bromide. A single low value with otherwise normal results is usually repeated before anything else is done." },
+  { q: "What does a low anion gap mean?", a: "The usual reasons for a low anion gap are laboratory error and low albumin, because albumin is the main unmeasured anion in blood. Rarer causes include high levels of abnormal antibodies (paraproteins, as seen in multiple myeloma) and exposure to lithium or bromide. A single low value with otherwise normal results is usually repeated before anything else is done." },
   { q: "What is the normal anion gap range?", a: "It depends on the analyzer. Older references, based on flame photometry, quoted roughly 8 to 16 mEq/L. Modern ion-selective electrode analyzers give lower values, commonly cited as about 3 to 10 or 4 to 12 mEq/L without potassium. Ranges that include potassium run about 4 mEq/L higher. Because of this spread, the range printed on your own report is the one to use." },
   { q: "Does Merios store these numbers?", a: "No. The calculator runs entirely in your browser. Your inputs never leave your device and are not sent to a server." },
 ];
@@ -196,8 +196,8 @@ export default function Page() {
               <h2>What a low anion gap suggests</h2>
               <p>
                 Low values are less common and usually less dramatic. Albumin carries a large share of the negative
-                charge the panel does not measure, so when albumin falls, the gap falls with it. That is the most
-                common cause of a low anion gap, followed by lab error. Rarer causes include high levels of
+                charge the panel does not measure, so when albumin falls, the gap falls with it. Two causes
+                dominate a low anion gap: lab error and low albumin. Rarer causes include high levels of
                 positively charged abnormal antibodies (paraproteins, as in multiple myeloma) and exposure to
                 lithium, bromide or iodide.
               </p>
@@ -212,8 +212,8 @@ export default function Page() {
               </p>
               <p className={t.formula}>Corrected gap = gap + 2.5 × (4.0 − albumin in g/dL)</p>
               <p>
-                The 4.0 g/dL is the reference albumin most often used; some sources use 4.4, which raises the
-                corrected value by about 1. The correction matters most when albumin is well below normal, as in
+                Figge's own reference albumin was 4.4 g/dL; many calculators round to 4.0, and 4.4 would raise
+                the corrected value by about 1 mEq/L. The correction matters most when albumin is well below normal, as in
                 serious illness, liver disease or significant protein loss. With an albumin around 4, it changes
                 almost nothing.
               </p>

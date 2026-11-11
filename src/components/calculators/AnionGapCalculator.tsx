@@ -141,14 +141,14 @@ export default function AnionGapCalculator() {
         <Refs>
           {withK === "yes" ? (
             <>
-              <RefRow label="Low — most often low albumin or lab error" range="under 7" tone="warn" />
+              <RefRow label="Low — most often lab error or low albumin" range="under 7" tone="warn" />
               <RefRow label="Typical with potassium (approximate)" range="7–16" tone="ok" />
               <RefRow label="Above typical modern range" range="16–20" tone="warn" />
               <RefRow label="High" range="above 20" tone="bad" />
             </>
           ) : (
             <>
-              <RefRow label="Low — most often low albumin or lab error" range="under 3" tone="warn" />
+              <RefRow label="Low — most often lab error or low albumin" range="under 3" tone="warn" />
               <RefRow label="Typical, modern analyzers" range="3–12" tone="ok" />
               <RefRow label="Above modern range, inside older 8–16" range="12–16" tone="warn" />
               <RefRow label="High" range="above 16" tone="bad" />
@@ -162,8 +162,8 @@ export default function AnionGapCalculator() {
           Educational tool, not a diagnosis. The anion gap is a calculated value, and its reference range depends on
           the analyzer: modern ion-selective electrode methods commonly give about 3–10 or 4–12 mEq/L, while older
           references quote 8–16. The bands shown are broad orientation only; compare against the range printed on
-          your own report. Albumin correction uses Figge et al. (1998): corrected gap = gap + 2.5 × (4.0 − albumin in
-          g/dL). An abnormal anion gap is interpreted by a clinician together with pH, bicarbonate, kidney function
+          your own report. Albumin correction adapts Figge et al. (1998), about 2.5 mEq/L of gap per 1 g/dL of albumin: corrected gap =
+          gap + 2.5 × (4.0 − albumin in g/dL). Figge's own reference albumin was 4.4 g/dL, which would add about 1 more. An abnormal anion gap is interpreted by a clinician together with pH, bicarbonate, kidney function
           and the clinical picture.
         </Footnote>
         <Cta />

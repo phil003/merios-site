@@ -150,6 +150,15 @@ const TOOLS = [
     formula: "×38.67 cholesterol · ×88.57 triglycerides",
   },
   {
+    slug: "corrected-calcium-calculator",
+    eyebrow: "Calcium + Albumin",
+    title: "Corrected Calcium Calculator",
+    description:
+      "A low albumin can make a normal calcium look low. Adjusts total calcium for albumin in mg/dL or mmol/L and shows the result in both units.",
+    inputs: "2 inputs",
+    formula: "Payne et al., BMJ 1973",
+  },
+  {
     slug: "zone-2-calculator",
     eyebrow: "Zone 2 Training",
     title: "Zone 2 Heart Rate",

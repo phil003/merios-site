@@ -234,6 +234,7 @@ const MOTIF: Record<string, { big: string; suffix?: string; curve?: ChartSpec["c
   "magnesium-types-compared": { big: "Mg", suffix: "×8", curve: "dotted" },
   "mcv-mch-blood-test-meaning": { big: "MCV", suffix: "MCH" },
   "mch-blood-test": { big: "MCH", suffix: "pg" },
+  "mcv-blood-test": { big: "MCV", suffix: "fL" },
   "omega-3-index-test": { big: "Ω-3" },
   "resting-heart-rate-suddenly-high": { big: "RHR", curve: "rise" },
   "shbg-high-low-meaning": { big: "SHBG" },

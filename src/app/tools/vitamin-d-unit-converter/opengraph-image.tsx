@@ -12,7 +12,7 @@ export const alt = "Vitamin D converter from ng/mL to nmol/L, free from Merios."
 export default function OgImage() {
   return renderOgCard({
     eyebrow: "Free converter",
-    title: "Vitamin D converter: ng/mL to nmol/L",
+    title: "Vitamin D unit converter: ng/mL to nmol/L",
     meta: "Exact factor: 1 ng/mL = 2.496 nmol/L",
   });
 }

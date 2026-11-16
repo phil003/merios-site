@@ -7,14 +7,15 @@ import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
-const TITLE = "Vitamin D Converter (ng/mL to nmol/L)";
+const TITLE = "Vitamin D Unit Converter (ng/mL to nmol/L)";
 const DESCRIPTION =
-  "Convert 25-OH vitamin D between ng/mL and nmol/L. The factor is exact (1 ng/mL = 2.496 nmol/L), with a full table and what each level means.";
+  "30 ng/mL = 75 nmol/L. Convert vitamin D both ways: multiply ng/mL by 2.496, divide nmol/L by 2.496. Instant converter, full table, what each level means.";
 const URL = "https://merios.life/tools/vitamin-d-unit-converter";
 
 const FAQ_ITEMS = [
   { q: "How do you convert vitamin D from ng/mL to nmol/L?", a: "Multiply by 2.496. A 25-hydroxyvitamin D level of 30 ng/mL is 74.9 nmol/L, usually rounded to 75. The factor is exact because it comes from the weight of the vitamin D molecule, so unlike some other blood tests there is no approximation involved." },
   { q: "How do you convert vitamin D from nmol/L to ng/mL?", a: "Divide by 2.496, or multiply by 0.4006. A level of 75 nmol/L is 30 ng/mL, 50 nmol/L is 20 ng/mL and 125 nmol/L is 50 ng/mL. If you only need a quick estimate, dividing by 2.5 gets you within a fraction of a unit." },
+  { q: "What is 60 ng/mL of vitamin D in nmol/L?", a: "60 ng/mL is 150 nmol/L (60 x 2.496 = 149.8). Other common values: 40 ng/mL is 100 nmol/L and 80 ng/mL is 200 nmol/L. A level of 60 ng/mL is above the 50 ng/mL (125 nmol/L) mark above which the Institute of Medicine noted potential adverse effects. Read it against the range on your own report." },
   { q: "Is 75 nmol/L the same as 30 ng/mL?", a: "Yes. 75 nmol/L and 30 ng/mL are the same vitamin D level written in two unit systems. US labs report ng/mL, while labs in the UK, Canada, Australia and most of Europe report nmol/L, which is why the same person can see 30 on one report and 75 on another." },
   { q: "What is a normal vitamin D level in nmol/L?", a: "By the Institute of Medicine definition, 50 nmol/L (20 ng/mL) and above is adequate for bone health in nearly everyone, and below 30 nmol/L (12 ng/mL) is associated with deficiency. Levels above 125 nmol/L (50 ng/mL) have been linked to potential adverse effects. UK guidance uses 25 nmol/L as its deficiency threshold. Always read your result against the range on your own report." },
   { q: "Can I convert my vitamin D blood level to IU?", a: "No. IU (international units) measures a dose of vitamin D in a supplement or food, not the concentration in your blood. 1 microgram of vitamin D3 is 40 IU, but there is no fixed link between the IU you take and the ng/mL or nmol/L you end up with: the response varies with body weight, starting level and absorption." },
@@ -107,8 +108,8 @@ export default function Page() {
 
       <PageHero
         eyebrow="Vitamin D — ng/mL and nmol/L"
-        title="Vitamin D converter: ng/mL to nmol/L"
-        subline="30 on one report, 75 on another, and it is the same result. Convert 25-OH vitamin D in either direction, exactly, and see where the number sits."
+        title="Vitamin D unit converter: ng/mL to nmol/L"
+        subline="1 ng/mL = 2.496 nmol/L, so 30 ng/mL is 75 nmol/L and 60 ng/mL is 150 nmol/L. Convert 25-OH vitamin D in either direction, exactly, and see where the number sits."
         align="left"
       />
 

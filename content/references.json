@@ -1643,6 +1643,18 @@
   "doi": "10.1093/ajcn/88.4.1097",
   "pmid": "18842799"
  },
+ "pmid:18940465": {
+  "title": "Hereditary spherocytosis",
+  "authors": [
+   "Perrotta S",
+   "Gallagher PG",
+   "Mohandas N"
+  ],
+  "journal": "Lancet",
+  "year": "2008",
+  "doi": "10.1016/S0140-6736(08)61588-3",
+  "pmid": "18940465"
+ },
  "pmid:18997196": {
   "title": "Rosuvastatin to prevent vascular events in men and women with elevated C-reactive protein",
   "authors": [
@@ -2297,6 +2309,19 @@
   "doi": "10.1123/ijspp.5.3.276",
   "pmid": "20861519"
  },
+ "pmid:20870584": {
+  "title": "[The mechanism of non-immune haemolytic anaemia in burns patient]",
+  "authors": [
+   "Siah S",
+   "Elmaataoui A",
+   "Messaoudi N",
+   "Ihrai I"
+  ],
+  "journal": "Ann Biol Clin (Paris)",
+  "year": "2010",
+  "doi": "10.1684/abc.2010.0473",
+  "pmid": "20870584"
+ },
  "pmid:21118827": {
   "title": "The 2011 report on dietary reference intakes for calcium and vitamin D from the Institute of Medicine: what clinicians need to know",
   "authors": [
@@ -2597,6 +2622,19 @@
   "year": "2011",
   "doi": "10.3109/00365513.2011.602422",
   "pmid": "21988588"
+ },
+ "pmid:22055020": {
+  "title": "Guidelines for the diagnosis and management of hereditary spherocytosis--2011 update",
+  "authors": [
+   "Bolton-Maggs PH",
+   "Langer JC",
+   "Iolascon A",
+   "Tittensor P"
+  ],
+  "journal": "Br J Haematol",
+  "year": "2012",
+  "doi": "10.1111/j.1365-2141.2011.08921.x",
+  "pmid": "22055020"
  },
  "pmid:22071480": {
   "title": "Sleep and immune function",

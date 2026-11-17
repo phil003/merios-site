@@ -67,6 +67,7 @@ const STATIC_ROUTES = [
   { path: '/tools/phenoage-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/anion-gap-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/bun-creatinine-ratio-calculator', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/neutrophil-lymphocyte-ratio-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/mmol-to-mg-dl-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/non-hdl-cholesterol-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/homa-ir-calculator', priority: 0.7, changefreq: 'monthly' },

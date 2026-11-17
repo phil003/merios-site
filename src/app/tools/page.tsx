@@ -75,6 +75,15 @@ const TOOLS = [
     formula: "BUN ÷ creatinine",
   },
   {
+    slug: "neutrophil-lymphocyte-ratio-calculator",
+    eyebrow: "Inflammation Pattern",
+    title: "Neutrophil-to-Lymphocyte Ratio Calculator",
+    description:
+      "NLR from your CBC differential, using absolute counts or percentages, placed on the range seen in healthy adults. Explains why one result can swing.",
+    inputs: "2–3 inputs",
+    formula: "neutrophils ÷ lymphocytes",
+  },
+  {
     slug: "phenoage-calculator",
     eyebrow: "Levine 2018",
     title: "PhenoAge Calculator",

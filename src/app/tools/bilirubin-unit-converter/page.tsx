@@ -7,12 +7,13 @@ import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
-const TITLE = "Bilirubin Conversion: mg/dL to µmol/L";
+const TITLE = "Bilirubin Conversion: µmol/L to mg/dL, Factor 17.1";
 const DESCRIPTION =
-  "Convert bilirubin between mg/dL and µmol/L (1 mg/dL = 17.1 µmol/L), with tables in both directions and what 1.2, 2 and 3 mg/dL mean for adult results.";
+  "Bilirubin conversion factor: 1 mg/dL = 17.1 µmol/L. Divide µmol/L by 17.1 for mg/dL (20.5 µmol/L = 1.2 mg/dL). Free converter for total and direct bilirubin.";
 const URL = "https://merios.life/tools/bilirubin-unit-converter";
 
 const FAQ_ITEMS = [
+  { q: "What is the bilirubin conversion factor?", a: "17.1. One mg/dL of bilirubin equals 17.1 µmol/L (17.104 exactly, from its molar mass of 584.66 g/mol). Multiply mg/dL by 17.1 to get µmol/L, divide µmol/L by 17.1 to get mg/dL. The factor is the same for total, direct and indirect bilirubin." },
   { q: "How do you convert bilirubin from mg/dL to µmol/L?", a: "Multiply by 17.1. A total bilirubin of 1.2 mg/dL is 20.5 µmol/L, and 2 mg/dL is 34.2 µmol/L. The factor comes from the molar mass of bilirubin, 584.66 g/mol, which gives 17.104 µmol/L per mg/dL. Most labs and references round it to 17.1." },
   { q: "How do you convert bilirubin from µmol/L to mg/dL?", a: "Divide by 17.1, or multiply by 0.0585. A level of 17 µmol/L is 0.99 mg/dL, 34 µmol/L is 1.99 mg/dL and 51 µmol/L is 2.98 mg/dL. Dividing by 17 in your head gets you within about one percent." },
   { q: "Is 20 µmol/L bilirubin normal?", a: "For total bilirubin in an adult, usually yes. 20 µmol/L is 1.17 mg/dL, and MedlinePlus lists a normal total bilirubin of 0.1 to 1.2 mg/dL, or 1.71 to 20.5 µmol/L. The range on your own report is the one that applies." },
@@ -108,8 +109,8 @@ export default function Page() {
 
       <PageHero
         eyebrow="Bilirubin — mg/dL and µmol/L"
-        title="Bilirubin conversion: mg/dL to µmol/L"
-        subline="1.2 on one report, 20.5 on another, and it is the same result. Convert total or direct bilirubin in either direction and see where the number sits."
+        title="Bilirubin conversion: µmol/L to mg/dL"
+        subline="Conversion factor 17.1: divide µmol/L by 17.1 to get mg/dL, multiply mg/dL by 17.1 to get µmol/L. 20.5 µmol/L is 1.2 mg/dL, the same result on two reports. Works for total and direct bilirubin."
         align="left"
       />
 

@@ -167,8 +167,8 @@ export default function NeutrophilLymphocyteRatioCalculator() {
 
       <CalcFoot>
         <Footnote>
-          Educational tool, not a diagnosis. NLR is a non-specific marker: infection, recent stress or poor sleep,
-          hard exercise and steroid medicines can all move it, so one result describes one blood draw. The typical
+          Educational tool, not a diagnosis. NLR is a non-specific marker: infection, recent stress,
+          hard exercise and steroid medicines can all move it, and poor sleep may too, so one result describes one blood draw. The typical
           range comes from 413 healthy working adults aged 21 to 66 (Forget et al., BMC Research Notes 2017) and may
           not fit older adults, children or pregnancy. A high value with fever or feeling unwell, or a value far
           above the range, is worth discussing with a clinician promptly.
@@ -200,7 +200,7 @@ function band(r: number): { name: string; tone: Tone; description: string } {
   if (r <= 3.53) return {
     name: "Typical adult range", tone: "ok",
     description:
-      "Inside the healthy-adult range (0.78 to 3.53, Forget et al., 2017), in its upper part. Zahorec's 2021 review describes 2.3 to 3.0 as a grey zone that may reflect low-grade inflammation or stress, which is often temporary. Worth comparing with a later CBC rather than reading into one result.",
+      "Inside the healthy-adult range (0.78 to 3.53, Forget et al., 2017), in its upper part. Zahorec's 2021 review describes 2.3 to 3.0 as a grey zone that may reflect low-grade inflammation or stress, which is often temporary. Worth comparing with a later CBC rather than reading into one result. Zahorec's review treats values above 3.0 as abnormal, so a value near the top of this range is worth rechecking.",
   };
   return {
     name: "Above typical range", tone: "warn",

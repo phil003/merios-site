@@ -7,12 +7,13 @@ import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
-const TITLE = "Uric Acid Conversion: mg/dL to µmol/L";
+const TITLE = "Uric Acid Conversion: µmol/L to mg/dL, Factor 59.48";
 const DESCRIPTION =
-  "Convert uric acid between mg/dL, µmol/L and mmol/L (1 mg/dL = 59.48 µmol/L), with tables in both directions and what 6, 6.8 and 7 mg/dL mean.";
+  "Uric acid conversion factor: 1 mg/dL = 59.48 µmol/L. Divide µmol/L by 59.48 for mg/dL (360 µmol/L = 6.05 mg/dL); mmol/L × 16.81 = mg/dL. Free converter.";
 const URL = "https://merios.life/tools/uric-acid-unit-converter";
 
 const FAQ_ITEMS = [
+  { q: "What is the uric acid conversion factor?", a: "59.48. One mg/dL of uric acid equals 59.48 µmol/L, from its molar mass of 168.11 g/mol. Multiply mg/dL by 59.48 to get µmol/L, divide µmol/L by 59.48 to get mg/dL. For mmol/L, multiply by 16.81 to get mg/dL. Many labs round the factor to 59.5 or 60." },
   { q: "How do you convert uric acid from mg/dL to µmol/L?", a: "Multiply by 59.48. A uric acid level of 6 mg/dL is 356.9 µmol/L, usually rounded to 357. The factor comes from the molar mass of uric acid, 168.11 g/mol. Many labs and quick references round it to 59.5 or 60, which is why you will also see 6 mg/dL written as 360 µmol/L." },
   { q: "How do you convert uric acid from µmol/L to mg/dL?", a: "Divide by 59.48, or multiply by 0.0168. A level of 360 µmol/L is 6.05 mg/dL, 300 µmol/L is 5.04 mg/dL and 420 µmol/L is 7.06 mg/dL. Dividing by 60 in your head gets you within about one percent." },
   { q: "How do you convert uric acid from mmol/L to mg/dL?", a: "Multiply by 1,000 to get µmol/L, then divide by 59.48. In one step, multiply mmol/L by 16.81. A result of 0.36 mmol/L is 6.05 mg/dL, and 0.42 mmol/L is 7.06 mg/dL. mmol/L and µmol/L are the same scale, a factor of 1,000 apart." },
@@ -107,8 +108,8 @@ export default function Page() {
 
       <PageHero
         eyebrow="Uric acid — mg/dL, µmol/L and mmol/L"
-        title="Uric acid conversion: mg/dL to µmol/L"
-        subline="6 on one report, 357 on another, and it is the same result. Convert uric acid in any direction, including mmol/L, and see where the number sits."
+        title="Uric acid conversion: µmol/L and mmol/L to mg/dL"
+        subline="Conversion factor 59.48: divide µmol/L by 59.48 to get mg/dL, or multiply mmol/L by 16.81. 357 µmol/L is 6 mg/dL, the same result on two reports. Works in any direction."
         align="left"
       />
 

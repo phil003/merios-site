@@ -75,6 +75,15 @@ const TOOLS = [
     formula: "BUN ÷ creatinine",
   },
   {
+    slug: "ast-alt-ratio-calculator",
+    eyebrow: "Liver Pattern",
+    title: "AST/ALT Ratio Calculator",
+    description:
+      "The De Ritis ratio from your liver panel, with what below 1, above 1 and above 2 are linked to. Explains when the ratio is not worth reading into.",
+    inputs: "2 inputs",
+    formula: "AST ÷ ALT",
+  },
+  {
     slug: "neutrophil-lymphocyte-ratio-calculator",
     eyebrow: "Inflammation Pattern",
     title: "Neutrophil-to-Lymphocyte Ratio Calculator",

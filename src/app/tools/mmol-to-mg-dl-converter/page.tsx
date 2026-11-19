@@ -104,7 +104,9 @@ export default function Page() {
                 The division by 10 converts litres to deciliters. Glucose has a molar mass of 180.16 grams per mole,
                 so its factor is 18.02: a fasting glucose of 5.6 mmol/L is about 101 mg/dL. Going the other way, you
                 divide by the same factor. For markers reported in micromoles per litre, such as creatinine, the
-                factor is 1,000 times larger, which is why creatinine uses 88.4 rather than 0.0884.
+                factor is 1,000 times larger, which is why creatinine uses 88.4 rather than 0.0884. The{" "}
+                <Link href="/tools/creatinine-unit-converter">creatinine unit converter</Link> applies it in both
+                directions, with a conversion chart and the adult ranges for women and men.
               </p>
 
               <h2>Why there is no universal conversion factor</h2>

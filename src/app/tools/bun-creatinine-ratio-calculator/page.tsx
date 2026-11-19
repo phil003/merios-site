@@ -90,7 +90,9 @@ export default function Page() {
                 A BUN of 15 with a creatinine of 0.9 gives 16.7, usually written 16.7:1. Outside the US, reports
                 often give urea in mmol/L and creatinine in µmol/L. Convert first: urea in mmol/L times 2.8 gives
                 BUN in mg/dL, because each millimole of urea carries 28 mg of nitrogen, and creatinine in µmol/L
-                divided by 88.4 gives mg/dL. If your report gives urea in mg/dL rather than urea nitrogen, divide it
+                divided by 88.4 gives mg/dL (the{" "}
+                <Link href="/tools/creatinine-unit-converter">creatinine unit converter</Link> does this step and
+                shows the adult range). If your report gives urea in mg/dL rather than urea nitrogen, divide it
                 by 2.14 to get BUN. Some UK and European labs print a urea-to-creatinine ratio from the SI numbers;
                 that is a different scale and cannot be compared with the 10:1 to 20:1 band.
               </p>

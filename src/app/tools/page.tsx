@@ -75,6 +75,15 @@ const TOOLS = [
     formula: "BUN ÷ creatinine",
   },
   {
+    slug: "creatinine-unit-converter",
+    eyebrow: "Lab Units",
+    title: "Creatinine Unit Converter",
+    description:
+      "µmol/L to mg/dL and back with the exact 88.4 factor, a 0.5–5.0 mg/dL chart, adult ranges for women and men, and what moves creatinine besides the kidneys.",
+    inputs: "1 input",
+    formula: "µmol/L ÷ 88.4",
+  },
+  {
     slug: "ast-alt-ratio-calculator",
     eyebrow: "Liver Pattern",
     title: "AST/ALT Ratio Calculator",

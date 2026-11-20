@@ -82,14 +82,14 @@ export default function TermsPage() {
       <LegalPageLayout
         eyebrow="Terms"
         title="Terms of Service"
-        lastUpdated="April 3, 2026"
+        lastUpdated="November 20, 2026"
         tocItems={tocItems}
       >
         <div className={legal.body}>
           {/* Intro */}
           <section>
             <p>
-              These Terms of Service ("Terms") constitute a binding agreement between you and Merios LLC ("Company," "we," "us," or "our") governing your access to and use of the Merios application, website, and all related services (collectively, the "Service").
+              These Terms of Service ("Terms") constitute a binding agreement between you and Merios Health LLC ("Company," "we," "us," or "our") governing your access to and use of the Merios application, website, and all related services (collectively, the "Service").
             </p>
             <p className="mt-4">
               By accessing or using Merios, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree to these Terms, do not use the Service.
@@ -291,7 +291,7 @@ export default function TermsPage() {
             </p>
             <div className={`${legal.card} mt-6`}>
               <p className={legal.cardTitle}>
-                Merios LLC
+                Merios Health LLC
               </p>
               <p className="mt-2">
                 <strong>Support:</strong> support@merios.life

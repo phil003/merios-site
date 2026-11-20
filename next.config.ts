@@ -29,6 +29,14 @@ const nextConfig: NextConfig = {
       // routes intentionally don't appear there.
       { source: "/features", destination: "/how-it-works", permanent: true },
       { source: "/support", destination: "/faq", permanent: true },
+      // /blog/biological-age-complete-guide answered as a soft 404 (decision
+      // bioage-301, GO from Phil on 20/11/2026): the calculator is the page
+      // that serves "biological age from a blood test".
+      {
+        source: "/blog/biological-age-complete-guide",
+        destination: "/tools/phenoage-calculator",
+        permanent: true,
+      },
       // Retired brand-vs comparison. "merios vs X" has no search demand
       // (Google autocomplete returns nothing for "merios"), so this page
       // targeted a query that does not exist. Its topic is now served by the

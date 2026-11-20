@@ -9,6 +9,7 @@ import Daily from "@/components/home/Daily";
 import LinkSection from "@/components/home/Link";
 import Plans from "@/components/home/Plans";
 import Private from "@/components/home/Private";
+import WhoFor from "@/components/home/WhoFor";
 import Learn from "@/components/home/Learn";
 import Finale from "@/components/home/Finale";
 import Footer from "@/components/Footer";
@@ -32,6 +33,7 @@ export default function Home() {
         <Daily />
         <LinkSection />
         <Plans />
+        <WhoFor />
         <Private />
         <Learn />
         <Finale />

@@ -21,6 +21,7 @@
 .hv3-link { content-visibility: auto; contain-intrinsic-size: auto 1200px; }
 .hv3-plans { content-visibility: auto; contain-intrinsic-size: auto 1200px; }
 .hv3-private { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.hv3-faq { contain-intrinsic-size: auto 900px; }
 .hv3-learn { content-visibility: auto; contain-intrinsic-size: auto 1300px; }
 .hv3-finale { content-visibility: auto; contain-intrinsic-size: auto 100svh; }
 .hv3 .lead {
@@ -543,6 +544,9 @@ html.hv3-staged[data-ground="light"] .hv3 [data-stage="night"] > * { opacity: 0;
 .hv3-fact4:nth-child(odd) { padding-right: 28px; }
 .hv3-fact4 .label { color: var(--color-forest); }
 .hv3-fact4 p { margin: 0; font-size: 1.05rem; line-height: 1.42; color: var(--color-ink); }
+
+.hv3-faq .hv3-fact4 h3 { margin: 0; font-size: 1.12rem; line-height: 1.3; font-weight: 650; color: var(--color-ink); }
+.hv3-faq .hv3-fact4 p { font-size: 1rem; color: var(--color-ink-secondary); }
 
 /* ─── Learn ─── */
 .hv3-learn { padding-block: clamp(60px, 7vw, 110px) clamp(110px, 12vw, 170px); }

@@ -106,7 +106,10 @@ export default function Page() {
                 divide by the same factor. For markers reported in micromoles per litre, such as creatinine, the
                 factor is 1,000 times larger, which is why creatinine uses 88.4 rather than 0.0884. The{" "}
                 <Link href="/tools/creatinine-unit-converter">creatinine unit converter</Link> applies it in both
-                directions, with a conversion chart and the adult ranges for women and men.
+                directions, with a conversion chart and the adult ranges for women and men. Serum iron works the
+                same way in micrograms: the{" "}
+                <Link href="/tools/iron-unit-converter">iron unit converter</Link> turns µmol/L into µg/dL with a
+                factor of 5.585.
               </p>
 
               <h2>Why there is no universal conversion factor</h2>

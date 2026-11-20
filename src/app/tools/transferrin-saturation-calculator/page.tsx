@@ -225,6 +225,10 @@ export default function Page() {
                 <Link href="/blog/iron-supplements-not-working">why iron supplements stop working</Link>.
               </p>
               <p>
+                If your report gives iron or TIBC in µmol/L, convert both to µg/dL first with the{" "}
+                <Link href="/tools/iron-unit-converter">iron unit converter</Link>, which also handles ferritin units.
+              </p>
+              <p>
                 One saturation is a snapshot of a value that moves. The pattern worth having is the same fasting draw
                 tracked across several panels, with ferritin beside it — which is what{" "}
                 <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-transferrin-saturation-calculator&mt=8">Merios</a> is built to do from the reports you already

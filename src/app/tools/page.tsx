@@ -168,6 +168,15 @@ const TOOLS = [
     formula: "Iron ÷ TIBC × 100",
   },
   {
+    slug: "iron-unit-converter",
+    eyebrow: "Lab Units",
+    title: "Iron Unit Converter",
+    description:
+      "Serum iron and TIBC from µg/dL to µmol/L with the 0.1791 factor, ferritin in ng/mL, µg/L and pmol/L, a conversion chart, and why iron cannot be converted into ferritin.",
+    inputs: "1 input",
+    formula: "µg/dL × 0.1791",
+  },
+  {
     slug: "sarcopenia-index-calculator",
     eyebrow: "Muscle Proxy",
     title: "Sarcopenia Index",

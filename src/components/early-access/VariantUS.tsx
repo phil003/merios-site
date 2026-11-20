@@ -179,6 +179,47 @@ export default function VariantUS() {
           >
             iPhone · iOS 15.1+ · Free to start
           </p>
+
+          {/* On a computer: 71 % of site visitors are on desktop (Vercel
+              Analytics, 13-20/11/2026). A QR code lets them install from the
+              phone in their pocket. Hidden on small screens. */}
+          <div
+            className="he mt-8 hidden items-center gap-4 rounded-2xl md:inline-flex"
+            style={
+              {
+                "--he-d": "0.56s",
+                padding: "10px 18px 10px 10px",
+                background: "rgb(255 255 255 / 0.08)",
+                border: "1px solid rgb(255 255 255 / 0.14)",
+                textAlign: "left",
+              } as CSSProperties
+            }
+          >
+            <span
+              style={{
+                width: 76,
+                height: 76,
+                borderRadius: 12,
+                background: "#FFFFFF",
+                padding: 6,
+                display: "grid",
+                placeItems: "center",
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/v3/qr-app-store.svg"
+                alt="QR code that opens Merios on the App Store"
+                width={64}
+                height={64}
+                style={{ display: "block" }}
+              />
+            </span>
+            <span style={{ fontSize: "0.92rem", lineHeight: 1.3, maxWidth: "12em", color: "var(--color-on-night-2)" }}>
+              <b style={{ display: "block", color: "var(--color-on-night)", fontWeight: 650 }}>On a computer?</b>
+              Point your iPhone camera here.
+            </span>
+          </div>
         </div>
 
         {/* The logo's heartbeat as the stage's horizon */}

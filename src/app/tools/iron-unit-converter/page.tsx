@@ -278,7 +278,7 @@ export default function Page() {
                 them. A serum iron of 90 µg/dL with a TIBC of 350 µg/dL gives a saturation of about 26%. MedlinePlus
                 lists 20% to 50% for men and 15% to 45% for women. The{" "}
                 <Link href="/tools/transferrin-saturation-calculator">transferrin saturation calculator</Link> does the
-                division for you and explains each band.
+                division for you and explains each band. It accepts iron and TIBC in µmol/L as well, so a report in SI units goes straight in without converting first.
               </p>
 
               <h2>Normal iron, TIBC and ferritin ranges in US and SI units</h2>

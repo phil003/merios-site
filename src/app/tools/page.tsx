@@ -177,6 +177,15 @@ const TOOLS = [
     formula: "µg/dL × 0.1791",
   },
   {
+    slug: "dhea-unit-converter",
+    eyebrow: "Lab Units",
+    title: "DHEA Unit Converter",
+    description:
+      "DHEA-S from µg/dL to µmol/L with the 0.02714 factor, plain DHEA in ng/mL, ng/dL and nmol/L, age and sex ranges, and why DHEA and DHEA-S never convert into each other.",
+    inputs: "1 input",
+    formula: "µg/dL × 0.02714",
+  },
+  {
     slug: "sarcopenia-index-calculator",
     eyebrow: "Muscle Proxy",
     title: "Sarcopenia Index",

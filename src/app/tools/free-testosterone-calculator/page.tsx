@@ -139,7 +139,9 @@ export default function FreeTestosteroneCalculatorPage() {
                 <Link href="/blog/testosterone-400-normal">
                   whether a testosterone of 400 is normal
                 </Link>
-                .
+                . If your panel also lists DHEA-S, another androgen made mainly by the adrenal glands, the{" "}
+                <Link href="/tools/dhea-unit-converter">DHEA unit converter</Link> turns µg/dL into µmol/L and
+                explains why DHEA and DHEA-S results are not interchangeable.
               </p>
             </div>
           </section>

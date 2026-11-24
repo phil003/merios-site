@@ -12,6 +12,7 @@ import {
  *
  * Formula (ADAG study): eAG (mg/dL) = 28.7 × A1C − 46.7.
  * mmol/L = mg/dL ÷ 18.
+ * IFCC mmol/mol = (A1C % − 2.15) × 10.929 (NGSP/IFCC master equation).
  *
  * Runs both directions. A1C -> eAG serves "a1c to average glucose chart" and
  * its variants; eAG -> A1C serves "blood glucose to a1c chart", "glucose to a1c
@@ -31,6 +32,7 @@ export default function A1CConverter() {
       const mgdl = 28.7 * v - 46.7;
       return {
         kind: "glucose" as const,
+        ifcc: Math.round((v - 2.15) * 10.929),
         a1c: Math.round(v * 10) / 10,
         mgdl: Math.round(mgdl),
         mmol: Math.round((mgdl / 18) * 10) / 10,
@@ -45,6 +47,7 @@ export default function A1CConverter() {
     const v = (mgdl + 46.7) / 28.7;
     return {
       kind: "a1c" as const,
+      ifcc: Math.round((v - 2.15) * 10.929),
       a1c: Math.round(v * 10) / 10,
       mgdl: Math.round(mgdl),
       mmol: Math.round((mgdl / 18) * 10) / 10,
@@ -137,7 +140,9 @@ export default function A1CConverter() {
                 </div>
               </div>
               <RangeBar min={4} max={10} value={result.a1c} tone={result.band.tone} zones={ZONES} />
-              <p className={s.resultText}>{result.band.description}</p>
+              <p className={s.resultText}>
+                IFCC equivalent: {result.ifcc} mmol/mol. {result.band.description}
+              </p>
             </ResultBody>
           ) : (
             <Empty>
@@ -181,7 +186,7 @@ function getBand(a1c: number): { name: string; tone: Tone; description: string }
       name: "Normal",
       tone: "ok",
       description:
-        "Your A1C is in the normal range (below 5.7%). Keep an eye on the trend — the top of normal (5.5–5.6%) is where early metabolic drift shows up first.",
+        "Your A1C is in the normal range (below 5.7%). Tracking the trend over time is more informative than a single value.",
     };
   }
   if (a1c < 6.5) {
@@ -189,7 +194,7 @@ function getBand(a1c: number): { name: string; tone: Tone; description: string }
       name: "Prediabetes",
       tone: "warn",
       description:
-        "This falls in the prediabetes range (5.7–6.4%). It is highly reversible: the Diabetes Prevention Program showed 58% of people avoided progression with lifestyle change alone.",
+        "This falls in the prediabetes range (5.7–6.4%). In the Diabetes Prevention Program, intensive lifestyle change reduced the risk of developing type 2 diabetes by 58% in adults at high risk.",
     };
   }
   return {

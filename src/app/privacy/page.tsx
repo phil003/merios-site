@@ -4,17 +4,17 @@ import LegalPageLayout, { type TocItem } from "@/components/ui/LegalPageLayout";
 import legal from "@/components/legal/legalBody.module.css";
 import { BreadcrumbSchema } from "@/components/StructuredData";
 
-// Privacy Policy v2.1.0 — the version users accept in the app
+// Privacy Policy v2.2.0 — the version users accept in the app
 // (CURRENT_PRIVACY_VERSION in meryos/src/services/consent-service.ts).
 // Bump POLICY_VERSION, POLICY_DATE and the history table together.
-const POLICY_VERSION = "2.1.0";
-const POLICY_DATE = "November 5, 2026";
-const POLICY_DATE_ISO = "2026-11-05";
+const POLICY_VERSION = "2.2.0";
+const POLICY_DATE = "November 24, 2026";
+const POLICY_DATE_ISO = "2026-11-24";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    `Merios Privacy Policy (v${POLICY_VERSION}): what health data we read, why, who processes it, how to export or delete it. Hosted in the EU, never sold or used for ads.`,
+    `Merios Privacy Policy (v${POLICY_VERSION}): what health data we read, why, who processes it, how to export or delete it. Hosted in the EU, never sold; health data never used for ads.`,
   alternates: {
     canonical: "https://merios.life/privacy",
   },
@@ -109,6 +109,7 @@ export default function PrivacyPage() {
               <p className={legal.cardTitle}>The short version</p>
               <ul className="mt-3 space-y-2 list-disc pl-5">
                 <li>We never sell your data and never use your health data for advertising or marketing.</li>
+                <li>To measure our ads, Meta learns that the app was installed, that an account was created and that a subscription started. Never any health data (Section 6).</li>
                 <li>Your data is hosted in the European Union (Ireland), encrypted in transit and at rest, and only you can access it.</li>
                 <li>Apple Health is read only, with your permission, and you can disconnect it at any time.</li>
                 <li>The two AI features (reading a lab report, writing your reports) are optional and each needs your consent.</li>
@@ -255,7 +256,10 @@ export default function PrivacyPage() {
                 <strong>Apple</strong>: Sign in with Apple, Apple Health on your device, and in-app purchases. Apple processes your payment; we never see your card.
               </li>
               <li>
-                <strong>RevenueCat</strong> (United States): manages subscriptions. Receives an anonymous user ID and your purchase and subscription status, never health data.
+                <strong>RevenueCat</strong> (United States): manages subscriptions. Receives an anonymous user ID, your purchase and subscription status and technical device identifiers (identifier for vendors, IP address), never health data. It forwards trial and subscription events to Meta to measure our ads (below).
+              </li>
+              <li>
+                <strong>Meta Platforms</strong> (United States): measures our ads. Receives the events and identifiers described in &ldquo;Advertising measurement&rdquo; below, never health data.
               </li>
               <li>
                 <strong>Sentry</strong>: crash and error monitoring. Receives technical diagnostics; health data is scrubbed from reports before they are sent.
@@ -267,6 +271,12 @@ export default function PrivacyPage() {
                 <strong>Vercel</strong> and <strong>Google Analytics</strong>: host this website and measure its audience (Section 11). They receive no app or health data.
               </li>
             </ul>
+            <p id="advertising-measurement" className="mt-6">
+              <strong>Advertising measurement (Meta).</strong> Merios uses the Meta SDK to learn which of our ads bring people to the app. Meta receives that the app was installed and opened, how long it stays open, and that an account was created. RevenueCat also tells Meta when a trial or a subscription starts, converts or renews, and its price. With these events, Meta receives technical identifiers: an anonymous identifier created by the app, your device&rsquo;s identifier for vendors, your IP address, and your device model and iOS version. These events are sent whether or not you allow tracking. If you allow tracking in the iOS prompt, Meta also receives your device&rsquo;s advertising identifier.
+            </p>
+            <p className="mt-4">
+              Meta never receives health data from the app: nothing from Apple Health, no lab value, no score, no check-in answer, nothing from your journal. Meta processes this data under its own privacy policy. You can change your tracking choice at any time in iOS Settings &rsaquo; Privacy &amp; Security &rsaquo; Tracking.
+            </p>
           </section>
 
           {/* 7 */}
@@ -365,6 +375,7 @@ export default function PrivacyPage() {
               Each version of this policy has a number. When a change affects what data we process, where it goes or who has access, the app shows you what changed and asks you to accept the new version before you continue; your acceptance is recorded with the version number. Other changes are announced on this page.
             </p>
             <ul className="mt-4 space-y-2 list-disc pl-5">
+              <li><strong>2.2.0 (November 24, 2026):</strong> advertising measurement with Meta: installs, app opens, account creation, trials and subscriptions, with technical identifiers (Section 6). Never any health data.</li>
               <li><strong>2.1.0 (November 5, 2026):</strong> the first lab report is read for free, and to count it Merios keeps a fingerprint of each file read for free for 24 hours, then only the date and number of free reads; streak, badges, records, weekly challenges and reminder time are kept on your iPhone only; product events never contain anything derived from Apple Health or lab results; Merios no longer reads blood pressure, blood glucose, lean body mass, walking heart rate, sleep apnea events, cervical mucus, intermenstrual bleeding or state of mind; notifications described. Nothing changed in the health data Merios collects or in who it is sent to.</li>
               <li><strong>2.0.1 (October 27, 2026):</strong> corrected how long OpenAI may keep the data we send it (up to 30 days in its abuse-monitoring logs, not zero retention) and removed the mention of a data processing agreement; stated that a scanned document is sent with any name or date of birth printed on it, and that the second automated pass runs only when a reading looks uncertain. Nothing changed in what Merios collects or where it sends it.</li>
               <li><strong>2.0.0 (September 2026):</strong> Merios 2.0. Import of up to 365 days of Apple Health history for daily scores and baselines; journal and cycle logging; reports written by an AI model from aggregated figures only and checked against our wellness charter; clarified that scanned lab report files are not stored.</li>

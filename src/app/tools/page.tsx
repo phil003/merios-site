@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
 import { BreadcrumbSchema } from "@/components/StructuredData";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolsGrid from "@/components/calculators/tool-page/ToolsGrid";
+import { TOOLS, toolHref } from "@/components/calculators/tool-page/registry";
 import t from "./tools.module.css";
 
 /**
@@ -14,10 +15,10 @@ import t from "./tools.module.css";
  * reference sites. Tools live at clean /tools/[slug] URLs (vs. embedded in blog
  * posts) so they can rank as standalone resources for "X calculator" queries.
  *
- * Three tools shipped in batch 7 (May 2026):
- *   - /tools/phenoage-calculator (Levine 2018, top backlink target)
- *   - /tools/homa-ir-calculator (insulin resistance)
- *   - /blog/triglyceride-hdl-ratio-calculator (heart-risk single-number)
+ * v2 Open Sky (Tools.dc.html): dawn masthead with topic chips, every tool on
+ * a card whose plate shows its formula, PhenoAge as the wide card, "How they
+ * are built", and a final with the app's biological age screen. The tool
+ * list (copy, order, topics) lives in components/calculators/tool-page/registry.
  */
 
 export const metadata: Metadata = {
@@ -37,216 +38,21 @@ export const metadata: Metadata = {
   },
 };
 
-const TOOLS = [
+const HOW = [
   {
-    slug: "mmol-to-mg-dl-converter",
-    eyebrow: "Lab Units",
-    title: "mmol/L to mg/dL Converter",
-    description:
-      "There is no single factor: glucose, cholesterol and triglycerides each convert differently. Eight markers, each with its exact molar-mass factor, both directions.",
-    inputs: "1 input",
-    formula: "mmol/L × molar mass ÷ 10",
+    n: "01",
+    title: "Exactly as published",
+    text: "Each calculator implements its formula the way the paper prints it, and names the paper on the page.",
   },
   {
-    slug: "non-hdl-cholesterol-calculator",
-    eyebrow: "Lipids",
-    title: "Non-HDL Cholesterol Calculator",
-    description:
-      "Total cholesterol minus HDL: the cholesterol carried by every particle that can build plaque, not just LDL. No fasting needed, and closer to ApoB than LDL is.",
-    inputs: "2 inputs",
-    formula: "Total cholesterol − HDL (NLA 2014)",
+    n: "02",
+    title: "Your numbers stay with you",
+    text: "The math runs in your browser. No account, no email gate, and nothing is sent to a server.",
   },
   {
-    slug: "anion-gap-calculator",
-    eyebrow: "Acid-Base",
-    title: "Anion Gap Calculator",
-    description:
-      "A value calculated from three electrolytes on your metabolic panel. Low albumin can hide a raised gap, so this one applies the Figge correction when you add it.",
-    inputs: "3–5 inputs",
-    formula: "Na − (Cl + HCO3)",
-  },
-  {
-    slug: "bun-creatinine-ratio-calculator",
-    eyebrow: "Kidney Pattern",
-    title: "BUN/Creatinine Ratio Calculator",
-    description:
-      "A high ratio with a normal creatinine often points to hydration or diet rather than the kidneys. Accepts US units or SI urea and creatinine.",
-    inputs: "2 inputs",
-    formula: "BUN ÷ creatinine",
-  },
-  {
-    slug: "creatinine-unit-converter",
-    eyebrow: "Lab Units",
-    title: "Creatinine Unit Converter",
-    description:
-      "µmol/L to mg/dL and back with the exact 88.4 factor, a 0.5–5.0 mg/dL chart, adult ranges for women and men, and what moves creatinine besides the kidneys.",
-    inputs: "1 input",
-    formula: "µmol/L ÷ 88.4",
-  },
-  {
-    slug: "ast-alt-ratio-calculator",
-    eyebrow: "Liver Pattern",
-    title: "AST/ALT Ratio Calculator",
-    description:
-      "The De Ritis ratio from your liver panel, with what below 1, above 1 and above 2 are linked to. Explains when the ratio is not worth reading into.",
-    inputs: "2 inputs",
-    formula: "AST ÷ ALT",
-  },
-  {
-    slug: "neutrophil-lymphocyte-ratio-calculator",
-    eyebrow: "Inflammation Pattern",
-    title: "Neutrophil-to-Lymphocyte Ratio Calculator",
-    description:
-      "NLR from your CBC differential, using absolute counts or percentages, placed on the range seen in healthy adults. Explains why one result can swing.",
-    inputs: "2–3 inputs",
-    formula: "neutrophils ÷ lymphocytes",
-  },
-  {
-    slug: "phenoage-calculator",
-    eyebrow: "Levine 2018",
-    title: "PhenoAge Calculator",
-    description:
-      "Estimate your biological age from 9 standard blood biomarkers using the peer-reviewed Levine 2018 formula. Free, no signup.",
-    inputs: "10 inputs",
-    formula: "Levine ME, Aging (Albany NY) 2018",
-  },
-  {
-    slug: "homa-ir-calculator",
-    eyebrow: "Insulin Resistance",
-    title: "HOMA-IR Calculator",
-    description:
-      "Calculate Homeostatic Model Assessment for Insulin Resistance from fasting glucose and insulin. Key marker for metabolic health.",
-    inputs: "2 inputs",
-    formula: "Matthews et al., Diabetologia 1985",
-  },
-  {
-    slug: "triglyceride-hdl-ratio",
-    // The calculator lives in its full guide (the thin /tools page was merged
-    // into it and now redirects there, see next.config.ts).
-    href: "/blog/triglyceride-hdl-ratio-calculator",
-    eyebrow: "Cardiovascular Risk",
-    title: "Triglyceride / HDL Ratio",
-    description:
-      "One of the strongest single-number predictors of insulin resistance and atherogenic dyslipidemia. Often more revealing than LDL alone.",
-    inputs: "2 inputs",
-    formula: "Triglycerides ÷ HDL (mg/dL)",
-  },
-  {
-    slug: "a1c-calculator",
-    eyebrow: "A1C → eAG",
-    title: "A1C to Blood Sugar",
-    description:
-      "Convert your A1C to estimated average glucose (eAG) in mg/dL and mmol/L, with the full conversion chart from optimal to the diabetes range.",
-    inputs: "1 input",
-    formula: "ADAG study, Diabetes Care 2008",
-  },
-  {
-    slug: "free-testosterone-calculator",
-    eyebrow: "Vermeulen 1999",
-    title: "Free Testosterone Calculator",
-    description:
-      "Total testosterone can look normal while the free fraction is low. Calculate free and bioavailable T from total T, SHBG and albumin, plus the free androgen index.",
-    inputs: "3 inputs",
-    formula: "Vermeulen, J Clin Endocrinol Metab 1999",
-  },
-  {
-    slug: "tyg-index-calculator",
-    eyebrow: "Insulin Resistance",
-    title: "TyG Index Calculator",
-    description:
-      "The triglyceride-glucose index estimates insulin resistance from two values already on your standard panel — no fasting insulin draw needed.",
-    inputs: "2 inputs",
-    formula: "ln[(TG × glucose) / 2]",
-  },
-  {
-    slug: "transferrin-saturation-calculator",
-    eyebrow: "Iron Status",
-    title: "TSAT Calculator (Transferrin Saturation)",
-    description:
-      "Ferritin rises with inflammation and can look normal while iron stores are empty. TSAT is the marker that does not. Accepts TIBC, UIBC or transferrin.",
-    inputs: "2 inputs",
-    formula: "Iron ÷ TIBC × 100",
-  },
-  {
-    slug: "iron-unit-converter",
-    eyebrow: "Lab Units",
-    title: "Iron Unit Converter",
-    description:
-      "Serum iron and TIBC from µg/dL to µmol/L with the 0.1791 factor, ferritin in ng/mL, µg/L and pmol/L, a conversion chart, and why iron cannot be converted into ferritin.",
-    inputs: "1 input",
-    formula: "µg/dL × 0.1791",
-  },
-  {
-    slug: "dhea-unit-converter",
-    eyebrow: "Lab Units",
-    title: "DHEA Unit Converter",
-    description:
-      "DHEA-S from µg/dL to µmol/L with the 0.02714 factor, plain DHEA in ng/mL, ng/dL and nmol/L, age and sex ranges, and why DHEA and DHEA-S never convert into each other.",
-    inputs: "1 input",
-    formula: "µg/dL × 0.02714",
-  },
-  {
-    slug: "sarcopenia-index-calculator",
-    eyebrow: "Muscle Proxy",
-    title: "Sarcopenia Index",
-    description:
-      "Creatinine comes from muscle, cystatin C does not — so their ratio carries a muscle signal neither marker shows alone. Shown without a false cutoff.",
-    inputs: "2 inputs",
-    formula: "Creatinine ÷ cystatin C × 100",
-  },
-  {
-    slug: "lpa-unit-converter",
-    eyebrow: "Lp(a) Units",
-    title: "Lp(a) Unit Converter",
-    description:
-      "US labs report mg/dL, most others nmol/L. Converts between them and returns a range, because no exact conversion between the two actually exists.",
-    inputs: "1 input",
-    formula: "No exact conversion — range shown",
-  },
-  {
-    slug: "vitamin-d-unit-converter",
-    eyebrow: "Vitamin D Units",
-    title: "Vitamin D Converter",
-    description:
-      "US labs report 25-OH vitamin D in ng/mL, the UK, Canada and Europe in nmol/L. Converts exactly in both directions and shows where your level sits.",
-    inputs: "1 input",
-    formula: "1 ng/mL = 2.496 nmol/L",
-  },
-  {
-    slug: "testosterone-unit-converter",
-    eyebrow: "Testosterone Units",
-    title: "Testosterone Converter",
-    description:
-      "US labs report total testosterone in ng/dL, most others in nmol/L. Converts exactly both ways and shows where the number sits for adult men.",
-    inputs: "1 input",
-    formula: "1 nmol/L = 28.84 ng/dL",
-  },
-  {
-    slug: "cholesterol-unit-converter",
-    eyebrow: "Lipid Units",
-    title: "Cholesterol Converter",
-    description:
-      "LDL, HDL, total and non-HDL cholesterol, triglycerides and ApoB between mg/dL, mmol/L and g/L, with the right factor for each marker.",
-    inputs: "1 input",
-    formula: "×38.67 cholesterol · ×88.57 triglycerides",
-  },
-  {
-    slug: "corrected-calcium-calculator",
-    eyebrow: "Calcium + Albumin",
-    title: "Corrected Calcium Calculator",
-    description:
-      "A low albumin can make a normal calcium look low. Adjusts total calcium for albumin in mg/dL or mmol/L and shows the result in both units.",
-    inputs: "2 inputs",
-    formula: "Payne et al., BMJ 1973",
-  },
-  {
-    slug: "zone-2-calculator",
-    eyebrow: "Zone 2 Training",
-    title: "Zone 2 Heart Rate",
-    description:
-      "Get your Zone 2 training band in bpm from your age — the low-intensity zone that builds aerobic base and raises VO2 max with the least fatigue.",
-    inputs: "1 input",
-    formula: "Tanaka max-HR, JACC 2001",
+    n: "03",
+    title: "Read in plain English",
+    text: "Every result sits on its range, with what the number can and cannot tell you.",
   },
 ];
 
@@ -263,11 +69,11 @@ export default function ToolsPage() {
     isPartOf: { "@id": "https://merios.life/#website" },
     mainEntity: {
       "@type": "ItemList",
-      itemListElement: TOOLS.map((t, i) => ({
+      itemListElement: TOOLS.map((tool, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `https://merios.life${t.href ?? `/tools/${t.slug}`}`,
-        name: t.title,
+        url: `https://merios.life${toolHref(tool)}`,
+        name: tool.title,
       })),
     },
   };
@@ -285,127 +91,85 @@ export default function ToolsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
 
-      <PageHero
-        eyebrow="Free Tools"
-        title="Health calculators, backed by published research."
-        subline="Peer-reviewed formulas turned into clean, free, interactive calculators. No signup. No email gate. Just type your numbers."
-        align="left"
-      />
-
-      <main className={t.main}>
-        <div className={t.wrap} style={{ paddingTop: "clamp(28px, 4vw, 56px)" }}>
-          <ul className={t.grid}>
-            {TOOLS.map((tool, i) => {
-              const wide = i === 0 || i === TOOLS.length - 1;
-              const pop = i === 0 ? "lilac" : i === TOOLS.length - 1 ? "peach" : undefined;
-              const [band, span, dot] = GLYPHS[i % GLYPHS.length];
-              return (
-                <li
-                  key={tool.slug}
-                  className={wide ? t.wide : undefined}
-                  data-rv=""
-                  style={{ "--rv-delay": `${(i % 4) * 0.06}s` } as CSSProperties}
-                >
-                  <Link href={tool.href ?? `/tools/${tool.slug}`} className={t.card} data-pop={pop}>
-                    <div className={t.cardTop}>
-                      <div className={`label ${t.cardEyebrow}`}>
-                        <span aria-hidden className={`label-dot ${t.cardDot}`} />
-                        <span>{tool.eyebrow}</span>
-                      </div>
-                      <span aria-hidden className={t.glyph}>
-                        <i style={{ left: `${band}%`, width: `${span}%` }} />
-                        <b style={{ left: `${dot}%` }} />
-                      </span>
-                    </div>
-
-                    <h2 className={t.cardTitle}>{tool.title}</h2>
-
-                    <p className={t.cardDesc}>{tool.description}</p>
-
-                    <div className={t.cardMeta}>
-                      <span>{tool.inputs}</span>
-                      <span className={t.cardOpen}>
-                        Open
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                          <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                      </span>
-                    </div>
-
-                    {wide ? (
-                      <span aria-hidden className={t.art}>
-                        {i === 0 ? <AgeRing /> : <ZoneBars />}
-                      </span>
-                    ) : null}
-                  </Link>
+      <main>
+        <div className={t.hubTop}>
+          <section className={t.hubHero} aria-labelledby="tools-title">
+            <div className={t.hubInner}>
+              <p className={`label ${t.hubEyebrow}`}>
+                <span aria-hidden className="label-dot" />
+                Free Tools
+              </p>
+              <h1 id="tools-title" className={t.hubTitle}>
+                Health calculators, <em>backed by published research.</em>
+              </h1>
+              <p className={t.hubLead}>
+                Peer-reviewed formulas turned into clean, free, interactive calculators. No signup. No email gate. Just type your numbers.
+              </p>
+              <ul className={t.hubStats}>
+                <li>
+                  <span className={t.hubStatNum}>{TOOLS.length}</span>calculators and converters
                 </li>
-              );
-            })}
-          </ul>
+                <li>Formulas exactly as published</li>
+                <li>Runs in your browser</li>
+              </ul>
+            </div>
+          </section>
 
-          <p className={t.disclaimer}>
-            These tools are educational, not diagnostic. Calculators implement
-            the formulas exactly as published. They do not replace a clinical
-            evaluation. If a result concerns you, talk to a physician.
-          </p>
+          <ToolsGrid />
+        </div>
+
+        <section className={t.how} aria-labelledby="how-title">
+          <div className={t.hubInner}>
+            <p className={t.eyebrow}>How they are built</p>
+            <h2 id="how-title" className={t.h2}>
+              The paper’s formula. <em>Nothing added.</em>
+            </h2>
+            <ul className={t.howGrid}>
+              {HOW.map((h) => (
+                <li key={h.n} className={t.howCard}>
+                  <p aria-hidden className={t.howNum}>
+                    {h.n}
+                  </p>
+                  <p className={t.howTitle}>{h.title}</p>
+                  <p className={t.howText}>{h.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className={t.hubCta} aria-labelledby="tools-cta-title">
+          <div className={t.hubInner}>
+            <div className={t.hubCtaCard}>
+              <div className={t.hubCtaCopy}>
+                <h2 id="tools-cta-title" className={t.hubCtaTitle}>
+                  One PhenoAge is a number. <em>Twelve are a trend.</em>
+                </h2>
+                <p className={t.hubCtaText}>
+                  Merios reads your blood tests, recalculates your PhenoAge with each upload and tracks the curve, so you can see if a change is actually moving the needle.
+                </p>
+                <Link href="/early-access?from=tools" className={`btn btn-ink ${t.hubCtaBtn}`}>
+                  Get the app
+                </Link>
+              </div>
+              <div className={t.hubCtaScreen}>
+                <CtaScreen screen="bio-age" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className={t.disclaimer}>
+          <div className={t.hubInner}>
+            <p>
+              These tools are educational, not diagnostic. Calculators implement
+              the formulas exactly as published. They do not replace a clinical
+              evaluation. If a result concerns you, talk to a physician.
+            </p>
+          </div>
         </div>
       </main>
       <Footer />
     </>
-  );
-}
-
-/* ─── Decorative instruments (aria-hidden, no text) ──────────────────────── */
-
-// [band left %, band width %, dot left %] — each card's tiny range bar
-const GLYPHS: [number, number, number][] = [
-  [18, 40, 30], [10, 34, 52], [24, 30, 36], [30, 40, 62], [14, 44, 40],
-  [22, 36, 48], [26, 30, 70], [12, 42, 28], [20, 38, 58], [16, 40, 44],
-];
-
-/** PhenoAge: the app's score ring — biological age set against the calendar. */
-function AgeRing() {
-  return (
-    <svg viewBox="0 0 240 240" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
-      <circle cx="120" cy="120" r="78" fill="none" stroke="rgb(24 33 63 / 0.12)" strokeWidth="14" />
-      <circle
-        cx="120"
-        cy="120"
-        r="78"
-        fill="none"
-        stroke="#3550A8"
-        strokeWidth="14"
-        strokeLinecap="round"
-        strokeDasharray="350 490"
-        transform="rotate(-90 120 120)"
-      />
-      <circle cx="120" cy="120" r="52" fill="none" stroke="rgb(24 33 63 / 0.18)" strokeWidth="1.5" strokeDasharray="2 6" />
-      <circle cx="44" cy="137.4" r="9" fill="#A8C2F4" stroke="#18213F" strokeWidth="3" />
-      <path d="M78 120 H100 L106 128 L114 98 L124 144 L130 120 H162" fill="none" stroke="#18213F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-/** Zone 2: five heart-rate zones, the second one lit. */
-function ZoneBars() {
-  const h = [34, 52, 70, 88, 106];
-  return (
-    <svg viewBox="0 0 240 200" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
-      {h.map((v, i) => (
-        <rect
-          key={v}
-          x={22 + i * 42}
-          y={156 - v}
-          width="30"
-          height={v}
-          rx="8"
-          fill={i === 1 ? "#18213F" : "rgb(255 255 255 / 0.62)"}
-          stroke={i === 1 ? "#A8C2F4" : "rgb(24 33 63 / 0.12)"}
-          strokeWidth={i === 1 ? 3 : 1}
-        />
-      ))}
-      <path d="M14 178 H92 L100 186 L110 160 L122 196 L130 178 H226" fill="none" stroke="#18213F" strokeOpacity="0.55" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="226" cy="178" r="5.5" fill="#A8C2F4" stroke="#18213F" strokeWidth="1.6" />
-    </svg>
   );
 }

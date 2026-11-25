@@ -77,7 +77,7 @@ export default function TyGIndexCalculator() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Your TyG index</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Your TyG index</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>{result.tyg}</div>
               <RangeBar min={7} max={10} value={result.tyg} tone={result.band.tone} zones={ZONES} />

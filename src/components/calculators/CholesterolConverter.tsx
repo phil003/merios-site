@@ -165,7 +165,7 @@ export default function CholesterolConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>{a.label} in {result.unit}</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>{a.label} in {result.unit}</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>

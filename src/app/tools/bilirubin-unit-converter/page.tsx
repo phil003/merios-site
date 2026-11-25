@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import BilirubinConverter from "@/components/calculators/BilirubinConverter";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const TITLE = "Bilirubin Conversion: µmol/L to mg/dL, Factor 17.1";
@@ -107,11 +109,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="bilirubin-unit-converter"
         eyebrow="Bilirubin — mg/dL and µmol/L"
-        title="Bilirubin conversion: µmol/L to mg/dL"
+        title="Bilirubin conversion:"
+        em="µmol/L to mg/dL"
         subline="Conversion factor 17.1: divide µmol/L by 17.1 to get mg/dL, multiply mg/dL by 17.1 to get µmol/L. 20.5 µmol/L is 1.2 mg/dL, the same result on two reports. Works for total and direct bilirubin."
-        align="left"
       />
 
       <main className={t.main}>
@@ -243,14 +246,7 @@ export default function Page() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>{q}</dt>
-                    <dd className={t.faqA}>{a}</dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
 
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
@@ -259,8 +255,8 @@ export default function Page() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One bilirubin curve, whatever unit each lab used.
+                <p className={t.ctaQuote}>
+                  One bilirubin curve, <em>whatever unit each lab used.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios reads the units off each report you upload and keeps every marker on one scale, so a result in
@@ -273,7 +269,7 @@ export default function Page() {
                   Get the app
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="compare" />
             </div>
 
             <p className={`${t.reference} ${t.sources}`}>
@@ -286,6 +282,8 @@ export default function Page() {
               reference range printed on your own report and with your physician.
             </p>
           </section>
+
+          <ToolRelated slug="bilirubin-unit-converter" />
         </div>
       </main>
       <Footer />

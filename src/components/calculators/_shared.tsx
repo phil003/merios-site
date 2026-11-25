@@ -1,25 +1,108 @@
 "use client";
 
 /**
- * Shared UI primitives for the calculator components (site v3).
+ * Shared UI primitives for the calculator components (site v2, Open Sky).
  *
  * Presentation only: every calculator keeps its own maths, validation, units,
- * thresholds, labels and copy. These pieces render the v3 "instrument card":
- * a white lab card (mono labels, units never uppercased, generous inputs), and
- * the lilac "Merios says" result sticker with a status chip and the range bar
- * from the homepage translator. Styles live in calculators.module.css and are
- * scoped so they also hold inside .editorial-prose (calculators embedded in
- * blog articles).
+ * thresholds, labels and copy. These pieces render the Open Sky calculator
+ * card (ToolPhenoAge mockup): a white card, inputs as soft tiles with the
+ * number in Newsreader, "Use example" / "Clear" next to the title, and the
+ * result on a dawn panel with a band chip and the range bar (blue in range,
+ * peach and apricot outside it, never red). Styles live in
+ * calculators.module.css and are scoped so they also hold inside
+ * .editorial-prose (calculators embedded in blog articles).
+ *
+ * "Use example" fills every input with the value its placeholder already
+ * shows ("e.g. 90"), so no calculator needs its own example data. "Example
+ * data" is shown on the result only while those exact values are in place.
  */
 
-import type { CSSProperties, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import s from "./calculators.module.css";
 
-/** Status family: in range = forest, borderline = warm, outside = soft-alert. */
+/** Status family: in range = blue, borderline = peach, outside = apricot. */
 export type Tone = "ok" | "warn" | "bad" | "neutral";
 
 /** Class names, for the few calculators that keep a bespoke control group. */
 export const styles = s;
+
+/* ─── Example store: one per calculator card ─────────────────────────────── */
+
+type Entry = { value: string; example: string | null; set: (v: string) => void };
+
+class ExampleStore {
+  private entries = new Map<string, Entry>();
+  private armed = false;
+  private version = 0;
+  private listeners = new Set<() => void>();
+
+  subscribe = (fn: () => void) => {
+    this.listeners.add(fn);
+    return () => {
+      this.listeners.delete(fn);
+    };
+  };
+  getSnapshot = () => this.version;
+  getServerSnapshot = () => 0;
+
+  private emit() {
+    this.version += 1;
+    this.listeners.forEach((fn) => fn());
+  }
+  upsert(id: string, entry: Entry) {
+    const prev = this.entries.get(id);
+    this.entries.set(id, entry);
+    if (!prev || prev.value !== entry.value || prev.example !== entry.example) this.emit();
+  }
+  remove(id: string) {
+    if (this.entries.delete(id)) this.emit();
+  }
+  fill() {
+    this.armed = true;
+    this.entries.forEach((e) => {
+      if (e.example !== null) e.set(e.example);
+    });
+    this.emit();
+  }
+  clear() {
+    this.armed = false;
+    this.entries.forEach((e) => e.set(""));
+    this.emit();
+  }
+  disarm() {
+    if (!this.armed) return;
+    this.armed = false;
+    this.emit();
+  }
+  isExample() {
+    if (!this.armed) return false;
+    let any = false;
+    for (const e of this.entries.values()) {
+      if (e.example === null) continue;
+      any = true;
+      if (e.value !== e.example) return false;
+    }
+    return any;
+  }
+}
+
+const ExampleContext = createContext<ExampleStore | null>(null);
+
+/** "e.g. 4.5" → "4.5"; a placeholder that is not a number gives no example. */
+function exampleOf(placeholder: string): string | null {
+  const v = placeholder.replace(/^\s*e\.g\.\s*/i, "").trim();
+  return /^-?\d+(\.\d+)?$/.test(v) ? v : null;
+}
+
+/* ─── Card ───────────────────────────────────────────────────────────────── */
 
 export function Shell({
   labelledBy,
@@ -30,18 +113,36 @@ export function Shell({
   layout?: "split" | "stack";
   children: ReactNode;
 }) {
+  const [store] = useState(() => new ExampleStore());
   return (
-    <section aria-labelledby={labelledBy} className={s.calc} data-layout={layout}>
-      <div className={s.layout}>{children}</div>
-    </section>
+    <ExampleContext.Provider value={store}>
+      <section aria-labelledby={labelledBy} className={s.calc} data-layout={layout}>
+        <div className={s.layout}>{children}</div>
+      </section>
+    </ExampleContext.Provider>
   );
 }
 
 export function CalcHead({ children }: { children: ReactNode }) {
   return (
     <div className={s.head}>
-      {children}
-      <span aria-hidden className={`pulse-rule ${s.pulse}`} />
+      <div className={s.headText}>{children}</div>
+      <ExampleActions />
+    </div>
+  );
+}
+
+function ExampleActions() {
+  const store = useContext(ExampleContext);
+  if (!store) return null;
+  return (
+    <div className={s.actions}>
+      <button type="button" className={s.actionBtn} onClick={() => store.fill()}>
+        Use example
+      </button>
+      <button type="button" className={s.actionBtn} onClick={() => store.clear()}>
+        Clear
+      </button>
     </div>
   );
 }
@@ -90,6 +191,7 @@ export function Fields({
 export function Field({
   label,
   unit,
+  hint,
   placeholder,
   value,
   onChange,
@@ -98,11 +200,12 @@ export function Field({
   min = 0,
   max,
   inputMode = "decimal",
-  literalUnit = false,
   style,
 }: {
   label: string;
   unit?: string;
+  /** a short tag at the tile's top right (PhenoAge: the marker's system) */
+  hint?: string;
   placeholder: string;
   value: string;
   onChange: (v: string) => void;
@@ -111,33 +214,46 @@ export function Field({
   min?: number;
   max?: number;
   inputMode?: "decimal" | "numeric";
-  /** render "(unit)" as one text node, for labels that were a single literal */
+  /** kept for compatibility: the unit now always sits after the input */
   literalUnit?: boolean;
   style?: CSSProperties;
 }) {
+  const store = useContext(ExampleContext);
+  const example = exampleOf(placeholder);
+
+  useEffect(() => {
+    store?.upsert(inputId, { value, example, set: onChange });
+  }, [store, inputId, value, example, onChange]);
+  useEffect(() => () => store?.remove(inputId), [store, inputId]);
+
   return (
     <label htmlFor={inputId} className={s.field} style={style}>
       <span className={s.fieldLabel}>
-        {unit === undefined ? (
-          label
-        ) : (
-          <>
-            {label} <span className={s.fieldUnit}>{literalUnit ? `(${unit})` : <>({unit})</>}</span>
-          </>
-        )}
+        <span>{label}</span>
+        {hint ? (
+          <span aria-hidden className={s.fieldHint}>
+            {hint}
+          </span>
+        ) : null}
       </span>
-      <input
-        id={inputId}
-        type="number"
-        inputMode={inputMode}
-        min={min}
-        max={max}
-        step={step}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={s.input}
-      />
+      <span className={s.fieldRow}>
+        <input
+          id={inputId}
+          type="number"
+          inputMode={inputMode}
+          min={min}
+          max={max}
+          step={step}
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => {
+            store?.disarm();
+            onChange(e.target.value);
+          }}
+          className={s.input}
+        />
+        {unit !== undefined ? <span className={s.fieldUnit}>{unit}</span> : null}
+      </span>
     </label>
   );
 }
@@ -176,6 +292,8 @@ export function Toggle({
   );
 }
 
+/* ─── Result ─────────────────────────────────────────────────────────────── */
+
 export function CalcOutput({ children }: { children: ReactNode }) {
   return <div className={s.output}>{children}</div>;
 }
@@ -184,7 +302,28 @@ export function ResultPanel({ active, children }: { active: boolean; children: R
   return (
     <div aria-live="polite" className={s.result} data-active={active ? "true" : "false"}>
       {children}
+      {active ? <ExampleTag /> : null}
     </div>
+  );
+}
+
+const noSubscribe = () => () => {};
+const noSnapshot = () => 0;
+
+/** "Example data", while the result comes from the example values. */
+function ExampleTag() {
+  const store = useContext(ExampleContext);
+  useSyncExternalStore(
+    store?.subscribe ?? noSubscribe,
+    store?.getSnapshot ?? noSnapshot,
+    store?.getServerSnapshot ?? noSnapshot,
+  );
+  if (!store || !store.isExample()) return null;
+  return (
+    <p className={s.exampleTag}>
+      <span aria-hidden className={s.exampleDot} />
+      Example data
+    </p>
   );
 }
 
@@ -196,19 +335,9 @@ export function ResultBody({ children }: { children: ReactNode }) {
 export function Empty({ children }: { children: ReactNode }) {
   return (
     <div className={s.emptyWrap}>
-      <span aria-hidden className={s.emptyMark}>
-        <svg width="20" height="10" viewBox="0 0 40 20" focusable="false">
-          <path
-            d="M1 10 H14 L17 13 L21 2 L26 18 L29 10 H34"
-            fill="none"
-            stroke="#18213F"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <circle cx="36.5" cy="10" r="2.6" fill="#A8C2F4" stroke="#18213F" strokeWidth="1.2" />
-        </svg>
-      </span>
+      <p aria-hidden className={s.emptyNum}>
+        ––.–
+      </p>
       <p className={s.empty}>{children}</p>
     </div>
   );
@@ -229,9 +358,10 @@ export function Chip({ tone, children }: { tone: Tone; children: ReactNode }) {
 export type Zone = { from: number; to: number; tone: Tone };
 
 /**
- * The translator's range bar: the in-range band (forest), borderline zones
- * (warm) and outside zones, with a dot at the value. Decorative — the value
- * and its band are always spelled out in text next to it.
+ * The range bar: every zone of the scale side by side (in range in blue,
+ * borderline in peach, outside in apricot), with an ink mark at the value.
+ * Decorative: the value and its band are always spelled out in text next to
+ * it. `marks` adds numbers under the bar where a calculator wants them.
  */
 export function RangeBar({
   min,
@@ -239,33 +369,49 @@ export function RangeBar({
   value,
   zones,
   tone,
+  marks,
 }: {
   min: number;
   max: number;
   value: number;
   zones: Zone[];
   tone: Tone;
+  marks?: { at: number; label: string }[];
 }) {
   const pct = (x: number) => Math.min(Math.max((x - min) / (max - min), 0), 1) * 100;
-  const ticks = zones.slice(1).map((z) => z.from).filter((x) => x > min && x < max);
+  let okIndex = 0;
   return (
     <div aria-hidden className={s.range} data-tone={tone}>
       <div className={s.rangeTrack}>
         <div className={s.rangeZones}>
-          {zones.map((z) => (
-            <span
-              key={`${z.from}-${z.to}`}
-              className={s.rangeZone}
-              data-tone={z.tone}
-              style={{ left: `${pct(z.from)}%`, width: `${pct(z.to) - pct(z.from)}%` }}
-            />
-          ))}
+          {zones.map((z) => {
+            const alt = z.tone === "ok" ? okIndex++ % 2 === 1 : false;
+            return (
+              <span
+                key={`${z.from}-${z.to}`}
+                className={s.rangeZone}
+                data-tone={z.tone}
+                data-alt={alt ? "true" : undefined}
+                style={{ left: `${pct(z.from)}%`, width: `${pct(z.to) - pct(z.from)}%` }}
+              />
+            );
+          })}
         </div>
-        {ticks.map((t) => (
-          <span key={t} className={s.rangeTick} style={{ left: `${pct(t)}%` }} />
-        ))}
-        <span className={s.rangeDot} style={{ left: `${pct(value)}%` }} />
+        <span className={s.rangeMark} style={{ left: `${pct(value)}%` }} />
       </div>
+      {marks ? (
+        <div className={s.rangeMarks}>
+          {marks.map((m) => {
+            const p = pct(m.at);
+            const edge = p <= 0 ? "start" : p >= 100 ? "end" : undefined;
+            return (
+              <span key={m.at} data-edge={edge} style={edge ? undefined : { left: `${p}%` }}>
+                {m.label}
+              </span>
+            );
+          })}
+        </div>
+      ) : null}
     </div>
   );
 }

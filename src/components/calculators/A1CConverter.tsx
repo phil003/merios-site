@@ -122,7 +122,7 @@ export default function A1CConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>{result.kind === "glucose" ? "Estimated average glucose" : "Estimated A1C"}</span> —{" "}
+                <span>{result.kind === "glucose" ? "Estimated average glucose" : "Estimated A1C"}</span>{" "}
                 <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.numbers}>

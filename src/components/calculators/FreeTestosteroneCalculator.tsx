@@ -158,7 +158,7 @@ export default function FreeTestosteroneCalculator() {
                 <span>Free testosterone</span>
                 {result.band ? (
                   <>
-                    {" "}— <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                    {" "}<Chip tone={result.band.tone}>{result.band.name}</Chip>
                   </>
                 ) : null}
               </ResultLabel>

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import BunCreatinineRatioCalculator from "@/components/calculators/BunCreatinineRatioCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
@@ -68,11 +69,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="bun-creatinine-ratio-calculator"
         eyebrow="BUN to creatinine — two kidney markers, one ratio"
-        title="BUN/Creatinine Ratio Calculator"
+        title="BUN/Creatinine Ratio"
+        em="Calculator"
         subline="Divide BUN by creatinine, in US or SI units. A high B/Cr ratio with a normal creatinine usually points to hydration or diet rather than the kidneys; this page shows how to tell the difference."
-        align="left"
       />
 
       <main className={t.main}>
@@ -213,6 +215,8 @@ export default function Page() {
               </p>
             </div>
           </section>
+
+          <ToolRelated slug="bun-creatinine-ratio-calculator" />
         </div>
       </main>
       <Footer />

@@ -77,7 +77,7 @@ export default function TestosteroneConverter() {
             <ResultBody>
               <ResultLabel>
                 <span>Same result in {result.unit}</span>
-                {result.band ? <> — <Chip tone={result.band.tone}>{result.band.name}</Chip></> : null}
+                {result.band ? <> <Chip tone={result.band.tone}>{result.band.name}</Chip></> : null}
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>

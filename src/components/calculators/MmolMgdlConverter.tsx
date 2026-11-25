@@ -167,7 +167,7 @@ export default function MmolMgdlConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>{a.short} in {result.unit}</span> — <Chip tone={result.implausible ? "warn" : "neutral"}>{result.implausible ? "check the unit" : "converted"}</Chip>
+                <span>{a.short} in {result.unit}</span> <Chip tone={result.implausible ? "warn" : "neutral"}>{result.implausible ? "check the unit" : "converted"}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>

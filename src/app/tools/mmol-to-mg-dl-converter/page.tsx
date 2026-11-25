@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import MmolMgdlConverter from "@/components/calculators/MmolMgdlConverter";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
@@ -82,11 +83,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="mmol-to-mg-dl-converter"
         eyebrow="Lab units — mmol/L, µmol/L and mg/dL"
-        title="mmol/L to mg/dL Converter"
+        title="mmol/L to mg/dL"
+        em="Converter"
         subline="There is no single mmol/L to mg/dL factor. Glucose, cholesterol and triglycerides each convert differently, because each molecule has a different weight. Pick the marker, enter the number, get the value your report would print in the other system."
-        align="left"
       />
 
       <main className={t.main}>
@@ -225,6 +227,8 @@ export default function Page() {
               </p>
             </div>
           </section>
+
+          <ToolRelated slug="mmol-to-mg-dl-converter" />
         </div>
       </main>
       <Footer />

@@ -152,7 +152,7 @@ export default function CorrectedCalciumCalculator() {
           {state.kind === "ok" && primary ? (
             <ResultBody>
               <ResultLabel>
-                <span>Corrected calcium</span> — <Chip tone={state.band.tone}>{state.band.name}</Chip>
+                <span>Corrected calcium</span> <Chip tone={state.band.tone}>{state.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {primary.value} <span className={s.unit}>{primary.unit}</span>

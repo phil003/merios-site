@@ -175,7 +175,7 @@ export default function IronConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Same result in {result.unit}</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Same result in {result.unit}</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>

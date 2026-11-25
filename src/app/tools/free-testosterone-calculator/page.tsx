@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import FreeTestosteroneCalculator from "@/components/calculators/FreeTestosteroneCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
@@ -79,11 +80,12 @@ export default function FreeTestosteroneCalculatorPage() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="free-testosterone-calculator"
         eyebrow="Vermeulen 1999 — free & bioavailable T"
-        title="Total testosterone normal, but you still feel off? Check the free fraction."
+        title="Total testosterone normal, but you still feel off?"
+        em="Check the free fraction."
         subline="Only a small percentage of your testosterone is actually available to tissue. This calculator estimates it from total T, SHBG and albumin using the Vermeulen equation."
-        align="left"
       />
 
       <main className={t.main}>
@@ -145,6 +147,8 @@ export default function FreeTestosteroneCalculatorPage() {
               </p>
             </div>
           </section>
+
+          <ToolRelated slug="free-testosterone-calculator" />
         </div>
       </main>
       <Footer />

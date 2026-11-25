@@ -93,7 +93,7 @@ export default function AstAltRatioCalculator() {
           {ok ? (
             <ResultBody>
               <ResultLabel>
-                <span>AST/ALT ratio</span> —{" "}
+                <span>AST/ALT ratio</span>{" "}
                 <Chip tone={range === "normal" ? "neutral" : ok.band.tone}>{ok.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>{ok.ratio.toFixed(2)}</div>

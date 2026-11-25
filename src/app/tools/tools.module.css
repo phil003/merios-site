@@ -1,69 +1,153 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   /tools and /tools/* — v3 presentation (night masthead → fog body with the
-   calculator card → reading column → FAQ → night CTA card → footer).
-   Presentation only: every text node, heading level, href and table cell
-   lives in the TSX untouched. Tokens come from globals.css; the long-read
-   typography is the shared .editorial-prose primitive.
+   /tools and /tools/* — Open Sky v2 (Tools.dc.html, ToolPhenoAge.dc.html).
+
+   Tool pages: dawn masthead (ToolHero) → the calculator card on haze → the
+   reading column (formula plates, band and conversion tables) → FAQ
+   accordion → one ink "Track this in Merios" block with an app screen →
+   "More calculators". Presentation only: every text node, heading level,
+   href and table cell stays in the TSX. Tokens come from globals.css.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .main {
   background: var(--color-canvas);
-  padding-block: clamp(20px, 3vw, 40px) clamp(80px, 10vw, 140px);
+  padding-block: 8px clamp(88px, 10vw, 128px);
 }
 
-/* Same grid as PageHero: 1320px max + fluid gutter, so the body's left edge
-   lines up with the masthead headline. */
+/* Same grid as the nav and the masthead: 1312px + the fluid gutter */
 .wrap {
   width: 100%;
-  max-width: calc(1320px + 2 * var(--spacing-container));
+  max-width: calc(1312px + 2 * var(--spacing-container));
   margin-inline: auto;
   padding-inline: var(--spacing-container);
 }
 
 .after {
-  margin-top: clamp(56px, 7vw, 104px);
+  margin-top: clamp(64px, 8vw, 104px);
 }
 
-/* ─── Reading column ─────────────────────────────────────────────────── */
-.prose {
-  max-width: 720px;
+/* ─── Section eyebrow + headline (mockup "What goes in", "The formula") ── */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
 }
-.prose > h2:first-child {
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 1px;
+  background: var(--color-ink);
+}
+.h2 {
+  margin: 0;
+  max-width: 820px;
+  font-family: var(--font-display);
+  font-size: clamp(2.125rem, 1.3rem + 2.6vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Reading column ─────────────────────────────────────────────────────
+   Figtree long read, as the Open Sky article: 18px / 1.65, ink. Scoped with
+   .editorial-prose so these win over the global long-read rules. */
+.prose:global(.editorial-prose) {
+  max-width: 760px;
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  color: var(--color-ink);
+}
+.prose:global(.editorial-prose) > * + * {
+  margin-top: 1.25rem;
+}
+.prose:global(.editorial-prose) > h2:first-child {
   margin-top: 0;
 }
+.prose:global(.editorial-prose) h2 {
+  margin-top: clamp(3.25rem, 2.6rem + 2vw, 4.5rem);
+  margin-bottom: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.3rem + 1.4vw, 2.375rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.prose:global(.editorial-prose) h2 + * {
+  margin-top: 1.1rem;
+}
+.prose:global(.editorial-prose) p {
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+.prose:global(.editorial-prose) strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.prose:global(.editorial-prose) a {
+  color: var(--color-link);
+  background: none;
+  text-decoration: underline;
+  text-decoration-color: rgb(53 80 168 / 0.4);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color 200ms var(--ease-smooth), text-decoration-color 200ms var(--ease-smooth);
+}
+.prose:global(.editorial-prose) a:hover {
+  color: var(--color-ink);
+  background: none;
+  text-decoration-color: var(--color-ink);
+}
+.prose:global(.editorial-prose) ul > li::before {
+  top: 0.68em;
+  width: 7px;
+  height: 7px;
+  background: var(--color-zenith);
+  box-shadow: none;
+}
+.prose:global(.editorial-prose) ul > li {
+  color: var(--color-ink);
+}
 
-/* A formula set like a lab value: mono on paper, lime rule */
+/* A formula on a white plate, numbers in Newsreader */
 .prose .formula {
   position: relative;
   margin-top: 1.6rem;
   margin-bottom: 1.6rem;
-  padding: 18px 22px 18px 34px;
-  border-radius: 16px;
+  padding: 18px 22px;
+  border-radius: 20px;
   background: #FFFFFF;
-  border: 1px solid var(--color-grid);
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.5;
-  letter-spacing: 0.01em;
+  box-shadow: 0 30px 70px -44px rgb(36 48 110 / 0.5);
+  font-family: var(--font-serif);
+  font-size: clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  font-variant-numeric: lining-nums tabular-nums;
   color: var(--color-ink);
   overflow-wrap: anywhere;
-}
-.prose .formula::before {
-  content: "";
-  position: absolute;
-  left: 16px;
-  top: 16px;
-  bottom: 16px;
-  width: 4px;
-  border-radius: 4px;
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1px rgb(24 33 63 / 0.12);
 }
 /* Two forms of one formula (HOMA-IR in mg/dL and mmol/L): one line each on
    desktop; on phones a wrapped line hangs under its own start. */
 .prose .formulaPair {
-  font-size: clamp(0.8125rem, 0.7rem + 0.34vw, 0.9375rem);
+  font-size: clamp(0.9375rem, 0.82rem + 0.4vw, 1.125rem);
   line-height: 1.5;
 }
 .prose .formulaPair > span {
@@ -76,12 +160,12 @@
   margin-top: 10px;
 }
 
-/* Interpretation bands / by-age rows — a lab report card */
+/* ─── Interpretation bands (HOMA-IR, Zone 2): a band table ──────────────── */
 .prose .bands {
   margin-top: 1.8rem;
-  border-radius: 20px;
-  background: #FFFFFF;
-  border: 1px solid var(--color-grid);
+  border-radius: 22px;
+  background: rgb(255 255 255 / 0.6);
+  border: 1.5px solid rgb(24 33 63 / 0.08);
   overflow: hidden;
 }
 .bandRow {
@@ -89,34 +173,30 @@
   grid-template-columns: 12px minmax(0, 1fr);
   column-gap: 16px;
   align-items: start;
-  padding: 18px 22px;
+  padding: 16px 20px;
 }
 .bandRow + .bandRow {
-  border-top: 1px solid var(--color-grid);
+  border-top: 1px solid rgb(24 33 63 / 0.07);
 }
 .bandDot {
   width: 12px;
   height: 12px;
-  margin-top: 4px;
-  border-radius: 999px;
-  background: var(--color-ink-tertiary);
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--color-sky);
 }
-.bandDot[data-tone="lime"] {
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px var(--color-ink);
-}
-.bandDot[data-tone="ok"] { background: var(--color-green-deep); }
-.bandDot[data-tone="warn"] { background: var(--color-warm); }
-.bandDot[data-tone="bad"] { background: var(--color-soft-alert); }
+.bandDot[data-tone="lime"] { background: var(--color-zenith); }
+.bandDot[data-tone="ok"] { background: var(--color-sky); }
+.bandDot[data-tone="warn"] { background: var(--color-peach); box-shadow: inset 0 0 0 1.5px rgb(166 90 44 / 0.45); }
+.bandDot[data-tone="bad"] { background: var(--color-apricot); }
 .bandBody {
   min-width: 0;
 }
 .bandHead {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.45;
-  letter-spacing: 0.01em;
   font-variant-numeric: tabular-nums;
   color: var(--color-ink);
 }
@@ -131,26 +211,23 @@
 .bandScale {
   position: relative;
   display: block;
-  height: 6px;
+  height: 8px;
   margin-top: 12px;
   max-width: 260px;
-  border-radius: 6px;
-  background: rgb(24 33 63 / 0.1);
+  border-radius: 999px;
+  background: rgb(24 33 63 / 0.08);
 }
 .bandScale > span {
   position: absolute;
   top: 0;
   bottom: 0;
-  border-radius: 6px;
-  background: var(--color-ink-tertiary);
+  border-radius: 999px;
+  background: var(--color-sky);
 }
-.bandScale > span[data-tone="lime"] {
-  background: var(--color-lime);
-  box-shadow: inset 0 0 0 1px rgb(24 33 63 / 0.35);
-}
-.bandScale > span[data-tone="ok"] { background: var(--color-green-deep); }
-.bandScale > span[data-tone="warn"] { background: var(--color-warm); }
-.bandScale > span[data-tone="bad"] { background: var(--color-soft-alert); }
+.bandScale > span[data-tone="lime"] { background: var(--color-zenith); }
+.bandScale > span[data-tone="ok"] { background: var(--color-sky); }
+.bandScale > span[data-tone="warn"] { background: var(--color-peach); box-shadow: inset 0 0 0 1px rgb(166 90 44 / 0.4); }
+.bandScale > span[data-tone="bad"] { background: var(--color-apricot); }
 @media (min-width: 720px) {
   .bandRow {
     grid-template-columns: 12px minmax(0, 1fr) 200px;
@@ -161,12 +238,12 @@
   }
 }
 
-/* The A1C chart: a lab-report table */
+/* ─── Tables: the Open Sky band table (hairlines, numbers in Newsreader) ─ */
 .prose .tableWrap {
   margin-top: 1.6rem;
-  border-radius: 20px;
-  background: #FFFFFF;
-  border: 1px solid var(--color-grid);
+  border-radius: 22px;
+  background: rgb(255 255 255 / 0.6);
+  border: 1.5px solid rgb(24 33 63 / 0.08);
   overflow-x: auto;
 }
 .prose .table {
@@ -178,105 +255,108 @@
   background: transparent;
   overflow: visible;
   font-family: var(--font-sans);
-  font-size: 0.90625rem;
+  font-size: 0.9375rem;
   font-variant-numeric: tabular-nums;
 }
 .prose .caption {
   caption-side: top;
-  padding: 16px 18px 12px;
+  padding: 16px 20px 12px;
   text-align: left;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.5;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-ink-tertiary);
+  color: var(--color-ink-secondary);
 }
 /* column heads carry units (mg/dL, mmol/L): never uppercased */
 .prose .colHead {
-  padding: 11px 18px 10px;
+  padding: 12px 20px 11px;
   text-align: left;
   white-space: nowrap;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0;
   text-transform: none;
-  color: var(--color-ink);
-  background: color-mix(in srgb, var(--color-canvas) 70%, #FFFFFF);
-  border-top: 1px solid var(--color-grid);
-  border-bottom: 1.5px solid var(--color-ink);
+  color: var(--color-ink-secondary);
+  background: rgb(255 255 255 / 0.55);
+  border-top: 1px solid rgb(24 33 63 / 0.07);
+  border-bottom: 1px solid rgb(24 33 63 / 0.1);
 }
 .prose .rowHead,
 .prose .cell,
 .prose .cellNote {
-  padding: 10px 18px;
-  border-top: 1px solid var(--color-grid);
+  padding: 12px 20px;
+  border-top: 1px solid rgb(24 33 63 / 0.07);
   border-bottom: 0;
   text-align: left;
   vertical-align: middle;
   line-height: 1.4;
+  background: transparent;
 }
 .prose tbody tr:first-child > * {
   border-top: 0;
 }
 .prose .rowHead {
   white-space: nowrap;
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 400;
   color: var(--color-ink);
-  background: transparent;
   text-transform: none;
   letter-spacing: 0;
 }
 .prose .cell {
   white-space: nowrap;
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 400;
   color: var(--color-ink);
 }
 .prose .cellNote {
   min-width: 150px;
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   color: var(--color-ink-secondary);
 }
 .prose .cellNote::before {
   content: "";
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   margin-right: 10px;
-  border-radius: 999px;
-  vertical-align: 0.06em;
-  background: var(--color-ink-tertiary);
+  border-radius: 50%;
+  vertical-align: 0.02em;
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--color-ink-tertiary);
 }
-.prose tr[data-tone="ok"] .cellNote::before { background: var(--color-green-deep); }
-.prose tr[data-tone="warn"] .cellNote::before { background: var(--color-warm); }
-.prose tr[data-tone="bad"] .cellNote::before { background: var(--color-soft-alert); }
+.prose tr[data-tone="ok"] .cellNote::before { background: var(--color-zenith); box-shadow: none; }
+.prose tr[data-tone="lime"] .cellNote::before { background: var(--color-zenith); box-shadow: none; }
+.prose tr[data-tone="warn"] .cellNote::before { background: var(--color-peach); box-shadow: inset 0 0 0 1.5px rgb(166 90 44 / 0.45); }
+.prose tr[data-tone="bad"] .cellNote::before { background: var(--color-apricot); box-shadow: none; }
 .prose tbody tr:hover > * {
-  background: color-mix(in srgb, var(--color-lime) 14%, #FFFFFF);
+  background: rgb(255 255 255 / 0.7);
 }
-/* phones: the chart fits the column — no sideways scroll */
+/* phones: the chart fits the column, no sideways scroll */
 @media (max-width: 560px) {
   .prose .caption { padding: 14px 12px 10px; }
   .prose .colHead {
     padding: 10px 8px 9px;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     white-space: normal;
   }
   .prose .colHead:first-child,
   .prose .rowHead { padding-left: 12px; }
   .prose .rowHead,
   .prose .cell {
-    padding: 9px 8px;
-    font-size: 0.78125rem;
+    padding: 10px 8px;
+    font-size: 0.9375rem;
   }
   .prose .cellNote {
     min-width: 0;
-    padding: 9px 12px 9px 8px;
+    padding: 10px 12px 10px 8px;
     font-size: 0.8125rem;
     line-height: 1.35;
   }
@@ -286,22 +366,22 @@
   .prose .cell { white-space: normal; }
 }
 
-/* Key tables (a band or a marker, then how it reads) — TSAT and TyG bands,
-   the Lp(a) page's conversion factors. The key column wraps on phones
-   instead of pushing the table sideways; a long caption that reads as a
-   footnote sits under the table, not over it. */
+/* Key tables (a band or a marker, then how it reads): the key column wraps
+   on phones instead of pushing the table sideways; a caption that reads as a
+   footnote sits under the table. */
 .prose .tableKey .rowHead {
   width: 30%;
   min-width: 7.5em;
   white-space: normal;
   vertical-align: top;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
   text-wrap: balance;
 }
 .prose .tableKey .cellNote {
   line-height: 1.5;
 }
-/* Range tables (Lp(a) nmol/L ↔ mg/dL): top-aligned rows, and on phones the
-   value column may wrap so the "where that sits" column keeps its width. */
 .prose .tableRange .rowHead,
 .prose .tableRange .cell,
 .prose .tableRange .cellNote,
@@ -309,52 +389,56 @@
   vertical-align: top;
 }
 /* The status dot hangs in the cell's gutter, so a wrapped note lines up
-   under its own first word and the dot never sits alone on a line. */
+   under its own first word. */
 .prose .tableRange .cellNote,
 .prose .tableKey .cellNote {
   position: relative;
-  padding-left: 38px;
+  padding-left: 40px;
 }
 .prose .tableRange .cellNote::before,
 .prose .tableKey .cellNote::before {
   position: absolute;
-  left: 18px;
-  top: calc(10px + 0.7em - 4px);
+  left: 20px;
+  top: calc(12px + 0.7em - 5px);
   margin: 0;
 }
 /* Captions that carry units (nmol/L, mg/dL) keep their case */
 .prose .captionPlain {
-  font-size: 0.75rem;
-  letter-spacing: 0.02em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0;
   text-transform: none;
 }
 .prose .cellText {
   min-width: 180px;
-  padding: 10px 18px;
-  border-top: 1px solid var(--color-grid);
+  padding: 12px 20px;
+  border-top: 1px solid rgb(24 33 63 / 0.07);
   border-bottom: 0;
   text-align: left;
   vertical-align: top;
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--color-ink-secondary);
 }
 .prose .captionNote {
   caption-side: bottom;
-  padding: 13px 18px 15px;
+  padding: 13px 20px 15px;
   text-align: left;
-  border-top: 1px solid var(--color-grid);
+  border-top: 1px solid rgb(24 33 63 / 0.07);
   font-family: var(--font-sans);
   font-size: 0.8125rem;
+  font-weight: 500;
   line-height: 1.55;
-  color: var(--color-ink-tertiary);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-ink-secondary);
   text-wrap: pretty;
 }
 @media (max-width: 560px) {
   .prose .cellText {
     min-width: 0;
-    padding: 9px 12px 9px 8px;
+    padding: 10px 12px 10px 8px;
     font-size: 0.8125rem;
     line-height: 1.4;
   }
@@ -365,75 +449,53 @@
   }
   .prose .tableRange .cellNote,
   .prose .tableKey .cellNote {
-    padding-left: 24px;
+    padding-left: 26px;
   }
   .prose .tableRange .cellNote::before,
   .prose .tableKey .cellNote::before {
     left: 9px;
-    top: calc(9px + 0.68em - 4px);
+    top: calc(10px + 0.68em - 5px);
   }
 }
 
-/* ─── FAQ — heading left (sticky), questions right ─────────────────────── */
+/* ─── FAQ: heading left (sticky on desktop), the accordion right ──────── */
 .faq {
-  margin-top: clamp(72px, 9vw, 128px);
+  margin-top: clamp(72px, 9vw, 120px);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  row-gap: 26px;
+  row-gap: 24px;
 }
 .faqTitle {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 1.15rem + 1.6vw, 2.45rem);
+  font-size: clamp(1.875rem, 1.4rem + 1.4vw, 2.5rem);
   font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   color: var(--color-ink);
   text-wrap: balance;
-}
-.faqList {
-  margin: 0;
-  border-top: 2px solid var(--color-ink);
-}
-.faqItem {
-  display: grid;
-  gap: 10px;
-  padding: 24px 0 26px;
-  border-bottom: 1px solid var(--color-grid);
-}
-.faqQ {
-  font-family: var(--font-display);
-  font-size: clamp(1.125rem, 1.02rem + 0.35vw, 1.3rem);
-  font-weight: 600;
-  line-height: 1.28;
-  letter-spacing: -0.02em;
-  color: var(--color-ink);
-  text-wrap: balance;
-}
-.faqA {
-  margin: 0;
-  max-width: 68ch;
-  font-family: var(--font-serif);
-  font-size: 1.09375rem;
-  line-height: 1.62;
-  color: var(--color-ink-secondary);
-  text-wrap: pretty;
 }
 .reference {
   margin: 8px 0 0;
   max-width: 92ch;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  line-height: 1.75;
-  letter-spacing: 0.02em;
-  color: var(--color-ink-tertiary);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
 }
 .reference em {
   font-family: var(--font-serif);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-style: italic;
-  letter-spacing: 0;
-  color: var(--color-ink-secondary);
+  color: var(--color-ink);
+}
+.reference a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-color: rgb(53 80 168 / 0.4);
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
 }
 @media (min-width: 1024px) {
   .faq {
@@ -445,107 +507,107 @@
     top: 112px;
     align-self: start;
   }
-  .faqList,
-  .reference {
+  .faq > :not(.faqTitle) {
     grid-column: 2;
   }
 }
 
-/* ─── Night CTA card ──────────────────────────────────────────────────── */
+/* ─── The ink block: "Track this in Merios" (one per page) ─────────────── */
 .cta {
-  margin-top: clamp(72px, 9vw, 128px);
+  margin-top: clamp(72px, 9vw, 120px);
   display: grid;
-  gap: 32px;
-  padding: clamp(28px, 4.6vw, 64px) clamp(24px, 4.6vw, 64px) clamp(56px, 6.5vw, 96px);
-  border-radius: 32px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: "copy" "actions" "screen";
+  row-gap: 26px;
+  padding: clamp(28px, 5vw, 64px) clamp(24px, 5vw, 64px) 0;
+  border-radius: 30px;
   overflow: hidden;
 }
 .ctaCopy {
-  position: relative;
-  z-index: 1;
+  grid-area: copy;
   display: grid;
   justify-items: start;
-  gap: 18px;
+  gap: 16px;
+  max-width: 640px;
 }
 .ctaEyebrow {
   margin: 0;
-  color: var(--color-on-night-2);
+  color: var(--color-lavender);
 }
 .ctaQuote {
   margin: 0;
   max-width: 22em;
-  font-family: var(--font-serif);
-  font-size: clamp(1.85rem, 1.25rem + 2vw, 3.1rem);
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 1.3rem + 1.9vw, 3rem);
+  font-weight: 600;
   line-height: 1.06;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.035em;
+  color: #FFFFFF;
   text-wrap: balance;
 }
+.ctaQuote em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
 .ctaText {
-  margin: 0;
-  max-width: 46ch;
+  margin: 2px 0 0;
+  max-width: 52ch;
   font-size: 1.0625rem;
   line-height: 1.6;
-  color: var(--color-on-night-2);
+  color: rgb(255 255 255 / 0.86);
   text-wrap: pretty;
 }
 .ctaActions {
-  position: relative;
-  z-index: 1;
+  grid-area: actions;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 14px;
+  gap: 12px;
+  padding-bottom: clamp(8px, 2vw, 24px);
+}
+.ctaActions :global(.btn) {
+  min-height: 52px;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.2;
 }
 .ctaTextLink {
   flex-basis: 100%;
-  order: 3;
   font-size: 0.96875rem;
   line-height: 1.5;
-  color: var(--color-on-night);
+  color: var(--color-lavender);
   text-decoration: underline;
-  text-decoration-color: rgb(168 194 244 / 0.7);
   text-decoration-thickness: 1.5px;
   text-underline-offset: 4px;
-  transition: text-decoration-color 200ms var(--ease-smooth);
 }
 .ctaTextLink:hover {
-  text-decoration-color: var(--color-lime);
+  color: #FFFFFF;
 }
-.ctaPulse {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 18px;
-  width: 100%;
-  height: 64px;
-  pointer-events: none;
+.cta > :last-child:not(.ctaCopy):not(.ctaActions) {
+  grid-area: screen;
 }
-.ctaDot {
-  position: absolute;
-  left: calc(90.28% - 5px);
-  bottom: calc(18px + 32px - 5px);
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  background: var(--color-lime);
-  box-shadow: 0 0 14px rgb(168 194 244 / 0.9);
-}
-@media (min-width: 1024px) {
+@media (min-width: 860px) {
   .cta {
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "copy    screen"
+      "actions screen";
+    column-gap: clamp(40px, 5vw, 64px);
+    row-gap: 26px;
     align-items: end;
-    column-gap: 64px;
+  }
+  .ctaCopy {
+    align-self: end;
   }
   .ctaActions {
-    justify-content: flex-end;
-  }
-  .ctaTextLink {
-    text-align: right;
+    align-self: start;
+    padding-bottom: clamp(28px, 5vw, 64px);
   }
 }
 
-/* ─── After the CTA card: sources and a "read next" rail on fog ───────── */
+/* ─── After the CTA: sources and the "Read next" list on haze ──────────── */
 .sources {
   margin-top: clamp(40px, 5vw, 64px);
 }
@@ -559,22 +621,19 @@
 .nextLabel {
   margin: 0;
   color: var(--color-ink-secondary);
-  font-weight: 600;
-  letter-spacing: 0.14em;
 }
 .nextDot {
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px var(--color-ink);
+  background: var(--color-ink);
 }
 .nextList {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 2px solid var(--color-ink);
+  border-top: 1px solid rgb(24 33 63 / 0.14);
 }
 .nextItem {
-  padding: 17px 0 18px;
-  border-bottom: 1px solid var(--color-grid);
+  padding: 18px 0;
+  border-bottom: 1px solid rgb(24 33 63 / 0.08);
   font-size: 1.0625rem;
   line-height: 1.55;
   color: var(--color-ink-secondary);
@@ -584,18 +643,13 @@
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: -0.015em;
-  color: var(--color-ink);
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--color-lime-deep) 70%, transparent);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-  transition:
-    background-color 200ms var(--ease-smooth),
-    text-decoration-color 200ms var(--ease-smooth);
+  color: var(--color-link);
+  text-decoration: none;
 }
 .nextLink:hover {
-  background: color-mix(in srgb, var(--color-lime) 55%, transparent);
-  text-decoration-color: var(--color-ink);
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 @media (min-width: 1024px) {
   .next {
@@ -604,218 +658,328 @@
   }
   .nextLabel {
     align-self: start;
-    margin-top: 20px;
+    margin-top: 22px;
   }
 }
 
-/* ═══ /tools index ═══════════════════════════════════════════════════════ */
-.grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-@media (min-width: 720px) {
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .wide { grid-column: span 2; }
-  .card { min-height: 300px; }
-}
-@media (min-width: 1024px) {
-  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-}
-@media (min-width: 1280px) {
-  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-
-.card {
-  position: relative;
+/* ─── PhenoAge: the formula, every coefficient on the page ─────────────── */
+.formulaSection {
+  margin-top: clamp(72px, 9vw, 112px);
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 24px 24px 20px;
-  border-radius: 24px;
-  background: #FFFFFF;
-  border: 1px solid var(--color-grid);
-  color: var(--color-ink);
-  overflow: hidden;
-  transition:
-    transform 400ms var(--ease-expo),
-    border-color 400ms var(--ease-expo),
-    box-shadow 400ms var(--ease-expo);
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 32px 72px;
 }
-.card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--color-ink) 22%, var(--color-grid));
-  box-shadow: 0 26px 50px -24px rgb(24 33 63 / 0.4);
+.formulaIntro {
+  flex: 1 1 360px;
+  min-width: 0;
+  max-width: 460px;
 }
-.card:focus-visible {
-  outline: 2px solid var(--color-ink);
-  outline-offset: 3px;
-}
-.card[data-pop="lilac"] { background: var(--color-lilac); border-color: transparent; }
-.card[data-pop="peach"] { background: var(--color-peach); border-color: transparent; }
-
-.cardTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-.cardEyebrow {
+.formulaText {
+  margin: 20px 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
   color: var(--color-ink-secondary);
-  font-weight: 600;
+  text-wrap: pretty;
+}
+.coefCard {
+  flex: 1 1 560px;
+  min-width: 0;
+  padding: clamp(18px, 2.4vw, 30px);
+  border-radius: 28px;
+  background: rgb(255 255 255 / 0.55);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+  box-shadow: 0 24px 60px -40px rgb(36 48 110 / 0.3);
+}
+.coefTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+.coefTable caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.coefTable th,
+.coefTable td {
+  padding: 12px 4px;
+  border-top: 1px solid rgb(24 33 63 / 0.08);
+  text-align: left;
+  font-weight: 400;
+  vertical-align: baseline;
+}
+.coefTable thead th {
+  border-top: 0;
+  padding-top: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
   letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
 }
-.card[data-pop] .cardEyebrow { color: var(--color-ink); }
-.cardDot {
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px var(--color-ink);
+.coefTable tbody th {
+  color: var(--color-ink);
 }
-
-/* tiny range bar glyph: every marker in its range (decorative) */
-.glyph {
-  position: relative;
-  flex: none;
-  width: 56px;
-  height: 6px;
-  border-radius: 6px;
-  background: rgb(24 33 63 / 0.12);
+.coefWeight {
+  text-align: right !important;
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  font-variant-numeric: lining-nums tabular-nums;
+  white-space: nowrap;
+  color: var(--color-ink);
 }
-.glyph > i {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  border-radius: 6px;
-  background: rgb(53 80 168 / 0.6);
+.coefTable thead .coefWeight {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
 }
-.glyph > b {
-  position: absolute;
-  top: 50%;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 50%;
+.coefUnit {
+  padding-left: 24px !important;
+  color: var(--color-ink-secondary);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .coefUnit { display: none; }
+}
+.formulaPlate {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 18px 20px;
+  border-radius: 18px;
   background: #FFFFFF;
-  border: 3px solid var(--color-ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 0.92rem + 0.35vw, 1.125rem);
+  line-height: 1.45;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
 }
-.card[data-pop] .glyph { background: rgb(24 33 63 / 0.16); }
+.formulaPlate p {
+  margin: 0;
+}
 
-.cardTitle {
-  margin: 26px 0 0;
-  max-width: 15em;
+/* PhenoAge: what the result means, and the FAQ beside it */
+.meaning {
+  margin-top: clamp(72px, 9vw, 112px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 32px 72px;
+}
+.meaningText {
+  flex: 1 1 420px;
+  min-width: 0;
+}
+.meaningText:global(.editorial-prose) {
+  max-width: 620px;
+}
+.meaningFaq {
+  flex: 1 1 520px;
+  min-width: 0;
+}
+.meaningFaq .faqTitle {
+  margin-bottom: 18px;
+}
+.meaningFaq .reference {
+  margin-top: 18px;
+}
+
+/* ═══ /tools hub ══════════════════════════════════════════════════════════ */
+.hubTop {
+  /* --dawn is three layers: size them all to the masthead, haze below */
+  background-color: var(--color-canvas);
+  background-image: var(--dawn);
+  background-size: 100% 820px;
+  background-repeat: no-repeat;
+}
+.hubHero {
+  padding-top: calc(env(safe-area-inset-top, 0px) + clamp(118px, 11vw, 160px));
+}
+.hubInner {
+  width: 100%;
+  max-width: calc(1312px + 2 * var(--spacing-container));
+  margin-inline: auto;
+  padding-inline: var(--spacing-container);
+}
+.hubEyebrow {
+  margin: 0 0 20px;
+  color: var(--color-ink-secondary);
+}
+.hubEyebrow :global(.label-dot) {
+  background: var(--color-ink);
+}
+.hubTitle {
+  margin: 0;
+  max-width: 1040px;
   font-family: var(--font-display);
-  font-size: clamp(1.45rem, 1.2rem + 0.7vw, 1.8rem);
+  font-size: clamp(2.5rem, 1.2rem + 5.4vw, 5.75rem);
   font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
   color: var(--color-ink);
   text-wrap: balance;
 }
-.cardDesc {
-  flex: 1;
-  margin: 12px 0 0;
-  max-width: 46ch;
+.hubTitle em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.hubLead {
+  margin: 24px 0 0;
+  max-width: 640px;
+  font-size: clamp(1.0625rem, 0.98rem + 0.4vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+.hubStats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 26px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.hubStats li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.hubStats li + li::before {
+  content: "";
+  align-self: center;
+  width: 1px;
+  height: 22px;
+  margin-right: 18px;
+  background: rgb(24 33 63 / 0.16);
+}
+.hubStatNum {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 1.875rem;
+  line-height: 1;
+}
+
+/* How they are built: three glass points */
+.how {
+  padding: 0 0 clamp(72px, 8vw, 96px);
+}
+.howGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 16px;
+  margin: 40px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.howCard {
+  padding: 26px 26px 28px;
+  border-radius: 26px;
+  background: rgb(255 255 255 / 0.55);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+}
+.howNum {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-weight: 300;
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--color-zenith);
+}
+.howTitle {
+  margin: 18px 0 0;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--color-ink);
+}
+.howText {
+  margin: 8px 0 0;
   font-size: 0.9375rem;
   line-height: 1.55;
   color: var(--color-ink-secondary);
-  text-wrap: pretty;
-}
-.card[data-pop] .cardDesc { color: var(--color-ink); }
-.cardMeta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 22px;
-  padding-top: 16px;
-  border-top: 1px solid var(--color-grid);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-tertiary);
-}
-.card[data-pop] .cardMeta {
-  border-top-color: rgb(24 33 63 / 0.2);
-  color: var(--color-ink);
-}
-.cardOpen {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 12px 6px 14px;
-  border-radius: 999px;
-  color: var(--color-ink);
-  background: var(--color-canvas);
-  transition: background-color 300ms var(--ease-expo), color 300ms var(--ease-expo);
-}
-.cardOpen svg {
-  transition: transform 300ms var(--ease-expo);
-}
-.card:hover .cardOpen {
-  color: #FFFFFF;
-  background: var(--color-ink);
-}
-.card:hover .cardOpen svg {
-  transform: translateX(3px);
-}
-.card[data-pop] .cardOpen {
-  background: rgb(255 255 255 / 0.55);
-}
-.card[data-pop]:hover .cardOpen {
-  background: var(--color-ink);
 }
 
-/* Featured (wide) cards carry a decorative instrument on the right */
-.art {
-  display: none;
+/* The hub's final: a dawn panel with the biological age screen */
+.hubCta {
+  padding: 0 0 clamp(72px, 8vw, 96px);
 }
-@media (min-width: 720px) {
-  .wide .card {
-    padding-right: min(44%, 360px);
-  }
-  .art {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    bottom: 24px;
-    display: block;
-    width: min(38%, 300px);
-    border-radius: 18px;
-    background: rgb(255 255 255 / 0.42);
-    box-shadow: inset 0 0 0 1px rgb(24 33 63 / 0.08);
-    overflow: hidden;
-  }
+.hubCtaCard {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px 64px;
+  padding: clamp(28px, 5vw, 64px) clamp(24px, 5vw, 64px) 0;
+  border-radius: 28px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 0% 0%, #AFC6F6 0%, rgb(175 198 246 / 0) 60%),
+    radial-gradient(90% 60% at 100% 100%, #FBD5C3 0%, rgb(251 213 195 / 0) 65%),
+    linear-gradient(180deg, #DCD8F6 0%, #EEF0FB 100%);
+}
+.hubCtaCopy {
+  flex: 1 1 420px;
+  min-width: 0;
+  max-width: 600px;
+  padding-bottom: clamp(28px, 5vw, 64px);
+}
+.hubCtaTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.125rem, 1.3rem + 2.6vw, 3.625rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.hubCtaTitle em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.hubCtaText {
+  margin: 18px 0 0;
+  max-width: 480px;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+.hubCtaBtn {
+  margin-top: 28px;
+  min-height: 58px;
+  padding: 0 28px;
+  font-size: 1.0625rem;
+}
+.hubCtaScreen {
+  flex: 0 1 300px;
+  min-width: 220px;
+  align-self: flex-end;
 }
 
 .disclaimer {
-  position: relative;
-  margin: clamp(48px, 6vw, 80px) 0 0;
-  max-width: 640px;
-  padding-left: 22px;
-  font-size: 0.9375rem;
-  line-height: 1.65;
+  margin: 0;
+  padding-bottom: clamp(56px, 7vw, 88px);
+}
+.disclaimer p {
+  margin: 0;
+  max-width: 760px;
+  font-size: 0.875rem;
+  line-height: 1.6;
   color: var(--color-ink-secondary);
   text-wrap: pretty;
-}
-.disclaimer::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 4px;
-  bottom: 4px;
-  width: 4px;
-  border-radius: 4px;
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1px rgb(24 33 63 / 0.12);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card,
-  .card:hover {
-    transform: none;
-  }
 }

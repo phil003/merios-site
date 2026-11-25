@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import NeutrophilLymphocyteRatioCalculator from "@/components/calculators/NeutrophilLymphocyteRatioCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const TITLE = "Neutrophil Lymphocyte Ratio (NLR) Calculator";
@@ -77,11 +78,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="neutrophil-lymphocyte-ratio-calculator"
         eyebrow="NLR — two white cell counts, one ratio"
-        title="Neutrophil-to-lymphocyte ratio calculator"
+        title="Neutrophil-to-lymphocyte"
+        em="ratio calculator"
         subline="NLR is your neutrophil count divided by your lymphocyte count; healthy adults mostly sit between about 0.78 and 3.53. Use absolute counts or the percentages from your CBC differential."
-        align="left"
       />
 
       <main className={t.main}>
@@ -210,8 +212,8 @@ export default function Page() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One NLR is a snapshot of one morning. A trend shows what is normal for you.
+                <p className={t.ctaQuote}>
+                  One NLR is a snapshot of one morning. <em>A trend shows what is normal for you.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios reads your CBC next to your Apple Watch sleep and recovery data, so a high ratio
@@ -226,9 +228,11 @@ export default function Page() {
                   What a high or low WBC means →
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="blood-panel" />
             </div>
           </section>
+
+          <ToolRelated slug="neutrophil-lymphocyte-ratio-calculator" />
         </div>
       </main>
       <Footer />

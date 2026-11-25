@@ -115,7 +115,7 @@ export default function AnionGapCalculator() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>{result.corrected !== null ? "Albumin-corrected anion gap" : "Anion gap"}</span> —{" "}
+                <span>{result.corrected !== null ? "Albumin-corrected anion gap" : "Anion gap"}</span>{" "}
                 <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>

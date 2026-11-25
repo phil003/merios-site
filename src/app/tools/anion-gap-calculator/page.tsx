@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import AnionGapCalculator from "@/components/calculators/AnionGapCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
@@ -71,11 +72,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="anion-gap-calculator"
         eyebrow="Anion gap — the value your panel implies"
-        title="Anion Gap Calculator"
+        title="Anion Gap"
+        em="Calculator"
         subline="Sodium minus chloride and bicarbonate. Enter three numbers from your metabolic panel, add albumin if you have it, and see whether a high or low anion gap is real or an artifact of low albumin."
-        align="left"
       />
 
       <main className={t.main}>
@@ -234,6 +236,8 @@ export default function Page() {
               </p>
             </div>
           </section>
+
+          <ToolRelated slug="anion-gap-calculator" />
         </div>
       </main>
       <Footer />

@@ -83,7 +83,7 @@ export default function HomaIRCalculator() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Your HOMA-IR</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Your HOMA-IR</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>{result.score}</div>
               <RangeBar min={0} max={4} value={result.score} tone={result.band.tone} zones={ZONES} />

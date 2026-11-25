@@ -129,7 +129,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-ink);
+  outline: 2px solid var(--color-link);
   outline-offset: 3px;
 }
 .night :focus-visible,

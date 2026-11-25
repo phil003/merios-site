@@ -153,9 +153,9 @@ export default function CompareIndexPage() {
                       y1="0"
                       y2="0"
                     >
-                      <stop offset="0" stopColor="#10231A" stopOpacity="0" />
-                      <stop offset="0.5" stopColor="#10231A" stopOpacity="0.16" />
-                      <stop offset="1" stopColor="#10231A" stopOpacity="0.5" />
+                      <stop offset="0" stopColor="#18213F" stopOpacity="0" />
+                      <stop offset="0.5" stopColor="#18213F" stopOpacity="0.16" />
+                      <stop offset="1" stopColor="#18213F" stopOpacity="0.5" />
                     </linearGradient>
                   </defs>
                   <path

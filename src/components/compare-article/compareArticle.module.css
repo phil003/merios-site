@@ -72,7 +72,7 @@
   max-width: 17em;
   font-family: var(--font-display);
   font-size: clamp(2.15rem, 1.05rem + 3.2vw, 4.5rem);
-  font-weight: 760;
+  font-weight: 600;
   line-height: 0.99;
   letter-spacing: -0.042em;
   font-variation-settings: "opsz" 96;
@@ -129,12 +129,12 @@
   height: 12px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 14px rgb(214 240 80 / 0.9);
+  box-shadow: 0 0 14px rgb(168 194 244 / 0.9);
   animation: dotBeat 2.4s var(--ease-smooth) infinite;
 }
 @keyframes dotBeat {
-  0%, 100% { box-shadow: 0 0 10px rgb(214 240 80 / 0.7); transform: scale(1); }
-  12% { box-shadow: 0 0 22px rgb(214 240 80 / 1); transform: scale(1.35); }
+  0%, 100% { box-shadow: 0 0 10px rgb(168 194 244 / 0.7); transform: scale(1); }
+  12% { box-shadow: 0 0 22px rgb(168 194 244 / 1); transform: scale(1.35); }
   30% { transform: scale(1); }
 }
 @media (max-width: 640px) {
@@ -236,7 +236,7 @@
 }
 .tocLink:hover {
   color: var(--color-ink);
-  background: rgb(16 35 26 / 0.04);
+  background: rgb(24 33 63 / 0.04);
 }
 .tocNum {
   justify-self: start;
@@ -276,12 +276,12 @@ div.tableScroll {
   background:
     linear-gradient(90deg, #FFFFFF 35%, rgb(255 255 255 / 0)) left center / 36px 100% no-repeat local,
     linear-gradient(270deg, #FFFFFF 35%, rgb(255 255 255 / 0)) right center / 36px 100% no-repeat local,
-    radial-gradient(farthest-side at 0 50%, rgb(16 35 26 / 0.2), rgb(16 35 26 / 0)) left center / 14px 100% no-repeat scroll,
-    radial-gradient(farthest-side at 100% 50%, rgb(16 35 26 / 0.2), rgb(16 35 26 / 0)) right center / 14px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 0 50%, rgb(24 33 63 / 0.2), rgb(24 33 63 / 0)) left center / 14px 100% no-repeat scroll,
+    radial-gradient(farthest-side at 100% 50%, rgb(24 33 63 / 0.2), rgb(24 33 63 / 0)) right center / 14px 100% no-repeat scroll,
     #FFFFFF;
   box-shadow: 0 1px 0 rgb(255 255 255 / 0.9) inset;
   scrollbar-width: thin;
-  scrollbar-color: rgb(16 35 26 / 0.28) transparent;
+  scrollbar-color: rgb(24 33 63 / 0.28) transparent;
 }
 div.tableScroll:focus-visible {
   outline: 2px solid var(--color-ink);
@@ -311,7 +311,7 @@ div.tableScroll:focus-visible {
   background: color-mix(in srgb, var(--color-lime) 13%, #FFFFFF);
 }
 .tableScroll .table td strong {
-  font-weight: 650;
+  font-weight: 600;
 }
 
 /* Small screens: the table becomes a full-bleed white strip that scrolls
@@ -357,7 +357,7 @@ div.tableScroll:focus-visible {
     z-index: 1;
     width: 8.5rem;
     background: #FFFFFF;
-    box-shadow: 1px 0 0 var(--color-grid), 10px 0 14px -12px rgb(16 35 26 / 0.45);
+    box-shadow: 1px 0 0 var(--color-grid), 10px 0 14px -12px rgb(24 33 63 / 0.45);
   }
   .tableScroll > .table:has(tr > :nth-child(4)) th:first-child {
     background: color-mix(in srgb, var(--color-fog) 70%, #FFFFFF);
@@ -388,7 +388,7 @@ div.tableScroll:focus-visible {
   margin: 0 0 clamp(24px, 3vw, 36px);
   font-family: var(--font-display);
   font-size: clamp(2rem, 1.25rem + 2.2vw, 3rem);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -0.04em;
   font-variation-settings: "opsz" 96;
@@ -418,7 +418,7 @@ div.tableScroll:focus-visible {
 }
 .faqDetails[open] {
   border-color: color-mix(in srgb, var(--color-ink) 18%, var(--color-grid));
-  box-shadow: 0 22px 44px -30px rgb(16 35 26 / 0.38);
+  box-shadow: 0 22px 44px -30px rgb(24 33 63 / 0.38);
 }
 .faqSummary {
   display: grid;
@@ -431,7 +431,7 @@ div.tableScroll:focus-visible {
   border-radius: 20px;
   font-family: var(--font-display);
   font-size: clamp(1.02rem, 0.96rem + 0.3vw, 1.16rem);
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.32;
   letter-spacing: -0.018em;
   color: var(--color-ink);
@@ -519,7 +519,7 @@ div.tableScroll:focus-visible {
   overflow: hidden;
   border-radius: 30px;
   padding: clamp(28px, 4.2vw, 52px) clamp(24px, 4.2vw, 52px) clamp(76px, 8vw, 104px);
-  box-shadow: 0 50px 90px -46px rgb(16 35 26 / 0.75);
+  box-shadow: 0 50px 90px -46px rgb(24 33 63 / 0.75);
 }
 .verdict::before {
   content: "";
@@ -547,7 +547,7 @@ div.tableScroll:focus-visible {
   width: 260px;
   height: 260px;
   border-radius: 50%;
-  background: radial-gradient(circle at 32% 26%, #FFFFFF 0%, #F4F6F8 9%, #B8C0C8 26%, #59636C 48%, #1F262B 62%, #8F98A1 80%, #E9EDF0 94%, #FFFFFF 100%);
+  background: radial-gradient(circle at 32% 26%, #FFFFFF 0%, #F4F6F8 9%, #B8C0C8 26%, #5B627A 48%, #26305A 62%, #8F98A1 80%, #E9EDF0 94%, #FFFFFF 100%);
   opacity: 0.15;
   filter: blur(1px);
   pointer-events: none;
@@ -589,7 +589,7 @@ div.tableScroll:focus-visible {
   height: 10px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 14px rgb(214 240 80 / 0.85);
+  box-shadow: 0 0 14px rgb(168 194 244 / 0.85);
 }
 
 /* ─── Related comparisons ──────────────────────────────────────────────── */
@@ -610,7 +610,7 @@ div.tableScroll:focus-visible {
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-display-m);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 0.98;
   letter-spacing: -0.042em;
   font-variation-settings: "opsz" 96;
@@ -640,7 +640,7 @@ div.tableScroll:focus-visible {
    night stages meet without a seam */
 section.cta {
   background:
-    radial-gradient(70% 85% at 50% 16%, #1A2227 0%, #0D1114 62%, #0B0F11 100%);
+    radial-gradient(70% 85% at 50% 16%, #212B4F 0%, #18213F 62%, #0B0F11 100%);
 }
 /* a fading hairline where the band hands over to the footer's own stage */
 section.cta::before {
@@ -695,7 +695,7 @@ section.cta::before {
   margin: -5.5px 0 0 -5.5px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 14px rgb(214 240 80 / 0.9);
+  box-shadow: 0 0 14px rgb(168 194 244 / 0.9);
   animation: dotBeat 2.4s var(--ease-smooth) infinite;
   pointer-events: none;
 }
@@ -727,7 +727,7 @@ section.cta::before {
 }
 .notFoundLabel .notFoundDot {
   background: var(--color-warm);
-  box-shadow: 0 0 12px rgb(185 118 44 / 0.7);
+  box-shadow: 0 0 12px rgb(166 90 44 / 0.7);
 }
 .notFoundTitle {
   margin: 0;

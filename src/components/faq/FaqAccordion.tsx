@@ -258,7 +258,7 @@ const styles = `
 }
 .faq-accordion .faq-pill[data-active="true"] .faq-pill-dot {
   background: var(--color-lime);
-  box-shadow: 0 0 10px rgb(214 240 80 / 0.75);
+  box-shadow: 0 0 10px rgb(168 194 244 / 0.75);
 }
 .faq-accordion .faq-pill:focus-visible {
   outline: 2px solid var(--color-ink);
@@ -288,7 +288,7 @@ const styles = `
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(2rem, 1.35rem + 2vw, 3.1rem);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 0.98;
   letter-spacing: -0.04em;
   font-variation-settings: "opsz" 96;
@@ -342,7 +342,7 @@ const styles = `
 }
 .faq-accordion .faq-item[open] {
   border-color: color-mix(in srgb, var(--color-ink) 18%, var(--color-grid));
-  box-shadow: 0 26px 50px -30px rgb(16 35 26 / 0.34);
+  box-shadow: 0 26px 50px -30px rgb(24 33 63 / 0.34);
 }
 
 .faq-accordion .faq-summary {
@@ -358,7 +358,7 @@ const styles = `
   color: var(--color-ink);
   font-family: var(--font-display);
   font-size: clamp(1.0625rem, 0.98rem + 0.36vw, 1.3rem);
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.022em;
   text-wrap: pretty;
@@ -461,7 +461,7 @@ const styles = `
   max-width: 34ch;
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 1.1rem + 1vw, 1.9rem);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.035em;
   color: var(--color-ink);

@@ -52,7 +52,7 @@ export default function ReadingProgress() {
       style={{
         background: "var(--color-lime)",
         boxShadow:
-          "inset 0 -1px 0 var(--color-lime-deep), 0 0 12px rgb(214 240 80 / 0.55)",
+          "inset 0 -1px 0 var(--color-lime-deep), 0 0 12px rgb(168 194 244 / 0.55)",
       }}
     />
   );

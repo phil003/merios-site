@@ -271,7 +271,7 @@ export default function ScienceBioAge() {
               cy="40"
               r="7"
               fill="var(--color-pulse)"
-              stroke="#0E1316"
+              stroke="#18213F"
               strokeWidth="3"
             />
             <circle cx="0" cy="120" r="4.5" fill="#F4F6F7" fillOpacity="0.55" />
@@ -286,16 +286,16 @@ export default function ScienceBioAge() {
 function AgeGlyph() {
   return (
     <svg className={styles.ageGlyph} viewBox="0 0 54 54" aria-hidden focusable="false">
-      <circle cx="27" cy="27" r="25.5" fill="none" stroke="#10231A" strokeOpacity="0.28" />
+      <circle cx="27" cy="27" r="25.5" fill="none" stroke="#18213F" strokeOpacity="0.28" />
       <path
         d="M9 29 H18 L21 33 L25 17 L30 39 L33 29 H45"
         fill="none"
-        stroke="#10231A"
+        stroke="#18213F"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="45" cy="29" r="3.2" fill="#10231A" />
+      <circle cx="45" cy="29" r="3.2" fill="#18213F" />
     </svg>
   );
 }

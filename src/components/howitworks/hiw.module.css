@@ -60,7 +60,7 @@
   height: 13px;
   margin: -6.5px 0 0 -6.5px;
   border-radius: 999px;
-  background: #0d1114;
+  background: #18213F;
   border: 1.5px solid rgb(255 255 255 / 0.62);
   box-shadow: 0 0 0 5px rgb(255 255 255 / 0.04);
 }
@@ -76,17 +76,17 @@
   margin: -6px 0 0 -6px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 14px rgb(214 240 80 / 0.9);
+  box-shadow: 0 0 14px rgb(168 194 244 / 0.9);
   animation: beat 2.4s var(--ease-smooth) 1.6s infinite;
 }
 @keyframes beat {
   0%,
   100% {
-    box-shadow: 0 0 10px rgb(214 240 80 / 0.7);
+    box-shadow: 0 0 10px rgb(168 194 244 / 0.7);
     transform: scale(1);
   }
   12% {
-    box-shadow: 0 0 22px rgb(214 240 80 / 1);
+    box-shadow: 0 0 22px rgb(168 194 244 / 1);
     transform: scale(1.35);
   }
   30% {
@@ -192,7 +192,7 @@
   background: #ffffff;
   box-shadow:
     0 0 0 1px var(--color-grid),
-    0 14px 30px -22px rgb(16 35 26 / 0.55);
+    0 14px 30px -22px rgb(24 33 63 / 0.55);
 }
 .navLink[aria-current="location"] .navNum {
   background: var(--color-ink);
@@ -218,7 +218,7 @@
   margin: 22px 0 0;
   font-family: var(--font-display);
   font-size: var(--text-display-m);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 0.98;
   letter-spacing: -0.04em;
   font-variation-settings: "opsz" 96;
@@ -278,7 +278,7 @@
 .card:hover {
   transform: translateY(-4px);
   border-color: color-mix(in srgb, var(--color-ink) 18%, var(--color-grid));
-  box-shadow: 0 26px 50px -24px rgb(16 35 26 / 0.4);
+  box-shadow: 0 26px 50px -24px rgb(24 33 63 / 0.4);
 }
 
 /* Pictogram tiles: pop surfaces with ink line-art */
@@ -332,13 +332,13 @@
   flex: none;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
+  box-shadow: 0 0 0 1.5px rgb(24 33 63 / 0.55);
 }
 .cardTitle {
   margin: 12px 0 0;
   font-family: var(--font-display);
   font-size: clamp(1.32rem, 1.1rem + 0.6vw, 1.6rem);
-  font-weight: 720;
+  font-weight: 600;
   line-height: 1.06;
   letter-spacing: -0.03em;
   color: var(--color-ink);
@@ -429,7 +429,7 @@
   margin-top: clamp(40px, 5vw, 72px);
   border-radius: 32px;
   overflow: hidden;
-  box-shadow: 0 50px 90px -50px rgb(9 12 14 / 0.75);
+  box-shadow: 0 50px 90px -50px rgb(19 26 51 / 0.75);
 }
 .stageGrid {
   position: relative;
@@ -521,7 +521,7 @@
 .lineText {
   font-family: var(--font-display);
   font-size: clamp(1.12rem, 0.98rem + 0.5vw, 1.4rem);
-  font-weight: 620;
+  font-weight: 600;
   line-height: 1.22;
   letter-spacing: -0.022em;
   color: var(--color-on-night);
@@ -544,7 +544,7 @@
   width: 70%;
   height: 120%;
   pointer-events: none;
-  background: radial-gradient(closest-side, rgb(214 240 80 / 0.1), transparent 70%);
+  background: radial-gradient(closest-side, rgb(168 194 244 / 0.1), transparent 70%);
 }
 @media (max-width: 767px) {
   .line {
@@ -584,7 +584,7 @@
   max-width: 15em;
   font-family: var(--font-display);
   font-size: clamp(2.2rem, 1.2rem + 3.3vw, 4.4rem);
-  font-weight: 760;
+  font-weight: 600;
   line-height: 0.98;
   letter-spacing: -0.042em;
   font-variation-settings: "opsz" 96;
@@ -629,13 +629,13 @@
 }
 .loopComet {
   fill: none;
-  stroke: #f3ffc2;
+  stroke: #E6ECFB;
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 46 954;
   stroke-dashoffset: 1000;
-  filter: drop-shadow(0 0 6px rgb(214 240 80 / 0.9));
+  filter: drop-shadow(0 0 6px rgb(168 194 244 / 0.9));
   animation: loopRun 7s linear infinite;
 }
 @keyframes loopRun {
@@ -645,7 +645,7 @@
 }
 .loopDot {
   fill: var(--color-lime);
-  filter: drop-shadow(0 0 10px rgb(214 240 80 / 0.95));
+  filter: drop-shadow(0 0 10px rgb(168 194 244 / 0.95));
 }
 @media (max-width: 1023px) {
   .loop {

@@ -75,7 +75,7 @@ function YearDots() {
           cx={d.x.toFixed(1)}
           cy={d.y.toFixed(1)}
           r="1.8"
-          fill="#10231A"
+          fill="#18213F"
           fillOpacity={d.o.toFixed(2)}
         />
       ))}
@@ -83,8 +83,8 @@ function YearDots() {
         cx={last.x.toFixed(1)}
         cy={last.y.toFixed(1)}
         r="3.4"
-        fill="#D6F050"
-        stroke="#10231A"
+        fill="#A8C2F4"
+        stroke="#18213F"
         strokeWidth="1.3"
       />
     </svg>
@@ -102,16 +102,16 @@ function ReportLines() {
         width="280"
         height="13"
         rx="5"
-        fill="#D6F050"
+        fill="#A8C2F4"
         transform="rotate(-0.8 150 25)"
       />
       {rows.map((y, i) => {
         const lit = i === 1;
         return (
           <g key={y}>
-            <rect x="18" y={y - 2} width={70 + ((i * 23) % 38)} height="4" rx="2" fill="#10231A" fillOpacity={lit ? 0.75 : 0.2} />
-            <rect x="176" y={y - 2} width={22 + ((i * 7) % 12)} height="4" rx="2" fill="#10231A" fillOpacity={lit ? 0.9 : 0.34} />
-            <rect x="232" y={y - 2} width="48" height="4" rx="2" fill="#10231A" fillOpacity={lit ? 0.5 : 0.16} />
+            <rect x="18" y={y - 2} width={70 + ((i * 23) % 38)} height="4" rx="2" fill="#18213F" fillOpacity={lit ? 0.75 : 0.2} />
+            <rect x="176" y={y - 2} width={22 + ((i * 7) % 12)} height="4" rx="2" fill="#18213F" fillOpacity={lit ? 0.9 : 0.34} />
+            <rect x="232" y={y - 2} width="48" height="4" rx="2" fill="#18213F" fillOpacity={lit ? 0.5 : 0.16} />
           </g>
         );
       })}
@@ -124,12 +124,12 @@ function TimelineJoin() {
   const points = [24, 48, 63, 97, 121, 139, 168, 196, 219];
   return (
     <svg viewBox="0 0 300 62" preserveAspectRatio="xMidYMid meet" focusable="false">
-      <path d="M12 34 H288" stroke="#10231A" strokeOpacity="0.22" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M12 34 H288" stroke="#18213F" strokeOpacity="0.22" strokeWidth="1.5" strokeLinecap="round" />
       {points.map((x, i) => (
-        <circle key={x} cx={x} cy="34" r="3" fill="#10231A" fillOpacity={0.28 + (i % 3) * 0.12} />
+        <circle key={x} cx={x} cy="34" r="3" fill="#18213F" fillOpacity={0.28 + (i % 3) * 0.12} />
       ))}
-      <path d="M254 34 V16" stroke="#10231A" strokeOpacity="0.45" strokeWidth="1.3" strokeDasharray="2 3" strokeLinecap="round" />
-      <circle cx="254" cy="34" r="6" fill="#D6F050" stroke="#10231A" strokeWidth="1.5" />
+      <path d="M254 34 V16" stroke="#18213F" strokeOpacity="0.45" strokeWidth="1.3" strokeDasharray="2 3" strokeLinecap="round" />
+      <circle cx="254" cy="34" r="6" fill="#A8C2F4" stroke="#18213F" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -201,8 +201,8 @@ export function LoopEmblem() {
             <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.7" />
           </linearGradient>
           <radialGradient id="hiw-loop-core" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#D6F050" stopOpacity="0.16" />
-            <stop offset="1" stopColor="#D6F050" stopOpacity="0" />
+            <stop offset="0" stopColor="#A8C2F4" stopOpacity="0.16" />
+            <stop offset="1" stopColor="#A8C2F4" stopOpacity="0" />
           </radialGradient>
         </defs>
         <circle cx={LOOP_CX} cy={LOOP_CY} r="150" fill="url(#hiw-loop-core)" />

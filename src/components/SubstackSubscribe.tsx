@@ -30,12 +30,12 @@ export default function SubstackSubscribe() {
         <path
           d="M0 14 H62 L67 19 L73 3 L81 26 L86 14 H148"
           fill="none"
-          stroke="#10231A"
+          stroke="#18213F"
           strokeWidth="1.6"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx="148" cy="14" r="3.6" fill="#10231A" />
+        <circle cx="148" cy="14" r="3.6" fill="#18213F" />
       </svg>
 
       <Reveal>
@@ -61,11 +61,11 @@ export default function SubstackSubscribe() {
             width="100%"
             height="150"
             style={{
-              border: "1px solid rgb(16 35 26 / 0.14)",
+              border: "1px solid rgb(24 33 63 / 0.14)",
               borderRadius: 16,
               background: "#FFFFFF",
               maxWidth: 480,
-              boxShadow: "0 18px 36px -24px rgb(16 35 26 / 0.45)",
+              boxShadow: "0 18px 36px -24px rgb(24 33 63 / 0.45)",
             }}
             frameBorder="0"
             scrolling="no"

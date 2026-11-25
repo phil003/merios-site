@@ -546,7 +546,7 @@ const styles = `
   font-size: 1rem;
   line-height: 1.4;
   letter-spacing: -0.005em;
-  box-shadow: 0 1px 2px rgb(16 35 26 / 0.04);
+  box-shadow: 0 1px 2px rgb(24 33 63 / 0.04);
   -webkit-appearance: none;
   appearance: none;
   transition:
@@ -621,7 +621,7 @@ const styles = `
 }
 .cf-form .cf-type[aria-checked="true"] .cf-type-dot {
   background: var(--color-lime);
-  box-shadow: 0 0 10px rgb(214 240 80 / 0.7);
+  box-shadow: 0 0 10px rgb(168 194 244 / 0.7);
 }
 .cf-form .cf-type:disabled {
   cursor: default;
@@ -660,7 +660,7 @@ const styles = `
 }
 .cf-form .cf-msg[data-tone="success"] .cf-msg-dot {
   background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.45);
+  box-shadow: 0 0 0 1.5px rgb(24 33 63 / 0.45);
 }
 
 .cf-form .cf-submit {

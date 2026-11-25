@@ -24,9 +24,9 @@ import {
  * min / label · unit / max) is kept exactly as before — only the dress changes.
  */
 
-const INK = "#10231A";
-const LIME = "#D6F050";
-const AMBER = "#D19A2C"; // borderline / outside the optimal band, lifted for night
+const INK = "#18213F";
+const LIME = "#A8C2F4";
+const AMBER = "#FFA472"; // borderline / outside the optimal band, lifted for night
 const ON_NIGHT_2 = "rgba(244,246,247,0.68)";
 const ON_NIGHT_3 = "rgba(244,246,247,0.5)";
 
@@ -308,9 +308,9 @@ function NightDefs({ uid }: { uid: string }) {
   return (
     <defs>
       <radialGradient id={`${uid}-night`} cx="0.72" cy="0.18" r="1.05">
-        <stop offset="0" stopColor="#1A2227" />
-        <stop offset="0.48" stopColor="#0D1114" />
-        <stop offset="1" stopColor="#07090B" />
+        <stop offset="0" stopColor="#212B4F" />
+        <stop offset="0.48" stopColor="#18213F" />
+        <stop offset="1" stopColor="#111831" />
       </radialGradient>
       <linearGradient id={`${uid}-chrome`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stopColor="#FFFFFF" />

@@ -66,7 +66,7 @@ const styles = `
   max-width: 22ch;
   font-family: var(--font-display);
   font-size: clamp(1.65rem, 1.2rem + 1.3vw, 2.3rem);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 1.04;
   letter-spacing: -0.035em;
   color: var(--color-ink);
@@ -91,7 +91,7 @@ const styles = `
 .cg .cg-item-title {
   font-family: var(--font-display);
   font-size: clamp(1.2rem, 1.08rem + 0.4vw, 1.4rem);
-  font-weight: 720;
+  font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--color-ink);

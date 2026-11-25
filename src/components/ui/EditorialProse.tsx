@@ -39,7 +39,7 @@ export function PullQuote({ children, cite }: PullQuoteProps) {
       <span
         aria-hidden
         className="absolute left-0 top-1 bottom-1 w-1 rounded-full"
-        style={{ background: "var(--color-lime)", boxShadow: "0 0 0 1px rgb(16 35 26 / 0.12)" }}
+        style={{ background: "var(--color-lime)", boxShadow: "0 0 0 1px rgb(24 33 63 / 0.12)" }}
       />
       <blockquote
         style={{

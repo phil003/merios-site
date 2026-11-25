@@ -278,7 +278,7 @@ export default function ContactPage() {
                 lineHeight: 1,
                 letterSpacing: "-0.04em",
                 color: "var(--color-ink)",
-                fontWeight: 740,
+                fontWeight: 600,
                 textWrap: "balance",
               }}
             >

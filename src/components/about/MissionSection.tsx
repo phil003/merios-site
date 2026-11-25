@@ -32,8 +32,8 @@ function CompositeEmblem() {
       <svg className={styles.emblemRing} viewBox="0 0 300 300" focusable="false">
         <defs>
           <radialGradient id="about-emblem-glow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#D6F050" stopOpacity="0.16" />
-            <stop offset="1" stopColor="#D6F050" stopOpacity="0" />
+            <stop offset="0" stopColor="#A8C2F4" stopOpacity="0.16" />
+            <stop offset="1" stopColor="#A8C2F4" stopOpacity="0" />
           </radialGradient>
         </defs>
         <circle cx="150" cy="150" r="96" fill="url(#about-emblem-glow)" />

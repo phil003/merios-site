@@ -91,9 +91,9 @@ export default function Daily() {
                   report fills it in.
                 </p>
                 <div className="hv3-quarters" aria-hidden>
-                  <i style={{ background: "#F2B649" }} />
+                  <i style={{ background: "#FFA472" }} />
                   <i style={{ background: "#5CC28C" }} />
-                  <i style={{ background: "#8FB2D2" }} />
+                  <i style={{ background: "#6E8FE8" }} />
                   <i style={{ background: "var(--color-lime)" }} />
                 </div>
               </div>

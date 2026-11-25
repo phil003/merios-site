@@ -71,7 +71,7 @@ export default function ArticleMeta({
               style={{
                 background: night
                   ? "rgb(244 246 247 / 0.4)"
-                  : "rgb(16 35 26 / 0.32)",
+                  : "rgb(24 33 63 / 0.32)",
               }}
             />
           ) : null}

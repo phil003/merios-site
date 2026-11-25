@@ -200,8 +200,8 @@ export default function ScienceModelDiagram() {
 
                 <defs>
                   <radialGradient id="model-core-glow" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0" stopColor="#D6F050" stopOpacity="0.3" />
-                    <stop offset="1" stopColor="#D6F050" stopOpacity="0" />
+                    <stop offset="0" stopColor="#A8C2F4" stopOpacity="0.3" />
+                    <stop offset="1" stopColor="#A8C2F4" stopOpacity="0" />
                   </radialGradient>
                 </defs>
 
@@ -235,7 +235,7 @@ export default function ScienceModelDiagram() {
                         cx={cx}
                         cy={110}
                         r="26"
-                        fill="#12171B"
+                        fill="#1D2747"
                         stroke="rgb(255 255 255 / 0.42)"
                         strokeWidth="1.3"
                       />
@@ -261,7 +261,7 @@ export default function ScienceModelDiagram() {
                           fontFamily: "var(--font-display)",
                           fontSize: 17,
                           fill: "#F4F6F7",
-                          fontWeight: 650,
+                          fontWeight: 600,
                           letterSpacing: "-0.02em",
                         }}
                       >
@@ -297,7 +297,7 @@ export default function ScienceModelDiagram() {
                       fontFamily: "var(--font-mono)",
                       fontSize: 10,
                       letterSpacing: "0.22em",
-                      fill: "#10231A",
+                      fill: "#18213F",
                       fontWeight: 600,
                     }}
                   >
@@ -310,7 +310,7 @@ export default function ScienceModelDiagram() {
                     style={{
                       fontFamily: "var(--font-serif)",
                       fontSize: 40,
-                      fill: "#10231A",
+                      fill: "#18213F",
                       fontWeight: 500,
                       letterSpacing: "-0.03em",
                     }}

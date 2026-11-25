@@ -29,7 +29,7 @@ html[data-anim] [data-rv]:has(> .body) {
 
 .body strong {
   color: var(--color-ink);
-  font-weight: 650;
+  font-weight: 600;
 }
 
 /* The opening paragraph reads as a lead */
@@ -91,7 +91,7 @@ html[data-anim] [data-rv]:has(> .body) {
   height: 7px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
+  box-shadow: 0 0 0 1.5px rgb(24 33 63 / 0.55);
 }
 
 /* ── Inline code ── */
@@ -145,13 +145,13 @@ html[data-anim] [data-rv]:has(> .body) {
   width: 3px;
   border-radius: 3px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1px rgb(16 35 26 / 0.16);
+  box-shadow: 0 0 0 1px rgb(24 33 63 / 0.16);
 }
 
 .cardTitle {
   font-family: var(--font-display);
   font-size: 1.2rem;
-  font-weight: 720;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.025em;
   color: var(--color-ink);

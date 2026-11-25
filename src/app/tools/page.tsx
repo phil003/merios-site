@@ -367,21 +367,21 @@ const GLYPHS: [number, number, number][] = [
 function AgeRing() {
   return (
     <svg viewBox="0 0 240 240" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" focusable="false">
-      <circle cx="120" cy="120" r="78" fill="none" stroke="rgb(16 35 26 / 0.12)" strokeWidth="14" />
+      <circle cx="120" cy="120" r="78" fill="none" stroke="rgb(24 33 63 / 0.12)" strokeWidth="14" />
       <circle
         cx="120"
         cy="120"
         r="78"
         fill="none"
-        stroke="#24503A"
+        stroke="#3550A8"
         strokeWidth="14"
         strokeLinecap="round"
         strokeDasharray="350 490"
         transform="rotate(-90 120 120)"
       />
-      <circle cx="120" cy="120" r="52" fill="none" stroke="rgb(16 35 26 / 0.18)" strokeWidth="1.5" strokeDasharray="2 6" />
-      <circle cx="44" cy="137.4" r="9" fill="#D6F050" stroke="#10231A" strokeWidth="3" />
-      <path d="M78 120 H100 L106 128 L114 98 L124 144 L130 120 H162" fill="none" stroke="#10231A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="120" cy="120" r="52" fill="none" stroke="rgb(24 33 63 / 0.18)" strokeWidth="1.5" strokeDasharray="2 6" />
+      <circle cx="44" cy="137.4" r="9" fill="#A8C2F4" stroke="#18213F" strokeWidth="3" />
+      <path d="M78 120 H100 L106 128 L114 98 L124 144 L130 120 H162" fill="none" stroke="#18213F" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -399,13 +399,13 @@ function ZoneBars() {
           width="30"
           height={v}
           rx="8"
-          fill={i === 1 ? "#10231A" : "rgb(255 255 255 / 0.62)"}
-          stroke={i === 1 ? "#D6F050" : "rgb(16 35 26 / 0.12)"}
+          fill={i === 1 ? "#18213F" : "rgb(255 255 255 / 0.62)"}
+          stroke={i === 1 ? "#A8C2F4" : "rgb(24 33 63 / 0.12)"}
           strokeWidth={i === 1 ? 3 : 1}
         />
       ))}
-      <path d="M14 178 H92 L100 186 L110 160 L122 196 L130 178 H226" fill="none" stroke="#10231A" strokeOpacity="0.55" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="226" cy="178" r="5.5" fill="#D6F050" stroke="#10231A" strokeWidth="1.6" />
+      <path d="M14 178 H92 L100 186 L110 160 L122 196 L130 178 H226" fill="none" stroke="#18213F" strokeOpacity="0.55" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="226" cy="178" r="5.5" fill="#A8C2F4" stroke="#18213F" strokeWidth="1.6" />
     </svg>
   );
 }

@@ -20,8 +20,8 @@ import styles from "./science.module.css";
 function IsolatedGlyph() {
   return (
     <svg className={styles.thesisMark} viewBox="0 0 34 34" aria-hidden focusable="false">
-      <circle cx="17" cy="17" r="14.5" fill="none" stroke="#10231A" strokeOpacity="0.35" strokeDasharray="2 3.2" />
-      <circle cx="17" cy="17" r="4.5" fill="#10231A" />
+      <circle cx="17" cy="17" r="14.5" fill="none" stroke="#18213F" strokeOpacity="0.35" strokeDasharray="2 3.2" />
+      <circle cx="17" cy="17" r="4.5" fill="#18213F" />
     </svg>
   );
 }
@@ -34,12 +34,12 @@ function CompositeGlyph() {
   return (
     <svg className={styles.thesisMark} viewBox="0 0 34 34" aria-hidden focusable="false">
       {pts.map(([x, y]) => (
-        <line key={`l-${x}-${y}`} x1={x} y1={y} x2="17" y2="17" stroke="#10231A" strokeOpacity="0.4" strokeWidth="1.2" />
+        <line key={`l-${x}-${y}`} x1={x} y1={y} x2="17" y2="17" stroke="#18213F" strokeOpacity="0.4" strokeWidth="1.2" />
       ))}
       {pts.map(([x, y]) => (
-        <circle key={`c-${x}-${y}`} cx={x} cy={y} r="2.6" fill="#10231A" />
+        <circle key={`c-${x}-${y}`} cx={x} cy={y} r="2.6" fill="#18213F" />
       ))}
-      <circle cx="17" cy="17" r="5" fill="#D6F050" stroke="#10231A" strokeWidth="1.4" />
+      <circle cx="17" cy="17" r="5" fill="#A8C2F4" stroke="#18213F" strokeWidth="1.4" />
     </svg>
   );
 }

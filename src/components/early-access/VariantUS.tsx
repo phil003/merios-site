@@ -50,7 +50,7 @@ export default function VariantUS() {
           className="pointer-events-none absolute top-0 left-1/2 h-[60%] w-[80%] -translate-x-1/2 motion-safe:hidden"
           style={{
             background:
-              "radial-gradient(closest-side at 50% 42%, rgb(214 240 80 / 0.07), transparent)",
+              "radial-gradient(closest-side at 50% 42%, rgb(168 194 244 / 0.07), transparent)",
           }}
         />
         <div
@@ -58,7 +58,7 @@ export default function VariantUS() {
           className="ea-us-drift pointer-events-none absolute top-0 left-1/2 h-[80%] w-[110%] motion-reduce:hidden"
           style={{
             background:
-              "radial-gradient(closest-side at 50% 40%, rgb(214 240 80 / 0.1), transparent), radial-gradient(40% 45% at 70% 44%, rgb(201 184 255 / 0.08), transparent 70%)",
+              "radial-gradient(closest-side at 50% 40%, rgb(168 194 244 / 0.1), transparent), radial-gradient(40% 45% at 70% 44%, rgb(201 192 246 / 0.08), transparent 70%)",
             willChange: "transform, opacity",
           }}
         />
@@ -216,7 +216,7 @@ export default function VariantUS() {
               />
             </span>
             <span style={{ fontSize: "0.92rem", lineHeight: 1.3, maxWidth: "12em", color: "var(--color-on-night-2)" }}>
-              <b style={{ display: "block", color: "var(--color-on-night)", fontWeight: 650 }}>On a computer?</b>
+              <b style={{ display: "block", color: "var(--color-on-night)", fontWeight: 600 }}>On a computer?</b>
               Point your iPhone camera here.
             </span>
           </div>
@@ -283,7 +283,7 @@ export default function VariantUS() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontSize: "var(--text-display-m)",
-                fontWeight: 740,
+                fontWeight: 600,
                 lineHeight: 0.98,
                 letterSpacing: "-0.04em",
                 fontVariationSettings: '"opsz" 96',

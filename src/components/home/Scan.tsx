@@ -266,7 +266,7 @@ export default function Scan() {
                 <div className="hv3-reports">
                   <div className="hv3-reports__top">
                     <span className="label">Your reports</span>
-                    <Mark color="#FFFFFF" cut="#10231A" style={{ width: 22, height: 24 }} />
+                    <Mark color="#FFFFFF" cut="#18213F" style={{ width: 22, height: 24 }} />
                   </div>
                   {REPORT_ROWS.map(([date, meta]) => (
                     <div key={date} className="hv3-reports__row">

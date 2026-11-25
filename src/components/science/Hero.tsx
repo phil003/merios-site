@@ -31,7 +31,7 @@ const NODES = Array.from({ length: 11 }, (_, i) => {
     y: C + ORBIT * Math.sin(a),
   };
 });
-const POP = ["#C9B8FF", "#A9D4FF", "#FFB39A"];
+const POP = ["#C9C0F6", "#A8C2F4", "#FFA472"];
 
 function SystemNetwork() {
   return (
@@ -39,8 +39,8 @@ function SystemNetwork() {
       <svg viewBox="0 0 520 520" focusable="false">
         <defs>
           <radialGradient id="sci-core-glow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#D6F050" stopOpacity="0.28" />
-            <stop offset="1" stopColor="#D6F050" stopOpacity="0" />
+            <stop offset="0" stopColor="#A8C2F4" stopOpacity="0.28" />
+            <stop offset="1" stopColor="#A8C2F4" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="sci-pulse-fade" x1="0" x2="1" y1="0" y2="0">
             <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
@@ -90,7 +90,7 @@ function SystemNetwork() {
                 cx={n.x.toFixed(1)}
                 cy={n.y.toFixed(1)}
                 r="6.5"
-                fill={pop ?? "#0D1114"}
+                fill={pop ?? "#18213F"}
                 stroke={pop ? "none" : "#FFFFFF"}
                 strokeOpacity="0.75"
                 strokeWidth="1.6"
@@ -110,8 +110,8 @@ function SystemNetwork() {
             strokeLinejoin="round"
           />
         </g>
-        <circle className={styles.networkCore} cx={C} cy={C} r="22" fill="none" stroke="#D6F050" strokeWidth="1.5" />
-        <circle cx={C} cy={C} r="11" fill="#D6F050" style={{ filter: "drop-shadow(0 0 12px rgb(214 240 80 / 0.9))" }} />
+        <circle className={styles.networkCore} cx={C} cy={C} r="22" fill="none" stroke="#A8C2F4" strokeWidth="1.5" />
+        <circle cx={C} cy={C} r="11" fill="#A8C2F4" style={{ filter: "drop-shadow(0 0 12px rgb(168 194 244 / 0.9))" }} />
       </svg>
     </div>
   );

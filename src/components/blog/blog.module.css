@@ -37,7 +37,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgb(16 35 26 / 0.07);
+  box-shadow: inset 0 0 0 1px rgb(24 33 63 / 0.07);
   pointer-events: none;
 }
 .coverArt {
@@ -76,7 +76,7 @@
   height: 8px;
   border-radius: 999px;
   background: var(--tone, var(--color-lime));
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.5);
+  box-shadow: 0 0 0 1.5px rgb(24 33 63 / 0.5);
 }
 
 .title {
@@ -160,7 +160,7 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  box-shadow: inset 0 0 0 1px rgb(16 35 26 / 0.07);
+  box-shadow: inset 0 0 0 1px rgb(24 33 63 / 0.07);
   pointer-events: none;
 }
 @media (min-width: 1024px) {
@@ -198,7 +198,7 @@
   margin-top: 18px;
   font-family: var(--font-display);
   font-size: clamp(1.95rem, 1.1rem + 2.2vw, 3.25rem);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 1.01;
   letter-spacing: -0.04em;
   font-variation-settings: "opsz" 96;
@@ -276,7 +276,7 @@
   white-space: nowrap;
   color: var(--color-ink-secondary);
   background: rgb(255 255 255 / 0.6);
-  border: 1.5px solid rgb(16 35 26 / 0.12);
+  border: 1.5px solid rgb(24 33 63 / 0.12);
   cursor: pointer;
 }
 .chip[data-active="true"] {
@@ -290,7 +290,7 @@
   height: 6px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 10px rgb(214 240 80 / 0.85);
+  box-shadow: 0 0 10px rgb(168 194 244 / 0.85);
 }
 
 .count {
@@ -458,7 +458,7 @@
   letter-spacing: 0;
   box-shadow:
     inset 0 1.5px 0 rgb(255 255 255 / 0.6),
-    0 10px 20px -12px rgb(16 35 26 / 0.5);
+    0 10px 20px -12px rgb(24 33 63 / 0.5);
   transform: rotate(-5deg);
   transition: transform 500ms var(--ease-expo);
 }
@@ -582,7 +582,7 @@
   border-bottom: 1px solid var(--color-ink);
   font-family: var(--font-display);
   font-size: 1.15rem;
-  font-weight: 740;
+  font-weight: 600;
   letter-spacing: -0.025em;
   color: var(--color-ink);
 }

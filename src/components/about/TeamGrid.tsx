@@ -86,7 +86,7 @@ export default function TeamGrid() {
                           strokeLinejoin="round"
                           vectorEffect="non-scaling-stroke"
                         />
-                        <circle cx="150" cy="13" r="3.2" fill="#D6F050" />
+                        <circle cx="150" cy="13" r="3.2" fill="#A8C2F4" />
                       </svg>
                     )}
                     <span className={`${styles.initials} ${open ? "" : "chrome-text"}`}>

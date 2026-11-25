@@ -220,7 +220,7 @@ export default function Year() {
         <div className="hv3-year__heads">
           <div className="hv3-year__head">
             <span className="label">
-              <span aria-hidden className="label-dot" style={{ background: "var(--color-coral)", boxShadow: "0 0 12px rgb(255 90 60 / 0.8)" }} />
+              <span aria-hidden className="label-dot" style={{ background: "var(--color-coral)", boxShadow: "0 0 12px rgb(255 164 114 / 0.8)" }} />
               Feb 12 · the blood draw
             </span>
             <h2 className="display" id="year-title-a">
@@ -269,7 +269,7 @@ export default function Year() {
               ONE DOT, ONE DAY
             </span>
             <span>
-              <i style={{ background: "rgb(214 240 80 / 0.38)" }} />
+              <i style={{ background: "rgb(168 194 244 / 0.38)" }} />
               BRIGHTER, HIGHER SCORE
             </span>
             <span>

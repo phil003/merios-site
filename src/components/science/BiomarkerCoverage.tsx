@@ -162,7 +162,7 @@ function SignalArt() {
         />
       ))}
       <path d="M236 100 H252 L257 106 L263 82 L271 118 L276 100 H320" fill="none" stroke="#FFFFFF" strokeOpacity="0.85" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="236" cy="100" r="7" fill="#D6F050" style={{ filter: "drop-shadow(0 0 10px rgb(214 240 80 / 0.9))" }} />
+      <circle cx="236" cy="100" r="7" fill="#A8C2F4" style={{ filter: "drop-shadow(0 0 10px rgb(168 194 244 / 0.9))" }} />
     </svg>
   );
 }

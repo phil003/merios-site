@@ -201,12 +201,12 @@ export function Empty({ children }: { children: ReactNode }) {
           <path
             d="M1 10 H14 L17 13 L21 2 L26 18 L29 10 H34"
             fill="none"
-            stroke="#10231A"
+            stroke="#18213F"
             strokeWidth="2.2"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          <circle cx="36.5" cy="10" r="2.6" fill="#D6F050" stroke="#10231A" strokeWidth="1.2" />
+          <circle cx="36.5" cy="10" r="2.6" fill="#A8C2F4" stroke="#18213F" strokeWidth="1.2" />
         </svg>
       </span>
       <p className={s.empty}>{children}</p>

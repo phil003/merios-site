@@ -32,7 +32,7 @@ const VALUES: Value[] = [
 // Presentation only: one pop surface + one line-art glyph per principle.
 const COVERS = [styles.coverLilac, styles.coverSky, styles.coverPeach];
 
-const INK = "#10231A";
+const INK = "#18213F";
 
 function RigorGlyph() {
   // a measured target: crosshair inside a ring, ticks at the quarters

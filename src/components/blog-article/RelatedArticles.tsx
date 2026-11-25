@@ -94,7 +94,7 @@ function RelatedArticleCard({ post }: { post: BlogPost }) {
             style={
               {
                 background: getBlogToneHex(post.tag),
-                boxShadow: "0 0 0 1.5px rgb(16 35 26 / 0.5)",
+                boxShadow: "0 0 0 1.5px rgb(24 33 63 / 0.5)",
               } as CSSProperties
             }
           />

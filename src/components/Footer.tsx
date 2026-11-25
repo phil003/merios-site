@@ -54,12 +54,12 @@ const currentYear = new Date().getFullYear();
 
 export default function Footer() {
   return (
-    <footer className="v3-footer night" data-nav="dark">
+    <footer className="v3-footer">
       <div className="v3-footer__inner">
         <div className="v3-footer__top">
           {/* Brand */}
           <div className="v3-footer__brand">
-            <Logo size="2rem" cut="#0E1316" />
+            <Logo size="2rem" cut="#ECEAFB" />
             <p>
               One score for every biomarker you&rsquo;ve ever produced.
               Quiet, composite, and built to last a decade.
@@ -82,7 +82,7 @@ export default function Footer() {
 
         {/* The full logo, set big — never cropped */}
         <div className="v3-footer__lockup" aria-hidden>
-          <Mark cut="#0C1013" color="#E3E7EB" style={{ width: "0.955em", height: "1.05em", flex: "none" }} />
+          <Mark cut="#E9E8FA" color="rgb(24 33 63 / 0.1)" style={{ width: "0.955em", height: "1.05em", flex: "none" }} />
           <span>Merios</span>
         </div>
 

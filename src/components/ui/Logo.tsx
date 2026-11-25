@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-// The Merios mark: a drop crossed by a heartbeat that ends on a lime dot.
+// The Merios mark: a drop crossed by a heartbeat that ends on an apricot sun.
 // Drawn without a clipPath (the inner stretch of the pulse is simply painted
 // again in the cut colour) so it is safe to render many times on one page and
 // from server components. The viewBox is cropped to the glyph so that, in the
@@ -23,8 +23,8 @@ interface MarkProps {
 
 export function Mark({
   color = "currentColor",
-  cut = "var(--mark-cut, #0D1114)",
-  dot = "#D6F050",
+  cut = "var(--mark-cut, #18213F)",
+  dot = "#FFA472",
   className,
   style,
   title,
@@ -79,13 +79,13 @@ export default function Logo({
       <Mark cut={cut} style={{ width: "0.955em", height: "1.05em", flex: "none" }} />
       <span
         style={{
-          fontFamily: "var(--font-serif)",
-          fontWeight: 500,
-          letterSpacing: "-0.02em",
+          fontFamily: "var(--font-sans)",
+          fontWeight: 600,
+          letterSpacing: "-0.035em",
           ...wordStyle,
         }}
       >
-        Merios
+        merios
       </span>
     </span>
   );

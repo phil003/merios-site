@@ -129,7 +129,7 @@ function Block({ icon, eyebrow, title, body }: BlockProps) {
             lineHeight: 1.1,
             letterSpacing: "-0.03em",
             color: "var(--color-ink)",
-            fontWeight: 720,
+            fontWeight: 600,
             overflowWrap: "anywhere",
           }}
         >

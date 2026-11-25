@@ -35,7 +35,7 @@ export default function PhilPage() {
         <Mark
           className={styles.mark}
           color="#F4F6F7"
-          cut="#0D1114"
+          cut="#18213F"
           title="Merios"
         />
 

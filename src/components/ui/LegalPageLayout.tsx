@@ -233,7 +233,7 @@ export default function LegalPageLayout({
             style={{
               fontFamily: "var(--font-display)",
               fontSize: "clamp(1.4rem, 1.1rem + 1vw, 2rem)",
-              fontWeight: 740,
+              fontWeight: 600,
               letterSpacing: "-0.035em",
               color: "var(--color-ink)",
             }}

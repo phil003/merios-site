@@ -6,7 +6,7 @@ import { ImageResponse } from "next/og";
  * Shared Open Graph card renderer — one visual system for /blog and /compare.
  *
  * Design (site v3, "Your health, finally readable."): a night graphite stage
- * lit like chrome (radial #1A2227 → #07090B), the Merios lockup (the drop mark
+ * lit like chrome (radial #212B4F → #111831), the Merios lockup (the drop mark
  * drawn from the exact Logo.tsx paths + the Newsreader wordmark), a mono
  * eyebrow on a lime dot, the title in Bricolage 800 set tight in white, and
  * the logo's heartbeat as the horizon, ending on its lime dot.
@@ -36,7 +36,7 @@ const MARK_DROP = "M120 10 L169.84 116.73 A55 55 0 1 1 70.16 116.73 Z";
 const ON_NIGHT = "#F4F6F7";
 const ON_NIGHT_2 = "rgba(244,246,247,0.68)";
 const ON_NIGHT_3 = "rgba(244,246,247,0.46)";
-const LIME = "#D6F050";
+const LIME = "#A8C2F4";
 const MARK_CUT = "#11171B"; // the stage colour behind the mark (top-left)
 
 function titleSize(title: string): number {
@@ -70,9 +70,9 @@ export function renderOgCard({ eyebrow, title, meta }: OgCardProps) {
           flexDirection: "column",
           position: "relative",
           padding: "60px 80px 0",
-          backgroundColor: "#090C0E",
+          backgroundColor: "#131A33",
           backgroundImage:
-            "radial-gradient(110% 80% at 72% 18%, #1A2227 0%, #0D1114 48%, #07090B 100%)",
+            "radial-gradient(110% 80% at 72% 18%, #212B4F 0%, #18213F 48%, #111831 100%)",
         }}
       >
         {/* Steel rim light along the top edge */}

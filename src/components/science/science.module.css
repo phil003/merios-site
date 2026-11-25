@@ -257,7 +257,7 @@
   background: #ffffff;
   box-shadow:
     0 0 0 1px var(--color-grid),
-    0 14px 30px -22px rgb(16 35 26 / 0.55);
+    0 14px 30px -22px rgb(24 33 63 / 0.55);
 }
 .tocLink[aria-current="location"] .tocNum {
   background: var(--color-ink);
@@ -281,7 +281,7 @@
   max-width: 20ch;
   font-family: var(--font-display);
   font-size: var(--text-display-m);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 0.98;
   letter-spacing: -0.04em;
   font-variation-settings: "opsz" 96;
@@ -309,7 +309,7 @@
   padding: 0 0.35em;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1px rgb(16 35 26 / 0.18);
+  box-shadow: 0 0 0 1px rgb(24 33 63 / 0.18);
   font-family: var(--font-mono);
   font-size: 0.62rem;
   font-weight: 600;
@@ -341,7 +341,7 @@
   width: 5px;
   border-radius: 5px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1px rgb(16 35 26 / 0.14);
+  box-shadow: 0 0 0 1px rgb(24 33 63 / 0.14);
 }
 .quoteText {
   margin: 0;
@@ -398,7 +398,7 @@
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-headline);
-  font-weight: 720;
+  font-weight: 600;
   line-height: 1.04;
   letter-spacing: -0.035em;
   color: var(--color-ink);
@@ -457,7 +457,7 @@
 .system:hover {
   translate: 0 -4px;
   border-color: color-mix(in srgb, var(--color-ink) 18%, var(--color-grid));
-  box-shadow: 0 26px 50px -24px rgb(16 35 26 / 0.4);
+  box-shadow: 0 26px 50px -24px rgb(24 33 63 / 0.4);
 }
 .systemTop {
   display: flex;
@@ -484,13 +484,13 @@
   height: 8px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
+  box-shadow: 0 0 0 1.5px rgb(24 33 63 / 0.55);
 }
 .systemTitle {
   margin: 30px 0 0;
   font-family: var(--font-display);
   font-size: clamp(1.22rem, 1.05rem + 0.5vw, 1.45rem);
-  font-weight: 720;
+  font-weight: 600;
   line-height: 1.08;
   letter-spacing: -0.03em;
   color: var(--color-ink);
@@ -549,7 +549,7 @@
   border-radius: 32px;
   overflow: hidden;
   padding: clamp(28px, 4vw, 56px) clamp(22px, 3.6vw, 56px) clamp(26px, 3.4vw, 48px);
-  box-shadow: 0 50px 90px -50px rgb(9 12 14 / 0.75);
+  box-shadow: 0 50px 90px -50px rgb(19 26 51 / 0.75);
 }
 .plateEyebrow {
   color: var(--color-on-night-2);
@@ -607,7 +607,7 @@
   height: 6px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 10px rgb(214 240 80 / 0.8);
+  box-shadow: 0 0 10px rgb(168 194 244 / 0.8);
 }
 
 /* ─── Biological age ───────────────────────────────────────────────────── */
@@ -636,7 +636,7 @@
   border-color: var(--color-lime);
   box-shadow:
     inset 0 2px 0 rgb(255 255 255 / 0.5),
-    0 30px 60px -34px rgb(94 116 0 / 0.55);
+    0 30px 60px -34px rgb(53 80 168 / 0.55);
 }
 .ageKey {
   margin: 0;
@@ -683,7 +683,7 @@
   margin: clamp(16px, 2vw, 24px) 0 0;
   padding: clamp(22px, 2.6vw, 34px);
   border-radius: 28px;
-  box-shadow: 0 50px 90px -50px rgb(9 12 14 / 0.75);
+  box-shadow: 0 50px 90px -50px rgb(19 26 51 / 0.75);
   overflow: hidden;
 }
 .trajHead {
@@ -744,7 +744,7 @@
 .advisor:hover {
   transform: translateY(-4px);
   border-color: color-mix(in srgb, var(--color-ink) 18%, var(--color-grid));
-  box-shadow: 0 26px 50px -24px rgb(16 35 26 / 0.4);
+  box-shadow: 0 26px 50px -24px rgb(24 33 63 / 0.4);
 }
 .advisorInner {
   display: grid;
@@ -782,7 +782,7 @@
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 1.2rem + 0.8vw, 1.9rem);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.035em;
   color: var(--color-ink);
@@ -804,7 +804,7 @@
   margin: 0;
   padding: 7px 12px 6px;
   border-radius: 999px;
-  border: 1.5px solid rgb(16 35 26 / 0.22);
+  border: 1.5px solid rgb(24 33 63 / 0.22);
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 600;
@@ -818,7 +818,7 @@
   height: 7px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
+  box-shadow: 0 0 0 1.5px rgb(24 33 63 / 0.55);
 }
 .advisorBio {
   margin: 0;
@@ -920,7 +920,7 @@
   margin: 24px 0 0;
   font-family: var(--font-display);
   font-size: clamp(3rem, 1.2rem + 6vw, 7.2rem);
-  font-weight: 760;
+  font-weight: 600;
   line-height: 0.92;
   letter-spacing: -0.045em;
   font-variation-settings: "opsz" 96;

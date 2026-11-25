@@ -169,7 +169,7 @@ const CARD_EYEBROW_STYLE: CSSProperties = {
 const CARD_TITLE_STYLE: CSSProperties = {
   fontFamily: "var(--font-display)",
   fontSize: "clamp(1.75rem, 1.3rem + 1.25vw, 2.35rem)",
-  fontWeight: 740,
+  fontWeight: 600,
   lineHeight: 1.02,
   letterSpacing: "-0.035em",
   color: "var(--color-on-night)",
@@ -207,7 +207,7 @@ export default function VariantRest() {
           className="pointer-events-none absolute top-0 right-0 h-[70%] w-[60%] motion-safe:hidden"
           style={{
             background:
-              "radial-gradient(closest-side at 64% 36%, rgb(214 240 80 / 0.07), transparent)",
+              "radial-gradient(closest-side at 64% 36%, rgb(168 194 244 / 0.07), transparent)",
           }}
         />
         <div
@@ -215,7 +215,7 @@ export default function VariantRest() {
           className="pointer-events-none absolute bottom-0 left-0 h-[70%] w-[60%] motion-safe:hidden"
           style={{
             background:
-              "radial-gradient(closest-side at 36% 64%, rgb(169 212 255 / 0.07), transparent)",
+              "radial-gradient(closest-side at 36% 64%, rgb(168 194 244 / 0.07), transparent)",
           }}
         />
         <div
@@ -223,7 +223,7 @@ export default function VariantRest() {
           className="ea-rest-drift-a pointer-events-none absolute top-0 right-0 h-[90%] w-[75%] motion-reduce:hidden"
           style={{
             background:
-              "radial-gradient(closest-side at 64% 38%, rgb(214 240 80 / 0.1), transparent)",
+              "radial-gradient(closest-side at 64% 38%, rgb(168 194 244 / 0.1), transparent)",
             willChange: "transform, opacity",
           }}
         />
@@ -232,7 +232,7 @@ export default function VariantRest() {
           className="ea-rest-drift-b pointer-events-none absolute bottom-0 left-0 h-[90%] w-[75%] motion-reduce:hidden"
           style={{
             background:
-              "radial-gradient(closest-side at 36% 62%, rgb(169 212 255 / 0.09), transparent)",
+              "radial-gradient(closest-side at 36% 62%, rgb(168 194 244 / 0.09), transparent)",
             willChange: "transform, opacity",
           }}
         />
@@ -382,7 +382,7 @@ export default function VariantRest() {
                       className="mt-[0.5em] inline-block h-1.5 w-1.5 flex-none rounded-full"
                       style={{
                         background: "var(--color-lime)",
-                        boxShadow: "0 0 10px rgb(214 240 80 / 0.7)",
+                        boxShadow: "0 0 10px rgb(168 194 244 / 0.7)",
                       }}
                     />
                     <span>{benefit}</span>
@@ -485,13 +485,13 @@ const styles = `
   margin: -5px 0 0 -5px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 14px rgb(214 240 80 / 0.9);
+  box-shadow: 0 0 14px rgb(168 194 244 / 0.9);
 }
 .ea-rest .ea-signal > span {
   position: absolute;
   inset: 0;
   border-radius: 999px;
-  border: 1.5px solid rgb(214 240 80 / 0.78);
+  border: 1.5px solid rgb(168 194 244 / 0.78);
   opacity: 0;
   animation: eaSignal 3.6s cubic-bezier(0.2, 0.6, 0.35, 1) infinite;
 }
@@ -567,9 +567,9 @@ const styles = `
   opacity: 0.88;
 }
 .ea-rest .wl-submit[data-state="locked"] {
-  background: rgb(214 240 80 / 0.14);
+  background: rgb(168 194 244 / 0.14);
   color: var(--color-lime);
-  box-shadow: inset 0 0 0 1.5px rgb(214 240 80 / 0.5);
+  box-shadow: inset 0 0 0 1.5px rgb(168 194 244 / 0.5);
 }
 .ea-rest .wl-submit-dot {
   background: var(--color-ink);

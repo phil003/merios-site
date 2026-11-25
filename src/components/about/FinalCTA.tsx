@@ -27,8 +27,8 @@ function ArrivalPulse() {
             <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.95" />
           </linearGradient>
           <radialGradient id="about-cta-glow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#D6F050" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#D6F050" stopOpacity="0" />
+            <stop offset="0" stopColor="#A8C2F4" stopOpacity="0.22" />
+            <stop offset="1" stopColor="#A8C2F4" stopOpacity="0" />
           </radialGradient>
         </defs>
         <circle cx="440" cy="150" r="70" fill="url(#about-cta-glow)" />

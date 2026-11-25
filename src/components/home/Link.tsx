@@ -54,7 +54,7 @@ function Chart({ narrow }: { narrow: boolean }) {
           </text>
         ))}
         {([[40, "40"], [20, "20 ng/mL"]] as [number, string][]).map(([v, t]) => (
-          <text key={t} x={W - R + 8} y={(yF(v) + 3.5).toFixed(1)} textAnchor="start" style={{ fill: "rgb(214 240 80 / 0.7)" }}>
+          <text key={t} x={W - R + 8} y={(yF(v) + 3.5).toFixed(1)} textAnchor="start" style={{ fill: "rgb(168 194 244 / 0.7)" }}>
             {t}
           </text>
         ))}

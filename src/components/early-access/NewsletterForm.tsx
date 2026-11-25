@@ -311,9 +311,9 @@ const styles = `
   background: var(--color-ink);
 }
 .nf-form--dark .nf-submit[data-state="success"] {
-  background: rgb(214 240 80 / 0.14);
+  background: rgb(168 194 244 / 0.14);
   color: var(--color-lime);
-  box-shadow: inset 0 0 0 1.5px rgb(214 240 80 / 0.5);
+  box-shadow: inset 0 0 0 1.5px rgb(168 194 244 / 0.5);
 }
 .nf-form--dark .nf-msg [data-tone="idle"] { color: var(--color-on-night-2); }
 .nf-form--dark .nf-msg [data-tone="error"] { color: color-mix(in srgb, var(--color-peach) 88%, var(--color-soft-alert)); }
@@ -324,7 +324,7 @@ const styles = `
   background: #FFFFFF;
   border: 1px solid var(--color-grid);
   color: var(--color-ink);
-  box-shadow: 0 1px 2px rgb(16 35 26 / 0.04);
+  box-shadow: 0 1px 2px rgb(24 33 63 / 0.04);
 }
 .nf-form--light .nf-input::placeholder {
   color: var(--color-ink-tertiary);

@@ -1,71 +1,78 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Merios v3 — "Your health, finally readable."
-   Art direction: Motion · Chrome × pop (the organic ads + App Store v2).
-   Night graphite stages, chrome display type, lime as the only signal colour,
-   lilac / sky / peach as pop accents, fog for reading surfaces.
-   Display + UI: Bricolage Grotesque · Reading + numerals: Newsreader ·
-   Data + labels: IBM Plex Mono · Annotations: Caveat.
+   Merios v2 "Open Sky" — "Your health, finally readable."
+   Art direction: a sunrise. Haze reading surfaces, dawn gradients, glass,
+   one ink block per frame, apricot used once per frame, no red alerts.
+   Type: Figtree (display, UI, labels) · Newsreader (numbers, long reads and
+   the italic human word in headlines).
    Every legacy token keeps its name so existing components follow the theme.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @theme {
-  /* ─── v3 palette ─── */
-  --color-night: #090C0E;
-  --color-night-2: #12171B;
-  --color-night-3: #1A2126;
-  --color-fog: #EFF1EC;
-  --color-paper: #FFFEFB;
-  --color-lime: #D6F050;
-  --color-lime-deep: #5E7400;
-  --color-lilac: #C9B8FF;
-  --color-sky: #A9D4FF;
-  --color-peach: #FFB39A;
-  --color-coral: #FF5A3C;
-  --color-violet: #6A58F0;
-  --color-forest: #24503A;
-  --color-soft-alert: #A45B3C;
-  --color-activity: #D19A2C;
-  --color-recovery: #3D9165;
-  --color-zen: #5A7E9B;
-  --color-on-night: #F4F6F7;
-  --color-on-night-2: rgb(244 246 247 / 0.68);
-  --color-on-night-3: rgb(244 246 247 / 0.46);
-  --color-line-night: rgb(255 255 255 / 0.14);
+  /* ─── Open Sky palette, under the legacy v3 names ─── */
+  --color-night: #18213F;          /* ink block */
+  --color-night-2: #212B4F;
+  --color-night-3: #2A3560;
+  --color-fog: #EEF0FB;            /* haze */
+  --color-paper: #FFFFFF;
+  --color-lime: #A8C2F4;           /* sky: the signal on ink, dots, highlights */
+  --color-lime-deep: #3550A8;      /* the signal as text on light */
+  --color-lilac: #C9C0F6;          /* lavender */
+  --color-sky: #A8C2F4;
+  --color-peach: #FCD6C2;
+  --color-coral: #FFA472;          /* apricot: never a red alert */
+  --color-violet: #6E8FE8;         /* zenith */
+  --color-forest: #3550A8;
+  --color-soft-alert: #A65A2C;
+  --color-activity: #FFA472;
+  --color-recovery: #6E8FE8;
+  --color-zen: #9A8BEA;
+  --color-on-night: #FFFFFF;
+  --color-on-night-2: rgb(255 255 255 / 0.78);
+  --color-on-night-3: rgb(255 255 255 / 0.6);
+  --color-line-night: rgb(255 255 255 / 0.16);
 
-  /* ─── Core tokens (names kept from v2 so every component re-themes) ─── */
-  --color-ink: #10231A;            /* 14.3:1 on fog */
-  --color-ink-secondary: #3E4C44;  /* 8.0:1 on fog — AAA body text */
-  --color-ink-tertiary: #5B6760;   /* 5.2:1 on fog — AA labels */
-  --color-canvas: #EFF1EC;         /* fog: the reading surface */
+  /* ─── Open Sky names ─── */
+  --color-haze: #EEF0FB;
+  --color-zenith: #6E8FE8;
+  --color-apricot: #FFA472;
+  --color-lavender: #C9C0F6;
+  --color-link: #3550A8;
+
+  /* ─── Core tokens (names kept so every component re-themes) ─── */
+  --color-ink: #18213F;            /* 13.9:1 on haze */
+  --color-ink-secondary: #434B69;  /* 7.5:1 on haze — AAA body text */
+  --color-ink-tertiary: #5B627A;   /* 5.3:1 on haze — AA labels */
+  --color-canvas: #EEF0FB;         /* haze: the reading surface */
   --color-canvas-alt: #FFFFFF;     /* cards, paper */
-  --color-green-deep: #24503A;     /* forest: text accents, links, icons */
-  --color-green-primary: #2E6447;
-  --color-pulse: #D6F050;          /* lime: dots, bars, highlights, CTAs */
-  --color-accent-warm: #B9762C;    /* borderline / caution */
-  --color-warm: #B9762C;
-  --color-grid: #D9DED4;           /* hairlines on fog */
+  --color-green-deep: #3550A8;     /* links, text accents, icons */
+  --color-green-primary: #3550A8;
+  --color-pulse: #6E8FE8;          /* zenith: data dots and bars */
+  --color-accent-warm: #A65A2C;    /* borderline / caution, never red */
+  --color-warm: #A65A2C;
+  --color-grid: #DCDFEC;           /* hairlines on haze */
 
   /* legacy aliases (pre-v2 names still referenced in a few places) */
-  --color-green-light: #2E6447;
-  --color-green-muted: #3D7A57;
-  --color-beige: #EFF1EC;
-  --color-beige-dark: #E2E6DD;
-  --color-cream: #EFF1EC;
-  --color-text-primary: #10231A;
-  --color-text-secondary: #3E4C44;
-  --color-text-tertiary: #5B6760;
-  --color-accent-lavender: #6A58F0;
+  --color-green-light: #3550A8;
+  --color-green-muted: #6E8FE8;
+  --color-beige: #EEF0FB;
+  --color-beige-dark: #E3E6F3;
+  --color-cream: #EEF0FB;
+  --color-text-primary: #18213F;
+  --color-text-secondary: #434B69;
+  --color-text-tertiary: #5B627A;
+  --color-accent-lavender: #6E8FE8;
 
   /* ─── Typography — next/font injects the --font-* family variables on <html> ─── */
-  --font-display: var(--font-bricolage), "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-sans: var(--font-bricolage), -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-figtree), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-figtree), -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --font-hand: var(--font-caveat), "Bradley Hand", "Segoe Print", cursive;
+  /* Labels and data use Figtree too (uppercase, tracked); numbers use Newsreader */
+  --font-mono: var(--font-figtree), -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-hand: var(--font-newsreader), Georgia, serif;
 
-  /* ─── Type scale (display = Bricolage 760, tight) ─── */
+  /* ─── Type scale (display = Figtree 600, tight) ─── */
   --text-display-xl: clamp(3.1rem, 1rem + 7vw, 8.8rem);
   --text-display-l: clamp(2.6rem, 1.2rem + 4.6vw, 6rem);
   --text-display-m: clamp(2.1rem, 1.1rem + 3vw, 4rem);
@@ -87,11 +94,13 @@
 }
 
 :root {
-  --chrome: linear-gradient(180deg, #FFFFFF 0%, #EEF1F4 30%, #A8AFB9 50%, #FFFFFF 64%, #CDD2D9 100%);
-  --chrome-sweep: linear-gradient(100deg, #9AA3AC 0%, #FFFFFF 18%, #C9CFD6 32%, #5E6871 46%, #F4F6F8 58%, #AAB2BA 72%, #FFFFFF 86%, #9AA3AC 100%);
-  --chrome-ink: linear-gradient(180deg, #2A3A31 0%, #10231A 45%, #4C5A52 62%, #10231A 100%);
-  --metal: linear-gradient(135deg, #F7F8F9 0%, #A1A8AF 14%, #EEF0F2 30%, #69717A 50%, #DADEE2 68%, #858D95 84%, #F4F5F6 100%);
-  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  /* v3 chrome gradients, re-cut as Open Sky dawn and glass */
+  --chrome: linear-gradient(180deg, #FFFFFF 0%, #EEF0FB 45%, #DCD8F6 100%);
+  --chrome-sweep: linear-gradient(100deg, #C9D8F8 0%, #FFFFFF 30%, #DCD8F6 60%, #FBD5C3 100%);
+  --chrome-ink: linear-gradient(180deg, #18213F 0%, #18213F 100%);
+  --metal: linear-gradient(135deg, #FFFFFF 0%, #EEF0FB 40%, #DCD8F6 100%);
+  --grain: none;
+  --dawn: radial-gradient(120% 60% at 0% 0%, #AFC6F6 0%, rgb(175 198 246 / 0) 60%), radial-gradient(90% 50% at 100% 0%, #FBD5C3 0%, rgb(251 213 195 / 0) 65%), linear-gradient(180deg, #DCD8F6 0%, #EEF0FB 80%, #EEF0FB 100%);
 }
 
 /* Lenis owns smooth scroll — native CSS scroll-behavior is removed intentionally */
@@ -150,88 +159,76 @@ body {
 
 /* ═══ v3 primitives ═══════════════════════════════════════════════════════ */
 
-/* Night stage: graphite, steel-lit, a whisper of grain */
+/* Ink block: the one dark surface per frame */
 .night {
   position: relative;
   isolation: isolate;
   color: var(--color-on-night);
-  background:
-    radial-gradient(110% 80% at 72% 18%, #1A2227 0%, #0D1114 48%, #07090B 100%);
+  background: var(--color-night);
 }
 .night::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.08;
-  mix-blend-mode: overlay;
-  background-image: var(--grain);
+  content: none;
 }
 
 .display {
   font-family: var(--font-display);
-  font-weight: 760;
-  line-height: 0.93;
-  letter-spacing: -0.045em;
-  font-variation-settings: "opsz" 96;
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
   text-wrap: balance;
 }
 
-.chrome-text {
-  background: var(--chrome);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  padding-bottom: 0.06em;
-}
+/* The v3 chrome word becomes the Open Sky italic human word */
+.chrome-text,
 .chrome-ink-text {
-  background: var(--chrome-ink);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  padding-bottom: 0.06em;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: inherit;
+  background: none;
+  -webkit-text-fill-color: currentColor;
 }
 
 .label {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1.2;
 }
+/* Eyebrow rule: a short hairline before the label */
 .label-dot {
-  width: 8px;
-  height: 8px;
+  width: 28px;
+  height: 1px;
   flex: none;
-  border-radius: 999px;
-  background: var(--color-lime);
-  box-shadow: 0 0 12px rgb(214 240 80 / 0.8);
-}
-.label-dot--ink {
-  background: var(--color-violet);
+  border-radius: 0;
+  background: currentColor;
   box-shadow: none;
 }
-
-.glass {
-  background: linear-gradient(160deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.06));
-  border: 1px solid rgb(255 255 255 / 0.26);
-  -webkit-backdrop-filter: blur(22px) saturate(1.5);
-  backdrop-filter: blur(22px) saturate(1.5);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5), inset 0 -1px 0 rgb(255 255 255 / 0.08), 0 30px 60px -28px rgb(0 0 0 / 0.7);
+.label-dot--ink {
+  background: var(--color-ink);
 }
+
+/* Glass on an ink block */
+.glass {
+  background: rgb(255 255 255 / 0.08);
+  border: 1.5px solid rgb(255 255 255 / 0.2);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  backdrop-filter: blur(26px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 30px 60px -28px rgb(10 14 30 / 0.6);
+}
+/* Open Sky glass on haze and dawn */
 .glass-light {
-  background: linear-gradient(160deg, rgb(255 255 255 / 0.86), rgb(255 255 255 / 0.62));
-  border: 1px solid rgb(255 255 255 / 0.95);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  backdrop-filter: blur(14px) saturate(1.3);
-  box-shadow: inset 0 1px 0 #FFFFFF, 0 30px 60px -36px rgb(16 35 26 / 0.45);
+  background: rgb(255 255 255 / 0.55);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  backdrop-filter: blur(26px) saturate(150%);
+  box-shadow: 0 24px 60px -30px rgb(36 48 110 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.95);
 }
 
 /* Buttons */
@@ -244,9 +241,9 @@ body {
   min-height: 52px;
   padding: 0 24px;
   border-radius: 999px;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1;
   white-space: nowrap;
@@ -255,26 +252,27 @@ body {
 .btn:hover { transform: translateY(-1px); }
 .btn .btn-arrow { display: inline-block; transition: transform 300ms var(--ease-expo); }
 .btn:hover .btn-arrow { transform: translateX(3px); }
+/* The light button: white on ink blocks and dawn */
 .btn-lime {
-  background: var(--color-lime);
+  background: #FFFFFF;
   color: var(--color-ink);
-  box-shadow: 0 14px 36px -12px rgb(214 240 80 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  box-shadow: 0 14px 30px -18px rgb(10 14 30 / 0.5);
 }
-.btn-lime:hover { box-shadow: 0 20px 48px -12px rgb(214 240 80 / 0.75), inset 0 1px 0 rgb(255 255 255 / 0.6); }
+.btn-lime:hover { box-shadow: 0 20px 40px -18px rgb(10 14 30 / 0.6); }
 .btn-ink {
   background: var(--color-ink);
   color: #FFFFFF;
-  box-shadow: 0 14px 30px -14px rgb(16 35 26 / 0.6);
+  box-shadow: 0 14px 30px -14px rgb(24 33 63 / 0.45);
 }
 .btn-ghost-night {
   color: var(--color-on-night);
-  border: 1.5px solid var(--color-line-night);
-  background: rgb(255 255 255 / 0.04);
+  border: 1.5px solid rgb(255 255 255 / 0.35);
+  background: transparent;
 }
-.btn-ghost-night:hover { border-color: rgb(255 255 255 / 0.4); }
+.btn-ghost-night:hover { border-color: rgb(255 255 255 / 0.7); }
 .btn-ghost {
   color: var(--color-ink);
-  border: 1.5px solid rgb(16 35 26 / 0.2);
+  border: 1.5px solid rgb(24 33 63 / 0.25);
   background: transparent;
 }
 .btn-ghost:hover { border-color: var(--color-ink); }
@@ -287,7 +285,7 @@ body {
   display: block;
   height: 28px;
   background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 28'><path d='M0 14 H62 L67 19 L73 3 L81 26 L86 14 H160' fill='none' stroke='%2310231A' stroke-opacity='.55' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='154' cy='14' r='3.4' fill='%23D6F050' stroke='%2310231A' stroke-opacity='.35'/></svg>") center / 160px 28px no-repeat;
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 28'><path d='M0 14 H62 L67 19 L73 3 L81 26 L86 14 H160' fill='none' stroke='%2318213F' stroke-opacity='.55' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='154' cy='14' r='3.4' fill='%23A8C2F4' stroke='%2318213F' stroke-opacity='.35'/></svg>") center / 160px 28px no-repeat;
 }
 
 
@@ -320,7 +318,7 @@ body {
   font-size: 4.2em;
   line-height: 0.82;
   margin: 0.06em 0.12em 0 0;
-  font-weight: 760;
+  font-weight: 600;
   letter-spacing: -0.04em;
   color: var(--color-ink);
 }
@@ -330,7 +328,7 @@ body {
 .editorial-prose h2 {
   font-family: var(--font-display);
   font-size: clamp(1.7rem, 1.15rem + 1.6vw, 2.45rem);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 1.04;
   letter-spacing: -0.035em;
   color: var(--color-ink);
@@ -396,7 +394,7 @@ body {
   width: 4px;
   border-radius: 4px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1px rgb(16 35 26 / 0.12);
+  box-shadow: 0 0 0 1px rgb(24 33 63 / 0.12);
 }
 .editorial-prose ul,
 .editorial-prose ol {
@@ -420,7 +418,7 @@ body {
   height: 8px;
   border-radius: 999px;
   background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
+  box-shadow: 0 0 0 1.5px rgb(24 33 63 / 0.55);
 }
 .editorial-prose ol {
   counter-reset: editorial-ol;
@@ -454,7 +452,7 @@ body {
   width: 100%;
   max-width: 160px;
   background:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 28'><path d='M0 14 H62 L67 19 L73 3 L81 26 L86 14 H160' fill='none' stroke='%2310231A' stroke-opacity='.5' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='154' cy='14' r='3.4' fill='%23D6F050' stroke='%2310231A' stroke-opacity='.35'/></svg>") center / 160px 28px no-repeat;
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 28'><path d='M0 14 H62 L67 19 L73 3 L81 26 L86 14 H160' fill='none' stroke='%2318213F' stroke-opacity='.5' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/><circle cx='154' cy='14' r='3.4' fill='%23A8C2F4' stroke='%2318213F' stroke-opacity='.35'/></svg>") center / 160px 28px no-repeat;
 }
 .editorial-prose code {
   font-family: var(--font-mono);
@@ -764,31 +762,31 @@ details[open] > summary .acc-icon-flip {
 }
 .v3-nav__bar {
   pointer-events: auto;
-  max-width: 1180px;
+  max-width: 1312px;
   margin-inline: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
   height: 64px;
-  padding: 0 10px 0 20px;
+  padding: 0 10px 0 22px;
   border-radius: 999px;
-  -webkit-backdrop-filter: blur(20px) saturate(1.6);
-  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  backdrop-filter: blur(26px) saturate(150%);
   transition: color 450ms var(--ease-smooth), background-color 450ms var(--ease-smooth), border-color 450ms var(--ease-smooth), box-shadow 450ms var(--ease-smooth), height 400ms var(--ease-expo);
 }
 .v3-nav[data-compact="true"] .v3-nav__bar { height: 58px; }
 .v3-nav[data-theme="dark"] .v3-nav__bar {
   color: var(--color-on-night);
-  background: rgb(18 23 27 / 0.62);
-  border: 1px solid rgb(255 255 255 / 0.16);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 20px 50px -30px rgb(0 0 0 / 0.8);
+  background: rgb(24 33 63 / 0.72);
+  border: 1.5px solid rgb(255 255 255 / 0.18);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2), 0 24px 60px -30px rgb(10 14 30 / 0.7);
 }
 .v3-nav[data-theme="light"] .v3-nav__bar {
   color: var(--color-ink);
-  background: rgb(244 246 243 / 0.78);
-  border: 1px solid rgb(255 255 255 / 0.9);
-  box-shadow: inset 0 1px 0 #FFFFFF, 0 20px 50px -32px rgb(16 35 26 / 0.45);
+  background: rgb(255 255 255 / 0.34);
+  border: 1.5px solid rgb(255 255 255 / 0.78);
+  box-shadow: 0 24px 60px -30px rgb(36 48 110 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.95);
 }
 .v3-nav__brand { display: inline-flex; align-items: center; color: inherit; }
 .v3-nav__links { display: flex; align-items: center; gap: 2px; }
@@ -798,10 +796,10 @@ details[open] > summary .acc-icon-flip {
   border-radius: 999px;
   font-family: var(--font-sans);
   font-size: 0.9375rem;
-  font-weight: 550;
+  font-weight: 500;
   letter-spacing: -0.01em;
   color: inherit;
-  opacity: 0.84;
+  opacity: 0.9;
   transition: opacity 200ms, background-color 200ms;
 }
 .v3-nav__link:hover { opacity: 1; background: rgb(127 127 127 / 0.12); }
@@ -856,7 +854,7 @@ details[open] > summary .acc-icon-flip {
   padding: 14px 4px;
   font-family: var(--font-display);
   font-size: 2.1rem;
-  font-weight: 740;
+  font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1;
   color: var(--color-on-night);
@@ -876,73 +874,68 @@ details[open] > summary .acc-icon-flip {
   .v3-nav__burger { width: 42px; height: 42px; }
 }
 
-/* ═══ v3 footer — night, full logo, every link kept ════════════════════════ */
-/* The footer's glow sits low, behind the big lockup, so its top edge is the
-   darkest night: any night section above it (CTA bands, the homepage finale)
-   meets it without a seam. */
+/* ═══ Footer — Open Sky: lavender dusk, every link kept ═══════════════════ */
 .v3-footer {
   overflow: hidden;
-  background: radial-gradient(95% 75% at 62% 100%, #172026 0%, #0C1013 52%, #08090B 100%);
+  color: var(--color-ink);
+  background: linear-gradient(180deg, #ECEAFB 0%, #E6E5F8 100%);
+  border-top: 1px solid rgb(24 33 63 / 0.08);
 }
 .v3-footer__inner {
-  max-width: calc(1320px + 2 * var(--spacing-container));
+  max-width: calc(1312px + 2 * var(--spacing-container));
   margin-inline: auto;
-  padding: clamp(72px, 9vw, 120px) var(--spacing-container) 34px;
+  padding: clamp(56px, 7vw, 96px) var(--spacing-container) 34px;
 }
 .v3-footer__top {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) repeat(4, minmax(0, 1fr));
   gap: 40px 32px;
 }
-.v3-footer__brand { display: grid; gap: 18px; align-content: start; color: var(--color-on-night); }
+.v3-footer__brand { display: grid; gap: 16px; align-content: start; color: var(--color-ink); }
 .v3-footer__brand p {
   margin: 0;
   max-width: 320px;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--color-on-night-2);
+  color: var(--color-ink-secondary);
 }
 .v3-footer__col h3 {
   margin: 0 0 16px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-on-night-3);
+  color: var(--color-ink-tertiary);
 }
 .v3-footer__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
 .v3-footer__col a {
   font-size: 0.95rem;
-  color: var(--color-on-night-2);
+  color: var(--color-ink);
   transition: color 200ms;
 }
-.v3-footer__col a:hover { color: var(--color-lime); }
+.v3-footer__col a:hover { color: var(--color-link); }
 .v3-footer__lockup {
-  margin-top: clamp(56px, 8vw, 96px);
+  margin-top: clamp(48px, 7vw, 88px);
   display: flex;
   justify-content: center;
   align-items: baseline;
   gap: 0.26em;
-  font-family: var(--font-serif);
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-weight: 600;
   font-size: clamp(3.4rem, 15.5vw, 14.5rem);
   line-height: 1.12;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.055em;
+  color: rgb(24 33 63 / 0.1);
   user-select: none;
 }
 .v3-footer__lockup span {
   padding: 0 0.04em 0.06em;
-  background: linear-gradient(180deg, #FFFFFF 0%, #E9EDF1 34%, #A9B1BA 58%, #EEF1F4 78%, #C9CFD6 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
 }
 .v3-footer__bottom {
   margin-top: 28px;
   padding-top: 22px;
-  border-top: 1px solid var(--color-line-night);
+  border-top: 1px solid rgb(24 33 63 / 0.1);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -952,23 +945,24 @@ details[open] > summary .acc-icon-flip {
 .v3-footer__bottom p,
 .v3-footer__locale {
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-on-night-3);
+  color: var(--color-ink-tertiary);
 }
 .v3-footer__locale { display: inline-flex; align-items: center; gap: 8px; }
-.v3-footer__locale [aria-current] { color: var(--color-on-night); font-weight: 500; }
-.v3-footer__locale-rule { display: inline-block; width: 12px; height: 1px; background: var(--color-line-night); }
+.v3-footer__locale [aria-current] { color: var(--color-ink); font-weight: 700; }
+.v3-footer__locale-rule { display: inline-block; width: 12px; height: 1px; background: rgb(24 33 63 / 0.2); }
 .v3-footer__disclaimer {
   margin: 22px 0 0;
   max-width: 880px;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   line-height: 1.6;
-  color: var(--color-on-night-3);
+  color: var(--color-ink-secondary);
 }
-.v3-footer__disclaimer strong { color: var(--color-on-night-2); font-weight: 600; }
+.v3-footer__disclaimer strong { color: var(--color-ink); font-weight: 600; }
 @media (max-width: 1023px) {
   .v3-footer__top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .v3-footer__brand { grid-column: 1 / -1; }
@@ -979,6 +973,20 @@ details[open] > summary .acc-icon-flip {
   padding: clamp(132px, 15vw, 184px) 0 clamp(104px, 11vw, 150px);
   overflow: hidden;
 }
+/* Open Sky: every page masthead is a dawn, not a night stage. Components
+   written for the night masthead read the on-night tokens, re-pointed here. */
+.v3-hero.night {
+  color: var(--color-ink);
+  background: var(--dawn);
+  --color-on-night: #18213F;
+  --color-on-night-2: #434B69;
+  --color-on-night-3: #5B627A;
+  --color-line-night: rgb(24 33 63 / 0.14);
+}
+.v3-hero.night :focus-visible { outline-color: var(--color-link); }
+.v3-hero.night .btn-lime { background: var(--color-ink); color: #FFFFFF; box-shadow: 0 14px 30px -14px rgb(24 33 63 / 0.45); }
+.v3-hero.night .btn-ghost-night { color: var(--color-ink); border-color: rgb(24 33 63 / 0.25); }
+.v3-hero.night .v3-hero__pulse path { stroke: rgb(110 143 232 / 0.55); }
 .v3-hero__inner {
   position: relative;
   z-index: 1;
@@ -1019,13 +1027,13 @@ details[open] > summary .acc-icon-flip {
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  background: var(--color-lime);
-  box-shadow: 0 0 14px rgb(214 240 80 / 0.9);
+  background: var(--color-apricot);
+  box-shadow: 0 0 14px rgb(255 164 114 / 0.8);
   animation: dotGlow 2.4s var(--ease-smooth) infinite;
 }
 @keyframes dotGlow {
-  0%, 100% { box-shadow: 0 0 10px rgb(214 240 80 / 0.7); transform: scale(1); }
-  12% { box-shadow: 0 0 22px rgb(214 240 80 / 1); transform: scale(1.35); }
+  0%, 100% { box-shadow: 0 0 10px rgb(255 164 114 / 0.6); transform: scale(1); }
+  12% { box-shadow: 0 0 22px rgb(255 164 114 / 0.9); transform: scale(1.35); }
   30% { transform: scale(1); }
 }
 @media (max-width: 640px) {

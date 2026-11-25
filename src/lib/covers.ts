@@ -88,18 +88,18 @@ const TAG_TONE: Record<string, CoverTone> = {
 
 /** Surface colours of the four tones (globals.css v3 tokens, as hex for SVG). */
 export const TONE_HEX: Record<CoverTone, string> = {
-  lime: "#D6F050",
-  lilac: "#C9B8FF",
-  sky: "#A9D4FF",
-  peach: "#FFB39A",
+  lime: "#A8C2F4",
+  lilac: "#C9C0F6",
+  sky: "#A8C2F4",
+  peach: "#FFA472",
 };
 
 /** A lighter companion of each tone, for gradients and sheen. */
 export const TONE_LIGHT: Record<CoverTone, string> = {
-  lime: "#E7F78E",
-  lilac: "#DCD0FF",
-  sky: "#CBE5FF",
-  peach: "#FFCDBC",
+  lime: "#D9E4FA",
+  lilac: "#E3DEF8",
+  sky: "#D9E4FA",
+  peach: "#FCD6C2",
 };
 
 export function getTagTone(tag: string): CoverTone {

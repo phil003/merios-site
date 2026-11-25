@@ -19,14 +19,14 @@ const figtree = Figtree({
   display: "swap",
 });
 
-// Newsreader is not preloaded: only the display face (the LCP headline)
-// competes for the first bytes. Its italic carries the human word.
+// Newsreader is preloaded too: in Open Sky the italic human word ends every
+// H1 and the big numbers on covers are set in it, so it is often part of the
+// LCP element.
 const newsreader = Newsreader({
   subsets: ["latin"],
   variable: "--font-newsreader",
   display: "swap",
   style: ["normal", "italic"],
-  preload: false,
 });
 
 const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";

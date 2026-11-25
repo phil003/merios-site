@@ -21,8 +21,8 @@ export default function Private() {
             Your data stays <em>yours.</em>
           </h2>
           <p className="hv2-lead">
-            Merios is a wellness app, not a medical device. It reads your data
-            to explain it, and for nothing else.
+            Merios is a preventive health platform, not a medical device. It
+            reads your data to explain it, and for nothing else.
           </p>
           <ul className="hv2-private__facts">
             {FACTS.map(([label, body]) => (

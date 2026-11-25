@@ -1,14 +1,9 @@
-"use client";
-
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
-import PageHero from "@/components/ui/PageHero";
-import { useLenis } from "@/components/providers/LenisProvider";
+import type { CSSProperties, ReactNode } from "react";
+import LegalToc, { type TocItem } from "@/components/legal/LegalToc";
+import styles from "@/components/legal/legalLayout.module.css";
 
-export interface TocItem {
-  id: string;
-  label: string;
-}
+export type { TocItem };
 
 interface LegalPageLayoutProps {
   eyebrow?: string;
@@ -17,8 +12,26 @@ interface LegalPageLayoutProps {
   lastUpdated: string;
   tocItems: TocItem[];
   children: ReactNode;
+  /** Optional figure under the masthead copy (the /security data map). */
+  heroVisual?: ReactNode;
+  /**
+   * "reading" (default) keeps a 720px measure for long policy text;
+   * "wide" opens the column for figure-rich pages (/security).
+   */
+  width?: "reading" | "wide";
 }
 
+/**
+ * Legal page layout — /privacy, /terms, /security (v2 "Open Sky").
+ *
+ * A dawn masthead (the glass nav floats over it) with the H1's last word as
+ * the Newsreader italic "human word", the last-updated line, then a body grid:
+ * the sticky numbered contents rail on the left from 1024px, the article on
+ * the right. Ends on a dawn card that carries the contact link. Server
+ * component; only the contents (Lenis scroll, mobile accordion) is client.
+ * The article is never behind a scroll reveal: it is long, it must simply be
+ * there.
+ */
 export default function LegalPageLayout({
   eyebrow = "Legal",
   title,
@@ -26,226 +39,77 @@ export default function LegalPageLayout({
   lastUpdated,
   tocItems,
   children,
+  heroVisual,
+  width = "reading",
 }: LegalPageLayoutProps) {
-  const lenis = useLenis();
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  function handleTocClick(
-    e: React.MouseEvent<HTMLAnchorElement>,
-    id: string,
-  ) {
-    const target = document.getElementById(id);
-    if (!target) return;
-    e.preventDefault();
-    setMobileOpen(false);
-    if (lenis) {
-      lenis.scrollTo(target, {
-        offset: -96,
-        duration: 1.0,
-        easing: (t: number) => 1 - Math.pow(1 - t, 3),
-      });
-    } else {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-    if (typeof window !== "undefined" && history.replaceState) {
-      history.replaceState(null, "", `#${id}`);
-    }
-  }
+  const words = title.trim().split(" ");
+  const last = words.pop() ?? "";
+  const head = words.join(" ");
 
   return (
-    <main style={{ background: "var(--color-canvas)" }}>
-      <PageHero eyebrow={eyebrow} title={title} subline={subline} />
+    <main className={styles.page}>
+      <section className={styles.hero}>
+        <div className={styles.inner}>
+          <p className={`he label ${styles.eyebrow}`}>
+            <span aria-hidden className="label-dot label-dot--ink" />
+            <span>{eyebrow}</span>
+          </p>
 
-      {/* Last updated bar */}
-      <div
-        className="border-y"
-        style={{
-          borderColor: "var(--color-grid)",
-          background: "var(--color-canvas)",
-        }}
-      >
-        <div className="mx-auto flex max-w-[1200px] items-center gap-2.5 px-6 py-4 md:px-10">
-          <span
-            aria-hidden
-            className="inline-block h-1.5 w-1.5 rounded-full"
-            style={{ background: "var(--color-pulse)" }}
-          />
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: "var(--color-ink-tertiary)",
-            }}
-          >
-            Last updated: {lastUpdated}
-          </span>
-        </div>
-      </div>
+          <h1 className={styles.title}>
+            {head ? `${head} ` : null}
+            <em>{last}</em>
+          </h1>
 
-      {/* Main content + TOC */}
-      <div className="mx-auto max-w-[1200px] px-6 pb-24 pt-14 md:px-10 md:pb-32 md:pt-20">
-        {/* Mobile TOC — accordion */}
-        {tocItems.length > 0 ? (
-          <div className="mb-10 lg:hidden">
-            <button
-              type="button"
-              onClick={() => setMobileOpen((v) => !v)}
-              aria-expanded={mobileOpen}
-              aria-controls="legal-mobile-toc"
-              className="flex w-full items-center justify-between rounded-2xl border px-4 py-3.5 text-left"
-              style={{
-                borderColor: "var(--color-grid)",
-                background: "var(--color-canvas-alt)",
-                fontFamily: "var(--font-mono)",
-                fontSize: 11,
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                color: "var(--color-ink)",
-              }}
+          {subline ? (
+            <p
+              className={`he ${styles.subline}`}
+              style={{ "--he-d": "0.12s" } as CSSProperties}
             >
-              <span>Table of contents</span>
-              <span
-                aria-hidden
-                className="transition-transform duration-300"
-                style={{
-                  transform: mobileOpen ? "rotate(180deg)" : "rotate(0deg)",
-                  color: "var(--color-ink-tertiary)",
-                }}
-              >
-                ▾
-              </span>
-            </button>
-            {mobileOpen ? (
-              <ul
-                id="legal-mobile-toc"
-                className="mt-3 space-y-2 rounded-2xl border px-4 py-4"
-                style={{
-                  borderColor: "var(--color-grid)",
-                  background: "var(--color-canvas-alt)",
-                }}
-              >
-                {tocItems.map((item) => (
-                  <li key={item.id}>
-                    <a
-                      href={`#${item.id}`}
-                      onClick={(e) => handleTocClick(e, item.id)}
-                      className="block py-1.5"
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: 14,
-                        color: "var(--color-ink-secondary)",
-                      }}
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
-        ) : null}
-
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,22%)_1fr] lg:gap-14">
-          {/* Desktop TOC — sticky aside */}
-          {tocItems.length > 0 ? (
-            <aside
-              className="hidden lg:block lg:sticky lg:self-start"
-              style={{ top: "7rem" }}
-              aria-label="Table of contents"
-            >
-              <div
-                className="pb-3 mb-4 border-b"
-                style={{
-                  borderColor: "var(--color-grid)",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 10.5,
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  color: "var(--color-ink-tertiary)",
-                }}
-              >
-                Contents
-              </div>
-              <ol className="space-y-2.5">
-                {tocItems.map((item, i) => (
-                  <li key={item.id} className="flex items-baseline gap-3">
-                    <span
-                      aria-hidden
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 10,
-                        color: "var(--color-ink-tertiary)",
-                        minWidth: "1.25rem",
-                      }}
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <a
-                      href={`#${item.id}`}
-                      onClick={(e) => handleTocClick(e, item.id)}
-                      className="toc-link transition-colors duration-200"
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: 13,
-                        lineHeight: 1.4,
-                        color: "var(--color-ink-secondary)",
-                      }}
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                ))}
-              </ol>
-            </aside>
+              {subline}
+            </p>
           ) : null}
 
-          {/* Main legal content — never behind a scroll reveal: it is long
-              (7,000px+), it must simply be there. */}
-          <article
-            className="legal-prose max-w-[720px]"
-            style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: 16,
-              lineHeight: 1.65,
-              color: "var(--color-ink-secondary)",
-              letterSpacing: "-0.003em",
-            }}
+          <p
+            className={`he ${styles.updated}`}
+            style={{ "--he-d": "0.2s" } as CSSProperties}
           >
-            {children}
-          </article>
+            <span aria-hidden className={styles.updatedDot} />
+            <span>Last updated: {lastUpdated}</span>
+          </p>
+
+          {heroVisual ? (
+            <div
+              className={`he ${styles.heroVisual}`}
+              style={{ "--he-d": "0.28s" } as CSSProperties}
+            >
+              {heroVisual}
+            </div>
+          ) : null}
+        </div>
+      </section>
+
+      <div className={styles.body}>
+        <div className={`${styles.inner} ${styles.grid}`} data-width={width}>
+          <LegalToc items={tocItems} />
+          <article className={styles.article}>{children}</article>
         </div>
       </div>
 
-      {/* Contact footer link */}
-      <div
-        className="border-t"
-        style={{
-          borderColor: "var(--color-grid)",
-          background: "var(--color-canvas)",
-        }}
-      >
-        <div className="mx-auto max-w-[1200px] px-6 py-14 md:px-10 md:py-20">
-          <Link
-            href="/contact#subject=Legal%20question&type=general"
-            className="inline-flex items-center gap-3 transition-transform duration-300 ease-out hover:translate-x-1"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.4rem, 1.1rem + 1vw, 2rem)",
-              fontWeight: 600,
-              letterSpacing: "-0.035em",
-              color: "var(--color-ink)",
-            }}
-          >
-            <span>Questions? Contact us</span>
-            <span
-              aria-hidden
-              style={{ color: "var(--color-green-deep)" }}
+      <div className={styles.closing}>
+        <div className={styles.inner}>
+          <div className={styles.closingCard}>
+            <Link
+              href="/contact#subject=Legal%20question&type=general"
+              className={styles.closingLink}
             >
-              →
-            </span>
-          </Link>
+              <span>
+                Questions? <em>Contact us</em>
+              </span>
+              <span aria-hidden className={styles.closingArrow}>
+                →
+              </span>
+            </Link>
+          </div>
         </div>
       </div>
     </main>

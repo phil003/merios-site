@@ -5,12 +5,11 @@ import { useEffect, useState } from "react";
 import styles from "./science.module.css";
 
 /**
- * Science — sticky table of contents.
+ * Science — sticky table of contents (v2 "Open Sky").
  *
- * Desktop only (hidden below lg). Uses IntersectionObserver to detect the
- * active section. v3: the active item (aria-current="location") becomes a
- * white pill whose number turns into an ink chip with a lime numeral — a
- * plain CSS transition in science.module.css.
+ * Desktop only (hidden below lg). The mockups' "On this page" steps: a
+ * hairline rail, Newsreader numerals, the active section (detected with an
+ * IntersectionObserver, aria-current="location") in ink on an ink rail.
  */
 
 const TOC = [
@@ -36,10 +35,8 @@ export default function ScienceStickyTOC() {
 
     if (nodes.length === 0) return;
 
-    // Track intersection ratios and pick the section whose middle band sits
-    // inside the viewport. The rootMargin crops the top 40% and bottom 55%,
-    // so a section only counts as "active" when its top edge has crossed
-    // 40% from the top AND its bottom edge hasn't yet crossed 45% from top.
+    // A section counts as active while it crosses the band between 40% and
+    // 45% from the top of the viewport; the topmost one wins.
     const visibility = new Map<string, number>();
 
     const observer = new IntersectionObserver(
@@ -48,7 +45,6 @@ export default function ScienceStickyTOC() {
           visibility.set(entry.target.id, entry.intersectionRatio);
         }
 
-        // Pick the topmost intersecting section (matches reading order).
         let nextActiveId: string | null = null;
         for (const id of ids) {
           const ratio = visibility.get(id) ?? 0;
@@ -74,16 +70,13 @@ export default function ScienceStickyTOC() {
   }, []);
 
   return (
-    <nav
-      aria-label="On this page"
-      className="hidden lg:sticky lg:top-28 lg:block"
-    >
+    <nav aria-label="On this page" className={styles.toc}>
       <p className={styles.tocTitle}>On this page</p>
       <ol className={styles.tocList}>
         {TOC.map((t, i) => {
           const isActive = activeHref === t.href;
           return (
-            <li key={t.href} className="relative">
+            <li key={t.href}>
               <a
                 href={t.href}
                 aria-current={isActive ? "location" : undefined}

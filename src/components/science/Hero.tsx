@@ -1,16 +1,16 @@
 import type { CSSProperties } from "react";
 
+import { BLOOD_SYSTEMS } from "@/content/biomarkers";
 import styles from "./science.module.css";
 
 /**
- * Science — Hero / Intro.
+ * Science — Hero / Intro (v2 "Open Sky").
  *
- * v3: a night masthead. The headline rises line by line through a mask with
- * pure CSS keyframes that start at parse time — the H1 is in the static HTML
- * and never waits for JavaScript (the previous GSAP SplitText pass hid it
- * again after hydration). Eyebrow, subline and stats use the shared `.he`
- * entrance. On the right, the eleven blood systems drawn as one network,
- * fed by the logo's pulse (decorative, aria-hidden). Server component.
+ * A dawn masthead (the glass nav floats over it). The headline rises line by
+ * line through a mask with pure CSS keyframes that start at parse time — the
+ * H1 is in the static HTML and never waits for JavaScript. Stats sit on glass
+ * tiles. On the right, the eleven blood systems on a sunrise arc around the
+ * Blood sun (mockup Science.dc.html). Server component.
  */
 
 const STATS = [
@@ -20,122 +20,112 @@ const STATS = [
   { k: "Updated", v: "Nov 2026" },
 ];
 
-// ─── Decorative network: 11 systems on an orbit, one composite core ───────
-const C = 260;
-const ORBIT = 186;
-const NODES = Array.from({ length: 11 }, (_, i) => {
-  const a = -Math.PI / 2 + (i * 2 * Math.PI) / 11;
+// ─── The sunrise arc: 11 systems on a half circle around the Blood sun ────
+const CX = 300;
+const CY = 360;
+const R = 200;
+// Label anchors, tuned per node in the mockup so no name touches the arc.
+const LABELS: Array<{ x: number; y: number; anchor: "start" | "middle" | "end" }> = [
+  { x: 84, y: 364, anchor: "end" },
+  { x: 93, y: 300, anchor: "end" },
+  { x: 122, y: 242, anchor: "end" },
+  { x: 168, y: 193, anchor: "end" },
+  { x: 228, y: 158, anchor: "end" },
+  { x: 300, y: 140, anchor: "middle" },
+  { x: 372, y: 158, anchor: "start" },
+  { x: 432, y: 193, anchor: "start" },
+  { x: 478, y: 242, anchor: "start" },
+  { x: 507, y: 300, anchor: "start" },
+  { x: 516, y: 364, anchor: "start" },
+];
+const NODES = BLOOD_SYSTEMS.map((s, i) => {
+  const a = Math.PI - (i * Math.PI) / (BLOOD_SYSTEMS.length - 1);
   return {
-    i,
-    x: C + ORBIT * Math.cos(a),
-    y: C + ORBIT * Math.sin(a),
+    key: s.slug,
+    // "Heart & Cardiovascular" → "Heart": the arc carries the short name.
+    short: s.label.split(" & ")[0],
+    x: CX + R * Math.cos(a),
+    y: CY - R * Math.sin(a),
+    label: LABELS[i] ?? { x: CX, y: CY, anchor: "middle" as const },
   };
 });
-const POP = ["#C9C0F6", "#A8C2F4", "#FFA472"];
 
-function SystemNetwork() {
+function SunriseArc() {
   return (
-    <div className={styles.network} aria-hidden>
-      <svg viewBox="0 0 520 520" focusable="false">
-        <defs>
-          <radialGradient id="sci-core-glow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#A8C2F4" stopOpacity="0.28" />
-            <stop offset="1" stopColor="#A8C2F4" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="sci-pulse-fade" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
-            <stop offset="0.55" stopColor="#FFFFFF" stopOpacity="0.55" />
-            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.95" />
-          </linearGradient>
-        </defs>
+    <svg
+      className={styles.arc}
+      viewBox="0 0 620 440"
+      role="img"
+      aria-label="Illustration: the eleven blood systems of the Blood pillar, from Heart & Cardiovascular to Autoimmune & Systemic, on a rising arc around one sun, Blood."
+      focusable="false"
+    >
+      <defs>
+        <radialGradient id="sci-sun" cx="0.5" cy="0.45" r="0.6">
+          <stop offset="0" stopColor="#FFC8A6" />
+          <stop offset="0.7" stopColor="#FFA472" />
+          <stop offset="1" stopColor="#FF9A66" />
+        </radialGradient>
+        <radialGradient id="sci-sun-glow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stopColor="#FCD6C2" stopOpacity="0.9" />
+          <stop offset="1" stopColor="#FCD6C2" stopOpacity="0" />
+        </radialGradient>
+      </defs>
 
-        <circle cx={C} cy={C} r="150" fill="url(#sci-core-glow)" />
-        <circle cx={C} cy={C} r={ORBIT + 40} fill="none" stroke="#FFFFFF" strokeOpacity="0.06" />
-        <circle cx={C} cy={C} r={ORBIT} fill="none" stroke="#FFFFFF" strokeOpacity="0.16" strokeDasharray="2 6" />
-        <circle cx={C} cy={C} r="96" fill="none" stroke="#FFFFFF" strokeOpacity="0.08" />
-
-        {/* chords: a network, not a list */}
-        {NODES.map((n) => {
-          const m = NODES[(n.i + 3) % 11];
-          return (
-            <line
-              key={`chord-${n.i}`}
-              x1={n.x.toFixed(1)}
-              y1={n.y.toFixed(1)}
-              x2={m.x.toFixed(1)}
-              y2={m.y.toFixed(1)}
-              stroke="#FFFFFF"
-              strokeOpacity="0.07"
-            />
-          );
-        })}
-        {/* spokes into the composite */}
+      <path d="M60 360 A 240 240 0 0 1 540 360" fill="none" stroke="rgb(24 33 63 / 0.08)" />
+      <path
+        d="M100 360 A 200 200 0 0 1 500 360"
+        fill="none"
+        stroke="#A8C2F4"
+        strokeWidth="1.5"
+        strokeDasharray="2 6"
+      />
+      <g stroke="rgb(24 33 63 / 0.14)" strokeWidth="1.2">
         {NODES.map((n) => (
-          <line
-            key={`spoke-${n.i}`}
-            x1={n.x.toFixed(1)}
-            y1={n.y.toFixed(1)}
-            x2={C}
-            y2={C}
-            stroke="#FFFFFF"
-            strokeOpacity="0.14"
-          />
+          <line key={`ray-${n.key}`} x1={n.x.toFixed(1)} y1={n.y.toFixed(1)} x2={CX} y2={CY} />
         ))}
-        {NODES.map((n) => {
-          const pop = n.i % 4 === 1 ? POP[(n.i >> 2) % POP.length] : null;
-          return (
-            <g key={`node-${n.i}`}>
-              <circle cx={n.x.toFixed(1)} cy={n.y.toFixed(1)} r="13" fill="#FFFFFF" fillOpacity="0.04" />
-              <circle
-                cx={n.x.toFixed(1)}
-                cy={n.y.toFixed(1)}
-                r="6.5"
-                fill={pop ?? "#18213F"}
-                stroke={pop ? "none" : "#FFFFFF"}
-                strokeOpacity="0.75"
-                strokeWidth="1.6"
-              />
-            </g>
-          );
-        })}
+      </g>
+      <g fill="#FFFFFF" stroke="#6E8FE8" strokeWidth="2.2">
+        {NODES.map((n) => (
+          <circle key={`node-${n.key}`} cx={n.x.toFixed(1)} cy={n.y.toFixed(1)} r="7" />
+        ))}
+      </g>
+      <g className={styles.arcLabels} fill="#18213F">
+        {NODES.map((n) => (
+          <text key={`label-${n.key}`} x={n.label.x} y={n.label.y} textAnchor={n.label.anchor}>
+            {n.short}
+          </text>
+        ))}
+      </g>
 
-        {/* the logo's pulse, arriving at the core */}
-        <g className={styles.networkPulse}>
-          <path
-            d="M-60 260 H150 L162 274 L178 214 L198 306 L210 260 H246"
-            fill="none"
-            stroke="url(#sci-pulse-fade)"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </g>
-        <circle className={styles.networkCore} cx={C} cy={C} r="22" fill="none" stroke="#A8C2F4" strokeWidth="1.5" />
-        <circle cx={C} cy={C} r="11" fill="#A8C2F4" style={{ filter: "drop-shadow(0 0 12px rgb(168 194 244 / 0.9))" }} />
-      </svg>
-    </div>
+      <line x1="30" y1="418" x2="590" y2="418" stroke="rgb(24 33 63 / 0.16)" />
+      <circle cx={CX} cy={CY} r="96" fill="url(#sci-sun-glow)" />
+      <g className={styles.sun}>
+        <circle cx={CX} cy={CY} r="54" fill="url(#sci-sun)" />
+        <text x={CX} y="357" textAnchor="middle" className={styles.sunName} fill="#18213F">
+          Blood
+        </text>
+        <text x={CX} y="376" textAnchor="middle" className={styles.sunSub} fill="#18213F">
+          11 systems
+        </text>
+      </g>
+    </svg>
   );
 }
 
 export default function ScienceHero() {
   return (
-    <section
-      id="intro"
-      aria-labelledby="science-hero-heading"
-      className="v3-hero night"
-      data-nav="dark"
-    >
-      <div className="v3-hero__inner">
+    <section id="intro" aria-labelledby="science-hero-heading" className={styles.hero}>
+      <div className={styles.container}>
         <div className={styles.heroGrid}>
           <div className={styles.heroCopy}>
-            <div className="he label v3-hero__eyebrow">
-              <span aria-hidden className="label-dot" />
+            <p className={`he label ${styles.heroEyebrow}`}>
+              <span aria-hidden className="label-dot label-dot--ink" />
               <span>The science · Long read</span>
-            </div>
+            </p>
 
             <h1
               id="science-hero-heading"
-              className={`science-hero-headline display ${styles.heroTitle}`}
+              className={`science-hero-headline ${styles.heroTitle}`}
             >
               <span className={styles.heroLine}>
                 <span
@@ -144,13 +134,13 @@ export default function ScienceHero() {
                 >
                   Blood, read as
                 </span>
-              </span>
+              </span>{" "}
               <span className={styles.heroLine}>
                 <span
-                  className={`${styles.heroLineInner} chrome-text`}
+                  className={styles.heroLineInner}
                   style={{ "--line-d": "0.14s" } as CSSProperties}
                 >
-                  a system.
+                  <em>a system.</em>
                 </span>
               </span>
             </h1>
@@ -178,36 +168,11 @@ export default function ScienceHero() {
             </dl>
           </div>
 
-          <SystemNetwork />
+          <div className={styles.heroArt}>
+            <SunriseArc />
+          </div>
         </div>
       </div>
-
-      {/* The logo's heartbeat as the masthead's horizon (shared geometry) */}
-      <svg
-        className="v3-hero__pulse"
-        aria-hidden
-        focusable="false"
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <linearGradient id="sci-hero-pulse-fade" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
-            <stop offset="0.45" stopColor="#FFFFFF" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.5" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
-          fill="none"
-          stroke="url(#sci-hero-pulse-fade)"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
-      <span className="v3-hero__dot" aria-hidden />
     </section>
   );
 }

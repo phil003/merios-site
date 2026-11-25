@@ -8,16 +8,12 @@ export { ADVISORS };
 export type { Advisor };
 
 /**
- * Science — Advisory board.
+ * Science — Clinical review (v2 "Open Sky").
  *
- * Server component: card reveals use the shared data-rv mechanism with a
- * 60ms incremental --rv-delay; the hover lift is a pure CSS transition
- * (disabled under prefers-reduced-motion). Data lives in ./data.ts so it can
- * be imported by the server page for JSON-LD generation.
- *
- * v3: white cards; initials on a lilac pop tile; the card lays itself out in
- * two columns once it is wide enough (container query), so one card or many
- * both read well.
+ * "Not done yet", said plainly: a glass card with empty seats (dashed,
+ * decorative) and the open engagement from ./data.ts. Never a name, a face
+ * or a credential until a review is actually done. Server component; card
+ * reveals use the shared data-rv mechanism.
  */
 
 export default function ScienceAdvisoryBoard() {
@@ -34,7 +30,7 @@ export default function ScienceAdvisoryBoard() {
         </span>
 
         <h2 id="science-advisors-heading" className={styles.title}>
-          Clinical review: not done yet.
+          Clinical review: <em>not done yet.</em>
         </h2>
 
         <p className={styles.lead}>
@@ -57,31 +53,21 @@ export default function ScienceAdvisoryBoard() {
                 : undefined
             }
           >
-            {/* Hover lift lives on this inner div so it never fights the
-                data-rv transform/transition on the <li>. */}
             <div className={styles.advisor}>
-              <div className={styles.advisorInner}>
-                <div className={styles.advisorWho}>
-                  {/* Portrait placeholder — initials on a pop tile */}
-                  <div aria-hidden className={styles.advisorTile}>
-                    {a.initials}
-                  </div>
+              <div aria-hidden className={styles.seats}>
+                <span className={styles.seat}>Open seat</span>
+                <span className={styles.seat}>Open seat</span>
+                <span className={styles.seat}>Open seat</span>
+              </div>
 
-                  <h3 className={styles.advisorName}>
-                    {a.name},{" "}
-                    <span className={styles.advisorCreds}>
-                      {a.credentials}
-                    </span>
-                  </h3>
-
-                  <p className={styles.advisorSpecialty}>{a.specialty}</p>
-                </div>
-
-                <div>
-                  <p className={styles.advisorBio}>{a.bio}</p>
-
-                  <p className={styles.advisorAffil}>{a.affiliation}</p>
-                </div>
+              <div className={styles.advisorBody}>
+                <h3 className={styles.advisorName}>
+                  {a.name},{" "}
+                  <span className={styles.advisorCreds}>{a.credentials}</span>
+                </h3>
+                <p className={styles.advisorSpecialty}>{a.specialty}</p>
+                <p className={styles.advisorBio}>{a.bio}</p>
+                <p className={styles.advisorAffil}>{a.affiliation}</p>
               </div>
             </div>
           </li>

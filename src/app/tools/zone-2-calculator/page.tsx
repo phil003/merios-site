@@ -12,20 +12,28 @@ import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
   {
-    q: "How do you calculate your Zone 2 heart rate?",
-    a: "Estimate your maximum heart rate with the Tanaka formula — 208 − (0.7 × age) — then take 60–70% of that number. For a 40-year-old, max HR ≈ 180 bpm, so Zone 2 lands at roughly 108–126 bpm. The calculator above does this for any age.",
+    q: "How do I calculate my zone 2 heart rate?",
+    a: "Estimate your maximum heart rate, then take 60–70% of it. This calculator uses the Tanaka formula, 208 − (0.7 × age), for the maximum. For a 40-year-old that is 208 − 28 = 180 bpm, so zone 2 is about 108–126 bpm. Other common methods are heart-rate reserve (Karvonen), which also uses your resting heart rate, and Maffetone's 180 − age rule of thumb. A lactate or ventilatory-threshold test is the precise way.",
+  },
+  {
+    q: "What is zone 2 heart rate for a 40-year-old?",
+    a: "With the Tanaka estimate used here, a 40-year-old has a max heart rate of about 180 bpm and a zone 2 band of roughly 108–126 bpm (60–70%). With the heart-rate-reserve method and a resting heart rate of 60 bpm, the same person gets about 132–144 bpm. With Maffetone's 180 − age, the ceiling is about 140 bpm. The methods disagree because they measure different things, so use the talk test to settle where you land.",
+  },
+  {
+    q: "Is 180 minus age zone 2?",
+    a: "Sometimes, roughly. Maffetone's MAF method (180 − age) is a popular rule of thumb for an easy aerobic ceiling, and for a 40-year-old it gives 140 bpm, a little above the top of the 60–70% of max band (126 bpm). It is a heuristic, not a measurement, and it is adjusted up or down for health and training history. Treat it as a starting point and check it against the talk test.",
+  },
+  {
+    q: "How accurate is Apple Watch for zone 2?",
+    a: "Apple's Workout app can show heart rate zones during a workout. By default they are calculated from your health data (your date of birth must be in the Health app), and you can edit the zone limits manually in the Workout settings. How closely the watch's zone 2 matches yours depends on how well its zone limits fit you and on how well the sensor reads your pulse. Chest straps tend to track fast changes better than wrist sensors. Check the limits against the talk test, and use a lab test if you need precision.",
   },
   {
     q: "What does Zone 2 feel like?",
     a: "Zone 2 is the highest effort at which you can still hold a full conversation in complete sentences. If you're gasping between words you've drifted into Zone 3; if you can sing comfortably you're likely in Zone 1. The talk test is a reliable cross-check when you don't have a heart-rate monitor.",
   },
   {
-    q: "Why train in Zone 2 specifically?",
-    a: "Zone 2 is the intensity where your body relies most on fat as fuel and where mitochondrial density and capillary networks adapt most efficiently. It builds the aerobic base that raises VO2 max over time — with far less fatigue and injury risk than high-intensity work, so you can accumulate more weekly volume.",
-  },
-  {
     q: "Is the age formula accurate for me?",
-    a: "The Tanaka estimate (208 − 0.7 × age) is more accurate across ages than the old 220 − age rule, but it is still a population average — individual max HR varies by ±10–12 bpm. For a precise personal zone, use a lactate test (1.5–2.0 mmol/L) or a lab VO2 max assessment, and treat the calculator as a starting band.",
+    a: "The Tanaka estimate (208 − 0.7 × age) is more accurate across ages than the old 220 − age rule, but it is still a population average. Individual max HR can differ by 10 bpm or more, so your real zone 2 may sit above or below the calculated band. For a precise personal zone, use a lactate test (1.5–2.0 mmol/L) or a ventilatory threshold test, and treat the calculator as a starting band. Beta-blockers and some other medicines lower heart rate, so if you take them or have a heart condition, ask your clinician before using heart-rate targets.",
   },
   {
     q: "Does Merios store these numbers?",
@@ -36,7 +44,7 @@ const FAQ_ITEMS = [
 export const metadata: Metadata = {
   title: "Zone 2 Heart Rate Calculator (by Age, Free)",
   description:
-    "Free Zone 2 heart rate calculator. Enter your age to get your Zone 2 band in bpm from the Tanaka max-HR formula, plus how to check it with the talk test.",
+    "Calculate your zone 2 heart rate from your age: 60–70% of an estimated max HR. A 40-year-old lands near 108–126 bpm. Free, with other methods compared.",
   alternates: { canonical: "https://merios.life/tools/zone-2-calculator" },
   openGraph: {
     title: "Zone 2 Heart Rate Calculator — by Age",
@@ -81,8 +89,8 @@ export default function Zone2CalculatorPage() {
 
       <PageHero
         eyebrow="Zone 2 — Tanaka max HR"
-        title="Find the heart-rate band that builds your aerobic engine."
-        subline="Enter your age and get your Zone 2 training range in beats per minute — the low-intensity zone that raises VO2 max with the least fatigue."
+        title="Zone 2 Heart Rate Calculator"
+        subline="Find the heart-rate band that builds your aerobic engine. Enter your age and get your Zone 2 training range in beats per minute — the low-intensity zone that raises VO2 max with the least fatigue."
         align="left"
       />
 
@@ -92,6 +100,34 @@ export default function Zone2CalculatorPage() {
 
           <section className={t.after}>
             <div className={`editorial-prose ${t.prose}`}>
+              <h2>
+                How to calculate your zone 2 heart rate
+              </h2>
+              <p>
+                This calculator uses the percent-of-max method. It estimates your max
+                heart rate with the Tanaka formula, 208 − (0.7 × age), then takes
+                60–70% of it. For a 40-year-old: 208 − 28 = 180 bpm max, and
+                60% × 180 = 108, 70% × 180 = 126, so zone 2 is about 108–126 bpm.
+                The older 220 − age rule also gives 180 at age 40 but drifts for
+                younger and older people.
+              </p>
+              <p>
+                Two other methods you will see. Heart-rate reserve (Karvonen): resting
+                HR + 60–70% of (max − resting). With a resting HR of 60 and a max of
+                180, the reserve is 120, so zone 2 is 60 + 72 = 132 to 60 + 84 = 144
+                bpm. It sits higher because it accounts for your resting heart rate.
+                Maffetone&apos;s MAF rule, 180 − age, gives 140 bpm for a 40-year-old.
+                It is a popular heuristic for an easy aerobic ceiling, not a measured
+                threshold.
+              </p>
+              <p>
+                None of these is precise. Age-based formulas can be off by 10 bpm or
+                more for an individual. The precise way is a lab test of your lactate
+                or ventilatory threshold. Beta-blockers blunt heart rate, so if you
+                take them or have a heart condition, check with your clinician first.
+                This is general wellness information, not medical advice.
+              </p>
+
               <h2>
                 Zone 2 heart rate by age
               </h2>
@@ -174,9 +210,8 @@ export default function Zone2CalculatorPage() {
                   Your Zone 2 pace at the same heart rate is the clearest sign your engine is growing.
                 </p>
                 <p className={t.ctaText}>
-                  Merios overlays your resting heart rate and VO2 max trend with your
-                  blood markers — so aerobic progress shows up next to the labs it
-                  actually moves.
+                  Merios is for people who want to track recovery, heart rate and
+                  their blood tests over time in one place.
                 </p>
               </div>
               <div className={t.ctaActions}>

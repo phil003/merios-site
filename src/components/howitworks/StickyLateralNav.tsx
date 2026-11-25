@@ -5,25 +5,23 @@ import { useLenis } from "@/components/providers/LenisProvider";
 import styles from "./hiw.module.css";
 
 /**
- * StickyLateralNav — desktop-only sticky table-of-contents for
- * /how-it-works. Desktop ≥ 1200 px only (v3: below that the step cards need
- * the full width); hidden on mobile/tablet where the sections stack naturally.
+ * StickyLateralNav — the sticky step list beside the three steps on
+ * /how-it-works. Desktop ≥ 1080 px only (Open Sky mockup); below that the
+ * steps stack and the masthead's arc already names them.
  *
  * Active-step detection:
  *   - IntersectionObserver watches each [data-hiw-section] element.
  *   - A section is eligible for "active" once it intersects the viewport
- *     band 0% → 45% from the top (rootMargin "0px 0px -55% 0px"). This
- *     mirrors a "top 45%" heuristic without triggering React re-renders
- *     per scroll tick (only re-renders when the active id changes).
+ *     band 0% → 45% from the top (rootMargin "0px 0px -55% 0px"), so React
+ *     only re-renders when the active id changes, never per scroll tick.
  *
- * Active-state visual (motion-free, v3):
- *   - The active link (aria-current="location") becomes a white pill and
- *     its step number turns into an ink chip with a lime numeral — a plain
- *     CSS transition in hiw.module.css, no React-driven inline styles.
+ * Active-state visual (v2 "Open Sky"): the active link (aria-current=
+ * "location") turns ink with an ink rule on its left; the step numbers are
+ * Newsreader in zenith. Plain CSS transitions in hiw.module.css.
  *
  * Click behaviour:
  *   - If a Lenis instance is available, scroll with
- *     `lenis.scrollTo(target, { duration: 1.2 })`.
+ *     `lenis.scrollTo(target, { duration: 1.1 })`.
  *   - Fallback: `window.scrollTo({ top: targetY, behavior: "smooth" })`,
  *     downgraded to instant under prefers-reduced-motion (checked with
  *     matchMedia at click time).
@@ -95,7 +93,7 @@ export default function StickyLateralNav() {
       if (lenis) {
         lenis.scrollTo(target, {
           offset: -SCROLL_OFFSET,
-          duration: 1.2,
+          duration: 1.1,
           easing: (t) => 1 - Math.pow(1 - t, 3),
           onComplete: focusTarget,
         });
@@ -113,10 +111,7 @@ export default function StickyLateralNav() {
     };
 
   return (
-    <nav
-      aria-label="How Merios works — sections"
-      className={styles.lateral}
-    >
+    <nav aria-label="How Merios works — sections" className={styles.lateral}>
       <p className={styles.navTitle}>On this page</p>
       <ol className={styles.navList}>
         {LINKS.map((link, i) => {
@@ -128,12 +123,12 @@ export default function StickyLateralNav() {
                 data-anchor={link.id}
                 onClick={handleClick(link.id)}
                 aria-current={isActive ? "location" : undefined}
-                className={`hiw-nav-link ${styles.navLink}`}
+                className={styles.navLink}
               >
                 <span aria-hidden className={styles.navNum}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className="hiw-nav-label">{link.label}</span>
+                <span>{link.label}</span>
               </a>
             </li>
           );

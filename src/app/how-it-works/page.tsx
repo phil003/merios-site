@@ -1,17 +1,16 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
-import Reveal from "@/components/ui/Reveal";
 import StepSection from "@/components/howitworks/StepSection";
 import StickyLateralNav from "@/components/howitworks/StickyLateralNav";
-import SvgPictogram, {
-  type PictogramVariant,
-} from "@/components/howitworks/SvgPictogram";
-import UnderstandPinned from "@/components/howitworks/UnderstandPinned";
+import UnderstandBoard from "@/components/howitworks/UnderstandBoard";
 import {
-  ConnectViz,
-  HeroHorizon,
-  LoopEmblem,
+  ActPlate,
+  ConnectPlate,
+  HeroArc,
+  LoopDiagram,
+  type ActPlateVariant,
+  type ConnectPlateVariant,
 } from "@/components/howitworks/Decor";
 import styles from "@/components/howitworks/hiw.module.css";
 import { WebApplicationSchema } from "@/components/StructuredData";
@@ -73,7 +72,7 @@ const howToJsonLd = {
 
 // ─── Content: Step 01 — Connect sub-blocks ────────────────────────────────
 type ConnectBlock = {
-  variant: PictogramVariant;
+  plate: ConnectPlateVariant;
   title: string;
   copy: string;
   meta: string;
@@ -81,38 +80,41 @@ type ConnectBlock = {
 
 const CONNECT_BLOCKS: ConnectBlock[] = [
   {
-    variant: "apple-health",
+    plate: "apple-health",
     title: "Apple Health stream",
     copy: "Years of activity, sleep, resting heart rate and HRV flow in on first authorisation. Merios keeps syncing in the background — nothing to maintain.",
     meta: "One tap · continuous",
   },
   {
-    variant: "ocr",
+    plate: "ocr",
     title: "Labs OCR",
     copy: "Photograph or upload any blood test PDF. Markers, units and reference ranges are extracted in seconds, normalised across labs and dated correctly.",
     meta: "PDF · JPG · HEIC",
   },
   {
-    variant: "manual",
+    plate: "manual",
     title: "Manual entry",
     copy: "Add a single marker, a blood pressure reading or a note. Everything you enter joins the same timeline as the imports — no second-class data.",
     meta: "Any marker · any unit",
   },
 ];
 
-// Pop tile behind each import path's pictogram (presentation only).
-const CONNECT_TILE: Partial<Record<PictogramVariant, string>> = {
-  "apple-health": styles.tilePeach,
-  ocr: styles.tileSky,
-  manual: styles.tileLilac,
-};
+// ─── Content: Step 02 — Understand ────────────────────────────────────────
+const UNDERSTAND_LINES = [
+  "160+ biomarkers become one clear figure.",
+  "Trends replace single-point anxiety.",
+  "Every system graded, every outlier flagged.",
+] as const;
+
+const UNDERSTAND_NOTE =
+  "The score is a signal, not a verdict — each subsystem stays legible on its own page, so you always know where the number comes from.";
 
 // ─── Content: Step 03 — Act: what Merios actually does after a test ───────
 // 27/10/2026 — the previous cards promised biomarker lifts (+18/+11/+7 %) and
 // an omega-3 dose that the app never computes nor recommends (audit P0-06,
 // decision D-4). Merios describes; it does not prescribe.
 type ActStep = {
-  variant: PictogramVariant;
+  plate: ActPlateVariant;
   title: string;
   copy: string;
   index: string;
@@ -121,21 +123,21 @@ type ActStep = {
 
 const ACT_STEPS: ActStep[] = [
   {
-    variant: "trend",
+    plate: "trend",
     title: "See what changed",
     copy: "Each new lab report lines up with the ones before it. Every marker shows its trend, the date it was drawn and where it sits against the reference range.",
     index: "01",
     target: "every new test",
   },
   {
-    variant: "leverage",
+    plate: "report",
     title: "Read your month in plain words",
     copy: "With Merios Plus, a monthly report sums up your sleep, activity, stress and blood markers in plain language. It describes what moved; it never prescribes.",
     index: "02",
     target: "monthly, with Plus",
   },
   {
-    variant: "followup",
+    plate: "next-test",
     title: "Decide with your clinician",
     copy: "Merios doesn't recommend supplements, doses or treatments. Take the trend to your doctor, change what you choose to change, and let your next test show whether the marker moved.",
     index: "03",
@@ -143,6 +145,16 @@ const ACT_STEPS: ActStep[] = [
   },
 ];
 
+const delay = (seconds: number) => ({ "--rv-delay": `${seconds}s` }) as CSSProperties;
+
+/**
+ * v2 "Open Sky" (mockup HowItWorks.dc.html, Nov 25, 2026): dawn masthead with
+ * the sunrise arc carrying the three steps → sticky step list beside
+ * Connect (three glass cards, a drawn plate each) · Understand (the white
+ * board: four quarters of the score and three trends) · Act (three glass
+ * cards) → the quarterly loop in the frame's one ink block. Metadata, JSON-LD,
+ * every word and every href are unchanged.
+ */
 export default function HowItWorksPage() {
   return (
     <>
@@ -167,51 +179,43 @@ export default function HowItWorksPage() {
 
       <main id="main-content" className={styles.page}>
         {/* ───────────────────────────────── HERO ──────────────────────── */}
-        {/* Night masthead (shared .v3-hero geometry). CSS-only entrance so the
-            H1 paints at parse time; the horizon carries the three steps. */}
-        <section
-          aria-labelledby="hiw-hero-headline"
-          className="v3-hero night"
-          data-nav="dark"
-        >
-          <div className="v3-hero__inner">
-            <div className="v3-hero__copy">
-              <div className="he label v3-hero__eyebrow">
-                <span aria-hidden className="label-dot" />
-                <span>How it works</span>
-              </div>
-
-              <h1
-                id="hiw-hero-headline"
-                className={`display he ${styles.heroTitle}`}
-                style={{ "--he-d": "0.06s" } as CSSProperties}
-              >
-                From blood tests to action,
-                <br aria-hidden />
-                <span className="chrome-text">in three calm steps.</span>
-              </h1>
-
-              <p
-                className={`he ${styles.heroSub}`}
-                style={{ "--he-d": "0.16s" } as CSSProperties}
-              >
-                Connect every source, read one score, and see what changed
-                since your last test. Merios makes the loop between result and
-                response short — and obvious.
-              </p>
+        {/* Dawn masthead. CSS-only entrance so the H1 paints at parse time;
+            the arc carries the three steps. */}
+        <section aria-labelledby="hiw-hero-headline" className={styles.hero}>
+          <div className={styles.container}>
+            <div className={`he label ${styles.heroEyebrow}`}>
+              <span aria-hidden className="label-dot label-dot--ink" />
+              <span>How it works</span>
             </div>
-          </div>
 
-          <HeroHorizon />
+            <h1
+              id="hiw-hero-headline"
+              className={`he ${styles.heroTitle}`}
+              style={{ "--he-d": "0.06s" } as CSSProperties}
+            >
+              From blood tests to action, <em>in three calm steps.</em>
+            </h1>
+
+            <p
+              className={`he ${styles.heroSub}`}
+              style={{ "--he-d": "0.16s" } as CSSProperties}
+            >
+              Connect every source, read one score, and see what changed
+              since your last test. Merios makes the loop between result and
+              response short — and obvious.
+            </p>
+
+            <HeroArc />
+          </div>
         </section>
 
-        {/* ─────────────────────────── GRID WITH STICKY NAV ────────────── */}
+        {/* ─────────────────────────── STEPS WITH STICKY NAV ───────────── */}
         <div className={styles.body}>
           <div className={styles.container}>
             <div className={styles.bodyGrid}>
               <StickyLateralNav />
 
-              <div className="min-w-0">
+              <div className={styles.steps}>
                 {/* ────────── Step 01 — Connect ────────── */}
                 <StepSection
                   id="connect"
@@ -219,35 +223,37 @@ export default function HowItWorksPage() {
                   stepNumber={1}
                   headline={
                     <>
-                      Bring in the data
-                      <br aria-hidden /> that already exists.
+                      Bring in the data <em>that already exists.</em>
                     </>
                   }
                   lead="Three import paths — streaming, OCR, manual — so nothing about your health history is locked in a drawer or a provider silo."
                 >
                   <ol className={styles.cardGrid}>
                     {CONNECT_BLOCKS.map((block, i) => (
-                      <li key={block.title} className={styles.cardItem}>
-                        <Reveal delay={i * 0.08} className={styles.cardReveal}>
-                          <div className={styles.card}>
-                            <span
-                              className={`${styles.tile} ${CONNECT_TILE[block.variant] ?? styles.tileSky}`}
-                            >
-                              <SvgPictogram variant={block.variant} />
-                            </span>
-                            <span className={styles.meta}>{block.meta}</span>
-                            <h3 className={styles.cardTitle}>{block.title}</h3>
-                            <p className={styles.cardCopy}>{block.copy}</p>
-                            <ConnectViz variant={block.variant} />
-                          </div>
-                        </Reveal>
+                      <li key={block.title} className={styles.card} data-rv="" style={delay(i * 0.08)}>
+                        <ConnectPlate variant={block.plate} />
+                        <p className={styles.meta}>{block.meta}</p>
+                        <h3 className={styles.cardTitle}>{block.title}</h3>
+                        <p className={styles.cardCopy}>{block.copy}</p>
                       </li>
                     ))}
                   </ol>
                 </StepSection>
 
-                {/* ────────── Step 02 — Understand (pinned scrub) ────────── */}
-                <UnderstandPinned />
+                {/* ────────── Step 02 — Understand ────────── */}
+                <StepSection
+                  id="understand"
+                  eyebrow="Understand"
+                  stepNumber={2}
+                  headline={
+                    <>
+                      One score. Every marker. <em>Clear trends.</em>
+                    </>
+                  }
+                  lead="Merios compresses 160+ biomarkers into a single number — then expands them back into the trend view your body actually needs."
+                >
+                  <UnderstandBoard lines={UNDERSTAND_LINES} note={UNDERSTAND_NOTE} />
+                </StepSection>
 
                 {/* ────────── Step 03 — Act ────────── */}
                 <StepSection
@@ -256,41 +262,23 @@ export default function HowItWorksPage() {
                   stepNumber={3}
                   headline={
                     <>
-                      See what changed,
-                      <br aria-hidden /> then decide.
+                      See what changed, <em>then decide.</em>
                     </>
                   }
                   lead="Merios shows what changed and leaves the decision with you — no protocols, no doses, no promised gains."
                 >
                   <ol className={styles.cardGrid}>
-                    {ACT_STEPS.map((p, i) => (
-                      <li key={p.title} className={styles.cardItem}>
-                        <Reveal delay={i * 0.08} className={styles.cardReveal}>
-                          <div className={styles.card}>
-                            <div className={styles.actHead}>
-                              <span className={`${styles.tile} ${styles.tileInk}`}>
-                                <SvgPictogram variant={p.variant} />
-                              </span>
-                              <span aria-hidden className={styles.lift}>{p.index}</span>
-                            </div>
-                            <div className={styles.actBody}>
-                              <h3 className={styles.cardTitle}>{p.title}</h3>
-                              <p className={styles.cardCopy}>{p.copy}</p>
-                            </div>
-                            <div className={styles.followup}>
-                              <span aria-hidden className={styles.followupIcon}>
-                                <SvgPictogram
-                                  variant="followup"
-                                  width={18}
-                                  height={18}
-                                />
-                              </span>
-                              <span className={styles.followupText}>
-                                Follow-up · {p.target}
-                              </span>
-                            </div>
-                          </div>
-                        </Reveal>
+                    {ACT_STEPS.map((step, i) => (
+                      <li key={step.title} className={styles.card} data-rv="" style={delay(i * 0.08)}>
+                        <ActPlate variant={step.plate} />
+                        <div className={styles.actHead}>
+                          <h3 className={styles.cardTitle}>{step.title}</h3>
+                          <span aria-hidden className={styles.actIndex}>
+                            {step.index}
+                          </span>
+                        </div>
+                        <p className={styles.cardCopy}>{step.copy}</p>
+                        <p className={styles.followup}>Follow-up · {step.target}</p>
                       </li>
                     ))}
                   </ol>
@@ -301,18 +289,14 @@ export default function HowItWorksPage() {
         </div>
 
         {/* ─────────────────────────── CLOSING ────────────────────────── */}
-        {/* Night CTA band: the heartbeat bent into a quarterly loop. */}
-        <section
-          aria-label="Next steps"
-          className={`night ${styles.closing}`}
-          data-nav="dark"
-        >
+        {/* The frame's one ink block: the quarterly loop. */}
+        <section aria-label="Next steps" className={styles.closing}>
           <div className={styles.container}>
-            <div className={styles.closingGrid}>
-              <Reveal className={styles.closingCopy}>
+            <div className={`night ${styles.loopBlock}`} data-nav="dark" data-rv="">
+              <div className={styles.loopCopy}>
                 <p className={styles.closingStatement}>
-                  The same loop, every quarter — see it, understand it, do the
-                  one next thing.
+                  The same loop, every quarter — <em>see it, understand it, do the
+                  one next thing.</em>
                 </p>
 
                 <div className={styles.closingActions}>
@@ -331,9 +315,9 @@ export default function HowItWorksPage() {
                   Still wondering? Read the FAQ
                   <span aria-hidden>→</span>
                 </a>
-              </Reveal>
+              </div>
 
-              <LoopEmblem />
+              <LoopDiagram />
             </div>
           </div>
         </section>

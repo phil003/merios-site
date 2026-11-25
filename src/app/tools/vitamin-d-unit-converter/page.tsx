@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import VitaminDConverter from "@/components/calculators/VitaminDConverter";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const TITLE = "Vitamin D Unit Converter (ng/mL to nmol/L)";
@@ -106,11 +108,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="vitamin-d-unit-converter"
         eyebrow="Vitamin D — ng/mL and nmol/L"
-        title="Vitamin D unit converter: ng/mL to nmol/L"
+        title="Vitamin D unit converter:"
+        em="ng/mL to nmol/L"
         subline="1 ng/mL = 2.496 nmol/L, so 30 ng/mL is 75 nmol/L and 60 ng/mL is 150 nmol/L. Convert 25-OH vitamin D in either direction, exactly, and see where the number sits."
-        align="left"
       />
 
       <main className={t.main}>
@@ -234,14 +237,7 @@ export default function Page() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>{q}</dt>
-                    <dd className={t.faqA}>{a}</dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
 
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
@@ -250,8 +246,8 @@ export default function Page() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One vitamin D curve, whatever unit each lab used.
+                <p className={t.ctaQuote}>
+                  One vitamin D curve, <em>whatever unit each lab used.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios reads the units off each report you upload and keeps every marker on one scale, so a result in
@@ -264,7 +260,7 @@ export default function Page() {
                   Get the app
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="compare" />
             </div>
 
             <p className={`${t.reference} ${t.sources}`}>
@@ -283,6 +279,8 @@ export default function Page() {
               reference range printed on your own report and with your physician.
             </p>
           </section>
+
+          <ToolRelated slug="vitamin-d-unit-converter" />
         </div>
       </main>
       <Footer />

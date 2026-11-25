@@ -11,7 +11,8 @@ interface CompareGridProps {
  * Compare index grid. Cards fade/slide in as they enter the viewport with a
  * light per-card stagger (0.06s) via <Reveal> (CSS + inline
  * IntersectionObserver, zero bundle JS, reduced-motion aware). Each card's
- * cover tone follows its position so the grid reads lime → lilac → sky → peach.
+ * dawn plate follows its position so the grid reads sky → lilac → zenith →
+ * peach (Open Sky).
  */
 export default function CompareGrid({ posts }: CompareGridProps) {
   if (posts.length === 0) {

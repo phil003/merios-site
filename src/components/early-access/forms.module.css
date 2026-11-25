@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   /early-access forms — Open Sky (v2). Shared by NewsletterForm and the
+   waitlist form in VariantRest. Two tones:
+   - light: on a white card (haze-tinted field, ink pill);
+   - dark: on the ink block (glass field, white pill).
+   A visible label sits above the field; focus rings are #3550A8 on light and
+   white on ink; an invalid address turns the field apricot/peach, never red.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.fieldLabel {
+  flex: 1 1 100%;
+  margin: 0 0 2px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+/* The field takes the row; the button wraps under it (full width) when the
+   column is too narrow for both. */
+.input {
+  flex: 999 1 220px;
+  min-width: 0;
+  height: 52px;
+  margin: 0;
+  padding: 0 18px;
+  border-radius: 16px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  letter-spacing: -0.005em;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    border-color 300ms var(--ease-smooth),
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-smooth);
+}
+.input:disabled {
+  opacity: 0.6;
+}
+
+.submit {
+  flex: 1 0 auto;
+  cursor: pointer;
+}
+.submit:disabled {
+  cursor: default;
+  transform: none;
+}
+.submit[data-state="loading"] {
+  opacity: 0.88;
+}
+.submit:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+}
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: spin 0.9s linear infinite;
+}
+
+.msg {
+  flex: 1 1 100%;
+  margin-top: 2px;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.msg p {
+  margin: 0;
+}
+
+/* ─── light: on a white card ───────────────────────────────────────────── */
+.light .fieldLabel {
+  color: var(--color-ink);
+}
+.light .input {
+  background: #f7f8fd;
+  border: 1.5px solid rgb(24 33 63 / 0.14);
+  color: var(--color-ink);
+}
+.light .input::placeholder {
+  color: var(--color-ink-tertiary);
+}
+.light .input:hover:not(:disabled):not(:focus) {
+  border-color: rgb(24 33 63 / 0.3);
+}
+.light .input:focus {
+  outline: 2px solid var(--color-link);
+  outline-offset: 2px;
+  border-color: var(--color-link);
+  background: #ffffff;
+}
+.light[data-status="invalid"] .input {
+  border-color: var(--color-apricot);
+  background: #fff6f1;
+}
+.light .submit[data-state="success"] {
+  background: var(--color-link);
+  color: #ffffff;
+  box-shadow: none;
+}
+.light .msg [data-tone="idle"] {
+  color: var(--color-ink-tertiary);
+}
+.light .msg [data-tone="error"] {
+  color: var(--color-warm);
+}
+.light .msg [data-tone="success"] {
+  color: var(--color-link);
+}
+
+/* ─── dark: on the ink block ───────────────────────────────────────────── */
+.dark .fieldLabel {
+  color: #ffffff;
+}
+.dark .input {
+  background: rgb(255 255 255 / 0.08);
+  border: 1.5px solid rgb(255 255 255 / 0.24);
+  color: #ffffff;
+}
+.dark .input::placeholder {
+  color: rgb(255 255 255 / 0.62);
+}
+.dark .input:hover:not(:disabled):not(:focus) {
+  border-color: rgb(255 255 255 / 0.42);
+}
+.dark .input:focus {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  border-color: rgb(255 255 255 / 0.55);
+  background: rgb(255 255 255 / 0.12);
+}
+.dark[data-status="invalid"] .input {
+  border-color: var(--color-peach);
+  background: rgb(252 214 194 / 0.1);
+}
+.dark .submit:focus-visible {
+  outline-color: #ffffff;
+}
+.dark .submit[data-state="success"] {
+  background: rgb(168 194 244 / 0.16);
+  color: var(--color-sky);
+  box-shadow: inset 0 0 0 1.5px rgb(168 194 244 / 0.55);
+}
+.dark .msg [data-tone="idle"] {
+  color: rgb(255 255 255 / 0.74);
+}
+.dark .msg [data-tone="error"] {
+  color: var(--color-peach);
+}
+.dark .msg [data-tone="success"] {
+  color: var(--color-sky);
+}
+
+/* ─── State entrances (only after the first submit) ────────────────────── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.in {
+  animation: rise 300ms var(--ease-smooth) both;
+}
+.pop {
+  animation: pop 300ms var(--ease-smooth) both;
+}

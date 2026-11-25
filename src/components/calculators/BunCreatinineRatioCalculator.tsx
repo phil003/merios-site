@@ -80,7 +80,7 @@ export default function BunCreatinineRatioCalculator() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>BUN/creatinine ratio</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>BUN/creatinine ratio</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>{result.ratio}<span className={s.unitTight}>:1</span></div>
               {unit === "si" && (

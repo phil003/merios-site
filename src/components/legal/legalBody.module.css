@@ -1,10 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   Legal page bodies — /privacy, /terms, /security (site v3).
-   Applied to a wrapper div inside LegalPageLayout's <article>. Reading
-   typography: Bricolage body at 17px / 1.72 in ink-secondary (AAA), display
-   section headings with a mono number pill, lime list markers, white cards
-   for boxed notes. Presentation only: every heading, paragraph and list item
-   is unchanged in the page files.
+   Legal page bodies — /privacy, /terms (and links/numbers on /security).
+   v2 "Open Sky": Figtree body at 17px / 1.72 in ink-secondary (AAA on haze),
+   section numbers as a Newsreader numeral on a hairline (the eyebrow look),
+   zenith list markers, white Open Sky cards for boxed notes. Presentation
+   only: every heading, paragraph and list item is unchanged in the pages.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .body {
@@ -14,10 +13,7 @@
   color: var(--color-ink-secondary);
 }
 
-/* LegalPageLayout reveals its whole <article> with data-rv, but the inline
-   observer's 12% threshold can never be met by an article several viewports
-   tall, so the policy text stayed at opacity 0 (also on production). Keep the
-   legal text visible; the fix belongs upstream in LegalPageLayout. */
+/* Safety net: legal text must never wait on a scroll reveal. */
 html[data-anim] [data-rv]:has(> .body) {
   opacity: 1;
   transform: none;
@@ -29,7 +25,15 @@ html[data-anim] [data-rv]:has(> .body) {
 
 .body strong {
   color: var(--color-ink);
-  font-weight: 650;
+  font-weight: 600;
+}
+
+.body a {
+  color: var(--color-link);
+  text-underline-offset: 4px;
+}
+.body a:hover {
+  color: var(--color-ink);
 }
 
 /* The opening paragraph reads as a lead */
@@ -48,50 +52,56 @@ html[data-anim] [data-rv]:has(> .body) {
   scroll-margin-top: 110px;
 }
 
-/* A page that opens straight on section 1 (security): no rule above it */
+/* A page that opens straight on section 1: no rule above it */
 .body > section:first-child > .h2:first-child {
   margin-top: 0;
   padding-top: 0;
   border-top: 0;
 }
 
-/* "1." — the section number, as a mono pill above the title */
+/* "1." — the section number: a Newsreader numeral on the eyebrow hairline */
 .num {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: fit-content;
-  margin-bottom: 16px;
-  padding: 6px 10px 5px;
-  border-radius: 999px;
-  background: var(--color-ink);
-  color: var(--color-lime);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
   line-height: 1;
-  font-variant-numeric: tabular-nums;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-link);
+}
+.num::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  flex: none;
+  background: var(--color-ink);
 }
 
-/* ── Lists: lime markers with a thin ink ring ── */
+/* ── Lists: small zenith markers ── */
 .body ul {
   list-style: none;
   padding-left: 0;
 }
 .body ul > li {
   position: relative;
-  padding-left: 1.7rem;
+  padding-left: 1.6rem;
   line-height: 1.6;
 }
 .body ul > li::before {
   content: "";
   position: absolute;
-  left: 0.32rem;
+  left: 0.3rem;
   top: calc(0.8em - 3.5px);
   width: 7px;
   height: 7px;
   border-radius: 999px;
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
+  background: var(--color-zenith);
 }
 
 /* ── Inline code ── */
@@ -108,51 +118,56 @@ html[data-anim] [data-rv]:has(> .body) {
 
 /* ── Links ── */
 .link {
-  color: var(--color-ink);
-  font-weight: 550;
+  color: var(--color-link);
+  font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--color-lime-deep) 70%, transparent);
-  text-decoration-thickness: 2px;
+  text-decoration-color: rgb(53 80 168 / 0.35);
+  text-decoration-thickness: 1.5px;
   text-underline-offset: 4px;
   transition:
-    background-color 200ms var(--ease-smooth),
+    color 200ms var(--ease-smooth),
     text-decoration-color 200ms var(--ease-smooth);
 }
 .link:hover {
-  background: color-mix(in srgb, var(--color-lime) 55%, transparent);
-  text-decoration-color: var(--color-ink);
+  color: var(--color-ink);
+  text-decoration-color: currentColor;
 }
 
-/* ── Boxed notes ── */
+/* ── Boxed notes: the Open Sky white card ── */
 .card {
   background: #FFFFFF;
-  border: 1px solid var(--color-grid);
-  border-radius: 20px;
-  padding: clamp(20px, 3vw, 28px) clamp(20px, 3vw, 30px);
+  border-radius: 28px;
+  padding: clamp(22px, 3vw, 32px) clamp(22px, 3vw, 34px);
+  box-shadow: 0 40px 90px -50px rgb(36 48 110 / 0.55);
 }
 
-/* The wellness disclaimer: a lime rule down the card's left edge */
+/* The wellness disclaimer: a zenith rule down the card's left edge */
 .note {
   position: relative;
-  padding-left: clamp(30px, 3.8vw, 40px);
+  padding-left: clamp(32px, 4vw, 46px);
 }
 .note::before {
   content: "";
   position: absolute;
-  left: clamp(14px, 1.7vw, 18px);
-  top: 24px;
-  bottom: 24px;
+  left: clamp(16px, 1.8vw, 22px);
+  top: 26px;
+  bottom: 26px;
   width: 3px;
   border-radius: 3px;
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1px rgb(16 35 26 / 0.16);
+  background: var(--color-zenith);
 }
 
 .cardTitle {
   font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-weight: 720;
+  font-size: 1.25rem;
+  font-weight: 600;
   line-height: 1.2;
   letter-spacing: -0.025em;
   color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link {
+    transition: none;
+  }
 }

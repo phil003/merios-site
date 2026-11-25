@@ -115,7 +115,7 @@ export default function NonHdlCalculator() {
           {result && !result.error ? (
             <ResultBody>
               <ResultLabel>
-                <span>Non-HDL cholesterol</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Non-HDL cholesterol</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.main} <span className={s.unit}>{u}</span>

@@ -1,0 +1,97 @@
+/* /tools hub: topic chips (on the dawn) and the grid section (Tools.dc.html) */
+
+.chipsWrap,
+.inner {
+  width: 100%;
+  max-width: calc(1312px + 2 * var(--spacing-container));
+  margin-inline: auto;
+  padding-inline: var(--spacing-container);
+}
+.chipsWrap {
+  padding-top: 36px;
+  padding-bottom: clamp(40px, 4vw, 56px);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1.5px solid rgb(255 255 255 / 0.78);
+  background: rgb(255 255 255 / 0.34);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-ink);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  transition:
+    background-color 300ms var(--ease-expo),
+    border-color 300ms var(--ease-expo),
+    box-shadow 300ms var(--ease-expo);
+}
+.chip:hover {
+  background: rgb(255 255 255 / 0.6);
+}
+.chip[aria-pressed="true"] {
+  background: #FFFFFF;
+  border-color: rgb(24 33 63 / 0.6);
+  box-shadow: 0 10px 24px -14px rgb(36 48 110 / 0.45);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+}
+.chipCount {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  color: var(--color-ink-secondary);
+}
+
+.section {
+  padding: 16px 0 clamp(72px, 8vw, 96px);
+}
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px 24px;
+  padding-bottom: 20px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid rgb(24 33 63 / 0.1);
+}
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.625rem, 1.3rem + 1vw, 1.875rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+.count {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-ink-secondary);
+}
+.countNum {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.125rem;
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip { transition: none; }
+}

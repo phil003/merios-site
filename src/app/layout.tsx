@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Newsreader, IBM_Plex_Mono, Caveat } from "next/font/google";
+import { Figtree, Newsreader } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import {
@@ -10,45 +10,23 @@ import LenisProvider from "@/components/providers/LenisProvider";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
 
-// v3 type system — Bricolage Grotesque (display + UI), Newsreader (long reads,
-// numerals, the wordmark), IBM Plex Mono (lab data, labels), Caveat (rare
-// hand-written annotations). Bricolage keeps its opsz axis: optical sizing
-// shapes the display cuts of large headings.
-const bricolage = Bricolage_Grotesque({
+// Open Sky type system — Figtree (display, UI and labels) and Newsreader
+// (numbers, long reads, and the italic human word in headlines). Figtree is
+// the LCP face, so it is the only one preloaded.
+const figtree = Figtree({
   subsets: ["latin"],
-  variable: "--font-bricolage",
+  variable: "--font-figtree",
   display: "swap",
-  axes: ["opsz"],
 });
 
-// Newsreader and Plex Mono are not preloaded: only the display face (the
-// LCP headline) competes for the first bytes. Newsreader carries no opsz axis
-// (half the weight per file) and its italic is fetched only by pages that
-// actually set italic text.
+// Newsreader is preloaded too: in Open Sky the italic human word ends every
+// H1 and the big numbers on covers are set in it, so it is often part of the
+// LCP element.
 const newsreader = Newsreader({
   subsets: ["latin"],
   variable: "--font-newsreader",
   display: "swap",
   style: ["normal", "italic"],
-  preload: false,
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-plex-mono",
-  display: "swap",
-  weight: ["400", "500", "600"],
-  preload: false,
-});
-
-// Homepage annotations only: not preloaded, so it never competes with the
-// faces above the fold on other routes.
-const caveat = Caveat({
-  subsets: ["latin"],
-  variable: "--font-caveat",
-  display: "swap",
-  weight: ["700"],
-  preload: false,
 });
 
 const GA_MEASUREMENT_ID = "G-R9RBJ2Z14K";
@@ -149,7 +127,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bricolage.variable} ${newsreader.variable} ${plexMono.variable} ${caveat.variable}`}
+      className={`${figtree.variable} ${newsreader.variable}`}
       // The inline reveal bootstrap sets html[data-anim] before hydration.
       suppressHydrationWarning
     >

@@ -1,4 +1,4 @@
-import styles from "./compareArticle.module.css";
+import a from "@/components/blog-article/article.module.css";
 
 interface FaqItem {
   q: string;
@@ -10,49 +10,33 @@ interface ArticleFAQProps {
 }
 
 /**
- * Editorial FAQ accordion for the compare article.
- *
- * Native <details>/<summary> for semantics + keyboard + a11y — server-rendered,
- * no client JS. White v3 cards on fog; the question number is a CSS counter
- * (presentation only, not in the HTML), the chevron flips via `.acc-icon-flip`
- * and the answer eases open where `::details-content` is supported.
+ * FAQ accordion for the compare article — the article template's glass card
+ * (Open Sky): a hairline between questions, a +/– disc, the first question
+ * open. Native <details>/<summary>, server-rendered, answers in the HTML
+ * (the FAQPage JSON-LD is rendered separately by the page).
  */
 export default function ArticleFAQ({ items }: ArticleFAQProps) {
+  if (items.length === 0) return null;
   return (
-    <section className={styles.faq}>
-      <h2 className={styles.faqTitle}>Frequently asked questions</h2>
-      <ul className={styles.faqList}>
+    <section id="faq" aria-labelledby="compare-faq-heading" className={a.faq}>
+      <h2 id="compare-faq-heading" className={a.blockTitle}>
+        Frequently asked questions
+      </h2>
+      <div className={a.faqList}>
         {items.map((item, idx) => (
-          <FaqRow key={`${idx}-${item.q}`} item={item} />
+          <details
+            key={`${idx}-${item.q}`}
+            className={a.faqItem}
+            open={idx === 0}
+          >
+            <summary className={a.faqSummary}>
+              <span>{item.q}</span>
+              <span aria-hidden className={a.sign} />
+            </summary>
+            <div className={a.faqAnswer}>{item.a}</div>
+          </details>
         ))}
-      </ul>
+      </div>
     </section>
-  );
-}
-
-function FaqRow({ item }: { item: FaqItem }) {
-  return (
-    <li className={styles.faqItem}>
-      <details className={styles.faqDetails}>
-        <summary className={styles.faqSummary}>
-          <span>{item.q}</span>
-          <span aria-hidden className={`acc-icon-flip ${styles.faqIcon}`}>
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M3 5l4 4 4-4" />
-            </svg>
-          </span>
-        </summary>
-        <div className={styles.faqAnswer}>{item.a}</div>
-      </details>
-    </li>
   );
 }

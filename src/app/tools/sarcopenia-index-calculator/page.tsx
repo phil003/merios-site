@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import SarcopeniaIndexCalculator from "@/components/calculators/SarcopeniaIndexCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
@@ -57,7 +58,13 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero eyebrow="Creatinine / cystatin C" title="Two markers you probably already have, hiding a muscle signal." subline="Free sarcopenia index calculator. Divide creatinine by cystatin C for a cheap blood-based muscle-mass proxy — with an honest account of what it can and cannot tell you." align="left" />
+      <ToolHero
+        slug="sarcopenia-index-calculator"
+        eyebrow="Creatinine / cystatin C"
+        title="Two markers you probably already have,"
+        em="hiding a muscle signal."
+        subline="Free sarcopenia index calculator. Divide creatinine by cystatin C for a cheap blood-based muscle-mass proxy — with an honest account of what it can and cannot tell you."
+      />
 
       <main className={t.main}>
         <div className={t.wrap}>
@@ -91,6 +98,8 @@ export default function Page() {
               </p>
             </div>
           </section>
+
+          <ToolRelated slug="sarcopenia-index-calculator" />
         </div>
       </main>
       <Footer />

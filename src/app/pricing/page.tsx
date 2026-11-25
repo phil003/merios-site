@@ -1,13 +1,15 @@
+import type { CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
 import {
   BreadcrumbSchema,
   FAQPageSchema,
   WebApplicationSchema,
 } from "@/components/StructuredData";
 import { AppleGlyph } from "@/components/home/icons";
+import PlanSheet from "./PlanSheet";
+import PriceChart from "./PriceChart";
 import s from "./pricing.module.css";
 
 const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
@@ -30,9 +32,13 @@ const DESCRIPTION =
  * merios.life three times on a category question in September 2026 and then
  * recommended four other apps. Stating the price is the fix.
  *
- * Presentation (site v3): night masthead (PageHero) → fog body with the price
- * sheet, the reading column and the questions → night footer. Styles live in
- * pricing.module.css; every text node, href and the JSON-LD are unchanged.
+ * Presentation (v2 "Open Sky", Nov 25, 2026): dawn masthead → the plan sheet
+ * (billing toggle + the price table drawn as three cards, PlanSheet.tsx) →
+ * what each price buys (the comparison prose beside a price chart,
+ * PriceChart.tsx) → what you are not paying for and availability → the
+ * questions → a dawn call to action. Styles live in pricing.module.css, data
+ * for the sheet and the chart in content.ts; the metadata, the JSON-LD, the
+ * FAQ and every href are unchanged.
  */
 const FAQ_ITEMS = [
   {
@@ -164,128 +170,138 @@ export default function PricingPage() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(offerLd) }} />
 
-      <PageHero
-        eyebrow="Pricing"
-        title="Merios Plus is $44 a year."
-        subline="The app is free to download on the US App Store, and the daily score is free for good. Plus costs $44/year with a 7-day free trial on the annual plan. Blood work is not included — Merios reads panels you already have."
-        align="left"
-      />
+      <main className={s.page}>
+        {/* ─── Dawn masthead ─── */}
+        <section aria-labelledby="pricing-title" className={s.hero}>
+          <div className={s.wrap}>
+            <p className={`label he ${s.eyebrow}`}>
+              <span aria-hidden className="label-dot label-dot--ink" />
+              <span>Pricing</span>
+            </p>
+            <h1
+              id="pricing-title"
+              className={`he ${s.h1}`}
+              style={{ "--he-d": "0.06s" } as CSSProperties}
+            >
+              Merios Plus is <em>$44 a year.</em>
+            </h1>
+            <p className={`he ${s.lede}`} style={{ "--he-d": "0.16s" } as CSSProperties}>
+              The app is free to download on the US App Store, and the daily score is free for
+              good. Plus costs $44/year with a 7-day free trial on the annual plan. Blood work is
+              not included — Merios reads panels you already have.
+            </p>
+          </div>
+        </section>
 
-      <main className={s.main}>
-        <div className={s.wrap}>
-          <section className={s.body}>
-            <div className={s.sheet}>
-              <table className={s.table}>
-                <caption className={s.caption}>
-                  Prices in US dollars, as listed on the US App Store. The App Store shows the
-                  current price for your region, and that figure governs if it differs from this
-                  page.
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col" className={s.colHead}>Plan</th>
-                    <th scope="col" className={s.colHead}>Price</th>
-                    <th scope="col" className={s.colHead}>What you get</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className={s.row} data-plan="free">
-                    <th scope="row" className={s.plan}>Merios</th>
-                    <td className={s.price}>Free</td>
-                    <td className={s.what}>
-                      The daily side of the app, free for good: your daily Merios Score, the
-                      Activity, Recovery and Zen pillars, the live monitor, the journal and cycle
-                      logging. You can also enter blood markers by hand and see each one in its
-                      range, and reports already written stay readable.
-                    </td>
-                  </tr>
-                  <tr className={s.row} data-plan="plus">
-                    <th scope="row" className={s.plan}>Merios Plus</th>
-                    <td className={s.price}>$44 / year</td>
-                    <td className={s.what}>
-                      Lab report scans from a PDF or a photo, and blood in depth: trends, history,
-                      systems and your PhenoAge biological age. Insights and the monthly report.
-                      7-day free trial on the annual plan. Also sold at $12.99 a month or $4.99 a
-                      week.
-                    </td>
-                  </tr>
-                  <tr className={s.row} data-plan="lab">
-                    <th scope="row" className={s.plan}>Blood work</th>
-                    <td className={s.price}>Not included</td>
-                    <td className={s.what}>
-                      Often $0 when your doctor orders the panel and insurance covers it, or roughly
-                      $60–$300 for a direct-to-consumer panel. You arrange it; Merios reads it.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+        {/* ─── The plan sheet: billing toggle + the price table as cards ─── */}
+        <PlanSheet />
+
+        {/* ─── What each price buys ─── */}
+        <section aria-labelledby="buys-title" className={s.buys}>
+          <div className={s.wrap}>
+            <div className={s.buysGrid}>
+              <div className={s.buysCopy} data-rv="">
+                <p className={`label ${s.eyebrow}`}>
+                  <span aria-hidden className="label-dot label-dot--ink" />
+                  <span>What each price buys</span>
+                </p>
+                <h2 id="buys-title" className={s.h2}>
+                  Why the sticker price <em>is misleading</em>
+                </h2>
+                <p className={s.body}>
+                  Merios costs less than every service it gets compared to, and that comparison is
+                  unfair in Merios&rsquo; favour. Function Health is $365 a year and{" "}
+                  <Link href="/compare/function-health-vs-superpower">
+                    includes two panels
+                  </Link>
+                  . InsideTracker&rsquo;s membership is $149 before test bundles that run $489 to
+                  $1,305.{" "}
+                  <Link href="/compare/merios-vs-siphox-health">
+                    SiPhox
+                  </Link>{" "}
+                  sells kits from about $99 to $245, draw included. Those prices buy blood. The $44 buys
+                  the reading of it.
+                </p>
+                <p className={s.body}>
+                  So the question that decides it is not which number is smaller. It is whether getting
+                  a panel is already solved for you. If your doctor orders blood work, or you have years
+                  of PDFs sitting in a drawer, Merios is the cheap way to make them mean something. If
+                  arranging a draw is the hard part, a bundled service is solving a problem Merios does
+                  not touch — and the cheaper line is the wrong one to optimise.
+                </p>
+              </div>
+              <PriceChart />
             </div>
+          </div>
+        </section>
 
-            <div className={`editorial-prose ${s.prose}`}>
-              <h2>Why the sticker price is misleading</h2>
-              <p>
-                Merios costs less than every service it gets compared to, and that comparison is
-                unfair in Merios&rsquo; favour. Function Health is $365 a year and{" "}
-                <Link href="/compare/function-health-vs-superpower">
-                  includes two panels
-                </Link>
-                . InsideTracker&rsquo;s membership is $149 before test bundles that run $489 to
-                $1,305.{" "}
-                <Link href="/compare/merios-vs-siphox-health">
-                  SiPhox
-                </Link>{" "}
-                sells kits from about $99 to $245, draw included. Those prices buy blood. The $44 buys
-                the reading of it.
-              </p>
-              <p>
-                So the question that decides it is not which number is smaller. It is whether getting
-                a panel is already solved for you. If your doctor orders blood work, or you have years
-                of PDFs sitting in a drawer, Merios is the cheap way to make them mean something. If
-                arranging a draw is the hard part, a bundled service is solving a problem Merios does
-                not touch — and the cheaper line is the wrong one to optimise.
-              </p>
-
-              <h2>What you are not paying for</h2>
-              <p>
-                There is no ad-supported tier, and there will not be one. A paid product does not need
-                to sell attention or data to survive, which is the only arrangement that makes sense
-                for a blood panel. How the data is handled is set out under{" "}
-                <Link href="/security">security</Link> and in the{" "}
-                <Link href="/privacy">privacy policy</Link>.
-              </p>
-
-              <h2>Availability</h2>
-              <p>
-                Merios is live on the{" "}
-                <a href={APP_STORE_LINK}>US App Store</a> and runs on iPhone with
-                iOS 15.1 or later. It is US-only for now: there is no other storefront, no Android
-                app and no web version. If you are outside the US, the honest answer is that you
-                cannot use it yet.
-              </p>
+        {/* ─── What you are not paying for · Availability ─── */}
+        <section aria-label="What you are not paying for, and availability" className={s.facts}>
+          <div className={s.wrap}>
+            <div className={s.factsGrid}>
+              <div className={s.fact} data-rv="">
+                <h2 className={s.factTitle}>What you are not paying for</h2>
+                <p className={s.factText}>
+                  There is no ad-supported tier, and there will not be one. A paid product does not need
+                  to sell attention or data to survive, which is the only arrangement that makes sense
+                  for a blood panel. How the data is handled is set out under{" "}
+                  <Link href="/security">security</Link> and in the{" "}
+                  <Link href="/privacy">privacy policy</Link>.
+                </p>
+              </div>
+              <div className={s.fact} data-rv="" style={{ "--rv-delay": "0.08s" } as CSSProperties}>
+                <h2 className={s.factTitle}>Availability</h2>
+                <p className={s.factText}>
+                  Merios is live on the{" "}
+                  <a href={APP_STORE_LINK}>US App Store</a> and runs on iPhone with
+                  iOS 15.1 or later. It is US-only for now: there is no other storefront, no Android
+                  app and no web version. If you are outside the US, the honest answer is that you
+                  cannot use it yet.
+                </p>
+              </div>
             </div>
+          </div>
+        </section>
 
-            <div className={s.faq} data-rv="">
-              <h2 className={s.faqTitle}>Questions</h2>
-              <dl className={s.faqList}>
-                {FAQ_ITEMS.map((item) => (
-                  <div key={item.q} className={s.faqItem}>
-                    <dt className={s.faqQ}>
-                      {item.q}
-                    </dt>
-                    <dd className={s.faqA}>{item.a}</dd>
-                  </div>
+        {/* ─── Questions: one open at a time (exclusive <details>), no JS ─── */}
+        <section aria-labelledby="faq-title" className={s.faq}>
+          <div className={s.wrap}>
+            <div className={s.faqGrid}>
+              <h2 id="faq-title" className={`${s.h2} ${s.faqTitle}`}>
+                Questions
+              </h2>
+              <div className={s.faqList} data-rv="">
+                {FAQ_ITEMS.map((item, i) => (
+                  <details key={item.q} name="pricing-faq" open={i === 0} className={s.faqItem}>
+                    <summary className={s.faqQ}>
+                      <span>{item.q}</span>
+                      <span aria-hidden className={s.faqSign} />
+                    </summary>
+                    <p className={s.faqA}>{item.a}</p>
+                  </details>
                 ))}
-              </dl>
-
-              <p className={s.cta}>
-                <a href={APP_STORE_LINK} className={`btn btn-ink ${s.ctaBtn}`}>
-                  <AppleGlyph size={15} />
-                  Download Merios on the App Store <span className="btn-arrow">→</span>
-                </a>
-              </p>
+              </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
+
+        {/* ─── Dawn call to action ─── */}
+        <section aria-labelledby="get-title" className={s.get}>
+          <div className={s.wrap}>
+            <div className={s.getBand} data-rv="">
+              <div className={s.getCopy}>
+                <h2 id="get-title" className={s.getTitle}>
+                  Start free. <em>Add Plus when your blood test lands.</em>
+                </h2>
+                <p className={s.getMeta}>iPhone · iOS 15.1 or later · US App Store</p>
+              </div>
+              <a href={APP_STORE_LINK} className={`btn btn-ink ${s.ctaBtn}`}>
+                <AppleGlyph size={15} />
+                Download Merios on the App Store <span aria-hidden className="btn-arrow">→</span>
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

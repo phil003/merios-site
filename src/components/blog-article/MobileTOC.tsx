@@ -9,9 +9,9 @@ interface MobileTOCProps {
 }
 
 /**
- * Collapsible "Contents" card for mobile (<lg). Closed by default.
- * Uses native <details> for keyboard + a11y; the plus icon (ink disc, lime
- * glyph) turns into a cross via the CSS `.acc-icon` rule.
+ * Collapsible "Contents" card for phones and tablets (below 1080px, where the
+ * sticky aside is hidden). Closed by default. Native <details> for keyboard +
+ * a11y; the + sign turns into a – via CSS (reduced-motion safe).
  */
 export default function MobileTOC({ headings }: MobileTOCProps) {
   const lenis = useLenis();
@@ -41,32 +41,27 @@ export default function MobileTOC({ headings }: MobileTOCProps) {
   };
 
   return (
-    <details className={`lg:hidden ${styles.mtoc}`}>
+    <details className={styles.mtoc}>
       <summary className={styles.mtocSummary}>
         <span className={styles.mtocLabel}>Contents</span>
-        <span aria-hidden className={`acc-icon ${styles.mtocIcon}`}>
-          +
-        </span>
+        <span aria-hidden className={styles.sign} />
       </summary>
       <ol className={styles.mtocList}>
-        {headings.map((h, i) => {
-          const indent = h.level === 3 ? 16 : 0;
-          return (
-            <li key={h.id} style={{ marginLeft: indent }}>
-              <a
-                href={`#${h.id}`}
-                onClick={(e) => handleClick(e, h.id)}
-                data-level={h.level}
-                className={styles.mtocLink}
-              >
-                <span aria-hidden className={styles.mtocNum}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                {h.text}
-              </a>
-            </li>
-          );
-        })}
+        {headings.map((h, i) => (
+          <li key={h.id} data-level={h.level}>
+            <a
+              href={`#${h.id}`}
+              onClick={(e) => handleClick(e, h.id)}
+              data-level={h.level}
+              className={styles.mtocLink}
+            >
+              <span aria-hidden className={styles.mtocNum}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              {h.text}
+            </a>
+          </li>
+        ))}
       </ol>
     </details>
   );

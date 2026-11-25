@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import Zone2Calculator from "@/components/calculators/Zone2Calculator";
 import {
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
@@ -87,11 +89,12 @@ export default function Zone2CalculatorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }}
       />
 
-      <PageHero
+      <ToolHero
+        slug="zone-2-calculator"
         eyebrow="Zone 2 — Tanaka max HR"
-        title="Zone 2 Heart Rate Calculator"
+        title="Zone 2 Heart Rate"
+        em="Calculator"
         subline="Find the heart-rate band that builds your aerobic engine. Enter your age and get your Zone 2 training range in beats per minute — the low-intensity zone that raises VO2 max with the least fatigue."
-        align="left"
       />
 
       <main className={t.main}>
@@ -181,18 +184,7 @@ export default function Zone2CalculatorPage() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>
-                      {q}
-                    </dt>
-                    <dd className={t.faqA}>
-                      {a}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
 
               <p className={t.reference}>
                 Reference: Tanaka H, Monahan KD, Seals DR. <em>Age-predicted maximal
@@ -206,8 +198,8 @@ export default function Zone2CalculatorPage() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  Your Zone 2 pace at the same heart rate is the clearest sign your engine is growing.
+                <p className={t.ctaQuote}>
+                  Your Zone 2 pace at the same heart rate <em>is the clearest sign your engine is growing.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios is for people who want to track recovery, heart rate and
@@ -219,9 +211,11 @@ export default function Zone2CalculatorPage() {
                   Get the app
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="today" />
             </div>
           </section>
+
+          <ToolRelated slug="zone-2-calculator" />
         </div>
       </main>
       <Footer />

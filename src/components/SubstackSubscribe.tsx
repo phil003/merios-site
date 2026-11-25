@@ -1,5 +1,5 @@
 import Reveal from "@/components/ui/Reveal";
-import styles from "@/components/blog-article/article.module.css";
+import styles from "./SubstackSubscribe.module.css";
 
 /**
  * Substack newsletter capture (Baseline — merioslife.substack.com).
@@ -9,9 +9,9 @@ import styles from "@/components/blog-article/article.module.css";
  * app later via the newsletter's own CTAs (welcome email, footer, deep-dive CTAs).
  *
  * Uses the official Substack embed iframe so emails land directly in Substack —
- * no backend, works with the static export. The surrounding card is a lilac
- * pop "sticker" in the site v3 art direction; the iframe itself carries
- * Substack's default form.
+ * no backend, works with the static export. Open Sky: the surrounding card is
+ * a soft lavender plate with a glass rim (./SubstackSubscribe.module.css); the
+ * iframe itself carries Substack's default form.
  *
  * Drop it into an article once (see /blog/[slug]/page.tsx). Keep ArticleCTA (the
  * "get the app" banner) separate — that's the primary conversion path; this is
@@ -19,10 +19,10 @@ import styles from "@/components/blog-article/article.module.css";
  */
 export default function SubstackSubscribe() {
   return (
-    <section className={styles.subscribe}>
+    <section className={styles.card}>
       {/* the logo's heartbeat, as a small ornament */}
       <svg
-        className={styles.subscribePulse}
+        className={styles.pulse}
         viewBox="0 0 160 28"
         aria-hidden
         focusable="false"
@@ -30,30 +30,27 @@ export default function SubstackSubscribe() {
         <path
           d="M0 14 H62 L67 19 L73 3 L81 26 L86 14 H148"
           fill="none"
-          stroke="#10231A"
+          stroke="#18213F"
           strokeWidth="1.6"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx="148" cy="14" r="3.6" fill="#10231A" />
+        <circle cx="148" cy="14" r="3.6" fill="#6E8FE8" />
       </svg>
 
       <Reveal>
-        <div className={`label ${styles.subscribeLabel}`}>
-          <span aria-hidden className={styles.inkDot} />
-          <span>Baseline · The Newsletter</span>
-        </div>
+        <p className={styles.eyebrow}>Baseline · The Newsletter</p>
 
-        <h2 className={styles.subscribeTitle}>
-          One biomarker, explained properly, every week.
+        <h2 className={styles.title}>
+          One biomarker, explained properly, <em>every week.</em>
         </h2>
 
-        <p className={styles.subscribeLead}>
+        <p className={styles.lead}>
           Plain-English deep-dives on what your labs actually mean — functional
           ranges, trends, and the studies behind them. Free, no spam.
         </p>
 
-        <div className={styles.subscribeFrame}>
+        <div className={styles.frame}>
           <iframe
             src="https://merioslife.substack.com/embed"
             title="Subscribe to Baseline"
@@ -61,11 +58,11 @@ export default function SubstackSubscribe() {
             width="100%"
             height="150"
             style={{
-              border: "1px solid rgb(16 35 26 / 0.14)",
+              border: "1.5px solid rgb(24 33 63 / 0.12)",
               borderRadius: 16,
               background: "#FFFFFF",
               maxWidth: 480,
-              boxShadow: "0 18px 36px -24px rgb(16 35 26 / 0.45)",
+              boxShadow: "0 18px 36px -24px rgb(36 48 110 / 0.45)",
             }}
             frameBorder="0"
             scrolling="no"

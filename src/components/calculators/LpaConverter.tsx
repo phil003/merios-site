@@ -73,7 +73,7 @@ export default function LpaConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Approximate equivalent</span> — <Chip tone={result.risk.tone}>{result.risk.name}</Chip>
+                <span>Approximate equivalent</span> <Chip tone={result.risk.tone}>{result.risk.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.lo}–{result.hi} <span className={s.unit}>{result.unit}</span>

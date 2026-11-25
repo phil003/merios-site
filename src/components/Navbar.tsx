@@ -39,7 +39,7 @@ function handleAnchorClick(
 export default function Navbar() {
   const pathname = usePathname();
   const [compact, setCompact] = useState(false);
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -62,7 +62,8 @@ export default function Navbar() {
       },
       { rootMargin: "-28px 0px -92% 0px", threshold: 0 },
     );
-    const els = document.querySelectorAll('[data-nav="dark"]');
+    // Open Sky mastheads are dawns, so a v3 hero never darkens the bar.
+    const els = document.querySelectorAll('[data-nav="dark"]:not(.v3-hero)');
     els.forEach((el) => io.observe(el));
     if (els.length === 0) setDark(false);
     return () => io.disconnect();
@@ -92,7 +93,7 @@ export default function Navbar() {
       >
         <div className="v3-nav__bar">
           <a href="/" className="v3-nav__brand" aria-label="Merios home">
-            <Logo size="1.55rem" cut={theme === "dark" ? "#12171B" : "#F4F6F3"} />
+            <Logo size="1.55rem" cut={theme === "dark" ? "#18213F" : "#EEF0FB"} />
           </a>
 
           <nav className="v3-nav__links" aria-label="Primary">
@@ -113,7 +114,10 @@ export default function Navbar() {
           </nav>
 
           <div className="v3-nav__end">
-            <a href="/early-access" className="btn btn-lime v3-nav__cta">
+            <a
+              href="/early-access"
+              className={`btn ${theme === "dark" ? "btn-lime" : "btn-ink"} v3-nav__cta`}
+            >
               <svg width="14" height="17" viewBox="0 0 17 20" aria-hidden focusable="false">
                 <path
                   fill="currentColor"

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import AstAltRatioCalculator from "@/components/calculators/AstAltRatioCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const TITLE = "AST/ALT Ratio Calculator (De Ritis Ratio)";
@@ -76,11 +77,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="ast-alt-ratio-calculator"
         eyebrow="De Ritis ratio — two liver enzymes, one ratio"
-        title="AST/ALT Ratio Calculator"
+        title="AST/ALT Ratio"
+        em="Calculator"
         subline="The AST/ALT ratio is AST divided by ALT, both in U/L. It mostly means something when one or both enzymes are raised: below 1, above 1 and above 2 are linked to different patterns."
-        align="left"
       />
 
       <main className={t.main}>
@@ -204,8 +206,8 @@ export default function Page() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One liver panel is a snapshot. A trend shows what is normal for you.
+                <p className={t.ctaQuote}>
+                  One liver panel is a snapshot. <em>A trend shows what is normal for you.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios reads your liver enzymes next to your Apple Watch activity and sleep data, so an AST rise
@@ -220,9 +222,11 @@ export default function Page() {
                   Is an ALT of 40 high? →
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="blood-panel" />
             </div>
           </section>
+
+          <ToolRelated slug="ast-alt-ratio-calculator" />
         </div>
       </main>
       <Footer />

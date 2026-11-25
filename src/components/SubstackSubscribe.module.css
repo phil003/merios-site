@@ -1,0 +1,88 @@
+/* Substack newsletter card — Open Sky (v2): a soft lavender plate with a glass
+   rim, the eyebrow, an H2 ending on the italic human words, and Substack's
+   own embed form on white. */
+
+.card {
+  position: relative;
+  max-width: 680px;
+  margin: 56px auto 0;
+  padding: 34px 20px 26px;
+  overflow: hidden;
+  border-radius: 28px;
+  text-align: center;
+  color: var(--color-ink);
+  background: linear-gradient(135deg, #e3def8 0%, #eef0fb 100%);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+  box-shadow: 0 30px 70px -44px rgb(36 48 110 / 0.5);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 1px;
+  background: var(--color-ink);
+}
+
+.title {
+  margin: 16px auto 0;
+  max-width: 18ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.2rem + 1.7vw, 2.45rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.038em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  margin: 14px auto 0;
+  max-width: 44ch;
+  font-size: 1rem;
+  line-height: 1.55;
+  letter-spacing: -0.006em;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+
+.frame {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+/* the logo's heartbeat, as a small ornament */
+.pulse {
+  position: absolute;
+  right: 26px;
+  top: 26px;
+  width: 112px;
+  height: 20px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .pulse {
+    display: none;
+  }
+}

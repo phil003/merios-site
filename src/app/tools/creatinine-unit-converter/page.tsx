@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import CreatinineConverter from "@/components/calculators/CreatinineConverter";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const TITLE = "Creatinine Unit Converter: µmol/L to mg/dL (88.4)";
@@ -124,11 +126,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="creatinine-unit-converter"
         eyebrow="Creatinine — µmol/L, mg/dL and mmol/L"
-        title="Creatinine Unit Converter"
+        title="Creatinine"
+        em="Unit Converter"
         subline="Conversion factor 88.4: divide µmol/L by 88.4 to get mg/dL, or multiply mg/dL by 88.4 for µmol/L. 80 µmol/L is 0.90 mg/dL. Works in any direction, with the adult range for women and men."
-        align="left"
       />
 
       <main className={t.main}>
@@ -294,14 +297,7 @@ export default function Page() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>{q}</dt>
-                    <dd className={t.faqA}>{a}</dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
 
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
@@ -310,8 +306,8 @@ export default function Page() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One creatinine curve, whatever unit each lab used.
+                <p className={t.ctaQuote}>
+                  One creatinine curve, <em>whatever unit each lab used.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios reads the units off each report you scan and keeps every marker on one scale, so a result in
@@ -327,7 +323,7 @@ export default function Page() {
                   Is a creatinine of 1.2 normal? →
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="compare" />
             </div>
 
             <p className={`${t.reference} ${t.sources}`}>
@@ -343,6 +339,8 @@ export default function Page() {
               interpret any result with the reference range printed on your own report and with your clinician.
             </p>
           </section>
+
+          <ToolRelated slug="creatinine-unit-converter" />
         </div>
       </main>
       <Footer />

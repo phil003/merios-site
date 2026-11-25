@@ -1,15 +1,15 @@
-// Tag → pop surface for editorial panels (category cards, emoji stickers).
-// One colour per topic family (see getTagTone in src/lib/covers.ts), so the
-// same subject reads in the same colour on covers, panels and chips.
-import { getTagTone, TONE_HEX, TONE_LIGHT } from "@/lib/covers";
+// Tag → Open Sky plate for editorial panels and tag dots. One plate per topic
+// family (see getTagPlate in src/lib/covers.ts), so a subject reads in the
+// same colour on its cover, its panels and its dots.
+import { getTagPlate, PLATES } from "@/lib/covers";
 
-/** CSS background for a pop panel: the tone with a soft light sheen. */
+/** CSS background for a panel: the family's soft dawn plate. */
 export function getBlogGradient(tag: string): string {
-  const tone = getTagTone(tag);
-  return `radial-gradient(120% 90% at 18% 0%, ${TONE_LIGHT[tone]} 0%, ${TONE_HEX[tone]} 62%)`;
+  const plate = PLATES[getTagPlate(tag)];
+  return `radial-gradient(60% 80% at 100% 0%, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0) 60%), linear-gradient(135deg, ${plate.from} 0%, ${plate.to} 100%)`;
 }
 
-/** Flat tone colour (dots, small stickers). */
+/** The family's mark colour (dots, small stickers). */
 export function getBlogToneHex(tag: string): string {
-  return TONE_HEX[getTagTone(tag)];
+  return PLATES[getTagPlate(tag)].mark;
 }

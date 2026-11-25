@@ -10,8 +10,8 @@ interface CompareCardProps {
    */
   tags?: readonly [string, string, string];
   /**
-   * Position in the rendered list — picks the cover's pop tone so a grid
-   * reads lime → lilac → sky → peach. Falls back to a stable slug hash.
+   * Position in the rendered list — picks the cover's plate so a grid reads
+   * sky → lilac → zenith → peach. Falls back to a stable slug hash.
    */
   index?: number;
 }
@@ -33,10 +33,11 @@ function toneFor(slug: string, index?: number): Tone {
 }
 
 /**
- * Comparison card — white v3 card with a pop cover. Server component; the
- * hover lift/shadow is the global `.blog-card` rule, the arrow nudge and the
- * cover dot live in compare.module.css. Every text node (eyebrow, title,
- * description, tags, read time, "Read comparison") is unchanged.
+ * Comparison card — Open Sky: a white card, and on its soft dawn plate the
+ * subject itself, "vs {competitor}" (the eyebrow, set as the cover's
+ * headline). Server component; the hover lift lives in compare.module.css
+ * (reduced-motion safe). Every text node (eyebrow, title, description, tags,
+ * read time, "Read comparison") is unchanged.
  */
 export default function CompareCard({
   post,
@@ -44,36 +45,8 @@ export default function CompareCard({
   index,
 }: CompareCardProps) {
   return (
-    <Link href={`/compare/${post.slug}`} className={`blog-card ${styles.card}`}>
-      {/* vs {competitor} — the eyebrow, set as the cover's headline */}
+    <Link href={`/compare/${post.slug}`} className={styles.card}>
       <div className={styles.cover} data-tone={toneFor(post.slug, index)}>
-        <svg
-          className={styles.coverArt}
-          aria-hidden
-          focusable="false"
-          viewBox="0 0 230 64"
-          preserveAspectRatio="xMaxYMid meet"
-        >
-          <path
-            d="M0 32 H128 L136 38 L147 12 L160 54 L168 32 H210"
-            fill="none"
-            stroke="currentColor"
-            strokeOpacity="0.42"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <circle
-            className={styles.coverDot}
-            cx="216"
-            cy="32"
-            r="5.5"
-            fill="#FFFFFF"
-            stroke="currentColor"
-            strokeOpacity="0.55"
-            strokeWidth="1.5"
-          />
-        </svg>
         <div className={styles.vs}>
           <span className={styles.vsWord}>vs</span>{" "}
           <span className={styles.vsName}>{post.competitor}</span>

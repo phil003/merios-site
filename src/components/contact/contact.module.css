@@ -1,0 +1,334 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   /contact — Open Sky (v2, Nov 25 2026). Presentation only.
+   Dawn masthead → the form on a white card beside the direct channels on the
+   page's one ink block → "Before you write" on glass cards → the FAQ nudge
+   as a dawn band. The form's field styles live in ContactForm.tsx.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page {
+  position: relative;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+.page :focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+}
+.page .ink :focus-visible {
+  outline-color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(1312px + 2 * var(--spacing-container));
+  margin-inline: auto;
+  padding-inline: var(--spacing-container);
+}
+
+/* ─── Type ─────────────────────────────────────────────────────────────── */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 1px;
+  background: var(--color-ink);
+}
+.inkEyebrow {
+  color: var(--color-lavender);
+}
+.inkEyebrow::before {
+  background: var(--color-lavender);
+}
+
+.title {
+  margin: 0;
+  max-width: 1000px;
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6.4vw, 92px);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.h2 {
+  margin: 0;
+  max-width: 760px;
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4.4vw, 60px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.title em,
+.h2 em,
+.bandText em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.lead {
+  margin: 24px 0 0;
+  max-width: 640px;
+  font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+
+/* ─── Masthead ─────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(128px, 14vw, 184px) 0 clamp(32px, 4vw, 56px);
+  background: var(--dawn);
+}
+
+/* ─── Form + direct channels ───────────────────────────────────────────── */
+.formSection {
+  padding-block: clamp(24px, 3vw, 40px);
+}
+.formGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+@media (min-width: 1024px) {
+  .formGrid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 18px;
+  }
+}
+.formCard {
+  min-width: 0;
+  padding: clamp(22px, 3.4vw, 48px);
+  border-radius: 32px;
+  background: #ffffff;
+  box-shadow: 0 40px 90px -50px rgb(36 48 110 / 0.55);
+}
+.ink {
+  min-width: 0;
+  padding: clamp(22px, 3.4vw, 48px);
+  border-radius: 32px;
+  color: #ffffff;
+  background: var(--color-ink);
+}
+.cardEyebrow {
+  margin-bottom: clamp(24px, 3vw, 36px);
+}
+
+/* Direct channels (ContactInfo), on ink */
+.channels {
+  display: flex;
+  flex-direction: column;
+}
+.block {
+  display: flex;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid rgb(255 255 255 / 0.12);
+}
+.block:first-child {
+  padding-top: 0;
+}
+.block:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.blockIcon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  margin-top: 1px;
+  border-radius: 999px;
+  color: var(--color-sky);
+  background: rgb(255 255 255 / 0.1);
+}
+.blockText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.blockEyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-lavender);
+}
+.blockTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.1rem + 0.4vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+.blockBody {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: rgb(255 255 255 / 0.8);
+}
+.inkLink {
+  font-weight: 600;
+  color: var(--color-lavender);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  text-decoration-color: rgb(201 192 246 / 0.5);
+  transition:
+    color 200ms var(--ease-smooth),
+    text-decoration-color 200ms var(--ease-smooth);
+}
+.inkLink:hover {
+  color: #ffffff;
+  text-decoration-color: #ffffff;
+}
+.helper {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.74);
+}
+.blockBody > .helper:first-child {
+  margin-top: 0;
+}
+
+/* ─── Before you write: glass cards ────────────────────────────────────── */
+.guideSection {
+  padding-block: clamp(40px, 5vw, 64px);
+}
+.guideGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 16px;
+  margin-top: clamp(28px, 3.4vw, 44px);
+}
+.guideCard {
+  min-width: 0;
+  padding: clamp(22px, 2.6vw, 30px);
+  border-radius: 28px;
+  background: rgb(255 255 255 / 0.55);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+}
+.guideHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.guideTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.08rem + 0.4vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.guideIndex {
+  flex: none;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--color-zenith);
+}
+.guideBody {
+  margin-top: 14px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+.guideBody > * + * {
+  margin-top: 10px;
+}
+.guideBody ul {
+  padding-left: 1.15rem;
+  list-style: disc;
+}
+.guideBody li + li {
+  margin-top: 6px;
+}
+.guideBody li::marker {
+  color: var(--color-zenith);
+}
+.guideBody strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+/* An in-app menu path ("Settings › Export my data") reads as one unit. */
+.guideBody :global(.cg-path) {
+  white-space: nowrap;
+}
+.guideBody a {
+  font-weight: 600;
+  color: var(--color-link);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgb(53 80 168 / 0.4);
+  transition:
+    color 200ms var(--ease-smooth),
+    text-decoration-color 200ms var(--ease-smooth);
+}
+.guideBody a:hover {
+  color: var(--color-ink);
+  text-decoration-color: var(--color-ink);
+}
+
+/* ─── FAQ nudge: a dawn band ───────────────────────────────────────────── */
+.nudgeSection {
+  padding: clamp(24px, 3vw, 40px) 0 clamp(72px, 9vw, 112px);
+}
+.band {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 40px;
+  padding: clamp(28px, 4.5vw, 56px);
+  border-radius: 28px;
+  background:
+    radial-gradient(120% 70% at 0% 0%, #afc6f6 0%, rgb(175 198 246 / 0) 60%),
+    radial-gradient(90% 60% at 100% 100%, #fbd5c3 0%, rgb(251 213 195 / 0) 65%),
+    linear-gradient(180deg, #dcd8f6 0%, #eef0fb 100%);
+}
+.bandText {
+  margin: 0;
+  min-width: 0;
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 1.2rem + 2.2vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}

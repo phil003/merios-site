@@ -8,17 +8,13 @@ export { CITATIONS };
 export type { Citation };
 
 /**
- * Science — Citations.
+ * Science — Citations (v2 "Open Sky").
  *
- * Numbered reference list. Superscripts elsewhere on the page link to #ref-N.
- * Server component: row reveals use the shared data-rv mechanism with a 60ms
- * incremental --rv-delay (capped so deep rows never lag their own viewport
- * entry); the hover tint/lift is a pure CSS transition. Data lives in
- * ./data.ts so it can be imported by the server page for JSON-LD generation.
- *
- * v3: numbers as ink chips with lime numerals (the editorial list counter),
- * Newsreader for the reference itself; a reference reached from a superscript
- * (:target) is lit with a lime edge.
+ * Numbered reference list on glass rows. Superscripts elsewhere on the page
+ * link to #ref-N; the row reached that way (:target) turns white with a
+ * zenith edge. Server component: row reveals use the shared data-rv
+ * mechanism with a capped 60ms incremental --rv-delay. Data lives in
+ * ./data.ts so the server page can build its JSON-LD from it.
  */
 
 export default function ScienceCitations() {
@@ -35,7 +31,7 @@ export default function ScienceCitations() {
         </span>
 
         <h2 id="science-references-heading" className={styles.title}>
-          Literature informing the model.
+          Literature informing <em>the model.</em>
         </h2>
 
         <p className={styles.lead}>
@@ -44,7 +40,7 @@ export default function ScienceCitations() {
         </p>
       </Reveal>
 
-      <ol className={styles.refs} style={{ counterReset: "ref-counter" }}>
+      <ol className={styles.refs}>
         {CITATIONS.map((c, i) => (
           <li
             key={c.id}

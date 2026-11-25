@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import IronConverter from "@/components/calculators/IronConverter";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const TITLE = "Iron Unit Converter: µg/dL to µmol/L (+ Ferritin)";
@@ -129,11 +131,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="iron-unit-converter"
         eyebrow="Iron, TIBC and ferritin — µg/dL, µmol/L, ng/mL"
-        title="Iron Unit Converter"
+        title="Iron"
+        em="Unit Converter"
         subline="Multiply µg/dL by 0.1791 for µmol/L, or µmol/L by 5.585 for µg/dL: 100 µg/dL is 17.9 µmol/L. Converts TIBC and ferritin too, and explains why serum iron can never be converted into ferritin."
-        align="left"
       />
 
       <main className={t.main}>
@@ -350,14 +353,7 @@ export default function Page() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>{q}</dt>
-                    <dd className={t.faqA}>{a}</dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
 
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
@@ -366,8 +362,8 @@ export default function Page() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One iron curve, whatever unit each lab used.
+                <p className={t.ctaQuote}>
+                  One iron curve, <em>whatever unit each lab used.</em>
                 </p>
                 <p className={t.ctaText}>
                   Already have your bloodwork? Merios reads it next to your watch data, keeping iron, TIBC and
@@ -383,7 +379,7 @@ export default function Page() {
                   Transferrin saturation calculator →
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="compare" />
             </div>
 
             <p className={`${t.reference} ${t.sources}`}>
@@ -394,6 +390,8 @@ export default function Page() {
               your clinician.
             </p>
           </section>
+
+          <ToolRelated slug="iron-unit-converter" />
         </div>
       </main>
       <Footer />

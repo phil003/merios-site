@@ -137,7 +137,7 @@ export default function NeutrophilLymphocyteRatioCalculator() {
           {ok ? (
             <ResultBody>
               <ResultLabel>
-                <span>Neutrophil-to-lymphocyte ratio</span> — <Chip tone={ok.band.tone}>{ok.band.name}</Chip>
+                <span>Neutrophil-to-lymphocyte ratio</span> <Chip tone={ok.band.tone}>{ok.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>{ok.ratio.toFixed(2)}</div>
               {ok.absN !== null && ok.absL !== null && (

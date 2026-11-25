@@ -1,14 +1,16 @@
 "use client";
 
-// FaqAccordion — native <details>/<summary> accordion, v3 art direction.
+// FaqAccordion — native <details>/<summary> accordion, Open Sky (v2).
 //
 // - Zero JS for expand/collapse (native <details>): keyboard, find-in-page and
 //   a11y for free. Questions and answers are in the server HTML.
 // - Open/close animates the details' own content box (::details-content +
 //   interpolate-size, block-size 0 ↔ auto). Browsers without support simply
 //   snap open/closed; the answer still fades in via a keyframe on [open].
-// - White cards on fog, display question text, an ink disc carrying a lime
-//   "+" that turns into "−" when open.
+// - The topic filter is a glass segmented control (the chosen topic is a
+//   white pill). Each group is one glass panel of question rows split by
+//   hairlines, as on /pricing: a haze disc carries a "+" that turns into "−"
+//   (on ink) when the row is open.
 // - Filter pills re-render the group list keyed by the active filter; groups
 //   re-enter with a CSS keyframe stagger (40ms/group). The animation only
 //   plays after the first filter interaction so the initial HTML is fully
@@ -206,75 +208,74 @@ const styles = `
   interpolate-size: allow-keywords;
 }
 
-/* ── Filter pills ── */
+/* ── Filter: a glass segmented control ── */
 .faq-accordion .faq-filter {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: clamp(52px, 7vw, 96px);
+  gap: 4px;
+  max-width: 100%;
+  margin-bottom: clamp(48px, 6vw, 88px);
+  padding: 4px;
+  border-radius: 26px;
+  background: rgb(255 255 255 / 0.55);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
 }
 .faq-accordion .faq-pill {
   display: inline-flex;
   align-items: center;
   gap: 9px;
-  min-height: 40px;
-  padding: 0 16px 0 14px;
+  min-height: 44px;
+  padding: 0 18px 0 16px;
+  border: 0;
   border-radius: 999px;
-  border: 1px solid var(--color-grid);
-  background: #FFFFFF;
+  background: transparent;
   color: var(--color-ink-secondary);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
   line-height: 1;
-  text-transform: uppercase;
   cursor: pointer;
   transition:
     color var(--duration-quick) var(--ease-expo),
     background-color var(--duration-quick) var(--ease-expo),
-    border-color var(--duration-quick) var(--ease-expo),
-    transform var(--duration-quick) var(--ease-expo);
+    box-shadow var(--duration-quick) var(--ease-expo);
 }
 .faq-accordion .faq-pill-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   flex: none;
   border-radius: 999px;
-  background: var(--color-grid);
-  transition: background-color var(--duration-quick) var(--ease-expo), box-shadow var(--duration-quick) var(--ease-expo);
+  background: rgb(24 33 63 / 0.18);
+  transition: background-color var(--duration-quick) var(--ease-expo);
 }
 .faq-accordion .faq-pill:hover {
   color: var(--color-ink);
-  border-color: color-mix(in srgb, var(--color-ink) 38%, var(--color-grid));
-}
-.faq-accordion .faq-pill:hover .faq-pill-dot {
-  background: color-mix(in srgb, var(--color-ink) 45%, var(--color-grid));
+  background: rgb(255 255 255 / 0.6);
 }
 .faq-accordion .faq-pill[data-active="true"] {
-  color: #FFFFFF;
-  background: var(--color-ink);
-  border-color: var(--color-ink);
+  color: var(--color-ink);
+  background: #FFFFFF;
+  box-shadow: 0 8px 20px -12px rgb(36 48 110 / 0.5);
 }
 .faq-accordion .faq-pill[data-active="true"] .faq-pill-dot {
-  background: var(--color-lime);
-  box-shadow: 0 0 10px rgb(214 240 80 / 0.75);
+  background: var(--color-zenith);
 }
 .faq-accordion .faq-pill:focus-visible {
-  outline: 2px solid var(--color-ink);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-link);
+  outline-offset: 2px;
 }
 
-/* ── Groups: sticky title column + question cards ── */
+/* ── Groups: sticky title column + one glass panel of questions ── */
 .faq-accordion .faq-groups {
   display: flex;
   flex-direction: column;
-  gap: clamp(64px, 8vw, 112px);
+  gap: clamp(56px, 7vw, 104px);
 }
 .faq-accordion .faq-group {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 26px;
+  gap: 24px;
 }
 .faq-accordion .faq-group-head {
   display: grid;
@@ -282,29 +283,28 @@ const styles = `
   align-content: start;
 }
 .faq-accordion .faq-eyebrow {
-  color: var(--color-ink-tertiary);
+  color: var(--color-ink-secondary);
 }
 .faq-accordion .faq-group-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 1.35rem + 2vw, 3.1rem);
-  font-weight: 740;
-  line-height: 0.98;
+  font-size: clamp(30px, 3.4vw, 46px);
+  font-weight: 600;
+  line-height: 1;
   letter-spacing: -0.04em;
-  font-variation-settings: "opsz" 96;
   color: var(--color-ink);
   text-wrap: balance;
 }
 @media (min-width: 1024px) {
   .faq-accordion .faq-group {
     grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-    gap: 48px;
+    gap: 56px;
   }
   .faq-accordion .faq-group-head {
     position: sticky;
-    top: 116px;
+    top: 112px;
     align-self: start;
-    padding-top: 10px;
+    padding-top: 14px;
   }
 }
 
@@ -318,31 +318,27 @@ const styles = `
   animation: faqGroupIn 600ms var(--ease-expo) both;
 }
 
-/* ── Question cards ── */
+/* ── Question rows in a glass panel ── */
 .faq-accordion .faq-list {
-  display: grid;
-  gap: 10px;
   margin: 0;
   padding: 0;
+  list-style: none;
+  border-radius: 24px;
+  background: rgb(255 255 255 / 0.55);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
 }
 .faq-accordion .faq-item-row {
   list-style: none;
 }
-.faq-accordion .faq-item {
-  position: relative;
-  background: #FFFFFF;
-  border: 1px solid var(--color-grid);
-  border-radius: 22px;
-  transition:
-    border-color 400ms var(--ease-expo),
-    box-shadow 400ms var(--ease-expo);
+.faq-accordion .faq-item-row + .faq-item-row {
+  border-top: 1px solid rgb(24 33 63 / 0.08);
 }
-.faq-accordion .faq-item:hover {
-  border-color: color-mix(in srgb, var(--color-ink) 22%, var(--color-grid));
+.faq-accordion .faq-item {
+  border-radius: 22px;
+  transition: background-color 400ms var(--ease-expo);
 }
 .faq-accordion .faq-item[open] {
-  border-color: color-mix(in srgb, var(--color-ink) 18%, var(--color-grid));
-  box-shadow: 0 26px 50px -30px rgb(16 35 26 / 0.34);
+  background: rgb(255 255 255 / 0.72);
 }
 
 .faq-accordion .faq-summary {
@@ -350,17 +346,18 @@ const styles = `
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 20px 20px 20px 26px;
-  border-radius: 21px;
+  gap: 16px;
+  min-height: 64px;
+  padding: 16px 18px 16px 22px;
+  border-radius: 22px;
   cursor: pointer;
   user-select: none;
   color: var(--color-ink);
-  font-family: var(--font-display);
-  font-size: clamp(1.0625rem, 0.98rem + 0.36vw, 1.3rem);
-  font-weight: 650;
-  line-height: 1.25;
-  letter-spacing: -0.022em;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
   text-wrap: pretty;
 }
 .faq-accordion .faq-summary::-webkit-details-marker {
@@ -370,29 +367,30 @@ const styles = `
   content: "";
 }
 .faq-accordion .faq-summary:focus-visible {
-  outline: 2px solid var(--color-ink);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-link);
+  outline-offset: 2px;
 }
 .faq-accordion .faq-question {
   flex: 1 1 auto;
   min-width: 0;
 }
 
-/* Lime "+" in an ink disc; turns into "−" when open, inverts on hover */
+/* "+" in a haze disc; turns into "−" on an ink disc when open */
 .faq-accordion .faq-icon {
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
-  background: var(--color-ink);
-  color: var(--color-lime);
+  background: var(--color-haze);
+  color: var(--color-ink);
   transition:
     transform 500ms var(--ease-expo),
     background-color var(--duration-quick) var(--ease-expo),
-    color var(--duration-quick) var(--ease-expo);
+    color var(--duration-quick) var(--ease-expo),
+    box-shadow var(--duration-quick) var(--ease-expo);
 }
 .faq-accordion .faq-icon-v {
   transform-box: fill-box;
@@ -400,11 +398,14 @@ const styles = `
   transition: transform 500ms var(--ease-expo);
 }
 .faq-accordion .faq-summary:hover .faq-icon {
-  background: var(--color-lime);
-  color: var(--color-ink);
+  background: #FFFFFF;
+  box-shadow: 0 6px 14px -8px rgb(36 48 110 / 0.5);
 }
 .faq-accordion .faq-item[open] .faq-icon {
   transform: rotate(180deg);
+  background: var(--color-ink);
+  color: #FFFFFF;
+  box-shadow: none;
 }
 .faq-accordion .faq-item[open] .faq-icon-v {
   transform: scaleY(0);
@@ -423,9 +424,7 @@ const styles = `
 }
 
 .faq-accordion .faq-content > div {
-  margin: 0 26px;
-  padding: 18px 0 24px;
-  border-top: 1px solid var(--color-grid);
+  padding: 0 22px 22px;
 }
 @keyframes faqAnswerIn {
   from { opacity: 0; transform: translateY(-6px); }
@@ -435,7 +434,7 @@ const styles = `
   margin: 0;
   max-width: 64ch;
   font-family: var(--font-sans);
-  font-size: 1.0625rem;
+  font-size: 1rem;
   line-height: 1.65;
   letter-spacing: -0.005em;
   color: var(--color-ink-secondary);
@@ -452,16 +451,16 @@ const styles = `
   align-items: flex-start;
   gap: 18px;
   padding: clamp(28px, 4vw, 44px);
-  border-radius: 24px;
-  background: #FFFFFF;
-  border: 1px solid var(--color-grid);
+  border-radius: 28px;
+  background: rgb(255 255 255 / 0.55);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
 }
 .faq-accordion .faq-empty-title {
   margin: 0;
   max-width: 34ch;
   font-family: var(--font-display);
   font-size: clamp(1.45rem, 1.1rem + 1vw, 1.9rem);
-  font-weight: 740;
+  font-weight: 600;
   line-height: 1.05;
   letter-spacing: -0.035em;
   color: var(--color-ink);
@@ -477,22 +476,22 @@ const styles = `
 .faq-accordion .faq-clear-btn {
   cursor: pointer;
 }
+.faq-accordion .faq-clear-btn:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+}
 
 @media (max-width: 640px) {
+  .faq-accordion .faq-pill {
+    padding: 0 14px 0 12px;
+  }
   .faq-accordion .faq-summary {
     gap: 14px;
-    padding: 17px 14px 17px 18px;
-  }
-  .faq-accordion .faq-icon {
-    width: 32px;
-    height: 32px;
+    padding: 15px 14px 15px 18px;
+    font-size: 1rem;
   }
   .faq-accordion .faq-content > div {
-    margin: 0 18px;
-    padding: 16px 0 20px;
-  }
-  .faq-accordion .faq-answer {
-    font-size: 1rem;
+    padding: 0 18px 20px;
   }
 }
 

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import styles from "./contact.module.css";
 
 // ─── Inline SVG icons (currentColor, 20x20, stroke-width 1.5) ────────────────
 
@@ -84,6 +85,9 @@ function ClockIcon() {
 }
 
 // ─── Block ───────────────────────────────────────────────────────────────────
+// Open Sky: the direct channels sit on the page's one ink block (see
+// src/app/contact/page.tsx). Sky icons in glass discs, lavender eyebrows and
+// links, white addresses. Styles: ./contact.module.css.
 
 type BlockProps = {
   icon: ReactNode;
@@ -94,94 +98,34 @@ type BlockProps = {
 
 function Block({ icon, eyebrow, title, body }: BlockProps) {
   return (
-    <div
-      className="flex gap-4 border-b py-6 first:pt-0 last:border-b-0 last:pb-0"
-      style={{ borderColor: "var(--color-grid)" }}
-    >
-      <span
-        aria-hidden
-        className="mt-0.5 inline-flex h-10 w-10 flex-none items-center justify-center rounded-full"
-        style={{
-          background: "var(--color-ink)",
-          color: "var(--color-lime)",
-        }}
-      >
+    <div className={styles.block}>
+      <span aria-hidden className={styles.blockIcon}>
         {icon}
       </span>
-      <div className="flex min-w-0 flex-col gap-2">
-        <span
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: 11,
-            letterSpacing: "0.14em",
-            textTransform: "uppercase",
-            color: "var(--color-ink-tertiary)",
-            fontWeight: 500,
-            lineHeight: 1.2,
-          }}
-        >
-          {eyebrow}
-        </span>
-        <h2
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(1.25rem, 1.1rem + 0.45vw, 1.45rem)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.03em",
-            color: "var(--color-ink)",
-            fontWeight: 720,
-            overflowWrap: "anywhere",
-          }}
-        >
-          {title}
-        </h2>
-        <div
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "0.9375rem",
-            lineHeight: 1.55,
-            color: "var(--color-ink-secondary)",
-            letterSpacing: "-0.005em",
-          }}
-        >
-          {body}
-        </div>
+      <div className={styles.blockText}>
+        <span className={styles.blockEyebrow}>{eyebrow}</span>
+        <h2 className={styles.blockTitle}>{title}</h2>
+        <div className={styles.blockBody}>{body}</div>
       </div>
     </div>
   );
 }
 
-// Link + helper presentation shared by the three mail blocks.
-const LINK_CLASS =
-  "font-medium underline decoration-2 underline-offset-4 transition-colors duration-200 decoration-[color-mix(in_srgb,var(--color-lime-deep)_70%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-lime)_55%,transparent)] hover:decoration-[var(--color-ink)]";
-
-const HELPER_STYLE = {
-  fontFamily: "var(--font-mono)",
-  fontSize: 11,
-  letterSpacing: "0.08em",
-  lineHeight: 1.5,
-  color: "var(--color-ink-tertiary)",
-} as const;
-
 // ─── Info sidebar ────────────────────────────────────────────────────────────
 
 export default function ContactInfo() {
   return (
-    <aside aria-label="Direct channels" className="flex flex-col">
+    <aside aria-label="Direct channels" className={styles.channels}>
       <Block
         icon={<MailIcon />}
         eyebrow="Support"
         title="hello@merios.life"
         body={
           <>
-            <a
-              href="mailto:hello@merios.life"
-              style={{ color: "var(--color-ink)" }}
-              className={LINK_CLASS}
-            >
+            <a href="mailto:hello@merios.life" className={styles.inkLink}>
               Email our team directly
             </a>
-            <span className="mt-2 block" style={HELPER_STYLE}>
+            <span className={styles.helper}>
               General product & account questions.
             </span>
           </>
@@ -194,16 +138,10 @@ export default function ContactInfo() {
         title="press@merios.life"
         body={
           <>
-            <a
-              href="mailto:press@merios.life"
-              style={{ color: "var(--color-ink)" }}
-              className={LINK_CLASS}
-            >
+            <a href="mailto:press@merios.life" className={styles.inkLink}>
               Editorial & media inquiries
             </a>
-            <span className="mt-2 block" style={HELPER_STYLE}>
-              Press kit on request.
-            </span>
+            <span className={styles.helper}>Press kit on request.</span>
           </>
         }
       />
@@ -214,14 +152,10 @@ export default function ContactInfo() {
         title="partners@merios.life"
         body={
           <>
-            <a
-              href="mailto:partners@merios.life"
-              style={{ color: "var(--color-ink)" }}
-              className={LINK_CLASS}
-            >
+            <a href="mailto:partners@merios.life" className={styles.inkLink}>
               Clinical, lab & brand partnerships
             </a>
-            <span className="mt-2 block" style={HELPER_STYLE}>
+            <span className={styles.helper}>
               For labs, clinicians, and distribution.
             </span>
           </>
@@ -233,7 +167,7 @@ export default function ContactInfo() {
         eyebrow="Response time"
         title="Within 24 hours"
         body={
-          <span style={HELPER_STYLE}>
+          <span className={styles.helper}>
             Mon – Fri, CET. A human reads everything.
           </span>
         }

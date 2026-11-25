@@ -1,0 +1,310 @@
+/* ═══ Drawn article cover — Open Sky (Journal.dc.html, « couvertures dessinées »)
+   A soft dawn plate, ink type, Newsreader numbers, zenith / sky marks.
+
+   The cover is its own size container: every size below is "A px + B cqi",
+   tuned so it matches the mockup on a 310px card (kicker 11, unit 14, band 10,
+   pin 20) and on the 708px featured cover (kicker 12, unit 20, band 14,
+   pin 28), and scales smoothly in between and beyond. The big word scales in
+   proportion (size × 100cqi / 310). So one component fits the journal grid,
+   the featured card, the home page and the article hero alike. ═══ */
+
+.cv {
+  --cv-a: #e4e0f8;
+  --cv-b: #eef0fb;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  /* used only when the parent gives no height */
+  aspect-ratio: 16 / 10;
+  /* % padding resolves against the width: 16 / 18px on a 310px card */
+  padding: 5.2% 5.8% 5.8%;
+  overflow: hidden;
+  container-type: inline-size;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0) 60%),
+    linear-gradient(135deg, var(--cv-a) 0%, var(--cv-b) 100%);
+}
+/* The layout itself, doubled so it holds against a consumer's class on the
+   same element (e.g. a module rule setting display: block). */
+.cv.cv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* ─── Top row: subject (left), note (right) ─── */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  font-size: calc(10.22px + 0.2513cqi);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.kicker {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.note {
+  flex: none;
+  white-space: nowrap;
+}
+
+.body {
+  display: block;
+  min-width: 0;
+}
+
+/* ─── One: the marker / value and its unit ─── */
+.one {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px calc(8.44px + 0.5025cqi);
+}
+.big {
+  font-family: var(--font-serif);
+  font-size: calc(var(--cv-size, 64) * 0.32258cqi);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+}
+.unit {
+  font-size: calc(9.33px + 1.5075cqi);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-ink-secondary);
+}
+
+/* ─── Two: a comparison ─── */
+.two {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px calc(10.44px + 0.5025cqi);
+  font-family: var(--font-serif);
+  font-size: calc(var(--cv-size, 40) * 0.32258cqi);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+.sep {
+  font-family: var(--font-sans);
+  font-size: calc(10.44px + 0.5025cqi);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.sub {
+  display: block;
+  margin-top: calc(5.53px + 0.8cqi);
+  font-size: calc(9.1px + 1.256cqi);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink-secondary);
+}
+
+/* ─── Band: the range, with the article's value as a pin ─── */
+.band {
+  --band-h: calc(6.88px + 1.005cqi);
+  --pin: calc(13.77px + 2.01cqi);
+  position: relative;
+  display: block;
+  height: var(--band-h);
+  margin-top: calc(5.54px + 4.02cqi);
+}
+.track {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.55);
+}
+.seg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.pin {
+  position: absolute;
+  top: calc((var(--band-h) - var(--pin)) / 2);
+  width: var(--pin);
+  height: var(--pin);
+  margin-left: calc(var(--pin) / -2);
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: #ffffff;
+  border: calc(3.22px + 0.2513cqi) solid var(--color-ink);
+}
+.ticks {
+  position: relative;
+  display: block;
+  height: calc(12.66px + 0.7538cqi);
+  margin-top: calc(4.88px + 1.005cqi);
+  font-size: calc(9.44px + 0.5025cqi);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-ink-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.tick {
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+.tick[data-align="start"] {
+  transform: none;
+}
+.tick[data-align="end"] {
+  transform: translateX(-100%);
+}
+.tickStrong {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* ─── Curve (always marked "Illustration") ───
+   Two classes: wins over consumer rules such as `.figureCover svg`. */
+.cv .curve {
+  display: block;
+  width: 100%;
+  height: calc(18.17px + 11.558cqi);
+  margin-top: calc(5.33px + 1.5075cqi);
+  overflow: visible;
+}
+
+/* ─── Dots: a count ─── */
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(3.66px + 0.7538cqi);
+  max-width: calc(133.2px + 37.69cqi);
+  margin-top: calc(7.77px + 2.01cqi);
+}
+.dot {
+  width: calc(7.33px + 1.5075cqi);
+  height: calc(7.33px + 1.5075cqi);
+  border-radius: 50%;
+  background: var(--color-zenith, #6e8fe8);
+}
+.dot:nth-child(even) {
+  background: var(--color-sky, #a8c2f4);
+}
+
+/* ─── Rows: a lab-report extract or a short list ─── */
+.rows {
+  display: grid;
+  gap: calc(2.44px + 0.5025cqi);
+  margin-top: calc(5.33px + 1.5075cqi);
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: calc(2.44px + 0.5025cqi) calc(4.44px + 0.5025cqi) calc(2.44px + 0.5025cqi)
+    calc(6.88px + 1.005cqi);
+  border-radius: calc(6.88px + 1.005cqi);
+  background: rgb(255 255 255 / 0.7);
+  font-size: calc(8.88px + 1.005cqi);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.rowLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rowEnd {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: calc(6.44px + 0.5025cqi);
+}
+.rowValue {
+  font-family: var(--font-serif);
+  font-size: calc(10.1px + 1.256cqi);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.flag {
+  --flag: calc(13.33px + 1.5075cqi);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--flag);
+  height: var(--flag);
+  padding: 0 4px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  font-size: calc(7.66px + 0.7538cqi);
+  font-weight: 700;
+  background: #dce6fb;
+}
+.flag[data-tone="hl"] {
+  background: var(--color-peach, #fcd6c2);
+}
+.flag[data-tone="none"] {
+  background: transparent;
+}
+
+/* ─── Bars (always marked "Illustration") ─── */
+.bars {
+  display: grid;
+  gap: calc(4.88px + 1.005cqi);
+  margin-top: calc(7.77px + 2.01cqi);
+}
+.bar {
+  display: grid;
+  grid-template-columns: calc(55.96px + 9.045cqi) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  font-size: calc(8.88px + 1.005cqi);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.barTrack {
+  position: relative;
+  display: block;
+  height: calc(6.88px + 1.005cqi);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.6);
+}
+.barFill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 999px;
+}
+
+/* ─── Text-free plate (CoverBackdrop): the consumer sizes and places it ─── */
+.backdrop {
+  display: block;
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0) 60%),
+    linear-gradient(135deg, var(--cv-a, #e4e0f8) 0%, var(--cv-b, #eef0fb) 100%);
+}

@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import PhenoAgeCalculator from "@/components/calculators/PhenoAgeCalculator";
 import {
   BreadcrumbSchema,
   FAQPageSchema,
 } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 /**
@@ -44,6 +46,23 @@ const FAQ_ITEMS = [
     q: "Does Merios store my numbers?",
     a: "No. The calculator runs entirely in your browser. Your inputs never leave your device and are not sent to a server. Reload the page and the values are cleared.",
   },
+];
+
+// Every term of the Levine 2018 weighted sum, as PhenoAgeCalculator.tsx
+// computes it (US inputs converted first: albumin × 10, creatinine × 88.4,
+// glucose × 0.0555).
+const COEFFICIENTS: [string, string, string][] = [
+  ["Intercept", "−19.9067", ""],
+  ["Chronological age", "+0.0804", "years"],
+  ["Albumin", "−0.0336", "g/L"],
+  ["Creatinine", "+0.0095", "µmol/L"],
+  ["Glucose", "+0.1953", "mmol/L"],
+  ["ln(hs-CRP)", "+0.0954", "mg/L"],
+  ["Lymphocytes", "−0.0120", "%"],
+  ["MCV", "+0.0268", "fL"],
+  ["RDW", "+0.3306", "%"],
+  ["Alkaline phosphatase", "+0.0019", "U/L"],
+  ["White blood cells", "+0.0554", "1000 cells/µL"],
 ];
 
 export const metadata: Metadata = {
@@ -92,19 +111,66 @@ export default function PhenoAgeCalculatorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }}
       />
 
-      <PageHero
+      <ToolHero
+        slug="phenoage-calculator"
         eyebrow="PhenoAge — Levine 2018"
-        title="Calculate your biological age from a blood test."
+        title="Calculate your biological age"
+        em="from a blood test."
         subline="The peer-reviewed PhenoAge formula in a free, interactive calculator. Type 9 standard blood markers + your age — get your phenotypic age and the delta versus chronology."
-        align="left"
       />
 
       <main className={t.main}>
         <div className={t.wrap}>
           <PhenoAgeCalculator />
 
-          <section className={t.after}>
-            <div className={`editorial-prose ${t.prose}`}>
+          <section className={t.formulaSection} aria-labelledby="formula-title">
+            <div className={t.formulaIntro}>
+              <p className={t.eyebrow}>The formula</p>
+              <h2 id="formula-title" className={t.h2}>
+                Every coefficient, <em>on the page.</em>
+              </h2>
+              <p className={t.formulaText}>
+                A weighted sum of your markers gives a mortality score, which
+                converts back into years. The calculator first turns US units
+                into the ones the formula uses: albumin × 10, creatinine × 88.4,
+                glucose × 0.0555.
+              </p>
+              <p className={t.reference}>
+                Reference: Levine ME, Lu AT, Quach A, et al. <em>An epigenetic
+                biomarker of aging for lifespan and healthspan.</em> Aging
+                (Albany NY). 2018;10(4):573-591.
+                doi:10.18632/aging.101414
+              </p>
+            </div>
+            <div className={t.coefCard}>
+              <table className={t.coefTable}>
+                <caption>PhenoAge coefficients, Levine 2018</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Term</th>
+                    <th scope="col" className={t.coefWeight}>Weight</th>
+                    <th scope="col" className={t.coefUnit}>Unit used</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {COEFFICIENTS.map(([term, weight, unit]) => (
+                    <tr key={term}>
+                      <th scope="row">{term}</th>
+                      <td className={t.coefWeight}>{weight}</td>
+                      <td className={t.coefUnit}>{unit}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className={t.formulaPlate}>
+                <p>M = 1 − exp(−exp(xb) × (exp(120 × 0.0076927) − 1) ÷ 0.0076927)</p>
+                <p>PhenoAge = 141.50 + ln(−0.00553 × ln(1 − M)) ÷ 0.09165</p>
+              </div>
+            </div>
+          </section>
+
+          <section className={t.meaning}>
+            <div className={`editorial-prose ${t.prose} ${t.meaningText}`}>
               <h2>
                 What does the result mean?
               </h2>
@@ -119,37 +185,21 @@ export default function PhenoAgeCalculatorPage() {
               </p>
             </div>
 
-            <div className={t.faq} data-rv="">
+            <div className={t.meaningFaq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>
-                      {q}
-                    </dt>
-                    <dd className={t.faqA}>
-                      {a}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-
-              <p className={t.reference}>
-                Reference: Levine ME, Lu AT, Quach A, et al. <em>An epigenetic
-                biomarker of aging for lifespan and healthspan.</em> Aging
-                (Albany NY). 2018;10(4):573-591.
-                doi:10.18632/aging.101414
-              </p>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
+          </section>
 
+          <div>
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
               <div className={t.ctaCopy}>
                 <p className={`label ${t.ctaEyebrow}`}>
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One PhenoAge today is information. Twelve PhenoAges over a year is a trend.
+                <p className={t.ctaQuote}>
+                  One PhenoAge today is information. <em>Twelve PhenoAges over a year is a trend.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios reads your blood tests automatically, recalculates PhenoAge with each upload, and tracks the curve — so you can see if a protocol is actually moving the needle.
@@ -163,9 +213,11 @@ export default function PhenoAgeCalculatorPage() {
                   Read the primer →
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="bio-age" />
             </div>
-          </section>
+          </div>
+
+          <ToolRelated slug="phenoage-calculator" />
         </div>
       </main>
       <Footer />

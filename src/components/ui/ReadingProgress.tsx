@@ -4,12 +4,12 @@ import { useEffect, useRef } from "react";
 
 /**
  * Reading-progress bar. Fixed top of the viewport, scales with scroll.
- * Site v3: a lime bar with an olive underline (lime-deep) so it reads on the
- * night masthead (glow) and on the fog reading surface alike.
+ * Open Sky: a thin sky-to-zenith line, no glow — it reads on the dawn
+ * masthead and on the haze reading surface alike.
  *
- * Vanilla rAF-throttled scroll listener — replaces the previous motion/react
- * useScroll implementation so the blog route ships no animation runtime.
- * Hidden under prefers-reduced-motion via the `.reading-progress` CSS rule.
+ * Vanilla rAF-throttled scroll listener (the blog route ships no animation
+ * runtime). Hidden under prefers-reduced-motion via the `.reading-progress`
+ * CSS rule in globals.css.
  */
 export default function ReadingProgress() {
   const barRef = useRef<HTMLDivElement | null>(null);
@@ -50,9 +50,8 @@ export default function ReadingProgress() {
       aria-hidden
       className="reading-progress pointer-events-none fixed top-0 left-0 right-0 z-40 h-[3px]"
       style={{
-        background: "var(--color-lime)",
-        boxShadow:
-          "inset 0 -1px 0 var(--color-lime-deep), 0 0 12px rgb(214 240 80 / 0.55)",
+        background:
+          "linear-gradient(90deg, var(--color-sky, #A8C2F4) 0%, var(--color-zenith, #6E8FE8) 100%)",
       }}
     />
   );

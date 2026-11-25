@@ -108,6 +108,7 @@ export default function PhenoAgeCalculator() {
     const delta = phenoAge - a;
 
     return {
+      age: a,
       phenoAge: Math.round(phenoAge * 10) / 10,
       delta: Math.round(delta * 10) / 10,
       band: getBand(delta),
@@ -115,7 +116,7 @@ export default function PhenoAgeCalculator() {
   }, [age, albumin, creatinine, glucose, crp, lympho, mcv, rdw, alp, wbc]);
 
   return (
-    <Shell labelledBy="phenoage-calculator-title" layout="stack">
+    <Shell labelledBy="phenoage-calculator-title">
       <CalcHead>
         <Eyebrow>Free interactive tool — Levine 2018 method</Eyebrow>
         <CalcTitle id="phenoage-calculator-title">PhenoAge Biological Age Calculator</CalcTitle>
@@ -128,16 +129,16 @@ export default function PhenoAgeCalculator() {
 
       <CalcInputs>
         <Fields cols="panel">
-          <Field label="Chronological age" unit="years" placeholder="e.g. 35" value={age} onChange={setAge} inputId="phenoage-age" step="0.01" />
-          <Field label="Albumin" unit="g/dL" placeholder="e.g. 4.5" value={albumin} onChange={setAlbumin} inputId="phenoage-alb" step="0.01" />
-          <Field label="Creatinine" unit="mg/dL" placeholder="e.g. 0.9" value={creatinine} onChange={setCreatinine} inputId="phenoage-cr" step="0.01" />
-          <Field label="Glucose (fasting)" unit="mg/dL" placeholder="e.g. 90" value={glucose} onChange={setGlucose} inputId="phenoage-glu" step="0.01" />
-          <Field label="hs-CRP" unit="mg/L" placeholder="e.g. 0.8" value={crp} onChange={setCrp} inputId="phenoage-crp" step="0.01" />
-          <Field label="Lymphocytes" unit="%" placeholder="e.g. 30" value={lympho} onChange={setLympho} inputId="phenoage-ly" step="0.01" />
-          <Field label="MCV" unit="fL" placeholder="e.g. 90" value={mcv} onChange={setMcv} inputId="phenoage-mcv" step="0.01" />
-          <Field label="RDW" unit="%" placeholder="e.g. 13" value={rdw} onChange={setRdw} inputId="phenoage-rdw" step="0.01" />
-          <Field label="Alkaline phosphatase" unit="U/L" placeholder="e.g. 70" value={alp} onChange={setAlp} inputId="phenoage-alp" step="0.01" />
-          <Field label="WBC" unit="K/µL" placeholder="e.g. 5.5" value={wbc} onChange={setWbc} inputId="phenoage-wbc" step="0.01" />
+          <Field label="Chronological age" unit="years" placeholder="e.g. 35" value={age} onChange={setAge} inputId="phenoage-age" hint="Age" step="0.01" />
+          <Field label="Albumin" unit="g/dL" placeholder="e.g. 4.5" value={albumin} onChange={setAlbumin} inputId="phenoage-alb" hint="Liver" step="0.01" />
+          <Field label="Creatinine" unit="mg/dL" placeholder="e.g. 0.9" value={creatinine} onChange={setCreatinine} inputId="phenoage-cr" hint="Kidney" step="0.01" />
+          <Field label="Glucose (fasting)" unit="mg/dL" placeholder="e.g. 90" value={glucose} onChange={setGlucose} inputId="phenoage-glu" hint="Metabolism" step="0.01" />
+          <Field label="hs-CRP" unit="mg/L" placeholder="e.g. 0.8" value={crp} onChange={setCrp} inputId="phenoage-crp" hint="Inflammation" step="0.01" />
+          <Field label="Lymphocytes" unit="%" placeholder="e.g. 30" value={lympho} onChange={setLympho} inputId="phenoage-ly" hint="Immunity" step="0.01" />
+          <Field label="MCV" unit="fL" placeholder="e.g. 90" value={mcv} onChange={setMcv} inputId="phenoage-mcv" hint="Hematology" step="0.01" />
+          <Field label="RDW" unit="%" placeholder="e.g. 13" value={rdw} onChange={setRdw} inputId="phenoage-rdw" hint="Hematology" step="0.01" />
+          <Field label="Alkaline phosphatase" unit="U/L" placeholder="e.g. 70" value={alp} onChange={setAlp} inputId="phenoage-alp" hint="Liver" step="0.01" />
+          <Field label="WBC" unit="K/µL" placeholder="e.g. 5.5" value={wbc} onChange={setWbc} inputId="phenoage-wbc" hint="Immunity" step="0.01" />
         </Fields>
       </CalcInputs>
 
@@ -146,7 +147,7 @@ export default function PhenoAgeCalculator() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Your PhenoAge</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Your PhenoAge</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
 
               <div className={s.numbers}>
@@ -171,7 +172,10 @@ export default function PhenoAgeCalculator() {
                 </div>
               </div>
 
-              <RangeBar min={-10} max={10} value={result.delta} tone={result.band.tone} zones={ZONES} />
+              <AgeRuler age={result.age} phenoAge={result.phenoAge} tone={result.band.tone} />
+
+              <p aria-hidden className={s.barLabel}>Years vs your age</p>
+              <RangeBar min={-10} max={10} value={result.delta} tone={result.band.tone} zones={ZONES} marks={MARKS} />
 
               <p className={s.resultText}>
                 {result.band.description}
@@ -228,6 +232,54 @@ const ZONES: Zone[] = [
   { from: 1, to: 4, tone: "warn" },
   { from: 4, to: 10, tone: "bad" },
 ];
+
+const MARKS = [
+  { at: -10, label: "−10" },
+  { at: -3, label: "−3" },
+  { at: 1, label: "+1" },
+  { at: 4, label: "+4" },
+  { at: 10, label: "+10" },
+];
+
+/**
+ * Age and PhenoAge on one ruler, the gap between them filled (decorative:
+ * both numbers are spelled out above it).
+ */
+function AgeRuler({ age, phenoAge, tone }: { age: number; phenoAge: number; tone: Tone }) {
+  const lo = Math.min(age, phenoAge);
+  const hi = Math.max(age, phenoAge);
+  const min = Math.max(0, Math.floor((lo - 10) / 5) * 5);
+  let max = Math.ceil((hi + 10) / 5) * 5;
+  if (max - min < 30) max = min + 30;
+  const pos = (x: number) => Math.max(0, Math.min(100, ((x - min) / (max - min)) * 100));
+  const label = (x: number) => Math.max(8, Math.min(92, x));
+  const ageL = pos(age);
+  const paL = pos(phenoAge);
+  const ageText = String(Math.round(age * 10) / 10);
+  return (
+    <div aria-hidden>
+      <div className={s.ruler}>
+        <span
+          className={s.rulerGap}
+          data-tone={phenoAge <= age ? "ok" : tone}
+          style={{ left: `${Math.min(ageL, paL)}%`, width: `${Math.abs(ageL - paL)}%` }}
+        />
+        <span className={s.rulerDot} data-k="age" style={{ left: `${ageL}%` }} />
+        <span className={s.rulerDot} data-k="pa" style={{ left: `${paL}%` }} />
+        <span className={s.rulerLabel} data-k="age" style={{ left: `${label(ageL)}%` }}>
+          Age {ageText}
+        </span>
+        <span className={s.rulerLabel} data-k="pa" style={{ left: `${label(paL)}%` }}>
+          PhenoAge {phenoAge.toFixed(1)}
+        </span>
+      </div>
+      <div className={s.rulerScale}>
+        <span>{min}</span>
+        <span>{max} years</span>
+      </div>
+    </div>
+  );
+}
 
 function getBand(delta: number): { name: string; tone: Tone; description: string } {
   if (delta <= -3) {

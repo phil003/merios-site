@@ -1,13 +1,13 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    /compare index + the shared CompareCard (also used under every article).
-   v3: fog page, white cards with a pop "cover" (lime / lilac / sky / peach,
-   ink text — the homepage journal covers), mono labels, display titles.
-   Hover lift + shadow come from the global `.blog-card` rule.
+   Open Sky v2: haze page under the dawn masthead, white cards whose soft
+   dawn plate carries the subject ("vs {competitor}"), Figtree labels and
+   titles, one ink block (the "request a comparison" card) per page.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .wrap {
   width: 100%;
-  max-width: calc(1320px + 2 * var(--spacing-container));
+  max-width: calc(1312px + 2 * var(--spacing-container));
   margin-inline: auto;
   padding-inline: var(--spacing-container);
 }
@@ -18,33 +18,60 @@
   height: 100%;
   flex-direction: column;
   padding: 10px;
-  border-radius: 26px;
-  border: 1px solid var(--color-grid);
+  border-radius: 28px;
   background: #FFFFFF;
   color: var(--color-ink);
+  text-decoration: none;
+  box-shadow: 0 30px 70px -48px rgb(36 48 110 / 0.5);
+  transition:
+    transform 400ms var(--ease-expo),
+    box-shadow 400ms var(--ease-expo);
+}
+.card:hover,
+.card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 40px 90px -50px rgb(36 48 110 / 0.55);
+}
+.card:focus-visible {
+  outline: 2px solid var(--color-link, #3550A8);
+  outline-offset: 3px;
 }
 
 .cover {
   position: relative;
-  isolation: isolate;
   overflow: hidden;
   min-height: 156px;
   padding: 18px 20px 20px;
-  border-radius: 18px;
-  background-color: var(--color-lilac, #C9B8FF);
-  background-image: radial-gradient(120% 95% at 88% 0%, rgb(255 255 255 / 0.5) 0%, rgb(255 255 255 / 0) 58%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 0 0 1px rgb(16 35 26 / 0.05);
+  border-radius: 20px;
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0) 60%),
+    linear-gradient(135deg, #DCD8F6 0%, #ECEAFB 100%);
 }
-/* pop tones (fallbacks: Tailwind only emits theme variables it sees used) */
-.cover[data-tone="lime"] { background-color: var(--color-lime, #D6F050); }
-.cover[data-tone="lilac"] { background-color: var(--color-lilac, #C9B8FF); }
-.cover[data-tone="sky"] { background-color: var(--color-sky, #A9D4FF); }
-.cover[data-tone="peach"] { background-color: var(--color-peach, #FFB39A); }
+/* soft dawn plates (Open Sky inner plates) */
+.cover[data-tone="lime"] {
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0) 60%),
+    linear-gradient(135deg, #DCE5FA 0%, #F1F2FB 100%);
+}
+.cover[data-tone="lilac"] {
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0) 60%),
+    linear-gradient(135deg, #DCD8F6 0%, #ECEAFB 100%);
+}
+.cover[data-tone="sky"] {
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0) 60%),
+    linear-gradient(135deg, #D2DFFA 0%, #E9EEFB 100%);
+}
+.cover[data-tone="peach"] {
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0) 60%),
+    linear-gradient(135deg, #FCE3D6 0%, #F2EEF8 100%);
+}
 
 /* "vs {competitor}" — the card's eyebrow, set as the cover's headline */
 .vs {
   position: relative;
-  z-index: 1;
   display: flex;
   height: 100%;
   min-height: 118px;
@@ -54,43 +81,22 @@
   gap: 18px;
 }
 .vsWord {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
+  font-size: 0.6875rem;
+  font-weight: 700;
   line-height: 1;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgb(16 35 26 / 0.8);
+  color: var(--color-ink-secondary);
 }
 .vsName {
   max-width: 11em;
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 1.25rem + 0.9vw, 2.05rem);
-  font-weight: 760;
-  line-height: 0.95;
-  letter-spacing: -0.042em;
-  font-variation-settings: "opsz" 96;
+  font-size: clamp(1.75rem, 1.3rem + 1vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
   text-wrap: balance;
   color: var(--color-ink);
-}
-
-/* decorative heartbeat across the top of the cover */
-.coverArt {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: min(62%, 230px);
-  height: 64px;
-  pointer-events: none;
-  color: var(--color-ink);
-  /* the line rises out of the surface instead of starting abruptly */
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 46%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 46%);
-}
-.coverDot {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 500ms var(--ease-expo);
 }
 
 .body {
@@ -102,19 +108,18 @@
 .title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.28rem, 1.12rem + 0.45vw, 1.52rem);
-  font-weight: 720;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.25rem, 1.1rem + 0.4vw, 1.4375rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   text-wrap: balance;
   color: var(--color-ink);
 }
 .desc {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   font-family: var(--font-sans);
-  font-size: 0.95rem;
-  line-height: 1.56;
-  letter-spacing: -0.003em;
+  font-size: 0.9375rem;
+  line-height: 1.55;
   color: var(--color-ink-secondary);
   text-wrap: pretty;
 }
@@ -129,14 +134,14 @@
 .tags li {
   display: inline-flex;
   align-items: center;
-  padding: 6px 10px 5px;
+  height: 26px;
+  padding: 0 10px;
   border-radius: 999px;
-  border: 1px solid var(--color-grid);
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  font-weight: 500;
+  background: var(--color-haze, #EEF0FB);
+  font-size: 0.65625rem;
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-ink-secondary);
 }
@@ -151,13 +156,12 @@
   gap: 10px 16px;
   margin-top: 22px;
   padding-top: 14px;
-  border-top: 1px solid var(--color-grid);
+  border-top: 1px solid rgb(24 33 63 / 0.08);
 }
 .readTime {
   white-space: nowrap;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 500;
+  font-size: 0.6875rem;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-tertiary);
@@ -168,10 +172,9 @@
   gap: 10px;
   margin-left: auto;
   white-space: nowrap;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 650;
-  letter-spacing: -0.015em;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--color-ink);
 }
 .arrow {
@@ -181,27 +184,22 @@
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: var(--color-lime);
-  color: var(--color-ink);
+  background: var(--color-ink);
+  color: #FFFFFF;
   font-size: 0.95rem;
   line-height: 1;
-  box-shadow: inset 0 0 0 1px rgb(16 35 26 / 0.08);
   transition: transform 300ms var(--ease-expo);
 }
 .card:hover .arrow,
 .card:focus-visible .arrow {
   transform: translateX(4px);
 }
-.card:hover .coverDot,
-.card:focus-visible .coverDot {
-  transform: scale(1.35);
-}
 
 /* ─── Grid ─────────────────────────────────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(14px, 1.8vw, 22px);
+  gap: clamp(16px, 2vw, 24px);
 }
 @media (min-width: 768px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -211,8 +209,8 @@
 }
 .empty {
   margin: 0;
-  font-family: var(--font-mono);
   font-size: 0.75rem;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-tertiary);
@@ -220,7 +218,7 @@
 
 /* ─── Index page sections ──────────────────────────────────────────────── */
 .intro {
-  padding-top: clamp(64px, 8vw, 116px);
+  padding-top: clamp(56px, 7vw, 104px);
 }
 .introGrid {
   display: grid;
@@ -230,20 +228,19 @@
   margin: 0;
   max-width: 21em;
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 1.12rem + 1.5vw, 2.6rem);
-  font-weight: 640;
+  font-size: clamp(1.625rem, 1.15rem + 1.5vw, 2.5rem);
+  font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -0.034em;
+  letter-spacing: -0.035em;
   text-wrap: balance;
   color: var(--color-ink);
 }
 .introBody {
   margin: 0;
-  max-width: 31em;
+  max-width: 34em;
   font-family: var(--font-sans);
-  font-size: 1.06rem;
-  line-height: 1.62;
-  letter-spacing: -0.005em;
+  font-size: 1.125rem;
+  line-height: 1.55;
   color: var(--color-ink-secondary);
   text-wrap: pretty;
 }
@@ -256,11 +253,12 @@
 }
 
 .gridSection {
-  padding-block: clamp(44px, 5.5vw, 76px) clamp(84px, 9vw, 132px);
+  padding-block: clamp(40px, 5vw, 72px) clamp(72px, 8vw, 120px);
 }
 
+/* "Request a comparison" — the page's one ink block */
 .request {
-  padding-bottom: clamp(96px, 11vw, 168px);
+  padding-bottom: clamp(88px, 10vw, 152px);
 }
 .requestCard {
   position: relative;
@@ -268,55 +266,38 @@
   display: grid;
   gap: 30px;
   padding: clamp(28px, 4.2vw, 60px);
-  padding-bottom: clamp(88px, 9vw, 120px);
   border-radius: 32px;
-  border: 1px solid var(--color-grid);
-  background: #FFFFFF;
+  box-shadow: 0 40px 90px -50px rgb(24 33 63 / 0.6);
 }
 .requestLabel {
-  color: var(--color-ink-tertiary);
+  color: var(--color-lavender, #C9C0F6);
 }
 .requestTitle {
   margin: 20px 0 0;
   font-family: var(--font-display);
-  font-size: clamp(2.1rem, 1.2rem + 2.8vw, 3.6rem);
-  font-weight: 740;
-  line-height: 0.98;
-  letter-spacing: -0.042em;
-  font-variation-settings: "opsz" 96;
+  font-size: clamp(2.125rem, 1.3rem + 2.6vw, 3.75rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
   text-wrap: balance;
-  color: var(--color-ink);
+  color: #FFFFFF;
+}
+.requestTitle em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
 }
 .requestText {
   margin: 16px 0 0;
   max-width: 30em;
-  font-size: var(--text-body-l);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: var(--color-ink-secondary);
+  font-size: clamp(1.0625rem, 0.98rem + 0.3vw, 1.1875rem);
+  line-height: 1.55;
+  color: rgb(255 255 255 / 0.86);
   text-wrap: pretty;
 }
 .requestAction {
   justify-self: start;
-}
-.requestPulse {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 22px;
-  width: 100%;
-  height: 60px;
-  pointer-events: none;
-}
-.requestDot {
-  position: absolute;
-  left: calc(90% - 6px);
-  bottom: calc(22px + 30px - 6px);
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
 }
 @media (min-width: 900px) {
   .requestCard {
@@ -329,14 +310,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .arrow,
-  .coverDot {
+  .card,
+  .arrow {
     transition: none;
   }
+  .card:hover,
+  .card:focus-visible,
   .card:hover .arrow,
-  .card:focus-visible .arrow,
-  .card:hover .coverDot,
-  .card:focus-visible .coverDot {
+  .card:focus-visible .arrow {
     transform: none;
   }
 }

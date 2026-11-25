@@ -1,97 +1,55 @@
-import type { CSSProperties } from "react";
 import Link from "next/link";
-import ArticleMeta from "@/components/ui/ArticleMeta";
-import Reveal from "@/components/ui/Reveal";
 import ArticleCover from "./ArticleCover";
 import type { BlogCardData } from "./BlogCard";
-import { getBlogToneHex } from "./gradients";
+import { formatPostDate } from "./format";
 import styles from "./blog.module.css";
 
 interface FeaturedCardProps {
   post: BlogCardData;
 }
 
-function parseReadingMinutes(readTime: string): number {
-  const match = readTime.match(/\d+/);
-  return match ? parseInt(match[0], 10) : 5;
-}
-
 /**
- * Latest article, set large: inset cover on the left (wide variant on mobile,
- * tall crop-safe variant on desktop), display title + lead on the right.
+ * The latest article, set large (Open Sky): a glass card with the drawn cover
+ * at 16:9 on the left and the copy on the right; the two wrap into one column
+ * on narrow screens.
  */
 export default function FeaturedCard({ post }: FeaturedCardProps) {
-  const minutes = parseReadingMinutes(post.readTime);
-
   return (
-    <section
-      aria-label="Featured article"
-      className={`relative ${styles.featuredSection}`}
-      style={{ background: "var(--color-canvas)" }}
-    >
+    <section aria-label="Featured article" className={styles.featuredSection}>
       <div className={styles.container}>
-        <Reveal amount={0.15}>
-          {/* Mono eyebrow for the featured section */}
-          <div className={`label ${styles.eyebrow}`}>
-            <span aria-hidden className="label-dot label-dot--ink" />
-            <span>Latest dispatch</span>
-          </div>
-
-          <Link
-            href={`/blog/${post.slug}`}
-            className={`featured-card group ${styles.featured}`}
-          >
-            {/* Cover panel — wide variant while the card is stacked (exact
-                3:2 fit), tall crop-safe variant in the desktop column */}
-            <div className={styles.featuredCover}>
-              <div className={`absolute inset-0 ${styles.featuredArt}`}>
-                <ArticleCover
-                  post={post}
-                  className="block h-full w-full lg:hidden"
-                />
-                <ArticleCover
-                  post={post}
-                  variant="tall"
-                  className="absolute inset-0 hidden h-full w-full lg:block"
-                />
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className={styles.featuredBody}>
-              <div className={styles.tag}>
-                <span
-                  aria-hidden
-                  className={styles.tagDot}
-                  style={{ "--tone": getBlogToneHex(post.tag) } as CSSProperties}
-                />
-                <span>{post.tag}</span>
-              </div>
-
-              <h2 className={styles.featuredTitle}>{post.title}</h2>
-
-              <p className={styles.featuredDesc}>{post.description}</p>
-
-              <div className={styles.featuredMeta}>
-                <ArticleMeta
-                  date={post.date}
-                  readingTime={minutes}
-                  category={post.tag}
-                />
-              </div>
-
-              <span className={`btn btn-ink ${styles.featuredCta}`}>
-                Read article
-                <span
-                  aria-hidden
-                  className={`featured-card-arrow ${styles.featuredArrow}`}
-                >
-                  →
-                </span>
-              </span>
-            </div>
-          </Link>
-        </Reveal>
+        <Link href={`/blog/${post.slug}`} className={styles.featured}>
+          <span className={styles.featuredCover}>
+            <ArticleCover post={post} variant="feature" className={styles.featuredArt} />
+          </span>
+          <span className={styles.featuredBody}>
+            <span className={styles.featuredKicker}>
+              Latest dispatch · {post.tag} ·{" "}
+              <time dateTime={post.date}>{formatPostDate(post.date)}</time> ·{" "}
+              {post.readTime}
+            </span>
+            <h2 className={styles.featuredTitle}>{post.title}</h2>
+            <p className={styles.featuredDesc}>{post.description}</p>
+            <span className={styles.featuredCta}>
+              Read article
+              <svg
+                className={styles.featuredArrow}
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path d="M5 12h14" />
+                <path d="M13 6l6 6-6 6" />
+              </svg>
+            </span>
+          </span>
+        </Link>
       </div>
     </section>
   );

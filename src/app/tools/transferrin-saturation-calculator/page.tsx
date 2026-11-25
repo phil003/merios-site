@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import TSATCalculator from "@/components/calculators/TSATCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
@@ -81,11 +82,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="transferrin-saturation-calculator"
         eyebrow="Transferrin saturation — iron in transit"
-        title="TSAT calculator (transferrin saturation)"
+        title="TSAT calculator"
+        em="(transferrin saturation)"
         subline="TSAT (or T sat) is serum iron divided by TIBC, times 100. Enter what your panel actually printed — TIBC, UIBC or transferrin — and get your saturation. Iron and TIBC can be entered in µg/dL or µmol/L. Ferritin can look fine while this number does not."
-        align="left"
       />
 
       <main className={t.main}>
@@ -250,6 +252,8 @@ export default function Page() {
               </p>
             </div>
           </section>
+
+          <ToolRelated slug="transferrin-saturation-calculator" />
         </div>
       </main>
       <Footer />

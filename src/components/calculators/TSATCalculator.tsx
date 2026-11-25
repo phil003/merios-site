@@ -112,7 +112,7 @@ export default function TSATCalculator() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Transferrin saturation</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Transferrin saturation</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>{result.tsat}<span className={s.unitTight}>%</span></div>
               {mode !== "tibc" && (

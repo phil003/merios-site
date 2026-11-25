@@ -1,680 +1,879 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   /how-it-works — v3 presentation layer (site v3 "finally readable").
-   Night masthead with a three-station heartbeat → fog body with white cards →
-   a night "Understand" stage (four pillar rings around the score) → night
-   closing band with the heartbeat bent into a quarterly loop.
+   /how-it-works — v2 "Open Sky" (mockup: design/site-open-sky_2026-11-17/
+   HowItWorks.dc.html). Dawn masthead with the sunrise arc carrying the three
+   steps → sticky step list beside Connect (glass cards, drawn plates) ·
+   Understand (the white board: four rings, three trends) · Act (glass cards)
+   → the quarterly loop in the frame's one ink block.
    Content lives in the TSX; this file only dresses it.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .page {
   background: var(--color-canvas);
   color: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow-x: clip;
 }
 
+/* Same grid as the nav bar: 1312px + the fluid gutter */
 .container {
   width: 100%;
-  max-width: calc(1320px + 2 * var(--spacing-container));
+  max-width: calc(1312px + 2 * var(--spacing-container));
   margin-inline: auto;
   padding-inline: var(--spacing-container);
 }
 
-/* ─── Masthead (reuses the shared .v3-hero geometry) ───────────────────── */
+.page a:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+}
+
+/* The italic human word */
+.heroTitle em,
+.stepTitle em,
+.closingStatement em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Dawn masthead ─────────────────────────────────────────────────────── */
+.hero {
+  background: var(--dawn);
+  /* clears the floating nav (14px + 64px) before the mockup's own gap */
+  padding: calc(env(safe-area-inset-top, 0px) + 88px + clamp(40px, 6vw, 88px)) 0 24px;
+}
+.heroEyebrow {
+  display: flex;
+  margin-bottom: 20px;
+  color: var(--color-ink-secondary);
+}
 .heroTitle {
   margin: 0;
-  max-width: none;
-  font-size: clamp(2.55rem, 1.05rem + 4.5vw, 5.9rem);
-  line-height: 0.95;
-  color: var(--color-on-night);
+  max-width: 1000px;
+  font-family: var(--font-display);
+  font-size: clamp(44px, 6.4vw, 92px);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  color: var(--color-ink);
+  text-wrap: balance;
 }
 .heroSub {
-  margin: 0;
-  max-width: 36em;
-  font-size: var(--text-body-l);
+  margin: 24px 0 0;
+  max-width: 640px;
+  font-size: clamp(1.0625rem, 0.95rem + 0.45vw, 1.25rem);
   line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: var(--color-on-night-2);
+  color: var(--color-ink-secondary);
   text-wrap: pretty;
 }
 
-/* The horizon: the logo's heartbeat with the three steps as calm stations.
-   A clip-path wipe draws it left → right at parse time (decorative only). */
-.horizon {
-  clip-path: inset(-60% 100% -60% 0);
-  animation: horizonWipe 1.6s var(--ease-expo) 0.2s forwards;
+/* The sunrise arc. The curve stretches with the box (taller on phones); the
+   stations are HTML on points of the curve, so their labels stay readable. */
+.arc {
+  position: relative;
+  height: clamp(120px, 14.5vw, 190px);
+  margin-top: clamp(36px, 3vw, 44px);
 }
-.horizon svg {
-  display: block;
+.arcSvg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   overflow: visible;
+  animation: arcWipe 1100ms var(--ease-expo) 150ms both;
 }
-@keyframes horizonWipe {
-  to {
-    clip-path: inset(-60% -4% -60% 0);
+@keyframes arcWipe {
+  from {
+    clip-path: inset(-20% 100% -20% 0);
   }
+  to {
+    clip-path: inset(-20% -2% -20% 0);
+  }
+}
+.arcBase {
+  fill: none;
+  stroke: rgb(24 33 63 / 0.12);
+  stroke-width: 1;
+}
+.arcLine {
+  fill: none;
+  stroke: var(--color-zenith);
+  stroke-width: 2.5;
+  stroke-linecap: round;
 }
 .station {
   position: absolute;
-  top: 50%;
-  width: 13px;
-  height: 13px;
-  margin: -6.5px 0 0 -6.5px;
-  border-radius: 999px;
-  background: #0d1114;
-  border: 1.5px solid rgb(255 255 255 / 0.62);
-  box-shadow: 0 0 0 5px rgb(255 255 255 / 0.04);
+  box-sizing: border-box;
+  width: clamp(16px, 1.6vw, 22px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: #ffffff;
+  border: clamp(3px, 0.3vw, 4px) solid var(--color-zenith);
+  animation: stationIn 600ms var(--ease-expo) var(--station-d, 0.5s) both;
+}
+.station[data-step="2"] {
+  width: clamp(20px, 2vw, 28px);
+  border-color: var(--color-ink);
 }
 .station[data-step="3"] {
-  border-color: rgb(255 255 255 / 0.9);
+  border-color: var(--color-apricot);
 }
-.horizonDot {
+@keyframes stationIn {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+.stationLabel {
   position: absolute;
-  top: 50%;
-  left: 90.28%;
-  width: 12px;
-  height: 12px;
-  margin: -6px 0 0 -6px;
-  border-radius: 999px;
-  background: var(--color-lime);
-  box-shadow: 0 0 14px rgb(214 240 80 / 0.9);
-  animation: beat 2.4s var(--ease-smooth) 1.6s infinite;
-}
-@keyframes beat {
-  0%,
-  100% {
-    box-shadow: 0 0 10px rgb(214 240 80 / 0.7);
-    transform: scale(1);
-  }
-  12% {
-    box-shadow: 0 0 22px rgb(214 240 80 / 1);
-    transform: scale(1.35);
-  }
-  30% {
-    transform: scale(1);
-  }
+  left: 50%;
+  bottom: calc(100% + clamp(7px, 0.9vw, 12px));
+  translate: -50% 0;
+  white-space: nowrap;
+  font-size: clamp(12px, 0.35vw + 10.5px, 15px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-ink);
 }
 
-/* ─── Body grid with the lateral nav ───────────────────────────────────── */
+/* ─── Body: sticky step list + the three steps ──────────────────────────── */
 .body {
-  padding-top: clamp(24px, 4vw, 56px);
+  padding: clamp(40px, 5vw, 64px) 0 clamp(24px, 3vw, 40px);
 }
-@media (min-width: 1200px) {
+@media (min-width: 1080px) {
   .bodyGrid {
-    display: grid;
-    grid-template-columns: 210px minmax(0, 1fr);
-    column-gap: clamp(40px, 5vw, 80px);
+    display: flex;
+    align-items: flex-start;
+    gap: 72px;
   }
 }
+.steps {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .lateral {
   display: none;
 }
-@media (min-width: 1200px) {
+@media (min-width: 1080px) {
   .lateral {
     display: block;
+    flex: 0 0 200px;
     position: sticky;
-    top: 7rem;
-    align-self: start;
-    margin-top: clamp(68px, 8vw, 116px);
+    top: calc(env(safe-area-inset-top, 0px) + 112px);
   }
 }
-
-/* ─── Lateral nav ──────────────────────────────────────────────────────── */
 .navTitle {
-  margin: 0 0 16px;
-  padding-left: 4px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-ink-tertiary);
+  color: var(--color-ink-secondary);
 }
 .navList {
-  position: relative;
-  display: grid;
-  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.navList::before {
-  content: "";
-  position: absolute;
-  left: 18px;
-  top: 18px;
-  bottom: 18px;
-  width: 1px;
-  background: var(--color-grid);
-}
 .navLink {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 12px;
-  padding: 5px 16px 5px 4px;
-  border-radius: 999px;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 550;
-  letter-spacing: -0.01em;
+  padding: 10px 0 10px 16px;
+  border-left: 1.5px solid rgb(24 33 63 / 0.12);
+  font-size: 15px;
+  font-weight: 600;
   color: var(--color-ink-secondary);
   transition:
     color 300ms var(--ease-expo),
-    background-color 300ms var(--ease-expo),
-    box-shadow 300ms var(--ease-expo);
+    border-color 300ms var(--ease-expo);
 }
-.navLink:hover {
-  color: var(--color-ink);
-}
-.navNum {
-  position: relative;
-  z-index: 1;
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: 29px;
-  height: 29px;
-  border-radius: 999px;
-  border: 1px solid var(--color-grid);
-  background: var(--color-canvas);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-ink-tertiary);
-  transition:
-    background-color 300ms var(--ease-expo),
-    border-color 300ms var(--ease-expo),
-    color 300ms var(--ease-expo);
-}
+.navLink:hover,
 .navLink[aria-current="location"] {
   color: var(--color-ink);
-  background: #ffffff;
-  box-shadow:
-    0 0 0 1px var(--color-grid),
-    0 14px 30px -22px rgb(16 35 26 / 0.55);
+  border-left-color: var(--color-ink);
 }
-.navLink[aria-current="location"] .navNum {
-  background: var(--color-ink);
-  border-color: var(--color-ink);
-  color: var(--color-lime);
+.navNum {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 400;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-zenith);
 }
 
-/* ─── Step sections ────────────────────────────────────────────────────── */
+/* ─── Step sections ─────────────────────────────────────────────────────── */
 .step {
   position: relative;
-  padding-block: clamp(68px, 8vw, 116px);
 }
 .step + .step {
-  border-top: 1px solid var(--color-grid);
+  margin-top: clamp(72px, 9vw, 112px);
 }
 .stepHead {
   max-width: 760px;
 }
 .eyebrow {
-  color: var(--color-ink);
+  display: flex;
+  margin-bottom: 16px;
+  color: var(--color-ink-secondary);
 }
 .stepTitle {
-  margin: 22px 0 0;
+  margin: 0;
   font-family: var(--font-display);
-  font-size: var(--text-display-m);
-  font-weight: 740;
-  line-height: 0.98;
+  font-size: clamp(36px, 4.4vw, 60px);
+  font-weight: 600;
+  line-height: 1;
   letter-spacing: -0.04em;
-  font-variation-settings: "opsz" 96;
   color: var(--color-ink);
   text-wrap: balance;
 }
 .stepLead {
-  margin: 22px 0 0;
-  max-width: 34em;
-  font-family: var(--font-sans);
-  font-size: var(--text-body-l);
-  line-height: 1.5;
-  letter-spacing: -0.012em;
+  margin: 18px 0 0;
+  max-width: 640px;
+  font-size: 18px;
+  line-height: 1.55;
   color: var(--color-ink-secondary);
   text-wrap: pretty;
 }
 .stepBody {
-  margin-top: clamp(40px, 5vw, 72px);
+  margin-top: 36px;
 }
 
-/* ─── Cards (Connect + Act) ────────────────────────────────────────────── */
+/* ─── Glass cards (Connect + Act) ───────────────────────────────────────── */
 .cardGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
   gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-@media (min-width: 768px) {
-  .cardGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(14px, 1.6vw, 22px);
-  }
-}
-.cardItem {
-  list-style: none;
-  min-width: 0;
-}
-.cardReveal {
-  height: 100%;
-}
 .card {
-  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  padding: clamp(22px, 2.2vw, 30px);
-  border-radius: 26px;
-  background: #ffffff;
-  border: 1px solid var(--color-grid);
-  transition:
-    transform 400ms var(--ease-expo),
-    box-shadow 400ms var(--ease-expo),
-    border-color 400ms var(--ease-expo);
+  min-width: 0;
+  padding: 12px 12px 26px;
+  border-radius: 28px;
+  background: rgb(255 255 255 / 0.55);
+  border: 1.5px solid rgb(255 255 255 / 0.85);
 }
-.card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--color-ink) 18%, var(--color-grid));
-  box-shadow: 0 26px 50px -24px rgb(16 35 26 / 0.4);
-}
-
-/* Pictogram tiles: pop surfaces with ink line-art */
-.tile {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: 60px;
-  height: 60px;
-  border-radius: 18px;
-  color: var(--color-ink);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.55);
-  --picto-accent: var(--color-ink);
-}
-.tile svg {
-  width: 38px;
-  height: 38px;
-}
-.tilePeach {
-  background: var(--color-peach);
-}
-.tileSky {
-  background: var(--color-sky);
-}
-.tileLilac {
-  background: var(--color-lilac);
-}
-.tileInk {
-  background: var(--color-ink);
-  color: #ffffff;
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18);
-  --picto-accent: var(--color-lime);
-}
-
 .meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 26px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 500;
+  margin: 18px 12px 0;
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-ink-tertiary);
-}
-.meta::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  flex: none;
-  border-radius: 999px;
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.55);
+  color: var(--color-ink-secondary);
 }
 .cardTitle {
-  margin: 12px 0 0;
+  margin: 8px 12px 0;
   font-family: var(--font-display);
-  font-size: clamp(1.32rem, 1.1rem + 0.6vw, 1.6rem);
-  font-weight: 720;
-  line-height: 1.06;
-  letter-spacing: -0.03em;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   color: var(--color-ink);
   text-wrap: balance;
 }
 .cardCopy {
-  margin: 12px 0 0;
-  font-family: var(--font-sans);
-  font-size: 0.98rem;
-  line-height: 1.58;
+  margin: 8px 12px 0;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--color-ink-secondary);
   text-wrap: pretty;
 }
-
-/* Mini visual at the foot of each Connect card (decorative) */
-.viz {
-  margin-top: auto;
-  padding-top: 26px;
-}
-.vizFrame {
-  display: block;
-  width: 100%;
-  height: 62px;
-  border-radius: 14px;
-  background: color-mix(in srgb, var(--color-canvas) 70%, #ffffff);
-  border: 1px solid var(--color-grid);
-  overflow: hidden;
-}
-.vizFrame svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* Act card head: tile + lift */
 .actHead {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  align-items: baseline;
+  gap: 12px;
+  margin: 18px 12px 0;
 }
-.lift {
+.actHead .cardTitle {
+  margin: 0;
+}
+.actIndex {
+  flex: none;
   font-family: var(--font-serif);
-  font-size: clamp(2.2rem, 1.7rem + 1.4vw, 3rem);
-  font-weight: 500;
+  font-size: 22px;
   line-height: 1;
-  letter-spacing: -0.03em;
-  font-variant-numeric: lining-nums tabular-nums;
-  color: var(--color-ink);
-  padding: 0 0.1em;
-  background: linear-gradient(
-    176deg,
-    transparent 0 54%,
-    var(--color-lime) 54% 90%,
-    transparent 90%
-  );
-}
-.actBody {
-  margin: 26px 0 22px;
+  color: var(--color-zenith);
 }
 .followup {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: auto;
-  padding-top: 18px;
-  border-top: 1px solid var(--color-grid);
-}
-.followupIcon {
-  display: inline-flex;
-  color: var(--color-ink-tertiary);
-}
-.followupText {
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-ink-tertiary);
+  margin: auto 12px 0;
+  padding-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
 }
 
-/* ─── Understand: the night stage ──────────────────────────────────────── */
-.stage {
-  --hiw-blood: var(--color-lime);
-  --hiw-activity: color-mix(in srgb, var(--color-activity) 78%, #ffffff);
-  --hiw-recovery: color-mix(in srgb, var(--color-recovery) 74%, #ffffff);
-  --hiw-zen: color-mix(in srgb, var(--color-zen) 64%, #ffffff);
-  margin-top: clamp(40px, 5vw, 72px);
-  border-radius: 32px;
-  overflow: hidden;
-  box-shadow: 0 50px 90px -50px rgb(9 12 14 / 0.75);
+/* ─── Plates: the drawn illustration at the head of each card ───────────── */
+.plate {
+  box-sizing: border-box;
+  min-height: 168px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  color: var(--color-ink);
 }
-.stageGrid {
-  position: relative;
+.plateShort {
+  min-height: 150px;
+}
+.platePeach {
+  background: linear-gradient(135deg, #FCE3D6 0%, #F2EEF8 100%);
+}
+.plateSky {
+  background: linear-gradient(135deg, #D9E4FA 0%, #EEF0FB 100%);
+}
+.plateLilac {
+  background: linear-gradient(135deg, #E3DEF8 0%, #EEF0FB 100%);
+}
+.plateDawn {
+  background: linear-gradient(135deg, #FBDCCB 0%, #EFE9F8 100%);
+}
+.plateHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+
+/* Apple Health: four streams */
+.streams {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  gap: 10px;
+}
+.stream {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
   align-items: center;
-  gap: 36px;
-  padding: clamp(28px, 4vw, 56px) clamp(22px, 3.6vw, 56px);
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
 }
-@media (min-width: 768px) {
-  .stageGrid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-    gap: clamp(28px, 4vw, 64px);
-  }
-}
-.ringBox {
-  position: relative;
-  width: min(100%, 320px);
-  aspect-ratio: 1;
-  margin-inline: auto;
-}
-@media (min-width: 1024px) {
-  .ringBox {
-    width: min(100%, 370px);
-  }
-}
-.ringSvg {
-  position: absolute;
-  inset: 0;
+.stream svg {
+  display: block;
   width: 100%;
-  height: 100%;
+  height: 20px;
   overflow: visible;
 }
-.ringTrack {
+.streamLine {
   fill: none;
-  stroke: rgb(255 255 255 / 0.07);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.ringArc {
+.streamLine[data-tone="activity"] {
+  stroke: var(--color-activity);
+}
+.streamLine[data-tone="zen"] {
+  stroke: var(--color-zen);
+}
+.streamLine[data-tone="recovery"] {
+  stroke: var(--color-recovery);
+}
+.streamLine[data-tone="ink"] {
+  stroke: var(--color-ink);
+  stroke-opacity: 0.6;
+}
+
+/* Labs OCR: three values read off a report */
+.ocr {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+}
+.ocrRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 10px;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.8);
+  font-size: 12px;
+  font-weight: 600;
+}
+.ocrRead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ocrValue {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.ocrTag {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: #DCE6FB;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-link);
+}
+
+/* Manual entry: a marker, a value, a unit */
+.manual {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+}
+.fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 64px 64px;
+  gap: 6px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.fieldValue {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-ink);
+}
+.fieldNumber {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 400;
+}
+.addPill {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Act 01: a marker before and after */
+.trend {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+.trendRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+}
+.reading {
+  display: flex;
+  flex-direction: column;
+}
+.reading[data-when="after"] {
+  align-items: flex-end;
+}
+.readingValue {
+  font-family: var(--font-serif);
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 0.9;
+  font-variant-numeric: lining-nums;
+}
+.reading[data-when="before"] .readingValue {
+  color: rgb(24 33 63 / 0.55);
+}
+.readingDate {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--color-ink-secondary);
+}
+.trendSvg {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 40px;
+  overflow: visible;
+}
+.trendLine {
   fill: none;
+  stroke: var(--color-zenith);
+  stroke-width: 2.5;
+  stroke-dasharray: 4 5;
   stroke-linecap: round;
 }
-.scoreBox {
-  position: absolute;
-  inset: 0;
+
+/* Act 02: a line of the monthly report */
+.report {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+}
+.reportText {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--color-ink);
+}
+.skeleton {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: rgb(24 33 63 / 0.1);
+}
+
+/* Act 03: the next test */
+.nextTest {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nextTile {
+  flex: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 76px;
+  height: 84px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 14px 30px -18px rgb(36 48 110 / 0.5);
 }
-.score {
-  font-family: var(--font-serif);
-  font-size: clamp(3.1rem, 2.3rem + 2.4vw, 4.6rem);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.035em;
-  font-variant-numeric: lining-nums tabular-nums;
-  color: var(--color-on-night);
-}
-.scoreLabel {
-  margin-top: 6px;
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+.nextKicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-on-night-2);
+  color: var(--color-apricot);
 }
-.lines {
+.nextWord {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1;
+}
+.nextSteps {
   display: grid;
-  gap: 22px;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ─── Step 02 · Understand: the white board ─────────────────────────────── */
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px 48px;
+  padding: clamp(22px, 3vw, 40px);
+  border-radius: 32px;
+  background: #ffffff;
+  box-shadow: 0 40px 90px -50px rgb(36 48 110 / 0.55);
+}
+.rings {
+  flex: 1 1 360px;
+  min-width: 0;
+  container-type: inline-size;
+}
+.ringsHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.ringGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+  text-align: center;
+}
+@container (max-width: 380px) {
+  .ringGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 20px;
+  }
+}
+.ring svg {
+  display: block;
+  width: 100%;
+  max-width: 96px;
+  height: auto;
+  margin: 0 auto;
+  overflow: visible;
+}
+.ringTrack {
+  fill: none;
+  stroke: var(--color-haze);
+  stroke-width: 8;
+}
+.ringArc {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+.ringArc[data-tone="activity"] {
+  stroke: var(--color-activity);
+}
+.ringArc[data-tone="recovery"] {
+  stroke: var(--color-recovery);
+}
+.ringArc[data-tone="zen"] {
+  stroke: var(--color-zen);
+}
+.ringValue {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  fill: var(--color-ink);
+}
+.ringPending {
+  fill: none;
+  stroke: var(--color-sky);
+  stroke-width: 3;
+  stroke-dasharray: 4 6;
+}
+.ringWith {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--color-ink-secondary);
+}
+.ringName {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.lines {
+  flex: 1 1 340px;
+  min-width: 0;
+  display: grid;
+  gap: 14px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 .line {
   display: grid;
-  grid-template-columns: 104px minmax(0, 1fr);
+  grid-template-columns: 92px minmax(0, 1fr);
   align-items: center;
-  gap: 18px;
-  padding-bottom: 22px;
-  border-bottom: 1px solid var(--color-line-night);
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: #F4F5FC;
 }
 .spark {
   display: block;
-  width: 104px;
-  height: 40px;
+  width: 92px;
+  height: 38px;
   overflow: visible;
 }
+.sparkLine {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sparkLine[data-tone="activity"] {
+  stroke: var(--color-activity);
+}
+.sparkLine[data-tone="recovery"] {
+  stroke: var(--color-recovery);
+}
+.sparkLine[data-tone="zen"] {
+  stroke: var(--color-zen);
+}
 .lineText {
-  font-family: var(--font-display);
-  font-size: clamp(1.12rem, 0.98rem + 0.5vw, 1.4rem);
-  font-weight: 620;
-  line-height: 1.22;
-  letter-spacing: -0.022em;
-  color: var(--color-on-night);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-ink);
   text-wrap: balance;
 }
 .note {
-  margin: 24px 0 0;
-  max-width: 30em;
-  font-family: var(--font-sans);
-  font-size: 0.98rem;
+  flex: 1 1 100%;
+  max-width: 64ch;
+  margin: 0;
+  font-size: 15px;
   line-height: 1.6;
-  color: var(--color-on-night-2);
+  color: var(--color-ink-secondary);
   text-wrap: pretty;
 }
-.stageGlow {
-  position: absolute;
-  z-index: -1;
-  left: -10%;
-  top: -30%;
-  width: 70%;
-  height: 120%;
-  pointer-events: none;
-  background: radial-gradient(closest-side, rgb(214 240 80 / 0.1), transparent 70%);
-}
-@media (max-width: 767px) {
+@media (max-width: 480px) {
   .line {
-    grid-template-columns: 76px minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px 14px;
   }
   .spark {
-    width: 76px;
-    height: 32px;
+    width: 64px;
+    height: 27px;
   }
 }
 
-/* ─── Closing band: the quarterly loop ─────────────────────────────────── */
+/* ─── Closing: the quarterly loop, the frame's one ink block ────────────── */
 .closing {
-  overflow: hidden;
-  padding-block: clamp(96px, 12vw, 168px);
-  border-bottom: 1px solid var(--color-line-night);
+  padding: clamp(48px, 6vw, 72px) 0 clamp(72px, 9vw, 104px);
 }
-.closingGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
+.loopBlock {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: clamp(36px, 5vw, 72px);
+  justify-content: space-between;
+  gap: 36px 64px;
+  padding: clamp(28px, 5vw, 64px);
+  border-radius: 28px;
 }
-@media (min-width: 1024px) {
-  .closingGrid {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  }
+.loopBlock a:focus-visible {
+  outline-color: #ffffff;
 }
-.closingCopy {
-  display: grid;
-  justify-items: start;
-  gap: 34px;
+.loopCopy {
+  flex: 1 1 420px;
+  min-width: 0;
+  max-width: 640px;
 }
 .closingStatement {
   margin: 0;
-  max-width: 15em;
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 1.2rem + 3.3vw, 4.4rem);
-  font-weight: 760;
-  line-height: 0.98;
-  letter-spacing: -0.042em;
-  font-variation-settings: "opsz" 96;
-  color: var(--color-on-night);
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  color: #ffffff;
   text-wrap: balance;
 }
 .closingActions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 12px;
+  margin-top: 28px;
 }
 .faqLink {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding-bottom: 3px;
-  font-family: var(--font-sans);
-  font-size: 0.98rem;
-  font-weight: 550;
-  color: var(--color-on-night-2);
-  border-bottom: 1.5px solid var(--color-line-night);
-  transition:
-    color 250ms var(--ease-smooth),
-    border-color 250ms var(--ease-smooth);
+  margin-top: 18px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-lavender);
+  transition: color 200ms var(--ease-smooth);
 }
 .faqLink:hover {
-  color: var(--color-on-night);
-  border-color: var(--color-lime);
+  color: #ffffff;
 }
-.loop {
-  position: relative;
-  width: min(100%, 460px);
-  aspect-ratio: 1;
-  margin-inline: auto;
-}
-.loop svg {
+.loopSvg {
   display: block;
-  width: 100%;
-  height: 100%;
+  flex: 0 0 220px;
+  width: 220px;
+  height: 220px;
   overflow: visible;
 }
-.loopComet {
+.loopTrack {
   fill: none;
-  stroke: #f3ffc2;
+  stroke: rgb(255 255 255 / 0.18);
+  stroke-width: 2;
+}
+.loopArc {
+  fill: none;
+  stroke: var(--color-sky);
   stroke-width: 3;
   stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 46 954;
-  stroke-dashoffset: 1000;
-  filter: drop-shadow(0 0 6px rgb(214 240 80 / 0.9));
-  animation: loopRun 7s linear infinite;
 }
-@keyframes loopRun {
-  to {
-    stroke-dashoffset: 0;
-  }
+.loopStation {
+  fill: var(--color-ink);
+  stroke-width: 3;
 }
-.loopDot {
-  fill: var(--color-lime);
-  filter: drop-shadow(0 0 10px rgb(214 240 80 / 0.95));
+.loopStation[data-step="1"] {
+  stroke: var(--color-sky);
 }
-@media (max-width: 1023px) {
-  .loop {
-    width: min(62vw, 300px);
-    order: -1;
-    margin-inline: 0;
-  }
+.loopStation[data-step="2"] {
+  stroke: var(--color-lavender);
+}
+.loopStation[data-step="3"] {
+  stroke: var(--color-apricot);
+}
+.loopLabel {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  fill: #ffffff;
+}
+.loopQ {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  fill: #ffffff;
+}
+.loopEvery {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  fill: rgb(255 255 255 / 0.7);
 }
 
-/* ─── Reduced motion: everything static and fully drawn ────────────────── */
+/* ─── Draw-ins, armed only when the global reveal is (html[data-anim]) ──── */
+/* Rings, trend lines and the loop paint fully drawn (--off, set per element).
+   With the reveal armed they start empty and draw once their block gets
+   .rv-in. Reduced motion and no-JS never set data-anim: drawn from the start. */
+.ringArc,
+.sparkLine,
+.loopArc {
+  stroke-dashoffset: var(--off, 0);
+}
+html[data-anim] .ringArc,
+html[data-anim] .sparkLine,
+html[data-anim] .loopArc {
+  stroke-dashoffset: 102;
+  transition: stroke-dashoffset 1100ms var(--ease-expo) var(--rv-delay, 0s);
+}
+html[data-anim] .rings:global(.rv-in) .ringArc,
+html[data-anim] .line:global(.rv-in) .sparkLine,
+html[data-anim] .loopBlock:global(.rv-in) .loopArc {
+  stroke-dashoffset: var(--off, 0);
+}
+
+/* ─── Reduced motion: everything static and fully drawn ─────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .horizon {
-    clip-path: none;
+  .arcSvg,
+  .station {
     animation: none;
   }
-  .horizonDot {
-    animation: none;
-  }
-  .card,
   .navLink,
-  .navNum,
   .faqLink {
     transition: none;
-  }
-  .card:hover {
-    transform: none;
-  }
-  .loopComet {
-    animation: none;
-    display: none;
   }
 }

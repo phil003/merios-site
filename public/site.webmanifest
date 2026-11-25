@@ -4,8 +4,8 @@
   "description": "Track 160+ biomarkers, calculate your biological age, and get a personalized health score.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F7F5EF",
-  "theme_color": "#1E3D2A",
+  "background_color": "#EEF0FB",
+  "theme_color": "#18213F",
   "icons": [
     {
       "src": "/favicon-192.png",

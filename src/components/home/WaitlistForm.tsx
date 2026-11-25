@@ -72,12 +72,12 @@ export default function WaitlistForm() {
         : "";
 
   return (
-    <div className="hv3-wait">
-      <p className="hv3-wait__lead">
+    <div className="hv2-wait">
+      <p className="hv2-wait__lead">
         Outside the US? We&rsquo;re rolling out worldwide — leave your email
         and we&rsquo;ll write once, when Merios reaches your country.
       </p>
-      <form className="hv3-wait__form" onSubmit={handleSubmit} noValidate>
+      <form className="hv2-wait__form" onSubmit={handleSubmit} noValidate>
         <label className="sr-only" htmlFor="waitlist-email">
           Email address
         </label>
@@ -95,7 +95,7 @@ export default function WaitlistForm() {
             if (status === "invalid" || status === "error") setStatus("idle");
           }}
         />
-        <button className="btn btn-lime" type="submit" disabled={locked || status === "loading"}>
+        <button className="btn btn-ghost" type="submit" disabled={locked || status === "loading"}>
           {status === "loading"
             ? "Sending"
             : status === "success"
@@ -106,7 +106,7 @@ export default function WaitlistForm() {
         </button>
       </form>
       <p
-        className={`hv3-wait__msg ${tone}`}
+        className={`hv2-wait__msg ${tone}`}
         role={status === "error" || status === "invalid" ? "alert" : undefined}
         aria-live="polite"
       >

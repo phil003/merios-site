@@ -57,7 +57,7 @@ const privacyLd = {
 const H2_STYLE: React.CSSProperties = {
   fontFamily: "var(--font-display)",
   fontSize: "clamp(1.65rem, 1.2rem + 1.3vw, 2.3rem)",
-  fontWeight: 740,
+  fontWeight: 600,
   lineHeight: 1.04,
   letterSpacing: "-0.035em",
   color: "var(--color-ink)",

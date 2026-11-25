@@ -1,7 +1,7 @@
 import CompareCard from "@/components/compare/CompareCard";
 import Reveal from "@/components/ui/Reveal";
 import type { ComparePost } from "@/lib/compare";
-import styles from "./compareArticle.module.css";
+import a from "@/components/blog-article/article.module.css";
 
 interface RelatedComparisonsProps {
   posts: ComparePost[];
@@ -9,7 +9,8 @@ interface RelatedComparisonsProps {
 
 /**
  * "More comparisons" — up to 3 related compare posts rendered with the shared
- * CompareCard. Rendered below the article, before the final CTA.
+ * CompareCard, under the article template's "keep reading" head. Rendered
+ * below the article, before the final CTA.
  */
 export default function RelatedComparisons({
   posts,
@@ -17,19 +18,21 @@ export default function RelatedComparisons({
   if (posts.length === 0) return null;
 
   return (
-    <section className={styles.related}>
-      <div className={styles.wrap}>
+    <section className={a.related} aria-labelledby="related-compare-title">
+      <div className={a.container}>
         <Reveal>
-          <div className={styles.sectionHead}>
-            <div className={`label ${styles.sectionLabel}`}>
-              <span aria-hidden className="label-dot label-dot--ink" />
+          <div className={a.relatedHead}>
+            <div className={`label ${a.relatedLabel}`}>
+              <span aria-hidden className="label-dot" />
               <span>More comparisons</span>
             </div>
-            <h2 className={styles.sectionTitle}>Keep exploring</h2>
+            <h2 id="related-compare-title" className={a.relatedTitle}>
+              Keep exploring
+            </h2>
           </div>
         </Reveal>
 
-        <div className={styles.relatedGrid}>
+        <div className={a.relatedGrid}>
           {posts.map((post, i) => (
             <CompareCard key={post.slug} post={post} index={i} />
           ))}

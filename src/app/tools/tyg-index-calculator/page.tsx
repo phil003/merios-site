@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import TyGIndexCalculator from "@/components/calculators/TyGIndexCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
@@ -86,11 +88,12 @@ export default function TyGCalculatorPage() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="tyg-index-calculator"
         eyebrow="Triglyceride-glucose index — insulin resistance"
-        title="TyG index calculator"
+        title="TyG index"
+        em="calculator"
         subline="Check your insulin resistance without a fasting insulin test. The triglyceride glucose index runs on two numbers already sitting on your standard panel — in mg/dL or mmol/L, no separate insulin draw required."
-        align="left"
       />
 
       <main className={t.main}>
@@ -247,18 +250,7 @@ export default function TyGCalculatorPage() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>
-                      {q}
-                    </dt>
-                    <dd className={t.faqA}>
-                      {a}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
 
               <p className={t.reference}>
                 References: Simental-Mendia LE, Rodriguez-Moran M, Guerrero-Romero F.{" "}
@@ -284,8 +276,8 @@ export default function TyGCalculatorPage() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One TyG index is a dot. Six are a direction.
+                <p className={t.ctaQuote}>
+                  One TyG index is a dot. <em>Six are a direction.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios recomputes the TyG index from every panel you upload and plots the curve next to your
@@ -301,9 +293,11 @@ export default function TyGCalculatorPage() {
                   Read the primer →
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="blood-panel" />
             </div>
           </section>
+
+          <ToolRelated slug="tyg-index-calculator" />
         </div>
       </main>
       <Footer />

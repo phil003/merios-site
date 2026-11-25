@@ -1,170 +1,157 @@
-import Image from "next/image";
-import type { CSSProperties } from "react";
-
-/* "Then your blood joins in": a runner photo with three readings, and an
-   example chart where weekly resting heart rate and three ferritin reports
-   share one timeline. A pattern, never a cause. */
+/* "Then your blood joins in" (Home2 "04"): weekly resting heart rate drawn as
+   a landscape, three ferritin reports as glass orbs on the same timeline.
+   A pattern, never a cause. Example data. Two drawings of the same chart, one
+   for wide screens and one with larger type for phones. */
 
 const RHR = [62.6, 63.1, 62.8, 63.4, 62.9, 62.4, 62.7, 61.9, 61.2, 60.6, 60.1, 59.4, 59.0, 58.6, 58.1, 57.9, 57.4, 57.6, 57.1, 56.8, 57.0, 56.6, 56.4, 56.7, 56.3, 56.5];
-const FER: [number, number, string][] = [
-  [1, 21, "21 L"],
-  [12, 32, "32"],
-  [24, 44, "44"],
+const FER: [number, number][] = [
+  [1, 21],
+  [12, 32],
+  [24, 44],
 ];
+const LABEL =
+  "Example chart: weekly resting heart rate falls from about 63 to 56 beats per minute over 26 weeks, while ferritin rises across three reports from 21 to 32 to 44 nanograms per millilitre.";
 
-function Chart({ narrow }: { narrow: boolean }) {
-  const W = narrow ? 380 : 640;
-  const H = narrow ? 250 : 260;
-  const L = narrow ? 40 : 46;
-  const R = narrow ? 46 : 54;
-  const T = 16;
-  const B = 30;
-  const pw = W - L - R;
-  const ph = H - T - B;
-  const weeks = 26;
-  const x = (w: number) => L + (w / (weeks - 1)) * pw;
-  const yR = (v: number) => T + (1 - (v - 54) / (66 - 54)) * ph;
-  const yF = (v: number) => T + (1 - v / 60) * ph;
-  const pts = RHR.map((v, i) => `${x(i).toFixed(1)},${yR(v).toFixed(1)}`);
-  const fillId = narrow ? "hv3-corr-fill-n" : "hv3-corr-fill";
+type Geo = {
+  id: string;
+  W: number;
+  H: number;
+  x0: number;
+  x1: number;
+  base: number;
+  rTop: number;
+  rScale: number;
+  fScale: number;
+  orb: number;
+  num: number;
+  small: number;
+  grid: number[];
+};
+
+const WIDE: Geo = { id: "w", W: 1200, H: 340, x0: 40, x1: 1160, base: 300, rTop: 80, rScale: 22, fScale: 5, orb: 17, num: 26, small: 16, grid: [96, 183, 270] };
+const NARROW: Geo = { id: "n", W: 640, H: 420, x0: 24, x1: 616, base: 360, rTop: 100, rScale: 30, fScale: 6.6, orb: 15, num: 30, small: 22, grid: [112, 236, 330] };
+
+const f1 = (n: number) => n.toFixed(1);
+
+function Chart({ g }: { g: Geo }) {
+  const x = (w: number) => g.x0 + (w / (RHR.length - 1)) * (g.x1 - g.x0);
+  const yR = (v: number) => g.rTop + (64 - v) * g.rScale;
+  const yF = (v: number) => g.base - g.fScale * v;
+  const pts = RHR.map((v, i) => `${f1(x(i))},${f1(yR(v))}`);
+  const land = `M${g.x0},${g.base} L${pts.join(" L")} L${g.x1},${g.base} Z`;
+  const ids = { land: `hv2-lk-land-${g.id}`, glass: `hv2-lk-glass-${g.id}`, sun: `hv2-lk-sun-${g.id}` };
+  const [first, mid, last] = FER.map(([w, v]) => ({ cx: x(w), cy: yF(v), v }));
+  const serif = "var(--font-serif)";
+  const sans = "var(--font-sans)";
 
   return (
     <svg
-      className={narrow ? "hv3-corr__svg hv3-corr__svg--narrow" : "hv3-corr__svg hv3-corr__svg--wide"}
-      viewBox={`0 0 ${W} ${H}`}
+      className={`hv2-chart hv2-chart--${g.id === "w" ? "wide" : "narrow"}`}
+      viewBox={`0 0 ${g.W} ${g.H}`}
       role="img"
-      aria-label="Example chart: weekly resting heart rate falls from about 63 to 56 beats per minute over 26 weeks, while ferritin rises across three reports from 21 to 32 to 44 nanograms per millilitre."
+      aria-label={LABEL}
     >
       <defs>
-        <linearGradient id={fillId} x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.18" />
-          <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
+        <linearGradient id={ids.land} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#C9C0F6" stopOpacity="0.85" />
+          <stop offset="1" stopColor="#EEF0FB" stopOpacity="0.2" />
         </linearGradient>
+        <radialGradient id={ids.glass} cx="0.35" cy="0.3" r="0.75">
+          <stop offset="0" stopColor="#FFFFFF" />
+          <stop offset="0.55" stopColor="#E4DFFB" />
+          <stop offset="1" stopColor="#B9C8F5" />
+        </radialGradient>
+        <radialGradient id={ids.sun} cx="0.35" cy="0.3" r="0.75">
+          <stop offset="0" stopColor="#FFF4EA" />
+          <stop offset="0.5" stopColor="#FFC49E" />
+          <stop offset="1" stopColor="#FFA472" />
+        </radialGradient>
       </defs>
-      <rect className="hv3-corr__band" x={x(0).toFixed(1)} y={T} width={(x(8) - x(0)).toFixed(1)} height={ph} rx="6" />
-      <g className="hv3-corr__grid">
-        {[56, 60, 64].map((v) => (
-          <line key={v} x1={L} x2={W - R} y1={yR(v).toFixed(1)} y2={yR(v).toFixed(1)} />
-        ))}
-      </g>
-      <g className="hv3-corr__axis">
-        {([[64, "64 bpm"], [60, "60"], [56, "56"]] as [number, string][]).map(([v, t]) => (
-          <text key={t} x={L - 8} y={(yR(v) + 3.5).toFixed(1)} textAnchor="end">
-            {t}
-          </text>
-        ))}
-        {([[40, "40"], [20, "20 ng/mL"]] as [number, string][]).map(([v, t]) => (
-          <text key={t} x={W - R + 8} y={(yF(v) + 3.5).toFixed(1)} textAnchor="start" style={{ fill: "rgb(214 240 80 / 0.7)" }}>
-            {t}
-          </text>
-        ))}
-        {([[0, "WEEK 1"], [12, "WEEK 13"], [25, "WEEK 26"]] as [number, string][]).map(([w, t], i) => (
-          <text key={t} x={x(w).toFixed(1)} y={H - 8} textAnchor={i === 0 ? "start" : i === 2 ? "end" : "middle"}>
-            {t}
-          </text>
-        ))}
-      </g>
-      <path
-        className="hv3-corr__area"
-        fill={`url(#${fillId})`}
-        d={`M${x(0).toFixed(1)},${T + ph} L${pts.join(" L")} L${x(weeks - 1).toFixed(1)},${T + ph} Z`}
+      {g.grid.map((y) => (
+        <line key={y} x1={g.x0} y1={y} x2={g.x1} y2={y} stroke="#18213F" strokeOpacity="0.07" />
+      ))}
+      <path d={land} fill={`url(#${ids.land})`} />
+      <polyline
+        points={pts.join(" ")}
+        fill="none"
+        stroke="#6E8FE8"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ filter: "drop-shadow(0 0 5px rgb(110 143 232 / 0.5))" }}
       />
-      <path className="hv3-corr__line" pathLength={1} d={`M${pts.join(" L")}`} />
-      <g className="hv3-corr__fer">
-        <path d={`M${FER.map(([w, v]) => `${x(w).toFixed(1)},${yF(v).toFixed(1)}`).join(" L")}`} />
-        {FER.map(([w, v, t], i) => (
-          <g key={t}>
-            <circle cx={x(w).toFixed(1)} cy={yF(v).toFixed(1)} r="6.5" className={i === 0 ? "is-first" : undefined} />
-            <text
-              x={(x(w) + (i === 2 ? -10 : 10)).toFixed(1)}
-              y={(yF(v) - 11).toFixed(1)}
-              textAnchor={i === 2 ? "end" : "start"}
-              className={i === 0 ? "is-first" : undefined}
-            >
-              {t}
-            </text>
-          </g>
-        ))}
-      </g>
+
+      {/* ferritin: the low first report is the sun, the next two are glass */}
+      <circle cx={f1(first.cx)} cy={f1(first.cy)} r={g.orb} fill={`url(#${ids.sun})`} stroke="#FFFFFF" strokeWidth="3" style={{ filter: "drop-shadow(0 0 10px rgb(255 164 114 / 0.75))" }} />
+      <circle cx={f1(mid.cx)} cy={f1(mid.cy)} r={g.orb} fill={`url(#${ids.glass})`} stroke="#FFFFFF" strokeWidth="3" style={{ filter: "drop-shadow(0 6px 10px rgb(36 48 110 / 0.25))" }} />
+      <circle cx={f1(last.cx)} cy={f1(last.cy)} r={g.orb} fill={`url(#${ids.glass})`} stroke="#FFFFFF" strokeWidth="3" style={{ filter: "drop-shadow(0 6px 10px rgb(36 48 110 / 0.25))" }} />
+      <text x={f1(first.cx + g.orb + 9)} y={f1(first.cy + g.num * 0.32)} fontFamily={serif} fontSize={g.num} fill="#18213F">
+        21
+        <tspan dx="6" fontFamily={sans} fontSize={g.small} fontWeight="700" fill="#A65A2C">
+          L
+        </tspan>
+      </text>
+      <text x={f1(mid.cx)} y={f1(mid.cy - g.orb - 12)} textAnchor="middle" fontFamily={serif} fontSize={g.num} fill="#18213F">
+        32
+      </text>
+      <text x={f1(last.cx - g.orb - 10)} y={f1(last.cy + g.num * 0.32)} textAnchor="end" fontFamily={serif} fontSize={g.num} fill="#18213F">
+        44{" "}
+        <tspan fontFamily={sans} fontSize={g.small} fontWeight="600" fill="#434B69">
+          ng/mL
+        </tspan>
+      </text>
+
+      {/* resting heart rate, first and last week */}
+      <text x={g.x0 + 4} y={f1(yR(RHR[0]) - g.num * 1.15)} fontFamily={serif} fontSize={g.num * 0.78} fill="#18213F">
+        63 bpm
+      </text>
+      <text x={g.x1} y={f1(yR(RHR[RHR.length - 1]) - g.num * 0.75)} textAnchor="end" fontFamily={serif} fontSize={g.num * 0.78} fill="#18213F">
+        56 bpm
+      </text>
+      <text x={g.x0} y={g.H - 10} fontFamily={sans} fontSize={g.small - 1} fontWeight="600" fill="#434B69">
+        Week 1
+      </text>
+      <text x={g.x1} y={g.H - 10} textAnchor="end" fontFamily={sans} fontSize={g.small - 1} fontWeight="600" fill="#434B69">
+        Week 26
+      </text>
     </svg>
   );
 }
 
 export default function LinkSection() {
   return (
-    <section id="link" className="hv3-link" data-stage="night" data-nav="dark" aria-labelledby="link-title">
-      <div className="hv3-wrap hv3-link__grid">
-        <div data-rv="">
-          <div className="hv3-photo">
-            <Image
-              src="/images/v3/photo-runner.webp"
-              alt="A runner mid-stride with a smartwatch on his wrist."
-              fill
-              sizes="(max-width: 1080px) 92vw, 42vw"
-            />
-            <svg className="hv3-photo__arc" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden focusable="false">
-              <path d="M118 196 C 190 120, 260 150, 286 252" />
-            </svg>
-            <div className="hv3-photo__chips" aria-hidden>
-              <div className="glass hv3-mini" style={{ left: "7%", top: "24%" }}>
-                <span className="label">Asleep</span>
-                <div className="hv3-mini__value">6h03</div>
-              </div>
-              <div className="glass hv3-mini" style={{ left: "9%", top: "42%" }}>
-                <span className="label">Resting HR</span>
-                <div className="hv3-mini__value">
-                  63<small>bpm</small>
-                </div>
-              </div>
-              <div className="glass hv3-mini" style={{ right: "7%", top: "52%" }}>
-                <span className="label" style={{ color: "var(--color-lime)" }}>
-                  Ferritin
-                </span>
-                <div className="hv3-mini__value">
-                  21<small style={{ color: "var(--color-peach)" }}>L</small>
-                </div>
-              </div>
-            </div>
-            <span className="hv3-photo__note">A PATTERN, NEVER A CAUSE</span>
-          </div>
+    <section id="link" className="hv2-sec hv2-link" aria-labelledby="link-title">
+      <div className="hv2-wrap">
+        <p className="hv2-eyebrow">04 · Merios Plus · links</p>
+        <div className="hv2-headrow">
+          <h2 className="hv2-h2" id="link-title">
+            Then your blood <em>joins in.</em>
+          </h2>
+          <p className="hv2-lead">
+            Merios lines up your reports with your nights and your heart rate,
+            and shows you what moved together. It describes the pattern. It
+            never claims a cause.
+          </p>
         </div>
 
-        <div className="hv3-link__copy">
-          <div data-rv="" style={{ display: "grid", gap: 26 }}>
-            <span className="label">
-              <span aria-hidden className="label-dot" />
-              Merios Plus · links
+        <div className="hv2-link__card" data-rv="">
+          <p className="hv2-link__read">
+            The weeks with lower ferritin were also the weeks with a higher resting heart rate.
+          </p>
+          <div className="hv2-link__key" aria-hidden="true">
+            <span>
+              <i className="hv2-key-line" />
+              Resting HR, weekly
             </span>
-            <h2 className="display hv3-h2" id="link-title">
-              <span className="chrome-text">Then your blood joins in.</span>
-            </h2>
-            <p className="lead">
-              Merios lines up your reports with your nights and your heart
-              rate, and shows you what moved together. It describes the
-              pattern. It never claims a cause.
-            </p>
+            <span>
+              <i className="hv2-key-orb" />
+              Ferritin, 3 reports
+            </span>
+            <span className="hv2-link__span">Example · 26 weeks</span>
           </div>
-          <div className="glass hv3-corr" data-rv="" style={{ "--rv-delay": "0.1s" } as CSSProperties}>
-            <div className="hv3-corr__head">
-              <span className="label">Example · 26 weeks</span>
-              <div className="hv3-corr__key" aria-hidden>
-                <span>
-                  <i style={{ background: "var(--color-on-night)" }} />
-                  RESTING HR, WEEKLY
-                </span>
-                <span>
-                  <i style={{ background: "var(--color-lime)" }} />
-                  FERRITIN, 3 REPORTS
-                </span>
-              </div>
-            </div>
-            <Chart narrow={false} />
-            <Chart narrow />
-            <div className="hv3-corr__read">
-              <p>The weeks with lower ferritin were also the weeks with a higher resting heart rate.</p>
-              <span className="hv3-hand">a pattern, never a cause</span>
-            </div>
-          </div>
+          <Chart g={WIDE} />
+          <Chart g={NARROW} />
+          <p className="hv2-fine hv2-link__fine">Example data · a pattern, never a cause.</p>
         </div>
       </div>
     </section>

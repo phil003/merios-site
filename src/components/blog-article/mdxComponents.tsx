@@ -1,5 +1,6 @@
 import {
   Children,
+  cloneElement,
   isValidElement,
   type ComponentProps,
   type CSSProperties,
@@ -16,22 +17,28 @@ import { slugify } from "./toc";
 import styles from "./article.module.css";
 
 /**
- * MDX component overrides for the /blog/[slug] editorial article.
+ * MDX component overrides for the /blog/[slug] editorial article (Open Sky).
  *
  * - h2 / h3 inject an `id` from their text content using `slugify`. Dedupe is
  *   tracked via counters local to the render closure, matching the numbering
  *   done by `extractHeadings`, so the sticky TOC anchors resolve.
- * - The first top-level paragraph picks up `className="drop-cap"` to trigger
- *   the editorial drop-cap from globals.css.
- * - Presentation only (site v3) — the text and the elements stay exactly
- *   what the markdown produces; a class is added from the paragraph's shape:
- *     · "**Key insight:** …" → lilac sticker; "**Important:** …" → peach;
- *       "**Medical Disclaimer:** …" / "**Note:** …" → paper card
+ * - Presentation only: the text and the elements stay exactly what the
+ *   markdown produces; a class (or a wrapper) is chosen from their shape:
+ *     · the article's first paragraph, when it opens with a bold answer
+ *       ("**Technically normal, functionally borderline.** …"), becomes the
+ *       "short answer" glass card, with the article's value when it has one
+ *     · "**Key insight:** …" → lavender plate; "**Important:** …" → peach
+ *       plate; "**Medical Disclaimer:** …" / "**Note:** …" → glass note
  *     · a paragraph that is only a link (in-article CTA) → ink pill
  *     · a paragraph set entirely in italics (closing disclaimer) → fine print
- *     · a paragraph that is only bold text (step titles) → Bricolage lead-in
- *   Tables get a scroll frame (no page overflow on phones); blockquotes —
- *   all notes in the journal — become a quiet paper card.
+ *     · a paragraph that is only bold text (step titles) → Figtree lead-in
+ *     · lists: short items → glass chips; "**Term** — text" items → cards;
+ *       link-only items → link rows; ordered lists → numbered glass steps
+ *       (Newsreader numerals); anything else keeps classic bullets
+ *   Tables get a scroll frame (no page overflow on phones) and the reader's
+ *   row ("Your value …") is marked; blockquotes (notes) become glass notes.
+ * - <MeriosBlock> (added by remarkMeriosBlock) is the article's own Merios
+ *   section, set as the page's one ink block.
  *
  * Each render creates a fresh closure via `createMdxComponents()` so the
  * counters restart.
@@ -52,6 +59,8 @@ type HeadingProps = ComponentProps<"h2">;
 type ParagraphProps = ComponentProps<"p">;
 type TableProps = ComponentProps<"table">;
 type BlockquoteProps = ComponentProps<"blockquote">;
+type ListProps = ComponentProps<"ul">;
+type OrderedListProps = ComponentProps<"ol">;
 
 type ElementWithChildren = ReactElement<{ children?: ReactNode }>;
 
@@ -64,6 +73,11 @@ function meaningful(children: ReactNode): ReactNode[] {
 
 function isTag(node: ReactNode, tag: string): node is ElementWithChildren {
   return isValidElement(node) && node.type === tag;
+}
+
+function cx(...names: (string | false | null | undefined)[]): string | undefined {
+  const out = names.filter(Boolean).join(" ");
+  return out || undefined;
 }
 
 type Callout = "insight" | "important" | "note";
@@ -86,6 +100,7 @@ type ParagraphShape =
   | { kind: "cta" }
   | { kind: "fine" }
   | { kind: "leadIn" }
+  | { kind: "answer" }
   | { kind: "plain" };
 
 function paragraphShape(children: ReactNode): ParagraphShape {
@@ -97,14 +112,14 @@ function paragraphShape(children: ReactNode): ParagraphShape {
   if (parts.length === 1 && isTag(first, "em")) return { kind: "fine" };
 
   if (isTag(first, "strong")) {
-    const label = toPlainText(first.props.children)
-      .trim()
-      .replace(/[:.]\s*$/, "")
-      .toLowerCase();
+    const raw = toPlainText(first.props.children).trim();
+    const label = raw.replace(/[:.]\s*$/, "").toLowerCase();
     const callout = CALLOUT_LABELS[label];
     // "**Key insight:** text" (label inside the bold) or "**Key insight**: text"
     if (callout && parts.length > 1) return { kind: "callout", callout };
     if (parts.length === 1) return { kind: "leadIn" };
+    // "**Technically normal, functionally borderline.** 30 ng/mL falls…"
+    if (/[.?!]$/.test(raw)) return { kind: "answer" };
   }
   return { kind: "plain" };
 }
@@ -123,6 +138,38 @@ function countColumns(children: ReactNode): number {
   }
   return 2;
 }
+
+type MarkableRow = ReactElement<{ children?: ReactNode; "data-you"?: string }>;
+
+/**
+ * Marks the body row that is the reader's own value ("**Your value (30
+ * ng/mL)**"), so it reads as the highlighted band, as in the mockup. Adds a
+ * data attribute only; cells and text are untouched.
+ */
+function markReaderRow(children: ReactNode): ReactNode {
+  return Children.map(children, (section) => {
+    if (!isTag(section, "tbody")) return section;
+    return cloneElement(
+      section,
+      undefined,
+      Children.map(section.props.children, (row) => {
+        if (!isTag(row, "tr")) return row;
+        const firstCell = Children.toArray(row.props.children).find((c) =>
+          isTag(c, "td"),
+        );
+        const text = firstCell ? toPlainText(firstCell).trim() : "";
+        return /^your\b/i.test(text)
+          ? cloneElement(row as MarkableRow, { "data-you": "" })
+          : row;
+      }),
+    );
+  });
+}
+
+type ListShape = "chips" | "cards" | "cardsWide" | "links" | "plain";
+
+/** Card text longer than this stacks the cards in one column (no grid). */
+const LONG_CARD = 200;
 
 /**
  * `<Cite id="…" />` in an article → a superscript number linking to the
@@ -143,8 +190,23 @@ function makeCite(citeNumbers: ReadonlyMap<string, number>) {
   };
 }
 
+/** The article's own Merios section, wrapped by remarkMeriosBlock. */
+function MeriosBlock({ children }: { children?: ReactNode }) {
+  return (
+    <div className={`night ${styles.inkBlock}`} data-nav="dark">
+      {children}
+    </div>
+  );
+}
+
+export interface ArticleMdxOptions {
+  /** The value an article is about (gauge covers), shown in the short answer. */
+  answerValue?: { display: string; unit: string };
+}
+
 export function createMdxComponents(
   citeNumbers: ReadonlyMap<string, number> = new Map(),
+  options: ArticleMdxOptions = {},
 ) {
   // Counters restart on every render.
   const slugCounts = new Map<string, number>();
@@ -181,6 +243,27 @@ export function createMdxComponents(
   const p = ({ className, children, ...rest }: ParagraphProps) => {
     const index = paragraphIndex++;
     const shape = paragraphShape(children);
+
+    if (index === 0 && shape.kind === "answer") {
+      const value = options.answerValue;
+      return (
+        <div className={styles.short}>
+          {value ? (
+            <div aria-hidden className={styles.shortValue}>
+              <span className={styles.shortNum}>{value.display}</span>
+              <span className={styles.shortUnit}>{value.unit}</span>
+            </div>
+          ) : null}
+          <div className={styles.shortBody}>
+            <p className={styles.shortLabel}>The short answer</p>
+            <p className={cx(className, styles.shortText)} {...rest}>
+              {children}
+            </p>
+          </div>
+        </div>
+      );
+    }
+
     const shapeClass =
       shape.kind === "callout"
         ? styles.callout
@@ -191,17 +274,124 @@ export function createMdxComponents(
             : shape.kind === "leadIn"
               ? styles.leadIn
               : null;
-    const classes = [className, index === 0 ? "drop-cap" : null, shapeClass]
-      .filter(Boolean)
-      .join(" ");
     return (
       <p
-        className={classes || undefined}
+        className={cx(className, shapeClass)}
         data-callout={shape.kind === "callout" ? shape.callout : undefined}
         {...rest}
       >
         {children}
       </p>
+    );
+  };
+
+  /** Item contents of a tight, flat list — null when the list is loose or nested. */
+  const listItems = (children: ReactNode): ReactNode[][] | null => {
+    const items = meaningful(children);
+    if (items.length < 2 || !items.every((li) => isTag(li, "li"))) return null;
+    const contents = items.map((li) =>
+      meaningful((li as ElementWithChildren).props.children),
+    );
+    const blocky = (n: ReactNode) =>
+      isValidElement(n) &&
+      (n.type === p || n.type === ul || n.type === ol || n.type === "ul" || n.type === "ol");
+    if (contents.some((parts) => parts.length === 0 || parts.some(blocky))) {
+      return null;
+    }
+    return contents;
+  };
+
+  const listShape = (children: ReactNode): ListShape => {
+    const contents = listItems(children);
+    if (!contents) return "plain";
+    if (contents.every((parts) => parts.length === 1 && isTag(parts[0], "a"))) {
+      return "links";
+    }
+    if (contents.every((parts) => parts.length > 1 && isTag(parts[0], "strong"))) {
+      return contents.some((parts) => toPlainText(parts).length > LONG_CARD)
+        ? "cardsWide"
+        : "cards";
+    }
+    if (
+      contents.length >= 4 &&
+      contents.every(
+        (parts) => !isTag(parts[0], "strong") && toPlainText(parts).length <= 64,
+      )
+    ) {
+      return "chips";
+    }
+    return "plain";
+  };
+
+  /**
+   * "**Poor absorption** — H. pylori…": the bold term becomes the card title
+   * (block), and the separator after it is kept in the DOM but visually
+   * hidden, so the text content stays identical.
+   */
+  const cardItem = (li: ReactNode): ReactNode => {
+    if (!isTag(li, "li")) return li;
+    const parts = Children.toArray(li.props.children);
+    const firstStrong = parts.findIndex((n) => isTag(n, "strong"));
+    const next = parts[firstStrong + 1];
+    if (firstStrong === -1 || typeof next !== "string") return li;
+    const sep = next.match(/^\s*[—–:-]\s+/);
+    if (!sep) return li;
+    const rebuilt = [
+      ...parts.slice(0, firstStrong + 1),
+      <span key="sep" className={styles.vh}>
+        {sep[0]}
+      </span>,
+      next.slice(sep[0].length),
+      ...parts.slice(firstStrong + 2),
+    ];
+    return cloneElement(li, undefined, ...rebuilt);
+  };
+
+  const ul = ({ className, children, ...rest }: ListProps) => {
+    const shape = listShape(children);
+    if (shape === "cards" || shape === "cardsWide") {
+      return (
+        <ul
+          className={cx(
+            className,
+            styles.listCards,
+            shape === "cardsWide" && styles.listCardsWide,
+          )}
+          {...rest}
+        >
+          {Children.map(children, cardItem)}
+        </ul>
+      );
+    }
+    const shapeClass =
+      shape === "chips"
+        ? styles.listChips
+        : shape === "links"
+          ? styles.listLinks
+          : null;
+    return (
+      <ul className={cx(className, shapeClass)} {...rest}>
+        {children}
+      </ul>
+    );
+  };
+
+  const ol = ({ className, children, start, style, ...rest }: OrderedListProps) => {
+    const steps = listItems(children) !== null;
+    // Honour `start` (e.g. a list resumed after a paragraph) on the counter.
+    const counterStyle: CSSProperties | undefined =
+      typeof start === "number" && start > 1
+        ? { ...style, counterReset: `editorial-ol ${start - 1}` }
+        : style;
+    return (
+      <ol
+        className={cx(className, steps ? styles.listSteps : null)}
+        start={start}
+        style={counterStyle}
+        {...rest}
+      >
+        {children}
+      </ol>
     );
   };
 
@@ -211,15 +401,12 @@ export function createMdxComponents(
       tabIndex={0}
       style={{ "--cols": countColumns(children) } as CSSProperties}
     >
-      <table {...rest}>{children}</table>
+      <table {...rest}>{markReaderRow(children)}</table>
     </div>
   );
 
   const blockquote = ({ className, children, ...rest }: BlockquoteProps) => (
-    <blockquote
-      className={[className, styles.note].filter(Boolean).join(" ")}
-      {...rest}
-    >
+    <blockquote className={cx(className, styles.note)} {...rest}>
       {children}
     </blockquote>
   );
@@ -228,9 +415,12 @@ export function createMdxComponents(
     h2,
     h3,
     p,
+    ul,
+    ol,
     table,
     blockquote,
     Cite: makeCite(citeNumbers),
+    MeriosBlock,
     HomaIRCalculator,
     TrigHdlRatioCalculator,
     PhenoAgeCalculator,

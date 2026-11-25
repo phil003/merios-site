@@ -28,27 +28,19 @@ const TEAM: TeamMember[] = [
 ];
 
 /**
- * Server component — the previous motion/react whileInView stagger is now
- * expressed as per-member `data-rv` reveals with incremental `--rv-delay`
- * (globals.css Reveal v2 + the inline IntersectionObserver in layout.tsx).
- * Content is visible by default in the static HTML; reduced motion is handled
- * globally (html[data-anim] is never set).
- *
- * v3: white cards. A filled seat gets a night tile with chrome initials over
- * the logo's pulse; an open seat is drawn as a dashed, empty tile.
+ * Server component. Open Sky: a filled seat is a white card whose portrait
+ * tile is a soft sky plate with Newsreader initials over the logo's pulse;
+ * the open seat is drawn as a dashed, empty card (the same language as the
+ * "not included" card on /pricing). Reveals are the CSS `data-rv` ones.
  */
 export default function TeamGrid() {
   return (
     <section className={styles.section} aria-labelledby="about-team-title">
       <div className={styles.container}>
         <div className={styles.head}>
-          <div className={`label ${styles.eyebrow}`}>
-            <span aria-hidden className="label-dot label-dot--ink" />
-            <span>Team</span>
-          </div>
-
-          <h2 id="about-team-title" className={styles.title}>
-            Small team. Editorial standards.
+          <p className={styles.eyebrow}>Team</p>
+          <h2 id="about-team-title" className={styles.h2}>
+            Small team. <em>Editorial standards.</em>
           </h2>
         </div>
 
@@ -65,10 +57,10 @@ export default function TeamGrid() {
                   } as CSSProperties
                 }
               >
-                <div className={styles.member}>
+                <div className={`${styles.member} ${open ? styles.memberOpen : ""}`}>
                   <div
                     aria-hidden
-                    className={`${styles.portrait} ${open ? styles.portraitOpen : `night ${styles.portraitNight}`}`}
+                    className={`${styles.portrait} ${open ? styles.portraitOpen : ""}`}
                   >
                     {open ? null : (
                       <svg
@@ -80,21 +72,20 @@ export default function TeamGrid() {
                         <path
                           d="M0 13 H96 L102 18 L109 3 L118 24 L123 13 H150"
                           fill="none"
-                          stroke="rgb(255 255 255 / 0.32)"
+                          stroke="#6E8FE8"
+                          strokeOpacity="0.55"
                           strokeWidth="1.4"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           vectorEffect="non-scaling-stroke"
                         />
-                        <circle cx="150" cy="13" r="3.2" fill="#D6F050" />
+                        <circle cx="150" cy="13" r="3.2" fill="#6E8FE8" />
                       </svg>
                     )}
-                    <span className={`${styles.initials} ${open ? "" : "chrome-text"}`}>
-                      {member.initials}
-                    </span>
+                    <span className={styles.initials}>{member.initials}</span>
                   </div>
 
-                  <div>
+                  <div className={styles.memberText}>
                     <h3 className={styles.memberName}>{member.name}</h3>
                     <p className={styles.memberRole}>{member.role}</p>
                     <p className={styles.memberBio}>{member.bio}</p>

@@ -9,6 +9,7 @@ import RelatedComparisons from "@/components/compare-article/RelatedComparisons"
 import ArticleCTA from "@/components/compare-article/ArticleCTA";
 import ArticleNotFound from "@/components/compare-article/NotFound";
 import { createMdxComponents } from "@/components/compare-article/mdxComponents";
+import articleStyles from "@/components/blog-article/article.module.css";
 import styles from "@/components/compare-article/compareArticle.module.css";
 import {
   ArticleSchema,
@@ -119,7 +120,7 @@ export default async function ComparePage({
 
       <ReadingProgress />
 
-      <main style={{ background: "var(--color-canvas)" }}>
+      <main className={articleStyles.page}>
         <ArticleHero
           title={post.title}
           description={post.description}
@@ -129,39 +130,33 @@ export default async function ComparePage({
           competitor={post.competitor}
         />
 
-        <section className={styles.body}>
-          <div className={styles.wrap}>
-            <div className={styles.layout}>
-              {/* Sticky TOC — desktop only */}
-              <aside className={styles.tocCol}>
-                <ArticleTOC />
-              </aside>
-
-              {/* Article body */}
-              <div className={styles.main}>
-                <div data-article-body="">
-                  <EditorialProse>
-                    <MDXRemote
-                      source={post.content}
-                      components={mdxComponents}
-                      options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
-                    />
-                  </EditorialProse>
-                </div>
-
-                {post.faq && post.faq.length > 0 ? (
-                  <div className={styles.measure}>
-                    <ArticleFAQ items={post.faq} />
-                  </div>
-                ) : null}
-
-                <div className={styles.measure}>
-                  <ArticleVerdict text={post.description} />
-                </div>
+        <div className={articleStyles.body}>
+          <div className={articleStyles.bodyRow}>
+            {/* Reading column */}
+            <div className={`${articleStyles.column} ${styles.main}`}>
+              <div data-article-body="" className={articleStyles.prose}>
+                <EditorialProse>
+                  <MDXRemote
+                    source={post.content}
+                    components={mdxComponents}
+                    options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+                  />
+                </EditorialProse>
               </div>
+
+              {post.faq && post.faq.length > 0 ? (
+                <ArticleFAQ items={post.faq} />
+              ) : null}
+
+              <ArticleVerdict text={post.description} />
+            </div>
+
+            {/* Sticky contents — desktop only */}
+            <div className={articleStyles.aside} data-lenis-prevent="">
+              <ArticleTOC />
             </div>
           </div>
-        </section>
+        </div>
 
         <RelatedComparisons posts={related} />
         <ArticleCTA />

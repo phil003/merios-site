@@ -68,7 +68,7 @@ export default function TrigHdlRatioCalculator() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Your TG/HDL ratio</span> — <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Your TG/HDL ratio</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>{result.ratio}</div>
               <RangeBar min={0} max={5} value={result.ratio} tone={result.band.tone} zones={ZONES} />

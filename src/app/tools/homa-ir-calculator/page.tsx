@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
-import CtaPulse from "@/app/tools/CtaPulse";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import HomaIRCalculator from "@/components/calculators/HomaIRCalculator";
 import {
   BreadcrumbSchema,
@@ -97,11 +99,12 @@ export default function HomaIRCalculatorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }}
       />
 
-      <PageHero
+      <ToolHero
+        slug="homa-ir-calculator"
         eyebrow="HOMA-IR — Matthews 1985"
-        title="HOMA-IR calculator"
+        title="HOMA-IR"
+        em="calculator"
         subline="Catch insulin resistance before it shows up in HbA1c. The Matthews 1985 formula on two numbers from your panel — fasting glucose and fasting insulin, in mg/dL or mmol/L — with the score and its interpretation band."
-        align="left"
       />
 
       <main className={t.main}>
@@ -228,14 +231,7 @@ export default function HomaIRCalculatorPage() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>{q}</dt>
-                    <dd className={t.faqA}>{a}</dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
 
               <p className={t.reference}>
                 Reference: Matthews DR, Hosker JP, Rudenski AS, Naylor BA,
@@ -257,8 +253,8 @@ export default function HomaIRCalculatorPage() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  A single HOMA-IR is a snapshot. Twelve are a story.
+                <p className={t.ctaQuote}>
+                  A single HOMA-IR is a snapshot. <em>Twelve are a story.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios recalculates HOMA-IR every time you upload a blood panel and overlays the curve with sleep, weight, and check-ins — so you can see what's actually moving the needle.
@@ -272,7 +268,7 @@ export default function HomaIRCalculatorPage() {
                   Read the primer →
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="blood-panel" />
             </div>
 
             <div className={t.next} data-rv="">
@@ -315,6 +311,8 @@ export default function HomaIRCalculatorPage() {
               </ul>
             </div>
           </section>
+
+          <ToolRelated slug="homa-ir-calculator" />
         </div>
       </main>
       <Footer />

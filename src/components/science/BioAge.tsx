@@ -1,21 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
+import Link from "next/link";
 
 import Reveal from "@/components/ui/Reveal";
 import styles from "./science.module.css";
 
 /**
- * Science — Biological age.
+ * Science — Biological age (v2 "Open Sky").
  *
- * Longitudinal dimension. A delta (chronological vs biological) and a
- * percentile band. The static HTML renders the final values (crawler-safe,
- * no-JS-safe); once hydrated, a vanilla IntersectionObserver + rAF loop
- * counts them up from 0 the first time the card cluster enters the viewport.
- * prefers-reduced-motion short-circuits to the final value (no animation).
- *
- * v3: stats as white cards with the biological age as the lime pop card;
- * the trajectory drawn in the "link" chart language on night glass.
+ * One white card: the three illustrative values (chronological, biological,
+ * delta = biological minus chronological) on inner plates, an age ruler that
+ * places them, and the way out to the PhenoAge calculator. The static HTML
+ * renders the final values (crawler-safe, no-JS-safe); once hydrated, an
+ * IntersectionObserver + rAF loop counts them up from 0 the first time the
+ * tiles enter the viewport. prefers-reduced-motion keeps the final values.
  */
 
 const TARGETS = {
@@ -24,11 +23,23 @@ const TARGETS = {
   delta: -4.6,
 } as const;
 
-const COUNTER_DURATION_MS = 1600;
+// The ruler runs from 25 to 45 years.
+const RULER_MIN = 25;
+const RULER_MAX = 45;
+const RULER_TICKS = [25, 30, 35, 40, 45];
+const at = (age: number) =>
+  `${(((age - RULER_MIN) / (RULER_MAX - RULER_MIN)) * 100).toFixed(2)}%`;
 
-/** ease-out cubic — close match for the previous Motion ease [0.22, 1, 0.36, 1]. */
+const COUNTER_DURATION_MS = 1100;
+
+/** ease-out cubic — close match for the canonical smooth ease. */
 function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
+}
+
+/** Numbers keep a true minus sign (U+2212) in display. */
+function fmt(value: number, decimals: number): string {
+  return value.toFixed(decimals).replace("-", "−");
 }
 
 export default function ScienceBioAge() {
@@ -55,11 +66,11 @@ export default function ScienceBioAge() {
 
     const render = (progress: number) => {
       for (const { el, target, decimals } of counters) {
-        if (el) el.textContent = (target * progress).toFixed(decimals);
+        if (el) el.textContent = fmt(target * progress, decimals);
       }
     };
 
-    // Arm the count-up: reset to 0 while the cluster is still offscreen.
+    // Arm the count-up: reset to 0 while the tiles are still offscreen.
     render(0);
 
     let raf = 0;
@@ -83,7 +94,6 @@ export default function ScienceBioAge() {
           }
         }
       },
-      // Matches the previous useInView config: amount 0.4, bottom margin -100px.
       { threshold: 0.4, rootMargin: "0px 0px -100px 0px" },
     );
     observer.observe(node);
@@ -109,7 +119,7 @@ export default function ScienceBioAge() {
         </span>
 
         <h2 id="science-bioage-heading" className={styles.title}>
-          The number you can actually move.
+          The number you can <em>actually move.</em>
         </h2>
 
         <p className={styles.lead}>
@@ -138,164 +148,107 @@ export default function ScienceBioAge() {
       </Reveal>
 
       <Reveal amount={0.15} delay={0.15}>
-        <div ref={statsRef} className={styles.statsRow}>
-          {/* Card 1 — chronological */}
-          <div className={styles.ageCard}>
-            <p className={styles.ageKey}>Chronological</p>
-            <p
-              className={styles.ageValue}
-              role="img"
-              aria-label={`${TARGETS.chronological} years`}
-            >
-              <span aria-hidden ref={chronologicalRef}>
-                {TARGETS.chronological.toFixed(0)}
-              </span>
-            </p>
-            <p className={styles.ageNote}>Years, calendar</p>
+        <div className={styles.ageCard}>
+          <p className={styles.ageHead}>
+            <span>Biological age</span>
+            <span>Illustrative</span>
+          </p>
+
+          <div ref={statsRef} className={styles.ageTiles}>
+            <div className={styles.ageTile}>
+              <p className={styles.ageKey}>Chronological</p>
+              <p
+                className={styles.ageValue}
+                role="img"
+                aria-label={`${TARGETS.chronological} years`}
+              >
+                <span aria-hidden ref={chronologicalRef}>
+                  {fmt(TARGETS.chronological, 0)}
+                </span>
+              </p>
+              <p className={styles.ageNote}>Years, calendar</p>
+            </div>
+
+            <div className={styles.ageTile} data-tone="bio">
+              <p className={styles.ageKey}>Biological</p>
+              <p
+                className={styles.ageValue}
+                role="img"
+                aria-label={`${TARGETS.biological} years, estimated`}
+              >
+                <span aria-hidden ref={biologicalRef}>
+                  {fmt(TARGETS.biological, 1)}
+                </span>
+              </p>
+              <p className={styles.ageNote}>Years, estimated — illustrative</p>
+            </div>
+
+            <div className={styles.ageTile}>
+              <p className={styles.ageKey}>Delta</p>
+              <p
+                className={styles.ageValue}
+                role="img"
+                aria-label={`${TARGETS.delta} years delta`}
+              >
+                <span aria-hidden ref={deltaRef}>
+                  {fmt(TARGETS.delta, 1)}
+                </span>
+              </p>
+              <p className={styles.ageNote}>
+                Years, biological minus chronological — illustrative
+              </p>
+            </div>
           </div>
 
-          {/* Card 2 — biological (the pop highlight) */}
-          <div className={`${styles.ageCard} ${styles.ageCardLime}`}>
-            <AgeGlyph />
-            <p className={styles.ageKey}>Biological</p>
-            <p
-              className={styles.ageValue}
-              role="img"
-              aria-label={`${TARGETS.biological} years, estimated`}
-            >
-              <span aria-hidden ref={biologicalRef}>
-                {TARGETS.biological.toFixed(1)}
+          <div
+            className={styles.ruler}
+            role="img"
+            aria-label={`Illustrative age ruler from ${RULER_MIN} to ${RULER_MAX}: biological age ${TARGETS.biological} sits ${Math.abs(TARGETS.delta)} years below chronological age ${TARGETS.chronological}.`}
+            style={
+              {
+                "--bio": at(TARGETS.biological),
+                "--chrono": at(TARGETS.chronological),
+              } as CSSProperties
+            }
+          >
+            <span className={styles.rulerTop}>
+              <span className={styles.rulerBio}>
+                Biological {fmt(TARGETS.biological, 1)}
               </span>
-            </p>
-            <p className={styles.ageNote}>Years, estimated — illustrative</p>
+              <span className={styles.rulerChrono}>
+                Chronological {fmt(TARGETS.chronological, 0)}
+              </span>
+            </span>
+            <span className={styles.rulerTrack}>
+              {RULER_TICKS.map((t) => (
+                <span key={t} className={styles.rulerMinor} style={{ left: at(t) }} />
+              ))}
+              <span className={styles.rulerSpan} />
+              <span className={styles.rulerDot} />
+              <span className={styles.rulerTick} />
+            </span>
+            <span className={styles.rulerDeltaRow}>
+              <span className={styles.rulerDelta}>{fmt(TARGETS.delta, 1)}</span>
+            </span>
+            <span className={styles.rulerScale}>
+              {RULER_TICKS.map((t) => (
+                <span key={t} style={{ left: at(t) }}>
+                  {t}
+                </span>
+              ))}
+            </span>
           </div>
 
-          {/* Card 3 — delta (biological minus chronological) */}
-          <div className={styles.ageCard}>
-            <p className={styles.ageKey}>Delta</p>
-            <p
-              className={styles.ageValue}
-              role="img"
-              aria-label={`${TARGETS.delta} years delta`}
-            >
-              <span aria-hidden ref={deltaRef}>
-                {TARGETS.delta.toFixed(1)}
+          <div className={styles.ageFoot}>
+            <Link href="/tools/phenoage-calculator" className="btn btn-ink">
+              Try the PhenoAge calculator
+              <span aria-hidden className="btn-arrow">
+                →
               </span>
-            </p>
-            <p className={styles.ageNote}>
-              Years, biological minus chronological — illustrative
-            </p>
+            </Link>
           </div>
         </div>
       </Reveal>
-
-      <Reveal amount={0.15} delay={0.2}>
-        <figure
-          className={`night ${styles.trajectory}`}
-          aria-label="Illustrative trajectory of a Merios score over eighteen months"
-        >
-          <figcaption className={styles.trajHead}>
-            <span className={styles.trajKey}>Trajectory · 18 months</span>
-            <span className={styles.trajTag}>Illustrative</span>
-          </figcaption>
-
-          <svg
-            viewBox="0 0 800 180"
-            width="100%"
-            role="img"
-            aria-label="Illustrative upward trajectory of composite score over eighteen months"
-            style={{ overflow: "visible" }}
-          >
-            <defs>
-              <linearGradient id="bioage-area" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" stopColor="#FFFFFF" stopOpacity="0.16" />
-                <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            {/* Grid */}
-            {[40, 85].map((y) => (
-              <line
-                key={y}
-                x1="0"
-                y1={y}
-                x2="800"
-                y2={y}
-                stroke="#FFFFFF"
-                strokeOpacity="0.07"
-              />
-            ))}
-            {/* Monthly ticks along the baseline (decorative) */}
-            {Array.from({ length: 19 }, (_, m) => (
-              <line
-                key={`tick-${m}`}
-                x1={(m * 800) / 18}
-                y1="136"
-                x2={(m * 800) / 18}
-                y2={m % 6 === 0 ? 146 : 141}
-                stroke="#FFFFFF"
-                strokeOpacity={m % 6 === 0 ? 0.4 : 0.18}
-              />
-            ))}
-            {/* Baseline */}
-            <line
-              x1="0"
-              y1="130"
-              x2="800"
-              y2="130"
-              stroke="#FFFFFF"
-              strokeOpacity="0.22"
-              strokeWidth="1"
-              strokeDasharray="3 5"
-            />
-            {/* Area under the line */}
-            <path
-              d="M0 120 Q 200 100 400 80 T 800 40 L 800 130 L 0 130 Z"
-              fill="url(#bioage-area)"
-            />
-            {/* Band */}
-            <path
-              d="M0 110 Q 200 100 400 80 T 800 40 L 800 60 Q 600 80 400 90 T 0 120 Z"
-              fill="var(--color-pulse)"
-              opacity="0.2"
-            />
-            {/* Line */}
-            <path
-              d="M0 120 Q 200 100 400 80 T 800 40"
-              fill="none"
-              stroke="#F4F6F7"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-            />
-            <circle
-              cx="800"
-              cy="40"
-              r="7"
-              fill="var(--color-pulse)"
-              stroke="#0E1316"
-              strokeWidth="3"
-            />
-            <circle cx="0" cy="120" r="4.5" fill="#F4F6F7" fillOpacity="0.55" />
-          </svg>
-        </figure>
-      </Reveal>
     </section>
-  );
-}
-
-/** A small drop-and-pulse glyph for the biological-age card (decorative). */
-function AgeGlyph() {
-  return (
-    <svg className={styles.ageGlyph} viewBox="0 0 54 54" aria-hidden focusable="false">
-      <circle cx="27" cy="27" r="25.5" fill="none" stroke="#10231A" strokeOpacity="0.28" />
-      <path
-        d="M9 29 H18 L21 33 L25 17 L30 39 L33 29 H45"
-        fill="none"
-        stroke="#10231A"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="45" cy="29" r="3.2" fill="#10231A" />
-    </svg>
   );
 }

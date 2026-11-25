@@ -3,10 +3,12 @@ import styles from "./article.module.css";
 
 /**
  * Numbered source list at the end of an article — the target of every inline
- * <Cite /> superscript. Papers read like a journal reference (authors, title,
- * journal, year) with PubMed / DOI links in mono; web sources (guidelines,
- * fact sheets) show their publisher. Each entry is an anchor (#source-id), so
- * a superscript lands on its reference, highlighted by :target.
+ * <Cite /> superscript. Open Sky: a two-column grid of hairline rows, the
+ * number in Newsreader, the linked title in ink. Papers read like a journal
+ * reference (authors, title, journal, year) with PubMed / DOI ids; web
+ * sources (guidelines, fact sheets) show their publisher. Each entry is an
+ * anchor (#source-id), so a superscript lands on its reference, highlighted
+ * by :target.
  */
 export default function ArticleSources({
   sources,
@@ -32,7 +34,7 @@ export default function ArticleSources({
       aria-labelledby="sources-title"
       className={styles.sources}
     >
-      <h2 id="sources-title" className={styles.sourcesTitle}>
+      <h2 id="sources-title" className={styles.blockTitle}>
         Sources
       </h2>
       <p className={styles.sourcesNote}>
@@ -49,7 +51,7 @@ export default function ArticleSources({
             <span aria-hidden className={styles.sourcesNum}>
               {source.number}
             </span>
-            <span className="min-w-0">
+            <span className={styles.sourcesText}>
               {source.authors ? <>{source.authors} </> : null}
               <a
                 href={source.url}

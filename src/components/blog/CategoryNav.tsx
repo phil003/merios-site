@@ -3,13 +3,13 @@ import { BLOG_CATEGORIES } from "@/lib/blog-categories";
 import styles from "./blog.module.css";
 
 // Topic navigation: a link to every blog category hub, on /blog and on each
-// category page. The /blog filter chips filter in place (by article tag) and
-// link nowhere, so without this row three of the seven hubs had no inbound
-// link at all. Same chip anatomy as the filter bar; the current category is
-// the ink chip (aria-current="page").
+// category page. The /blog topic filter works in place and links nowhere, so
+// without this row some hubs would have no inbound link at all. Same pill as
+// the filter (Open Sky glass, Newsreader count); the current category is the
+// white pill (aria-current="page").
 
 interface CategoryNavProps {
-  /** Visible heading (an H2 set as a mono label). */
+  /** Visible heading (an H2 set as a label). */
   heading: string;
   /** Id for the heading, which also labels the nav landmark. */
   id: string;
@@ -36,7 +36,7 @@ export default function CategoryNav({
       data-align={align}
     >
       <h2 id={id} className={`label ${styles.topicsLabel}`}>
-        <span aria-hidden className="label-dot label-dot--ink" />
+        <span aria-hidden className="label-dot" />
         <span>{heading}</span>
       </h2>
       <ul className={styles.topicList}>
@@ -47,12 +47,11 @@ export default function CategoryNav({
             <li key={category.slug}>
               <Link
                 href={`/blog/category/${category.slug}`}
-                className={`blog-chip ${styles.chip}`}
-                data-active={active}
+                className={`${styles.chip} ${styles.chipLink}`}
                 aria-current={active ? "page" : undefined}
               >
                 {category.title}
-                <span className={styles.topicCount}>
+                <span className={styles.chipCount}>
                   {count}
                   <span className="sr-only">
                     {count === 1 ? " article" : " articles"}

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import NonHdlCalculator from "@/components/calculators/NonHdlCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
@@ -67,11 +68,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="non-hdl-cholesterol-calculator"
         eyebrow="Non-HDL cholesterol — every atherogenic particle"
-        title="Non-HDL Cholesterol Calculator"
+        title="Non-HDL Cholesterol"
+        em="Calculator"
         subline="Non-HDL cholesterol is total cholesterol minus HDL: the cholesterol in every particle that can build plaque, not just LDL. It is already on your lipid panel, needs no fasting, and often says more than LDL when triglycerides are high."
-        align="left"
       />
 
       <main className={t.main}>
@@ -224,6 +226,8 @@ export default function Page() {
               </p>
             </div>
           </section>
+
+          <ToolRelated slug="non-hdl-cholesterol-calculator" />
         </div>
       </main>
       <Footer />

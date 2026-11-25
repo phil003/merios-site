@@ -10,15 +10,15 @@ interface ArticleTOCProps {
 }
 
 /**
- * Sticky table of contents for /blog/[slug] (desktop only, ≥ lg).
+ * Table of contents for /blog/[slug], in the sticky aside (desktop only; the
+ * aside is shown from 1080px, see article.module.css).
  *
- * - Renders server-extracted headings as anchor links.
+ * - Renders server-extracted headings as anchor links on a hairline rail;
+ *   the active row turns ink with an ink rail segment (Open Sky mockup).
  * - IntersectionObserver with rootMargin "-40% 0px -55% 0px" sets the active id.
- * - A hairline track runs down the list; the active row gets ink text and a
- *   lime "you are here" dot on the track (CSS transition, reduced-motion safe).
  * - Click uses Lenis (when available) for a smooth programmatic scroll with an
- *   offset equal to the sticky top, falling back to `scrollIntoView` when
- *   Lenis is not mounted (SSR / prefers-reduced-motion).
+ *   offset that clears the floating nav, falling back to `scrollIntoView`
+ *   when Lenis is not mounted (SSR / prefers-reduced-motion).
  */
 export default function ArticleTOC({ headings }: ArticleTOCProps) {
   const lenis = useLenis();
@@ -53,7 +53,6 @@ export default function ArticleTOC({ headings }: ArticleTOCProps) {
       },
     );
 
-    // Observe the DOM nodes whose ids match the extracted headings.
     const nodes = headings
       .map((h) => document.getElementById(h.id))
       .filter((el): el is HTMLElement => el !== null);
@@ -71,31 +70,26 @@ export default function ArticleTOC({ headings }: ArticleTOCProps) {
     setActiveId(id);
     if (lenis) {
       lenis.scrollTo(el, {
-        offset: -96,
+        offset: -104,
         duration: 1.1,
         easing: (t: number) => 1 - Math.pow(1 - t, 3),
       });
     } else {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-    // Update the URL hash without a browser jump.
     if (typeof window !== "undefined") {
       window.history.replaceState(null, "", `#${id}`);
     }
   };
 
   return (
-    <nav
-      aria-label="On this page"
-      className={`hidden lg:sticky lg:top-28 lg:block ${styles.toc}`}
-      style={{ maxHeight: "calc(100vh - 8rem)", overflow: "auto" }}
-    >
+    <nav aria-label="On this page" className={styles.toc}>
       <p className={styles.tocLabel}>Contents</p>
       <ol className={styles.tocList}>
         {headings.map((item) => {
           const isActive = activeId === item.id;
           return (
-            <li key={item.id} className="relative">
+            <li key={item.id}>
               <a
                 href={`#${item.id}`}
                 onClick={(e) => handleClick(e, item.id)}
@@ -103,8 +97,7 @@ export default function ArticleTOC({ headings }: ArticleTOCProps) {
                 data-level={item.level}
                 className={styles.tocLink}
               >
-                <span aria-hidden className={styles.tocDot} />
-                <span className="block">{item.text}</span>
+                {item.text}
               </a>
             </li>
           );

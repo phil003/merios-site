@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import LpaConverter from "@/components/calculators/LpaConverter";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const FAQ_ITEMS = [
@@ -99,11 +101,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="lpa-unit-converter"
         eyebrow="Lp(a) — nmol/L and mg/dL"
-        title="Lp(a) unit converter: nmol/L to mg/dL"
+        title="Lp(a) unit converter:"
+        em="nmol/L to mg/dL"
         subline="Two labs, two numbers, one lipoprotein. Convert in either direction and get a range rather than a false single number, because no exact conversion between these units exists."
-        align="left"
       />
 
       <main className={t.main}>
@@ -268,14 +271,7 @@ export default function Page() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>{q}</dt>
-                    <dd className={t.faqA}>{a}</dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
 
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
@@ -284,8 +280,8 @@ export default function Page() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  Stop converting the same number by hand every time you change labs.
+                <p className={t.ctaQuote}>
+                  Stop converting the same number by hand <em>every time you change labs.</em>
                 </p>
                 <p className={t.ctaText}>
                   Merios reads the units off each report you upload and keeps every marker on one scale, so a panel in
@@ -297,7 +293,7 @@ export default function Page() {
                   Get the app
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="compare" />
             </div>
 
             <p className={`${t.reference} ${t.sources}`}>
@@ -313,6 +309,8 @@ export default function Page() {
               report and with your physician.
             </p>
           </section>
+
+          <ToolRelated slug="lpa-unit-converter" />
         </div>
       </main>
       <Footer />

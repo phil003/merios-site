@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
+import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
+import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
+import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import DheaConverter from "@/components/calculators/DheaConverter";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
-import CtaPulse from "../CtaPulse";
 import t from "../tools.module.css";
 
 const TITLE = "DHEA-S Unit Converter: µg/dL to µmol/L (+ DHEA)";
@@ -129,11 +131,12 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <PageHero
+      <ToolHero
+        slug="dhea-unit-converter"
         eyebrow="DHEA-S and DHEA — µg/dL, µmol/L, ng/mL, nmol/L"
-        title="DHEA Unit Converter"
+        title="DHEA"
+        em="Unit Converter"
         subline="For DHEA-S, multiply µg/dL by 0.02714 for µmol/L, or µmol/L by 36.85 for µg/dL: 200 µg/dL is 5.43 µmol/L. For plain DHEA, 1 ng/mL is 3.467 nmol/L. Two different tests, two different scales."
-        align="left"
       />
 
       <main className={t.main}>
@@ -367,14 +370,7 @@ export default function Page() {
 
             <div className={t.faq} data-rv="">
               <h2 className={t.faqTitle}>Frequently asked questions</h2>
-              <dl className={t.faqList}>
-                {FAQ_ITEMS.map(({ q, a }) => (
-                  <div key={q} className={t.faqItem}>
-                    <dt className={t.faqQ}>{q}</dt>
-                    <dd className={t.faqA}>{a}</dd>
-                  </div>
-                ))}
-              </dl>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
 
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">
@@ -383,8 +379,8 @@ export default function Page() {
                   <span aria-hidden className="label-dot" />
                   Track this in Merios
                 </p>
-                <p className={`chrome-text ${t.ctaQuote}`}>
-                  One DHEA-S curve, whatever unit each lab used.
+                <p className={t.ctaQuote}>
+                  One DHEA-S curve, <em>whatever unit each lab used.</em>
                 </p>
                 <p className={t.ctaText}>
                   Already have your bloodwork? Merios reads it next to your watch data, keeping DHEA-S on one scale
@@ -399,7 +395,7 @@ export default function Page() {
                   Testosterone unit converter →
                 </Link>
               </div>
-              <CtaPulse />
+              <CtaScreen screen="compare" />
             </div>
 
             <p className={`${t.reference} ${t.sources}`}>
@@ -412,6 +408,8 @@ export default function Page() {
               with your clinician.
             </p>
           </section>
+
+          <ToolRelated slug="dhea-unit-converter" />
         </div>
       </main>
       <Footer />

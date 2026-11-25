@@ -1,0 +1,306 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   LegalPageLayout — v2 "Open Sky" (/privacy, /terms, /security).
+   Dawn masthead → haze body with the sticky numbered contents rail → a dawn
+   card for the contact link. Presentation only: the words live in the pages.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  overflow-x: clip;
+}
+.page :focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+}
+
+.inner {
+  width: 100%;
+  max-width: calc(1312px + 2 * var(--spacing-container));
+  margin-inline: auto;
+  padding-inline: var(--spacing-container);
+}
+
+/* ─── Masthead: the dawn, the glass nav floats over it ─────────────────── */
+.hero {
+  background: var(--dawn);
+  padding: clamp(128px, 14vw, 172px) 0 clamp(44px, 5.5vw, 64px);
+}
+.eyebrow {
+  margin: 0 0 20px;
+  color: var(--color-ink-secondary);
+}
+.title {
+  margin: 0;
+  max-width: 980px;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 1.35rem + 5.4vw, 5.75rem);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  color: var(--color-ink);
+  text-wrap: balance;
+  /* transform only: the H1 is painted at parse (LCP safe) */
+  animation: rise 0.9s var(--ease-expo) both;
+}
+.title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+@keyframes rise {
+  from {
+    transform: translateY(18px);
+  }
+  to {
+    transform: none;
+  }
+}
+.subline {
+  margin: 24px 0 0;
+  max-width: 660px;
+  font-size: clamp(1.0625rem, 0.98rem + 0.45vw, 1.25rem);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+.updated {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-ink-secondary);
+}
+.updatedDot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 999px;
+  background: var(--color-zenith);
+}
+.heroVisual {
+  margin-top: clamp(32px, 4vw, 44px);
+}
+
+/* ─── Body grid: contents rail + article ───────────────────────────────── */
+.body {
+  padding: clamp(40px, 5vw, 64px) 0 clamp(24px, 3vw, 40px);
+}
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 32px;
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 200px minmax(0, 1fr);
+    column-gap: clamp(48px, 5vw, 72px);
+    align-items: start;
+  }
+}
+.article {
+  min-width: 0;
+  max-width: 720px;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: -0.003em;
+  color: var(--color-ink-secondary);
+}
+.grid[data-width="wide"] .article {
+  max-width: none;
+}
+/* No contents: the article takes the whole row */
+.article:only-child {
+  grid-column: 1 / -1;
+}
+
+/* Mobile contents: a glass accordion */
+.tocMobile {
+  display: block;
+}
+@media (min-width: 1024px) {
+  .tocMobile {
+    display: none;
+  }
+}
+.tocToggle {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 20px;
+  border-radius: 20px;
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+  background: rgb(255 255 255 / 0.55);
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+.tocChevron {
+  font-size: 0.9rem;
+  color: var(--color-ink-secondary);
+  transition: transform 300ms var(--ease-expo);
+}
+.tocToggle[aria-expanded="true"] .tocChevron {
+  transform: rotate(180deg);
+}
+.tocMobileList {
+  margin: 8px 0 0;
+  padding: 8px 20px;
+  list-style: none;
+  border-radius: 20px;
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+  background: rgb(255 255 255 / 0.55);
+}
+.tocMobileList[hidden] {
+  display: none;
+}
+.tocMobileList a {
+  display: block;
+  padding: 10px 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-ink-secondary);
+  text-decoration: none;
+}
+.tocMobileList a:hover {
+  color: var(--color-ink);
+}
+
+/* Desktop contents: the sticky numbered rail */
+.tocAside {
+  display: none;
+}
+@media (min-width: 1024px) {
+  .tocAside {
+    display: block;
+    position: sticky;
+    top: 112px;
+  }
+}
+.tocTitle {
+  margin: 0 0 12px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.tocList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tocLink {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0 8px 16px;
+  border-left: 1.5px solid rgb(24 33 63 / 0.12);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-ink-secondary);
+  text-decoration: none;
+  transition:
+    color 200ms var(--ease-smooth),
+    border-color 200ms var(--ease-smooth);
+}
+.tocLink:hover {
+  color: var(--color-ink);
+  border-left-color: var(--color-ink);
+}
+.tocNum {
+  flex: none;
+  min-width: 1.4em;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 400;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-link);
+}
+
+/* ─── Closing: the dawn card with the contact link ─────────────────────── */
+.closing {
+  padding: clamp(32px, 4vw, 56px) 0 clamp(72px, 8vw, 104px);
+}
+.closingCard {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 48px;
+  padding: clamp(28px, 5vw, 64px);
+  border-radius: 28px;
+  border: 1.5px solid rgb(255 255 255 / 0.85);
+  background:
+    radial-gradient(90% 120% at 100% 100%, #FCD6C2 0%, rgb(252 214 194 / 0) 60%),
+    radial-gradient(80% 120% at 0% 0%, #C9D8F8 0%, rgb(201 216 248 / 0) 65%),
+    linear-gradient(135deg, #DCD8F6 0%, #F1ECF8 100%);
+}
+.closingLink {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 1.3rem + 2.2vw, 3rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+.closingLink em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.closingArrow {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  letter-spacing: 0;
+  box-shadow: 0 14px 30px -14px rgb(24 33 63 / 0.45);
+  transition: transform 300ms var(--ease-expo);
+}
+.closingLink:hover .closingArrow {
+  transform: translateX(4px);
+}
+
+/* ─── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .title {
+    animation: none;
+  }
+  .tocChevron,
+  .tocLink,
+  .closingArrow {
+    transition: none;
+  }
+  .closingLink:hover .closingArrow {
+    transform: none;
+  }
+}

@@ -1,8 +1,10 @@
 "use client";
 
-// ContactForm — v3 art direction, motion/react-free. All animation is CSS:
-// - Fields: white inputs with a hairline grid border, mono labels, an ink
-//   focus ring; invalid fields turn soft-alert (never an alarm red).
+// ContactForm — Open Sky (v2), motion/react-free. All animation is CSS:
+// - Fields: haze-tinted inputs with a hairline border and a clear, visible
+//   label; a #3550A8 focus ring; invalid fields turn apricot / peach with a
+//   warm label (never an alarm red).
+// - The inquiry type is a row of pills; the chosen one is ink.
 // - State messages / button labels are keyed elements that remount with a
 //   small keyframe entrance (.cf-in / .cf-pop) — exits are immediate.
 // - Border / background / shadow changes ride plain CSS transitions.
@@ -508,29 +510,24 @@ export default function ContactForm() {
 }
 
 // ─── Scoped styles ───────────────────────────────────────────────────────────
-// Field look + keyframe entrances (replacing the previous AnimatePresence
-// crossfades). The global prefers-reduced-motion rule in globals.css collapses
-// the animations to 0.01ms / a single iteration.
+// Field look + keyframe entrances. The global prefers-reduced-motion rule in
+// globals.css collapses the animations to 0.01ms / a single iteration.
 const styles = `
 .cf-form .cf-field {
   display: grid;
-  gap: 9px;
+  gap: 8px;
 }
 .cf-form .cf-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  line-height: 1.2;
-  text-transform: uppercase;
-  color: var(--color-ink-tertiary);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  color: var(--color-ink);
   transition: color 200ms var(--ease-smooth);
 }
-.cf-form .cf-field:focus-within .cf-label {
-  color: var(--color-ink);
-}
 .cf-form .cf-field[data-invalid] .cf-label {
-  color: var(--color-soft-alert);
+  color: var(--color-warm);
 }
 .cf-form .cf-input {
   display: block;
@@ -538,15 +535,14 @@ const styles = `
   height: 52px;
   margin: 0;
   padding: 0 16px;
-  border-radius: 14px;
-  border: 1px solid var(--color-grid);
-  background: #FFFFFF;
+  border-radius: 16px;
+  border: 1.5px solid rgb(24 33 63 / 0.14);
+  background: #F7F8FD;
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.4;
   letter-spacing: -0.005em;
-  box-shadow: 0 1px 2px rgb(16 35 26 / 0.04);
   -webkit-appearance: none;
   appearance: none;
   transition:
@@ -562,19 +558,17 @@ const styles = `
   resize: none;
 }
 .cf-form .cf-input:hover:not(:disabled):not(:focus) {
-  border-color: color-mix(in srgb, var(--color-ink) 28%, var(--color-grid));
+  border-color: rgb(24 33 63 / 0.3);
 }
 .cf-form .cf-input:focus {
-  outline: 2px solid var(--color-ink);
+  outline: 2px solid var(--color-link);
   outline-offset: 2px;
-  border-color: var(--color-ink);
+  border-color: var(--color-link);
+  background: #FFFFFF;
 }
 .cf-form .cf-input[aria-invalid="true"] {
-  border-color: var(--color-soft-alert);
-  background: color-mix(in srgb, var(--color-soft-alert) 5%, #FFFFFF);
-}
-.cf-form .cf-input[aria-invalid="true"]:focus {
-  outline-color: var(--color-soft-alert);
+  border-color: var(--color-apricot);
+  background: #FFF6F1;
 }
 .cf-form .cf-input:disabled {
   opacity: 0.6;
@@ -584,16 +578,16 @@ const styles = `
 .cf-form .cf-type {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 40px;
-  padding: 0 16px 0 14px;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 18px 0 15px;
   border-radius: 999px;
-  border: 1px solid var(--color-grid);
-  background: #FFFFFF;
+  border: 1.5px solid rgb(24 33 63 / 0.12);
+  background: #F7F8FD;
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 550;
+  font-size: 0.9375rem;
+  font-weight: 600;
   letter-spacing: -0.005em;
   line-height: 1;
   cursor: pointer;
@@ -601,34 +595,36 @@ const styles = `
     background-color 300ms var(--ease-expo),
     border-color 300ms var(--ease-expo),
     color 300ms var(--ease-expo),
+    box-shadow 300ms var(--ease-expo),
     transform 300ms var(--ease-expo);
 }
 .cf-form .cf-type-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   flex: none;
   border-radius: 999px;
-  background: var(--color-grid);
-  transition: background-color 300ms var(--ease-expo), box-shadow 300ms var(--ease-expo);
+  background: rgb(24 33 63 / 0.2);
+  transition: background-color 300ms var(--ease-expo);
 }
 .cf-form .cf-type:hover:not(:disabled) {
-  border-color: color-mix(in srgb, var(--color-ink) 38%, var(--color-grid));
+  border-color: rgb(24 33 63 / 0.32);
+  background: #FFFFFF;
 }
 .cf-form .cf-type[aria-checked="true"] {
   background: var(--color-ink);
   border-color: var(--color-ink);
   color: #FFFFFF;
+  box-shadow: 0 10px 22px -14px rgb(24 33 63 / 0.6);
 }
 .cf-form .cf-type[aria-checked="true"] .cf-type-dot {
-  background: var(--color-lime);
-  box-shadow: 0 0 10px rgb(214 240 80 / 0.7);
+  background: var(--color-sky);
 }
 .cf-form .cf-type:disabled {
   cursor: default;
   opacity: 0.6;
 }
 .cf-form .cf-type:focus-visible {
-  outline: 2px solid var(--color-ink);
+  outline: 2px solid var(--color-link);
   outline-offset: 3px;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -642,30 +638,36 @@ const styles = `
   align-items: flex-start;
   gap: 9px;
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
   line-height: 1.5;
 }
 .cf-form .cf-msg[data-tone="idle"] { color: var(--color-ink-tertiary); }
-.cf-form .cf-msg[data-tone="error"] { color: var(--color-soft-alert); }
-.cf-form .cf-msg[data-tone="success"] { color: var(--color-green-deep); }
+.cf-form .cf-msg[data-tone="error"] { color: var(--color-warm); }
+.cf-form .cf-msg[data-tone="success"] { color: var(--color-link); }
 .cf-form .cf-msg-dot {
-  width: 7px;
-  height: 7px;
-  margin-top: 0.43em;
+  width: 8px;
+  height: 8px;
+  margin-top: 0.4em;
   flex: none;
   border-radius: 999px;
   background: currentColor;
 }
+.cf-form .cf-msg[data-tone="error"] .cf-msg-dot {
+  background: var(--color-apricot);
+}
 .cf-form .cf-msg[data-tone="success"] .cf-msg-dot {
-  background: var(--color-lime);
-  box-shadow: 0 0 0 1.5px rgb(16 35 26 / 0.45);
+  background: var(--color-zenith);
 }
 
 .cf-form .cf-submit {
   min-width: 188px;
   cursor: pointer;
+}
+.cf-form .cf-submit:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
 }
 .cf-form .cf-submit:disabled {
   cursor: default;
@@ -675,9 +677,9 @@ const styles = `
   opacity: 0.88;
 }
 .cf-form .cf-submit[data-state="success"] {
-  background: var(--color-lime);
-  color: var(--color-ink);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6);
+  background: var(--color-link);
+  color: #FFFFFF;
+  box-shadow: none;
 }
 
 @keyframes cf-in {

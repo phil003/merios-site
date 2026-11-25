@@ -17,7 +17,7 @@ const STATS = [
   { k: "Markers", v: "160+" },
   { k: "Pillars", v: "4" },
   { k: "Clinicians", v: "Not yet" },
-  { k: "Updated", v: "Oct 2026" },
+  { k: "Updated", v: "Nov 2026" },
 ];
 
 // ─── Decorative network: 11 systems on an orbit, one composite core ───────

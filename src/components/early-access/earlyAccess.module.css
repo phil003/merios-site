@@ -1,0 +1,437 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   /early-access — Open Sky (v2, Nov 25 2026). Presentation only: the
+   variants, their copy, links and forms live in the TSX.
+   - US: a dawn masthead with the App Store badge beside the Today screen in
+     a glass phone, then the rollout newsletter on the page's one ink block.
+   - Rest of world: a dawn masthead, then the waitlist (white card) and the
+     newsletter (ink card) side by side.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page {
+  position: relative;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+.page :focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+}
+.page .ink :focus-visible,
+.page .cardInk :focus-visible {
+  outline-color: #ffffff;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(1312px + 2 * var(--spacing-container));
+  margin-inline: auto;
+  padding-inline: var(--spacing-container);
+}
+
+/* ─── Type ─────────────────────────────────────────────────────────────── */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 20px;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 1px;
+  background: var(--color-ink);
+}
+.inkEyebrow {
+  color: var(--color-lavender);
+}
+.inkEyebrow::before {
+  background: var(--color-lavender);
+}
+
+.title {
+  margin: 0;
+  max-width: 1000px;
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6.4vw, 92px);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.h2 {
+  margin: 0;
+  max-width: 760px;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 54px);
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.title em,
+.h2 em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+.lead {
+  margin: 24px 0 0;
+  max-width: 640px;
+  font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+
+/* ─── Masthead ─────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(128px, 14vw, 176px) 0 clamp(40px, 5vw, 72px);
+  background: var(--dawn);
+}
+
+/* US: copy beside the phone */
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+  align-items: center;
+}
+@media (min-width: 960px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(40px, 5vw, 80px);
+  }
+}
+.heroCopy {
+  min-width: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+  margin-top: 36px;
+}
+.badge {
+  display: inline-block;
+  border-radius: 12px;
+  box-shadow: 0 18px 34px -20px rgb(24 33 63 / 0.55);
+  transition:
+    transform 300ms var(--ease-expo),
+    box-shadow 300ms var(--ease-expo);
+}
+.badge img {
+  display: block;
+}
+.badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 40px -20px rgb(24 33 63 / 0.6);
+}
+.badge:focus-visible {
+  outline-offset: 4px;
+}
+.caption {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+}
+
+/* On a computer: install from the phone in your pocket (md and up). */
+.qr {
+  display: none;
+}
+@media (min-width: 768px) {
+  .qr {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+    padding: 10px 20px 10px 10px;
+    border-radius: 24px;
+    background: rgb(255 255 255 / 0.55);
+    border: 1.5px solid rgb(255 255 255 / 0.85);
+  }
+}
+.qrCode {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  padding: 6px;
+  border-radius: 16px;
+  background: #ffffff;
+}
+.qrCode img {
+  display: block;
+}
+.qrText {
+  max-width: 13em;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--color-ink-secondary);
+}
+.qrText b {
+  display: block;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* The Today screen in a glass phone, with a low sun behind it */
+.phone {
+  position: relative;
+  justify-self: center;
+  width: clamp(236px, 24vw, 316px);
+  margin: 0;
+}
+.phoneGlow {
+  position: absolute;
+  left: 50%;
+  top: 4%;
+  width: 170%;
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgb(252 214 194 / 0.9),
+    rgb(252 214 194 / 0.35) 45%,
+    rgb(252 214 194 / 0) 72%
+  );
+}
+.phoneFrame {
+  position: relative;
+  padding: 9px;
+  border-radius: 46px;
+  background: rgb(255 255 255 / 0.62);
+  border: 1.5px solid rgb(255 255 255 / 0.92);
+  box-shadow:
+    0 50px 100px -50px rgb(36 48 110 / 0.6),
+    inset 0 1px 0 rgb(255 255 255 / 0.95);
+}
+.phoneImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 37px;
+}
+.phoneCaption {
+  position: relative;
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+}
+
+/* ─── The ink block (US newsletter) ────────────────────────────────────── */
+.newsSection {
+  padding: clamp(24px, 3vw, 40px) 0 clamp(72px, 9vw, 112px);
+}
+.ink {
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 64px);
+  border-radius: 32px;
+  color: #ffffff;
+  background: var(--color-ink);
+}
+.newsGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 36px;
+  align-items: end;
+}
+@media (min-width: 1024px) {
+  .newsGrid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(40px, 5vw, 72px);
+  }
+}
+.inkH2 {
+  color: #ffffff;
+}
+.inkText {
+  margin: 18px 0 0;
+  max-width: 30em;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  color: rgb(255 255 255 / 0.8);
+  text-wrap: pretty;
+}
+.micro {
+  margin: 12px 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-ink-tertiary);
+}
+.ink .micro,
+.cardInk .micro {
+  color: rgb(255 255 255 / 0.74);
+}
+
+/* ─── Rest of world: waitlist + newsletter ─────────────────────────────── */
+.restHero {
+  padding-bottom: clamp(72px, 9vw, 112px);
+}
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin-top: clamp(40px, 5vw, 64px);
+}
+@media (min-width: 820px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(24px, 3.4vw, 40px);
+  border-radius: 32px;
+}
+.cardWhite {
+  background: #ffffff;
+  box-shadow: 0 40px 90px -50px rgb(36 48 110 / 0.55);
+}
+.cardInk {
+  color: #ffffff;
+  background: var(--color-ink);
+  box-shadow: 0 40px 80px -40px rgb(24 33 63 / 0.6);
+}
+.cardEyebrow {
+  margin-bottom: 18px;
+}
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.3rem + 1.25vw, 2.35rem);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.cardBody {
+  margin: 12px 0 0;
+  max-width: 34em;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-ink-secondary);
+  text-wrap: pretty;
+}
+.cardInk .cardBody {
+  color: rgb(255 255 255 / 0.8);
+}
+.cardForm {
+  margin-top: 28px;
+}
+
+/* Decorative: the signal spreading out, region by region (static rings). */
+.signal {
+  display: none;
+}
+@media (min-width: 820px) {
+  .signal {
+    position: relative;
+    display: block;
+    flex: none;
+    align-self: flex-end;
+    width: 120px;
+    height: 120px;
+    margin-top: auto;
+    padding-top: 28px;
+    box-sizing: content-box;
+    pointer-events: none;
+  }
+}
+.signal::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 60px;
+  width: 10px;
+  height: 10px;
+  margin: 0 0 -5px -5px;
+  border-radius: 999px;
+  background: var(--color-zenith);
+}
+.signal > span {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-zenith);
+}
+.signal > span:nth-child(1) {
+  transform: scale(0.36);
+  opacity: 0.6;
+}
+.signal > span:nth-child(2) {
+  transform: scale(0.68);
+  opacity: 0.34;
+}
+.signal > span:nth-child(3) {
+  opacity: 0.16;
+}
+
+.benefits {
+  margin: 28px 0 0;
+  padding: 22px 0 0;
+  list-style: none;
+  border-top: 1px solid rgb(255 255 255 / 0.14);
+}
+.benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.84);
+}
+.benefit + .benefit {
+  margin-top: 10px;
+}
+.benefit::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-top: 0.45em;
+  border-radius: 999px;
+  background: var(--color-sky);
+}
+
+/* ─── Reduced motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .badge {
+    transition: none;
+  }
+  .badge:hover {
+    transform: none;
+  }
+}

@@ -1,87 +1,138 @@
+/* /phil — Open Sky (v2): a white card on the dawn. */
+
 .stage {
   min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 120px 16px 64px;
+  color: var(--color-ink);
+  background: var(--dawn);
+}
+.stage :focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
 }
 
 .card {
   width: 100%;
-  max-width: 440px;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding: clamp(24px, 6vw, 36px);
+  border-radius: 32px;
+  background: #ffffff;
+  box-shadow: 0 40px 90px -50px rgb(36 48 110 / 0.55);
 }
 
 .eyebrow {
-  color: var(--color-on-night-2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-secondary);
+}
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 28px;
+  height: 1px;
+  background: var(--color-ink);
 }
 
 .mark {
   width: 46px;
   height: 51px;
-  margin-top: 36px;
+  margin-top: 32px;
 }
 
 .name {
-  margin-top: 20px;
+  margin: 20px 0 0;
+  font-family: var(--font-display);
   font-size: clamp(2.6rem, 1.8rem + 3vw, 3.6rem);
-  letter-spacing: -0.045em;
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  color: var(--color-ink);
 }
 
 .role {
-  margin-top: 12px;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  margin: 12px 0 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.4;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-lime);
+  color: var(--color-link);
 }
 
 .tagline {
-  margin-top: 16px;
-  font-size: 1.12rem;
+  margin: 16px 0 0;
+  font-size: 1.125rem;
   line-height: 1.45;
-  color: var(--color-on-night-2);
+  color: var(--color-ink-secondary);
+}
+.tagline em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
 }
 
 .actions {
   width: 100%;
-  margin-top: 32px;
+  margin-top: 28px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .actions :global(.btn) {
   width: 100%;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.25;
 }
 
 .clinics {
-  margin-top: 28px;
+  margin: 24px 0 0;
   font-size: 0.98rem;
   line-height: 1.5;
-  color: var(--color-on-night-2);
+  color: var(--color-ink-secondary);
 }
 
 .clinics a {
-  color: var(--color-lime);
+  font-weight: 600;
+  color: var(--color-link);
   text-decoration: underline;
+  text-decoration-thickness: 1.5px;
   text-underline-offset: 3px;
+  text-decoration-color: rgb(53 80 168 / 0.4);
+}
+.clinics a:hover {
+  color: var(--color-ink);
+  text-decoration-color: var(--color-ink);
 }
 
 .tip {
-  margin-top: 16px;
+  margin: 14px 0 0;
   font-size: 0.9rem;
   line-height: 1.5;
-  color: var(--color-on-night-2);
+  color: var(--color-ink-secondary);
 }
 
 .legal {
-  margin-top: 28px;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  color: var(--color-on-night-2);
+  margin: 24px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--color-ink-tertiary);
 }

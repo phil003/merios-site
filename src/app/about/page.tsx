@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
 import { BreadcrumbSchema } from "@/components/StructuredData";
 import MissionSection from "@/components/about/MissionSection";
 import StoryTimeline from "@/components/about/StoryTimeline";
 import ValuesGrid from "@/components/about/ValuesGrid";
 import TeamGrid from "@/components/about/TeamGrid";
 import FinalCTA from "@/components/about/FinalCTA";
+import styles from "@/components/about/about.module.css";
 
 // ─── Metadata ────────────────────────────────────────────────────────────────
 export const metadata: Metadata = {
@@ -62,19 +63,26 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
       />
 
-      <main
-        className="relative"
-        style={{
-          background: "var(--color-canvas)",
-          color: "var(--color-ink)",
-        }}
-      >
-        <PageHero
-          eyebrow="About"
-          title="A quiet instrument for a noisy decade of health data."
-          subline="Merios unifies blood work, movement, sleep, and stress into one composite score you actually own. Calm authority, clinical precision, zero marketing noise."
-          align="left"
-        />
+      <main className={styles.page}>
+        {/* Open Sky masthead: dawn, eyebrow, H1 ending on the italic human
+            word, lead. CSS-only entrance (.he) on the eyebrow and lead; the
+            H1 paints at parse time. */}
+        <section className={styles.hero} aria-labelledby="about-title">
+          <div className={styles.container}>
+            <p className={`he ${styles.eyebrow}`}>About</p>
+            <h1 id="about-title" className={styles.title}>
+              A quiet instrument for a noisy decade of <em>health data.</em>
+            </h1>
+            <p
+              className={`he ${styles.lead}`}
+              style={{ "--he-d": "0.12s" } as CSSProperties}
+            >
+              Merios unifies blood work, movement, sleep, and stress into one
+              composite score you actually own. Calm authority, clinical
+              precision, zero marketing noise.
+            </p>
+          </div>
+        </section>
 
         <MissionSection />
         <StoryTimeline />

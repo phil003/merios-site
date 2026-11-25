@@ -1,104 +1,45 @@
-"use client";
-
 import Reveal from "@/components/ui/Reveal";
 import styles from "./about.module.css";
 
 const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-about&mt=8";
 
-// The logo's pulse, drawn large: a calm line, one beat, and the lime dot it
-// arrives on — with a comet that keeps making the trip (CSS only).
-const PULSE = "M0 150 H230 L254 176 L282 54 L318 252 L340 150 H440";
-
-function ArrivalPulse() {
-  return (
-    <div className={styles.ctaPulse} aria-hidden>
-      <svg viewBox="0 0 500 300" focusable="false">
-        <defs>
-          <linearGradient
-            id="about-cta-pulse"
-            gradientUnits="userSpaceOnUse"
-            x1="0"
-            y1="0"
-            x2="440"
-            y2="0"
-          >
-            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
-            <stop offset="0.5" stopColor="#FFFFFF" stopOpacity="0.45" />
-            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.95" />
-          </linearGradient>
-          <radialGradient id="about-cta-glow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#A8C2F4" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#A8C2F4" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <circle cx="440" cy="150" r="70" fill="url(#about-cta-glow)" />
-        <path
-          d={PULSE}
-          fill="none"
-          stroke="url(#about-cta-pulse)"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path d={PULSE} className={styles.ctaComet} pathLength={1000} />
-        <circle cx="440" cy="150" r="10" className={styles.ctaDot} />
-      </svg>
-    </div>
-  );
-}
-
+/**
+ * Server component. Open Sky: the closing call is a dawn band (the same
+ * band that ends /pricing), with the ink pill to the App Store.
+ */
 export default function FinalCTA() {
   return (
-    <section
-      className={`night ${styles.cta}`}
-      data-nav="dark"
-      aria-labelledby="about-cta-title"
-    >
+    <section className={styles.ctaSection} aria-labelledby="about-cta-title">
       <div className={styles.container}>
-        <div className={styles.ctaGrid}>
-          <div>
-            <Reveal>
-              <div className={`label ${styles.ctaEyebrow}`}>
-                <span aria-hidden className="label-dot animate-pulse-dot" />
-                <span>Now on the App Store</span>
-              </div>
-            </Reveal>
+        <Reveal>
+          <div className={styles.band}>
+            <div className={styles.bandCopy}>
+              <p className={styles.eyebrow}>Now on the App Store</p>
 
-            <Reveal delay={0.1}>
-              <h2 id="about-cta-title" className={styles.ctaTitle}>
-                Get Merios
-                <br />
-                <span className="chrome-text">on iPhone.</span>
+              <h2 id="about-cta-title" className={styles.bandTitle}>
+                Get Merios <em>on iPhone.</em>
               </h2>
-            </Reveal>
 
-            <Reveal delay={0.2}>
-              <p className={styles.ctaCopy}>
+              <p className={styles.bandText}>
                 One composite score. Four pillars. A decade of health intelligence
                 that stays yours. Free to download on iPhone (iOS 15.1 or later).
               </p>
-            </Reveal>
+            </div>
 
-            <Reveal delay={0.3}>
-              <div className={styles.ctaAction}>
-                <a
-                  className="btn btn-lime"
-                  href={APP_STORE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Download Merios on the App Store"
-                >
-                  Download on the App Store
-                  <span aria-hidden className="btn-arrow">
-                    →
-                  </span>
-                </a>
-              </div>
-            </Reveal>
+            <a
+              className="btn btn-ink"
+              href={APP_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download Merios on the App Store"
+            >
+              Download on the App Store
+              <span aria-hidden className="btn-arrow">
+                →
+              </span>
+            </a>
           </div>
-
-          <ArrivalPulse />
-        </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -14,32 +14,26 @@ import styles from "./not-found.module.css";
  * slug is refused at the routing layer with a genuine 404 status, and Next
  * renders this page.
  *
- * v3: a night stage. The logo's heartbeat runs along the horizon and breaks
- * off where the missing page should be (decorative, aria-hidden). CSS-only
- * entrance (`.he`), so the H1 paints at parse time.
+ * Open Sky: a dawn stage. The H1 ends on the italic human words; the Journal
+ * and the tools are the two places to start, and the home page is one link
+ * away. The logo's heartbeat runs along the horizon and breaks off where the
+ * missing page should be (decorative, aria-hidden). CSS-only entrance
+ * (`.he`), so the H1 paints at parse time.
  */
 export default function NotFound() {
   return (
     <>
-      <main className={`night ${styles.main}`} data-nav="dark">
-        <span aria-hidden className={styles.glow} />
-
+      <main className={styles.main}>
         <div className={styles.inner}>
-          <p className={`label he ${styles.eyebrow}`}>
-            <span aria-hidden className={styles.dot} />
-            <span>404 — page not found</span>
-          </p>
+          <p className={`he ${styles.eyebrow}`}>404 — page not found</p>
 
-          <h1
-            className={`display he ${styles.title}`}
-            style={{ "--he-d": "0.06s" } as CSSProperties}
-          >
-            We can&rsquo;t find that page.
+          <h1 className={styles.title}>
+            We can&rsquo;t find <em>that page.</em>
           </h1>
 
           <p
             className={`he ${styles.copy}`}
-            style={{ "--he-d": "0.14s" } as CSSProperties}
+            style={{ "--he-d": "0.1s" } as CSSProperties}
           >
             The link may have moved, or the page has been retired. The two
             places worth starting from:
@@ -47,20 +41,27 @@ export default function NotFound() {
 
           <div
             className={`he ${styles.actions}`}
-            style={{ "--he-d": "0.22s" } as CSSProperties}
+            style={{ "--he-d": "0.18s" } as CSSProperties}
           >
-            <Link href="/blog" className="btn btn-lime">
+            <Link href="/blog" className="btn btn-ink">
               Read the Journal →
             </Link>
-            <Link href="/tools" className="btn btn-ghost-night">
+            <Link href="/tools" className="btn btn-ghost">
               Free calculators →
             </Link>
           </div>
+
+          <p
+            className={`he ${styles.home}`}
+            style={{ "--he-d": "0.24s" } as CSSProperties}
+          >
+            Or go back to the <Link href="/">home page</Link>.
+          </p>
         </div>
 
         {/* The heartbeat, broken where the page should be */}
         <svg
-          className="v3-hero__pulse"
+          className={styles.horizon}
           aria-hidden
           focusable="false"
           viewBox="0 0 1440 120"
@@ -75,40 +76,30 @@ export default function NotFound() {
               y1="0"
               y2="0"
             >
-              <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
-              <stop offset="0.45" stopColor="#FFFFFF" stopOpacity="0.28" />
-              <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.55" />
+              <stop offset="0" stopColor="#6E8FE8" stopOpacity="0" />
+              <stop offset="0.45" stopColor="#6E8FE8" stopOpacity="0.55" />
+              <stop offset="1" stopColor="#6E8FE8" stopOpacity="0.9" />
             </linearGradient>
           </defs>
           <path
+            className={styles.line}
             d="M0 60 H612"
-            fill="none"
             stroke="url(#nf-pulse-fade)"
-            strokeWidth="1.6"
-            strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
           />
           <path
+            className={styles.gap}
             d="M640 60 H812"
-            fill="none"
-            stroke="#FFFFFF"
-            strokeOpacity="0.22"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeDasharray="2 9"
             vectorEffect="non-scaling-stroke"
           />
           <path
-            d="M840 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
-            fill="none"
+            className={styles.line}
+            d="M840 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1294"
             stroke="url(#nf-pulse-fade)"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
             vectorEffect="non-scaling-stroke"
           />
         </svg>
-        <span className="v3-hero__dot" aria-hidden />
+        <span aria-hidden className={styles.sun} />
       </main>
       <Footer />
     </>

@@ -23,42 +23,40 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://merios.life/phil" },
 };
 
+// Open Sky: a white card on the dawn (restyle only — same text, same links).
 export default function PhilPage() {
   return (
-    <main className={`night ${styles.stage}`} data-nav="dark">
+    <main className={styles.stage}>
       <div className={styles.card}>
-        <div className={`label ${styles.eyebrow}`}>
-          <span aria-hidden className="label-dot" />
-          <span>FHS Abu Dhabi · 20-22 Oct 2026</span>
-        </div>
+        <p className={styles.eyebrow}>FHS Abu Dhabi · 20-22 Oct 2026</p>
 
         <Mark
           className={styles.mark}
-          color="#F4F6F7"
-          cut="#18213F"
+          color="#18213F"
+          cut="#FFFFFF"
           title="Merios"
         />
 
-        <h1 className={`display ${styles.name}`}>Philippe Tohme</h1>
+        <h1 className={styles.name}>Philippe Tohme</h1>
         <p className={styles.role}>PharmD · Founder of Merios</p>
         <p className={styles.tagline}>
-          Your blood tests and your days, finally readable together.
+          Your blood tests and your days, <em>finally readable together.</em>
         </p>
 
         <div className={styles.actions}>
-          <a className="btn btn-lime" href={WALLET_PASS}>
+          <a className="btn btn-ink" href={WALLET_PASS}>
             Add my card to Apple Wallet
           </a>
-          <a className="btn btn-ghost-night" href={VCARD}>
+          <a className="btn btn-ghost" href={VCARD}>
             Save my contact
           </a>
-          <a className="btn btn-ghost-night" href={WHATSAPP}>
+          <a className="btn btn-ghost" href={WHATSAPP}>
             Message me on WhatsApp
           </a>
-          <a className="btn btn-ghost-night" href={APP_STORE}>
+          <a className="btn btn-ghost" href={APP_STORE}>
             Get Merios on the App Store
           </a>
-          <a className="btn btn-ghost-night" href={BOOK}>
+          <a className="btn btn-ghost" href={BOOK}>
             Book 20 minutes
           </a>
         </div>

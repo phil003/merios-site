@@ -1,22 +1,17 @@
-"use client";
-
 import Reveal from "@/components/ui/Reveal";
 import { Mark } from "@/components/ui/Logo";
 import styles from "./about.module.css";
 
 /**
- * v3: four pillars as the four quarters of one ring (Blood · Movement ·
- * Sleep · Stress, clockwise from the top) around the Merios mark, on a night
- * tile. Decorative and text-free — the copy carries the meaning.
+ * Open Sky: the four pillars as the four quarters of one ring around the
+ * Merios mark, on a white card beside the mission. Decorative and text-free;
+ * the copy carries the meaning. Server component: the reveals are the CSS
+ * `data-rv` ones (globals.css + the inline observer in layout.tsx).
  */
 const RING_R = 104;
 const RING_GAP_DEG = 14;
-const QUARTERS = [
-  "var(--color-lime)",
-  "var(--ab-activity)",
-  "var(--ab-recovery)",
-  "var(--ab-zen)",
-];
+// One colour per quarter, clockwise from the top (sky, apricot, zenith, violet).
+const QUARTERS = ["#A8C2F4", "#FFA472", "#6E8FE8", "#9A8BEA"];
 
 function arc(q: number): string {
   const start = ((-90 + q * 90 + RING_GAP_DEG / 2) * Math.PI) / 180;
@@ -28,17 +23,25 @@ function arc(q: number): string {
 
 function CompositeEmblem() {
   return (
-    <div className={`night ${styles.emblem}`} aria-hidden>
+    <div className={styles.emblem} aria-hidden>
       <svg className={styles.emblemRing} viewBox="0 0 300 300" focusable="false">
         <defs>
           <radialGradient id="about-emblem-glow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#A8C2F4" stopOpacity="0.16" />
-            <stop offset="1" stopColor="#A8C2F4" stopOpacity="0" />
+            <stop offset="0" stopColor="#C9C0F6" stopOpacity="0.42" />
+            <stop offset="1" stopColor="#C9C0F6" stopOpacity="0" />
           </radialGradient>
         </defs>
         <circle cx="150" cy="150" r="96" fill="url(#about-emblem-glow)" />
-        <circle cx="150" cy="150" r="132" fill="none" stroke="#FFFFFF" strokeOpacity="0.08" strokeDasharray="2 6" />
-        <circle cx="150" cy="150" r={RING_R} fill="none" stroke="#FFFFFF" strokeOpacity="0.06" strokeWidth="16" />
+        <circle
+          cx="150"
+          cy="150"
+          r="132"
+          fill="none"
+          stroke="#18213F"
+          strokeOpacity="0.12"
+          strokeDasharray="2 6"
+        />
+        <circle cx="150" cy="150" r={RING_R} fill="none" stroke="#EEF0FB" strokeWidth="16" />
         {QUARTERS.map((color, q) => (
           <path
             key={color}
@@ -50,7 +53,7 @@ function CompositeEmblem() {
           />
         ))}
       </svg>
-      <Mark className={styles.emblemMark} color="#F4F6F7" cut="#12181C" />
+      <Mark className={styles.emblemMark} color="#18213F" cut="#FFFFFF" />
     </div>
   );
 }
@@ -59,31 +62,19 @@ export default function MissionSection() {
   return (
     <section className={styles.section} aria-labelledby="about-mission-title">
       <div className={styles.container}>
-        <div className={styles.missionGrid}>
-          <div className={styles.missionAside}>
+        <div className={styles.mission}>
+          <div className={styles.missionCopy}>
             <Reveal>
-              <div className={`label ${styles.eyebrow}`}>
-                <span aria-hidden className="label-dot label-dot--ink" />
-                <span>Mission</span>
-              </div>
+              <p className={styles.eyebrow}>Mission</p>
             </Reveal>
 
-            <Reveal delay={0.1}>
-              <CompositeEmblem />
-            </Reveal>
-          </div>
-
-          <div>
             <Reveal delay={0.05}>
-              <h2
-                id="about-mission-title"
-                className={`${styles.title} ${styles.missionTitle}`}
-              >
-                Health data deserves a single, honest signal.
+              <h2 id="about-mission-title" className={styles.h2}>
+                Health data deserves a single, <em>honest signal.</em>
               </h2>
             </Reveal>
 
-            <Reveal delay={0.15}>
+            <Reveal delay={0.1}>
               <p className={styles.missionBody}>
                 Merios exists to resolve the fragmentation of modern health data.
                 Blood work in one app. Wearables in another. Stress and sleep
@@ -92,7 +83,7 @@ export default function MissionSection() {
               </p>
             </Reveal>
 
-            <Reveal delay={0.25}>
+            <Reveal delay={0.15}>
               <p className={styles.missionBody}>
                 We unify four pillars &mdash; Blood, Movement, Sleep, Stress
                 &mdash; into one composite score you actually own. Grounded in
@@ -100,6 +91,10 @@ export default function MissionSection() {
               </p>
             </Reveal>
           </div>
+
+          <Reveal delay={0.1} className={styles.emblemSlot}>
+            <CompositeEmblem />
+          </Reveal>
         </div>
       </div>
     </section>

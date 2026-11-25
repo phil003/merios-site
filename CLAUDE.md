@@ -2,7 +2,7 @@
 
 ## Project
 
-Marketing website for Merios (merios.life), a premium health intelligence platform.
+Marketing website for Merios (merios.life), a preventive health platform.
 Stack: Next.js 16 (SSG + Edge Middleware on Vercel) + React 19 + Tailwind v4 + TypeScript strict.
 All marketing routes are statically generated at build time; `src/middleware.ts`
 handles geo-aware rewrites for `/early-access` (US vs. rest-of-world variants).
@@ -35,58 +35,94 @@ card-level surface, no detail route:
 Code source of truth: `src/content/biomarkers.ts` (exports `PILLARS` +
 `BLOOD_SYSTEMS`).
 
-## Design direction (site v3, October 2026)
+## Design direction (site v2 "Open Sky", live since 25 Nov 2026)
 
-"Your health, finally readable." Motion · Chrome × pop — the art direction of the
-organic ads and App Store v2. Night graphite stages lit like chrome, lime as the only
-signal colour, lilac / sky / peach as pop accents, fog as the reading surface.
-Full spec: `docs/superpowers/specs/2026-10-03-site-v3-design.md`. Approved mockup:
-`../design/site-v3_2026-10-03/` (Desktop/Merios).
+"Your health, finally readable." The art direction is a sunrise: haze reading
+surfaces, dawn gradients, glass, ink. Approved mockup:
+`../design/site-open-sky_2026-11-17/` (Desktop/Merios; its README explains every
+page) and the canvas https://claude.ai/artifact/44jM6HErvUXqB1GXVStWrm. Brand art
+direction: `../design/DA_MERIOS_v1.md`.
 
-Page skeleton: night masthead (`PageHero` or an article hero, `data-nav="dark"`) →
-fog body → night footer. Primitives live in globals.css (`.night`, `.display`,
-`.label` + `.label-dot`, `.btn-lime/-ink/-ghost/-ghost-night`, `.glass`,
-`.glass-light`, `.pulse-rule`, `.editorial-prose`); the logo is `src/components/ui/Logo.tsx`
-(never redraw it by hand).
+Page skeleton: dawn masthead (`var(--dawn)`) with the glass nav pill floating over
+it → haze body (`--color-canvas`) → light lavender footer (`.v3-footer`).
+`PageHero` keeps its `.v3-hero.night` classes, re-pointed in globals.css to the dawn
+with ink text; the nav ignores `data-nav="dark"` on `.v3-hero` and only turns dark
+over a real ink section.
+
+- One ink block per screen at most (`.night`, #18213F, white text, lavender links);
+  never stack ink sections.
+- Apricot #FFA472 on one element per screen at most. No red anywhere: caution uses
+  warm #A65A2C, peach or apricot.
+- Headlines: Figtree 600, tight, the last words set in `<em>` / `.chrome-text`
+  (Newsreader italic 300): "Your health, *finally readable.*" Every H2 has an
+  eyebrow (`.label` + `.label-dot`) and its own italic human word.
+- Cards: glass (white at 55%, 1.5px white border, radius 28px) or white (radius
+  32px, soft navy shadow); inner plates radius 20px on soft dawn gradients.
+- Visuals show the subject (Phil's rule): articles carry drawn covers
+  (`src/lib/covers.ts`, `SPECS`), tools show their formula or factor
+  (`src/components/calculators/tool-page/registry.ts`, `plate`). No mood photo on
+  an article or a tool; photos and videos of real people are for the home page
+  only. Illustrative visuals say so ("Example data", "Illustration"). App screens
+  (example data): `public/images/v2/screens/`.
+
+Primitives live in globals.css: `.night`, `.display`, `.chrome-text`, `.label` +
+`.label-dot`, `.glass`, `.glass-light`, `.btn` with `.btn-ink` (ink pill),
+`.btn-lime` (white pill on ink, ink pill inside a dawn hero), `.btn-ghost`,
+`.btn-ghost-night`, `.pulse-rule`, `.editorial-prose`. The logo is
+`src/components/ui/Logo.tsx` (never redraw it by hand).
 
 ## Typography
 
-- Display + UI: Bricolage Grotesque (`--font-display` / `--font-sans`), 740–760 for
-  headlines, tight tracking (-0.035em…-0.045em)
-- Long reads, numerals, pull quotes, wordmark: Newsreader (`--font-serif`)
-- Data, labels, eyebrows, lab values: IBM Plex Mono (`--font-mono`)
-- Rare hand annotations: Caveat (`--font-hand`)
+- Display, UI and labels: Figtree (`--font-display` / `--font-sans`). Headlines
+  600 with tight tracking (-0.04em to -0.05em, `.display`). Labels and eyebrows:
+  700, uppercase, 0.14em tracking (`.label`). `--font-mono` points to Figtree too.
+- Newsreader (`--font-serif`): the italic human word that ends a headline (300,
+  `.chrome-text`), numbers and big values (300–400), long reads.
 
-All via `next/font/google` in `src/app/layout.tsx`. OG images use the
-`@fontsource/*` .woff files (satori cannot read woff2).
+Both via `next/font/google` in `src/app/layout.tsx`, both preloaded: the italic
+word and the big numbers are often the LCP element. OG images (`src/lib/og.tsx`)
+use the `@fontsource/figtree` .woff files, weights 600 and 700 (satori cannot read
+woff2).
 
 ## Palette (tokens in globals.css)
 
-- Night: #090C0E / #12171B / #1A2126 (night stages — use `.night`)
-- Fog: #EFF1EC (reading surface, `--color-canvas`) · Paper/cards: #FFFFFF
-- Ink: #10231A (text on light) · secondary #3E4C44 (AAA) · tertiary #5B6760
-- Lime: #D6F050 (the only signal colour: dots, bars, highlights, primary CTA —
-  never body text on light; use #5E7400 for lime-family text)
-- Pop accents: lilac #C9B8FF · sky #A9D4FF · peach #FFB39A
-- Forest: #24503A ("in range", icons) · soft alert: #A45B3C ("outside your range",
-  never an alert red) · warm: #B9762C (borderline)
-- Coral: #FF5A3C — only for a lab's own H/L flags
-- Grid: #D9DED4 (hairlines on fog)
+- Ink #18213F (`--color-ink`, text on light; the ink block `.night`) · secondary
+  #434B69 (AAA body text) · tertiary #5B627A (AA labels)
+- Haze #EEF0FB (reading surface, `--color-canvas` / `--color-haze`) · cards #FFFFFF
+  (`--color-canvas-alt`) · hairlines #DCDFEC (`--color-grid`)
+- Zenith #6E8FE8 (data dots and bars, `--color-zenith` / `--color-pulse`) · sky
+  #A8C2F4 (`--color-sky`; `--color-lime` is this sky, the signal on ink) · lavender
+  #C9C0F6 (`--color-lavender`) · peach #FCD6C2 · apricot #FFA472
+  (`--color-apricot`, once per screen)
+- Link #3550A8 (`--color-link` / `--color-green-deep`): links, text accents, icons,
+  the focus ring
+- Caution: warm #A65A2C (`--color-warm`), for borderline values. Never red, never
+  an alert.
+- Pillar colours from the app: `--color-activity` #FFA472, `--color-recovery`
+  #6E8FE8, `--color-zen` #9A8BEA.
 
-Legacy token names (`--color-green-deep`, `--color-pulse`, `--color-canvas`, …) are
-remapped to the v3 values, so older components re-theme automatically.
+The v3 token names (`--color-night`, `--color-fog`, `--color-lime`,
+`--color-coral`, `--color-green-deep`, `--color-pulse`, …) are kept and remapped
+to Open Sky values, so older components re-theme automatically. New code uses the
+Open Sky names (`--color-haze`, `--color-zenith`, `--color-apricot`,
+`--color-lavender`, `--color-link`).
 
 ## Motion
 
 - CSS first: entrances above the fold use parse-time keyframes (`.he`, `.ph-char`,
   `.rd-word`) so LCP never waits for JavaScript; scroll reveals use `data-rv` /
-  `<Reveal>` (inline IntersectionObserver, zero bundle JS).
-- The homepage scenes (`src/components/home/*`) are scroll-driven with small
-  rAF-throttled handlers — no GSAP. GSAP / ScrollTrigger only where a page really
-  needs scrubbing, loaded with dynamic `import()`. Lenis stays desktop-only
-  (LenisProvider).
-- Canonical easings: expo out [0.16, 1, 0.3, 1], smooth [0.22, 1, 0.36, 1].
-- Durations: quick 300ms, normal 600ms, slow 1100ms. Never exceed 1200ms.
+  `<Reveal>` (inline IntersectionObserver in layout.tsx, zero bundle JS).
+- The home page (`src/components/home/*`) has no scroll-driven scene: CSS plus
+  small client components (`CountUp` is its only rAF handler). GSAP /
+  ScrollTrigger only where a page really needs scrubbing (today the Science
+  biomarker coverage, `src/components/science/BiomarkerCoverage.tsx`).
+  `LenisProvider` loads Lenis, GSAP and ScrollTrigger with dynamic `import()`,
+  desktop only (fine pointer, 768px and wider, no reduced motion). Motion
+  (motion.dev) and framer-motion are not installed.
+- Canonical easings: expo out [0.16, 1, 0.3, 1], smooth [0.22, 1, 0.36, 1]
+  (`--ease-expo`, `--ease-smooth`).
+- Durations: quick 300ms, normal 600ms, slow 1100ms (`--duration-*`). Never exceed
+  1200ms.
 - Always respect prefers-reduced-motion — disable Lenis, fade opacity only.
 
 ## Animation don'ts
@@ -109,14 +145,17 @@ remapped to the v3 values, so older components re-theme automatically.
 ## Accessibility
 
 - WCAG AA minimum, AAA on body text contrast.
-- Full keyboard navigation, visible focus rings (green-deep 2px offset).
+- Full keyboard navigation, visible focus rings (`--color-link` #3550A8, 2px,
+  offset 3px; sky on ink blocks).
 - Alt text 100% coverage.
 - prefers-reduced-motion fully honored.
 
 ## Code conventions
 
-- Components in `src/components/`, organized by type: `ui/`, `sections/`, `providers/`.
-- Motion primitives in `src/lib/motion.ts`.
+- Components in `src/components/`, by area (`home/`, `blog/`, `blog-article/`,
+  `calculators/` with the v2 tool template in `calculators/tool-page/`, `science/`,
+  `legal/`, …) plus `ui/` and `providers/`.
+- Easing and duration tokens live in globals.css (`--ease-*`, `--duration-*`).
 - Lenis in `src/components/providers/LenisProvider.tsx`.
 - Every section component receives its copy as props (no hardcoded text in components
   except headline primitives).
@@ -187,5 +226,7 @@ Side effects to know about:
 
 ## Brief reference
 
-Master redesign brief: `../MERIOS_REDESIGN_BRIEF.md` (in Desktop/Merios folder)
-Assets prompts: `../MERIOS_ASSETS_PROMPTS.md`
+- Open Sky mockup (layout and look, page by page):
+  `../design/site-open-sky_2026-11-17/` and its README, plus the canvas
+  https://claude.ai/artifact/44jM6HErvUXqB1GXVStWrm.
+- Brand art direction: `../design/DA_MERIOS_v1.md` (Desktop/Merios).

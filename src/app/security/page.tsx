@@ -47,7 +47,7 @@ const securityLd = {
     name: "Merios",
     url: "https://merios.life",
   },
-  dateModified: "2026-04-24",
+  dateModified: "2026-11-25",
 };
 
 const H2_STYLE: React.CSSProperties = {
@@ -77,7 +77,7 @@ export default function SecurityPage() {
         eyebrow="Security"
         title="Security at Merios"
         subline="How we protect your health data — encryption, infrastructure, retention, and disclosure."
-        lastUpdated="April 24, 2026"
+        lastUpdated="November 25, 2026"
         tocItems={tocItems}
       >
         <div className={legal.body}>
@@ -113,16 +113,21 @@ export default function SecurityPage() {
             <ul className="mt-4 space-y-2 list-disc pl-5">
               <li>
                 <strong>At rest:</strong> AES-256 encryption applied to the
-                managed Postgres database provided by Supabase, including
-                automated backups.
+                managed Postgres database provided by Supabase, and to its
+                backups.
               </li>
               <li>
-                <strong>In transit:</strong> TLS 1.3 for every client-to-server
-                connection across our marketing site, API, and mobile app.
+                <strong>In transit:</strong> TLS 1.2 or higher for every
+                connection between the mobile app, our servers, and this
+                website.
               </li>
               <li>
-                <strong>Secrets:</strong> API keys and service credentials are
-                stored as encrypted environment variables on Vercel and
+                <strong>Sign-in tokens:</strong> kept in the iOS Keychain on
+                your device.
+              </li>
+              <li>
+                <strong>Secrets:</strong> secret keys and service credentials
+                are stored as encrypted environment variables on Vercel and
                 Supabase. They are never checked into source control and never
                 exposed to the browser.
               </li>
@@ -146,17 +151,16 @@ export default function SecurityPage() {
                 store user health data.
               </li>
               <li>
-                <strong>Application database</strong> — EU-hosted managed
-                Postgres on Supabase. Row-Level Security (RLS) is enforced on
-                every table that stores user-scoped data, including{" "}
-                <code>waitlist_signups</code>, <code>newsletter_signups</code>,
-                and <code>contact_inquiries</code>. A user can only ever read
-                or modify rows that belong to them.
+                <strong>Application database</strong> — Managed Postgres on
+                Supabase, in the European Union (AWS eu-west-1, Ireland).
+                Row-Level Security (RLS) is enforced in the database itself:
+                each row of account data can be read only by the account it
+                belongs to. File storage buckets are private; no health file
+                is ever reachable through a public link.
               </li>
               <li>
-                <strong>Backups</strong> — Daily automated backups are retained
-                for a minimum of 7 days, with point-in-time recovery available
-                for incident response.
+                <strong>Backups</strong> — Database backups are encrypted and
+                expire on a rolling basis.
               </li>
             </ul>
           </section>
@@ -173,10 +177,8 @@ export default function SecurityPage() {
               endpoints.
             </p>
             <p className="mt-4">
-              Every public form is rate-limited and CAPTCHA-protected at the
-              middleware level to prevent abuse, credential stuffing, and
-              automated scraping. Submissions are scoped to a single,
-              purpose-specific table and never commingled with health data.
+              Each form writes to its own purpose-specific table, and form
+              submissions are never commingled with health data.
             </p>
           </section>
 
@@ -190,34 +192,36 @@ export default function SecurityPage() {
               <span className={legal.num}>5.</span> Data retention & deletion
             </h2>
             <p className="mt-4">
-              You can request deletion of any personal data we hold about you at
-              any time. There is no cost, no justification required, and no
-              retention carve-out for marketing purposes.
+              You can delete any personal data we hold about you at any time.
+              There is no cost, no justification required, and no retention
+              carve-out for marketing purposes.
             </p>
             <ul className="mt-4 space-y-2 list-disc pl-5">
               <li>
-                Submit a deletion request through our{" "}
+                <strong>In the app:</strong> Settings &rsaquo; Delete my
+                account permanently deletes your account and all its data.
+                Settings &rsaquo; Export my data gives you a complete copy
+                first, in a machine-readable format (JSON).
+              </li>
+              <li>
+                <strong>Website sign-ups</strong> (waitlist, newsletter,
+                contact form): send a deletion request through our{" "}
                 <a
                   href="/contact#subject=Data%20deletion%20request&type=general"
                   className={legal.link}
                 >
                   contact form
                 </a>{" "}
-                with type <strong>General</strong>.
+                with type <strong>General</strong>. Deletion from production
+                systems is completed within 30 days of your request.
               </li>
               <li>
-                Primary deletion from production systems is completed within 30
-                days of your request.
+                Residual copies in encrypted backups are erased as those
+                backups expire.
               </li>
               <li>
-                Backups containing the deleted data are purged on a rolling
-                30-day cycle after the primary deletion, ensuring complete
-                removal within roughly 60 days worst case.
-              </li>
-              <li>
-                Data we are legally required to retain (e.g. transactional
-                records for tax purposes) is isolated and retained only for the
-                minimum statutory period.
+                Consent records are kept for the life of your account and 3
+                years after its deletion, to prove what you agreed to.
               </li>
             </ul>
           </section>
@@ -228,36 +232,58 @@ export default function SecurityPage() {
               <span className={legal.num}>6.</span> Third-party services
             </h2>
             <p className="mt-4">
-              Every vendor in our stack is listed below. We do not use ad
-              networks, analytics resellers, or data brokers.
+              Every provider that processes data for Merios is listed below,
+              with what it receives. We never sell your data, and we never use
+              health data for advertising or marketing. The full detail is in
+              our{" "}
+              <a href="/privacy" className={legal.link}>
+                Privacy Policy
+              </a>
+              .
             </p>
             <ul className="mt-4 space-y-2 list-disc pl-5">
               <li>
-                <strong>Vercel</strong> — Hosts the marketing site (static
-                assets, edge middleware). No health data is processed or stored
-                here.
-              </li>
-              <li>
-                <strong>Supabase</strong> — EU-hosted application database and
-                backend. Stores user-scoped records under Row-Level Security.
+                <strong>Supabase</strong> — Database, authentication, file
+                storage and server functions, in the European Union (AWS
+                eu-west-1, Ireland). Hosts all account and health data, under
+                Row-Level Security.
               </li>
               <li>
                 <strong>OpenAI</strong> — Reads scanned lab reports and writes
-                monthly reports, only with your consent. OpenAI does not use API
-                data for model training and may keep requests in its
-                abuse-monitoring logs for up to 30 days. See our Privacy Policy
-                for full detail.
+                reports and insights, only with your consent. OpenAI does not
+                use API data for model training and may keep requests in its
+                abuse-monitoring logs for up to 30 days.
               </li>
               <li>
-                <strong>RevenueCat</strong> — Subscription billing and receipt
-                validation for the Merios iPhone app. PCI-DSS compliant, with no
-                access to health data.
+                <strong>Apple</strong> — Sign in with Apple, Apple Health and
+                in-app purchases. Apple Health is read only, with your
+                permission, and you can disconnect it at any time. Apple
+                processes your payment; we never see your card.
               </li>
               <li>
-                <strong>Apple HealthKit</strong> — Optional on-device
-                integration the user explicitly grants. Data stays on the
-                user's device and is synced only to categories the user has
-                approved.
+                <strong>RevenueCat</strong> — Manages subscriptions for the
+                Merios iPhone app. Receives an anonymous user ID, your purchase
+                and subscription status and technical device identifiers, never
+                health data. It forwards trial and subscription events to Meta.
+              </li>
+              <li>
+                <strong>Meta</strong> — Measures our ads: app installs,
+                account creation and subscription events, with technical
+                identifiers. Never health data.
+              </li>
+              <li>
+                <strong>Sentry</strong> — Crash and error monitoring. Health
+                data is scrubbed from reports before they are sent.
+              </li>
+              <li>
+                <strong>Resend and Substack</strong> — Send the Baseline
+                newsletter and its welcome email. They receive your email
+                address, never app or health data.
+              </li>
+              <li>
+                <strong>Vercel and Google Analytics</strong> — Host this website
+                and measure its audience. No app or health data is processed or
+                stored here.
               </li>
             </ul>
           </section>
@@ -331,11 +357,17 @@ export default function SecurityPage() {
               <span className={legal.num}>9.</span> Compliance
             </h2>
             <p className="mt-4">
-              <strong>GDPR.</strong> Merios is GDPR-compliant for users in the
-              European Union. The data controller is Merios LLC. Our legal
-              bases for processing are consent and contract performance — see
-              the Privacy Policy for full detail, including your rights of
-              access, rectification, erasure, portability, and objection.
+              <strong>GDPR.</strong> Where the GDPR applies, Merios relies on
+              your explicit consent (Article 9(2)(a)) for health data, Apple
+              Health data and each AI feature — given in the app, feature by
+              feature, and withdrawable at any time — and on contract
+              performance for your account and subscription. The data
+              controller is Merios Health LLC. See the{" "}
+              <a href="/privacy" className={legal.link}>
+                Privacy Policy
+              </a>{" "}
+              for full detail, including your rights of access, rectification,
+              erasure, portability, and objection.
             </p>
             <p className="mt-4">
               <strong>HIPAA.</strong> Merios is not currently a HIPAA covered
@@ -360,8 +392,12 @@ export default function SecurityPage() {
               .
             </p>
             <p className="mt-4">
-              For general data questions, deletion requests, or compliance
-              inquiries, please use our{" "}
+              For data protection questions, deletion requests, or compliance
+              inquiries, write to{" "}
+              <a href="mailto:privacy@merios.life" className={legal.link}>
+                privacy@merios.life
+              </a>{" "}
+              or use our{" "}
               <a href="/contact#type=general" className={legal.link}>
                 contact form
               </a>

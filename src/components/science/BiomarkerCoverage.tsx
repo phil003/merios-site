@@ -63,7 +63,7 @@ export default function BiomarkerCoverage() {
       <Reveal amount={0.2}>
         <span className={`label ${styles.eyebrow}`}>
           <span aria-hidden className="label-dot label-dot--ink" />
-          <span>03 · The Blood pillar</span>
+          <span>02 · The Blood pillar</span>
         </span>
 
         <h2 id="science-coverage-heading" className={styles.title}>

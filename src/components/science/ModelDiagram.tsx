@@ -22,11 +22,14 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * lime signal — so the figure reads like the app's own data views.
  */
 
+// The four pillars as the app and the home page name them. Metabolic,
+// cardiovascular, hormonal and inflammation markers are blood systems inside
+// the Blood pillar, never pillars of their own.
 const PILLARS = [
-  { n: "01", label: "Metabolic" },
-  { n: "02", label: "Cardiovascular" },
-  { n: "03", label: "Hormonal" },
-  { n: "04", label: "Inflammation" },
+  { n: "01", label: "Activity" },
+  { n: "02", label: "Recovery" },
+  { n: "03", label: "Zen" },
+  { n: "04", label: "Blood" },
 ];
 
 export default function ScienceModelDiagram() {
@@ -189,10 +192,10 @@ export default function ScienceModelDiagram() {
                   Four health pillars converging into a single composite score.
                 </title>
                 <desc id="model-diagram-desc">
-                  Diagram showing four columns labelled Metabolic,
-                  Cardiovascular, Hormonal and Inflammation converging into a
-                  central composite node labelled Composite Score, with a
-                  biological age estimate branching out below.
+                  Diagram showing four pillars labelled Activity, Recovery,
+                  Zen and Blood converging into a central composite node
+                  labelled Composite Score, with a biological age estimate
+                  branching out below.
                 </desc>
 
                 <defs>

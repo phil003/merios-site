@@ -115,7 +115,7 @@ export default function ScienceBioAge() {
         <p className={styles.lead}>
           Merios estimates biological age from a validated subset of the
           panel, inspired by the Levine PhenoAge framework
-          <sup aria-describedby="ref-3">
+          <sup aria-describedby="ref-3 ref-5">
             <a
               href="#ref-3"
               aria-label="Reference 3"
@@ -123,9 +123,17 @@ export default function ScienceBioAge() {
             >
               3
             </a>
+            ,
+            <a
+              href="#ref-5"
+              aria-label="Reference 5"
+              className={styles.ref}
+            >
+              5
+            </a>
           </sup>
-          . The delta — chronological minus biological — is a tractable
-          target: most markers respond to intervention within 90 days.
+          . The delta — biological minus chronological — is the number to
+          follow from one test to the next.
         </p>
       </Reveal>
 
@@ -162,9 +170,9 @@ export default function ScienceBioAge() {
             <p className={styles.ageNote}>Years, estimated — illustrative</p>
           </div>
 
-          {/* Card 3 — delta + percentile */}
+          {/* Card 3 — delta (biological minus chronological) */}
           <div className={styles.ageCard}>
-            <p className={styles.ageKey}>Delta · percentile</p>
+            <p className={styles.ageKey}>Delta</p>
             <p
               className={styles.ageValue}
               role="img"
@@ -175,7 +183,7 @@ export default function ScienceBioAge() {
               </span>
             </p>
             <p className={styles.ageNote}>
-              Top 18% in cohort — illustrative band
+              Years, biological minus chronological — illustrative
             </p>
           </div>
         </div>

@@ -36,8 +36,7 @@ export const CITATIONS: Citation[] = [
   {
     id: "ref-3",
     authors: "Levine M. E. et al.",
-    title:
-      "An epigenetic biomarker of aging for lifespan and healthspan (PhenoAge).",
+    title: "An epigenetic biomarker of aging for lifespan and healthspan.",
     journal: "Aging",
     year: 2018,
   },
@@ -50,12 +49,15 @@ export const CITATIONS: Citation[] = [
     year: 2013,
   },
   {
+    // The phenotypic-age formula behind the Merios PhenoAge estimate
+    // (PubMed 30596641). It replaces a "Taddei S. et al., The Lancet, 2019"
+    // entry that could not be found on PubMed or Crossref.
     id: "ref-5",
-    authors: "Taddei S. et al.",
+    authors: "Liu Z. et al.",
     title:
-      "Inflammation, oxidative stress, and endothelial dysfunction in cardiometabolic disease.",
-    journal: "The Lancet",
-    year: 2019,
+      "A new aging measure captures morbidity and mortality risk across diverse subpopulations from NHANES IV: a cohort study.",
+    journal: "PLOS Medicine",
+    year: 2018,
   },
   {
     id: "ref-6",
@@ -75,8 +77,7 @@ export const CITATIONS: Citation[] = [
   {
     id: "ref-8",
     authors: "Ridker P. M. et al.",
-    title:
-      "Antiinflammatory therapy with canakinumab for atherosclerotic disease (CANTOS).",
+    title: "Antiinflammatory therapy with canakinumab for atherosclerotic disease.",
     journal: "New England Journal of Medicine",
     year: 2017,
   },

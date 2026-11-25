@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     absolute: "The Science — Merios | Biomarker Index & Biological Age",
   },
   description:
-    "How Merios turns 150+ peer-reviewed blood biomarkers into a single composite health score, grounded in preventive medicine literature.",
+    "How Merios turns 160+ peer-reviewed blood biomarkers into a single composite health score, grounded in preventive medicine literature.",
   alternates: {
     canonical: "https://merios.life/science",
   },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     title:
       "The Science — Merios | Composite Biomarker Index & Biological Age",
     description:
-      "How Merios turns 150+ peer-reviewed blood biomarkers into a single composite health score, grounded in preventive medicine literature.",
+      "How Merios turns 160+ peer-reviewed blood biomarkers into a single composite health score, grounded in preventive medicine literature.",
     url: "https://merios.life/science",
     type: "article",
   },
@@ -47,7 +47,7 @@ const jsonLd = {
   name: "The Science behind Merios",
   url: "https://merios.life/science",
   description:
-    "How Merios turns 150+ peer-reviewed blood biomarkers into a single composite health score, grounded in preventive medicine literature.",
+    "How Merios turns 160+ peer-reviewed blood biomarkers into a single composite health score, grounded in preventive medicine literature.",
   about: [
     "Biomarker interpretation",
     "Composite health score",

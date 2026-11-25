@@ -1,41 +1,42 @@
 import "@/components/home/home.css";
-import HomeStage from "@/components/home/HomeStage";
 import Hero from "@/components/home/Hero";
-import Overture from "@/components/home/Overture";
+import Numbers from "@/components/home/Numbers";
 import Translator from "@/components/home/Translator";
 import Scan from "@/components/home/Scan";
-import Year from "@/components/home/Year";
-import Daily from "@/components/home/Daily";
+import Days from "@/components/home/Days";
+import Band from "@/components/home/Band";
 import LinkSection from "@/components/home/Link";
 import Plans from "@/components/home/Plans";
-import Private from "@/components/home/Private";
 import WhoFor from "@/components/home/WhoFor";
+import Private from "@/components/home/Private";
 import Learn from "@/components/home/Learn";
+import Faq from "@/components/home/Faq";
 import Finale from "@/components/home/Finale";
 import Footer from "@/components/Footer";
 import { WebApplicationSchema, WebSiteSchema } from "@/components/StructuredData";
 
-// Homepage v3 — "Your health, finally readable." Metadata for "/" is the root
-// layout's default. JSON-LD: Organization comes from the layout; the WebSite
-// entity (site name) and the MobileApplication entity are rendered here.
+// Homepage v2 "Open Sky" — "Your health, finally readable." (Home2 mockup,
+// 25/11/2026). Metadata for "/" is the root layout's default. JSON-LD:
+// Organization comes from the layout; the WebSite entity (site name) and the
+// MobileApplication entity are rendered here, the FAQPage entity by <Faq />.
 export default function Home() {
   return (
     <>
       <WebSiteSchema />
       <WebApplicationSchema />
-      <HomeStage />
-      <main className="hv3">
+      <main className="hv2">
         <Hero />
-        <Overture />
+        <Numbers />
         <Translator />
         <Scan />
-        <Year />
-        <Daily />
+        <Days />
+        <Band />
         <LinkSection />
         <Plans />
         <WhoFor />
         <Private />
         <Learn />
+        <Faq />
         <Finale />
       </main>
       <Footer />

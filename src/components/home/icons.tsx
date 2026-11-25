@@ -26,15 +26,15 @@ export function Arrow({ className, width = 18 }: { className?: string; width?: n
   );
 }
 
+/** Open Sky tick (plan lists): a plain stroke in the current colour. */
 export function Check() {
   return (
-    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden focusable="false">
-      <circle cx="11" cy="11" r="10" fill="currentColor" opacity="0.16" />
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden focusable="false">
       <path
-        d="M6.5 11.3l3 3 6-6.6"
+        d="M5 12.5l4.5 4.5L19 7.5"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="2.2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

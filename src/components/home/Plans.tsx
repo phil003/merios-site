@@ -1,9 +1,9 @@
-import type { CSSProperties } from "react";
 import { AppleGlyph, Arrow, Check } from "./icons";
 
-/* Free and Plus. Facts as of the App Store listing (Oct 2026): the daily side
-   is free for good; Merios Plus is $44/year after a 7-day free trial on the
-   annual plan, with monthly and weekly plans also available. */
+/* Free and Plus (Home2 "05"): a glass card and the frame's one ink block.
+   Facts as of the App Store listing (Oct 2026): the daily side is free for
+   good; Merios Plus is $44/year after a 7-day free trial on the annual plan,
+   with monthly and weekly plans also available. */
 
 const FREE = [
   "Your Merios Score and three rings, every morning",
@@ -20,85 +20,70 @@ const PLUS = [
 
 export default function Plans() {
   return (
-    <section id="plans" className="hv3-plans" data-stage="fog" aria-labelledby="plans-title">
-      <div className="hv3-wrap">
-        <div className="hv3-plans__head" data-rv="">
-          <span className="label">
-            <span aria-hidden className="label-dot label-dot--ink" />
-            Free and Plus
-          </span>
-          <h2 className="hv3-h2" id="plans-title">
-            Start free. Add Plus when your blood test lands.
+    <section id="plans" className="hv2-sec hv2-plans" aria-labelledby="plans-title">
+      <div className="hv2-wrap">
+        <p className="hv2-eyebrow">05 · Free and Plus</p>
+        <div className="hv2-headrow">
+          <h2 className="hv2-h2" id="plans-title">
+            Start free. <em>Add Plus when your blood test lands.</em>
           </h2>
-          <p className="lead">
+          <p className="hv2-lead">
             Your score, your rings and your year stay free for good. Plus adds
             the half your watch cannot see.
           </p>
         </div>
-        <div className="hv3-plans__grid">
-          <div data-rv="">
-            <article className="hv3-plan hv3-plan--free">
-              <div className="hv3-plan__top">
-                <span className="hv3-plan__name">Merios</span>
-                <span className="hv3-pill">Free</span>
-              </div>
-              <div className="hv3-plan__price">
-                <b>$0</b>
-                <span>for good</span>
-                <em>No card. No trial clock.</em>
-              </div>
-              <ul>
-                {FREE.map((f) => (
-                  <li key={f}>
-                    <Check />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <div className="hv3-plan__cta">
-                <a className="btn btn-ink" href="/early-access">
-                  <AppleGlyph size={15} />
-                  Download free
-                </a>
-              </div>
-            </article>
-          </div>
-          <div data-rv="" style={{ "--rv-delay": "0.1s" } as CSSProperties}>
-            <article className="hv3-plan hv3-plan--plus">
-              <span className="hv3-plan__orb" aria-hidden />
-              <div className="hv3-plan__top">
-                <span className="hv3-plan__name chrome-text">Merios Plus</span>
-                <span className="hv3-pill" style={{ color: "var(--color-lime)" }}>
-                  7 days free
-                </span>
-              </div>
-              <div className="hv3-plan__price">
-                <b>$44</b>
-                <span>a year</span>
-                <em>After a 7-day free trial on the annual plan · monthly and weekly plans also available</em>
-              </div>
-              <ul>
-                {PLUS.map((f) => (
-                  <li key={f}>
-                    <Check />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-              <div className="hv3-plan__cta">
-                <a className="btn btn-lime" href="/early-access">
-                  Start 7 days free <Arrow className="btn-arrow" />
-                </a>
-                <span className="hv3-plan__note">
-                  Cancel any time in the App Store. Cancelling deletes nothing.
-                </span>
-              </div>
-            </article>
-          </div>
+
+        <div className="hv2-plans__grid" data-rv="">
+          <article className="hv2-plan hv2-plan--free">
+            <h3 className="hv2-plan__name">
+              Merios <span className="hv2-plan__pill">Free</span>
+            </h3>
+            <p className="hv2-plan__price">
+              <b>$0</b>
+              <span>for good</span>
+            </p>
+            <p className="hv2-plan__note">No card. No trial clock.</p>
+            <ul>
+              {FREE.map((f) => (
+                <li key={f}>
+                  <Check />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a className="hv2-plan__cta" href="/early-access">
+              <AppleGlyph size={15} />
+              Download free
+            </a>
+          </article>
+
+          <article className="hv2-plan hv2-plan--plus">
+            <h3 className="hv2-plan__name">
+              Merios Plus <span className="hv2-plan__pill">7 days free</span>
+            </h3>
+            <p className="hv2-plan__price">
+              <b>$44</b>
+              <span>a year</span>
+            </p>
+            <p className="hv2-plan__note">
+              After a 7-day free trial on the annual plan · monthly and weekly
+              plans also available
+            </p>
+            <ul>
+              {PLUS.map((f) => (
+                <li key={f}>
+                  <Check />
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a className="hv2-plan__cta" href="/early-access">
+              Start 7 days free <Arrow className="btn-arrow" width={16} />
+            </a>
+            <p className="hv2-plan__cancel">Cancel any time in the App Store. Cancelling deletes nothing.</p>
+          </article>
         </div>
-        <p className="hv3-fine hv3-plans__fine">
-          Prices in US dollars. The App Store shows the price for your country.
-        </p>
+        <p className="hv2-plans__fine">Prices in US dollars. The App Store shows the price for your country.</p>
       </div>
     </section>
   );

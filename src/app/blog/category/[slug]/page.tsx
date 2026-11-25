@@ -3,10 +3,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
 import { BreadcrumbSchema } from "@/components/StructuredData";
+import BlogCard from "@/components/blog/BlogCard";
 import CategoryNav from "@/components/blog/CategoryNav";
-import { getBlogGradient } from "@/components/blog/gradients";
+import JournalMasthead, { withItalicEnd } from "@/components/blog/JournalMasthead";
 import styles from "@/components/blog/blog.module.css";
 import { getListedPosts } from "@/lib/blog";
 import {
@@ -112,20 +112,17 @@ export default async function BlogCategoryPage({
       />
 
       <main style={{ background: "var(--color-canvas)" }}>
-        <PageHero
+        <JournalMasthead
           eyebrow={`Category — ${posts.length} articles`}
-          title={category.title}
-          subline={category.description}
+          title={withItalicEnd(category.title)}
+          lead={category.description}
         />
 
-        <section
-          aria-labelledby="category-articles"
-          className={`pb-24 md:pb-32 ${styles.catSection}`}
-        >
+        <section aria-labelledby="category-articles" className={styles.catSection}>
           <div className={styles.container}>
-            {/* The list's heading: visually hidden (the hero already says what
-                this is), but it keeps the outline H1 → H2 → H3 card titles
-                instead of skipping a level. */}
+            {/* The list's heading: visually hidden (the masthead already says
+                what this is), but it keeps the outline H1 → H2 → H3 card
+                titles instead of skipping a level. */}
             <h2 id="category-articles" className="sr-only">
               {category.title} articles
             </h2>
@@ -135,30 +132,10 @@ export default async function BlogCategoryPage({
                 <Link href="/blog">full blog index</Link>.
               </p>
             ) : (
-              <ul className={styles.catGrid}>
+              <ul className={`${styles.grid} ${styles.catGrid}`}>
                 {posts.map((post) => (
                   <li key={post.slug}>
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className={`blog-card group ${styles.catCard}`}
-                    >
-                      <div className={styles.catTop}>
-                        <span
-                          className={styles.sticker}
-                          style={{ background: getBlogGradient(post.tag) }}
-                        >
-                          {post.emoji}
-                        </span>{" "}
-                        <span>{post.tag}</span>
-                      </div>
-                      <h3 className={styles.catTitle}>{post.title}</h3>
-                      <p className={styles.catDesc}>{post.description}</p>
-                      <div className={styles.catRead}>
-                        <span className={styles.catReadInner}>
-                          {post.readTime}
-                        </span>
-                      </div>
-                    </Link>
+                    <BlogCard post={post} />
                   </li>
                 ))}
               </ul>

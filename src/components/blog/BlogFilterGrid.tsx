@@ -1,157 +1,208 @@
 "use client";
 
-// Pagination strategy: client-side "Load more" (18 per batch). The server
-// serializes only card-level fields (not the MDX body) so the initial HTML
-// stays lean while SEO payload (JSON-LD ItemList + prefetched hrefs) remains
-// complete.
+// The journal's interactive part (Open Sky, mockup Journal.dc.html): the dawn
+// masthead with its topic filter, the featured card, and the grid.
 //
-// Card animation (motion/react-free): entering cards remount with a CSS
-// keyframe entrance (.bfg-card-in) staggered at 40ms/card (capped at 8).
-// The grid is keyed by the active category so a filter change replays the
-// entrance for the whole set; "Load more" only animates the newly appended
-// batch. Nothing animates on initial page load — the server HTML is visible
-// by default. Removed cards exit immediately (no exit animation).
+// - The masthead copy and the featured card are server-rendered and passed in
+//   as slots, so the H1 and the featured article are plain server HTML.
+// - Topics are the category hubs (src/lib/blog-categories.ts), each with its
+//   article count. Under "All", the newest article is the featured card and
+//   the grid holds the rest; under a topic, the featured card steps aside and
+//   the grid holds every article of that topic, right under the filter.
+// - Pagination: client-side "Load more" (24 per batch, full rows in 2, 3 or 4
+//   columns). The full journal stays crawlable through ArticleIndex and the
+//   JSON-LD ItemList on the page.
+// - Motion: nothing animates on first load (the server HTML is visible as
+//   is). A filter change replays a short entrance on the grid; "Load more"
+//   animates the new batch only; 40ms stagger, capped. Reduced motion: none.
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import BlogCard, { type BlogCardData } from "./BlogCard";
 import styles from "./blog.module.css";
 
-interface BlogFilterGridProps {
-  posts: BlogCardData[];
+export interface JournalTopic {
+  slug: string;
+  title: string;
+  tags: readonly string[];
 }
 
-const PAGE_SIZE = 18;
-const ALL = "All";
+interface BlogFilterGridProps {
+  /** Every listed article, newest first; the first one is the featured card. */
+  posts: BlogCardData[];
+  topics: JournalTopic[];
+  /** Server-rendered masthead copy (eyebrow, H1, lead). */
+  masthead: ReactNode;
+  /** Server-rendered featured card for posts[0], shown under "All". */
+  featured?: ReactNode;
+}
 
-export default function BlogFilterGrid({ posts }: BlogFilterGridProps) {
-  const [activeCategory, setActiveCategory] = useState<string>(ALL);
+const PAGE_SIZE = 24;
+const ALL = "all";
+const GRID_ID = "journal-grid";
+
+export default function BlogFilterGrid({
+  posts,
+  topics,
+  masthead,
+  featured,
+}: BlogFilterGridProps) {
+  const [active, setActive] = useState<string>(ALL);
   const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
-  // Index from which cards should play the entrance animation. `null` until
-  // the first interaction so the initial render ships zero animation.
+  // Index from which cards play the entrance; null until the first
+  // interaction, so the first render ships no animation at all.
   const [animateFrom, setAnimateFrom] = useState<number | null>(null);
+  const gridRef = useRef<HTMLUListElement>(null);
+  const focusFrom = useRef<number | null>(null);
 
-  const categories = useMemo<string[]>(() => {
-    const unique = Array.from(new Set(posts.map((p) => p.tag))).filter(Boolean);
-    unique.sort((a, b) => a.localeCompare(b));
-    return [ALL, ...unique];
-  }, [posts]);
+  const hasFeatured = Boolean(featured) && posts.length > 0;
+  const topic = topics.find((t) => t.slug === active) ?? null;
 
-  const filtered = useMemo<BlogCardData[]>(() => {
-    if (activeCategory === ALL) return posts;
-    return posts.filter((p) => p.tag === activeCategory);
-  }, [posts, activeCategory]);
+  const counts = useMemo<Record<string, number>>(() => {
+    const out: Record<string, number> = {};
+    for (const t of topics) {
+      out[t.slug] = posts.filter((p) => t.tags.includes(p.tag)).length;
+    }
+    return out;
+  }, [posts, topics]);
 
-  const visible = filtered.slice(0, visibleCount);
-  const canLoadMore = visibleCount < filtered.length;
+  const list = useMemo<BlogCardData[]>(() => {
+    if (!topic) return hasFeatured ? posts.slice(1) : posts;
+    return posts.filter((p) => topic.tags.includes(p.tag));
+  }, [posts, topic, hasFeatured]);
 
-  function handleCategoryChange(cat: string): void {
-    setActiveCategory(cat);
+  const shown = topic ? list.length : posts.length;
+  const visible = list.slice(0, visibleCount);
+  const canLoadMore = visibleCount < list.length;
+
+  // After "Load more", move keyboard focus to the first new card (the button
+  // may disappear with the last batch).
+  useEffect(() => {
+    const from = focusFrom.current;
+    if (from === null) return;
+    focusFrom.current = null;
+    const link = gridRef.current?.querySelectorAll<HTMLAnchorElement>("a")[from];
+    link?.focus();
+  }, [visibleCount]);
+
+  function pick(slug: string): void {
+    if (slug === active) return;
+    setActive(slug);
     setVisibleCount(PAGE_SIZE);
     setAnimateFrom(0);
   }
 
-  function handleLoadMore(): void {
+  function loadMore(): void {
+    focusFrom.current = visibleCount;
     setAnimateFrom(visibleCount);
     setVisibleCount((n) => n + PAGE_SIZE);
   }
 
   return (
-    <div>
-      {/* Category filter bar — wraps on desktop, one swipeable row on mobile */}
-      <div
-        className={styles.chips}
-        role="tablist"
-        aria-label="Filter articles by category"
-      >
-        {categories.map((cat) => {
-          const active = cat === activeCategory;
-          return (
-            <button
-              key={cat}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              data-active={active}
-              onClick={() => handleCategoryChange(cat)}
-              className={`blog-chip ${styles.chip}`}
-            >
-              {cat}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Result count */}
-      <p className={styles.count} aria-live="polite">
-        {filtered.length}{" "}
-        {filtered.length === 1 ? "article" : "articles"}
-        {activeCategory !== ALL ? ` · ${activeCategory}` : ""}
-      </p>
-
-      {/* Grid — keyed by category so a filter change remounts (and re-animates)
-          the full card set */}
-      <div key={activeCategory} className={styles.grid}>
-        {visible.map((post, index) => {
-          const animate = animateFrom !== null && index >= animateFrom;
-          return (
-            <div
-              key={post.slug}
-              className={animate ? "bfg-card-in" : undefined}
-              style={
-                animate
-                  ? {
-                      // Stagger capped at 40ms/card × min(index, 8) to stay
-                      // well under the 100ms/element budget.
-                      animationDelay: `${(Math.min(index, 8) * 0.04).toFixed(2)}s`,
-                    }
-                  : undefined
-              }
-            >
-              <BlogCard post={post} />
-            </div>
-          );
-        })}
-      </div>
-
-      {filtered.length === 0 ? (
-        <p className={styles.empty}>No articles in this category yet.</p>
-      ) : null}
-
-      {/* Load more */}
-      {canLoadMore ? (
-        <div className={styles.loadMoreRow}>
-          <button
-            type="button"
-            onClick={handleLoadMore}
-            className={`blog-loadmore btn btn-ghost ${styles.loadMore}`}
+    <>
+      <header className={styles.masthead}>
+        <div className={styles.container}>
+          {masthead}
+          <div
+            role="group"
+            aria-label="Filter articles by topic"
+            className={`he ${styles.chips}`}
+            style={{ "--he-d": "0.16s" } as CSSProperties}
           >
-            Load more
-            <span aria-hidden>↓</span>
-          </button>
+            <TopicChip
+              label="All"
+              count={posts.length}
+              pressed={!topic}
+              onPick={() => pick(ALL)}
+            />
+            {topics.map((t) => (
+              <TopicChip
+                key={t.slug}
+                label={t.title}
+                count={counts[t.slug] ?? 0}
+                pressed={active === t.slug}
+                onPick={() => pick(t.slug)}
+              />
+            ))}
+          </div>
         </div>
-      ) : null}
+      </header>
 
-      <style>{cardInStyles}</style>
-    </div>
+      {!topic && hasFeatured ? featured : null}
+
+      <section aria-labelledby="journal-grid-title" className={styles.gridSection}>
+        <div className={styles.container}>
+          <div className={styles.gridHead}>
+            <h2 id="journal-grid-title" className={styles.gridTitle}>
+              {topic ? topic.title : "All articles"}
+            </h2>
+            <p className={styles.gridCount} aria-live="polite">
+              <span className={styles.gridCountNum}>{shown}</span>{" "}
+              {shown === 1 ? "article" : "articles"} · newest first
+            </p>
+          </div>
+
+          {/* Keyed by topic: a filter change remounts (and re-animates) the set */}
+          <ul key={active} id={GRID_ID} ref={gridRef} className={styles.grid}>
+            {visible.map((post, index) => {
+              const animate = animateFrom !== null && index >= animateFrom;
+              return (
+                <li
+                  key={post.slug}
+                  className={animate ? styles.cardIn : undefined}
+                  style={
+                    animate && animateFrom !== null
+                      ? { animationDelay: `${Math.min(index - animateFrom, 8) * 40}ms` }
+                      : undefined
+                  }
+                >
+                  <BlogCard post={post} />
+                </li>
+              );
+            })}
+          </ul>
+
+          {list.length === 0 ? (
+            <p className={styles.empty}>No articles in this category yet.</p>
+          ) : null}
+
+          {canLoadMore ? (
+            <div className={styles.loadMoreRow}>
+              <button type="button" onClick={loadMore} className={styles.loadMore}>
+                Load more
+                <span aria-hidden>↓</span>
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </section>
+    </>
   );
 }
 
-// ─── Scoped animation styles ─────────────────────────────────────────────────
-// CSS keyframe entrance replacing the previous AnimatePresence mount
-// animation (0.6s expo, y 16 → 0). The global prefers-reduced-motion rule in
-// globals.css collapses it to 0.01ms.
-const cardInStyles = `
-@keyframes bfgCardIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+function TopicChip({
+  label,
+  count,
+  pressed,
+  onPick,
+}: {
+  label: string;
+  count: number;
+  pressed: boolean;
+  onPick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className={styles.chip}
+      aria-pressed={pressed}
+      aria-controls={GRID_ID}
+      onClick={onPick}
+    >
+      {label}
+      <span className={styles.chipCount}>
+        {count}
+        <span className="sr-only">{count === 1 ? " article" : " articles"}</span>
+      </span>
+    </button>
+  );
 }
-.bfg-card-in {
-  animation: bfgCardIn 600ms var(--ease-expo) both;
-}
-@media (prefers-reduced-motion: reduce) {
-  .bfg-card-in {
-    animation-duration: 0.01ms !important;
-    animation-delay: 0s !important;
-  }
-}
-`;

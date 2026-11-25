@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
 import { BreadcrumbSchema } from "@/components/StructuredData";
 import BlogJsonLd from "@/components/blog/BlogJsonLd";
 import FeaturedCard from "@/components/blog/FeaturedCard";
 import BlogFilterGrid from "@/components/blog/BlogFilterGrid";
 import CategoryNav from "@/components/blog/CategoryNav";
 import ArticleIndex from "@/components/blog/ArticleIndex";
+import JournalCta from "@/components/blog/JournalCta";
+import JournalMasthead, { MastheadCopy } from "@/components/blog/JournalMasthead";
 import styles from "@/components/blog/blog.module.css";
 import { getListedPosts } from "@/lib/blog";
-import { getCategoryCounts } from "@/lib/blog-categories";
+import { BLOG_CATEGORIES, getCategoryCounts } from "@/lib/blog-categories";
 
 const DESCRIPTION =
   "Expert articles on blood biomarkers, biological age and longevity. Learn what your blood test results mean and how to improve your health score.";
@@ -30,6 +31,15 @@ export const metadata: Metadata = {
   },
 };
 
+const EYEBROW = "Journal";
+const TITLE = (
+  <>
+    Notes from <em>the lab.</em>
+  </>
+);
+const LEAD =
+  "Biomarker deep-dives, longevity science, and the research behind your Merios health score.";
+
 export default function BlogPage() {
   const posts = getListedPosts().map((p) => ({
     slug: p.slug,
@@ -37,11 +47,14 @@ export default function BlogPage() {
     description: p.description,
     date: p.date,
     tag: p.tag,
-    emoji: p.emoji,
     readTime: p.readTime,
   }));
   const featured = posts[0];
-  const rest = posts.slice(1);
+  const topics = BLOG_CATEGORIES.map((c) => ({
+    slug: c.slug,
+    title: c.title,
+    tags: c.tags,
+  }));
 
   return (
     <>
@@ -54,47 +67,29 @@ export default function BlogPage() {
       />
 
       <main style={{ background: "var(--color-canvas)" }}>
-        <PageHero
-          eyebrow="Journal"
-          title="Notes from the lab."
-          subline="Biomarker deep-dives, longevity science, and the research behind your Merios health score."
-          align="left"
-        />
-
         {posts.length === 0 ? (
-          <section
-            className="py-24 md:py-32"
-            style={{ background: "var(--color-canvas)" }}
-          >
-            <div className={styles.container}>
-              <p
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: 16,
-                  color: "var(--color-ink-tertiary)",
-                }}
-              >
-                Articles coming soon.
-              </p>
-            </div>
-          </section>
+          <>
+            <JournalMasthead eyebrow={EYEBROW} title={TITLE} lead={LEAD} />
+            <section className="py-24 md:py-32">
+              <div className={styles.container}>
+                <p className={styles.catEmpty}>Articles coming soon.</p>
+              </div>
+            </section>
+          </>
         ) : (
           <>
-            {/* Featured article */}
-            <div className="pb-12 md:pb-20">
-              {featured ? <FeaturedCard post={featured} /> : null}
-            </div>
+            {/* Masthead + topic filter, featured card, grid (client part;
+                the masthead copy and the featured card are server HTML) */}
+            <BlogFilterGrid
+              posts={posts}
+              topics={topics}
+              masthead={<MastheadCopy eyebrow={EYEBROW} title={TITLE} lead={LEAD} />}
+              featured={featured ? <FeaturedCard post={featured} /> : null}
+            />
 
-            {/* Filter + grid */}
-            <section
-              aria-label="All articles"
-              className="relative pb-24 md:pb-32"
-              style={{ background: "var(--color-canvas)" }}
-            >
+            <div className={styles.browse}>
               <div className={styles.container}>
-                <BlogFilterGrid posts={rest} />
-
-                {/* Category hubs. The chips above filter in place; these
+                {/* Category hubs. The filter above works in place; these
                     link to each topic page (/blog/category/*). */}
                 <CategoryNav
                   heading="Browse by topic"
@@ -104,10 +99,12 @@ export default function BlogPage() {
                 />
 
                 {/* The full journal as crawlable links (the grid above loads
-                    18 cards at a time, client-side). */}
+                    24 cards at a time, client-side). */}
                 <ArticleIndex posts={posts} />
               </div>
-            </section>
+            </div>
+
+            <JournalCta />
           </>
         )}
       </main>

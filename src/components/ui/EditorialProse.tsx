@@ -3,10 +3,12 @@ import type { ReactNode } from "react";
 /**
  * EditorialProse — long-form reading wrapper for editorial pages.
  *
- * Applies max-width 680px, Bricolage for headings, Newsreader for body at
- * 19px with comfortable leading, and standard vertical rhythm (all in the
- * .editorial-prose rules of globals.css). A top-level paragraph can opt into
- * a drop-cap by adding className="drop-cap".
+ * Renders the `.editorial-prose` article (base rules in globals.css). The
+ * measure and the Open Sky long-read styles (Figtree body, Figtree 600
+ * headings, glass lists, white tables) are set by the page around it — see
+ * the scoped `.prose` rules in blog-article/article.module.css and
+ * compare-article/compareArticle.module.css — so the column can follow the
+ * page grid (760px in the article template).
  */
 
 interface EditorialProseProps {
@@ -19,7 +21,7 @@ export default function EditorialProse({
   className = "",
 }: EditorialProseProps) {
   return (
-    <article className={`editorial-prose mx-auto max-w-[680px] ${className}`}>
+    <article className={`editorial-prose ${className}`.trim()}>
       {children}
     </article>
   );
@@ -30,25 +32,23 @@ interface PullQuoteProps {
   cite?: string;
 }
 
+/** A pull quote: Figtree 600 statement on a zenith rule (Open Sky). */
 export function PullQuote({ children, cite }: PullQuoteProps) {
   return (
-    <figure
-      className="relative my-10"
-      style={{ paddingLeft: 26 }}
-    >
+    <figure className="relative my-10" style={{ paddingLeft: 28 }}>
       <span
         aria-hidden
-        className="absolute left-0 top-1 bottom-1 w-1 rounded-full"
-        style={{ background: "var(--color-lime)", boxShadow: "0 0 0 1px rgb(24 33 63 / 0.12)" }}
+        className="absolute left-0 top-1 bottom-1 rounded-full"
+        style={{ width: 2, background: "var(--color-zenith, #6E8FE8)" }}
       />
       <blockquote
         style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "clamp(1.25rem, 1.6vw, 1.5rem)",
-          fontWeight: 400,
-          fontStyle: "italic",
-          lineHeight: 1.35,
-          letterSpacing: "-0.01em",
+          fontFamily: "var(--font-display)",
+          fontSize: "clamp(1.5rem, 1.1rem + 1.2vw, 2.125rem)",
+          fontWeight: 600,
+          fontStyle: "normal",
+          lineHeight: 1.2,
+          letterSpacing: "-0.025em",
           color: "var(--color-ink)",
         }}
       >
@@ -58,8 +58,9 @@ export function PullQuote({ children, cite }: PullQuoteProps) {
         <figcaption
           className="mt-3"
           style={{
-            fontFamily: "var(--font-mono)",
+            fontFamily: "var(--font-sans)",
             fontSize: 11,
+            fontWeight: 700,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             color: "var(--color-ink-tertiary)",

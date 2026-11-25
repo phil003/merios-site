@@ -10,37 +10,36 @@ interface ArticleFAQProps {
 }
 
 /**
- * Editorial FAQ for the /blog/[slug] article — display heading (sticky on
- * desktop) beside a stack of paper cards.
+ * FAQ for the /blog/[slug] article, set in the reading column after the body
+ * (Open Sky mockup): one glass card, a hairline between questions, a +/– disc
+ * on haze. The first question is open.
  *
- * Native <details>/<summary> for keyboard + a11y. The + turns into × (and its
- * disc fills lime) via CSS (`.acc-icon` in globals.css) — no client JS,
- * renders on the server.
+ * Native <details>/<summary>: keyboard + a11y for free, answers in the HTML
+ * (the FAQPage JSON-LD is rendered separately by the page). No client JS.
+ * `id="faq"` is the TOC anchor.
  */
 export default function ArticleFAQ({ items }: ArticleFAQProps) {
   if (items.length === 0) return null;
 
   return (
-    <section aria-labelledby="article-faq-heading" className={styles.faq}>
-      <div className={`${styles.container} ${styles.faqGrid}`}>
-        <h2 id="article-faq-heading" className={styles.faqTitle}>
-          Frequently asked questions
-        </h2>
-        <ul className={styles.faqList}>
-          {items.map((item, idx) => (
-            <li key={`${idx}-${item.q}`} className={styles.faqItem}>
-              <details>
-                <summary className={styles.faqSummary}>
-                  <span>{item.q}</span>
-                  <span aria-hidden className={`acc-icon ${styles.faqIcon}`}>
-                    +
-                  </span>
-                </summary>
-                <div className={styles.faqAnswer}>{item.a}</div>
-              </details>
-            </li>
-          ))}
-        </ul>
+    <section id="faq" aria-labelledby="article-faq-heading" className={styles.faq}>
+      <h2 id="article-faq-heading" className={styles.blockTitle}>
+        Frequently asked questions
+      </h2>
+      <div className={styles.faqList}>
+        {items.map((item, idx) => (
+          <details
+            key={`${idx}-${item.q}`}
+            className={styles.faqItem}
+            open={idx === 0}
+          >
+            <summary className={styles.faqSummary}>
+              <span>{item.q}</span>
+              <span aria-hidden className={styles.sign} />
+            </summary>
+            <div className={styles.faqAnswer}>{item.a}</div>
+          </details>
+        ))}
       </div>
     </section>
   );

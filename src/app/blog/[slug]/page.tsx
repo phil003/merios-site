@@ -2,6 +2,8 @@ import Footer from "@/components/Footer";
 import ReadingProgress from "@/components/ui/ReadingProgress";
 import EditorialProse from "@/components/ui/EditorialProse";
 import ArticleHero, { ArticleFigure } from "@/components/blog-article/ArticleHero";
+import ArticleHeroCover from "@/components/blog-article/ArticleHeroCover";
+import ArticleAppCard from "@/components/blog-article/ArticleAppCard";
 import ArticleTOC from "@/components/blog-article/ArticleTOC";
 import MobileTOC from "@/components/blog-article/MobileTOC";
 import ShareButtons from "@/components/blog-article/ShareButtons";
@@ -13,6 +15,7 @@ import ArticleSources from "@/components/blog-article/ArticleSources";
 import SubstackSubscribe from "@/components/SubstackSubscribe";
 import ArticleNotFound from "@/components/blog-article/NotFound";
 import { createMdxComponents } from "@/components/blog-article/mdxComponents";
+import remarkMeriosBlock from "@/components/blog-article/remarkMeriosBlock";
 import { extractHeadings } from "@/components/blog-article/toc";
 import articleStyles from "@/components/blog-article/article.module.css";
 import {
@@ -24,6 +27,7 @@ import { getAllSlugs, getAllPosts, getPostBySlug } from "@/lib/blog";
 import { BLOG_CATEGORIES } from "@/lib/blog-categories";
 import { getRelated } from "@/lib/related";
 import { resolveSources } from "@/lib/sources";
+import { getDrawnCover } from "@/lib/covers";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import type { Metadata } from "next";
@@ -98,10 +102,24 @@ export default async function BlogPostPage({
   }
 
   const sources = resolveSources(post.content, post.sources);
+  // The value an article is about (its drawn cover pins it on a range:
+  // ferritin 30, HbA1c 5.6…), shown big in the short-answer card.
+  const drawn = getDrawnCover({ slug: post.slug, title: post.title, tag: post.tag });
+  const answerValue =
+    drawn.main.kind === "one" &&
+    drawn.band &&
+    drawn.band.pins.length > 0 &&
+    /\d/.test(drawn.main.big)
+      ? { display: drawn.main.big, unit: drawn.main.unit }
+      : undefined;
   const mdxComponents = createMdxComponents(
     new Map(sources.map((s) => [s.id, s.number])),
+    { answerValue },
   );
   const headings = extractHeadings(post.content);
+  if (post.faq && post.faq.length > 0) {
+    headings.push({ id: "faq", text: "Frequently asked questions", level: 2 });
+  }
   if (sources.length > 0) {
     headings.push({ id: "sources", text: "Sources", level: 2 });
   }
@@ -113,6 +131,15 @@ export default async function BlogPostPage({
   const hubCrumb = hub
     ? { title: hub.title, href: `/blog/category/${hub.slug}` }
     : undefined;
+
+  // The drawn cover shows the subject; a genuine per-article image (none
+  // today: every article carries the site share card) still shows as a photo.
+  const cover =
+    post.image && post.image !== "/og-image.png" ? (
+      <ArticleFigure image={post.image} title={post.title} slug={post.slug} tag={post.tag} />
+    ) : (
+      <ArticleHeroCover post={{ slug: post.slug, title: post.title, tag: post.tag }} />
+    );
 
   return (
     <>
@@ -144,7 +171,7 @@ export default async function BlogPostPage({
 
       <ReadingProgress />
 
-      <main style={{ background: "var(--color-canvas)" }}>
+      <main className={articleStyles.page}>
         <ArticleHero
           title={post.title}
           description={post.description}
@@ -155,53 +182,53 @@ export default async function BlogPostPage({
           hub={hubCrumb}
           slug={post.slug}
           image={post.image}
+          sourcesCount={sources.length}
+          cover={cover}
         />
 
-        <MobileTOC headings={headings} />
+        <div className={articleStyles.body}>
+          <div className={articleStyles.bodyRow}>
+            {/* Reading column */}
+            <div className={articleStyles.column}>
+              <MobileTOC headings={headings} />
 
-        <section className={articleStyles.bodySection}>
-          <div className={articleStyles.container}>
-            <div className={articleStyles.bodyGrid}>
-              {/* Desktop sticky TOC */}
-              <div className="lg:pt-1">
-                <ArticleTOC headings={headings} />
-              </div>
-
-              {/* Article body */}
-              <div className="min-w-0">
-                {post.image ? (
-                  <ArticleFigure image={post.image} title={post.title} slug={post.slug} tag={post.tag} />
-                ) : null}
-
-                <div data-article-body="">
-                  <EditorialProse>
-                    <MDXRemote
-                      source={post.content}
-                      components={mdxComponents}
-                      options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
-                    />
-                  </EditorialProse>
-                </div>
-
-                <div className="mx-auto max-w-[680px]">
-                  <ArticleSources
-                    sources={sources}
-                    checkedOn={post.dateModified}
+              <div data-article-body="" className={articleStyles.prose}>
+                <EditorialProse>
+                  <MDXRemote
+                    source={post.content}
+                    components={mdxComponents}
+                    options={{
+                      mdxOptions: { remarkPlugins: [remarkGfm, remarkMeriosBlock] },
+                    }}
                   />
-                  <AuthorByline />
-                  <div className="mt-8">
-                    <ShareButtons title={post.title} slug={post.slug} />
-                  </div>
-                  <SubstackSubscribe />
-                </div>
+                </EditorialProse>
               </div>
+
+              {post.faq && post.faq.length > 0 ? (
+                <ArticleFAQ items={post.faq} />
+              ) : null}
+
+              <ArticleSources sources={sources} checkedOn={post.dateModified} />
+
+              <p className={articleStyles.disclaimer}>
+                General information, not a diagnosis. Talk to your doctor about
+                your own results before changing treatment.
+              </p>
+
+              <AuthorByline />
+              <div className={articleStyles.shareRow}>
+                <ShareButtons title={post.title} slug={post.slug} />
+              </div>
+              <SubstackSubscribe />
+            </div>
+
+            {/* Sticky aside (desktop): contents + the app */}
+            <div className={articleStyles.aside} data-lenis-prevent="">
+              <ArticleTOC headings={headings} />
+              <ArticleAppCard />
             </div>
           </div>
-        </section>
-
-        {post.faq && post.faq.length > 0 ? (
-          <ArticleFAQ items={post.faq} />
-        ) : null}
+        </div>
 
         <RelatedArticles posts={related.cards} more={related.more} />
         <ArticleCTA />

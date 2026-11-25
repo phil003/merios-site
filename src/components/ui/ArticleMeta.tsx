@@ -5,19 +5,22 @@ interface ArticleMetaProps {
   readingTime: number | string;
   category?: string;
   author?: string;
-  /** "light" (default) on fog / white cards, "night" on a night stage. */
+  /** "light" (default) on haze / white cards, "night" on an ink block. */
   tone?: "light" | "night";
   className?: string;
   style?: CSSProperties;
 }
 
 function formatDate(input: string): string {
-  const d = new Date(input);
+  // Date-only ISO strings ("2026-04-30") are read in UTC, so the day never
+  // shifts with the build machine's time zone.
+  const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(input) ? `${input}T00:00:00Z` : input);
   if (Number.isNaN(d.getTime())) return input;
   return d.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 
@@ -27,8 +30,8 @@ function formatReadingTime(rt: number | string): string {
 }
 
 /**
- * Mono meta row (date · reading time · category · author) — IBM Plex Mono
- * caps, tabular figures, small round separators.
+ * Meta row (date · reading time · category · author) — the Open Sky label:
+ * Figtree 700 caps at 0.14em, tabular figures, small round separators.
  */
 export default function ArticleMeta({
   date,
@@ -52,13 +55,13 @@ export default function ArticleMeta({
     <div
       className={`flex flex-wrap items-center gap-x-2.5 gap-y-1.5 ${className}`}
       style={{
-        fontFamily: "var(--font-mono)",
+        fontFamily: "var(--font-sans)",
         fontSize: 11,
-        fontWeight: 500,
+        fontWeight: 700,
         lineHeight: 1.4,
         letterSpacing: "0.14em",
         fontVariantNumeric: "tabular-nums",
-        color: night ? "var(--color-on-night-2)" : "var(--color-ink-tertiary)",
+        color: night ? "rgb(255 255 255 / 0.78)" : "var(--color-ink-tertiary)",
         ...style,
       }}
     >
@@ -70,7 +73,7 @@ export default function ArticleMeta({
               className="inline-block h-[3px] w-[3px] rounded-full"
               style={{
                 background: night
-                  ? "rgb(244 246 247 / 0.4)"
+                  ? "rgb(255 255 255 / 0.4)"
                   : "rgb(24 33 63 / 0.32)",
               }}
             />

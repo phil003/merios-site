@@ -1,24 +1,27 @@
+import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 import styles from "./article.module.css";
 
 /**
- * Closing CTA band for the /blog/[slug] article — a night stage with a chrome
- * display headline, the lime primary button and the logo's heartbeat as its
- * horizon. Links to /early-access (no inline form here — the app is the
- * conversion path; the Substack card above is the newsletter fallback).
+ * Closing band for the /blog/[slug] article — Open Sky: a sunrise that rises
+ * into the lavender footer (not an ink block: the article's one ink block is
+ * its "How Merios…" section), the headline with its italic human words, the
+ * ink pill, and the app's Today screen (example data). Links to /early-access
+ * (no inline form here — the app is the conversion path; the Substack card
+ * above is the newsletter fallback).
  */
 export default function ArticleCTA() {
   return (
-    <section className={`night ${styles.cta}`} data-nav="dark">
+    <section className={styles.cta} aria-labelledby="article-cta-title">
       <div className={styles.ctaInner}>
-        <Reveal className={styles.ctaStack}>
+        <Reveal className={styles.ctaCopy}>
           <div className={`label ${styles.ctaLabel}`}>
             <span aria-hidden className="label-dot" />
             <span>Newsletter</span>
           </div>
 
-          <h2 className={`display chrome-text ${styles.ctaTitle}`}>
-            Like this? Get the next one in your inbox.
+          <h2 id="article-cta-title" className={styles.ctaTitle}>
+            Like this? <em>Get the next one in your inbox.</em>
           </h2>
 
           <p className={styles.ctaLead}>
@@ -27,7 +30,7 @@ export default function ArticleCTA() {
           </p>
 
           <div className={styles.ctaActions}>
-            <a href="/early-access" className="btn btn-lime">
+            <a href="/early-access" className="btn btn-ink">
               Get the app
               <span aria-hidden className="btn-arrow">
                 →
@@ -35,34 +38,19 @@ export default function ArticleCTA() {
             </a>
           </div>
         </Reveal>
-      </div>
 
-      {/* The logo's heartbeat, closing the article */}
-      <svg
-        className={styles.ctaPulse}
-        aria-hidden
-        focusable="false"
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <linearGradient id="article-cta-pulse-fade" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
-            <stop offset="0.4" stopColor="#FFFFFF" stopOpacity="0.2" />
-            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.55" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
-          fill="none"
-          stroke="url(#article-cta-pulse-fade)"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
-      <span aria-hidden className={styles.ctaDot} />
+        <div className={styles.ctaScreen}>
+          <Image
+            src="/images/v2/screens/today.jpg"
+            alt="The Merios Today screen, with example data: sleep 7h24, recovery 76."
+            width={780}
+            height={1688}
+            sizes="(min-width: 900px) 260px, 200px"
+            className={styles.ctaShot}
+          />
+          <span className={styles.ctaTag}>Example data</span>
+        </div>
+      </div>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import styles from "./compareArticle.module.css";
+import { formatShortDate, splitTitle } from "@/components/blog-article/splitTitle";
+import a from "@/components/blog-article/article.module.css";
 
 interface ArticleHeroProps {
   title: string;
@@ -11,21 +12,19 @@ interface ArticleHeroProps {
   competitor: string;
 }
 
-function formatDate(iso: string): string {
-  if (!iso) return "";
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+/** Display size by title length, as in the article masthead. */
+function titleLength(title: string): "short" | "mid" | "long" | "xlong" {
+  if (title.length > 92) return "xlong";
+  if (title.length > 64) return "long";
+  if (title.length > 38) return "mid";
+  return "short";
 }
 
 /**
- * Night masthead for a comparison: breadcrumb as the eyebrow, white display
- * H1, the description as the dek, then the dateline — with the logo's
- * heartbeat running along the lower edge (same drawing as PageHero).
+ * Dawn masthead for a comparison (Open Sky, the same system as the article
+ * template): breadcrumb (Home / Compare / vs {competitor}), the H1 with its
+ * italic human words (text content = the exact title), the description as
+ * the dek, then the dateline.
  *
  * Server component. The entrance is the CSS `.he` keyframe, which plays at
  * parse time, so the H1 is never held at opacity 0 waiting for JavaScript.
@@ -40,104 +39,76 @@ export default function ArticleHero({
 }: ArticleHeroProps) {
   const showUpdated =
     dateModified && dateModified !== datePublished ? dateModified : null;
+  const { head, sep, tail } = splitTitle(title);
 
   return (
-    <header className={`night ${styles.hero}`} data-nav="dark">
-      <div className={styles.wrap}>
-        <div className={styles.heroInner}>
-          {/* Breadcrumb — mono eyebrow with the lime dot */}
-          <nav aria-label="Breadcrumb" className={`he ${styles.crumbs}`}>
-            <span aria-hidden className={`label-dot ${styles.crumbDot}`} />
-            <ol>
-              <li>
-                <Link href="/" className={styles.crumbLink}>
-                  Home
-                </Link>
-              </li>
-              <li aria-hidden className={styles.crumbSep}>
-                /
-              </li>
-              <li>
-                <Link href="/compare" className={styles.crumbLink}>
-                  Compare
-                </Link>
-              </li>
-              <li aria-hidden className={styles.crumbSep}>
-                /
-              </li>
-              <li aria-current="page" className={styles.crumbCurrent}>
-                vs {competitor}
-              </li>
-            </ol>
-          </nav>
+    <header className={a.hero}>
+      <div className={a.heroInner}>
+        <nav aria-label="Breadcrumb" className={`he ${a.crumbs}`}>
+          <ol>
+            <li>
+              <Link href="/" className={a.crumbLink}>
+                Home
+              </Link>
+            </li>
+            <li aria-hidden className={a.crumbSep}>
+              /
+            </li>
+            <li>
+              <Link href="/compare" className={a.crumbLink}>
+                Compare
+              </Link>
+            </li>
+            <li aria-hidden className={a.crumbSep}>
+              /
+            </li>
+            <li aria-current="page" className={a.crumbCurrent}>
+              vs {competitor}
+            </li>
+          </ol>
+        </nav>
 
-          <h1
-            className={`he ${styles.title}`}
-            style={{ "--he-d": "0.06s" } as CSSProperties}
-          >
-            {title}
-          </h1>
+        <h1
+          className={`he ${a.heroTitle}`}
+          data-len={titleLength(title)}
+          style={{ "--he-d": "0.06s" } as CSSProperties}
+        >
+          {head}
+          {tail ? (
+            <>
+              {sep}
+              <em>{tail}</em>
+            </>
+          ) : null}
+        </h1>
 
-          <p
-            className={`he ${styles.dek}`}
-            style={{ "--he-d": "0.16s" } as CSSProperties}
-          >
-            {description}
-          </p>
+        <p
+          className={`he ${a.heroLead}`}
+          style={{ "--he-d": "0.14s" } as CSSProperties}
+        >
+          {description}
+        </p>
 
-          <div
-            className={`he ${styles.meta}`}
-            style={{ "--he-d": "0.24s" } as CSSProperties}
-          >
+        <div
+          className={`he ${a.heroMeta}`}
+          style={{ "--he-d": "0.22s" } as CSSProperties}
+        >
+          <span>
             <time dateTime={datePublished}>
-              Published {formatDate(datePublished)}
+              Published {formatShortDate(datePublished)}
             </time>
             {showUpdated ? (
               <>
-                <span aria-hidden>·</span>
+                {" · "}
                 <time dateTime={showUpdated}>
-                  Updated {formatDate(showUpdated)}
+                  Updated {formatShortDate(showUpdated)}
                 </time>
               </>
             ) : null}
-            <span aria-hidden>·</span>
-            <span>{readTime}</span>
-          </div>
+          </span>
+          <span>{readTime}</span>
         </div>
       </div>
-
-      {/* The logo's heartbeat as the masthead's horizon */}
-      <svg
-        className={styles.horizon}
-        aria-hidden
-        focusable="false"
-        viewBox="0 0 1440 120"
-        preserveAspectRatio="none"
-      >
-        <defs>
-          <linearGradient
-            id="compare-hero-pulse-fade"
-            x1="0"
-            x2="1"
-            y1="0"
-            y2="0"
-          >
-            <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
-            <stop offset="0.45" stopColor="#FFFFFF" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.5" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M0 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
-          fill="none"
-          stroke="url(#compare-hero-pulse-fade)"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
-      <span className={styles.horizonDot} aria-hidden />
     </header>
   );
 }

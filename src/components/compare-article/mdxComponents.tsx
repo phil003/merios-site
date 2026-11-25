@@ -7,12 +7,8 @@ import styles from "./compareArticle.module.css";
  * Strategy:
  * - Heading ids: h2/h3 derive an `id` from their text children using a
  *   deterministic slugifier, so the sticky TOC can scan the DOM for them.
- * - Drop-cap: the first top-level paragraph of the article picks up
- *   `className="drop-cap"` via a module-scope counter created fresh per
- *   render. Next.js RSC renders each request in its own module worker, and
- *   MDX renders synchronously inside a single React pass, so the counter
- *   is safe for one-shot use (and we provide `createMdxComponents()` to
- *   force a fresh closure per render anyway).
+ * - Paragraphs render as written (Open Sky has no drop-cap); the long-read
+ *   look comes from the article template's scoped `.prose` rules.
  * - Tables: wrapped in a scroll container (presentation only — the table
  *   markup and its cells are rendered exactly as MDX produced them). Wide
  *   comparison tables scroll sideways inside it on phones instead of
@@ -44,9 +40,6 @@ type ParagraphProps = ComponentProps<"p">;
 type TableProps = ComponentProps<"table">;
 
 export function createMdxComponents() {
-  // Counter local to this render — incremented each time we render a top-level <p>.
-  let paragraphIndex = 0;
-
   const h2 = ({ children, id, ...rest }: HeadingProps) => {
     const text = toPlainText(children);
     const resolvedId = id ?? (text ? slugify(text) : undefined);
@@ -67,17 +60,11 @@ export function createMdxComponents() {
     );
   };
 
-  const p = ({ className, children, ...rest }: ParagraphProps) => {
-    const index = paragraphIndex++;
-    const classes = [className, index === 0 ? "drop-cap" : null]
-      .filter(Boolean)
-      .join(" ");
-    return (
-      <p className={classes || undefined} {...rest}>
-        {children}
-      </p>
-    );
-  };
+  const p = ({ className, children, ...rest }: ParagraphProps) => (
+    <p className={className} {...rest}>
+      {children}
+    </p>
+  );
 
   const table = ({ className, children, ...rest }: TableProps) => (
     <div className={styles.tableScroll} tabIndex={0}>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "./compareArticle.module.css";
+import a from "@/components/blog-article/article.module.css";
 
 interface TocItem {
   id: string;
@@ -9,16 +9,14 @@ interface TocItem {
 }
 
 /**
- * Sticky table of contents for the compare article.
+ * Table of contents for the compare article, in the sticky aside (desktop
+ * only; the aside is shown from 1080px — same system as the article
+ * template).
  *
  * On mount, scans the article body (`[data-article-body]`) for `h2[id]`
- * elements and renders them as anchor links. Uses IntersectionObserver with
- * `rootMargin: "-40% 0px -55% 0px"` to flag the currently-read section.
- * The active item gets an ink rail marker and an ink/lime number chip
- * (plain CSS transitions in compareArticle.module.css).
- *
- * Desktop only (hidden below lg) — mobile users get the full article without
- * a TOC, which keeps the layout pragmatic.
+ * elements and renders them as anchor links on a hairline rail. Uses
+ * IntersectionObserver with `rootMargin: "-40% 0px -55% 0px"` to flag the
+ * currently-read section (ink text, ink rail segment).
  */
 export default function ArticleTOC() {
   const [items, setItems] = useState<TocItem[]>([]);
@@ -76,28 +74,19 @@ export default function ArticleTOC() {
   if (items.length === 0) return null;
 
   return (
-    <nav
-      aria-label="On this page"
-      className={`hidden lg:sticky lg:top-28 lg:block ${styles.toc}`}
-    >
-      <p className={styles.tocLabel}>
-        <span aria-hidden className="label-dot label-dot--ink" />
-        On this page
-      </p>
-      <ol className={styles.tocList}>
-        {items.map((item, i) => {
+    <nav aria-label="On this page" className={a.toc}>
+      <p className={a.tocLabel}>On this page</p>
+      <ol className={a.tocList}>
+        {items.map((item) => {
           const isActive = activeId === item.id;
           return (
             <li key={item.id}>
               <a
                 href={`#${item.id}`}
                 aria-current={isActive ? "location" : undefined}
-                className={styles.tocLink}
+                className={a.tocLink}
               >
-                <span aria-hidden className={styles.tocNum}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span>{item.label}</span>
+                {item.label}
               </a>
             </li>
           );

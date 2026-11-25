@@ -11,8 +11,8 @@ interface ShareButtonsProps {
 /**
  * Row of share buttons (X, LinkedIn, copy-link) for a /blog/[slug] article.
  *
- * - Three 44×44 paper discs, ink glyphs; on hover they turn ink with a lime
- *   glyph. Focus uses the global :focus-visible ring.
+ * - Three 44×44 glass discs, ink glyphs; on hover they turn ink with a white
+ *   glyph (Open Sky). Focus uses the global :focus-visible ring.
  * - Copy-link uses `navigator.clipboard.writeText(window.location.href)` and
  *   shows a CSS-transition "Copied" toast for ~1.8s (motion-free).
  * - External buttons open in a new tab with rel="noopener".

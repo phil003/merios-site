@@ -110,18 +110,18 @@ export default function CompareIndexPage() {
           </div>
         </section>
 
-        {/* Final CTA — a white card on fog, the heartbeat along its base */}
+        {/* Final CTA — the page's one ink block */}
         <section aria-labelledby="compare-cta" className={styles.request}>
           <div className={styles.wrap}>
             <Reveal amount={0.3}>
-              <div className={styles.requestCard}>
+              <div className={`night ${styles.requestCard}`} data-nav="dark">
                 <div>
                   <span className={`label ${styles.requestLabel}`}>
-                    <span aria-hidden className="label-dot label-dot--ink" />
+                    <span aria-hidden className="label-dot" />
                     <span>Request a comparison</span>
                   </span>
                   <h2 id="compare-cta" className={styles.requestTitle}>
-                    Didn&rsquo;t find a comparison?
+                    Didn&rsquo;t find <em>a comparison?</em>
                   </h2>
                   <p className={styles.requestText}>
                     Tell us which platform you&rsquo;re evaluating Merios
@@ -130,45 +130,13 @@ export default function CompareIndexPage() {
                 </div>
                 <Link
                   href="/contact#subject=Suggest%20a%20comparison&type=general"
-                  className={`btn btn-ink ${styles.requestAction}`}
+                  className={`btn btn-lime ${styles.requestAction}`}
                 >
                   Suggest one
                   <span aria-hidden className="btn-arrow">
                     →
                   </span>
                 </Link>
-
-                <svg
-                  className={styles.requestPulse}
-                  aria-hidden
-                  focusable="false"
-                  viewBox="0 0 1000 60"
-                  preserveAspectRatio="none"
-                >
-                  <defs>
-                    <linearGradient
-                      id="compare-request-pulse"
-                      x1="0"
-                      x2="1"
-                      y1="0"
-                      y2="0"
-                    >
-                      <stop offset="0" stopColor="#18213F" stopOpacity="0" />
-                      <stop offset="0.5" stopColor="#18213F" stopOpacity="0.16" />
-                      <stop offset="1" stopColor="#18213F" stopOpacity="0.5" />
-                    </linearGradient>
-                  </defs>
-                  <path
-                    d="M0 30 H760 L772 37 L786 7 L804 53 L816 30 H900"
-                    fill="none"
-                    stroke="url(#compare-request-pulse)"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    vectorEffect="non-scaling-stroke"
-                  />
-                </svg>
-                <span aria-hidden className={styles.requestDot} />
               </div>
             </Reveal>
           </div>

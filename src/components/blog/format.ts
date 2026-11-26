@@ -13,3 +13,8 @@ export function formatPostDate(input: string): string {
     timeZone: "UTC",
   });
 }
+
+/** "9 min" from the frontmatter "9 min read": the card's meta line, short. */
+export function shortReadTime(readTime: string): string {
+  return readTime.replace(/\s+read$/i, "").trim();
+}

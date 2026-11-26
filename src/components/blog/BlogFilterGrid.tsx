@@ -15,10 +15,24 @@
 // - Motion: nothing animates on first load (the server HTML is visible as
 //   is). A filter change replays a short entrance on the grid; "Load more"
 //   animates the new batch only; 40ms stagger, capped. Reduced motion: none.
+// - Phones: the topic filter is one row that scrolls sideways (no 4-row
+//   block of pills); a fade on the side that hides more pills is the cue.
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import BlogCard, { type BlogCardData } from "./BlogCard";
+import { withItalicEnd } from "./JournalMasthead";
 import styles from "./blog.module.css";
+
+type Overflow = "none" | "start" | "middle" | "end";
+
+/** Which side of a sideways-scrolling row still hides content. */
+function readOverflow(el: HTMLElement): Overflow {
+  const max = el.scrollWidth - el.clientWidth;
+  if (max <= 2) return "none";
+  if (el.scrollLeft <= 2) return "start";
+  if (el.scrollLeft >= max - 2) return "end";
+  return "middle";
+}
 
 export interface JournalTopic {
   slug: string;
@@ -53,6 +67,23 @@ export default function BlogFilterGrid({
   const [animateFrom, setAnimateFrom] = useState<number | null>(null);
   const gridRef = useRef<HTMLUListElement>(null);
   const focusFrom = useRef<number | null>(null);
+  const chipsRef = useRef<HTMLDivElement>(null);
+  const [chipsOverflow, setChipsOverflow] = useState<Overflow>("none");
+
+  // The filter row scrolls sideways on phones: track which edge hides pills.
+  useEffect(() => {
+    const el = chipsRef.current;
+    if (!el) return;
+    const update = () => setChipsOverflow(readOverflow(el));
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, []);
 
   const hasFeatured = Boolean(featured) && posts.length > 0;
   const topic = topics.find((t) => t.slug === active) ?? null;
@@ -103,9 +134,11 @@ export default function BlogFilterGrid({
         <div className={styles.container}>
           {masthead}
           <div
+            ref={chipsRef}
             role="group"
             aria-label="Filter articles by topic"
             className={`he ${styles.chips}`}
+            data-overflow={chipsOverflow}
             style={{ "--he-d": "0.16s" } as CSSProperties}
           >
             <TopicChip
@@ -132,12 +165,24 @@ export default function BlogFilterGrid({
       <section aria-labelledby="journal-grid-title" className={styles.gridSection}>
         <div className={styles.container}>
           <div className={styles.gridHead}>
-            <h2 id="journal-grid-title" className={styles.gridTitle}>
-              {topic ? topic.title : "All articles"}
-            </h2>
+            <div className={styles.gridHeadCopy}>
+              <p className={`label ${styles.gridEyebrow}`}>
+                <span aria-hidden className="label-dot" />
+                <span>Newest first</span>
+              </p>
+              <h2 id="journal-grid-title" className={styles.gridTitle}>
+                {topic ? (
+                  withItalicEnd(topic.title)
+                ) : (
+                  <>
+                    All <em>articles</em>
+                  </>
+                )}
+              </h2>
+            </div>
             <p className={styles.gridCount} aria-live="polite">
               <span className={styles.gridCountNum}>{shown}</span>{" "}
-              {shown === 1 ? "article" : "articles"} · newest first
+              {shown === 1 ? "article" : "articles"}
             </p>
           </div>
 

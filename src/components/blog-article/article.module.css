@@ -253,17 +253,17 @@
 
 /* Desktop TOC (in the aside) */
 /* The aside carries data-lenis-prevent, so a long contents list scrolls
-   natively under the wheel, then hands over to the page. */
+   natively under the wheel, then hands over to the page. The label stays;
+   the list scrolls under it, and the end that hides rows fades out
+   (data-fade, set by useTocScroll), so a cut row never reads as the end. */
 .toc {
   flex: 0 1 auto;
   min-height: 0;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  /* room for focus rings inside the scroll box */
-  margin: -4px -6px -4px -4px;
-  padding: 4px 6px 4px 4px;
+  display: flex;
+  flex-direction: column;
 }
 .tocLabel {
+  flex: none;
   margin: 0 0 12px;
   font-size: 0.6875rem;
   font-weight: 700;
@@ -273,9 +273,27 @@
   color: var(--color-ink-tertiary);
 }
 .tocList {
-  margin: 0;
-  padding: 0;
+  position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  /* room for focus rings inside the scroll box */
+  margin: -4px -6px -4px -4px;
+  padding: 4px 6px 4px 4px;
   list-style: none;
+}
+.tocList[data-fade="end"] {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
+}
+.tocList[data-fade="start"] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40px);
+  mask-image: linear-gradient(to bottom, transparent, #000 40px);
+}
+.tocList[data-fade="both"] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 40px, #000 calc(100% - 56px), transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 40px, #000 calc(100% - 56px), transparent);
 }
 .tocLink {
   display: block;
@@ -349,6 +367,12 @@
   text-transform: uppercase;
   color: var(--color-ink-secondary);
 }
+.appCard[data-compact] {
+  padding: 18px 20px 20px;
+}
+.appCard[data-compact] .appTitle {
+  margin-top: 0;
+}
 .appTitle {
   margin: 18px 0 0;
   font-size: 1.1875rem;
@@ -356,10 +380,16 @@
   line-height: 1.25;
   letter-spacing: -0.015em;
   color: var(--color-ink);
+  text-wrap: balance;
+}
+/* "over time." never leaves "time." alone on a line */
+.nowrapWords {
+  white-space: nowrap;
 }
 .appTitle em,
 .ctaTitle em,
-.nfTitle em {
+.nfTitle em,
+.relatedTitle em {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 300;
@@ -506,6 +536,16 @@ details[open] > summary .sign::after {
 }
 .prose :global(.editorial-prose) p {
   color: var(--color-ink);
+}
+/* Reading measure: running text stops at about 68 characters a line (the
+   column itself stays 760px for tables, cards, notes and the ink block).
+   Figtree averages ~0.47em a character, so 32em ≈ 68 characters. */
+.prose :global(.editorial-prose) > p:not([class]),
+.prose :global(.editorial-prose) > ul:not([class]),
+.prose :global(.editorial-prose) > ol:not([class]),
+.prose :global(.editorial-prose) div.inkBlock > p:not([class]),
+.prose :global(.editorial-prose) div.inkBlock > ul:not([class]) {
+  max-width: 32em;
 }
 .prose :global(.editorial-prose) strong {
   color: var(--color-ink);
@@ -975,7 +1015,9 @@ details[open] > summary .sign::after {
   margin-top: 0.8em;
 }
 
-/* Inline citations (<Cite />) — Figtree superscript, "3,4" when adjacent */
+/* Inline citations (<Cite />) — Figtree superscript, "3,4" when adjacent
+   (the comma is printed by Cite itself, only right after another citation:
+   see remarkCiteSeparators.ts) */
 .prose :global(.editorial-prose) sup.cite {
   margin-left: 1px;
   font-family: var(--font-sans);
@@ -984,9 +1026,18 @@ details[open] > summary .sign::after {
   line-height: 0;
   vertical-align: super;
 }
-.prose :global(.editorial-prose) sup.cite + sup.cite::before {
-  content: ",";
+.citeSep {
   color: var(--color-ink-tertiary);
+}
+
+/* Table cells: a value keeps its unit, a hyphenated term its hyphen
+   (tableText.tsx); units keep their case in the capitals of a header. */
+.cellNowrap {
+  white-space: nowrap;
+}
+.cellUnit {
+  text-transform: none;
+  letter-spacing: 0.02em;
 }
 .prose :global(.editorial-prose) sup.cite a {
   padding: 0 1px;
@@ -1130,8 +1181,7 @@ details[open] > summary .sign::after {
 }
 .sourcesList {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-  gap: 0 28px;
+  grid-template-columns: minmax(0, 1fr);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1180,18 +1230,48 @@ details[open] > summary .sign::after {
 .sourceContainer {
   font-style: italic;
 }
+/* PubMed id and DOI on their own line, flush with the reference text */
 .sourceIds {
-  display: inline-flex;
-  gap: 10px;
-  margin-left: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-top: 8px;
   font-size: 0.75rem;
   font-weight: 600;
+  line-height: 1.2;
   color: var(--color-ink-tertiary);
+  font-variant-numeric: tabular-nums;
 }
-.sourceIds a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+/* A 30px pill, with a 44px tap area around it */
+.sourceDoi {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.7);
+  border: 1px solid rgb(24 33 63 / 0.12);
+  color: var(--color-link, #3550A8);
+  text-decoration: none;
+  transition:
+    background-color 200ms var(--ease-smooth),
+    border-color 200ms var(--ease-smooth);
+}
+.sourceDoi::after {
+  content: "";
+  position: absolute;
+  inset: -7px -4px;
+}
+.sourceDoi:hover {
+  background: #FFFFFF;
+  border-color: rgb(53 80 168 / 0.4);
+}
+.sourceDoiArrow {
+  font-size: 0.8125rem;
+  line-height: 1;
 }
 
 .disclaimer {
@@ -1339,7 +1419,7 @@ details[open] > summary .sign::after {
 
 /* ─── Related articles (drawn covers) ─── */
 .related {
-  padding: clamp(16px, 2vw, 32px) 0 clamp(80px, 9vw, 112px);
+  padding: clamp(16px, 2vw, 32px) 0 clamp(40px, 4vw, 56px);
 }
 .relatedHead {
   display: grid;
@@ -1361,11 +1441,18 @@ details[open] > summary .sign::after {
   color: var(--color-ink);
   text-wrap: balance;
 }
+/* One row, as many columns as cards (--rel-cols, 1 to 3): never an empty
+   slot, never a card alone on a second row. Phones: one column. */
 .relatedGrid {
   margin-top: 32px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 40px 24px;
+}
+@media (min-width: 720px) {
+  .relatedGrid {
+    grid-template-columns: repeat(var(--rel-cols, 3), minmax(0, 1fr));
+  }
 }
 .relCard {
   display: flex;
@@ -1513,7 +1600,7 @@ details[open] > summary .sign::after {
   width: 100%;
   max-width: calc(1312px + 2 * var(--spacing-container));
   margin-inline: auto;
-  padding: clamp(64px, 9vw, 120px) var(--spacing-container) 0;
+  padding: clamp(56px, 7vw, 96px) var(--spacing-container) 0;
   display: grid;
   align-items: end;
   gap: 40px;
@@ -1554,9 +1641,16 @@ details[open] > summary .sign::after {
 .ctaActions {
   margin-top: 30px;
 }
-.ctaScreen {
+/* The app screen and its "Example data" sticker: the sticker sits on the
+   frame's top edge, outside the screen, so it never covers the screen's
+   own first line (a date, a header). */
+.ctaFigure {
   position: relative;
   justify-self: center;
+  padding-top: 13px;
+}
+.ctaScreen {
+  position: relative;
   width: clamp(200px, 20vw, 260px);
   height: clamp(250px, 26vw, 340px);
   overflow: hidden;
@@ -1571,16 +1665,20 @@ details[open] > summary .sign::after {
 }
 .ctaTag {
   position: absolute;
-  left: 12px;
-  top: 12px;
-  padding: 4px 9px;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  padding: 5px 10px;
   border-radius: 999px;
-  background: rgb(255 255 255 / 0.9);
+  background: #FFFFFF;
+  box-shadow: 0 8px 20px -12px rgb(36 48 110 / 0.5);
   font-size: 0.625rem;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  white-space: nowrap;
   color: var(--color-ink-secondary);
 }
 

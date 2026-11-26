@@ -96,6 +96,22 @@ export function getBlogCategory(slug: string): BlogCategory | undefined {
   return BLOG_CATEGORIES.find((c) => c.slug === slug);
 }
 
+/** The topic hub an article belongs to, from its frontmatter tag. */
+export function getCategoryForTag(tag: string): BlogCategory | undefined {
+  return BLOG_CATEGORIES.find((c) => c.tags.includes(tag));
+}
+
+/**
+ * The reader-facing topic of an article: its hub title ("Biomarkers",
+ * "Wearables & Lifestyle"…), never the raw frontmatter tag ("Lipids", "HRV",
+ * or the internal "Pillar" / "Tools"). Cards, chips, related links and share
+ * cards all print this, so they match the filter, the hubs and the
+ * breadcrumb.
+ */
+export function getTopicTitle(tag: string): string {
+  return getCategoryForTag(tag)?.title ?? "Journal";
+}
+
 /** Posts whose frontmatter tag belongs to the category, newest first. */
 export function getPostsInCategory(
   category: BlogCategory,

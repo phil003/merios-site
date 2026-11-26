@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import CompareCard from "@/components/compare/CompareCard";
 import Reveal from "@/components/ui/Reveal";
 import type { ComparePost } from "@/lib/compare";
@@ -8,9 +9,11 @@ interface RelatedComparisonsProps {
 }
 
 /**
- * "More comparisons" — up to 3 related compare posts rendered with the shared
- * CompareCard, under the article template's "keep reading" head. Rendered
- * below the article, before the final CTA.
+ * "More comparisons" — up to 3 related compare posts (getRelatedComparePosts:
+ * the same products first, then the newest) rendered with the shared
+ * CompareCard, under the article template's "keep reading" head, in one row
+ * with as many columns as cards. Rendered below the article, before the
+ * final CTA.
  */
 export default function RelatedComparisons({
   posts,
@@ -27,12 +30,15 @@ export default function RelatedComparisons({
               <span>More comparisons</span>
             </div>
             <h2 id="related-compare-title" className={a.relatedTitle}>
-              Keep exploring
+              Keep <em>exploring</em>
             </h2>
           </div>
         </Reveal>
 
-        <div className={a.relatedGrid}>
+        <div
+          className={a.relatedGrid}
+          style={{ "--rel-cols": posts.length } as CSSProperties}
+        >
           {posts.map((post, i) => (
             <CompareCard key={post.slug} post={post} index={i} />
           ))}

@@ -1,12 +1,11 @@
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import type { Metadata } from "next";
 
 import Footer from "@/components/Footer";
-import PageHero from "@/components/ui/PageHero";
 import Reveal from "@/components/ui/Reveal";
 import { BreadcrumbSchema } from "@/components/StructuredData";
 import CompareGrid from "@/components/compare/CompareGrid";
+import CompareMasthead from "@/components/compare/CompareMasthead";
 import styles from "@/components/compare/compare.module.css";
 import { getAllComparePosts } from "@/lib/compare";
 
@@ -72,36 +71,15 @@ export default function CompareIndexPage() {
       />
 
       <main style={{ background: "var(--color-canvas)" }}>
-        <PageHero
+        {/* The H1's words are kept (the hub changed on 25 Nov 2026, SEO
+            cooldown); the subtitle says what the pages really compare: most
+            of them put two other products side by side. */}
+        <CompareMasthead
           eyebrow="Compare"
-          title="Merios vs the rest."
-          subline="Honest, side-by-side breakdowns."
+          title="Merios vs"
+          italic="the rest."
+          subline="Honest breakdowns, side by side, of blood test services, home test kits, glucose monitors and lab report apps, Merios included: what each one costs, what it measures and who it suits."
         />
-
-        {/* Intro editorial — above the fold on desktop, so it enters with
-            the parse-time CSS keyframe rather than the scroll reveal */}
-        <section aria-labelledby="compare-intro" className={styles.intro}>
-          <div className={styles.wrap}>
-            <div
-              className={`he ${styles.introGrid}`}
-              style={{ "--he-d": "0.3s" } as CSSProperties}
-            >
-              <h2 id="compare-intro" className="sr-only">
-                About these comparisons
-              </h2>
-              <p className={styles.introLead}>
-                Detailed, honest comparisons of Merios against the health
-                platforms people most often evaluate alongside us.
-              </p>
-              <p className={styles.introBody}>
-                No marketing fluff — just what each product actually does,
-                where it wins, and who it&rsquo;s for. Pricing, biomarker
-                coverage, data ownership, and the clinical depth of each
-                platform, compared on a single page.
-              </p>
-            </div>
-          </div>
-        </section>
 
         {/* Comparisons grid */}
         <section aria-label="Comparisons" className={styles.gridSection}>

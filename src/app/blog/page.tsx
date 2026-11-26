@@ -11,7 +11,7 @@ import JournalCta from "@/components/blog/JournalCta";
 import JournalMasthead, { MastheadCopy } from "@/components/blog/JournalMasthead";
 import styles from "@/components/blog/blog.module.css";
 import { getListedPosts } from "@/lib/blog";
-import { BLOG_CATEGORIES, getCategoryCounts } from "@/lib/blog-categories";
+import { BLOG_CATEGORIES, getCategoryCounts, getTopicTitle } from "@/lib/blog-categories";
 
 const DESCRIPTION =
   "Expert articles on blood biomarkers, biological age and longevity. Learn what your blood test results mean and how to improve your health score.";
@@ -47,6 +47,7 @@ export default function BlogPage() {
     description: p.description,
     date: p.date,
     tag: p.tag,
+    topic: getTopicTitle(p.tag),
     readTime: p.readTime,
   }));
   const featured = posts[0];

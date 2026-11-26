@@ -58,6 +58,19 @@ function decodeEntities(raw: string): string {
     .replace(/&amp;/g, "&");
 }
 
+/**
+ * Rough height (px) of the desktop contents list in the sticky aside: the
+ * label, then one row per heading (33px, 52px when the text wraps onto a
+ * second line in the 266px column). Used to decide whether the small app
+ * card still fits under the list.
+ */
+export function estimateTocHeight(headings: Heading[]): number {
+  return headings.reduce(
+    (sum, h) => sum + 14 + 19 * Math.ceil(h.text.length / 37),
+    25,
+  );
+}
+
 export function extractHeadings(markdown: string): Heading[] {
   const lines = markdown.split(/\r?\n/);
   const out: Heading[] = [];

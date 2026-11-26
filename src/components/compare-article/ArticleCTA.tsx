@@ -4,9 +4,10 @@ import a from "@/components/blog-article/article.module.css";
 
 /**
  * Final comparison CTA — "Try Merios →" linking to /early-access. Open Sky:
- * the article template's sunrise band (not an ink block: the page's one ink
- * block is the verdict), the headline with its italic human words, the ink
- * pill, and the app's compare screen (example data).
+ * the article template's sunrise band (not an ink block), the headline with
+ * its italic human words, the ink pill, and the app's compare screen
+ * (example data, labelled on the frame's top edge so the label never covers
+ * the screen's own date line).
  */
 export default function ArticleCTA() {
   return (
@@ -30,15 +31,17 @@ export default function ArticleCTA() {
           </div>
         </Reveal>
 
-        <div className={a.ctaScreen}>
-          <Image
-            src="/images/v2/screens/compare.jpg"
-            alt="The Merios compare screen, with example data: LDL across two panels, 112 to 104 mg/dL."
-            width={780}
-            height={1688}
-            sizes="(min-width: 900px) 260px, 200px"
-            className={a.ctaShot}
-          />
+        <div className={a.ctaFigure}>
+          <div className={a.ctaScreen}>
+            <Image
+              src="/images/v2/screens/compare.jpg"
+              alt="The Merios compare screen, with example data: LDL across two panels, 112 to 104 mg/dL."
+              width={780}
+              height={1688}
+              sizes="(min-width: 900px) 260px, 200px"
+              className={a.ctaShot}
+            />
+          </div>
           <span className={a.ctaTag}>Example data</span>
         </div>
       </div>

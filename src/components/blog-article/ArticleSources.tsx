@@ -3,12 +3,13 @@ import styles from "./article.module.css";
 
 /**
  * Numbered source list at the end of an article — the target of every inline
- * <Cite /> superscript. Open Sky: a two-column grid of hairline rows, the
- * number in Newsreader, the linked title in ink. Papers read like a journal
- * reference (authors, title, journal, year) with PubMed / DOI ids; web
- * sources (guidelines, fact sheets) show their publisher. Each entry is an
- * anchor (#source-id), so a superscript lands on its reference, highlighted
- * by :target.
+ * <Cite /> superscript. Open Sky: one column of hairline rows (long paper
+ * titles read in a few lines, not five or six), the number in Newsreader,
+ * the linked title in ink. Papers read like a journal reference (authors,
+ * title, journal, year), then their PubMed id and a DOI pill on their own
+ * line (a full-size tap target). Web sources (guidelines, fact sheets) show
+ * their publisher. Each entry is an anchor (#source-id), so a superscript
+ * lands on its reference, highlighted by :target.
  */
 export default function ArticleSources({
   sources,
@@ -70,7 +71,7 @@ export default function ArticleSources({
                   .
                 </>
               ) : null}
-              {source.kind === "paper" ? (
+              {source.kind === "paper" && (source.pmid || source.doi) ? (
                 <span className={styles.sourceIds}>
                   {source.pmid ? <span>PMID {source.pmid}</span> : null}
                   {source.doi ? (
@@ -78,8 +79,13 @@ export default function ArticleSources({
                       href={`https://doi.org/${source.doi}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className={styles.sourceDoi}
                     >
                       DOI
+                      <span aria-hidden className={styles.sourceDoiArrow}>
+                        ↗
+                      </span>
+                      <span className="sr-only"> (opens in a new tab)</span>
                     </a>
                   ) : null}
                 </span>

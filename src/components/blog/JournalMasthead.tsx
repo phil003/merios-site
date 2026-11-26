@@ -57,10 +57,13 @@ export default function JournalMasthead({
   );
 }
 
-/** Sets the last word of a title in the italic human voice: "Blood <em>Tests</em>". */
+/**
+ * Sets the last word of a title in the italic human voice: "Blood <em>Tests</em>".
+ * A one-word title is that last word: "<em>Biomarkers</em>".
+ */
 export function withItalicEnd(title: string): ReactNode {
   const cut = title.lastIndexOf(" ");
-  if (cut <= 0) return title;
+  if (cut <= 0) return <em>{title}</em>;
   return (
     <>
       {title.slice(0, cut + 1)}

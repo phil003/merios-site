@@ -1,8 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    /compare index + the shared CompareCard (also used under every article).
    Open Sky v2: haze page under the dawn masthead, white cards whose soft
-   dawn plate carries the subject ("vs {competitor}"), Figtree labels and
-   titles, one ink block (the "request a comparison" card) per page.
+   dawn plate carries the page's subject ("Lingo vs Stelo", "Function Health
+   review"), Figtree labels and titles, one ink block (the "request a
+   comparison" card) per page.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .wrap {
@@ -69,34 +70,34 @@
     linear-gradient(135deg, #FCE3D6 0%, #F2EEF8 100%);
 }
 
-/* "vs {competitor}" — the card's eyebrow, set as the cover's headline */
-.vs {
-  position: relative;
+/* The page's subject, set as the cover's headline: "Lingo vs Stelo",
+   "Function Health review" — Figtree, the italic word in Newsreader */
+.cover {
   display: flex;
-  height: 100%;
-  min-height: 118px;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 18px;
+  align-items: flex-end;
 }
-.vsWord {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-secondary);
-}
-.vsName {
-  max-width: 11em;
+.subject {
+  position: relative;
+  margin: 0;
+  max-width: 13em;
   font-family: var(--font-display);
   font-size: clamp(1.75rem, 1.3rem + 1vw, 2.25rem);
   font-weight: 600;
-  line-height: 1;
+  line-height: 1.02;
   letter-spacing: -0.04em;
   text-wrap: balance;
   color: var(--color-ink);
+}
+.subject[data-len="long"] {
+  max-width: 15em;
+  font-size: clamp(1.375rem, 1.1rem + 0.7vw, 1.75rem);
+  line-height: 1.06;
+}
+.subject em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
 }
 
 .body {
@@ -196,16 +197,25 @@
 }
 
 /* ─── Grid ─────────────────────────────────────────────────────────────── */
+/* Every row full: when the count does not divide by the columns, the newest
+   comparison opens the grid wider (data-lead2 / data-lead3, from
+   CompareGrid), so no row ends on an empty slot or a lone card. */
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(16px, 2vw, 24px);
 }
-@media (min-width: 768px) {
+/* The wide lead card's plate grows with it */
+@media (min-width: 768px) and (max-width: 1099px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid[data-lead2="2"] > :first-child { grid-column: 1 / -1; }
+  .grid[data-lead2="2"] > :first-child .cover { min-height: 200px; }
 }
 @media (min-width: 1100px) {
   .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid[data-lead3="2"] > :first-child { grid-column: span 2; }
+  .grid[data-lead3="3"] > :first-child { grid-column: 1 / -1; }
+  .grid:is([data-lead3="2"], [data-lead3="3"]) > :first-child .cover { min-height: 200px; }
 }
 .empty {
   margin: 0;
@@ -217,41 +227,11 @@
 }
 
 /* ─── Index page sections ──────────────────────────────────────────────── */
-.intro {
-  padding-top: clamp(56px, 7vw, 104px);
+/* Masthead: an italic word keeps its overhang inside the .ph-word mask */
+.italicWord {
+  padding-right: 0.08em;
+  margin-right: -0.08em;
 }
-.introGrid {
-  display: grid;
-  gap: 20px;
-}
-.introLead {
-  margin: 0;
-  max-width: 21em;
-  font-family: var(--font-display);
-  font-size: clamp(1.625rem, 1.15rem + 1.5vw, 2.5rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-  color: var(--color-ink);
-}
-.introBody {
-  margin: 0;
-  max-width: 34em;
-  font-family: var(--font-sans);
-  font-size: 1.125rem;
-  line-height: 1.55;
-  color: var(--color-ink-secondary);
-  text-wrap: pretty;
-}
-@media (min-width: 960px) {
-  .introGrid {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    align-items: end;
-    column-gap: clamp(40px, 6vw, 112px);
-  }
-}
-
 .gridSection {
   padding-block: clamp(40px, 5vw, 72px) clamp(72px, 8vw, 120px);
 }

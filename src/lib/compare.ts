@@ -16,11 +16,23 @@ export interface ComparePost {
   readTime: string;
   image?: string;
   faq?: FAQItem[];
+  /**
+   * The editor's closing verdict ("Our take"), from the frontmatter
+   * `verdict:`. Optional: without it the page shows no verdict block (the
+   * description is already the hero's subtitle, so it is never reused).
+   */
+  verdict?: string;
+  /** Topic chips for the comparison card (frontmatter `tags:`), if any. */
+  tags?: string[];
   content: string;
 }
 
 function parseCompare(slug: string, raw: string): ComparePost {
   const { data, content } = matter(raw);
+  const verdict = typeof data.verdict === 'string' ? data.verdict.trim() : '';
+  const tags = Array.isArray(data.tags)
+    ? data.tags.filter((t: unknown): t is string => typeof t === 'string' && t.trim() !== '')
+    : [];
   return {
     slug,
     title: data.title || '',
@@ -32,6 +44,8 @@ function parseCompare(slug: string, raw: string): ComparePost {
     readTime: data.readTime || '8 min read',
     image: data.image || undefined,
     faq: Array.isArray(data.faq) ? data.faq : undefined,
+    verdict: verdict || undefined,
+    tags: tags.length > 0 ? tags : undefined,
     content,
   };
 }
@@ -69,4 +83,69 @@ export function getAllComparePosts(): ComparePost[] {
     .sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
+}
+
+/* ─── What a comparison is about ───────────────────────────────────────────
+   Most pages compare two third parties ("Lingo vs Stelo"); a few look at
+   one product ("Function Health Review / Cost / Alternatives"). The subject
+   is read from the title's head (before its "(2026)" or ":"), so the card
+   cover and the breadcrumb always name the page's real subject. */
+
+export type CompareSubject =
+  | { kind: 'versus'; left: string; right: string }
+  | { kind: 'single'; name: string; /** "review", "cost", "alternatives"… */ angle: string };
+
+export function getCompareSubject(
+  post: Pick<ComparePost, 'title' | 'competitor'>,
+): CompareSubject {
+  const head = post.title.split(/\s\(|:\s/)[0].trim();
+  const sides = head.split(/\s+vs\.?\s+/i);
+  if (sides.length === 2 && sides[0] && sides[1]) {
+    return { kind: 'versus', left: sides[0].trim(), right: sides[1].trim() };
+  }
+  const angle = head.match(/^(.*\S)\s+(review|cost|costs|price|pricing|alternatives?)$/i);
+  if (angle) {
+    return { kind: 'single', name: angle[1], angle: angle[2].toLowerCase() };
+  }
+  return { kind: 'single', name: post.competitor || head, angle: '' };
+}
+
+/** "Lingo vs Stelo", "Function Health review": the breadcrumb's last item. */
+export function compareSubjectLabel(subject: CompareSubject): string {
+  if (subject.kind === 'versus') return `${subject.left} vs ${subject.right}`;
+  return subject.angle ? `${subject.name} ${subject.angle}` : subject.name;
+}
+
+function subjectNames(post: ComparePost): string[] {
+  const subject = getCompareSubject(post);
+  const names = subject.kind === 'versus' ? [subject.left, subject.right] : [subject.name];
+  return names.map((n) => n.toLowerCase());
+}
+
+/**
+ * "Keep exploring" under a comparison: the pages that share a product with
+ * this one first (Function Health review → its cost and alternatives pages,
+ * then the other Function Health comparisons), then shared tags, then the
+ * newest. Deterministic: ties go to the newer page, then the slug.
+ */
+export function getRelatedComparePosts(
+  post: ComparePost,
+  posts: ComparePost[] = getAllComparePosts(),
+  limit = 3,
+): ComparePost[] {
+  const mine = new Set(subjectNames(post));
+  const myTags = new Set((post.tags ?? []).map((t) => t.toLowerCase()));
+  const score = (other: ComparePost): number => {
+    let s = 0;
+    for (const name of subjectNames(other)) if (mine.has(name)) s += 2;
+    if (other.competitor && other.competitor === post.competitor) s += 1;
+    for (const tag of other.tags ?? []) if (myTags.has(tag.toLowerCase())) s += 0.5;
+    return s;
+  };
+  return posts
+    .filter((p) => p.slug !== post.slug)
+    .map((p) => ({ p, s: score(p), t: new Date(p.date).getTime() }))
+    .sort((a, b) => b.s - a.s || b.t - a.t || a.p.slug.localeCompare(b.p.slug))
+    .slice(0, limit)
+    .map(({ p }) => p);
 }

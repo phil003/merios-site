@@ -47,7 +47,7 @@ export interface PlateColors {
 export const PLATES: Record<CoverPlate, PlateColors> = {
   lavender: { from: "#E4E0F8", to: "#EEF0FB", mark: "#C9C0F6" }, // blood tests
   sky: { from: "#DCE5FA", to: "#F1F2FB", mark: "#A8C2F4" }, // biomarkers, metabolic
-  apricot: { from: "#FBDCCB", to: "#EFE9F8", mark: "#FFA472" }, // iron, nutrients
+  apricot: { from: "#FBDCCB", to: "#EFE9F8", mark: "#A65A2C" }, // iron, nutrients
   peach: { from: "#FCE3D6", to: "#F2EEF8", mark: "#FCD6C2" }, // heart and lipids
   zenith: { from: "#D2DFFA", to: "#E9EEFB", mark: "#6E8FE8" }, // wearables, HRV, sleep
   lilac: { from: "#DCD8F6", to: "#ECEAFB", mark: "#9A8BEA" }, // hormones, longevity
@@ -177,14 +177,17 @@ interface RawSpec {
   bars?: [label: string, pct: number, color: string][];
 }
 
-/* Band colours: lavender = low, sky / zenith = in range, peach / apricot = high. */
+/* Band colours: lavender = low, sky / zenith = in range, peach = high, warm =
+   the far end (Open Sky: apricot #FFA472 is kept for one element per screen,
+   so it never draws the "high" end of a range). */
 const LAV = "#C9C0F6";
 const LAV_SOFT = "#DDD7F9";
 const SKY_SOFT = "#CBD9F7";
 const SKY = "#A8C2F4";
 const ZENITH = "#6E8FE8";
 const PEACH = "#FCD6C2";
-const APRICOT = "#FFA472";
+/** Warm #A65A2C at 60% on white: the far end reads as caution, never alarm. */
+const WARM = "#CA9C80";
 const HAZE = "#DDE4F8";
 
 /** Ferritin, 0–220 ng/mL, from the ferritin articles' table. */
@@ -196,7 +199,7 @@ const FERRITIN_SEGS: RawBand["segs"] = [
   [31.818, 13.636, ZENITH],
   [45.455, 22.727, SKY_SOFT],
   [68.182, 22.727, PEACH],
-  [90.909, 9.091, APRICOT],
+  [90.909, 9.091, WARM],
 ];
 const FERRITIN_TICKS: RawTick[] = [
   [6.818, "15", "c"],
@@ -215,7 +218,7 @@ const NORMAL_OPTIMAL_TICKS: RawTick[] = [
 const HBA1C_SEGS: RawBand["segs"] = [
   [0, 40, SKY],
   [40, 26.667, PEACH],
-  [66.667, 33.333, APRICOT],
+  [66.667, 33.333, WARM],
 ];
 const HBA1C_TICKS: RawTick[] = [
   [40, "5.7", "c"],
@@ -227,7 +230,7 @@ const GLUCOSE_BAND: RawBand = {
   segs: [
     [0, 42.857, SKY],
     [42.857, 37.143, PEACH],
-    [80, 20, APRICOT],
+    [80, 20, WARM],
   ],
   pins: [42.857, 57.143],
   ticks: [
@@ -242,7 +245,7 @@ const LDL_BAND: RawBand = {
     [0, 37.5, SKY],
     [37.5, 18.75, SKY_SOFT],
     [56.25, 18.75, PEACH],
-    [75, 25, APRICOT],
+    [75, 25, WARM],
   ],
   pins: [56.25],
   ticks: [
@@ -257,7 +260,7 @@ const TG_BAND: RawBand = {
   segs: [
     [0, 50, SKY],
     [50, 25, PEACH],
-    [75, 25, APRICOT],
+    [75, 25, WARM],
   ],
   pins: [65],
   ticks: [
@@ -405,7 +408,7 @@ const SPECS: Record<string, RawSpec> = {
         [0, 25, SKY],
         [25, 25, SKY_SOFT],
         [50, 25, PEACH],
-        [75, 25, APRICOT],
+        [75, 25, WARM],
       ],
       pins: [],
       ticks: [
@@ -443,7 +446,7 @@ const SPECS: Record<string, RawSpec> = {
       segs: [
         [0, 42.857, SKY],
         [42.857, 28.571, PEACH],
-        [71.429, 28.571, APRICOT],
+        [71.429, 28.571, WARM],
       ],
       pins: [57.143],
       ticks: [
@@ -469,7 +472,6 @@ const SPECS: Record<string, RawSpec> = {
     right: "Creatinine",
     ls: "mg/L",
     rs: "mg/dL",
-    size: 32,
   },
   "blood-test-without-doctor": {
     k: "Your own labs",
@@ -1042,7 +1044,11 @@ export function getDrawnCover(post: {
         left: raw.left ?? "",
         right: raw.right ?? "",
         sep: raw.sep ?? "vs",
-        sub: [raw.ls, raw.rs].filter(Boolean).join(" · "),
+        // One unit when both sides share it ("ms", never "ms · ms")
+        sub:
+          raw.ls && raw.ls === raw.rs
+            ? raw.ls
+            : [raw.ls, raw.rs].filter(Boolean).join(" · "),
         size: raw.size ?? 40,
       }
     : {
@@ -1174,7 +1180,7 @@ export const TONE_HEX: Record<CoverTone, string> = {
   lime: "#A8C2F4",
   lilac: "#C9C0F6",
   sky: "#A8C2F4",
-  peach: "#FFA472",
+  peach: "#FCD6C2",
 };
 
 /** A lighter companion of each tone, for gradients and sheen. */

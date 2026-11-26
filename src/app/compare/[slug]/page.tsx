@@ -17,9 +17,11 @@ import {
   FAQPageSchema,
 } from "@/components/StructuredData";
 import {
+  compareSubjectLabel,
   getAllCompareSlugs,
-  getAllComparePosts,
   getComparePostBySlug,
+  getCompareSubject,
+  getRelatedComparePosts,
 } from "@/lib/compare";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
@@ -89,9 +91,9 @@ export default async function ComparePage({
 
   const mdxComponents = createMdxComponents();
 
-  const related = getAllComparePosts()
-    .filter((p) => p.slug !== post.slug)
-    .slice(0, 3);
+  // Same products first (the other Function Health pages under a Function
+  // Health page…), then the newest.
+  const related = getRelatedComparePosts(post);
 
   return (
     <>
@@ -127,7 +129,7 @@ export default async function ComparePage({
           datePublished={post.date}
           dateModified={post.dateModified}
           readTime={post.readTime}
-          competitor={post.competitor}
+          crumb={compareSubjectLabel(getCompareSubject(post))}
         />
 
         <div className={articleStyles.body}>
@@ -148,7 +150,9 @@ export default async function ComparePage({
                 <ArticleFAQ items={post.faq} />
               ) : null}
 
-              <ArticleVerdict text={post.description} />
+              {/* "Our take" only from a real `verdict:` in the frontmatter —
+                  never the description, which is already the subtitle */}
+              {post.verdict ? <ArticleVerdict text={post.verdict} /> : null}
             </div>
 
             {/* Sticky contents — desktop only */}

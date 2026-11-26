@@ -14,6 +14,7 @@ import TrigHdlRatioCalculator from "@/components/calculators/TrigHdlRatioCalcula
 import A1CConverter from "@/components/calculators/A1CConverter";
 import Zone2Calculator from "@/components/calculators/Zone2Calculator";
 import { slugify } from "./toc";
+import { protectCell } from "./tableText";
 import styles from "./article.module.css";
 
 /**
@@ -141,26 +142,42 @@ function countColumns(children: ReactNode): number {
 
 type MarkableRow = ReactElement<{ children?: ReactNode; "data-you"?: string }>;
 
+/** A row's cells, their text protected (see tableText.tsx). */
+function protectRow(row: ElementWithChildren): ReactNode {
+  return Children.map(row.props.children, (cell) =>
+    isTag(cell, "th") || isTag(cell, "td")
+      ? cloneElement(
+          cell,
+          undefined,
+          protectCell(cell.props.children, isTag(cell, "th")),
+        )
+      : cell,
+  );
+}
+
 /**
  * Marks the body row that is the reader's own value ("**Your value (30
- * ng/mL)**"), so it reads as the highlighted band, as in the mockup. Adds a
- * data attribute only; cells and text are untouched.
+ * ng/mL)**"), so it reads as the highlighted band, as in the mockup, and
+ * keeps values with their units and hyphenated terms whole. Adds a data
+ * attribute and wrapping spans only; the text is untouched.
  */
 function markReaderRow(children: ReactNode): ReactNode {
   return Children.map(children, (section) => {
-    if (!isTag(section, "tbody")) return section;
+    if (!isTag(section, "tbody") && !isTag(section, "thead")) return section;
+    const body = isTag(section, "tbody");
     return cloneElement(
       section,
       undefined,
       Children.map(section.props.children, (row) => {
         if (!isTag(row, "tr")) return row;
+        const cells = protectRow(row);
         const firstCell = Children.toArray(row.props.children).find((c) =>
           isTag(c, "td"),
         );
         const text = firstCell ? toPlainText(firstCell).trim() : "";
-        return /^your\b/i.test(text)
-          ? cloneElement(row as MarkableRow, { "data-you": "" })
-          : row;
+        return body && /^your\b/i.test(text)
+          ? cloneElement(row as MarkableRow, { "data-you": "" }, cells)
+          : cloneElement(row, undefined, cells);
       }),
     );
   });
@@ -175,13 +192,20 @@ const LONG_CARD = 200;
  * `<Cite id="…" />` in an article → a superscript number linking to the
  * matching entry of the Sources list. Numbers come from `resolveSources`
  * (order of first citation), passed in so text and list always agree.
+ * `after` (set by remarkCiteSeparators on a citation that directly follows
+ * another) prints the comma between them: "¹,²".
  */
 function makeCite(citeNumbers: ReadonlyMap<string, number>) {
-  return function Cite({ id }: { id: string }) {
+  return function Cite({ id, after }: { id: string; after?: boolean }) {
     const number = citeNumbers.get(id);
     if (number === undefined) return null;
     return (
       <sup className={styles.cite}>
+        {after ? (
+          <span aria-hidden className={styles.citeSep}>
+            ,
+          </span>
+        ) : null}
         <a href={`#source-${id}`} aria-label={`Source ${number}`}>
           {number}
         </a>

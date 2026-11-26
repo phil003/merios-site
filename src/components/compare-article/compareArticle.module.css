@@ -74,9 +74,24 @@
 .tableScroll .table tbody tr:hover td {
   background: #F6F7FD;
 }
+/* Links inside a table stay quiet: the value reads first, the underline is
+   a hairline until hover (a table of sources is a column of links). */
+.tableScroll .table td a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: rgb(24 33 63 / 0.22);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.tableScroll .table td a:hover {
+  color: var(--color-link, #3550A8);
+  text-decoration-color: currentColor;
+}
 
-/* Small screens: the table becomes a full-bleed white strip that scrolls
-   sideways inside itself; text still lines up with the paragraphs. */
+/* Small screens: a wide table becomes a full-bleed white strip that scrolls
+   sideways inside itself; text still lines up with the paragraphs. A
+   two-column table (or a three-column one with links) stacks instead, see
+   below. */
 @media (max-width: 639px) {
   .main div.tableScroll {
     margin-inline: calc(-1 * var(--spacing-container));
@@ -100,14 +115,9 @@
   .tableScroll .table td {
     font-size: 0.90625rem;
   }
-  /* Two or three columns fit the phone and stay side by side — unless they
-     carry source links, which then get room to the right instead of
-     squeezing the values. From four columns on, the table keeps readable
-     columns and scrolls, with its first column (the row label) frozen so
-     every value keeps its context. */
-  .tableScroll > .table:has(td:not(:first-child) a):not(:has(tr > :nth-child(4))) {
-    min-width: 32rem;
-  }
+  /* Three columns without links fit the phone and stay side by side. From
+     four columns on, the table keeps readable columns and scrolls, with its
+     first column (the row label) frozen so every value keeps its context. */
   .tableScroll > .table:has(tr > :nth-child(4)) {
     min-width: 36rem;
   }
@@ -124,6 +134,72 @@
   }
   .tableScroll > .table:has(tr > :nth-child(4)) tbody tr:hover td:first-child {
     background: #F6F7FD;
+  }
+
+  /* Stacked (data-stack): each row is a block, its label above its value —
+     nothing is cut at the screen edge. The card keeps the column's side
+     margins and 16px inside. Two columns: the value column's header stays
+     as the caption (it carries the "checked on" date); three columns: each
+     value is prefixed with its column's name (data-label). */
+  .main div.tableScroll:has(> .table[data-stack]) {
+    margin-inline: 0;
+    border-radius: 20px;
+    overflow-x: visible;
+  }
+  .tableScroll > .table[data-stack],
+  .tableScroll > .table[data-stack] > thead,
+  .tableScroll > .table[data-stack] > tbody,
+  .tableScroll > .table[data-stack] tr {
+    display: block;
+    width: auto;
+    min-width: 0;
+  }
+  .tableScroll > .table[data-stack] th {
+    display: none;
+  }
+  .tableScroll > .table[data-stack][data-cols="2"] th:last-child {
+    display: block;
+    width: auto;
+    padding: 13px 16px 11px;
+    border-radius: 20px 20px 0 0;
+  }
+  .tableScroll > .table[data-stack] tbody tr {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgb(24 33 63 / 0.07);
+  }
+  .tableScroll > .table[data-stack] tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .tableScroll > .table[data-stack] td {
+    display: block;
+    width: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+  .tableScroll > .table[data-stack] td:first-child {
+    padding: 0;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .tableScroll > .table[data-stack] td + td {
+    margin-top: 6px;
+  }
+  .tableScroll > .table[data-stack][data-cols="3"] td + td {
+    margin-top: 10px;
+  }
+  .tableScroll > .table[data-stack][data-cols="3"] td[data-label]:not(:first-child)::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    color: var(--color-ink-tertiary);
+  }
+  .tableScroll > .table[data-stack] tbody tr:hover td {
+    background: none;
   }
 }
 /* Five columns and more: room to breathe below the desktop grid (the 760px

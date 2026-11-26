@@ -2,6 +2,7 @@ import Link from "next/link";
 import ArticleCover from "./ArticleCover";
 import type { BlogCardData } from "./BlogCard";
 import { formatPostDate } from "./format";
+import { keepHyphenated } from "./typeset";
 import styles from "./blog.module.css";
 
 interface FeaturedCardProps {
@@ -23,12 +24,14 @@ export default function FeaturedCard({ post }: FeaturedCardProps) {
           </span>
           <span className={styles.featuredBody}>
             <span className={styles.featuredKicker}>
-              Latest dispatch · {post.tag} ·{" "}
-              <time dateTime={post.date}>{formatPostDate(post.date)}</time> ·{" "}
-              {post.readTime}
+              Latest dispatch · {post.topic} ·{" "}
+              <time dateTime={post.date} className={styles.nowrap}>
+                {formatPostDate(post.date)}
+              </time>{" "}
+              · <span className={styles.nowrap}>{post.readTime}</span>
             </span>
-            <h2 className={styles.featuredTitle}>{post.title}</h2>
-            <p className={styles.featuredDesc}>{post.description}</p>
+            <h2 className={styles.featuredTitle}>{keepHyphenated(post.title)}</h2>
+            <p className={styles.featuredDesc}>{keepHyphenated(post.description)}</p>
             <span className={styles.featuredCta}>
               Read article
               <svg

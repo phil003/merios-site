@@ -16,7 +16,8 @@ import SubstackSubscribe from "@/components/SubstackSubscribe";
 import ArticleNotFound from "@/components/blog-article/NotFound";
 import { createMdxComponents } from "@/components/blog-article/mdxComponents";
 import remarkMeriosBlock from "@/components/blog-article/remarkMeriosBlock";
-import { extractHeadings } from "@/components/blog-article/toc";
+import remarkCiteSeparators from "@/components/blog-article/remarkCiteSeparators";
+import { estimateTocHeight, extractHeadings } from "@/components/blog-article/toc";
 import articleStyles from "@/components/blog-article/article.module.css";
 import {
   ArticleSchema,
@@ -24,7 +25,7 @@ import {
   FAQPageSchema,
 } from "@/components/StructuredData";
 import { getAllSlugs, getAllPosts, getPostBySlug } from "@/lib/blog";
-import { BLOG_CATEGORIES } from "@/lib/blog-categories";
+import { getCategoryForTag, getTopicTitle } from "@/lib/blog-categories";
 import { getRelated } from "@/lib/related";
 import { resolveSources } from "@/lib/sources";
 import { getDrawnCover } from "@/lib/covers";
@@ -127,10 +128,16 @@ export default async function BlogPostPage({
   const related = getRelated(post.slug, getAllPosts());
   // The topic hub the article belongs to: a crumb in the hero and in the
   // breadcrumb schema, so every article links up to its category page.
-  const hub = BLOG_CATEGORIES.find((c) => c.tags.includes(post.tag));
+  const hub = getCategoryForTag(post.tag);
   const hubCrumb = hub
     ? { title: hub.title, href: `/blog/category/${hub.slug}` }
     : undefined;
+  // The sticky aside holds the contents first. A short list leaves room for
+  // the app card with its screen, a longer one for the compact card (line +
+  // pill), and a long one takes the whole column (it scrolls, with a fade,
+  // past what the screen allows).
+  const tocHeight = estimateTocHeight(headings);
+  const appCard = tocHeight <= 300 ? "full" : tocHeight <= 560 ? "compact" : null;
 
   // The drawn cover shows the subject; a genuine per-article image (none
   // today: every article carries the site share card) still shows as a photo.
@@ -178,7 +185,7 @@ export default async function BlogPostPage({
           date={post.date}
           dateModified={post.dateModified}
           readingMinutes={readingMinutes}
-          category={post.tag}
+          category={getTopicTitle(post.tag)}
           hub={hubCrumb}
           slug={post.slug}
           image={post.image}
@@ -198,7 +205,9 @@ export default async function BlogPostPage({
                     source={post.content}
                     components={mdxComponents}
                     options={{
-                      mdxOptions: { remarkPlugins: [remarkGfm, remarkMeriosBlock] },
+                      mdxOptions: {
+                        remarkPlugins: [remarkGfm, remarkMeriosBlock, remarkCiteSeparators],
+                      },
                     }}
                   />
                 </EditorialProse>
@@ -222,10 +231,11 @@ export default async function BlogPostPage({
               <SubstackSubscribe />
             </div>
 
-            {/* Sticky aside (desktop): contents + the app */}
+            {/* Sticky aside (desktop): contents, then the app when the
+                contents leave room for it */}
             <div className={articleStyles.aside} data-lenis-prevent="">
               <ArticleTOC headings={headings} />
-              <ArticleAppCard />
+              {appCard ? <ArticleAppCard compact={appCard === "compact"} /> : null}
             </div>
           </div>
         </div>

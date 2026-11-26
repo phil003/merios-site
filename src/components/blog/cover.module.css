@@ -108,6 +108,19 @@
   letter-spacing: -0.02em;
   color: var(--color-ink);
 }
+/* "vs" + the right side stay together: a long pair wraps before "vs" */
+.twoEnd {
+  display: inline-flex;
+  align-items: baseline;
+  gap: calc(10.44px + 0.5025cqi);
+  white-space: nowrap;
+}
+/* "VO₂": the digit as a real subscript in the cover's own font */
+.subDigit {
+  font-size: 0.6em;
+  line-height: 0;
+  vertical-align: -0.18em;
+}
 .sep {
   font-family: var(--font-sans);
   font-size: calc(10.44px + 0.5025cqi);

@@ -32,10 +32,12 @@ export type Screen = {
 };
 
 export const PLAN_SHEET = {
+  eyebrow: "Free and Plus",
+  /** Rendered as the H2's italic word. */
   heading: "Plans",
   toggleLabel: "Billing period for Merios Plus",
   caption:
-    "Prices in US dollars, as listed on the US App Store. The App Store shows the current price for your region, and that figure governs if it differs from this page.",
+    "Prices in US dollars, as on the US App Store. The App Store shows the price for your country, and that figure governs if it differs from this page.",
   columns: ["Plan", "Price", "What you get"],
   /** Shown above each app screen: the screens hold example data. */
   screenTag: "Example data",
@@ -58,7 +60,7 @@ export const PLAN_SHEET = {
   },
   plus: {
     name: "Merios Plus",
-    trial: "7-day free trial",
+    trial: "3-day free trial",
     trialElsewhere: "Trial on annual only",
     includes: "Everything in Merios, plus:",
     features: [
@@ -78,8 +80,13 @@ export const PLAN_SHEET = {
     lead: "You arrange it; Merios reads it.",
     costs: [
       { amount: "$0", note: "Often, when your doctor orders the panel and insurance covers it." },
-      { amount: "$60–$300", note: "Roughly, for a direct-to-consumer panel." },
+      { amount: "$60–$300", note: "Roughly, for a direct‑to‑consumer panel." },
     ],
+    /** What happens to the panel: Merios reads it, you check the values. */
+    screen: {
+      src: "/images/v2/screens/scan-check.jpg",
+      alt: "The Merios scan check screen, example data: 42 values read from a Quest Diagnostics report, 2 of them to check.",
+    } satisfies Screen,
   },
 } as const;
 
@@ -111,6 +118,7 @@ export const PRICE_CHART = {
     reads: "Reads panels you already have",
     draw: "Blood draw included",
     ownPanel: "Plus your own panel",
+    membership: "Membership, tests extra",
   },
   rows: [
     {
@@ -141,5 +149,5 @@ export const PRICE_CHART = {
     },
   ] satisfies readonly ChartRow[],
   caption:
-    "List prices in US dollars, as quoted on this page on Nov 24, 2026. The scale runs from $0 to $1,400.",
+    "List prices in US dollars, as checked on Nov 24, 2026. The scale runs from $0 to $1,400.",
 } as const;

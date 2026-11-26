@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import {
   Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, Toggle, CalcOutput, ResultPanel,
-  ResultBody, Empty, ResultLabel, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
+  ResultBody, Empty, ResultLabel, UnitText, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
   styles as s, type Tone, type Zone,
 } from "./_shared";
 
@@ -175,7 +175,7 @@ export default function IronConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Same result in {result.unit}</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Same result in <UnitText>{result.unit}</UnitText></span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLenis } from "@/components/providers/LenisProvider";
 import type { Heading } from "./toc";
+import { useTocScroll } from "./useTocScroll";
 import styles from "./article.module.css";
 
 interface ArticleTOCProps {
@@ -19,12 +20,17 @@ interface ArticleTOCProps {
  * - Click uses Lenis (when available) for a smooth programmatic scroll with an
  *   offset that clears the floating nav, falling back to `scrollIntoView`
  *   when Lenis is not mounted (SSR / prefers-reduced-motion).
+ * - A list taller than the screen allows scrolls inside its box, under a
+ *   fixed "Contents" label, with a fade on the end that hides rows; the row
+ *   being read is kept in view (useTocScroll).
  */
 export default function ArticleTOC({ headings }: ArticleTOCProps) {
   const lenis = useLenis();
+  const listRef = useRef<HTMLOListElement>(null);
   const [activeId, setActiveId] = useState<string | null>(
     headings[0]?.id ?? null,
   );
+  const fade = useTocScroll(listRef, activeId, headings.length);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -85,7 +91,7 @@ export default function ArticleTOC({ headings }: ArticleTOCProps) {
   return (
     <nav aria-label="On this page" className={styles.toc}>
       <p className={styles.tocLabel}>Contents</p>
-      <ol className={styles.tocList}>
+      <ol ref={listRef} className={styles.tocList} data-fade={fade}>
         {headings.map((item) => {
           const isActive = activeId === item.id;
           return (

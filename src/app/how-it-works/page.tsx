@@ -21,13 +21,13 @@ export const metadata: Metadata = {
   // append a second "| Merios".
   title: { absolute: "Blood Test Tracking App: How Merios Works" },
   description:
-    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
+    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 3-day free trial, on iPhone.",
   robots: { index: true, follow: true },
   alternates: { canonical: "https://merios.life/how-it-works" },
   openGraph: {
     title: "Blood Test Tracking App: How Merios Works",
     description:
-      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
+      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 3-day free trial, on iPhone.",
     url: "https://merios.life/how-it-works",
     siteName: "Merios",
     type: "website",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Blood Test Tracking App: How Merios Works",
     description:
-      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
+      "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 3-day free trial, on iPhone.",
   },
 };
 
@@ -47,24 +47,24 @@ const howToJsonLd = {
   "@type": "HowTo",
   name: "How to interpret your blood test results with Merios",
   description:
-    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 7-day free trial, on iPhone.",
+    "Merios is a blood test tracking app: upload a lab report, track every biomarker over time, and see what changed. $44/year after a 3-day free trial, on iPhone.",
   step: [
     {
       "@type": "HowToStep",
       name: "Connect",
-      text: "Stream Apple Health, scan existing lab PDFs with OCR, or enter markers manually. Merios meets your data where it already lives.",
+      text: "Stream your last 365 days from Apple Health, scan a lab report with Merios Plus, or enter markers manually. Merios meets your data where it already lives.",
       url: "https://merios.life/how-it-works#connect",
     },
     {
       "@type": "HowToStep",
       name: "Understand",
-      text: "160+ biomarkers are compressed into one Merios Score, with every subsystem expanded into a clear, trend-first view.",
+      text: "The Merios Score has four quarters: Activity, Recovery and Zen from your daily Apple Health data, plus Blood, where 160+ biomarkers across 11 systems are read. Each quarter opens into a clear, trend-first view.",
       url: "https://merios.life/how-it-works#understand",
     },
     {
       "@type": "HowToStep",
       name: "Act",
-      text: "See what changed since your last test and read a plain-language monthly report. Merios describes your trends; it does not prescribe supplements, doses or treatments.",
+      text: "With Merios Plus, see what changed since your last test and read a plain-language monthly report. Merios describes your trends; it does not prescribe supplements, doses or treatments.",
       url: "https://merios.life/how-it-works#act",
     },
   ],
@@ -76,38 +76,44 @@ type ConnectBlock = {
   title: string;
   copy: string;
   meta: string;
+  /** Part of Merios Plus (home "Free and Plus": photo and PDF scans). */
+  plus?: boolean;
 };
 
 const CONNECT_BLOCKS: ConnectBlock[] = [
   {
     plate: "apple-health",
     title: "Apple Health stream",
-    copy: "Years of activity, sleep, resting heart rate and HRV flow in on first authorisation. Merios keeps syncing in the background — nothing to maintain.",
+    copy: "Your last 365 days of activity, sleep, resting heart rate and HRV flow in on first authorization. Merios keeps syncing in the background — nothing to maintain.",
     meta: "One tap · continuous",
   },
   {
     plate: "ocr",
-    title: "Labs OCR",
-    copy: "Photograph or upload any blood test PDF. Markers, units and reference ranges are extracted in seconds, normalised across labs and dated correctly.",
+    title: "Lab report scan",
+    copy: "Photograph a report or upload its PDF. Each marker is read with its unit and date, and its reference range stays exactly as your lab printed it. Nothing joins your timeline until you check it.",
     meta: "PDF · JPG · HEIC",
+    plus: true,
   },
   {
     plate: "manual",
     title: "Manual entry",
-    copy: "Add a single marker, a blood pressure reading or a note. Everything you enter joins the same timeline as the imports — no second-class data.",
+    // U+2011 non-breaking hyphens: a hyphenated term never splits across lines.
+    copy: "Add a single marker, a blood pressure reading or a note. Everything you enter joins the same timeline as the imports — no second\u2011class data.",
     meta: "Any marker · any unit",
   },
 ];
 
 // ─── Content: Step 02 — Understand ────────────────────────────────────────
+// The Merios Score has four quarters: Activity, Recovery and Zen every day,
+// plus Blood. The 160+ biomarkers (11 systems) feed the Blood quarter only.
 const UNDERSTAND_LINES = [
-  "160+ biomarkers become one clear figure.",
-  "Trends replace single-point anxiety.",
-  "Every system graded, every outlier flagged.",
+  "160+ biomarkers across 11 systems fill the Blood quarter.",
+  "Trends replace single\u2011point anxiety.", // U+2011: never split
+  "Every system in plain words: information, not a warning.",
 ] as const;
 
 const UNDERSTAND_NOTE =
-  "The score is a signal, not a verdict — each subsystem stays legible on its own page, so you always know where the number comes from.";
+  "The score is a signal, not a verdict — each quarter stays legible on its own page, so you always know where the number comes from.";
 
 // ─── Content: Step 03 — Act: what Merios actually does after a test ───────
 // 27/10/2026 — the previous cards promised biomarker lifts (+18/+11/+7 %) and
@@ -127,12 +133,13 @@ const ACT_STEPS: ActStep[] = [
     title: "See what changed",
     copy: "Each new lab report lines up with the ones before it. Every marker shows its trend, the date it was drawn and where it sits against the reference range.",
     index: "01",
-    target: "every new test",
+    // Report-to-report tracking is Merios Plus (home Scan step 03, Plans).
+    target: "every new test, with Plus",
   },
   {
     plate: "report",
     title: "Read your month in plain words",
-    copy: "With Merios Plus, a monthly report sums up your sleep, activity, stress and blood markers in plain language. It describes what moved; it never prescribes.",
+    copy: "With Merios Plus, a monthly report sums up your Activity, Recovery and Zen, and your blood markers, in plain language. It describes what moved; it never prescribes.",
     index: "02",
     target: "monthly, with Plus",
   },
@@ -152,8 +159,10 @@ const delay = (seconds: number) => ({ "--rv-delay": `${seconds}s` }) as CSSPrope
  * the sunrise arc carrying the three steps → sticky step list beside
  * Connect (three glass cards, a drawn plate each) · Understand (the white
  * board: four quarters of the score and three trends) · Act (three glass
- * cards) → the quarterly loop in the frame's one ink block. Metadata, JSON-LD,
- * every word and every href are unchanged.
+ * cards) → the quarterly loop in the frame's one ink block. Metadata and every
+ * href are unchanged. Nov 26, 2026: the copy and the HowTo JSON-LD now say
+ * what the score is (four quarters; the 160+ biomarkers feed Blood) and which
+ * steps are Merios Plus.
  */
 export default function HowItWorksPage() {
   return (
@@ -193,7 +202,7 @@ export default function HowItWorksPage() {
               className={`he ${styles.heroTitle}`}
               style={{ "--he-d": "0.06s" } as CSSProperties}
             >
-              From blood tests to action, <em>in three calm steps.</em>
+              From blood tests to action, <em>in&nbsp;three calm steps.</em>
             </h1>
 
             <p
@@ -226,13 +235,16 @@ export default function HowItWorksPage() {
                       Bring in the data <em>that already exists.</em>
                     </>
                   }
-                  lead="Three import paths — streaming, OCR, manual — so nothing about your health history is locked in a drawer or a provider silo."
+                  lead="Three import paths — streaming, scanning, manual — so nothing about your health history is locked in a drawer or a provider silo."
                 >
                   <ol className={styles.cardGrid}>
                     {CONNECT_BLOCKS.map((block, i) => (
                       <li key={block.title} className={styles.card} data-rv="" style={delay(i * 0.08)}>
                         <ConnectPlate variant={block.plate} />
-                        <p className={styles.meta}>{block.meta}</p>
+                        <div className={styles.metaRow}>
+                          <p className={styles.meta}>{block.meta}</p>
+                          {block.plus ? <span className={styles.plusTag}>Merios Plus</span> : null}
+                        </div>
                         <h3 className={styles.cardTitle}>{block.title}</h3>
                         <p className={styles.cardCopy}>{block.copy}</p>
                       </li>
@@ -250,7 +262,7 @@ export default function HowItWorksPage() {
                       One score. Every marker. <em>Clear trends.</em>
                     </>
                   }
-                  lead="Merios compresses 160+ biomarkers into a single number — then expands them back into the trend view your body actually needs."
+                  lead="The Merios Score has four quarters: Activity, Recovery and Zen from your days, plus Blood, where 160+ biomarkers across 11 systems are read. Each quarter opens back into the trends behind it."
                 >
                   <UnderstandBoard lines={UNDERSTAND_LINES} note={UNDERSTAND_NOTE} />
                 </StepSection>

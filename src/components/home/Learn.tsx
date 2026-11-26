@@ -1,11 +1,14 @@
 import ArticleCover from "@/components/blog/ArticleCover";
 import { formatPostDate } from "@/components/blog/format";
-import { getListedPosts } from "@/lib/blog";
+import { getListedPosts, type BlogPost } from "@/lib/blog";
+import { BLOG_CATEGORIES, getTopicTitle } from "@/lib/blog-categories";
 import { Arrow } from "./icons";
+import { keepHyphens } from "./text";
 
-/* From the Journal (Home2 "07"): the three latest posts (updates itself with
-   every publish), each with the Journal's own drawn cover (the subject, never
-   a photo), in Home2's glass card; then the free tools with their formulas. */
+/* From the Journal (Home2 "09"): the latest post of three different Journal
+   topics (updates itself with every publish, and never shows three takes on
+   one subject), each with the Journal's own drawn cover (the subject, never a
+   photo), in Home2's glass card; then the free tools with their formulas. */
 
 const TOOLS: [string, string, string][] = [
   ["TyG index", "ln(TG × glucose ÷ 2)", "/tools/tyg-index-calculator"],
@@ -18,16 +21,35 @@ const TOOLS: [string, string, string][] = [
   ["Zone 2", "heart rate range", "/tools/zone-2-calculator"],
 ];
 
+/** The Journal topic a post belongs to (its category hub, else its own tag). */
+function topicOf(post: BlogPost): string {
+  return BLOG_CATEGORIES.find((c) => c.tags.includes(post.tag))?.slug ?? post.tag;
+}
+
+/** Newest first, at most one post per topic. */
+function latestAcrossTopics(posts: BlogPost[], count: number): BlogPost[] {
+  const seen = new Set<string>();
+  const picked: BlogPost[] = [];
+  for (const post of posts) {
+    const topic = topicOf(post);
+    if (seen.has(topic)) continue;
+    seen.add(topic);
+    picked.push(post);
+    if (picked.length === count) break;
+  }
+  return picked;
+}
+
 export default function Learn() {
-  const latest = getListedPosts().slice(0, 3);
+  const latest = latestAcrossTopics(getListedPosts(), 3);
 
   return (
     <section id="learn" className="hv2-sec hv2-learn" aria-labelledby="learn-title">
       <div className="hv2-wrap">
-        <p className="hv2-eyebrow">08 · Learn</p>
+        <p className="hv2-eyebrow">09 · Learn</p>
         <div className="hv2-learn__head">
           <h2 className="hv2-h2" id="learn-title">
-            From the Journal
+            From the <em>Journal</em>
           </h2>
           <a className="hv2-textlink" href="/blog">
             All articles <Arrow width={16} />
@@ -41,10 +63,10 @@ export default function Learn() {
                 <ArticleCover post={p} className="hv2-post__art" />
               </span>
               <span className="hv2-post__meta">
-                {p.tag ? `${p.tag} · ` : ""}
+                {`${getTopicTitle(p.tag)} · `}
                 <time dateTime={p.date}>{formatPostDate(p.date)}</time> · {p.readTime}
               </span>
-              <h3 className="hv2-post__title">{p.title}</h3>
+              <h3 className="hv2-post__title">{keepHyphens(p.title)}</h3>
             </a>
           ))}
         </div>
@@ -58,7 +80,7 @@ export default function Learn() {
             <li key={href}>
               <a className="hv2-tool" href={href}>
                 <span>
-                  <b>{name}</b>
+                  <b>{keepHyphens(name)}</b>
                   <code>{formula}</code>
                 </span>
                 <Arrow width={16} />

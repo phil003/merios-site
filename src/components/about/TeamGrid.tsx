@@ -9,27 +9,27 @@ interface TeamMember {
   initials: string;
 }
 
-// The second slot is presented as an open role rather than a fictive person.
-// Roster expands ahead of public launch; the advisory card gets replaced with
-// a named advisor once the engagement is announced.
+// The second slot is presented as an open role rather than a fictive person:
+// no clinician has joined. It is replaced by a named advisor only once one
+// actually has (never invent one).
 const TEAM: TeamMember[] = [
   {
-    name: "Philippe Xiddo",
-    role: "Founder & Engineer",
-    initials: "PX",
+    name: "Philippe Tohme",
+    role: "Founder · PharmD",
+    initials: "PT",
     bio: "Building Merios after years of watching fragmented health data erode its own value. Obsessed with clarity, privacy, and signal over noise.",
   },
   {
     name: "Clinical Advisory",
-    role: "Open Role — 2026",
+    role: "Open Role",
     initials: "CA",
-    bio: "This seat is open. We're looking for a practising clinician to review our scoring models and reference ranges — reach out if this is you.",
+    bio: "This seat is open. We're looking for a practicing clinician to review our scoring models and reference ranges — reach out if this is you.",
   },
 ];
 
 /**
  * Server component. Open Sky: a filled seat is a white card whose portrait
- * tile is a soft sky plate with Newsreader initials over the logo's pulse;
+ * tile is a soft sky plate with Newsreader initials over a thin horizon line;
  * the open seat is drawn as a dashed, empty card (the same language as the
  * "not included" card on /pricing). Reveals are the CSS `data-rv` ones.
  */
@@ -70,7 +70,7 @@ export default function TeamGrid() {
                         focusable="false"
                       >
                         <path
-                          d="M0 13 H96 L102 18 L109 3 L118 24 L123 13 H150"
+                          d="M0 13 H150"
                           fill="none"
                           stroke="#6E8FE8"
                           strokeOpacity="0.55"

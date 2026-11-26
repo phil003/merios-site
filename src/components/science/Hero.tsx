@@ -10,13 +10,16 @@ import styles from "./science.module.css";
  * line through a mask with pure CSS keyframes that start at parse time — the
  * H1 is in the static HTML and never waits for JavaScript. Stats sit on glass
  * tiles. On the right, the eleven blood systems on a sunrise arc around the
- * Blood sun (mockup Science.dc.html). Server component.
+ * Blood sun (mockup Science.dc.html), in Blood's sky, as in the model diagram.
+ * Below 640px the system names (too small to read there) and the sun's
+ * subline are hidden; the stats and the coverage section carry them.
+ * Server component. Where clinical review stands is said once, in section 05.
  */
 
 const STATS = [
   { k: "Markers", v: "160+" },
   { k: "Pillars", v: "4" },
-  { k: "Clinicians", v: "Not yet" },
+  { k: "Systems", v: "11" },
   { k: "Updated", v: "Nov 2026" },
 ];
 
@@ -61,13 +64,13 @@ function SunriseArc() {
     >
       <defs>
         <radialGradient id="sci-sun" cx="0.5" cy="0.45" r="0.6">
-          <stop offset="0" stopColor="#FFC8A6" />
-          <stop offset="0.7" stopColor="#FFA472" />
-          <stop offset="1" stopColor="#FF9A66" />
+          <stop offset="0" stopColor="#E4ECFC" />
+          <stop offset="0.7" stopColor="#A8C2F4" />
+          <stop offset="1" stopColor="#93B1EF" />
         </radialGradient>
         <radialGradient id="sci-sun-glow" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#FCD6C2" stopOpacity="0.9" />
-          <stop offset="1" stopColor="#FCD6C2" stopOpacity="0" />
+          <stop offset="0" stopColor="#C9D8F8" stopOpacity="0.9" />
+          <stop offset="1" stopColor="#C9D8F8" stopOpacity="0" />
         </radialGradient>
       </defs>
 
@@ -149,9 +152,10 @@ export default function ScienceHero() {
               className={`science-hero-subline he ${styles.heroSub}`}
               style={{ "--he-d": "0.24s" } as CSSProperties}
             >
-              Merios turns 160+ blood biomarkers into a single composite score
-              and a biological-age estimate, grounded in the preventive-medicine
-              literature. This page is the full argument — the model, the
+              The Merios Score has four quarters: Activity, Recovery and Zen,
+              plus Blood, where 160+ biomarkers across 11 systems are read and
+              a biological age is estimated. This page is the full argument,
+              grounded in the preventive medicine literature: the model, the
               markers and the references. No clinician has reviewed it yet.
             </p>
 

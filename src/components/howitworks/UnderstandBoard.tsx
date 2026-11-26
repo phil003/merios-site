@@ -13,6 +13,9 @@ import styles from "./hiw.module.css";
  */
 
 type Tone = "activity" | "recovery" | "zen";
+// The trend lines are not pillars: none of them takes Activity's apricot,
+// which this screen keeps for the Activity ring alone.
+type SparkTone = "recovery" | "zen" | "ink";
 
 // Example values (the Open Sky mockups' Activity 90, Recovery 76, Zen 81).
 const RINGS: ReadonlyArray<{ name: string; value: number; tone: Tone }> = [
@@ -22,10 +25,10 @@ const RINGS: ReadonlyArray<{ name: string; value: number; tone: Tone }> = [
 ];
 
 // One illustrative trend per line, in order.
-const SPARKS: ReadonlyArray<{ d: string; tone: Tone }> = [
+const SPARKS: ReadonlyArray<{ d: string; tone: SparkTone }> = [
   { d: "M2 30 L14 26 L26 22 L40 20 L54 18 L68 16 L80 14", tone: "recovery" },
   { d: "M2 22 L12 18 L22 24 L32 20 L46 18 L60 16 L80 15", tone: "zen" },
-  { d: "M2 28 L12 26 L24 22 L36 18 L48 16 L60 13 L80 10", tone: "activity" },
+  { d: "M2 28 L12 26 L24 22 L36 18 L48 16 L60 13 L80 10", tone: "ink" },
 ];
 
 interface UnderstandBoardProps {

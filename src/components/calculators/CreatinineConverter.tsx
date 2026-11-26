@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import {
   Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, Toggle, CalcOutput, ResultPanel,
-  ResultBody, Empty, ResultLabel, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
+  ResultBody, Empty, ResultLabel, UnitText, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
   styles as s, type Tone, type Zone,
 } from "./_shared";
 
@@ -104,15 +104,15 @@ export default function CreatinineConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Same result in {result.unit}</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Same result in <UnitText>{result.unit}</UnitText></span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>
               </div>
               <RangeBar min={0} max={3} value={result.mg} tone={result.band.tone} zones={zones} />
               <p className={s.resultText}>
-                That is <strong>{round(result.mg, 2)} mg/dL</strong>, <strong>{round(result.umol, 0)} µmol/L</strong>{" "}
-                or <strong>{round(result.mmol, 3)} mmol/L</strong>. The factor comes from the weight of the creatinine
+                That is <strong>{round(result.mg, 2)}&nbsp;mg/dL</strong>, <strong>{round(result.umol, 0)}&nbsp;µmol/L</strong>{" "}
+                or <strong>{round(result.mmol, 3)}&nbsp;mmol/L</strong>. The factor comes from the weight of the creatinine
                 molecule (113.12 g/mol): 1 mg/dL is 88.4 µmol/L, so divide µmol/L by 88.4 to get mg/dL.
               </p>
               <p className={s.resultText}>{result.band.description}</p>

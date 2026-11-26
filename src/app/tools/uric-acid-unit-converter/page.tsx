@@ -108,15 +108,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="uric-acid-unit-converter"
-        eyebrow="Uric acid — mg/dL, µmol/L and mmol/L"
-        title="Uric acid conversion:"
-        em="µmol/L and mmol/L to mg/dL"
-        subline="Conversion factor 59.48: divide µmol/L by 59.48 to get mg/dL, or multiply mmol/L by 16.81. 357 µmol/L is 6 mg/dL, the same result on two reports. Works in any direction."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="uric-acid-unit-converter"
+          eyebrow="Uric acid — mg/dL, µmol/L and mmol/L"
+          title="Uric acid conversion:"
+          em="µmol/L and mmol/L to mg/dL"
+          subline="Conversion factor 59.48: divide µmol/L by 59.48 to get mg/dL, or multiply mmol/L by 16.81. 357 µmol/L is 6 mg/dL, the same result on two reports. Works in any direction."
+        />
+
         <div className={t.wrap}>
           <UricAcidConverter />
           <section className={t.after}>

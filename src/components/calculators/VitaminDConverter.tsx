@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import {
   Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, Toggle, CalcOutput, ResultPanel,
-  ResultBody, Empty, ResultLabel, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
+  ResultBody, Empty, ResultLabel, UnitText, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
   styles as s, type Tone, type Zone,
 } from "./_shared";
 
@@ -67,14 +67,14 @@ export default function VitaminDConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Same result in {result.unit}</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Same result in <UnitText>{result.unit}</UnitText></span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>
               </div>
               <RangeBar min={0} max={100} value={result.ng} tone={result.band.tone} zones={ZONES} />
               <p className={s.resultText}>
-                That is <strong>{round(result.ng, 1)} ng/mL</strong> or <strong>{round(result.ng * FACTOR, 0)} nmol/L</strong>.
+                That is <strong>{round(result.ng, 1)}&nbsp;ng/mL</strong> or <strong>{round(result.ng * FACTOR, 0)}&nbsp;nmol/L</strong>.
                 This conversion is exact: 1 ng/mL of 25-hydroxyvitamin D is 2.496 nmol/L, a fixed factor set by the
                 molecule&apos;s weight.
               </p>

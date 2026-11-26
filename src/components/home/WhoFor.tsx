@@ -29,7 +29,7 @@ export default function WhoFor() {
     <section id="who" className="hv2-sec hv2-who" aria-labelledby="whofor-title">
       <div className="hv2-wrap hv2-who__grid">
         <div className="hv2-who__intro">
-          <p className="hv2-eyebrow">06 · Who it&rsquo;s for</p>
+          <p className="hv2-eyebrow">07 · Who it&rsquo;s for</p>
           <h2 className="hv2-h2" id="whofor-title">
             Who Merios <em>is for.</em>
           </h2>
@@ -39,8 +39,8 @@ export default function WhoFor() {
             move over time.
           </p>
           <p className="hv2-who__body">
-            It is not a lab and does not order tests. It is a wellness tool, not
-            a medical device.
+            It is not a lab and does not order tests: it reads the results you
+            already have.
           </p>
         </div>
         <ul className="hv2-who__cards" data-rv="">

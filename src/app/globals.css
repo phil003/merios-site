@@ -860,6 +860,7 @@ details[open] > summary .acc-icon-flip {
   color: var(--color-on-night);
   border-bottom: 1px solid var(--color-line-night);
 }
+.v3-nav-sheet__links a[aria-current="page"] { color: var(--color-lime); }
 .v3-nav-sheet__cta { margin-top: auto; width: 100%; }
 
 @media (max-width: 1023px) {
@@ -870,8 +871,9 @@ details[open] > summary .acc-icon-flip {
 @media (max-width: 480px) {
   .v3-nav__bar { height: 58px; padding: 0 6px 0 14px; gap: 10px; }
   .v3-nav__brand > span { font-size: 1.34rem !important; }
-  .v3-nav__cta { min-height: 40px; padding: 0 13px; font-size: 0.8125rem; gap: 6px; }
-  .v3-nav__burger { width: 42px; height: 42px; }
+  /* tap targets stay at 44px inside the 58px bar */
+  .v3-nav__cta { min-height: 44px; padding: 0 14px; font-size: 0.8125rem; gap: 6px; }
+  .v3-nav__burger { width: 44px; height: 44px; }
 }
 
 /* ═══ Footer — Open Sky: lavender dusk, every link kept ═══════════════════ */
@@ -915,12 +917,13 @@ details[open] > summary .acc-icon-flip {
   transition: color 200ms;
 }
 .v3-footer__col a:hover { color: var(--color-link); }
+/* The wordmark set big at the foot of every page: "merios", lowercase, as
+   the logo (no mark since 21/11/2026). */
 .v3-footer__lockup {
   margin-top: clamp(48px, 7vw, 88px);
   display: flex;
   justify-content: center;
   align-items: baseline;
-  gap: 0.26em;
   font-family: var(--font-sans);
   font-weight: 600;
   font-size: clamp(3.4rem, 15.5vw, 14.5rem);
@@ -942,8 +945,7 @@ details[open] > summary .acc-icon-flip {
   align-items: center;
   gap: 14px 28px;
 }
-.v3-footer__bottom p,
-.v3-footer__locale {
+.v3-footer__bottom p {
   margin: 0;
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -952,9 +954,6 @@ details[open] > summary .acc-icon-flip {
   text-transform: uppercase;
   color: var(--color-ink-tertiary);
 }
-.v3-footer__locale { display: inline-flex; align-items: center; gap: 8px; }
-.v3-footer__locale [aria-current] { color: var(--color-ink); font-weight: 700; }
-.v3-footer__locale-rule { display: inline-block; width: 12px; height: 1px; background: rgb(24 33 63 / 0.2); }
 .v3-footer__disclaimer {
   margin: 22px 0 0;
   max-width: 880px;
@@ -966,6 +965,12 @@ details[open] > summary .acc-icon-flip {
 @media (max-width: 1023px) {
   .v3-footer__top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .v3-footer__brand { grid-column: 1 / -1; }
+}
+/* Phones: every footer link is a 44px tap target */
+@media (max-width: 760px) {
+  .v3-footer__col h3 { margin-bottom: 4px; }
+  .v3-footer__col ul { gap: 0; }
+  .v3-footer__col a { display: inline-block; padding-block: 11px; line-height: 1.4; }
 }
 
 /* ═══ v3 page hero — night masthead with the heartbeat horizon ═════════════ */

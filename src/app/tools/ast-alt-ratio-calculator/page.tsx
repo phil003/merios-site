@@ -3,6 +3,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
 import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
 import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import AstAltRatioCalculator from "@/components/calculators/AstAltRatioCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
@@ -77,15 +78,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="ast-alt-ratio-calculator"
-        eyebrow="De Ritis ratio — two liver enzymes, one ratio"
-        title="AST/ALT Ratio"
-        em="Calculator"
-        subline="The AST/ALT ratio is AST divided by ALT, both in U/L. It mostly means something when one or both enzymes are raised: below 1, above 1 and above 2 are linked to different patterns."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="ast-alt-ratio-calculator"
+          eyebrow="De Ritis ratio — two liver enzymes, one ratio"
+          title="AST/ALT Ratio"
+          em="Calculator"
+          subline="The AST/ALT ratio is AST divided by ALT, both in U/L. It mostly means something when one or both enzymes are raised: below 1, above 1 and above 2 are linked to different patterns."
+        />
+
         <div className={t.wrap}>
           <AstAltRatioCalculator />
           <section className={t.after}>
@@ -194,10 +195,15 @@ export default function Page() {
                 talking to your clinician about, whatever the ratio.
               </p>
               <p>
-                Already have your bloodwork? <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-ast-alt-ratio-calculator&mt=8">Merios</a> reads
+                Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-ast-alt-ratio-calculator&mt=8">Merios</a> reads
                 it next to your watch data, so an AST bump after a hard training week sits beside the workouts that
                 explain it.
               </p>
+            </div>
+
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
 
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">

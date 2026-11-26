@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ArticleHeroCover from "./ArticleHeroCover";
+import { keepHyphenated } from "@/components/blog/typeset";
 import { formatShortDate, splitTitle } from "./splitTitle";
 import styles from "./article.module.css";
 
@@ -103,11 +104,11 @@ export default function ArticleHero({
             data-len={titleLength(title)}
             style={{ "--he-d": "0.06s" } as CSSProperties}
           >
-            {head}
+            {keepHyphenated(head)}
             {tail ? (
               <>
                 {sep}
-                <em>{tail}</em>
+                <em>{keepHyphenated(tail)}</em>
               </>
             ) : null}
           </h1>
@@ -116,7 +117,7 @@ export default function ArticleHero({
             className={`he ${styles.heroLead}`}
             style={{ "--he-d": "0.14s" } as CSSProperties}
           >
-            {description}
+            {keepHyphenated(description)}
           </p>
 
           <div

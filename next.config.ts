@@ -29,6 +29,12 @@ const nextConfig: NextConfig = {
       // routes intentionally don't appear there.
       { source: "/features", destination: "/how-it-works", permanent: true },
       { source: "/support", destination: "/faq", permanent: true },
+      // /early-access is one page for every country since Nov 26, 2026 (the
+      // app is on the App Store in 174 countries and regions). These were
+      // the prerendered geo variants a middleware served at /early-access;
+      // the middleware and the waitlist are gone.
+      { source: "/early-access/us", destination: "/early-access", permanent: true },
+      { source: "/early-access/rest", destination: "/early-access", permanent: true },
       // /blog/biological-age-complete-guide answered as a soft 404 (decision
       // bioage-301, GO from Phil on 20/11/2026): the calculator is the page
       // that serves "biological age from a blood test".
@@ -146,6 +152,21 @@ const nextConfig: NextConfig = {
   // sheet for text/vcard. Neither file belongs in a search index.
   async headers() {
     return [
+      // Baseline hardening on every response (the site only had HSTS, from
+      // Vercel). No CSP yet: Google Analytics, Vercel Analytics and the
+      // Substack embed would each need an allow-list.
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+          },
+        ],
+      },
       {
         source: "/phil/philippe-tohme.pkpass",
         headers: [

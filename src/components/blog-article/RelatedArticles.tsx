@@ -1,10 +1,13 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 import type { BlogPost } from "@/lib/blog";
+import { getTopicTitle } from "@/lib/blog-categories";
 import type { RelatedLink } from "@/lib/related";
 import ArticleMeta from "@/components/ui/ArticleMeta";
 import Reveal from "@/components/ui/Reveal";
 import ArticleCover from "@/components/blog/ArticleCover";
+import { keepHyphenated } from "@/components/blog/typeset";
 import styles from "./article.module.css";
 
 interface RelatedArticlesProps {
@@ -21,8 +24,10 @@ function parseMinutes(readTime: string): number {
 /**
  * "Keep reading" — up to 3 related posts with their drawn covers (the same
  * art as their cards on /blog: the subject, never a photo), then topic, date
- * and reading time as a label, the title and the lead. Below, a quiet list of
- * further reading on the same topic (see src/lib/related.ts).
+ * and reading time as a label, the title and the lead. One row, as many
+ * columns as cards (no empty slot). Below, a quiet list of further reading
+ * on the same topic (see src/lib/related.ts: nothing the text already
+ * links to).
  */
 export default function RelatedArticles({
   posts,
@@ -40,13 +45,16 @@ export default function RelatedArticles({
               <span>Keep reading</span>
             </div>
             <h2 id="related-title" className={styles.relatedTitle}>
-              More from the Journal
+              More from <em>the Journal</em>
             </h2>
           </div>
         </Reveal>
 
         {posts.length > 0 ? (
-          <div className={styles.relatedGrid}>
+          <div
+            className={styles.relatedGrid}
+            style={{ "--rel-cols": posts.length } as CSSProperties}
+          >
             {posts.map((post) => (
               <RelatedArticleCard key={post.slug} post={post} />
             ))}
@@ -64,7 +72,7 @@ export default function RelatedArticles({
                 <li key={link.href}>
                   <Link href={link.href} className={styles.relatedMoreLink}>
                     <span className={styles.relatedMoreKind}>{link.kind}</span>
-                    <span className={styles.relatedMoreTitle}>{link.title}</span>
+                    <span className={styles.relatedMoreTitle}>{keepHyphenated(link.title)}</span>
                   </Link>
                 </li>
               ))}
@@ -88,12 +96,12 @@ function RelatedArticleCard({ post }: { post: BlogPost }) {
         />
       </div>
       <div className={styles.relMetaRow}>
-        <span className={styles.relTag}>{post.tag}</span>
+        <span className={styles.relTag}>{getTopicTitle(post.tag)}</span>
         <span aria-hidden className={styles.relDot} />
         <ArticleMeta date={post.date} readingTime={minutes} />
       </div>
-      <h3 className={styles.relTitle}>{post.title}</h3>
-      <p className={styles.relDesc}>{post.description}</p>
+      <h3 className={styles.relTitle}>{keepHyphenated(post.title)}</h3>
+      <p className={styles.relDesc}>{keepHyphenated(post.description)}</p>
     </Link>
   );
 }

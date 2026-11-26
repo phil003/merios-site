@@ -1,28 +1,30 @@
 import Image from "next/image";
 import { AppleGlyph } from "./icons";
-import WaitlistForm from "./WaitlistForm";
 
-/* Final (Home2 "get"): the meadow at sunrise, the App Store, a QR code for
-   desktop visitors, and the waitlist for everyone outside the US. */
+/* Final (Home2 "get"): the meadow at sunrise, the App Store (174 countries and
+   regions since 25/11/2026, so no waitlist), and a QR code for desktop
+   visitors. Under 960px the copy sits above the photo, clear of her face. */
 
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-home&mt=8";
+const APP_STORE_URL = "https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-home&mt=8";
 
 export default function Finale() {
   return (
     <section id="get" className="hv2-sec hv2-get" aria-labelledby="finale-title">
       <div className="hv2-wrap hv2-get__card">
-        <Image
-          src="/images/v2/home/meadow.jpg"
-          alt="A woman walks through a meadow of tall grass at sunrise, her hand brushing the tops of the grass."
-          fill
-          sizes="(max-width: 1440px) 100vw, 1312px"
-          className="hv2-get__img"
-        />
+        <div className="hv2-get__media">
+          <Image
+            src="/images/v2/home/meadow.jpg"
+            alt="A woman walks through a meadow of tall grass at sunrise, her hand brushing the tops of the grass."
+            fill
+            sizes="(max-width: 1440px) 100vw, 1312px"
+            className="hv2-get__img"
+          />
+        </div>
         <div className="hv2-get__veil" aria-hidden="true" />
         <div className="hv2-get__copy" data-rv="">
           <p className="hv2-pill">
             <span className="hv2-pill__dot" aria-hidden="true" />
-            Now live · US App Store
+            Now on the App Store
           </p>
           <h2 className="hv2-get__title" id="finale-title">
             Your health, <em>finally readable.</em>
@@ -52,7 +54,6 @@ export default function Finale() {
               </p>
             </div>
           </div>
-          <WaitlistForm />
         </div>
       </div>
     </section>

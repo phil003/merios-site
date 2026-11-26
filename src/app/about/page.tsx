@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About Merios — Health Analytics Built for You",
     description:
-      "Learn about Merios, the health analytics app that combines blood test analysis, Apple Health data, and daily check-ins into one actionable health score.",
+      "Learn about Merios, the preventive health platform that combines blood test analysis, Apple Health data, and daily check-ins into one actionable health score.",
     url: "https://merios.life/about",
     type: "website",
   },
@@ -40,7 +40,7 @@ export default function AboutPage() {
     url: "https://merios.life/about",
     name: "About Merios — Health Analytics Built for You",
     description:
-      "Learn about Merios, the health analytics app that combines blood test analysis, Apple Health data, and daily check-ins into one actionable health score. Our mission: make health data understandable.",
+      "Learn about Merios, the preventive health platform that combines blood test analysis, Apple Health data, and daily check-ins into one actionable health score. Our mission: make health data understandable.",
     inLanguage: "en",
     isPartOf: { "@id": "https://merios.life/#website" },
     about: {
@@ -77,9 +77,8 @@ export default function AboutPage() {
               className={`he ${styles.lead}`}
               style={{ "--he-d": "0.12s" } as CSSProperties}
             >
-              Merios unifies blood work, movement, sleep, and stress into one
-              composite score you actually own. Calm authority, clinical
-              precision, zero marketing noise.
+              Merios unifies Blood, Activity, Recovery and Zen into one
+              composite score you actually own.
             </p>
           </div>
         </section>

@@ -10,16 +10,18 @@ import styles from "./science.module.css";
  * Desktop only (hidden below lg). The mockups' "On this page" steps: a
  * hairline rail, Newsreader numerals, the active section (detected with an
  * IntersectionObserver, aria-current="location") in ink on an ink rail.
+ * Numbers and labels are the section eyebrows' ("01 · Thesis" …
+ * "06 · References"); the intro has no eyebrow number, so none here either.
  */
 
-const TOC = [
+const TOC: ReadonlyArray<{ href: string; label: string; n?: string }> = [
   { href: "#intro", label: "Intro" },
-  { href: "#thesis", label: "Thesis" },
-  { href: "#coverage", label: "Coverage" },
-  { href: "#model", label: "The model" },
-  { href: "#bioage", label: "Biological age" },
-  { href: "#advisors", label: "Clinical review" },
-  { href: "#references", label: "References" },
+  { href: "#thesis", label: "Thesis", n: "01" },
+  { href: "#coverage", label: "The Blood pillar", n: "02" },
+  { href: "#model", label: "The model", n: "03" },
+  { href: "#bioage", label: "Biological age", n: "04" },
+  { href: "#advisors", label: "Clinical review", n: "05" },
+  { href: "#references", label: "References", n: "06" },
 ];
 
 export default function ScienceStickyTOC() {
@@ -73,7 +75,7 @@ export default function ScienceStickyTOC() {
     <nav aria-label="On this page" className={styles.toc}>
       <p className={styles.tocTitle}>On this page</p>
       <ol className={styles.tocList}>
-        {TOC.map((t, i) => {
+        {TOC.map((t) => {
           const isActive = activeHref === t.href;
           return (
             <li key={t.href}>
@@ -83,7 +85,7 @@ export default function ScienceStickyTOC() {
                 className={styles.tocLink}
               >
                 <span aria-hidden className={styles.tocNum}>
-                  {String(i + 1).padStart(2, "0")}
+                  {t.n ?? ""}
                 </span>
                 <span>{t.label}</span>
               </a>

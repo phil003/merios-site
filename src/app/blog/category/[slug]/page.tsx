@@ -135,7 +135,7 @@ export default async function BlogCategoryPage({
               <ul className={`${styles.grid} ${styles.catGrid}`}>
                 {posts.map((post) => (
                   <li key={post.slug}>
-                    <BlogCard post={post} />
+                    <BlogCard post={{ ...post, topic: category.title }} />
                   </li>
                 ))}
               </ul>

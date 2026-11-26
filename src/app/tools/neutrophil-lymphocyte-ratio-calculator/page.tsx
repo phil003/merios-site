@@ -3,6 +3,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import CtaScreen from "@/components/calculators/tool-page/CtaScreen";
 import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
 import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import NeutrophilLymphocyteRatioCalculator from "@/components/calculators/NeutrophilLymphocyteRatioCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
@@ -78,15 +79,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="neutrophil-lymphocyte-ratio-calculator"
-        eyebrow="NLR — two white cell counts, one ratio"
-        title="Neutrophil-to-lymphocyte"
-        em="ratio calculator"
-        subline="NLR is your neutrophil count divided by your lymphocyte count; healthy adults mostly sit between about 0.78 and 3.53. Use absolute counts or the percentages from your CBC differential."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="neutrophil-lymphocyte-ratio-calculator"
+          eyebrow="NLR — two white cell counts, one ratio"
+          title="Neutrophil-to-lymphocyte"
+          em="ratio calculator"
+          subline="NLR is your neutrophil count divided by your lymphocyte count; healthy adults mostly sit between about 0.78 and 3.53. Use absolute counts or the percentages from your CBC differential."
+        />
+
         <div className={t.wrap}>
           <NeutrophilLymphocyteRatioCalculator />
           <section className={t.after}>
@@ -201,9 +202,14 @@ export default function Page() {
                 <Link href="/blog/how-often-blood-work">how often to get blood work</Link>.
               </p>
               <p>
-                Already have your bloodwork? <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-nlr-calculator&mt=8">Merios</a> reads
+                Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-nlr-calculator&mt=8">Merios</a> reads
                 it next to your watch data, so an NLR sits beside your sleep and recovery around the day of the draw.
               </p>
+            </div>
+
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
 
             <div className={`night ${t.cta}`} data-nav="dark" data-rv="">

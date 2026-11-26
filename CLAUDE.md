@@ -4,18 +4,28 @@
 
 Marketing website for Merios (merios.life), a preventive health platform.
 Stack: Next.js 16 (SSG + Edge Middleware on Vercel) + React 19 + Tailwind v4 + TypeScript strict.
-All marketing routes are statically generated at build time; `src/middleware.ts`
-handles geo-aware rewrites for `/early-access` (US vs. rest-of-world variants).
-Deployed on Vercel.
+All marketing routes are statically generated at build time. Since 25 Nov 2026
+the app is on the App Store in 174 countries and regions: `/early-access` is one
+App Store page for everyone (the US / rest-of-world geo variants, the
+middleware and the waitlist were retired on 26 Nov 2026; `/early-access/us` and
+`/early-access/rest` redirect to it). Never write "US App Store" or offer a
+waitlist. Deployed on Vercel.
 
 ## Product model (canonical — never conflate pillar and system)
 
-**4 pillars** (composite health score):
+**The Merios Score has 4 quarters** — the three daily pillars of the app (2.2),
+plus Blood:
 
-1. Blood
-2. Movement
-3. Sleep
-4. Stress
+1. Activity (how much you moved; app colour `--color-activity`)
+2. Recovery (sleep, HRV and resting heart rate against your usual nights;
+   `--color-recovery`)
+3. Zen (stress through the day; `--color-zen`)
+4. Blood (your lab reports, filled in by a scan or a hand-entered marker)
+
+Never write Movement / Sleep / Stress as pillar names, and never invent a
+pillar ("iron pillar", "metabolic pillar"): a blood marker feeds the Blood
+quarter. Merios presents itself as "a preventive health platform, not a
+medical device", never as "a wellness app/tool/companion".
 
 **11 blood biomarker systems** — sub-structure of the Blood pillar only,
 card-level surface, no detail route:
@@ -68,8 +78,12 @@ over a real ink section.
 Primitives live in globals.css: `.night`, `.display`, `.chrome-text`, `.label` +
 `.label-dot`, `.glass`, `.glass-light`, `.btn` with `.btn-ink` (ink pill),
 `.btn-lime` (white pill on ink, ink pill inside a dawn hero), `.btn-ghost`,
-`.btn-ghost-night`, `.pulse-rule`, `.editorial-prose`. The logo is
-`src/components/ui/Logo.tsx` (never redraw it by hand).
+`.btn-ghost-night`, `.editorial-prose`. The logo is
+`src/components/ui/Logo.tsx` (never redraw it by hand): since 26 Nov 2026 the
+name "merios" set in text (Figtree 600, ink), plus a provisional "m" mark
+(`Mark`) that is also the favicon and app icon, until the new logo exists. The
+drop + heartbeat mark is retired everywhere (brand rule of 21 Nov 2026): no
+drop, no heartbeat line, in pages, icons or share images.
 
 ## Typography
 

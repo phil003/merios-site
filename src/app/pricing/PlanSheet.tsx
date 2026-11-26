@@ -10,9 +10,9 @@ import s from "./pricing.module.css";
  *
  * Still the page's price table (caption, column headers, one row per plan),
  * drawn as three cards: Free (glass, Today screen), Plus (the ink card, blood
- * panel screen) and Blood work (dashed). Explicit table roles keep the
- * semantics when CSS turns rows into cards. The server render is the annual
- * plan, so the static HTML reads "Merios Plus · $44 / year".
+ * panel screen) and Blood work (dashed, scan check screen). Explicit table
+ * roles keep the semantics when CSS turns rows into cards. The server render
+ * is the annual plan, so the static HTML reads "Merios Plus · $44 / year".
  */
 
 /** Cents → "$44" or "$12.99". */
@@ -45,9 +45,15 @@ export default function PlanSheet() {
     <section aria-labelledby="plans-title" className={s.plans}>
       <div className={s.wrap}>
         <div className={s.plansHead}>
-          <h2 id="plans-title" className={s.plansTitle}>
-            {PLAN_SHEET.heading}
-          </h2>
+          <div>
+            <p className={`label ${s.eyebrow} ${s.plansEyebrow}`}>
+              <span aria-hidden className="label-dot label-dot--ink" />
+              <span>{PLAN_SHEET.eyebrow}</span>
+            </p>
+            <h2 id="plans-title" className={s.plansTitle}>
+              <em>{PLAN_SHEET.heading}</em>
+            </h2>
+          </div>
           <div role="group" aria-label={PLAN_SHEET.toggleLabel} className={s.toggle}>
             {BILLING_ORDER.map((id) => (
               <button
@@ -76,7 +82,10 @@ export default function PlanSheet() {
           </thead>
           <tbody role="rowgroup" className={s.cards}>
             {/* Free — glass, with the Today screen */}
-            <tr role="row" className={`${s.card} ${s.cardFree}`} data-rv="">
+            {/* suppressHydrationWarning on each card: the inline reveal
+                script (layout.tsx) adds .rv-in before this client component
+                hydrates. */}
+            <tr role="row" className={`${s.card} ${s.cardFree}`} data-rv="" suppressHydrationWarning>
               <th role="rowheader" scope="row" className={s.plan}>
                 {free.name}
               </th>
@@ -116,6 +125,7 @@ export default function PlanSheet() {
               data-rv=""
               data-nav="dark"
               style={delay(0.08)}
+              suppressHydrationWarning
             >
               <th role="rowheader" scope="row" className={s.plan}>
                 {plus.name}
@@ -162,7 +172,13 @@ export default function PlanSheet() {
             </tr>
 
             {/* Blood work — not included, dashed */}
-            <tr role="row" className={`${s.card} ${s.cardLab}`} data-rv="" style={delay(0.16)}>
+            <tr
+              role="row"
+              className={`${s.card} ${s.cardLab}`}
+              data-rv=""
+              style={delay(0.16)}
+              suppressHydrationWarning
+            >
               <th role="rowheader" scope="row" className={s.plan}>
                 {lab.name}
               </th>
@@ -179,6 +195,21 @@ export default function PlanSheet() {
                     </li>
                   ))}
                 </ul>
+                {/* What Merios does with it: the scan check, cropped by the
+                    card's foot like the two app screens beside it. */}
+                <div className={`${s.screen} ${s.screenLab}`}>
+                  <span aria-hidden className={s.screenTag}>
+                    {PLAN_SHEET.screenTag}
+                  </span>
+                  <Image
+                    src={lab.screen.src}
+                    alt={lab.screen.alt}
+                    width={780}
+                    height={1688}
+                    sizes="210px"
+                    className={s.screenImg}
+                  />
+                </div>
               </td>
             </tr>
           </tbody>

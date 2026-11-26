@@ -11,8 +11,8 @@ import styles from "./science.module.css";
  * The page's one ink block. Four pillar buttons sit above the figure; the
  * chosen pillar's path into the composite lights up in its colour and the
  * line under the figure says what it is. Only facts this page states are
- * shown: the pillars' names, the composite on a 0–100 scale (82, as in the
- * shipped figure, illustrative) and the eleven systems inside Blood.
+ * shown: the pillars' names, the composite on a 0–100 scale (82, an example
+ * value, captioned "Example data") and the eleven systems inside Blood.
  * Selection is plain React state; path changes are CSS transitions, off
  * under reduced motion.
  */
@@ -159,7 +159,7 @@ export default function ScienceModelDiagram() {
             </div>
 
             <figcaption className={styles.figCaption}>
-              Fig. 1 · Composite aggregation — illustrative
+              Fig. 1 · Composite aggregation · Example data
             </figcaption>
           </figure>
         </Reveal>

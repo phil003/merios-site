@@ -38,9 +38,10 @@ export const metadata: Metadata = {
 };
 
 // ── JSON-LD (MedicalWebPage) ────────────────────────────────────────────────
-// `reviewedBy` is intentionally omitted until named clinical advisors are
-// signed in. Putting fictional or generic entities in `reviewedBy` would
-// signal weak E-E-A-T to Google for YMYL content.
+// `reviewedBy` and `lastReviewed` are intentionally omitted: no clinician has
+// reviewed this page yet (section 05 says so). Add both, with the reviewer's
+// real name and date, only once a review is actually done. `dateModified`
+// is the last content change.
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "MedicalWebPage",
@@ -61,7 +62,7 @@ const jsonLd = {
     datePublished: String(c.year),
     ...(c.doi ? { identifier: c.doi } : {}),
   })),
-  lastReviewed: "2026-04-17",
+  dateModified: "2026-11-26",
 };
 
 export default function SciencePage() {

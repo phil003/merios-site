@@ -1,6 +1,6 @@
 /* Substack newsletter card — Open Sky (v2): a soft lavender plate with a glass
-   rim, the eyebrow, an H2 ending on the italic human words, and Substack's
-   own embed form on white. */
+   rim, the eyebrow, an H2 ending on the italic human words, Substack's own
+   embed form on white (over a stand-in), and a one-line link to Substack. */
 
 .card {
   position: relative;
@@ -69,6 +69,98 @@
   margin-top: 22px;
   display: flex;
   justify-content: center;
+}
+
+/* Fixed-height frame: the embed's white page paints over the stand-in once
+   it loads; until then (lazy load, slow network) or if a content blocker
+   hides it, the stand-in form shows, so the frame is never an empty box. */
+.embed {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: 150px;
+  overflow: hidden;
+  border: 1.5px solid rgb(24 33 63 / 0.12);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 18px 36px -24px rgb(36 48 110 / 0.45);
+}
+.iframe {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+.standIn {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 20px 0;
+  text-decoration: none;
+}
+.standInField,
+.standInButton {
+  display: inline-flex;
+  align-items: center;
+  height: 42px;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+.standInField {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 260px;
+  padding: 0 14px;
+  border: 1px solid rgb(24 33 63 / 0.18);
+  border-right: 0;
+  border-radius: 8px 0 0 8px;
+  background: #f3f4f8;
+  color: var(--color-ink-tertiary);
+  overflow: hidden;
+}
+.standInButton {
+  flex: none;
+  padding: 0 18px;
+  border-radius: 0 8px 8px 0;
+  background: var(--color-ink);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* The one line under the frame: Substack's own sign-up page */
+.fallback {
+  margin: 10px 0 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--color-ink-secondary);
+}
+.fallbackLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--color-link, #3550a8);
+  text-decoration: underline;
+  text-decoration-color: rgb(53 80 168 / 0.35);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.fallbackLink:hover {
+  color: var(--color-ink);
+  text-decoration-color: currentColor;
+}
+.fallbackLink:focus-visible {
+  outline: 2px solid var(--color-link, #3550a8);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* the logo's heartbeat, as a small ornament */

@@ -219,7 +219,7 @@ export const TOOLS: Tool[] = [
     eyebrow: "Zone 2 Training",
     title: "Zone 2 Heart Rate",
     description:
-      "Get your Zone 2 training band in bpm from your age — the low-intensity zone that builds aerobic base and raises VO2 max with the least fatigue.",
+      "Get your Zone 2 training band in bpm from your age — the low-intensity zone that builds aerobic base and raises VO₂ max with the least fatigue.",
     inputs: "1 input",
     plate: "max HR = 208 − 0.7 × age",
     plateSub: "Tanaka 2001 · bpm",
@@ -293,7 +293,7 @@ export const TOOLS: Tool[] = [
     eyebrow: "Lp(a) Units",
     title: "Lp(a) Unit Converter",
     description:
-      "US labs report mg/dL, most others nmol/L. Converts between them and returns a range, because no exact conversion between the two actually exists.",
+      "Quest and Labcorp report nmol/L; older reports and some labs still use mg/dL. Converts between them and returns a range, because no exact conversion between the two actually exists.",
     inputs: "1 input",
     plate: "mg/dL ↔ nmol/L",
     plateSub: "a range, never one factor",

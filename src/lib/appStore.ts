@@ -1,7 +1,7 @@
 // App Store links with campaign tracking, so App Store Connect (App Analytics > Campaigns)
 // can tell how many installs each page of merios.life brings.
 // pt = provider token of the Merios developer account; ct = campaign (max 40 characters).
-export const APP_STORE_BASE = "https://apps.apple.com/us/app/merios/id6760352598";
+export const APP_STORE_BASE = "https://apps.apple.com/app/merios/id6760352598";
 
 export function appStoreUrl(ct: string): string {
   const c =

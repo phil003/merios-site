@@ -52,9 +52,8 @@ const SITE_URL = 'https://merios.life';
 // /support → /faq). Listing a redirect in the sitemap creates a soft-404
 // signal.
 // NOTE: /early-access/us and /early-access/rest are intentionally excluded
-// too. They are the prerendered variants that src/middleware.ts serves at
-// /early-access, both canonicalised to /early-access; only that URL belongs
-// here.
+// too. Since 26/11/2026 they are 308 redirects to /early-access (the geo
+// variants and src/middleware.ts were retired when the app went worldwide).
 const STATIC_ROUTES = [
   { path: '/', priority: 1.0, changefreq: 'weekly' },
   { path: '/how-it-works', priority: 0.9, changefreq: 'monthly' },

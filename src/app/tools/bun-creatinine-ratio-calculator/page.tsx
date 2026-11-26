@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
 import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import BunCreatinineRatioCalculator from "@/components/calculators/BunCreatinineRatioCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
@@ -69,15 +70,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="bun-creatinine-ratio-calculator"
-        eyebrow="BUN to creatinine — two kidney markers, one ratio"
-        title="BUN/Creatinine Ratio"
-        em="Calculator"
-        subline="Divide BUN by creatinine, in US or SI units. A high B/Cr ratio with a normal creatinine usually points to hydration or diet rather than the kidneys; this page shows how to tell the difference."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="bun-creatinine-ratio-calculator"
+          eyebrow="BUN to creatinine — two kidney markers, one ratio"
+          title="BUN/Creatinine Ratio"
+          em="Calculator"
+          subline="Divide BUN by creatinine, in US or SI units. A high B/Cr ratio with a normal creatinine usually points to hydration or diet rather than the kidneys; this page shows how to tell the difference."
+        />
+
         <div className={t.wrap}>
           <BunCreatinineRatioCalculator />
           <section className={t.after}>
@@ -209,10 +210,15 @@ export default function Page() {
                 panel is worth repeating.
               </p>
               <p>
-                Already have your bloodwork? <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-bun-cr-ratio&mt=8">Merios</a> reads
+                Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-bun-cr-ratio&mt=8">Merios</a> reads
                 it next to your watch data, so a ratio like this sits beside your creatinine and eGFR trend across
                 panels.
               </p>
+            </div>
+
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
           </section>
 

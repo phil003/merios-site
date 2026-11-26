@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import {
   getCoverPlate,
   getDrawnCover,
@@ -53,7 +53,7 @@ export default function ArticleCover({
       aria-hidden="true"
     >
       <span className={styles.top}>
-        <span className={styles.kicker}>{spec.kicker}</span>
+        <span className={styles.kicker}>{typeset(spec.kicker)}</span>
         {spec.note ? <span className={styles.note}>{spec.note}</span> : null}
       </span>
       <span className={styles.body}>
@@ -82,16 +82,37 @@ export default function ArticleCover({
   );
 }
 
+/**
+ * Subscript digits ("VO₂") are not in the brand fonts' latin subset and fall
+ * back to a system face: set them as a real <sub> in the cover's own font.
+ */
+function typeset(text: string): ReactNode {
+  if (!/[₀-₉]/.test(text)) return text;
+  return text.split(/([₀-₉]+)/).map((part, i) =>
+    /^[₀-₉]+$/.test(part) ? (
+      <sub key={i} className={styles.subDigit}>
+        {[...part].map((d) => String(d.charCodeAt(0) - 0x2080)).join("")}
+      </sub>
+    ) : (
+      part
+    ),
+  );
+}
+
 function CoverMainLine({ spec }: { spec: DrawnCover }) {
   const main = spec.main;
   const size = { "--cv-size": String(main.size) } as CSSProperties;
   if (main.kind === "two") {
+    // "vs" travels with the right side, so a long pair breaks as
+    // "Cystatin C / vs Creatinine", never with "vs" alone at a line end.
     return (
       <>
         <span className={styles.two} style={size}>
-          <span>{main.left}</span>
-          <span className={styles.sep}>{main.sep}</span>
-          <span>{main.right}</span>
+          <span>{typeset(main.left)}</span>
+          <span className={styles.twoEnd}>
+            <span className={styles.sep}>{main.sep}</span>
+            <span>{typeset(main.right)}</span>
+          </span>
         </span>
         {main.sub ? <span className={styles.sub}>{main.sub}</span> : null}
       </>
@@ -100,9 +121,9 @@ function CoverMainLine({ spec }: { spec: DrawnCover }) {
   return (
     <span className={styles.one}>
       <span className={styles.big} style={size}>
-        {main.big}
+        {typeset(main.big)}
       </span>
-      {main.unit ? <span className={styles.unit}>{main.unit}</span> : null}
+      {main.unit ? <span className={styles.unit}>{typeset(main.unit)}</span> : null}
     </span>
   );
 }

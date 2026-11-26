@@ -87,15 +87,15 @@ export default function A1CCalculatorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }}
       />
 
-      <ToolHero
-        slug="a1c-calculator"
-        eyebrow="A1C ↔ average glucose — ADAG 2008"
-        title="A1C"
-        em="calculator"
-        subline="Convert A1C to estimated average glucose (eAG) in mg/dL and mmol/L, or enter an average glucose and get the estimated A1C. Both directions use the ADAG study formula."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="a1c-calculator"
+          eyebrow="A1C ↔ average glucose — ADAG 2008"
+          title="A1C"
+          em="calculator"
+          subline="Convert A1C to estimated average glucose (eAG) in mg/dL and mmol/L, or enter an average glucose and get the estimated A1C. Both directions use the ADAG study formula."
+        />
+
         <div className={t.wrap}>
           <A1CConverter />
 
@@ -112,7 +112,7 @@ export default function A1CCalculatorPage() {
               </p>
               <div className={t.tableWrap} data-rv="">
                 <table className={t.table}>
-                  <caption className={t.caption}>
+                  <caption className={`${t.caption} ${t.captionPlain}`}>
                     A1C to estimated average glucose (eAG), from 5.0% to 12.0%
                   </caption>
                   <thead>
@@ -195,7 +195,7 @@ export default function A1CCalculatorPage() {
               </div>
               <div className={t.ctaActions}>
                 <a
-                  href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-a1c-calculator&mt=8"
+                  href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-a1c-calculator&mt=8"
                   className="btn btn-lime"
                 >
                   Get the app

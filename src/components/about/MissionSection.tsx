@@ -85,9 +85,9 @@ export default function MissionSection() {
 
             <Reveal delay={0.15}>
               <p className={styles.missionBody}>
-                We unify four pillars &mdash; Blood, Movement, Sleep, Stress
-                &mdash; into one composite score you actually own. Grounded in
-                peer-reviewed research. Built for the decade, not the quarter.
+                We unify four pillars &mdash; Blood, Activity, Recovery and Zen
+                &mdash; into one composite score. Grounded in peer-reviewed
+                research. Built for the decade, not the quarter.
               </p>
             </Reveal>
           </div>

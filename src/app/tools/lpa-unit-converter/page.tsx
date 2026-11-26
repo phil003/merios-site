@@ -23,29 +23,29 @@ const FAQ_ITEMS = [
 // nmol/L -> mg/dL, using the two approximations in common use (divide by 2.5
 // and by 2.15). Bands follow the thresholds the converter itself applies.
 const NMOL_ROWS: [string, string, string][] = [
-  ["25 nmol/L", "10.0 - 11.6 mg/dL", "Below common thresholds"],
-  ["50 nmol/L", "20.0 - 23.3 mg/dL", "Below common thresholds"],
-  ["75 nmol/L", "30.0 - 34.9 mg/dL", "Start of the intermediate zone"],
-  ["100 nmol/L", "40.0 - 46.5 mg/dL", "Intermediate"],
-  ["125 nmol/L", "50.0 - 58.1 mg/dL", "The commonly cited threshold"],
-  ["150 nmol/L", "60.0 - 69.8 mg/dL", "Elevated"],
-  ["200 nmol/L", "80.0 - 93.0 mg/dL", "Elevated"],
-  ["250 nmol/L", "100.0 - 116.3 mg/dL", "Elevated"],
-  ["300 nmol/L", "120.0 - 139.5 mg/dL", "Elevated"],
-  ["400 nmol/L", "160.0 - 186.0 mg/dL", "Elevated"],
+  ["25 nmol/L", "10.0–11.6 mg/dL", "Below common thresholds"],
+  ["50 nmol/L", "20.0–23.3 mg/dL", "Below common thresholds"],
+  ["75 nmol/L", "30.0–34.9 mg/dL", "Start of the intermediate zone"],
+  ["100 nmol/L", "40.0–46.5 mg/dL", "Intermediate"],
+  ["125 nmol/L", "50.0–58.1 mg/dL", "The commonly cited threshold"],
+  ["150 nmol/L", "60.0–69.8 mg/dL", "Elevated"],
+  ["200 nmol/L", "80.0–93.0 mg/dL", "Elevated"],
+  ["250 nmol/L", "100.0–116.3 mg/dL", "Elevated"],
+  ["300 nmol/L", "120.0–139.5 mg/dL", "Elevated"],
+  ["400 nmol/L", "160.0–186.0 mg/dL", "Elevated"],
 ];
 
 // mg/dL -> nmol/L, the same approximations run the other way (x2.15 to x2.5).
 const MGDL_ROWS: [string, string, string][] = [
-  ["10 mg/dL", "22 - 25 nmol/L", "Below common thresholds"],
-  ["20 mg/dL", "43 - 50 nmol/L", "Below common thresholds"],
-  ["30 mg/dL", "65 - 75 nmol/L", "Start of the intermediate zone"],
-  ["40 mg/dL", "86 - 100 nmol/L", "Intermediate"],
-  ["50 mg/dL", "108 - 125 nmol/L", "The commonly cited threshold"],
-  ["60 mg/dL", "129 - 150 nmol/L", "Elevated"],
-  ["75 mg/dL", "161 - 188 nmol/L", "Elevated"],
-  ["100 mg/dL", "215 - 250 nmol/L", "Elevated"],
-  ["150 mg/dL", "323 - 375 nmol/L", "Elevated"],
+  ["10 mg/dL", "22–25 nmol/L", "Below common thresholds"],
+  ["20 mg/dL", "43–50 nmol/L", "Below common thresholds"],
+  ["30 mg/dL", "65–75 nmol/L", "Start of the intermediate zone"],
+  ["40 mg/dL", "86–100 nmol/L", "Intermediate"],
+  ["50 mg/dL", "108–125 nmol/L", "The commonly cited threshold"],
+  ["60 mg/dL", "129–150 nmol/L", "Elevated"],
+  ["75 mg/dL", "161–188 nmol/L", "Elevated"],
+  ["100 mg/dL", "215–250 nmol/L", "Elevated"],
+  ["150 mg/dL", "323–375 nmol/L", "Elevated"],
 ];
 
 /* Row status dot (presentation only) — the converter's own bands:
@@ -101,15 +101,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="lpa-unit-converter"
-        eyebrow="Lp(a) — nmol/L and mg/dL"
-        title="Lp(a) unit converter:"
-        em="nmol/L to mg/dL"
-        subline="Two labs, two numbers, one lipoprotein. Convert in either direction and get a range rather than a false single number, because no exact conversion between these units exists."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="lpa-unit-converter"
+          eyebrow="Lp(a) — nmol/L and mg/dL"
+          title="Lp(a) unit converter:"
+          em="nmol/L to mg/dL"
+          subline="Two labs, two numbers, one lipoprotein. Convert in either direction and get a range rather than a false single number, because no exact conversion between these units exists."
+        />
+
         <div className={t.wrap}>
           <LpaConverter />
           <section className={t.after}>
@@ -117,13 +117,13 @@ export default function Page() {
               <h2>Why there is no exact conversion</h2>
               <p>
                 This is the part every other converter skips. Milligrams per deciliter measures the total mass of Lp(a)
-                in your blood. Nanomoles per litre counts how many Lp(a) particles are there. Converting between them
+                in your blood. Nanomoles per liter counts how many Lp(a) particles are there. Converting between them
                 requires knowing the mass of one particle — and that is not a constant, because the apo(a) protein comes
                 in different sizes from person to person, determined genetically.
               </p>
               <p>
                 So a conversion factor is a population average applied to an individual. It gets you in the right
-                neighbourhood, which is genuinely useful when you are staring at a number in an unfamiliar unit, but it
+                neighborhood, which is genuinely useful when you are staring at a number in an unfamiliar unit, but it
                 is not a translation. Presenting one decimal place of false precision would be worse than showing the
                 range honestly.
               </p>
@@ -158,9 +158,9 @@ export default function Page() {
 
               <h2>mg/dL to nmol/L: the same table in reverse</h2>
               <p>
-                US labs still report Lp(a) in mg/dL, while newer assays and most European labs report nmol/L. If your
-                older result is in mg/dL and your new one is not, this is the direction you need — multiply by 2.15 to
-                2.5. It is the same approximation, with the same limits.
+                Large labs, including Quest and Labcorp in the US, report Lp(a) in nmol/L; older reports and some labs
+                still use mg/dL. If your older result is in mg/dL and your new one is not, this is the direction you
+                need — multiply by 2.15 to 2.5. It is the same approximation, with the same limits.
               </p>
               <div className={t.tableWrap} data-rv="">
                 <table className={`${t.table} ${t.tableRange}`}>
@@ -284,8 +284,9 @@ export default function Page() {
                   Stop converting the same number by hand <em>every time you change labs.</em>
                 </p>
                 <p className={t.ctaText}>
-                  Merios reads the units off each report you upload and keeps every marker on one scale, so a panel in
-                  nmol/L and a panel in mg/dL sit on the same curve instead of looking like two different people.
+                  Merios reads the units off each report you upload and keeps all your results on one timeline. For
+                  Lp(a), which has no exact conversion, stay on one unit and one assay, so that two results can really
+                  be compared.
                 </p>
               </div>
               <div className={t.ctaActions}>

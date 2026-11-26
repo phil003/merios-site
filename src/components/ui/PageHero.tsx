@@ -5,8 +5,8 @@ import type { CSSProperties } from "react";
 // LegalPageLayout used by /privacy /terms /security).
 //
 // v4 (site v3 art direction): a night masthead — graphite stage, chrome-lit
-// display type in Bricolage, the logo's heartbeat running along its lower
-// edge. Still a server component with the pure-CSS char reveal (.ph-word /
+// display type in Bricolage, a plain horizon line along its lower edge (the
+// logo's heartbeat until 26/11/2026). Still a server component with the pure-CSS char reveal (.ph-word /
 // .ph-char), so the H1 is in the static HTML and paints at parse time: LCP
 // safe, zero bundle JS, reduced motion honoured by the global rules.
 
@@ -93,7 +93,7 @@ export default function PageHero({
         </div>
       </div>
 
-      {/* The logo's heartbeat as the masthead's horizon */}
+      {/* A plain horizon ending on the sun (the heartbeat was retired with the drop mark, DA 21/11) */}
       <svg
         className="v3-hero__pulse"
         aria-hidden
@@ -109,7 +109,7 @@ export default function PageHero({
           </linearGradient>
         </defs>
         <path
-          d="M0 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1300"
+          d="M0 60 H1300"
           fill="none"
           stroke="url(#v3-hero-pulse-fade)"
           strokeWidth="1.6"

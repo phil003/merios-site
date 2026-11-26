@@ -12,13 +12,13 @@ import PlanSheet from "./PlanSheet";
 import PriceChart from "./PriceChart";
 import s from "./pricing.module.css";
 
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
+const APP_STORE_URL = "https://apps.apple.com/app/merios/id6760352598";
 // Tracked link for the buttons (the schema keeps the canonical URL above).
-const APP_STORE_LINK = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-pricing&mt=8";
+const APP_STORE_LINK = "https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-pricing&mt=8";
 
 const TITLE = "Merios Pricing";
 const DESCRIPTION =
-  "Merios is free to download on the US App Store; the daily score is free for good. Merios Plus is $44/year with a 7-day free trial. Lab work is not included.";
+  "Merios is free to download on the App Store; the daily score is free for good. Merios Plus is $44/year with a 3-day free trial. Lab work is not included.";
 
 /**
  * A real pricing page, restored.
@@ -37,17 +37,25 @@ const DESCRIPTION =
  * what each price buys (the comparison prose beside a price chart,
  * PriceChart.tsx) → what you are not paying for and availability → the
  * questions → a dawn call to action. Styles live in pricing.module.css, data
- * for the sheet and the chart in content.ts; the metadata, the JSON-LD, the
- * FAQ and every href are unchanged.
+ * for the sheet and the chart in content.ts. Since Nov 26, 2026 the copy says
+ * what is true worldwide: the App Store in 174 countries and regions, prices
+ * in US dollars as on the US App Store.
  */
+/**
+ * Display only: hyphenated terms ("7-day", "ad-supported") never split across
+ * two lines. U+2011 is the non-breaking hyphen (Figtree and Newsreader both
+ * carry it). The data keeps plain hyphens, since it also feeds the JSON-LD.
+ */
+const keepHyphens = (text: string) => text.replace(/(\w)-(\w)/g, "$1\u2011$2");
+
 const FAQ_ITEMS = [
   {
     q: "How much does Merios cost?",
-    a: "Merios is free to download from the US App Store. Merios Plus is $44.00 per year, with a 7-day free trial on the annual plan; it is also sold at $12.99 per month and $4.99 per week. The App Store always shows the current price for your region, which is the figure that governs.",
+    a: "Merios is free to download from the App Store. Merios Plus is $44 a year, with a 3-day free trial on the annual plan; it is also sold at $12.99 a month and $4.99 a week. The App Store always shows the current price for your country, which is the figure that governs.",
   },
   {
     q: "Is there a free version of Merios?",
-    a: "Yes. The daily side of the app is free for good: your daily Merios Score, the Activity, Recovery and Zen pillars, the live monitor, the journal and cycle logging. You can also enter blood markers by hand and see each one in its range, and any report already written for you stays readable. Scanning a lab report, the in-depth blood view with biological age, and Insights are part of Merios Plus. There is no ad-supported tier — Plus pays for the product, so it does not need to monetise your health data.",
+    a: "Yes. The daily side of the app is free for good: your daily Merios Score, the Activity, Recovery and Zen pillars, the live monitor, the journal and cycle logging. You can also enter blood markers by hand and see each one in its range, and any report already written for you stays readable. Scanning a lab report, the in-depth blood view with biological age, and Insights are part of Merios Plus. There is no ad-supported tier — Plus pays for the product, so it does not need to monetize your health data.",
   },
   {
     q: "Does the price include blood tests?",
@@ -55,11 +63,11 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is Merios available outside the United States?",
-    a: "Not yet. The App Store listing is US-only, so the app cannot be downloaded from other storefronts, and there is no Android app and no web version. Merios runs on iPhone and requires iOS 15.1 or later.",
+    a: "Yes. Merios is available on the App Store in 174 countries and regions, on iPhone with iOS 15.1 or later. Prices on this page are in US dollars, as on the US App Store; the App Store in your country shows your price. There is no Android app and no web version.",
   },
   {
     q: "Can I cancel Merios Plus?",
-    a: "Yes. Merios Plus is an Apple subscription, so it is cancelled from your iPhone's own subscription settings rather than through Merios, and it will not renew after you cancel. The 7-day trial on the annual plan can be cancelled before it converts.",
+    a: "Yes. Merios Plus is an Apple subscription, so it is canceled from your iPhone's own subscription settings rather than through Merios, and it will not renew after you cancel. The 3-day trial on the annual plan can be canceled before it converts.",
   },
 ];
 
@@ -87,7 +95,7 @@ export default function PricingPage() {
     "@id": "https://merios.life/pricing#product",
     name: "Merios",
     description:
-      "iOS app that reads any blood test PDF, extracts 160+ biomarkers, computes PhenoAge biological age, and tracks trends alongside Apple Health data.",
+      "Preventive health platform for iPhone that reads any blood test, from a PDF or a photo, extracts 160+ biomarkers, computes PhenoAge biological age, and tracks trends alongside Apple Health data.",
     brand: { "@type": "Brand", name: "Merios" },
     url: "https://merios.life/pricing",
     offers: [
@@ -99,7 +107,7 @@ export default function PricingPage() {
         availability: "https://schema.org/InStock",
         url: APP_STORE_URL,
         description:
-          "Free to download. The daily Merios Score, the Activity, Recovery and Zen pillars, the journal and manual marker entry are free for good. iPhone, iOS 15.1 or later, US App Store.",
+          "Free to download. The daily Merios Score, the Activity, Recovery and Zen pillars, the journal and manual marker entry are free for good. iPhone, iOS 15.1 or later, on the App Store in 174 countries and regions.",
       },
       {
         "@type": "Offer",
@@ -109,7 +117,7 @@ export default function PricingPage() {
         availability: "https://schema.org/InStock",
         url: APP_STORE_URL,
         description:
-          "Lab report scans, blood in depth with biological age, Insights and the monthly report. Billed yearly, with a 7-day free trial.",
+          "Lab report scans, blood in depth with biological age, Insights and the monthly report. Billed yearly, with a 3-day free trial.",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
           price: "44.00",
@@ -186,8 +194,8 @@ export default function PricingPage() {
               Merios Plus is <em>$44 a year.</em>
             </h1>
             <p className={`he ${s.lede}`} style={{ "--he-d": "0.16s" } as CSSProperties}>
-              The app is free to download on the US App Store, and the daily score is free for
-              good. Plus costs $44/year with a 7-day free trial on the annual plan. Blood work is
+              The app is free to download on the App Store, and the daily score is free for
+              good. Plus costs $44/year with a 3‑day free trial on the annual plan. Blood work is
               not included — Merios reads panels you already have.
             </p>
           </div>
@@ -210,7 +218,7 @@ export default function PricingPage() {
                 </h2>
                 <p className={s.body}>
                   Merios costs less than every service it gets compared to, and that comparison is
-                  unfair in Merios&rsquo; favour. Function Health is $365 a year and{" "}
+                  unfair in Merios&rsquo; favor. Function Health is $365 a year and{" "}
                   <Link href="/compare/function-health-vs-superpower">
                     includes two panels
                   </Link>
@@ -227,7 +235,7 @@ export default function PricingPage() {
                   a panel is already solved for you. If your doctor orders blood work, or you have years
                   of PDFs sitting in a drawer, Merios is the cheap way to make them mean something. If
                   arranging a draw is the hard part, a bundled service is solving a problem Merios does
-                  not touch — and the cheaper line is the wrong one to optimise.
+                  not touch — and the cheaper line is the wrong one to optimize.
                 </p>
               </div>
               <PriceChart />
@@ -240,9 +248,15 @@ export default function PricingPage() {
           <div className={s.wrap}>
             <div className={s.factsGrid}>
               <div className={s.fact} data-rv="">
-                <h2 className={s.factTitle}>What you are not paying for</h2>
+                <p className={`label ${s.eyebrow} ${s.factEyebrow}`}>
+                  <span aria-hidden className="label-dot label-dot--ink" />
+                  <span>Business model</span>
+                </p>
+                <h2 className={s.factTitle}>
+                  What you are not <em>paying for</em>
+                </h2>
                 <p className={s.factText}>
-                  There is no ad-supported tier, and there will not be one. A paid product does not need
+                  There is no ad‑supported tier, and there will not be one. A paid product does not need
                   to sell attention or data to survive, which is the only arrangement that makes sense
                   for a blood panel. How the data is handled is set out under{" "}
                   <Link href="/security">security</Link> and in the{" "}
@@ -250,13 +264,17 @@ export default function PricingPage() {
                 </p>
               </div>
               <div className={s.fact} data-rv="" style={{ "--rv-delay": "0.08s" } as CSSProperties}>
-                <h2 className={s.factTitle}>Availability</h2>
+                <p className={`label ${s.eyebrow} ${s.factEyebrow}`}>
+                  <span aria-hidden className="label-dot label-dot--ink" />
+                  <span>Where it runs</span>
+                </p>
+                <h2 className={s.factTitle}>
+                  <em>Availability</em>
+                </h2>
                 <p className={s.factText}>
-                  Merios is live on the{" "}
-                  <a href={APP_STORE_LINK}>US App Store</a> and runs on iPhone with
-                  iOS 15.1 or later. It is US-only for now: there is no other storefront, no Android
-                  app and no web version. If you are outside the US, the honest answer is that you
-                  cannot use it yet.
+                  Merios is available on the <a href={APP_STORE_LINK}>App Store</a> in 174
+                  countries and regions and runs on iPhone with iOS 15.1 or later. There is no
+                  Android app and no web version.
                 </p>
               </div>
             </div>
@@ -267,9 +285,15 @@ export default function PricingPage() {
         <section aria-labelledby="faq-title" className={s.faq}>
           <div className={s.wrap}>
             <div className={s.faqGrid}>
-              <h2 id="faq-title" className={`${s.h2} ${s.faqTitle}`}>
-                Questions
-              </h2>
+              <div className={s.faqTitle}>
+                <p className={`label ${s.eyebrow}`}>
+                  <span aria-hidden className="label-dot label-dot--ink" />
+                  <span>Before you subscribe</span>
+                </p>
+                <h2 id="faq-title" className={s.h2}>
+                  <em>Questions</em>
+                </h2>
+              </div>
               <div className={s.faqList} data-rv="">
                 {FAQ_ITEMS.map((item, i) => (
                   <details key={item.q} name="pricing-faq" open={i === 0} className={s.faqItem}>
@@ -277,7 +301,7 @@ export default function PricingPage() {
                       <span>{item.q}</span>
                       <span aria-hidden className={s.faqSign} />
                     </summary>
-                    <p className={s.faqA}>{item.a}</p>
+                    <p className={s.faqA}>{keepHyphens(item.a)}</p>
                   </details>
                 ))}
               </div>
@@ -290,14 +314,25 @@ export default function PricingPage() {
           <div className={s.wrap}>
             <div className={s.getBand} data-rv="">
               <div className={s.getCopy}>
+                <p className={`label ${s.eyebrow}`}>
+                  <span aria-hidden className="label-dot label-dot--ink" />
+                  <span>Get the app</span>
+                </p>
                 <h2 id="get-title" className={s.getTitle}>
                   Start free. <em>Add Plus when your blood test lands.</em>
                 </h2>
-                <p className={s.getMeta}>iPhone · iOS 15.1 or later · US App Store</p>
+                <p className={s.getMeta}>
+                  iPhone · iOS 15.1 or later · On the App Store in 174 countries and regions
+                </p>
               </div>
-              <a href={APP_STORE_LINK} className={`btn btn-ink ${s.ctaBtn}`}>
+              <a
+                href={APP_STORE_LINK}
+                className={`btn btn-ink ${s.ctaBtn}`}
+                aria-label="Download Merios on the App Store"
+              >
                 <AppleGlyph size={15} />
-                Download Merios on the App Store <span aria-hidden className="btn-arrow">→</span>
+                <span>Download on the App Store</span>
+                <span aria-hidden className="btn-arrow">→</span>
               </a>
             </div>
           </div>

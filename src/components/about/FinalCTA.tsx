@@ -1,7 +1,7 @@
 import Reveal from "@/components/ui/Reveal";
 import styles from "./about.module.css";
 
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-about&mt=8";
+const APP_STORE_URL = "https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-about&mt=8";
 
 /**
  * Server component. Open Sky: the closing call is a dawn band (the same
@@ -14,7 +14,9 @@ export default function FinalCTA() {
         <Reveal>
           <div className={styles.band}>
             <div className={styles.bandCopy}>
-              <p className={styles.eyebrow}>Now on the App Store</p>
+              {/* No Apple name in an uppercase label: "App Store" keeps
+                  Apple's casing. */}
+              <p className={styles.eyebrow}>Now in 174 countries and regions</p>
 
               <h2 id="about-cta-title" className={styles.bandTitle}>
                 Get Merios <em>on iPhone.</em>

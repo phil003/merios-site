@@ -9,8 +9,9 @@ import styles from "./science.module.css";
 /**
  * Science — Biological age (v2 "Open Sky").
  *
- * One white card: the three illustrative values (chronological, biological,
- * delta = biological minus chronological) on inner plates, an age ruler that
+ * One white card labelled "Example data": the three example values
+ * (chronological, biological, delta = biological minus chronological) on
+ * inner plates, an age ruler that
  * places them, and the way out to the PhenoAge calculator. The static HTML
  * renders the final values (crawler-safe, no-JS-safe); once hydrated, an
  * IntersectionObserver + rAF loop counts them up from 0 the first time the
@@ -123,15 +124,15 @@ export default function ScienceBioAge() {
         </h2>
 
         <p className={styles.lead}>
-          Merios estimates biological age from a validated subset of the
-          panel, inspired by the Levine PhenoAge framework
-          <sup aria-describedby="ref-3 ref-5">
+          Merios estimates biological age from the nine blood markers of the
+          published Levine PhenoAge model
+          <sup aria-describedby="ref-4 ref-5">
             <a
-              href="#ref-3"
-              aria-label="Reference 3"
+              href="#ref-4"
+              aria-label="Reference 4"
               className={styles.ref}
             >
-              3
+              4
             </a>
             ,
             <a
@@ -151,7 +152,7 @@ export default function ScienceBioAge() {
         <div className={styles.ageCard}>
           <p className={styles.ageHead}>
             <span>Biological age</span>
-            <span>Illustrative</span>
+            <span>Example data</span>
           </p>
 
           <div ref={statsRef} className={styles.ageTiles}>
@@ -180,7 +181,7 @@ export default function ScienceBioAge() {
                   {fmt(TARGETS.biological, 1)}
                 </span>
               </p>
-              <p className={styles.ageNote}>Years, estimated — illustrative</p>
+              <p className={styles.ageNote}>Years, estimated</p>
             </div>
 
             <div className={styles.ageTile}>
@@ -195,7 +196,7 @@ export default function ScienceBioAge() {
                 </span>
               </p>
               <p className={styles.ageNote}>
-                Years, biological minus chronological — illustrative
+                Years, biological minus chronological
               </p>
             </div>
           </div>
@@ -203,7 +204,7 @@ export default function ScienceBioAge() {
           <div
             className={styles.ruler}
             role="img"
-            aria-label={`Illustrative age ruler from ${RULER_MIN} to ${RULER_MAX}: biological age ${TARGETS.biological} sits ${Math.abs(TARGETS.delta)} years below chronological age ${TARGETS.chronological}.`}
+            aria-label={`Example data. Age ruler from ${RULER_MIN} to ${RULER_MAX}: biological age ${TARGETS.biological} sits ${Math.abs(TARGETS.delta)} years below chronological age ${TARGETS.chronological}.`}
             style={
               {
                 "--bio": at(TARGETS.biological),

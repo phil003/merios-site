@@ -131,15 +131,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="iron-unit-converter"
-        eyebrow="Iron, TIBC and ferritin — µg/dL, µmol/L, ng/mL"
-        title="Iron"
-        em="Unit Converter"
-        subline="Multiply µg/dL by 0.1791 for µmol/L, or µmol/L by 5.585 for µg/dL: 100 µg/dL is 17.9 µmol/L. Converts TIBC and ferritin too, and explains why serum iron can never be converted into ferritin."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="iron-unit-converter"
+          eyebrow="Iron, TIBC and ferritin — µg/dL, µmol/L, ng/mL"
+          title="Iron"
+          em="Unit Converter"
+          subline="Multiply µg/dL by 0.1791 for µmol/L, or µmol/L by 5.585 for µg/dL: 100 µg/dL is 17.9 µmol/L. Converts TIBC and ferritin too, and explains why serum iron can never be converted into ferritin."
+        />
+
         <div className={t.wrap}>
           <IronConverter />
           <section className={t.after}>
@@ -330,7 +330,7 @@ export default function Page() {
                 associated with inflammation, where iron is held back in storage rather than missing.
               </p>
               <p>
-                <strong>High iron with high saturation</strong> may follow a recent supplement, but if it persists on a
+                <strong>High iron with high saturation</strong>{" "}may follow a recent supplement, but if it persists on a
                 fasting draw it can suggest iron overload, and clinicians may look further. None of these patterns is a
                 diagnosis on its own: if your values sit outside your lab&apos;s range, or have changed from earlier
                 panels, talk to your clinician before starting or stopping iron.
@@ -344,9 +344,9 @@ export default function Page() {
               </p>
               <p>
                 Already have your bloodwork?{" "}
-                <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-iron-unit-converter&mt=8">Merios</a>{" "}
+                <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-iron-unit-converter&mt=8">Merios</a>{" "}
                 reads it next to your Apple Watch data, so a ferritin trend sits beside the training load, sleep and
-                resting heart rate around it. The lab-report scan is part of Merios Plus ($44/year, 7-day free trial on
+                resting heart rate around it. The lab-report scan is part of Merios Plus ($44/year, 3-day free trial on
                 the annual plan); the Daily is free. iPhone, iOS 15.1 or later.
               </p>
             </div>

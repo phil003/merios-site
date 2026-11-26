@@ -16,7 +16,7 @@ import styles from "./not-found.module.css";
  *
  * Open Sky: a dawn stage. The H1 ends on the italic human words; the Journal
  * and the tools are the two places to start, and the home page is one link
- * away. The logo's heartbeat runs along the horizon and breaks off where the
+ * away. A plain horizon line runs across and breaks off where the
  * missing page should be (decorative, aria-hidden). CSS-only entrance
  * (`.he`), so the H1 paints at parse time.
  */
@@ -44,10 +44,12 @@ export default function NotFound() {
             style={{ "--he-d": "0.18s" } as CSSProperties}
           >
             <Link href="/blog" className="btn btn-ink">
-              Read the Journal →
+              Read the Journal
+              <span aria-hidden className="btn-arrow">→</span>
             </Link>
             <Link href="/tools" className="btn btn-ghost">
-              Free calculators →
+              Free calculators
+              <span aria-hidden className="btn-arrow">→</span>
             </Link>
           </div>
 
@@ -59,7 +61,7 @@ export default function NotFound() {
           </p>
         </div>
 
-        {/* The heartbeat, broken where the page should be */}
+        {/* The horizon, broken where the page should be */}
         <svg
           className={styles.horizon}
           aria-hidden
@@ -94,7 +96,7 @@ export default function NotFound() {
           />
           <path
             className={styles.line}
-            d="M840 60 H1090 L1104 72 L1122 18 L1146 108 L1160 60 H1294"
+            d="M840 60 H1294"
             stroke="url(#nf-pulse-fade)"
             vectorEffect="non-scaling-stroke"
           />

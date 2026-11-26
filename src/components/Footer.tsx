@@ -1,4 +1,5 @@
-import Logo, { Mark } from "@/components/ui/Logo";
+import Logo from "@/components/ui/Logo";
+import { BLOG_CATEGORIES } from "@/lib/blog-categories";
 
 type Link = { label: string; href: string };
 
@@ -9,26 +10,20 @@ const COLUMNS: { title: string; links: Link[] }[] = [
     links: [
       { label: "How it works", href: "/how-it-works" },
       { label: "The science", href: "/science" },
-      { label: "Calculators", href: "/tools" },
+      { label: "Tools", href: "/tools" },
       { label: "Compare", href: "/compare" },
       { label: "Pricing", href: "/pricing" },
     ],
   },
   {
     // Health / practical persona — the "what does my result mean" path.
-    // Every topic hub is listed: the three that were missing here were the
-    // least-linked hubs on the site, and two of them were left out of
-    // Google's index.
+    // Every topic hub is listed, under the title the Journal gives it
+    // (src/lib/blog-categories.ts): these links are what keep the least-linked
+    // hubs reachable, and in Google's index.
     title: "Health library",
     links: [
       { label: "Blog", href: "/blog" },
-      { label: "Blood tests", href: "/blog/category/blood-tests" },
-      { label: "Biomarkers", href: "/blog/category/biomarkers" },
-      { label: "Metabolic health", href: "/blog/category/metabolic-health" },
-      { label: "Hormones", href: "/blog/category/hormones" },
-      { label: "Nutrition", href: "/blog/category/nutrition" },
-      { label: "Longevity", href: "/blog/category/longevity" },
-      { label: "Wearables", href: "/blog/category/wearables" },
+      ...BLOG_CATEGORIES.map((c) => ({ label: c.title, href: `/blog/category/${c.slug}` })),
     ],
   },
   {
@@ -59,10 +54,10 @@ export default function Footer() {
         <div className="v3-footer__top">
           {/* Brand */}
           <div className="v3-footer__brand">
-            <Logo size="2rem" cut="#ECEAFB" />
+            <Logo size="1.5rem" />
             <p>
-              One score for every biomarker you&rsquo;ve ever produced.
-              Quiet, composite, and built to last a decade.
+              The preventive health platform. Your blood tests and your daily
+              data, read together in plain English.
             </p>
           </div>
 
@@ -71,7 +66,7 @@ export default function Footer() {
               <h3>{col.title}</h3>
               <ul>
                 {col.links.map((l) => (
-                  <li key={l.label}>
+                  <li key={l.href}>
                     <a href={l.href}>{l.label}</a>
                   </li>
                 ))}
@@ -80,27 +75,21 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* The full logo, set big — never cropped */}
+        {/* The wordmark, set big — lowercase, like the logo */}
         <div className="v3-footer__lockup" aria-hidden>
-          <Mark cut="#E9E8FA" color="rgb(24 33 63 / 0.1)" style={{ width: "0.955em", height: "1.05em", flex: "none" }} />
-          <span>Merios</span>
+          <span>merios</span>
         </div>
 
         {/* Bottom strip */}
         <div className="v3-footer__bottom">
           <p>© {currentYear} Merios Health LLC · All rights reserved</p>
-          <div className="v3-footer__locale" aria-label="Locale — English (French coming soon)">
-            <span aria-current="true">EN</span>
-            <span aria-hidden className="v3-footer__locale-rule" />
-            <span>FR</span>
-          </div>
         </div>
 
         {/* Medical disclaimer — App Store compliance (must not be removed) */}
         <p className="v3-footer__disclaimer">
           <strong>Medical disclaimer.</strong>{" "}
-          Merios is a wellness companion, not a medical device. It does not
-          diagnose, treat, cure, or prevent any disease. Health scores and
+          Merios is a preventive health platform, not a medical device. It does
+          not diagnose, treat, cure, or prevent any disease. Health scores and
           biological age estimates are algorithmic, not clinically validated.
           Always consult a qualified healthcare professional for medical
           advice and the interpretation of your lab results.

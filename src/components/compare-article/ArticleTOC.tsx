@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useTocScroll } from "@/components/blog-article/useTocScroll";
 import a from "@/components/blog-article/article.module.css";
 
 interface TocItem {
@@ -16,11 +17,14 @@ interface TocItem {
  * On mount, scans the article body (`[data-article-body]`) for `h2[id]`
  * elements and renders them as anchor links on a hairline rail. Uses
  * IntersectionObserver with `rootMargin: "-40% 0px -55% 0px"` to flag the
- * currently-read section (ink text, ink rail segment).
+ * currently-read section (ink text, ink rail segment). A long list scrolls
+ * inside its box with a fade on the end that hides rows (useTocScroll).
  */
 export default function ArticleTOC() {
   const [items, setItems] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const listRef = useRef<HTMLOListElement>(null);
+  const fade = useTocScroll(listRef, activeId, items.length);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -76,7 +80,7 @@ export default function ArticleTOC() {
   return (
     <nav aria-label="On this page" className={a.toc}>
       <p className={a.tocLabel}>On this page</p>
-      <ol className={a.tocList}>
+      <ol ref={listRef} className={a.tocList} data-fade={fade}>
         {items.map((item) => {
           const isActive = activeId === item.id;
           return (

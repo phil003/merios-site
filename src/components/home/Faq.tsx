@@ -1,5 +1,6 @@
 import { FAQPageSchema } from "@/components/StructuredData";
 import { Arrow } from "./icons";
+import { keepHyphens } from "./text";
 
 /*
  * The home FAQ (20/11/2026, SEO/GEO plan) and its FAQPage JSON-LD. Plain,
@@ -14,7 +15,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Can Merios read the blood test results I already have?",
-    a: "Yes. With Merios Plus you scan a PDF or a photo of a report from any lab. Merios extracts each marker with its unit and reference range, you confirm the values, and they join your timeline. The scanned file is read, then discarded.",
+    a: "Yes. With Merios Plus you scan a PDF or a photo of a report from any lab. Merios extracts each marker with its unit and reference range, you confirm the values, and they join your timeline. Merios does not keep the scanned file; the AI service that reads it (OpenAI) may keep the request for up to 30 days for abuse monitoring, never for training.",
   },
   {
     q: "Does Merios work with Apple Watch?",
@@ -22,7 +23,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Is Merios a medical device?",
-    a: "No. Merios is a wellness product. It helps you read and follow your own data; it does not diagnose, treat or replace your clinician. A result that worries you is one to discuss with your doctor.",
+    a: "No. Merios is a preventive health platform. It helps you read and follow your own data; it does not diagnose, treat or replace your clinician. A result that worries you is one to discuss with your doctor.",
   },
   {
     q: "Where is my health data stored?",
@@ -41,7 +42,7 @@ export default function Faq() {
       <section id="faq" className="hv2-sec hv2-faq" aria-labelledby="homefaq-title">
         <div className="hv2-wrap hv2-faq__grid">
           <div className="hv2-faq__intro">
-            <p className="hv2-eyebrow">09 · Questions</p>
+            <p className="hv2-eyebrow">10 · Questions</p>
             <h2 className="hv2-h2" id="homefaq-title">
               Questions, <em>answered.</em>
             </h2>
@@ -54,7 +55,7 @@ export default function Faq() {
             {FAQ.map((item) => (
               <div key={item.q} className="hv2-qa">
                 <h3>{item.q}</h3>
-                <p>{item.a}</p>
+                <p>{keepHyphens(item.a)}</p>
               </div>
             ))}
           </div>

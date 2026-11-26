@@ -8,9 +8,11 @@
    href and table cell stays in the TSX. Tokens come from globals.css.
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* The dawn masthead (ToolHero, with the H1) opens the main landmark, flush
+   with its top; the page content follows in .wrap. */
 .main {
   background: var(--color-canvas);
-  padding-block: 8px clamp(88px, 10vw, 128px);
+  padding-block: 0 clamp(88px, 10vw, 128px);
 }
 
 /* Same grid as the nav and the masthead: 1312px + the fluid gutter */
@@ -19,6 +21,9 @@
   max-width: calc(1312px + 2 * var(--spacing-container));
   margin-inline: auto;
   padding-inline: var(--spacing-container);
+}
+.main > .wrap {
+  padding-top: 8px;
 }
 
 .after {
@@ -382,6 +387,25 @@
 .prose .tableKey .cellNote {
   line-height: 1.5;
 }
+/* An inline formula that must not break across lines */
+.prose .nobr {
+  white-space: nowrap;
+}
+/* A worked calculation on its own line above the note (anion gap examples) */
+.prose .cellExpr {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--color-ink);
+}
+@media (max-width: 560px) {
+  .prose .cellExpr {
+    font-size: 0.9375rem;
+  }
+}
 .prose .tableRange .rowHead,
 .prose .tableRange .cell,
 .prose .tableRange .cellNote,
@@ -741,8 +765,20 @@
   color: var(--color-ink-secondary);
   white-space: nowrap;
 }
+/* phones: the unit column stays (the section is about units); it wraps instead */
 @media (max-width: 640px) {
-  .coefUnit { display: none; }
+  .coefTable th,
+  .coefTable td {
+    padding-inline: 3px;
+  }
+  .coefUnit {
+    padding-left: 12px !important;
+    font-size: 0.875rem;
+    white-space: normal;
+  }
+  .coefTable thead .coefUnit {
+    font-size: 0.6875rem;
+  }
 }
 .formulaPlate {
   display: grid;
@@ -752,14 +788,17 @@
   border-radius: 18px;
   background: #FFFFFF;
   font-family: var(--font-serif);
-  font-size: clamp(1rem, 0.92rem + 0.35vw, 1.125rem);
+  font-size: clamp(0.9375rem, 0.86rem + 0.35vw, 1.125rem);
   line-height: 1.45;
   font-variant-numeric: lining-nums tabular-nums;
   color: var(--color-ink);
-  overflow-wrap: anywhere;
 }
 .formulaPlate p {
   margin: 0;
+}
+/* a formula breaks only between its spans, never inside ln(1 − M) */
+.formulaPlate p > span {
+  white-space: nowrap;
 }
 
 /* PhenoAge: what the result means, and the FAQ beside it */
@@ -861,6 +900,17 @@
   height: 22px;
   margin-right: 18px;
   background: rgb(24 33 63 / 0.16);
+}
+/* Phones: the three points stack, so no separator starts a wrapped line */
+@media (max-width: 760px) {
+  .hubStats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .hubStats li + li::before {
+    display: none;
+  }
 }
 .hubStatNum {
   font-family: var(--font-serif);

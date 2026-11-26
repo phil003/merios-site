@@ -93,7 +93,14 @@ export default function AnionGapCalculator() {
         <Fields cols="3">
           <Field label="Sodium (Na)" unit="mEq/L" placeholder="e.g. 140" value={na} onChange={setNa} inputId="ag-na" />
           <Field label="Chloride (Cl)" unit="mEq/L" placeholder="e.g. 104" value={cl} onChange={setCl} inputId="ag-cl" />
-          <Field label="Bicarbonate (CO2)" unit="mEq/L" placeholder="e.g. 24" value={hco3} onChange={setHco3} inputId="ag-hco3" />
+          <Field
+            label={<>Bicarbonate (CO<sub>2</sub>)</>}
+            unit="mEq/L"
+            placeholder="e.g. 24"
+            value={hco3}
+            onChange={setHco3}
+            inputId="ag-hco3"
+          />
         </Fields>
         <Fields cols="2">
           {withK === "yes" && (
@@ -133,7 +140,8 @@ export default function AnionGapCalculator() {
           ) : (
             <Empty>
               Enter sodium, chloride and bicarbonate from your basic or comprehensive metabolic panel. Bicarbonate is
-              often printed as CO2 or total CO2. Add albumin, if your panel has it, to see the corrected gap.
+              often printed as CO<sub>2</sub> or total CO<sub>2</sub>. Add albumin, if your panel has it, to see the
+              corrected gap.
             </Empty>
           )}
         </ResultPanel>

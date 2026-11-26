@@ -89,7 +89,7 @@ export default function Zone2Calculator() {
       <CalcFoot>
         <Footnote>
           Age-based formulas carry ±10–15 bpm of individual variation. For a
-          precise zone, use a lactate test (1.5–2.0 mmol/L) or a lab VO2 max
+          precise zone, use a lactate test (1.5–2.0 mmol/L) or a lab VO<sub>2</sub> max
           assessment.
         </Footnote>
         <Cta />

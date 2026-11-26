@@ -48,7 +48,14 @@ export default function Reveal({
       : undefined;
 
   return (
-    <div data-rv={direction === "up" ? "" : direction} className={className} style={style}>
+    // The inline observer in layout.tsx adds `rv-in` before React hydrates,
+    // so the class differs on purpose: no hydration warning for that.
+    <div
+      data-rv={direction === "up" ? "" : direction}
+      className={className}
+      style={style}
+      suppressHydrationWarning
+    >
       {children}
     </div>
   );

@@ -6,11 +6,12 @@ import Logo from "@/components/ui/Logo";
 
 type NavLink = { label: string; href: string };
 
-// Top-level links to the real content hubs (not homepage anchors) so the blog,
-// tools, science and compare pages are reachable from every page — and crawlable
-// as internal links. Ordered tech/methodology → health.
+// Top-level links to the real content hubs (not homepage anchors) so the
+// pricing, blog, tools, science and compare pages are reachable from every
+// page — and crawlable as internal links. Product first, then the reading.
 const LINKS: NavLink[] = [
   { label: "How it works", href: "/how-it-works" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Science", href: "/science" },
   { label: "Tools", href: "/tools" },
   { label: "Blog", href: "/blog" },
@@ -93,7 +94,7 @@ export default function Navbar() {
       >
         <div className="v3-nav__bar">
           <a href="/" className="v3-nav__brand" aria-label="Merios home">
-            <Logo size="1.55rem" cut={theme === "dark" ? "#18213F" : "#EEF0FB"} />
+            <Logo size="1.5rem" />
           </a>
 
           <nav className="v3-nav__links" aria-label="Primary">
@@ -149,15 +150,19 @@ export default function Navbar() {
         inert={!menuOpen}
       >
         <nav className="v3-nav-sheet__links" aria-label="Primary mobile">
-          {LINKS.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              onClick={(e) => handleAnchorClick(e, l.href, () => setMenuOpen(false))}
-            >
-              {l.label}
-            </a>
-          ))}
+          {LINKS.map((l) => {
+            const active = pathname === l.href || pathname?.startsWith(`${l.href}/`);
+            return (
+              <a
+                key={l.label}
+                href={l.href}
+                onClick={(e) => handleAnchorClick(e, l.href, () => setMenuOpen(false))}
+                aria-current={active ? "page" : undefined}
+              >
+                {l.label}
+              </a>
+            );
+          })}
         </nav>
         <a
           href="/early-access"

@@ -1,5 +1,5 @@
 import type { BlogPost } from "@/lib/blog";
-import { BLOG_CATEGORIES } from "@/lib/blog-categories";
+import { BLOG_CATEGORIES, getTopicTitle } from "@/lib/blog-categories";
 
 /**
  * Related reading for /blog/[slug], computed once for the whole journal.
@@ -18,6 +18,10 @@ import { BLOG_CATEGORIES } from "@/lib/blog-categories";
  *
  * Deterministic (ties broken by slug), so a build always produces the same
  * links. Calculators get a link from the articles about their marker.
+ *
+ * No repeats: an article (or calculator) the text already links to — inline
+ * or in its own "Related reading" list — is never offered again in the cards
+ * or the "More on this topic" links under it.
  */
 
 type Marker = { key: string; cluster: string; weight: number; pattern: RegExp };
@@ -82,9 +86,22 @@ const MIN_INBOUND = 4;
 export type RelatedLink = {
   href: string;
   title: string;
-  /** Tag of an article, or "Calculator". */
+  /** Topic hub title of an article ("Biomarkers"…), or "Calculator". */
   kind: string;
 };
+
+/** The /blog/* slugs and /tools/* paths an article's own text links to. */
+function bodyLinks(content: string): { posts: Set<string>; tools: Set<string> } {
+  const posts = new Set<string>();
+  const tools = new Set<string>();
+  const re = /(?:\]\(|href=["'])(?:https:\/\/merios\.life)?\/(blog|tools)\/([a-z0-9-]+)/g;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(content))) {
+    if (m[1] === "blog") posts.add(m[2]);
+    else tools.add(`/tools/${m[2]}`);
+  }
+  return { posts, tools };
+}
 
 export type Related = { cards: BlogPost[]; more: RelatedLink[] };
 
@@ -127,7 +144,18 @@ function build(input: BlogPost[]): Map<string, Related> {
   );
 
   const inbound = new Array<number>(n).fill(0);
-  const links: Set<number>[] = posts.map(() => new Set());
+  const index = new Map(posts.map((p, i) => [p.slug, i]));
+  const inText = posts.map((p) => bodyLinks(p.content));
+  // What the article's text already links to is taken: never offered again
+  // below it (the coverage count only tracks the links added here).
+  const links: Set<number>[] = inText.map(
+    (linked, i) =>
+      new Set(
+        [...linked.posts]
+          .map((slug) => index.get(slug))
+          .filter((j): j is number => j !== undefined && j !== i),
+      ),
+  );
   const cards: number[][] = posts.map(() => []);
   const more: number[][] = posts.map(() => []);
   // Equal scores go to the less-linked article, then alphabetical order.
@@ -139,11 +167,11 @@ function build(input: BlogPost[]): Map<string, Related> {
   // site should not spend its internal links on pages kept out of the index.
   const linkable = (j: number) => !posts[j].noindex;
 
-  // 1. Cards: the three closest articles.
+  // 1. Cards: the three closest articles the text does not already link to.
   for (let i = 0; i < n; i++) {
     const picks = posts
       .map((_, j) => j)
-      .filter((j) => j !== i && linkable(j))
+      .filter((j) => j !== i && linkable(j) && !links[i].has(j))
       .sort(byScore(i))
       .slice(0, CARDS);
     for (const j of picks) {
@@ -194,8 +222,14 @@ function build(input: BlogPost[]): Map<string, Related> {
     const tool = TOOLS.find((t) => t.markers.some((m) => marks[i].has(m)));
     const moreLinks: RelatedLink[] = more[i]
       .sort((a, b) => sim[i][b] - sim[i][a] || a - b)
-      .map((j) => ({ href: `/blog/${posts[j].slug}`, title: posts[j].title, kind: posts[j].tag }));
-    if (tool) moreLinks.unshift({ href: tool.href, title: tool.title, kind: "Calculator" });
+      .map((j) => ({
+        href: `/blog/${posts[j].slug}`,
+        title: posts[j].title,
+        kind: getTopicTitle(posts[j].tag),
+      }));
+    if (tool && !inText[i].tools.has(tool.href)) {
+      moreLinks.unshift({ href: tool.href, title: tool.title, kind: "Calculator" });
+    }
     result.set(post.slug, { cards: cards[i].map((j) => posts[j]), more: moreLinks });
   });
   return result;

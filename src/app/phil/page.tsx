@@ -28,7 +28,7 @@ export default function PhilPage() {
   return (
     <main className={styles.stage}>
       <div className={styles.card}>
-        <p className={styles.eyebrow}>FHS Abu Dhabi · 20-22 Oct 2026</p>
+        <p className={styles.eyebrow}>Digital card</p>
 
         <Mark
           className={styles.mark}
@@ -72,7 +72,7 @@ export default function PhilPage() {
         </p>
 
         <p className={styles.legal}>
-          General wellness app. Not intended for medical purposes.
+          Preventive health platform. Not a medical device.
         </p>
       </div>
     </main>

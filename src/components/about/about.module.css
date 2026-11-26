@@ -134,6 +134,12 @@
   display: flex;
   justify-content: center;
 }
+/* Two columns: the emblem card starts on the container's edge, like the copy. */
+@media (min-width: 900px) {
+  .emblemSlot {
+    justify-content: flex-start;
+  }
+}
 .emblem {
   position: relative;
   width: min(100%, 420px);
@@ -284,7 +290,7 @@ html[data-anim] .arcWrap:global(.rv-in) .arc {
 }
 @media (min-width: 900px) {
   .timeline {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     margin-top: 18px;
   }
   .milestone {

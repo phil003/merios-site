@@ -15,7 +15,7 @@ interface LegalPageLayoutProps {
   /** Optional figure under the masthead copy (the /security data map). */
   heroVisual?: ReactNode;
   /**
-   * "reading" (default) keeps a 720px measure for long policy text;
+   * "reading" (default) keeps a ~68-character measure for long policy text;
    * "wide" opens the column for figure-rich pages (/security).
    */
   width?: "reading" | "wide";
@@ -27,7 +27,8 @@ interface LegalPageLayoutProps {
  * A dawn masthead (the glass nav floats over it) with the H1's last word as
  * the Newsreader italic "human word", the last-updated line, then a body grid:
  * the sticky numbered contents rail on the left from 1024px, the article on
- * the right. Ends on a dawn card that carries the contact link. Server
+ * the right. Ends on a dawn card (eyebrow, then the contact link across the
+ * card with its round arrow on the right edge). Server
  * component; only the contents (Lenis scroll, mobile accordion) is client.
  * The article is never behind a scroll reveal: it is long, it must simply be
  * there.
@@ -98,11 +99,15 @@ export default function LegalPageLayout({
       <div className={styles.closing}>
         <div className={styles.inner}>
           <div className={styles.closingCard}>
+            <p className={`label ${styles.closingEyebrow}`}>
+              <span aria-hidden className="label-dot label-dot--ink" />
+              <span>Legal &amp; privacy</span>
+            </p>
             <Link
               href="/contact#subject=Legal%20question&type=general"
               className={styles.closingLink}
             >
-              <span>
+              <span className={styles.closingText}>
                 Questions? <em>Contact us</em>
               </span>
               <span aria-hidden className={styles.closingArrow}>

@@ -86,17 +86,20 @@ function ClockIcon() {
 
 // ─── Block ───────────────────────────────────────────────────────────────────
 // Open Sky: the direct channels sit on the page's one ink block (see
-// src/app/contact/page.tsx). Sky icons in glass discs, lavender eyebrows and
-// links, white addresses. Styles: ./contact.module.css.
+// src/app/contact/page.tsx), under its "Direct channels" h2. Sky icons in
+// glass discs, lavender eyebrows, white h3 titles; an email address is itself
+// the mailto link. Styles: ./contact.module.css.
 
 type BlockProps = {
   icon: ReactNode;
   eyebrow: string;
   title: string;
+  /** mailto target: the title (the address) becomes the link. */
+  email?: string;
   body: ReactNode;
 };
 
-function Block({ icon, eyebrow, title, body }: BlockProps) {
+function Block({ icon, eyebrow, title, email, body }: BlockProps) {
   return (
     <div className={styles.block}>
       <span aria-hidden className={styles.blockIcon}>
@@ -104,7 +107,15 @@ function Block({ icon, eyebrow, title, body }: BlockProps) {
       </span>
       <div className={styles.blockText}>
         <span className={styles.blockEyebrow}>{eyebrow}</span>
-        <h2 className={styles.blockTitle}>{title}</h2>
+        <h3 className={styles.blockTitle}>
+          {email ? (
+            <a href={`mailto:${email}`} className={styles.blockLink}>
+              {title}
+            </a>
+          ) : (
+            title
+          )}
+        </h3>
         <div className={styles.blockBody}>{body}</div>
       </div>
     </div>
@@ -113,22 +124,22 @@ function Block({ icon, eyebrow, title, body }: BlockProps) {
 
 // ─── Info sidebar ────────────────────────────────────────────────────────────
 
-export default function ContactInfo() {
+export default function ContactInfo({ labelledBy }: { labelledBy?: string }) {
   return (
-    <aside aria-label="Direct channels" className={styles.channels}>
+    <aside
+      aria-labelledby={labelledBy}
+      aria-label={labelledBy ? undefined : "Direct channels"}
+      className={styles.channels}
+    >
       <Block
         icon={<MailIcon />}
         eyebrow="Support"
         title="hello@merios.life"
+        email="hello@merios.life"
         body={
-          <>
-            <a href="mailto:hello@merios.life" className={styles.inkLink}>
-              Email our team directly
-            </a>
-            <span className={styles.helper}>
-              General product & account questions.
-            </span>
-          </>
+          <span className={styles.helper}>
+            General product & account questions.
+          </span>
         }
       />
 
@@ -136,13 +147,11 @@ export default function ContactInfo() {
         icon={<PressIcon />}
         eyebrow="Press"
         title="press@merios.life"
+        email="press@merios.life"
         body={
-          <>
-            <a href="mailto:press@merios.life" className={styles.inkLink}>
-              Editorial & media inquiries
-            </a>
-            <span className={styles.helper}>Press kit on request.</span>
-          </>
+          <span className={styles.helper}>
+            Editorial & media inquiries. Press kit on request.
+          </span>
         }
       />
 
@@ -150,15 +159,12 @@ export default function ContactInfo() {
         icon={<PartnershipIcon />}
         eyebrow="Partnerships"
         title="partners@merios.life"
+        email="partners@merios.life"
         body={
-          <>
-            <a href="mailto:partners@merios.life" className={styles.inkLink}>
-              Clinical, lab & brand partnerships
-            </a>
-            <span className={styles.helper}>
-              For labs, clinicians, and distribution.
-            </span>
-          </>
+          <span className={styles.helper}>
+            Clinical, lab & brand partnerships. For labs, clinicians, and
+            distribution.
+          </span>
         }
       />
 

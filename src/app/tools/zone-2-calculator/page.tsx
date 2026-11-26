@@ -89,15 +89,15 @@ export default function Zone2CalculatorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }}
       />
 
-      <ToolHero
-        slug="zone-2-calculator"
-        eyebrow="Zone 2 — Tanaka max HR"
-        title="Zone 2 Heart Rate"
-        em="Calculator"
-        subline="Find the heart-rate band that builds your aerobic engine. Enter your age and get your Zone 2 training range in beats per minute — the low-intensity zone that raises VO2 max with the least fatigue."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="zone-2-calculator"
+          eyebrow="Zone 2 — Tanaka max HR"
+          title="Zone 2 Heart Rate"
+          em="Calculator"
+          subline="Find the heart-rate band that builds your aerobic engine. Enter your age and get your Zone 2 training range in beats per minute — the low-intensity zone that raises VO₂ max with the least fatigue."
+        />
+
         <div className={t.wrap}>
           <Zone2Calculator />
 

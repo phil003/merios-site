@@ -1,4 +1,4 @@
-/* "Then your blood joins in" (Home2 "04"): weekly resting heart rate drawn as
+/* "Then your blood joins in" (Home2 "05"): weekly resting heart rate drawn as
    a landscape, three ferritin reports as glass orbs on the same timeline.
    A pattern, never a cause. Example data. Two drawings of the same chart, one
    for wide screens and one with larger type for phones. */
@@ -87,9 +87,6 @@ function Chart({ g }: { g: Geo }) {
       <circle cx={f1(last.cx)} cy={f1(last.cy)} r={g.orb} fill={`url(#${ids.glass})`} stroke="#FFFFFF" strokeWidth="3" style={{ filter: "drop-shadow(0 6px 10px rgb(36 48 110 / 0.25))" }} />
       <text x={f1(first.cx + g.orb + 9)} y={f1(first.cy + g.num * 0.32)} fontFamily={serif} fontSize={g.num} fill="#18213F">
         21
-        <tspan dx="6" fontFamily={sans} fontSize={g.small} fontWeight="700" fill="#A65A2C">
-          L
-        </tspan>
       </text>
       <text x={f1(mid.cx)} y={f1(mid.cy - g.orb - 12)} textAnchor="middle" fontFamily={serif} fontSize={g.num} fill="#18213F">
         32
@@ -122,15 +119,14 @@ export default function LinkSection() {
   return (
     <section id="link" className="hv2-sec hv2-link" aria-labelledby="link-title">
       <div className="hv2-wrap">
-        <p className="hv2-eyebrow">04 · Merios Plus · links</p>
+        <p className="hv2-eyebrow">05 · Blood and days</p>
         <div className="hv2-headrow">
           <h2 className="hv2-h2" id="link-title">
             Then your blood <em>joins in.</em>
           </h2>
           <p className="hv2-lead">
             Merios lines up your reports with your nights and your heart rate,
-            and shows you what moved together. It describes the pattern. It
-            never claims a cause.
+            and shows what moved together. A pattern, never a cause.
           </p>
         </div>
 
@@ -147,7 +143,6 @@ export default function LinkSection() {
               <i className="hv2-key-orb" />
               Ferritin, 3 reports
             </span>
-            <span className="hv2-link__span">Example · 26 weeks</span>
           </div>
           <Chart g={WIDE} />
           <Chart g={NARROW} />

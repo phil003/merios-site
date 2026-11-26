@@ -131,15 +131,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="dhea-unit-converter"
-        eyebrow="DHEA-S and DHEA — µg/dL, µmol/L, ng/mL, nmol/L"
-        title="DHEA"
-        em="Unit Converter"
-        subline="For DHEA-S, multiply µg/dL by 0.02714 for µmol/L, or µmol/L by 36.85 for µg/dL: 200 µg/dL is 5.43 µmol/L. For plain DHEA, 1 ng/mL is 3.467 nmol/L. Two different tests, two different scales."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="dhea-unit-converter"
+          eyebrow="DHEA-S and DHEA — µg/dL, µmol/L, ng/mL, nmol/L"
+          title="DHEA"
+          em="Unit Converter"
+          subline="For DHEA-S, multiply µg/dL by 0.02714 for µmol/L, or µmol/L by 36.85 for µg/dL: 200 µg/dL is 5.43 µmol/L. For plain DHEA, 1 ng/mL is 3.467 nmol/L. Two different tests, two different scales."
+        />
+
         <div className={t.wrap}>
           <DheaConverter />
           <section className={t.after}>
@@ -361,9 +361,9 @@ export default function Page() {
               </p>
               <p>
                 Already have your bloodwork?{" "}
-                <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-dhea-unit-converter&mt=8">Merios</a>{" "}
+                <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-dhea-unit-converter&mt=8">Merios</a>{" "}
                 reads it next to your Apple Watch data, so a DHEA-S trend sits beside the sleep, training load and
-                resting heart rate around each draw. The lab-report scan is part of Merios Plus ($44/year, 7-day
+                resting heart rate around each draw. The lab-report scan is part of Merios Plus ($44/year, 3-day
                 free trial on the annual plan); the Daily is free. iPhone, iOS 15.1 or later.
               </p>
             </div>

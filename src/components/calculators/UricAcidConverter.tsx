@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import {
   Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, Toggle, CalcOutput, ResultPanel,
-  ResultBody, Empty, ResultLabel, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
+  ResultBody, Empty, ResultLabel, UnitText, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
   styles as s, type Tone, type Zone,
 } from "./_shared";
 
@@ -37,7 +37,8 @@ export default function UricAcidConverter() {
     const mg = from === "mg" ? v : from === "umol" ? v / FACTOR : (v * 1000) / FACTOR;
     const umol = mg * FACTOR;
     const mmol = umol / 1000;
-    const out = from === "mg" ? round(umol, 1) : round(mg, 2);
+    // µmol/L as labs print it, whole numbers: 357, the same figure as the sentence below
+    const out = from === "mg" ? round(umol, 0) : round(mg, 2);
     return { out, unit: from === "mg" ? "µmol/L" : "mg/dL", mg, umol, mmol, band: bandFromMg(mg) };
   }, [value, from]);
 
@@ -79,15 +80,15 @@ export default function UricAcidConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Same result in {result.unit}</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
+                <span>Same result in <UnitText>{result.unit}</UnitText></span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>
               </div>
               <RangeBar min={0} max={12} value={result.mg} tone={result.band.tone} zones={ZONES} />
               <p className={s.resultText}>
-                That is <strong>{round(result.mg, 2)} mg/dL</strong>, <strong>{round(result.umol, 0)} µmol/L</strong>{" "}
-                or <strong>{round(result.mmol, 3)} mmol/L</strong>. The factor comes from the weight of the uric acid
+                That is <strong>{round(result.mg, 2)}&nbsp;mg/dL</strong>, <strong>{round(result.umol, 0)}&nbsp;µmol/L</strong>{" "}
+                or <strong>{round(result.mmol, 3)}&nbsp;mmol/L</strong>. The factor comes from the weight of the uric acid
                 molecule: 1 mg/dL is 59.48 µmol/L. Some labs round it to 59.5 or 60, so your report may differ from
                 this result by a point or two.
               </p>

@@ -45,6 +45,10 @@ export default function PriceChart() {
           <span className={`${s.swatch} ${s.swatchOwn}`} />
           {legend.ownPanel}
         </span>
+        <span className={s.legendItem}>
+          <span className={`${s.markPointMember} ${s.swatchMember}`} />
+          {legend.membership}
+        </span>
       </div>
 
       <ul className={s.chartRows}>

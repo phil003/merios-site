@@ -91,7 +91,8 @@ const breadcrumbSchema = {
 // Every fact here is restated from pages that already say it: the iOS
 // requirement (/pricing), the in-app export and deletion paths and the
 // privacy contact (/privacy), the deletion-request route and the
-// vulnerability address (/security), the FAQ topics (/faq).
+// vulnerability address (/security). The FAQ topics (/faq) are in the band
+// at the foot of the page.
 const CONTACT_GUIDE: ContactGuideItem[] = [
   {
     id: "bug-report",
@@ -135,9 +136,9 @@ const CONTACT_GUIDE: ContactGuideItem[] = [
           erases your account and all its data.
         </p>
         <p>
-          To have other personal data we hold deleted (a newsletter or
-          waitlist sign-up, or a message sent here), use this form with the
-          type <strong>General</strong>; the{" "}
+          To have other personal data we hold deleted (a newsletter sign-up,
+          or a message sent here), use this form with the type{" "}
+          <strong>General</strong>; the{" "}
           <Link href="/security#data-retention-and-deletion">Security page</Link>{" "}
           explains how deletion works. For any other privacy request, write to{" "}
           <a href="mailto:privacy@merios.life">privacy@merios.life</a> — your
@@ -149,7 +150,7 @@ const CONTACT_GUIDE: ContactGuideItem[] = [
   },
   {
     id: "security",
-    title: "Security reports and quick answers",
+    title: "Security reports",
     body: (
       <>
         <p>
@@ -157,13 +158,9 @@ const CONTACT_GUIDE: ContactGuideItem[] = [
           <a href="mailto:security@merios.life">security@merios.life</a> with
           the affected endpoint, the steps to reproduce it and its impact. Our{" "}
           <Link href="/security#responsible-disclosure">
-            responsible-disclosure policy
+            responsible‑disclosure policy
           </Link>{" "}
           explains what we ask of researchers.
-        </p>
-        <p>
-          How the score is built, what we measure, how we handle your data and
-          how to start are all answered in the <Link href="/faq">FAQ</Link>.
         </p>
       </>
     ),
@@ -191,14 +188,14 @@ export default function ContactPage() {
           <div className={styles.container}>
             <p className={`he ${styles.eyebrow}`}>Contact</p>
             <h1 id="contact-title" className={styles.title}>
-              Let&apos;s <em>talk.</em>
+              Let’s <em>talk.</em>
             </h1>
             <p
               className={`he ${styles.lead}`}
               style={{ "--he-d": "0.12s" } as CSSProperties}
             >
-              Questions, feedback, press, partnerships. A human reads every
-              message — we typically reply within 24 hours.
+              Questions, feedback, press, partnerships. Send a message below,
+              or write straight to the address that fits.
             </p>
           </div>
         </section>
@@ -218,12 +215,14 @@ export default function ContactPage() {
 
             {/* Direct channels — the page's one ink block */}
             <div className={`night ${styles.ink}`} data-nav="dark">
-              <p
+              {/* An h2 in eyebrow dress: the four channels below are h3s. */}
+              <h2
+                id="contact-channels-title"
                 className={`${styles.eyebrow} ${styles.inkEyebrow} ${styles.cardEyebrow}`}
               >
                 Direct channels
-              </p>
-              <ContactInfo />
+              </h2>
+              <ContactInfo labelledBy="contact-channels-title" />
             </div>
           </div>
         </section>
@@ -240,12 +239,19 @@ export default function ContactPage() {
         />
 
         {/* ─── FAQ nudge — a dawn band ───────────────────────────────────── */}
-        <section className={styles.nudgeSection}>
+        <section className={styles.nudgeSection} aria-label="Quick answers">
           <div className={styles.container}>
             <div className={styles.band}>
-              <p className={styles.bandText}>
-                Most answers are already <em>on our FAQ page.</em>
-              </p>
+              <div className={styles.bandCopy}>
+                <p className={styles.eyebrow}>Quick answers</p>
+                <p className={styles.bandText}>
+                  Most answers are already <em>on our FAQ page.</em>
+                </p>
+                <p className={styles.bandNote}>
+                  How the score is built, what we measure, how we handle your
+                  data and how to start.
+                </p>
+              </div>
               <Link href="/faq" className="btn btn-ink">
                 Browse the FAQ
                 <span aria-hidden className="btn-arrow">→</span>

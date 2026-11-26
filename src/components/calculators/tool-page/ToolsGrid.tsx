@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ToolCard from "./ToolCard";
+import { spanStyles } from "./gridSpans";
 import { TOOLS, TOPICS, type ToolTopic } from "./registry";
 import css from "./toolPage.module.css";
 import g from "./toolsGrid.module.css";
@@ -18,6 +19,8 @@ export default function ToolsGrid() {
   const [topic, setTopic] = useState<Filter>("All");
   const filters: Filter[] = ["All", ...TOPICS.filter((x) => tools.some((t) => t.topic === x))];
   const shown = topic === "All" ? tools : tools.filter((t) => t.topic === topic);
+  const wide = shown.map((t) => t.slug === "phenoage-calculator");
+  const spans = spanStyles(wide);
 
   return (
     <>
@@ -49,14 +52,11 @@ export default function ToolsGrid() {
             </p>
           </div>
           <ul className={css.grid}>
-            {shown.map((tool) => {
-              const wide = tool.slug === "phenoage-calculator";
-              return (
-                <li key={tool.slug} className={wide ? css.wide : undefined}>
-                  <ToolCard tool={tool} wide={wide} />
-                </li>
-              );
-            })}
+            {shown.map((tool, i) => (
+              <li key={tool.slug} style={spans[i]}>
+                <ToolCard tool={tool} wide={wide[i]} />
+              </li>
+            ))}
           </ul>
         </div>
       </section>

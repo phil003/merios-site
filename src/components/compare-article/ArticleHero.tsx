@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { formatShortDate, splitTitle } from "@/components/blog-article/splitTitle";
+import { keepHyphenated } from "@/components/blog/typeset";
 import a from "@/components/blog-article/article.module.css";
 
 interface ArticleHeroProps {
@@ -9,7 +10,8 @@ interface ArticleHeroProps {
   datePublished: string;
   dateModified?: string;
   readTime: string;
-  competitor: string;
+  /** The page's subject, last breadcrumb: "Lingo vs Stelo", "Function Health review". */
+  crumb: string;
 }
 
 /** Display size by title length, as in the article masthead. */
@@ -22,9 +24,10 @@ function titleLength(title: string): "short" | "mid" | "long" | "xlong" {
 
 /**
  * Dawn masthead for a comparison (Open Sky, the same system as the article
- * template): breadcrumb (Home / Compare / vs {competitor}), the H1 with its
- * italic human words (text content = the exact title), the description as
- * the dek, then the dateline.
+ * template): breadcrumb (Home / Compare / the page's subject, e.g. "Lingo vs
+ * Stelo" or "Function Health review"), the H1 with its italic human words
+ * (text content = the exact title), the description as the dek, then the
+ * dateline.
  *
  * Server component. The entrance is the CSS `.he` keyframe, which plays at
  * parse time, so the H1 is never held at opacity 0 waiting for JavaScript.
@@ -35,7 +38,7 @@ export default function ArticleHero({
   datePublished,
   dateModified,
   readTime,
-  competitor,
+  crumb,
 }: ArticleHeroProps) {
   const showUpdated =
     dateModified && dateModified !== datePublished ? dateModified : null;
@@ -63,7 +66,7 @@ export default function ArticleHero({
               /
             </li>
             <li aria-current="page" className={a.crumbCurrent}>
-              vs {competitor}
+              {crumb}
             </li>
           </ol>
         </nav>
@@ -73,11 +76,11 @@ export default function ArticleHero({
           data-len={titleLength(title)}
           style={{ "--he-d": "0.06s" } as CSSProperties}
         >
-          {head}
+          {keepHyphenated(head)}
           {tail ? (
             <>
               {sep}
-              <em>{tail}</em>
+              <em>{keepHyphenated(tail)}</em>
             </>
           ) : null}
         </h1>
@@ -86,7 +89,7 @@ export default function ArticleHero({
           className={`he ${a.heroLead}`}
           style={{ "--he-d": "0.14s" } as CSSProperties}
         >
-          {description}
+          {keepHyphenated(description)}
         </p>
 
         <div

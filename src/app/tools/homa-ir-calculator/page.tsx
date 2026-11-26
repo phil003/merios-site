@@ -99,15 +99,15 @@ export default function HomaIRCalculatorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }}
       />
 
-      <ToolHero
-        slug="homa-ir-calculator"
-        eyebrow="HOMA-IR — Matthews 1985"
-        title="HOMA-IR"
-        em="calculator"
-        subline="Catch insulin resistance before it shows up in HbA1c. The Matthews 1985 formula on two numbers from your panel — fasting glucose and fasting insulin, in mg/dL or mmol/L — with the score and its interpretation band."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="homa-ir-calculator"
+          eyebrow="HOMA-IR — Matthews 1985"
+          title="HOMA-IR"
+          em="calculator"
+          subline="Catch insulin resistance before it shows up in HbA1c. The Matthews 1985 formula on two numbers from your panel — fasting glucose and fasting insulin, in mg/dL or mmol/L — with the score and its interpretation band."
+        />
+
         <div className={t.wrap}>
           <HomaIRCalculator />
 

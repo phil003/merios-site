@@ -259,7 +259,7 @@ export default function PrivacyPage() {
                 <strong>RevenueCat</strong> (United States): manages subscriptions. Receives an anonymous user ID, your purchase and subscription status and technical device identifiers (identifier for vendors, IP address), never health data. It forwards trial and subscription events to Meta to measure our ads (below).
               </li>
               <li>
-                <strong>Meta Platforms</strong> (United States): measures our ads. Receives the events and identifiers described in &ldquo;Advertising measurement&rdquo; below, never health data.
+                <strong>Meta Platforms</strong>{" "}(United States): measures our ads. Receives the events and identifiers described in &ldquo;Advertising measurement&rdquo; below, never health data.
               </li>
               <li>
                 <strong>Sentry</strong>: crash and error monitoring. Receives technical diagnostics; health data is scrubbed from reports before they are sent.
@@ -272,7 +272,7 @@ export default function PrivacyPage() {
               </li>
             </ul>
             <p id="advertising-measurement" className="mt-6">
-              <strong>Advertising measurement (Meta).</strong> Merios uses the Meta SDK to learn which of our ads bring people to the app. Meta receives that the app was installed and opened, how long it stays open, and that an account was created. RevenueCat also tells Meta when a trial or a subscription starts, converts or renews, and its price. With these events, Meta receives technical identifiers: an anonymous identifier created by the app, your device&rsquo;s identifier for vendors, your IP address, and your device model and iOS version. These events are sent whether or not you allow tracking. If you allow tracking in the iOS prompt, Meta also receives your device&rsquo;s advertising identifier.
+              <strong>Advertising measurement (Meta).</strong>{" "}Merios uses the Meta SDK to learn which of our ads bring people to the app. Meta receives that the app was installed and opened, how long it stays open, and that an account was created. RevenueCat also tells Meta when a trial or a subscription starts, converts or renews, and its price. With these events, Meta receives technical identifiers: an anonymous identifier created by the app, your device&rsquo;s identifier for vendors, your IP address, and your device model and iOS version. These events are sent whether or not you allow tracking. If you allow tracking in the iOS prompt, Meta also receives your device&rsquo;s advertising identifier.
             </p>
             <p className="mt-4">
               Meta never receives health data from the app: nothing from Apple Health, no lab value, no score, no check-in answer, nothing from your journal. Meta processes this data under its own privacy policy. You can change your tracking choice at any time in iOS Settings &rsaquo; Privacy &amp; Security &rsaquo; Tracking.
@@ -282,7 +282,7 @@ export default function PrivacyPage() {
           {/* 7 */}
           <section>
             <h2 id="storage-and-security" className={legal.h2} style={H2_STYLE}>
-              <span className={legal.num}>7.</span> Storage &amp; Security
+              <span className={legal.num}>7.</span>{" "}Storage &amp; Security
             </h2>
             <ul className="mt-4 space-y-2 list-disc pl-5">
               <li>Data is stored on Supabase in the European Union (Ireland).</li>
@@ -299,7 +299,7 @@ export default function PrivacyPage() {
           {/* 8 */}
           <section>
             <h2 id="legal-bases" className={legal.h2} style={H2_STYLE}>
-              <span className={legal.num}>8.</span> Legal Bases &amp; International Transfers
+              <span className={legal.num}>8.</span>{" "}Legal Bases &amp; International Transfers
             </h2>
             <p className="mt-4">Where the GDPR or a similar law applies, we rely on:</p>
             <ul className="mt-4 space-y-2 list-disc pl-5">
@@ -359,7 +359,7 @@ export default function PrivacyPage() {
           {/* 12 */}
           <section>
             <h2 id="childrens-privacy" className={legal.h2} style={H2_STYLE}>
-              <span className={legal.num}>12.</span> Children&rsquo;s Privacy
+              <span className={legal.num}>12.</span>{" "}Children&rsquo;s Privacy
             </h2>
             <p className="mt-4">
               Merios is for adults 18 and older. The app asks for your date of birth before an account is created and blocks anyone under 18. If we learn that we hold data from someone under 18, we delete the account and its data. Parents or guardians can contact <strong>privacy@merios.life</strong>.
@@ -369,7 +369,7 @@ export default function PrivacyPage() {
           {/* 13 */}
           <section>
             <h2 id="changes-to-this-policy" className={legal.h2} style={H2_STYLE}>
-              <span className={legal.num}>13.</span> Changes &amp; Version History
+              <span className={legal.num}>13.</span>{" "}Changes &amp; Version History
             </h2>
             <p className="mt-4">
               Each version of this policy has a number. When a change affects what data we process, where it goes or who has access, the app shows you what changed and asks you to accept the new version before you continue; your acceptance is recorded with the version number. Other changes are announced on this page.

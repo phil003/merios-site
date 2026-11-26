@@ -1,6 +1,8 @@
 // ─── FAQ dataset ─────────────────────────────────────────────────────────────
 // Groups are a UI concept only. The JSON-LD schema in the page flattens every
-// entry into a single mainEntity list (see src/app/faq/page.tsx).
+// entry into a single mainEntity list (see src/app/faq/page.tsx), so the
+// questions keep their wording; the answers restate what /privacy, /pricing
+// and /contact say (checked Nov 26, 2026).
 
 export type FaqGroupKey =
   | "product"
@@ -12,6 +14,7 @@ export type FaqGroupKey =
 export interface FaqGroupMeta {
   key: FaqGroupKey;
   eyebrow: string;
+  /** H2 and filter chip label. The H2 sets its last word in italic. */
   title: string;
 }
 
@@ -26,8 +29,8 @@ export interface FaqEntry {
 export const FAQ_GROUPS: FaqGroupMeta[] = [
   { key: "product", eyebrow: "01 — Product", title: "The product" },
   { key: "science", eyebrow: "02 — Science", title: "The science" },
-  { key: "privacy", eyebrow: "03 — Privacy", title: "Your data" },
-  { key: "pricing", eyebrow: "04 — Pricing", title: "Access & pricing" },
+  { key: "privacy", eyebrow: "03 — Data", title: "Your data" },
+  { key: "pricing", eyebrow: "04 — Access & pricing", title: "Access & pricing" },
   { key: "support", eyebrow: "05 — Support", title: "Support" },
 ];
 
@@ -37,19 +40,19 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "what-is-merios",
     group: "product",
     q: "What is Merios?",
-    a: "Merios is a health intelligence platform. It turns your blood tests, wearable data, and daily check-ins into a single score and a clear set of priorities — without the wellness theatre.",
+    a: "Merios is a preventive health platform for iPhone. It turns your blood tests, wearable data, and daily check-ins into a single score and a clear set of priorities — without the wellness theater.",
   },
   {
     id: "what-does-merios-measure",
     group: "product",
     q: "What does Merios actually measure?",
-    a: "More than 160 blood biomarkers read from your lab reports, combined with sleep, recovery and activity signals from Apple Health. Every reading is contextualised against reference ranges and your personal baseline.",
+    a: "More than 160 blood biomarkers read from your lab reports, combined with sleep, recovery and activity signals from Apple Health. Every reading is contextualized against reference ranges and your personal baseline.",
   },
   {
     id: "who-is-merios-for",
     group: "product",
     q: "Who is Merios built for?",
-    a: "People who already take their health seriously and want a precise, calm view of the signal inside their data. It assumes you've got labs, a wearable, or both — and you want more than a colour-coded dashboard.",
+    a: "People who already take their health seriously and want a precise, calm view of the signal inside their data. It assumes you've got labs, a wearable, or both — and you want more than a color-coded dashboard.",
   },
 
   // ─── Science ──────────────────────────────────────────────────────────────
@@ -63,13 +66,13 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "who-reviews-the-methodology",
     group: "science",
     q: "Who reviews the methodology?",
-    a: "Not yet. As of October 2026, no external clinician has reviewed Merios's scoring rules or reference ranges. We're looking for practising clinicians to do it, and we'll publish their names and the date of the review on our Science page once it's done. Until then, treat Merios as a wellness tool: it doesn't diagnose, and it doesn't replace your doctor.",
+    a: "No one outside Merios yet: no clinician has reviewed Merios's scoring rules or reference ranges. The method and the research behind it are public on our Science page (merios.life/science), so you can check them yourself. If a clinician reviews it, we will publish their name and the date of the review there. Merios does not diagnose and does not replace your doctor.",
   },
   {
     id: "is-merios-a-medical-device",
     group: "science",
     q: "Is Merios a medical device?",
-    a: "No. Merios is an analytical tool for people who already have access to their own health data. It is not a diagnostic product and does not replace medical advice — it's built to help you ask sharper questions of your clinician.",
+    a: "No. Merios is a preventive health platform, not a medical device. It is not a diagnostic product and does not replace medical advice — it's built to help you ask sharper questions of your clinician.",
   },
 
   // ─── Privacy ──────────────────────────────────────────────────────────────
@@ -77,7 +80,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "where-is-my-data-stored",
     group: "privacy",
     q: "Where is my data stored?",
-    a: "Data is encrypted at rest with AES-256 and in transit with TLS 1.3, held on EU-hosted infrastructure with access audits and role-based permissions. Biomarker data is segregated from identity data at the database layer.",
+    a: "In the European Union: your account and health data are hosted on Supabase in Ireland, encrypted in transit (TLS 1.2 or higher) and at rest (AES-256). Row Level Security means each row in the database can be read only by the account it belongs to, and file storage is private.",
   },
   {
     id: "do-you-sell-my-data",
@@ -89,7 +92,7 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "can-i-delete-everything",
     group: "privacy",
     q: "Can I delete everything?",
-    a: "Yes. One action in settings deletes your account and every data point attached to it. Backups are purged within 30 days. You can also export a full copy of your data at any point, in an open JSON format.",
+    a: "Yes. Settings › Delete my account permanently deletes your account and all its data; residual copies in encrypted backups are erased as those backups expire. Two records outlive it: consent records, kept 3 years after deletion to prove what you agreed to, and AI request logs, which hold no content, kept 12 months. Before you delete, Settings › Export my data gives you a full copy in JSON.",
   },
 
   // ─── Pricing ──────────────────────────────────────────────────────────────
@@ -97,13 +100,13 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "how-much-does-merios-cost",
     group: "pricing",
     q: "How much does Merios cost?",
-    a: "Merios is free to download, and the daily score is free for good. Merios Plus is $44.00/year with a 7-day free trial on the annual plan, or a monthly and weekly option — you choose on the App Store, where the current price for your region is always shown. There are no ads and no ad-supported tier: Plus pays for the product, which keeps it independent by design.",
+    a: "Merios is free to download, and the daily score is free for good. Merios Plus is $44 a year with a 7-day free trial on the annual plan, or a monthly and weekly option — you choose on the App Store, where the current price for your country is always shown. There are no ads and no ad-supported tier: Plus pays for the product, which keeps it independent by design.",
   },
   {
     id: "is-there-a-trial",
     group: "pricing",
     q: "Is there a trial?",
-    a: "Yes. The annual plan includes a 7-day free trial of the full product. Cancel any time during that window and you won't be charged. No dark patterns, no friction — one tap to cancel.",
+    a: "Yes. The annual plan includes a 7-day free trial of Merios Plus. It converts to a paid subscription when it ends unless you cancel at least 24 hours before, in your iPhone's Settings › [your name] › Subscriptions. No dark patterns: you cancel in Apple's own subscription settings, not through Merios.",
   },
   {
     id: "do-you-bill-by-test",
@@ -117,19 +120,19 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "which-platforms",
     group: "support",
     q: "Which platforms does Merios run on?",
-    a: "Merios launches on iOS first, with Apple Health as the core integration. A web companion is available at launch for uploading lab PDFs from desktop. Android is planned for a subsequent release.",
+    a: "iPhone, with iOS 15.1 or later: Merios is on the App Store in 174 countries and regions. Apple Health is the core integration.",
   },
   {
     id: "which-labs-are-supported",
     group: "support",
     q: "Which labs are supported?",
-    a: "Most major private and public labs are supported via PDF upload — our OCR parses results from a growing library of lab templates. If your provider isn't recognised, we'll add it within a few working days.",
+    a: "Any lab. Take a photo of your report or upload the PDF: an AI model reads the values, and you confirm every value before it is saved. Merios does not keep the photo or PDF; the AI provider may keep the request for up to 30 days for abuse monitoring, never for training.",
   },
   {
     id: "how-do-i-get-help",
     group: "support",
     q: "How do I reach support?",
-    a: "Every member has a direct line to our support team inside the app, with a target response time of under 24 hours on weekdays. For anything pre-purchase, use the contact link in the footer.",
+    a: "Through the contact form at merios.life/contact, or by email at hello@merios.life. A human reads every message, and we reply within 24 hours, Monday to Friday (CET).",
   },
 ];
 

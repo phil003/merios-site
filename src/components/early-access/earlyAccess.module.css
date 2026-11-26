@@ -1,10 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   /early-access — Open Sky (v2, Nov 25 2026). Presentation only: the
-   variants, their copy, links and forms live in the TSX.
-   - US: a dawn masthead with the App Store badge beside the Today screen in
-     a glass phone, then the rollout newsletter on the page's one ink block.
-   - Rest of world: a dawn masthead, then the waitlist (white card) and the
-     newsletter (ink card) side by side.
+   /early-access — Open Sky (v2). One page for every country (Nov 26, 2026):
+   a dawn masthead with the App Store badge beside the Today screen in a
+   glass phone, then Baseline, the newsletter (SubstackSubscribe, which
+   carries its own card). Presentation only: the copy lives in the TSX.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .page {
@@ -15,10 +13,6 @@
 .page :focus-visible {
   outline: 2px solid var(--color-link);
   outline-offset: 3px;
-}
-.page .ink :focus-visible,
-.page .cardInk :focus-visible {
-  outline-color: #ffffff;
 }
 
 .container {
@@ -49,11 +43,10 @@
   height: 1px;
   background: var(--color-ink);
 }
-.inkEyebrow {
-  color: var(--color-lavender);
-}
-.inkEyebrow::before {
-  background: var(--color-lavender);
+/* Apple names keep Apple's casing inside an uppercase label ("iOS"). */
+.keepCase {
+  text-transform: none;
+  letter-spacing: 0.04em;
 }
 
 .title {
@@ -67,18 +60,7 @@
   color: var(--color-ink);
   text-wrap: balance;
 }
-.h2 {
-  margin: 0;
-  max-width: 760px;
-  font-family: var(--font-display);
-  font-size: clamp(32px, 4vw, 54px);
-  font-weight: 600;
-  line-height: 1.02;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
-}
-.title em,
-.h2 em {
+.title em {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 300;
@@ -143,14 +125,13 @@
 .badge:focus-visible {
   outline-offset: 4px;
 }
+/* Sentence case on purpose: "iPhone" and "iOS" are never uppercased. */
 .caption {
   margin: 0;
-  font-size: 0.6875rem;
-  font-weight: 700;
+  font-size: 0.875rem;
+  font-weight: 600;
   line-height: 1.4;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-ink-tertiary);
+  color: var(--color-ink-secondary);
 }
 
 /* On a computer: install from the phone in your pocket (md and up). */
@@ -244,186 +225,9 @@
   color: var(--color-ink-tertiary);
 }
 
-/* ─── The ink block (US newsletter) ────────────────────────────────────── */
+/* ─── Baseline, the newsletter (SubstackSubscribe brings its own card) ── */
 .newsSection {
-  padding: clamp(24px, 3vw, 40px) 0 clamp(72px, 9vw, 112px);
-}
-.ink {
-  overflow: hidden;
-  padding: clamp(28px, 5vw, 64px);
-  border-radius: 32px;
-  color: #ffffff;
-  background: var(--color-ink);
-}
-.newsGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 36px;
-  align-items: end;
-}
-@media (min-width: 1024px) {
-  .newsGrid {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: clamp(40px, 5vw, 72px);
-  }
-}
-.inkH2 {
-  color: #ffffff;
-}
-.inkText {
-  margin: 18px 0 0;
-  max-width: 30em;
-  font-size: 1.0625rem;
-  line-height: 1.55;
-  color: rgb(255 255 255 / 0.8);
-  text-wrap: pretty;
-}
-.micro {
-  margin: 12px 0 0;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--color-ink-tertiary);
-}
-.ink .micro,
-.cardInk .micro {
-  color: rgb(255 255 255 / 0.74);
-}
-
-/* ─── Rest of world: waitlist + newsletter ─────────────────────────────── */
-.restHero {
-  padding-bottom: clamp(72px, 9vw, 112px);
-}
-.cards {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
-  margin-top: clamp(40px, 5vw, 64px);
-}
-@media (min-width: 820px) {
-  .cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-  }
-}
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: clamp(24px, 3.4vw, 40px);
-  border-radius: 32px;
-}
-.cardWhite {
-  background: #ffffff;
-  box-shadow: 0 40px 90px -50px rgb(36 48 110 / 0.55);
-}
-.cardInk {
-  color: #ffffff;
-  background: var(--color-ink);
-  box-shadow: 0 40px 80px -40px rgb(24 33 63 / 0.6);
-}
-.cardEyebrow {
-  margin-bottom: 18px;
-}
-.cardTitle {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 1.3rem + 1.25vw, 2.35rem);
-  font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
-  text-wrap: balance;
-}
-.cardBody {
-  margin: 12px 0 0;
-  max-width: 34em;
-  font-size: 1rem;
-  line-height: 1.55;
-  color: var(--color-ink-secondary);
-  text-wrap: pretty;
-}
-.cardInk .cardBody {
-  color: rgb(255 255 255 / 0.8);
-}
-.cardForm {
-  margin-top: 28px;
-}
-
-/* Decorative: the signal spreading out, region by region (static rings). */
-.signal {
-  display: none;
-}
-@media (min-width: 820px) {
-  .signal {
-    position: relative;
-    display: block;
-    flex: none;
-    align-self: flex-end;
-    width: 120px;
-    height: 120px;
-    margin-top: auto;
-    padding-top: 28px;
-    box-sizing: content-box;
-    pointer-events: none;
-  }
-}
-.signal::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 60px;
-  width: 10px;
-  height: 10px;
-  margin: 0 0 -5px -5px;
-  border-radius: 999px;
-  background: var(--color-zenith);
-}
-.signal > span {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 120px;
-  height: 120px;
-  border-radius: 999px;
-  border: 1.5px solid var(--color-zenith);
-}
-.signal > span:nth-child(1) {
-  transform: scale(0.36);
-  opacity: 0.6;
-}
-.signal > span:nth-child(2) {
-  transform: scale(0.68);
-  opacity: 0.34;
-}
-.signal > span:nth-child(3) {
-  opacity: 0.16;
-}
-
-.benefits {
-  margin: 28px 0 0;
-  padding: 22px 0 0;
-  list-style: none;
-  border-top: 1px solid rgb(255 255 255 / 0.14);
-}
-.benefit {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: rgb(255 255 255 / 0.84);
-}
-.benefit + .benefit {
-  margin-top: 10px;
-}
-.benefit::before {
-  content: "";
-  flex: none;
-  width: 8px;
-  height: 8px;
-  margin-top: 0.45em;
-  border-radius: 999px;
-  background: var(--color-sky);
+  padding: 0 0 clamp(72px, 9vw, 112px);
 }
 
 /* ─── Reduced motion ───────────────────────────────────────────────────── */

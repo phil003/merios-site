@@ -427,7 +427,7 @@ export default function ContactForm() {
               data-tone="success"
             >
               <span aria-hidden className="cf-msg-dot" />
-              Sent. We&rsquo;ll reply within 24h.
+              Sent. We&rsquo;ll reply by email.
             </p>
           ) : (
             <p
@@ -435,7 +435,7 @@ export default function ContactForm() {
               className={hasSubmitted ? "cf-in cf-msg" : "cf-msg"}
               data-tone="idle"
             >
-              We typically reply within 24h.
+              All fields are required.
             </p>
           )}
         </div>

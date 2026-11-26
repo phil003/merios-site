@@ -20,7 +20,7 @@ export function OrganizationSchema() {
     url: "https://merios.life",
     logo: "https://merios.life/logo.png",
     description:
-      "Merios is a health analytics app that transforms blood tests, Apple Health data, and daily check-ins into one clear health score and plain-language reports.",
+      "Merios is a preventive health platform for iPhone that turns blood tests, Apple Health data, and daily check-ins into one clear health score and plain-language reports.",
     foundingDate: "2026",
     sameAs: [
       "https://twitter.com/merios_health",
@@ -74,7 +74,7 @@ export function WebApplicationSchema() {
     name: "Merios",
     url: "https://merios.life",
     description:
-      "Health score app that analyzes 160+ blood biomarkers, Apple Health data, and daily check-ins. Calculate your biological age and optimize your health.",
+      "A preventive health platform for iPhone: one health score from 160+ blood biomarkers, Apple Health data, and daily check-ins. Calculate your biological age and optimize your health.",
     applicationCategory: "HealthApplication",
     operatingSystem: "iOS 15.1 or later",
     installUrl: "https://apps.apple.com/app/merios/id6760352598",
@@ -91,7 +91,7 @@ export function WebApplicationSchema() {
         availability: "https://schema.org/InStock",
         url: "https://apps.apple.com/app/merios/id6760352598",
         description:
-          "Free to download. The daily Merios Score, the journal and manual marker entry are free for good. iPhone, iOS 15.1 or later, US App Store.",
+          "Free to download. The daily Merios Score, the journal and manual marker entry are free for good. iPhone, iOS 15.1 or later, on the App Store in 174 countries and regions.",
       },
       {
         "@type": "Offer",
@@ -105,7 +105,7 @@ export function WebApplicationSchema() {
       },
     ],
     featureList: [
-      "Blood test OCR analysis (160+ biomarkers)",
+      "Blood test scan from a photo or PDF (160+ biomarkers)",
       "Apple Health integration",
       "Biological age calculation (PhenoAge)",
       "Merios Health Score (4 pillars)",

@@ -8,9 +8,10 @@
 //   interpolate-size, block-size 0 ↔ auto). Browsers without support simply
 //   snap open/closed; the answer still fades in via a keyframe on [open].
 // - The topic filter is a glass segmented control (the chosen topic is a
-//   white pill). Each group is one glass panel of question rows split by
+//   white pill); below 640px it becomes one horizontally scrollable row of
+//   outlined chips. Each group is one glass panel of question rows split by
 //   hairlines, as on /pricing: a haze disc carries a "+" that turns into "−"
-//   (on ink) when the row is open.
+//   (on ink) when the row is open. Each group H2 ends on its italic word.
 // - Filter pills re-render the group list keyed by the active filter; groups
 //   re-enter with a CSS keyframe stagger (40ms/group). The animation only
 //   plays after the first filter interaction so the initial HTML is fully
@@ -38,6 +39,22 @@ interface FaqAccordionProps {
 }
 
 type FilterKey = "all" | FaqGroupKey;
+
+/** "Access & pricing" → "Access & " + <em>pricing</em> (the Open Sky H2). */
+function GroupTitle({ title }: { title: string }) {
+  const cut = title.lastIndexOf(" ");
+  if (cut === -1) return <em>{title}</em>;
+  return (
+    <>
+      {title.slice(0, cut + 1)}
+      <em>{title.slice(cut + 1)}</em>
+    </>
+  );
+}
+
+/** Display only: "7-day", "check-ins" never split across two lines (U+2011,
+ *  the non-breaking hyphen). The data keeps plain hyphens for the JSON-LD. */
+const keepHyphens = (text: string) => text.replace(/(\w)-(\w)/g, "$1\u2011$2");
 
 export default function FaqAccordion({
   groups,
@@ -117,7 +134,7 @@ export default function FaqAccordion({
                   id={`faq-group-${group.meta.key}`}
                   className="faq-group-title"
                 >
-                  {group.meta.title}
+                  <GroupTitle title={group.meta.title} />
                 </h2>
               </header>
 
@@ -193,7 +210,7 @@ function FaqItem({ entry }: { entry: FaqEntry }) {
         </summary>
         <div className="faq-content">
           <div>
-            <p className="faq-answer">{entry.a}</p>
+            <p className="faq-answer">{keepHyphens(entry.a)}</p>
           </div>
         </div>
       </details>
@@ -294,6 +311,12 @@ const styles = `
   letter-spacing: -0.04em;
   color: var(--color-ink);
   text-wrap: balance;
+}
+.faq-accordion .faq-group-title em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 300;
+  letter-spacing: -0.02em;
 }
 @media (min-width: 1024px) {
   .faq-accordion .faq-group {
@@ -481,9 +504,38 @@ const styles = `
   outline-offset: 3px;
 }
 
+/* Phones: one row of outlined chips that scrolls sideways, bleeding to the
+   screen edges so the cut-off chip shows there is more. */
 @media (max-width: 640px) {
+  .faq-accordion .faq-filter {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    max-width: none;
+    margin-inline: calc(-1 * var(--spacing-container));
+    /* room for the 2px focus ring, which the scroller would clip */
+    padding: 5px var(--spacing-container) 6px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+  .faq-accordion .faq-filter::-webkit-scrollbar {
+    display: none;
+  }
   .faq-accordion .faq-pill {
-    padding: 0 14px 0 12px;
+    flex: none;
+    white-space: nowrap;
+    padding: 0 16px 0 14px;
+    border: 1.5px solid rgb(24 33 63 / 0.2);
+    background: rgb(255 255 255 / 0.55);
+    color: var(--color-ink);
+  }
+  .faq-accordion .faq-pill[data-active="true"] {
+    border-color: var(--color-ink);
+    background: #FFFFFF;
   }
   .faq-accordion .faq-summary {
     gap: 14px;

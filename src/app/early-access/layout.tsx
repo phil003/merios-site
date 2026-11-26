@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { EARLY_ACCESS_DESCRIPTION } from "@/lib/early-access";
 
-// Metadata for /early-access, shared by both prerendered variants
-// (./[variant]/page.tsx) so each declares the same canonical URL.
+// Metadata for /early-access (one page for every country).
 // og:image comes from ./opengraph-image.tsx (a branded card).
 export const metadata: Metadata = {
   // Already names the brand: absolute, so the layout template does not

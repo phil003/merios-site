@@ -1,25 +1,10 @@
-// /early-access variants. Shared by src/middleware.ts (which picks one per
-// request) and the prerendered routes under src/app/early-access/[variant].
-// Kept free of React imports so the edge middleware can import it.
-
-export const EARLY_ACCESS_VARIANTS = ["us", "rest"] as const;
+// /early-access is one App Store page for every visitor and every crawler.
+// Since Nov 25, 2026 Merios is on the App Store in 174 countries and regions,
+// so the US / rest-of-world geo variants, the middleware that picked one and
+// the waitlist were retired on Nov 26, 2026; /early-access/us and
+// /early-access/rest are permanent redirects to /early-access
+// (next.config.ts).
 
 /** Meta description (and WebPage JSON-LD description) for /early-access. */
 export const EARLY_ACCESS_DESCRIPTION =
-  "Merios is live on the US App Store for iPhone, free to start. Rolling out worldwide: join the waitlist for priority access or read our monthly newsletter.";
-
-export type EarlyAccessVariant = (typeof EARLY_ACCESS_VARIANTS)[number];
-
-export function isEarlyAccessVariant(value: string): value is EarlyAccessVariant {
-  return (EARLY_ACCESS_VARIANTS as readonly string[]).includes(value);
-}
-
-/**
- * Anything other than "us" resolves to "rest", the rest-of-world variant —
- * the one bots and every non-US visitor get, and the safe default.
- */
-export function toEarlyAccessVariant(
-  value: string | null | undefined,
-): EarlyAccessVariant {
-  return value === "us" ? "us" : "rest";
-}
+  "Merios is live on the App Store in 174 countries and regions, free to start on iPhone. Not ready yet? Read Baseline, our newsletter.";

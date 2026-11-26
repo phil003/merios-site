@@ -104,9 +104,11 @@
     align-items: start;
   }
 }
+/* Reading measure: the policy text (legalBody .body, Figtree 17px) runs
+   about 68 characters a line at 34rem (measured on /privacy: 90+ at 720px). */
 .article {
   min-width: 0;
-  max-width: 720px;
+  max-width: 34rem;
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.65;
@@ -239,11 +241,6 @@
   padding: clamp(32px, 4vw, 56px) 0 clamp(72px, 8vw, 104px);
 }
 .closingCard {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px 48px;
   padding: clamp(28px, 5vw, 64px);
   border-radius: 28px;
   border: 1.5px solid rgb(255 255 255 / 0.85);
@@ -252,11 +249,19 @@
     radial-gradient(80% 120% at 0% 0%, #C9D8F8 0%, rgb(201 216 248 / 0) 65%),
     linear-gradient(135deg, #DCD8F6 0%, #F1ECF8 100%);
 }
+.closingEyebrow {
+  display: flex;
+  margin: 0 0 18px;
+  color: var(--color-ink-secondary);
+}
+/* The whole row is the link: the words on the left, the round arrow on the
+   right edge, vertically centred; the words wrap, the arrow never drops onto
+   a line of its own. */
 .closingLink {
-  display: inline-flex;
-  flex-wrap: wrap;
+  display: flex;
   align-items: center;
-  gap: 16px 20px;
+  justify-content: space-between;
+  gap: 20px;
   font-family: var(--font-display);
   font-size: clamp(1.875rem, 1.3rem + 2.2vw, 3rem);
   font-weight: 600;
@@ -264,6 +269,9 @@
   letter-spacing: -0.035em;
   color: var(--color-ink);
   text-decoration: none;
+}
+.closingText {
+  min-width: 0;
 }
 .closingLink em {
   font-family: var(--font-serif);
@@ -288,6 +296,13 @@
 }
 .closingLink:hover .closingArrow {
   transform: translateX(4px);
+}
+@media (min-width: 768px) {
+  .closingArrow {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+  }
 }
 
 /* ─── Reduced motion ───────────────────────────────────────────────────── */

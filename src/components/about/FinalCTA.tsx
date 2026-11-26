@@ -14,7 +14,9 @@ export default function FinalCTA() {
         <Reveal>
           <div className={styles.band}>
             <div className={styles.bandCopy}>
-              <p className={styles.eyebrow}>Now on the App Store</p>
+              {/* No Apple name in an uppercase label: "App Store" keeps
+                  Apple's casing. */}
+              <p className={styles.eyebrow}>Now in 174 countries and regions</p>
 
               <h2 id="about-cta-title" className={styles.bandTitle}>
                 Get Merios <em>on iPhone.</em>

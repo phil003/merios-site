@@ -31,14 +31,21 @@ const MILESTONES: Milestone[] = [
     date: "Q3 2026",
     title: "Public launch",
     description:
-      "Merios launches on the US App Store for iPhone. A decade of health intelligence, in a single place you actually own.",
+      "Merios launches on the US App Store for iPhone. A decade of health data, read in a single place.",
+  },
+  {
+    date: "Nov 2026",
+    title: "Worldwide",
+    description:
+      "On November 25, Merios opens on the App Store in 174 countries and regions.",
   },
 ];
 
 // ─── The rising arc (desktop) ────────────────────────────────────────────────
-// viewBox 1200 × 210, split into four 300-unit columns that line up with the
-// four grid columns of the list below it. The curve rises slowly, then faster
-// towards launch; each milestone sits on it at the left edge of its column.
+// viewBox 1200 × 210, split into one column per milestone (five of 240 units)
+// that line up with the grid columns of the list below it. The curve rises
+// slowly, then faster towards today; each milestone sits on it at the left
+// edge of its column.
 const VB_W = 1200;
 const VB_H = 210;
 const BASE_Y = 192;
@@ -48,14 +55,15 @@ const ARC_D = Array.from({ length: 61 }, (_, i) => {
   const x = i * 20;
   return `${i === 0 ? "M" : "L"}${x} ${arcY(x).toFixed(1)}`;
 }).join(" ");
+const COLUMN = VB_W / MILESTONES.length;
 const NODES = MILESTONES.map((_, i) => {
-  const x = i * 300 + 10;
+  const x = i * COLUMN + 10;
   return { x, y: Number(arcY(x).toFixed(1)) };
 });
 
 /**
  * Server component. Open Sky: the story is the page's one ink block. On wide
- * screens the four milestones sit on a rising arc that draws itself once the
+ * screens the five milestones sit on a rising arc that draws itself once the
  * block scrolls into view (CSS only, via the `data-rv` reveal bootstrap);
  * below 900px they become a dated vertical rail. The arc is decorative
  * (aria-hidden): the ordered list carries the content. Reduced motion is
@@ -70,7 +78,7 @@ export default function StoryTimeline() {
           <p className={`${styles.eyebrow} ${styles.inkEyebrow}`}>Story</p>
 
           <h2 id="about-story-title" className={`${styles.h2} ${styles.inkTitle}`}>
-            Four <em>quiet milestones.</em>
+            Five <em>quiet milestones.</em>
           </h2>
 
           <div className={styles.arcWrap} data-rv="" aria-hidden>

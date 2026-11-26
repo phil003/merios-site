@@ -46,6 +46,8 @@
 /* The italic human word */
 .h1 em,
 .h2 em,
+.plansTitle em,
+.factTitle em,
 .getTitle em {
   font-family: var(--font-serif);
   font-style: italic;
@@ -96,6 +98,9 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px 24px;
+}
+.plansEyebrow {
+  margin-bottom: 12px;
 }
 .plansTitle {
   margin: 0;
@@ -169,11 +174,29 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+/* One column, then two with the Blood work card spanning the second row (no
+   card left alone on a row), then three. */
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   align-items: stretch;
+}
+@media (min-width: 720px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cardLab {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 1100px) {
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .cardLab {
+    grid-column: auto;
+  }
 }
 .card {
   position: relative;
@@ -198,7 +221,6 @@
   box-shadow: 0 40px 80px -40px rgb(24 33 63 / 0.7);
 }
 .cardLab {
-  padding-bottom: clamp(24px, 2.4vw, 30px);
   border: 1.5px dashed rgb(24 33 63 / 0.22);
   background: rgb(255 255 255 / 0.28);
 }
@@ -361,16 +383,27 @@
 .cardPlus .screenTag {
   color: rgb(255 255 255 / 0.62);
 }
-.cardFree .screenImg {
+.cardFree .screenImg,
+.cardLab .screenImg {
   box-shadow: 0 24px 50px -24px rgb(36 48 110 / 0.5);
 }
+/* Three columns: the scan check fills what the Blood work card has left, so
+   the three cards end on one line. */
+@media (min-width: 1100px) {
+  .screenLab {
+    flex: 1 1 0;
+    height: auto;
+    min-height: 170px;
+  }
+}
 
-/* Blood work: what a panel costs you */
+/* Blood work: what a panel costs you (side by side when the card is wide) */
 .costs {
   list-style: none;
   margin: 26px 0 0;
   padding: 0;
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 12px;
 }
 .cost {
@@ -480,6 +513,13 @@
   height: 0;
   border-radius: 0;
   border-top: 2px dashed var(--color-zenith);
+}
+/* the open circle of the chart (a membership price), drawn by .markPointMember */
+.swatchMember {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
 .chartRows {
   list-style: none;
@@ -600,6 +640,9 @@
   border-radius: 28px;
   background: rgb(255 255 255 / 0.55);
   border: 1.5px solid rgb(255 255 255 / 0.85);
+}
+.factEyebrow {
+  margin-bottom: 14px;
 }
 .factTitle {
   margin: 0;
@@ -747,13 +790,14 @@
   margin-top: -2px;
 }
 @media (max-width: 480px) {
+  .getBand {
+    padding: 28px 22px;
+  }
   .ctaBtn {
     width: 100%;
-    padding: 14px 20px;
-    line-height: 1.25;
-    white-space: normal;
-    text-align: center;
-    text-wrap: balance;
+    gap: 8px;
+    padding: 0 16px;
+    font-size: 16px;
   }
 }
 

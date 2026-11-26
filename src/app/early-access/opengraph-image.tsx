@@ -8,12 +8,14 @@ import { renderOgCard, OG_SIZE } from "@/lib/og";
 
 export const size = OG_SIZE;
 export const contentType = "image/png";
-export const alt = "Merios is on the US App Store and rolling out worldwide.";
+export const alt = "Merios is on the App Store in 174 countries and regions.";
 
 export default function OgImage() {
   return renderOgCard({
     eyebrow: "Get the app",
-    title: "Now on the US App Store. Rolling out worldwide.",
-    meta: "iPhone · iOS 15.1+ · Free to start",
+    title: "Now on the App Store in 174 countries and regions.",
+    // The card's meta line is uppercased (src/lib/og.tsx): no Apple name in
+    // it, since "iPhone" and "iOS" must keep Apple's casing.
+    meta: "Free to start",
   });
 }

@@ -54,7 +54,7 @@ export default function FreeAndrogenIndexCalculator() {
       tNmol: round(tNmol, 2),
       shbg: round(sRaw, 1),
       converted: tUnit !== "nmoll",
-      band: sex === "female" ? femaleBand(fai) : MALE_NOTE,
+      band: sex === "female" ? femaleBand(round(fai, 1)) : MALE_NOTE,
     };
   }, [totalT, shbg, tUnit, sex]);
 

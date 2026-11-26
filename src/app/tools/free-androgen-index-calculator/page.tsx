@@ -140,9 +140,10 @@ export default function FreeAndrogenIndexCalculatorPage() {
                 There is no guideline cutoff that applies everywhere. Many laboratories print an upper limit for
                 premenopausal women of roughly 4.5 to 5, but ranges are lab- and assay-dependent: testosterone measured
                 by mass spectrometry reads differently from immunoassay at the low concentrations found in women. The
-                2023 International PCOS Guideline recommends calculated free testosterone, FAI or calculated
-                bioavailable testosterone to assess biochemical hyperandrogenism, judged against ranges from the
-                lab&rsquo;s own healthy reference population. Use the interval on your report.
+                2023 International PCOS Guideline recommends using total and free testosterone to assess biochemical
+                hyperandrogenism, notes that free testosterone can be estimated by the calculated free androgen index,
+                and asks that normal values come from a well-characterized healthy reference population. Use the
+                interval on your report.
               </p>
 
               <h2>My testosterone is normal but my FAI is high</h2>
@@ -172,7 +173,7 @@ export default function FreeAndrogenIndexCalculatorPage() {
                 fraction reasonably well. In men the two are of similar magnitude, SHBG binding is closer to saturation,
                 and the relation stops being linear. Vermeulen and colleagues (1999), comparing simple methods with
                 equilibrium dialysis, concluded that the testosterone-to-SHBG ratio is not a reliable index of free
-                testosterone, and it is in men that the mismatch matters most. For men, use the{" "}
+                testosterone. Because of the non-linear binding described above, that mismatch matters most in men. For men, use the{" "}
                 <Link href="/tools/free-testosterone-calculator">free testosterone calculator</Link>, which applies the
                 Vermeulen equation with albumin; for context on totals, see{" "}
                 <Link href="/blog/testosterone-levels-by-age">testosterone levels by age</Link>. To convert a single

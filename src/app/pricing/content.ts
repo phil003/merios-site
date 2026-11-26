@@ -60,7 +60,7 @@ export const PLAN_SHEET = {
   },
   plus: {
     name: "Merios Plus",
-    trial: "7-day free trial",
+    trial: "3-day free trial",
     trialElsewhere: "Trial on annual only",
     includes: "Everything in Merios, plus:",
     features: [

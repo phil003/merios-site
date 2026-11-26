@@ -18,7 +18,7 @@ const APP_STORE_LINK = "https://apps.apple.com/app/merios/id6760352598?pt=128637
 
 const TITLE = "Merios Pricing";
 const DESCRIPTION =
-  "Merios is free to download on the App Store; the daily score is free for good. Merios Plus is $44/year with a 7-day free trial. Lab work is not included.";
+  "Merios is free to download on the App Store; the daily score is free for good. Merios Plus is $44/year with a 3-day free trial. Lab work is not included.";
 
 /**
  * A real pricing page, restored.
@@ -51,7 +51,7 @@ const keepHyphens = (text: string) => text.replace(/(\w)-(\w)/g, "$1\u2011$2");
 const FAQ_ITEMS = [
   {
     q: "How much does Merios cost?",
-    a: "Merios is free to download from the App Store. Merios Plus is $44 a year, with a 7-day free trial on the annual plan; it is also sold at $12.99 a month and $4.99 a week. The App Store always shows the current price for your country, which is the figure that governs.",
+    a: "Merios is free to download from the App Store. Merios Plus is $44 a year, with a 3-day free trial on the annual plan; it is also sold at $12.99 a month and $4.99 a week. The App Store always shows the current price for your country, which is the figure that governs.",
   },
   {
     q: "Is there a free version of Merios?",
@@ -67,7 +67,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Can I cancel Merios Plus?",
-    a: "Yes. Merios Plus is an Apple subscription, so it is canceled from your iPhone's own subscription settings rather than through Merios, and it will not renew after you cancel. The 7-day trial on the annual plan can be canceled before it converts.",
+    a: "Yes. Merios Plus is an Apple subscription, so it is canceled from your iPhone's own subscription settings rather than through Merios, and it will not renew after you cancel. The 3-day trial on the annual plan can be canceled before it converts.",
   },
 ];
 
@@ -117,7 +117,7 @@ export default function PricingPage() {
         availability: "https://schema.org/InStock",
         url: APP_STORE_URL,
         description:
-          "Lab report scans, blood in depth with biological age, Insights and the monthly report. Billed yearly, with a 7-day free trial.",
+          "Lab report scans, blood in depth with biological age, Insights and the monthly report. Billed yearly, with a 3-day free trial.",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
           price: "44.00",
@@ -195,7 +195,7 @@ export default function PricingPage() {
             </h1>
             <p className={`he ${s.lede}`} style={{ "--he-d": "0.16s" } as CSSProperties}>
               The app is free to download on the App Store, and the daily score is free for
-              good. Plus costs $44/year with a 7‑day free trial on the annual plan. Blood work is
+              good. Plus costs $44/year with a 3‑day free trial on the annual plan. Blood work is
               not included — Merios reads panels you already have.
             </p>
           </div>

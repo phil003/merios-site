@@ -4,7 +4,7 @@ import { keepHyphens } from "./text";
 /* Free and Plus (Home2 v24, "06"): a glass card and the frame's one ink block.
    The one place on the page that says what is free and what is Plus. Facts
    as of the App Store listing: the daily side is free for good; Merios Plus is
-   $44 a year with a 7-day free trial on the annual plan, with monthly and
+   $44 a year with a 3-day free trial on the annual plan, with monthly and
    weekly plans also available. Prices in US dollars. */
 
 const FREE = [
@@ -63,7 +63,7 @@ export default function Plans() {
               <span>a year</span>
             </p>
             <p className="hv2-plan__note">
-              {keepHyphens("7-day free trial on the annual plan · monthly and weekly plans too")}
+              {keepHyphens("3-day free trial on the annual plan · monthly and weekly plans too")}
             </p>
             <ul>
               {PLUS.map((f) => (
@@ -74,7 +74,7 @@ export default function Plans() {
               ))}
             </ul>
             <a className="hv2-plan__cta" href="/early-access">
-              <span>{keepHyphens("Start the 7-day free trial")}</span>
+              <span>{keepHyphens("Start the 3-day free trial")}</span>
             </a>
           </article>
         </div>

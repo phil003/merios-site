@@ -363,7 +363,7 @@ export default function Page() {
                 Already have your bloodwork?{" "}
                 <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-dhea-unit-converter&mt=8">Merios</a>{" "}
                 reads it next to your Apple Watch data, so a DHEA-S trend sits beside the sleep, training load and
-                resting heart rate around each draw. The lab-report scan is part of Merios Plus ($44/year, 7-day
+                resting heart rate around each draw. The lab-report scan is part of Merios Plus ($44/year, 3-day
                 free trial on the annual plan); the Daily is free. iPhone, iOS 15.1 or later.
               </p>
             </div>

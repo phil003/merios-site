@@ -290,7 +290,7 @@ export default function Page() {
                 Already have your bloodwork?{" "}
                 <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-creatinine-converter&mt=8">Merios</a>{" "}
                 reads your lab reports next to your Apple Watch data, so a creatinine bump the morning after a long run
-                sits beside the workout that explains it. The lab-report scan is part of Merios Plus ($44/year, 7-day
+                sits beside the workout that explains it. The lab-report scan is part of Merios Plus ($44/year, 3-day
                 free trial on the annual plan); the Daily is free. iPhone, iOS 15.1 or later.
               </p>
             </div>

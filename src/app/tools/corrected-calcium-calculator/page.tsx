@@ -187,7 +187,7 @@ export default function Page() {
                 <p className={t.ctaText}>
                   Scan a lab report and Merios keeps calcium, albumin and the rest of your markers on one timeline,
                   beside the sleep, heart rate and activity your Apple Watch already records. The Daily tier is free;
-                  lab report scanning is part of Merios Plus, $44 a year with a 7-day free trial. iPhone, iOS 15.1 or
+                  lab report scanning is part of Merios Plus, $44 a year with a 3-day free trial. iPhone, iOS 15.1 or
                   later, on the App Store.
                 </p>
               </div>

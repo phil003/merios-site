@@ -100,13 +100,13 @@ export const FAQ_ENTRIES: FaqEntry[] = [
     id: "how-much-does-merios-cost",
     group: "pricing",
     q: "How much does Merios cost?",
-    a: "Merios is free to download, and the daily score is free for good. Merios Plus is $44 a year with a 7-day free trial on the annual plan, or a monthly and weekly option — you choose on the App Store, where the current price for your country is always shown. There are no ads and no ad-supported tier: Plus pays for the product, which keeps it independent by design.",
+    a: "Merios is free to download, and the daily score is free for good. Merios Plus is $44 a year with a 3-day free trial on the annual plan, or a monthly and weekly option — you choose on the App Store, where the current price for your country is always shown. There are no ads and no ad-supported tier: Plus pays for the product, which keeps it independent by design.",
   },
   {
     id: "is-there-a-trial",
     group: "pricing",
     q: "Is there a trial?",
-    a: "Yes. The annual plan includes a 7-day free trial of Merios Plus. It converts to a paid subscription when it ends unless you cancel at least 24 hours before, in your iPhone's Settings › [your name] › Subscriptions. No dark patterns: you cancel in Apple's own subscription settings, not through Merios.",
+    a: "Yes. The annual plan includes a 3-day free trial of Merios Plus. It converts to a paid subscription when it ends unless you cancel at least 24 hours before, in your iPhone's Settings › [your name] › Subscriptions. No dark patterns: you cancel in Apple's own subscription settings, not through Merios.",
   },
   {
     id: "do-you-bill-by-test",

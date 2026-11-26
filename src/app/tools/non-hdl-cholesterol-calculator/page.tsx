@@ -222,7 +222,7 @@ export default function Page() {
                 lipid on the panel.
               </p>
               <p>
-                Already have your bloodwork? <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-non-hdl-calc&mt=8">Merios</a> reads it next to your watch data.
+                Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-non-hdl-calc&mt=8">Merios</a> reads it next to your watch data.
               </p>
             </div>
           </section>

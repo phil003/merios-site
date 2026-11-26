@@ -201,7 +201,7 @@ export default function Page() {
                 <Link href="/blog/how-often-blood-work">how often to get blood work</Link>.
               </p>
               <p>
-                Already have your bloodwork? <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-nlr-calculator&mt=8">Merios</a> reads
+                Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-nlr-calculator&mt=8">Merios</a> reads
                 it next to your watch data, so an NLR sits beside your sleep and recovery around the day of the draw.
               </p>
             </div>

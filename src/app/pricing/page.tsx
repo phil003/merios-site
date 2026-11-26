@@ -12,9 +12,9 @@ import PlanSheet from "./PlanSheet";
 import PriceChart from "./PriceChart";
 import s from "./pricing.module.css";
 
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598";
+const APP_STORE_URL = "https://apps.apple.com/app/merios/id6760352598";
 // Tracked link for the buttons (the schema keeps the canonical URL above).
-const APP_STORE_LINK = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-pricing&mt=8";
+const APP_STORE_LINK = "https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-pricing&mt=8";
 
 const TITLE = "Merios Pricing";
 const DESCRIPTION =

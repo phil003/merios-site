@@ -230,7 +230,7 @@ export default function Page() {
                 panel is worth repeating.
               </p>
               <p>
-                Already have your bloodwork? <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-anion-gap-calc&mt=8">Merios</a> reads
+                Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-anion-gap-calc&mt=8">Merios</a> reads
                 it next to your watch data, so a value like this sits in the context of your other markers and how
                 it has moved between panels.
               </p>

@@ -1,7 +1,7 @@
 import Reveal from "@/components/ui/Reveal";
 import styles from "./about.module.css";
 
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-about&mt=8";
+const APP_STORE_URL = "https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-about&mt=8";
 
 /**
  * Server component. Open Sky: the closing call is a dawn band (the same

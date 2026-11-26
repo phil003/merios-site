@@ -344,7 +344,7 @@ export default function Page() {
               </p>
               <p>
                 Already have your bloodwork?{" "}
-                <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-iron-unit-converter&mt=8">Merios</a>{" "}
+                <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-iron-unit-converter&mt=8">Merios</a>{" "}
                 reads it next to your Apple Watch data, so a ferritin trend sits beside the training load, sleep and
                 resting heart rate around it. The lab-report scan is part of Merios Plus ($44/year, 7-day free trial on
                 the annual plan); the Daily is free. iPhone, iOS 15.1 or later.

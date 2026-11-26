@@ -183,7 +183,7 @@ export default function FreeAndrogenIndexCalculatorPage() {
 
               <p>
                 One FAI is a snapshot of two values that both move. Already have your bloodwork?{" "}
-                <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-free-androgen-index&mt=8">
+                <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-free-androgen-index&mt=8">
                   Merios
                 </a>{" "}
                 reads it next to your watch data.

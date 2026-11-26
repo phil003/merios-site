@@ -209,7 +209,7 @@ export default function Page() {
                 panel is worth repeating.
               </p>
               <p>
-                Already have your bloodwork? <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-bun-cr-ratio&mt=8">Merios</a> reads
+                Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-bun-cr-ratio&mt=8">Merios</a> reads
                 it next to your watch data, so a ratio like this sits beside your creatinine and eGFR trend across
                 panels.
               </p>

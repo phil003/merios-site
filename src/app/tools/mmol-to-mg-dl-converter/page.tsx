@@ -223,7 +223,7 @@ export default function Page() {
                 <Link href="/blog/blood-test-results-normal-range-chart">blood test normal range chart</Link>.
               </p>
               <p>
-                Already have your bloodwork? <a href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-mmol-mgdl-converter&mt=8">Merios</a> reads it next to your watch data.
+                Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-mmol-mgdl-converter&mt=8">Merios</a> reads it next to your watch data.
               </p>
             </div>
           </section>

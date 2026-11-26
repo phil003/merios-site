@@ -195,7 +195,7 @@ export default function A1CCalculatorPage() {
               </div>
               <div className={t.ctaActions}>
                 <a
-                  href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-a1c-calculator&mt=8"
+                  href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-a1c-calculator&mt=8"
                   className="btn btn-lime"
                 >
                   Get the app

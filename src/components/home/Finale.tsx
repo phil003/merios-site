@@ -5,7 +5,7 @@ import WaitlistForm from "./WaitlistForm";
 /* Final (Home2 "get"): the meadow at sunrise, the App Store, a QR code for
    desktop visitors, and the waitlist for everyone outside the US. */
 
-const APP_STORE_URL = "https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-home&mt=8";
+const APP_STORE_URL = "https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-home&mt=8";
 
 export default function Finale() {
   return (

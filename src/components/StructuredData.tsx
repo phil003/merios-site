@@ -25,7 +25,7 @@ export function OrganizationSchema() {
     sameAs: [
       "https://twitter.com/merios_health",
       "https://www.linkedin.com/company/merios",
-      "https://apps.apple.com/us/app/merios/id6760352598",
+      "https://apps.apple.com/app/merios/id6760352598",
     ],
     contactPoint: {
       "@type": "ContactPoint",
@@ -77,8 +77,8 @@ export function WebApplicationSchema() {
       "Health score app that analyzes 160+ blood biomarkers, Apple Health data, and daily check-ins. Calculate your biological age and optimize your health.",
     applicationCategory: "HealthApplication",
     operatingSystem: "iOS 15.1 or later",
-    installUrl: "https://apps.apple.com/us/app/merios/id6760352598",
-    downloadUrl: "https://apps.apple.com/us/app/merios/id6760352598",
+    installUrl: "https://apps.apple.com/app/merios/id6760352598",
+    downloadUrl: "https://apps.apple.com/app/merios/id6760352598",
     // Two offers, not one. A lone `price: "0"` with the real price in a
     // description string reads as "this app is free" to anything parsing the
     // markup — which is how Merios ended up described as a pre-launch freebie.
@@ -89,7 +89,7 @@ export function WebApplicationSchema() {
         price: "0",
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
-        url: "https://apps.apple.com/us/app/merios/id6760352598",
+        url: "https://apps.apple.com/app/merios/id6760352598",
         description:
           "Free to download. The daily Merios Score, the journal and manual marker entry are free for good. iPhone, iOS 15.1 or later, US App Store.",
       },
@@ -99,7 +99,7 @@ export function WebApplicationSchema() {
         price: "44.00",
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
-        url: "https://apps.apple.com/us/app/merios/id6760352598",
+        url: "https://apps.apple.com/app/merios/id6760352598",
         description:
           "Lab report scans, blood in depth with biological age, and Insights. Billed yearly, with a 7-day free trial.",
       },

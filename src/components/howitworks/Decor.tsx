@@ -144,7 +144,9 @@ export function ActPlate({ variant }: { variant: ActPlateVariant }) {
     return (
       <div className={`${styles.plate} ${styles.plateShort} ${styles.plateDawn} ${styles.trend}`} aria-hidden>
         <div className={styles.plateHead}>
-          <span>Ferritin, ng/mL</span>
+          <span>
+            Ferritin, <span className={styles.unit}>ng/mL</span>
+          </span>
           <span>Example data</span>
         </div>
         <div className={styles.trendRow}>
@@ -169,7 +171,7 @@ export function ActPlate({ variant }: { variant: ActPlateVariant }) {
       <div className={`${styles.plate} ${styles.plateShort} ${styles.plateSky} ${styles.report}`} aria-hidden>
         <div className={styles.plateHead}>
           <span>Your month · Plus</span>
-          <span>Example</span>
+          <span>Example data</span>
         </div>
         <p className={styles.reportText}>
           You slept a little longer than in October, and your resting heart rate eased.

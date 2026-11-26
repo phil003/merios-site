@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -15,8 +15,11 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * Science — Coverage: the eleven blood systems (v2 "Open Sky").
  *
  * Glass cards with a Newsreader index, the system's markers and a zenith
- * sparkline, plus a decorative twelfth tile (eleven traces read into one
- * signal). Cards rise in a ScrollTrigger batch; reduced motion skips it.
+ * trace, plus a decorative twelfth tile (eleven traces read into one
+ * signal). The traces are drawings, not data: a caption under the grid says
+ * so. Below 520px the cards run two to a row (the eleventh spans both), the
+ * traces, caption and twelfth tile are hidden. Cards rise in a ScrollTrigger
+ * batch; reduced motion skips it.
  */
 export default function BiomarkerCoverage() {
   const container = useRef<HTMLElement>(null);
@@ -101,7 +104,24 @@ export default function BiomarkerCoverage() {
           <span className={styles.signalTileLabel}>Eleven traces, one signal</span>
         </li>
       </ul>
+
+      <p aria-hidden className={styles.systemsNote}>
+        Illustration · the traces on the cards are drawings, not data.
+      </p>
     </section>
+  );
+}
+
+/** Keeps hyphenated marker names (C-peptide, DHEA-S, hs-CRP…) on one line. */
+function keepHyphenated(text: string): ReactNode[] {
+  return text.split(/(\S*\w-\w\S*)/).map((part, i) =>
+    i % 2 === 1 ? (
+      <span key={i} className={styles.nowrap}>
+        {part}
+      </span>
+    ) : (
+      part
+    ),
   );
 }
 
@@ -125,7 +145,7 @@ function SystemCard({
 
       <h3 className={styles.systemTitle}>{label}</h3>
 
-      <p className={styles.systemMarkers}>{description}</p>
+      <p className={styles.systemMarkers}>{keepHyphenated(description)}</p>
 
       <svg
         className={styles.systemSpark}

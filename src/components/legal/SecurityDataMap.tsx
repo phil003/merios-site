@@ -1,5 +1,8 @@
 import styles from "./security.module.css";
 
+/** U+2011: a hyphen that never splits a term across two lines. */
+const NBH = "\u2011";
+
 /**
  * /security — "Where your data goes", the hero figure (Open Sky mockup
  * Security.dc.html). Built in HTML, not one wide SVG, so it stacks at 390px
@@ -20,11 +23,11 @@ export default function SecurityDataMap() {
         <div className={styles.mapPhone}>
           <span aria-hidden className={styles.phoneNotch} />
           <p className={styles.phonePlate}>
-            <strong>Apple Health</strong>
+            <strong>Apple Health</strong>{" "}
             <span>read only, with your permission</span>
           </p>
           <p className={styles.phonePlate}>
-            <strong>iOS Keychain</strong>
+            <strong>iOS Keychain</strong>{" "}
             <span>sign-in tokens</span>
           </p>
           <p className={styles.phoneFoot}>Merios app</p>
@@ -46,10 +49,10 @@ export default function SecurityDataMap() {
         <p className={`${styles.mapLabel} ${styles.lCloud}`}>In the EU · Ireland</p>
         <div className={styles.mapCloud}>
           <p className={styles.cloudName}>Supabase</p>
-          <p className={styles.cloudSub}>AWS eu-west-1, Ireland</p>
+          <p className={styles.cloudSub}>AWS eu{NBH}west{NBH}1, Ireland</p>
           <ul className={styles.cloudPills}>
-            <li>AES-256 at rest, and its backups</li>
-            <li>Row-Level Security</li>
+            <li>AES{NBH}256 at rest, and its backups</li>
+            <li>Row{NBH}Level Security</li>
             <li>Private file storage</li>
           </ul>
         </div>
@@ -61,7 +64,8 @@ export default function SecurityDataMap() {
             reads scanned lab reports, writes reports and insights
           </p>
           <p className={styles.sideText}>
-            may keep requests up to 30 days in its abuse-monitoring logs
+            may keep requests up to 30 days in its{" "}
+            <span className={styles.nowrap}>abuse-monitoring</span> logs
           </p>
         </div>
 

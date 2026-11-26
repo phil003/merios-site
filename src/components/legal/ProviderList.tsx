@@ -32,6 +32,8 @@ function joinNames(names: string[]): string {
  * /security §6 — the provider list with its filter (mockup: "Who sees
  * what"). Every card is in the server HTML; the filter only toggles the
  * `hidden` attribute, so all eight entries stay in the page for crawlers.
+ * In the two-column grid, an odd count's last visible card is marked
+ * `data-wide` and takes the whole row, so no card sits beside an empty slot.
  */
 export default function ProviderList({ providers }: { providers: Provider[] }) {
   const [filter, setFilter] = useState<Filter>("all");
@@ -39,6 +41,8 @@ export default function ProviderList({ providers }: { providers: Provider[] }) {
   const matches = (p: Provider) =>
     filter === "all" || (filter === "health" ? p.health : !p.health);
   const shown = providers.filter(matches);
+  const wideName =
+    shown.length % 2 === 1 ? shown[shown.length - 1]?.name : undefined;
   const summary =
     filter === "all"
       ? "Showing every provider."
@@ -65,7 +69,12 @@ export default function ProviderList({ providers }: { providers: Provider[] }) {
 
       <ul className={styles.providers}>
         {providers.map((p) => (
-          <li key={p.name} hidden={!matches(p)} className={styles.provider}>
+          <li
+            key={p.name}
+            hidden={!matches(p)}
+            data-wide={p.name === wideName ? "true" : undefined}
+            className={styles.provider}
+          >
             <div aria-hidden className={styles.providerTop}>
               <span className={styles.providerScope}>{p.scope}</span>
               <span className={styles.providerTag} data-tone={p.tone}>

@@ -141,6 +141,17 @@
   line-height: 1;
   color: var(--color-ink);
 }
+/* Phones: the arc is stretched steeper, so a centred label meets the line
+   on its rising side. Station 1's label sits up-left of its dot, station
+   3's up-right, both on the side where the curve falls away. */
+@media (max-width: 640px) {
+  .station[data-step="1"] .stationLabel {
+    translate: -86% 0;
+  }
+  .station[data-step="3"] .stationLabel {
+    translate: -14% 0;
+  }
+}
 
 /* ─── Body: sticky step list + the three steps ──────────────────────────── */
 .body {
@@ -246,6 +257,9 @@
 }
 
 /* ─── Glass cards (Connect + Act) ───────────────────────────────────────── */
+/* Each card is four rows of one shared subgrid (plate · head · copy ·
+   follow-up), so cards side by side line up row by row even when one title
+   wraps or one plate runs taller. */
 .cardGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
@@ -253,23 +267,53 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  container-type: inline-size;
 }
 .card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  row-gap: 0;
   min-width: 0;
   padding: 12px 12px 26px;
   border-radius: 28px;
   background: rgb(255 255 255 / 0.55);
   border: 1.5px solid rgb(255 255 255 / 0.85);
 }
-.meta {
+/* Two columns (536–811px of grid): the third card takes the whole last row
+   instead of sitting alone beside an empty slot. */
+@container (min-width: 536px) and (max-width: 811.98px) {
+  .card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
   margin: 18px 12px 0;
+}
+.meta {
+  margin: 0;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-secondary);
+}
+/* Same pill as the home page's "Merios Plus" tag */
+.plusTag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #E3DEF8;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-ink);
 }
 .cardTitle {
   margin: 8px 12px 0;
@@ -292,6 +336,7 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  align-self: start;
   gap: 12px;
   margin: 18px 12px 0;
 }
@@ -345,6 +390,11 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-secondary);
+}
+/* Units keep their case inside uppercase labels ("ng/mL", never "NG/ML") */
+.unit {
+  letter-spacing: 0.04em;
+  text-transform: none;
 }
 
 /* Apple Health: four streams */
@@ -573,7 +623,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-apricot);
+  color: var(--color-link);
 }
 .nextWord {
   font-family: var(--font-serif);
@@ -709,14 +759,15 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.sparkLine[data-tone="activity"] {
-  stroke: var(--color-activity);
-}
 .sparkLine[data-tone="recovery"] {
   stroke: var(--color-recovery);
 }
 .sparkLine[data-tone="zen"] {
   stroke: var(--color-zen);
+}
+.sparkLine[data-tone="ink"] {
+  stroke: var(--color-ink);
+  stroke-opacity: 0.55;
 }
 .lineText {
   font-size: 16px;

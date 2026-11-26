@@ -34,11 +34,9 @@ export default function ScienceAdvisoryBoard() {
         </h2>
 
         <p className={styles.lead}>
-          As of October 2026, no practising clinician has reviewed the
-          methodology, thresholds or literature base of Merios. We&rsquo;re
-          recruiting reviewers; their names and the date of their review will
-          be published here once it&rsquo;s done. Until then, Merios is a
-          wellness tool, not a medical device.
+          As of November 2026, no practicing clinician has reviewed the
+          methodology, thresholds or literature base of Merios. Merios is a
+          preventive health platform, not a medical device.
         </p>
       </Reveal>
 
@@ -67,7 +65,9 @@ export default function ScienceAdvisoryBoard() {
                 </h3>
                 <p className={styles.advisorSpecialty}>{a.specialty}</p>
                 <p className={styles.advisorBio}>{a.bio}</p>
-                <p className={styles.advisorAffil}>{a.affiliation}</p>
+                {a.affiliation ? (
+                  <p className={styles.advisorAffil}>{a.affiliation}</p>
+                ) : null}
               </div>
             </div>
           </li>

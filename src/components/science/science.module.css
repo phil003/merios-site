@@ -4,8 +4,9 @@
    the Blood sun → haze chapters with glass cards and drawn plates → the model
    as the page's one ink block → biological age on a white card with an age
    ruler → clinical review with empty seats → references → a dawn CTA card.
-   Apricot: the Blood sun in the masthead, and the Activity pillar in the ink
-   block. Content lives in the TSX; this file only dresses it.
+   Blood is sky everywhere (the masthead sun, the model diagram); apricot only
+   marks the Activity pillar in the ink block. Content lives in the TSX; this
+   file only dresses it.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .page {
@@ -142,14 +143,13 @@
   overflow: visible;
   font-family: var(--font-sans);
 }
+/* 13 user units render at 12px+ from about 570px of art width up. Below
+   640px the art is ~360px wide: names would render near 7px, so they are
+   hidden (the stats tile and section 02 name the systems), and the sun keeps
+   one word, "Blood", at a readable size. */
 .arcLabels {
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
-}
-@media (max-width: 639px) {
-  .arcLabels {
-    font-size: 16px;
-  }
 }
 .sun {
   transform-box: fill-box;
@@ -173,6 +173,16 @@
 .sunSub {
   font-size: 11px;
   font-weight: 600;
+}
+@media (max-width: 639px) {
+  .arcLabels,
+  .sunSub {
+    display: none;
+  }
+  .sunName {
+    font-size: 24px;
+    transform: translateY(10px);
+  }
 }
 
 /* ─── Body grid + TOC ──────────────────────────────────────────────────── */
@@ -343,17 +353,29 @@
   text-wrap: pretty;
 }
 
-/* Drawn plates (illustrations) */
+/* Drawn plates (illustrations): the head on top, the drawing centred in the
+   rest. From 640px both plates have one fixed height, so the two card
+   headings below them sit on the same line. */
 .plate {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 16px;
   min-height: 176px;
   padding: 16px 18px;
   border-radius: 20px;
   background: var(--plate-bg);
   color: var(--color-ink);
+}
+.plate > .plateHead + * {
+  margin-top: auto;
+}
+.plate > :last-child {
+  margin-bottom: auto;
+}
+@media (min-width: 640px) {
+  .plate {
+    height: 220px;
+  }
 }
 .plate[data-tone="sky"] {
   --plate-bg: linear-gradient(135deg, #D9E4FA 0%, #EEF0FB 100%);
@@ -422,16 +444,23 @@
   background: #FFFFFF;
   border: 3px solid var(--color-ink);
 }
+/* Phones: the drawing takes the plate's width (~1:1 at 390px). From 640px
+   it is 156px tall (the plate's 220 minus head and padding) and centred. */
 .signalSvg {
   display: block;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   width: 100%;
   height: auto;
   min-height: 0;
   font-family: var(--font-sans);
 }
+@media (min-width: 640px) {
+  .signalSvg {
+    height: 156px;
+  }
+}
 .signalLabels {
-  font-size: 9.5px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -528,7 +557,37 @@
   font-weight: 700;
   color: var(--color-ink);
 }
+.nowrap {
+  white-space: nowrap;
+}
+.systemsNote {
+  margin: 14px 0 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-ink-secondary);
+}
+
+/* Phones: two cards to a row (the eleventh spans both, no orphan), no
+   decorative traces, caption or twelfth tile. */
 @media (max-width: 519px) {
+  .systems {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .system {
+    min-height: 0;
+    padding: 16px 14px;
+    border-radius: 20px;
+  }
+  .system:nth-child(11) {
+    grid-column: 1 / -1;
+  }
+  .systemTitle {
+    margin-top: 10px;
+    font-size: 1rem;
+  }
+  .systemSpark,
+  .systemsNote,
   .signalTile {
     display: none;
   }
@@ -640,6 +699,12 @@
   font-weight: 700;
   letter-spacing: 2.2px;
   fill: #18213F;
+}
+/* On phones the figure is ~0.4×: the wordmark would render at 4px. */
+@media (max-width: 639px) {
+  .modelBrand {
+    display: none;
+  }
 }
 .modelScore {
   font-family: var(--font-serif);

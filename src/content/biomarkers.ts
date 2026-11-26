@@ -1,29 +1,31 @@
 // Canonical Merios product model.
 // Pillar and system are DIFFERENT concepts — see CLAUDE.md "Product model".
-// 4 pillars compose the overall health score; the 11 blood systems are the
-// sub-structure of the Blood pillar only. No detail route per system — they
-// surface as cards only.
+// The Merios Score has four quarters: three daily pillars from Apple Health
+// (Activity, Recovery, Zen) plus Blood. The 160+ biomarkers and the 11 blood
+// systems are the sub-structure of the Blood pillar only. No detail route per
+// system — they surface as cards only. Names and taglines are the app's (home
+// page rings); never Movement / Sleep / Stress.
 
 export const PILLARS = [
+  {
+    slug: "activity",
+    label: "Activity",
+    tagline: "How much you moved today, cardio, strength and everything in between.",
+  },
+  {
+    slug: "recovery",
+    label: "Recovery",
+    tagline: "How ready your body is today, based on last night.",
+  },
+  {
+    slug: "zen",
+    label: "Zen",
+    tagline: "How calm your nervous system stayed today.",
+  },
   {
     slug: "blood",
     label: "Blood",
     tagline: "The deepest signal — 160+ biomarkers across 11 systems.",
-  },
-  {
-    slug: "movement",
-    label: "Movement",
-    tagline: "Daily load, recovery capacity, cardiorespiratory fitness.",
-  },
-  {
-    slug: "sleep",
-    label: "Sleep",
-    tagline: "Architecture, regularity, restoration over weeks.",
-  },
-  {
-    slug: "stress",
-    label: "Stress",
-    tagline: "Autonomic balance, HRV, cortisol rhythm, resilience.",
   },
 ] as const;
 

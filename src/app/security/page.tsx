@@ -7,6 +7,9 @@ import SecurityDataMap from "@/components/legal/SecurityDataMap";
 import ProviderList, { type Provider } from "@/components/legal/ProviderList";
 import { BreadcrumbSchema } from "@/components/StructuredData";
 
+/** U+2011: a hyphen that never splits a term across two lines. */
+const NBH = "\u2011";
+
 export const metadata: Metadata = {
   // Already names the brand: absolute, so the layout template does not
   // append a second "| Merios".
@@ -25,6 +28,9 @@ export const metadata: Metadata = {
   },
 };
 
+// §10 "Contact" was removed on Nov 26, 2026: the layout's closing card
+// ("Questions? Contact us") follows right after, security@ is in §8 and
+// privacy@ closes §9.
 const tocItems: TocItem[] = [
   { id: "our-approach", label: "Our approach" },
   { id: "data-encryption", label: "Data encryption" },
@@ -35,8 +41,22 @@ const tocItems: TocItem[] = [
   { id: "breach-notification", label: "Breach notification" },
   { id: "responsible-disclosure", label: "Responsible disclosure" },
   { id: "compliance", label: "Compliance" },
-  { id: "contact", label: "Contact" },
 ];
+
+/**
+ * A section's eyebrow: the shipped numeral on its hairline, plus a label.
+ * Visual only — the H2 keeps "N." as screen-reader text, so its text content
+ * is unchanged ("1. Our approach").
+ */
+function Eyebrow({ n, label }: { n: number; label: string }) {
+  return (
+    <p aria-hidden className={sec.eyebrow}>
+      <span className={sec.eyebrowNum}>{n}</span>
+      <span>·</span>
+      <span>{label}</span>
+    </p>
+  );
+}
 
 const securityLd = {
   "@context": "https://schema.org",
@@ -50,7 +70,7 @@ const securityLd = {
     name: "Merios",
     url: "https://merios.life",
   },
-  dateModified: "2026-11-25",
+  dateModified: "2026-11-26",
 };
 
 // §6 — each provider's sentence is the shipped text, unchanged. `scope`,
@@ -66,8 +86,8 @@ const PROVIDERS: Provider[] = [
       <>
         <strong>Supabase</strong> — Database, authentication, file
         storage and server functions, in the European Union (AWS
-        eu-west-1, Ireland). Hosts all account and health data, under
-        Row-Level Security.
+        eu{NBH}west{NBH}1, Ireland). Hosts all account and health data, under
+        Row{NBH}Level Security.
       </>
     ),
   },
@@ -82,7 +102,7 @@ const PROVIDERS: Provider[] = [
         <strong>OpenAI</strong> — Reads scanned lab reports and writes
         reports and insights, only with your consent. OpenAI does not
         use API data for model training and may keep requests in its
-        abuse-monitoring logs for up to 30 days.
+        abuse{NBH}monitoring logs for up to 30 days.
       </>
     ),
   },
@@ -95,7 +115,7 @@ const PROVIDERS: Provider[] = [
     body: (
       <>
         <strong>Apple</strong> — Sign in with Apple, Apple Health and
-        in-app purchases. Apple Health is read only, with your
+        in{NBH}app purchases. Apple Health is read only, with your
         permission, and you can disconnect it at any time. Apple
         processes your payment; we never see your card.
       </>
@@ -173,7 +193,7 @@ const PROVIDERS: Provider[] = [
   },
 ];
 
-// §3 figure — example rows, drawn as an illustration (aria-hidden).
+// §3 figure — example rows (labelled "Example data", aria-hidden).
 const RLS_ROWS = [
   { owner: "You", marker: "Ferritin", value: "30 ng/mL", mine: true, bars: ["", ""] },
   { owner: "Account 7f2", marker: "", value: "", mine: false, bars: ["70%", "80%"] },
@@ -185,13 +205,13 @@ const RLS_ROWS = [
 const KEEP = [
   {
     what: "Website sign-ups",
-    where: "waitlist, newsletter, contact form",
+    where: "newsletter, contact form",
     keep: "Deleted within 30 days of your request",
     at: "28%",
   },
   {
     what: "Requests sent to OpenAI",
-    where: "in its abuse-monitoring logs",
+    where: "in its abuse\u2011monitoring logs",
     keep: "Up to 30 days",
     at: "28%",
   },
@@ -226,16 +246,17 @@ export default function SecurityPage() {
         eyebrow="Security"
         title="Security at Merios"
         subline="How we protect your health data — encryption, infrastructure, retention, and disclosure."
-        lastUpdated="November 25, 2026"
+        lastUpdated="November 26, 2026"
         tocItems={tocItems}
         width="wide"
         heroVisual={<SecurityDataMap />}
       >
         <div className={sec.body}>
           {/* 1. Our approach */}
-          <section className={sec.section}>
-            <h2 id="our-approach" className={sec.h2}>
-              <span className={sec.num}>1.</span> Our <em>approach</em>
+          <section id="our-approach" className={sec.section}>
+            <Eyebrow n={1} label="Principles" />
+            <h2 className={sec.h2}>
+              <span className="sr-only">1. </span>Our <em>approach</em>
             </h2>
             <div className={sec.split}>
               <div className={sec.flow}>
@@ -271,9 +292,10 @@ export default function SecurityPage() {
           </section>
 
           {/* 2. Data encryption */}
-          <section className={sec.section}>
-            <h2 id="data-encryption" className={sec.h2}>
-              <span className={sec.num}>2.</span> Data <em>encryption</em>
+          <section id="data-encryption" className={sec.section}>
+            <Eyebrow n={2} label="At rest and in transit" />
+            <h2 className={sec.h2}>
+              <span className="sr-only">2. </span>Data <em>encryption</em>
             </h2>
             <p className={sec.lead}>
               All personal and health data is protected with industry-standard
@@ -289,7 +311,7 @@ export default function SecurityPage() {
                   </span>
                 </div>
                 <p className={sec.encText}>
-                  <strong>At rest:</strong> AES-256 encryption applied to the
+                  <strong>At rest:</strong> AES{NBH}256 encryption applied to the
                   managed Postgres database provided by Supabase, and to its
                   backups.
                 </p>
@@ -327,7 +349,7 @@ export default function SecurityPage() {
                 <div aria-hidden className={sec.plate} data-tone="haze">
                   <span className={sec.plateLabel}>Service credentials</span>
                   <span className={sec.plateFigure}>
-                    <span className={sec.plateUnit}>ENV</span>
+                    <span className={sec.plateUnit}>Secrets</span>
                     <span className={sec.plateNum} data-size="s">
                       encrypted
                     </span>
@@ -344,9 +366,11 @@ export default function SecurityPage() {
           </section>
 
           {/* 3. Infrastructure */}
-          <section className={sec.section}>
-            <h2 id="infrastructure" className={sec.h2}>
-              <span className={sec.num}>3.</span> Infrastructure
+          <section id="infrastructure" className={sec.section}>
+            <Eyebrow n={3} label="Where it runs" />
+            <h2 className={sec.h2}>
+              <span className="sr-only">3. </span>
+              <em>Infrastructure</em>
             </h2>
             <p className={sec.lead}>
               Merios runs on two carefully scoped platforms, each chosen for
@@ -362,8 +386,8 @@ export default function SecurityPage() {
                 </li>
                 <li>
                   <strong>Application database</strong> — Managed Postgres on
-                  Supabase, in the European Union (AWS eu-west-1, Ireland).
-                  Row-Level Security (RLS) is enforced in the database itself:
+                  Supabase, in the European Union (AWS eu{NBH}west{NBH}1, Ireland).
+                  Row{NBH}Level Security (RLS) is enforced in the database itself:
                   each row of account data can be read only by the account it
                   belongs to. File storage buckets are private; no health file
                   is ever reachable through a public link.
@@ -376,8 +400,8 @@ export default function SecurityPage() {
 
               <figure aria-hidden className={sec.rls}>
                 <div className={sec.rlsHead}>
-                  <span>Row-Level Security · one table</span>
-                  <span>Illustration</span>
+                  <span>Row{NBH}Level Security · one table</span>
+                  <span>Example data</span>
                 </div>
                 <div className={`${sec.rlsRow} ${sec.rlsCols}`}>
                   <span>Owner</span>
@@ -415,28 +439,30 @@ export default function SecurityPage() {
           </section>
 
           {/* 4. Authentication */}
-          <section className={sec.section}>
-            <h2 id="authentication" className={sec.h2}>
-              <span className={sec.num}>4.</span> Authentication
+          <section id="authentication" className={sec.section}>
+            <Eyebrow n={4} label="Sign-in" />
+            <h2 className={sec.h2}>
+              <span className="sr-only">4. </span>
+              <em>Authentication</em>
             </h2>
             <div className={`${sec.flow} ${sec.measure}`}>
               <p className={sec.lead}>
                 Account creation and authenticated sessions live in the mobile
                 app, available on the App Store. The marketing site exposes only
-                non-authenticated forms — the waitlist, newsletter, and contact
-                endpoints.
+                non{NBH}authenticated forms — the newsletter and contact endpoints.
               </p>
               <p>
-                Each form writes to its own purpose-specific table, and form
+                Each form writes to its own purpose{NBH}specific table, and form
                 submissions are never commingled with health data.
               </p>
             </div>
           </section>
 
           {/* 5. Data retention & deletion */}
-          <section className={sec.section}>
-            <h2 id="data-retention-and-deletion" className={sec.h2}>
-              <span className={sec.num}>5.</span> Data retention &amp;{" "}
+          <section id="data-retention-and-deletion" className={sec.section}>
+            <Eyebrow n={5} label="Your controls" />
+            <h2 className={sec.h2}>
+              <span className="sr-only">5. </span>Data retention &amp;{" "}
               <em>deletion</em>
             </h2>
             <div className={sec.split}>
@@ -444,18 +470,19 @@ export default function SecurityPage() {
                 <p className={sec.lead}>
                   You can delete any personal data we hold about you at any time.
                   There is no cost, no justification required, and no retention
-                  carve-out for marketing purposes.
+                  carve{NBH}out for marketing purposes.
                 </p>
                 <ul className={sec.list}>
                   <li>
-                    <strong>In the app:</strong> Settings &rsaquo; Delete my
-                    account permanently deletes your account and all its data.
-                    Settings &rsaquo; Export my data gives you a complete copy
-                    first, in a machine-readable format (JSON).
+                    <strong>In the app:</strong>{" "}
+                    {"Settings › Delete my account"} permanently deletes your
+                    account and all its data.{" "}
+                    {"Settings › Export my data"} gives you a complete copy
+                    first, in a machine{NBH}readable format (JSON).
                   </li>
                   <li>
-                    <strong>Website sign-ups</strong> (waitlist, newsletter,
-                    contact form): send a deletion request through our{" "}
+                    <strong>Website sign-ups</strong> (newsletter, contact
+                    form): send a deletion request through our{" "}
                     <a
                       href="/contact#subject=Data%20deletion%20request&type=general"
                       className={legal.link}
@@ -485,7 +512,7 @@ export default function SecurityPage() {
                   <span>
                     <span className={sec.controlTitle}>Settings › Export my data</span>
                     <span className={sec.controlSub}>
-                      A complete copy, in a machine-readable format (JSON)
+                      A complete copy, in a machine{NBH}readable format (JSON)
                     </span>
                   </span>
                   <span className={sec.controlChevron}>›</span>
@@ -543,9 +570,10 @@ export default function SecurityPage() {
           </section>
 
           {/* 6. Third-party services */}
-          <section className={sec.section}>
-            <h2 id="third-party-services" className={sec.h2}>
-              <span className={sec.num}>6.</span> Third-party <em>services</em>
+          <section id="third-party-services" className={sec.section}>
+            <Eyebrow n={6} label="Who sees what" />
+            <h2 className={sec.h2}>
+              <span className="sr-only">6. </span>Third-party <em>services</em>
             </h2>
             <p className={sec.lead}>
               Every provider that processes data for Merios is listed below,
@@ -563,34 +591,45 @@ export default function SecurityPage() {
           {/* 7 + 8. Incidents: the 72 h card and the ink disclosure block */}
           <div className={sec.pair}>
             {/* 7. Breach notification */}
-            <section className={sec.breach}>
-              <h2 id="breach-notification" className={sec.h2Card}>
-                <span className={sec.num}>7.</span> Breach <em>notification</em>
+            <section id="breach-notification" className={sec.breach}>
+              <Eyebrow n={7} label="Incidents" />
+              <h2 className={sec.h2Card}>
+                <span className="sr-only">7. </span>Breach <em>notification</em>
               </h2>
               <p aria-hidden className={sec.bigFigure}>
                 72<span> h</span>
               </p>
               <div className={sec.flow}>
                 <p>
-                  If we become aware of a personal-data breach that is likely to
+                  If we become aware of a personal{NBH}data breach that is likely to
                   result in a risk to your rights and freedoms, we will notify
-                  affected users and the relevant supervisory authority within{" "}
-                  <strong>72 hours</strong> of detection, as required by GDPR
-                  Article 33.
+                  the supervisory authority within <strong>72{"\u00a0"}hours</strong>{" "}
+                  <span className={sec.nowrap}>(GDPR Art. 33)</span>, and
+                  affected users without undue delay when the breach is likely
+                  to put them at high risk{" "}
+                  <span className={sec.nowrap}>(Art. 34)</span>.
                 </p>
                 <p>
                   Notifications will describe the nature of the breach, the
                   categories of data involved, the likely consequences, and the
                   remediation steps we have taken. Notifications are sent to the
-                  email address on file and, where appropriate, surfaced in-app.
+                  email address on file and, where appropriate, surfaced in{NBH}app.
                 </p>
               </div>
             </section>
 
-            {/* 8. Responsible disclosure — the page's one ink block */}
-            <section className={`night ${sec.disclosure}`} data-nav="dark">
-              <h2 id="responsible-disclosure" className={sec.h2Card}>
-                <span className={sec.num}>8.</span> Responsible{" "}
+            {/* 8. Responsible disclosure — the page's one ink block. Each
+                timing is stated once: our two response times on the tiles
+                (read out, not hidden from assistive tech), the 90 days in the
+                researcher's rules. */}
+            <section
+              id="responsible-disclosure"
+              className={`night ${sec.disclosure}`}
+              data-nav="dark"
+            >
+              <Eyebrow n={8} label="Security research" />
+              <h2 className={sec.h2Card}>
+                <span className="sr-only">8. </span>Responsible{" "}
                 <em>disclosure</em>
               </h2>
               <div className={sec.flow}>
@@ -603,29 +642,23 @@ export default function SecurityPage() {
                   with as much detail as possible — affected endpoint, reproduction
                   steps, and impact.
                 </p>
-                <ol aria-hidden className={sec.tiles}>
+                <ol className={sec.tiles}>
                   <li>
-                    <span className={sec.tileNum}>3</span>
+                    <span className={sec.tileNum}>3</span>{" "}
                     <span className={sec.tileText}>
                       business days to acknowledge receipt
                     </span>
                   </li>
                   <li>
-                    <span className={sec.tileNum}>10</span>
+                    <span className={sec.tileNum}>10</span>{" "}
                     <span className={sec.tileText}>
                       business days to a status update
-                    </span>
-                  </li>
-                  <li>
-                    <span className={sec.tileNum}>90</span>
-                    <span className={sec.tileText}>
-                      days, typically, before any public disclosure
                     </span>
                   </li>
                 </ol>
                 <p>
                   We will not pursue legal action against researchers acting in
-                  good faith under standard responsible-disclosure practices, which
+                  good faith under standard responsible{NBH}disclosure practices, which
                   means:
                 </p>
                 <ul className={sec.list}>
@@ -634,7 +667,7 @@ export default function SecurityPage() {
                     necessary to demonstrate the issue.
                   </li>
                   <li>
-                    Do not exfiltrate data beyond a minimal proof-of-concept
+                    Do not exfiltrate data beyond a minimal proof{NBH}of{NBH}concept
                     sufficient to show impact.
                   </li>
                   <li>
@@ -642,35 +675,35 @@ export default function SecurityPage() {
                     investigate and remediate before any public disclosure.
                   </li>
                   <li>
-                    Do not run denial-of-service, social-engineering, or physical
+                    Do not run denial{NBH}of{NBH}service, social{NBH}engineering, or physical
                     attacks against our staff or infrastructure.
                   </li>
                 </ul>
-                <p>
-                  We will acknowledge receipt of your report within 3 business days
-                  and provide a status update within 10.
-                </p>
               </div>
             </section>
           </div>
 
           {/* 9. Compliance */}
-          <section className={sec.section}>
-            <h2 id="compliance" className={sec.h2}>
-              <span className={sec.num}>9.</span> Compliance
+          <section id="compliance" className={sec.section}>
+            <Eyebrow n={9} label="GDPR and HIPAA" />
+            <h2 className={sec.h2}>
+              <span className="sr-only">9. </span>
+              <em>Compliance</em>
             </h2>
             <div className={sec.cards}>
               <div className={sec.glassCard}>
                 <p aria-hidden className={sec.cardLabel}>
-                  GDPR · Article 9(2)(a)
+                  GDPR · Article{" "}
+                  <span className={sec.citation}>9(2)(a)</span>
                 </p>
                 <p>
                   <strong>GDPR.</strong> Where the GDPR applies, Merios relies on
-                  your explicit consent (Article 9(2)(a)) for health data, Apple
-                  Health data and each AI feature — given in the app, feature by
-                  feature, and withdrawable at any time — and on contract
-                  performance for your account and subscription. The data
-                  controller is Merios Health LLC. See the{" "}
+                  your explicit consent{" "}
+                  <span className={sec.nowrap}>(Article 9(2)(a))</span> for
+                  health data, Apple Health data and each AI feature — given in
+                  the app, feature by feature, and withdrawable at any time — and
+                  on contract performance for your account and subscription. The
+                  data controller is Merios Health LLC. See the{" "}
                   <a href="/privacy" className={legal.link}>
                     Privacy Policy
                   </a>{" "}
@@ -685,51 +718,21 @@ export default function SecurityPage() {
                 <p>
                   <strong>HIPAA.</strong> Merios is not currently a HIPAA covered
                   entity. We are progressively aligning our operations with
-                  HIPAA-style controls — encryption at rest and in transit,
-                  role-based access controls, audit logging, and the minimum
-                  necessary access principle — so that covered-entity partnerships
+                  HIPAA{NBH}style controls — encryption at rest and in transit,
+                  role{NBH}based access controls, audit logging, and the minimum
+                  necessary access principle — so that covered{NBH}entity partnerships
                   are possible as the app matures.
                 </p>
               </div>
             </div>
-          </section>
-
-          {/* 10. Contact */}
-          <section className={sec.section}>
-            <h2 id="contact" className={sec.h2}>
-              <span className={sec.num}>10.</span> Contact
-            </h2>
-            <div className={sec.cards}>
-              <div className={sec.whiteCard}>
-                <p aria-hidden className={sec.cardLabel}>
-                  Security issues
-                </p>
-                <p>
-                  For security issues and vulnerability reports:{" "}
-                  <a href="mailto:security@merios.life" className={legal.link}>
-                    security@merios.life
-                  </a>
-                  .
-                </p>
-              </div>
-              <div className={sec.whiteCard}>
-                <p aria-hidden className={sec.cardLabel}>
-                  Your data
-                </p>
-                <p>
-                  For data protection questions, deletion requests, or compliance
-                  inquiries, write to{" "}
-                  <a href="mailto:privacy@merios.life" className={legal.link}>
-                    privacy@merios.life
-                  </a>{" "}
-                  or use our{" "}
-                  <a href="/contact#type=general" className={legal.link}>
-                    contact form
-                  </a>
-                  .
-                </p>
-              </div>
-            </div>
+            <p className={sec.after}>
+              For data protection questions, deletion requests or compliance
+              inquiries, write to{" "}
+              <a href="mailto:privacy@merios.life" className={legal.link}>
+                privacy@merios.life
+              </a>
+              .
+            </p>
           </section>
         </div>
       </LegalPageLayout>

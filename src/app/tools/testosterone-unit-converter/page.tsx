@@ -9,46 +9,47 @@ import TestosteroneConverter from "@/components/calculators/TestosteroneConverte
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
 
-const TITLE = "Testosterone Converter (ng/dL to nmol/L)";
+const TITLE = "Testosterone ng/dL to nmol/L Converter (× 0.0347)";
 const DESCRIPTION =
-  "Convert total testosterone between ng/dL and nmol/L. Exact factor (1 nmol/L = 28.84 ng/dL), a full table, and where your number sits for adult men.";
+  "1 ng/dL = 0.0347 nmol/L and 1 nmol/L = 28.84 ng/dL. Convert testosterone both ways, with an instant table for 100 to 1,500 ng/dL and 5 to 35 nmol/L.";
 const URL = "https://merios.life/tools/testosterone-unit-converter";
 
 const FAQ_ITEMS = [
-  { q: "How do you convert testosterone from ng/dL to nmol/L?", a: "Divide by 28.84, or multiply by 0.0347. A total testosterone of 450 ng/dL is 15.6 nmol/L, and 300 ng/dL is 10.4 nmol/L. The factor is exact because it comes from the molar mass of testosterone, 288.4 grams per mole." },
-  { q: "How do you convert testosterone from nmol/L to ng/dL?", a: "Multiply by 28.84. A result of 10 nmol/L is 288 ng/dL, 15 nmol/L is 433 ng/dL and 20 nmol/L is 577 ng/dL. Labs in the UK, Canada, Australia and most of Europe report nmol/L, US labs report ng/dL." },
-  { q: "What is 450 ng/dL of testosterone in nmol/L?", a: "15.6 nmol/L. For an adult man that sits in the middle of the CDC-harmonized reference range of 264 to 916 ng/dL (9.2 to 31.8 nmol/L) and above the 300 ng/dL cut-off the American Urological Association uses to define low testosterone." },
+  { q: "How do I convert testosterone ng/dL to nmol/L?", a: "Divide by 28.84, or multiply by 0.0347. A total testosterone of 400 ng/dL is 13.9 nmol/L, 450 ng/dL is 15.6 nmol/L and 300 ng/dL is 10.4 nmol/L. The factor is exact because it comes from the molar mass of testosterone, 288.4 grams per mole." },
+  { q: "How do you convert testosterone from nmol/L to ng/dL?", a: "Multiply by 28.84. A result of 10 nmol/L is 288 ng/dL, 15 nmol/L is 433 ng/dL and 28 nmol/L is 808 ng/dL. Labs in the UK, Canada, Australia and most of Europe report nmol/L, US labs report ng/dL." },
+  { q: "Is 400 ng/dL normal in nmol/L?", a: "400 ng/dL is 13.9 nmol/L. For an adult man that is above the commonly used lower limits, which sit around 264 to 300 ng/dL (9.2 to 10.4 nmol/L): the Endocrine Society 2018 guideline cites the harmonized CDC range of 264 to 916 ng/dL (Travison 2017, derived from non-obese men aged 19 to 39), and the American Urological Association uses 300 ng/dL. Reference ranges are lab-dependent and vary with age, and both bodies ask for two morning measurements plus symptoms, so one number is not a diagnosis. Talk to your physician about your own result." },
+  { q: "What is the difference between ng/mL and ng/dL for testosterone?", a: "1 ng/mL equals 100 ng/dL, because a deciliter is a tenth of a liter and a milliliter is a thousandth. So 4.5 ng/mL is 450 ng/dL, which is 15.6 nmol/L. To go from nmol/L to ng/mL, multiply by 0.2884 (for example 15 nmol/L is about 4.33 ng/mL)." },
   { q: "What testosterone level is considered low in nmol/L?", a: "The Endocrine Society recommends the harmonized lower limit of 264 ng/dL, which is 9.2 nmol/L, and the American Urological Association uses 300 ng/dL, which is 10.4 nmol/L. Both bodies require two morning measurements and symptoms before calling testosterone low, so one number is not a diagnosis." },
   { q: "How do you convert free testosterone units?", a: "Free testosterone is reported in much smaller units. 1 ng/dL is 10 pg/mL, and 1 pg/mL is 3.467 pmol/L, so a free testosterone of 9 ng/dL is 90 pg/mL or 312 pmol/L. If your report only gives total testosterone, the free fraction can be estimated from total testosterone, SHBG and albumin." },
   { q: "Does Merios store these numbers?", a: "No. The converter runs entirely in your browser. Your inputs never leave your device and are not sent to a server." },
 ];
 
-// ng/dL -> nmol/L (divide by 28.84), one decimal. Bands are for adult men.
+// ng/dL -> nmol/L (divide by 28.84), two decimals. Bands are for adult men.
 const NGDL_ROWS: [string, string, string][] = [
-  ["200 ng/dL", "6.9 nmol/L", "Below the harmonized range"],
-  ["250 ng/dL", "8.7 nmol/L", "Below the harmonized range"],
-  ["264 ng/dL", "9.2 nmol/L", "Harmonized lower limit"],
-  ["300 ng/dL", "10.4 nmol/L", "AUA low-testosterone cut-off"],
-  ["350 ng/dL", "12.1 nmol/L", "Within the reference range"],
-  ["400 ng/dL", "13.9 nmol/L", "Within the reference range"],
-  ["450 ng/dL", "15.6 nmol/L", "Within the reference range"],
-  ["500 ng/dL", "17.3 nmol/L", "Within the reference range"],
-  ["600 ng/dL", "20.8 nmol/L", "Within the reference range"],
-  ["700 ng/dL", "24.3 nmol/L", "Within the reference range"],
-  ["800 ng/dL", "27.7 nmol/L", "Within the reference range"],
-  ["916 ng/dL", "31.8 nmol/L", "Harmonized upper limit"],
-  ["1,000 ng/dL", "34.7 nmol/L", "Above the reference range"],
+  ["100 ng/dL", "3.47 nmol/L", "Below the harmonized range"],
+  ["200 ng/dL", "6.93 nmol/L", "Below the harmonized range"],
+  ["250 ng/dL", "8.67 nmol/L", "Below the harmonized range"],
+  ["300 ng/dL", "10.40 nmol/L", "AUA low-testosterone cut-off"],
+  ["350 ng/dL", "12.14 nmol/L", "Within the reference range"],
+  ["400 ng/dL", "13.87 nmol/L", "Within the reference range"],
+  ["500 ng/dL", "17.34 nmol/L", "Within the reference range"],
+  ["600 ng/dL", "20.80 nmol/L", "Within the reference range"],
+  ["700 ng/dL", "24.27 nmol/L", "Within the reference range"],
+  ["800 ng/dL", "27.74 nmol/L", "Within the reference range"],
+  ["1,000 ng/dL", "34.67 nmol/L", "Above the reference range"],
+  ["1,200 ng/dL", "41.61 nmol/L", "Above the reference range"],
+  ["1,500 ng/dL", "52.01 nmol/L", "Above the reference range"],
 ];
 
 // nmol/L -> ng/dL (multiply by 28.84), whole numbers.
 const NMOL_ROWS: [string, string, string][] = [
   ["5 nmol/L", "144 ng/dL", "Below the harmonized range"],
-  ["8 nmol/L", "231 ng/dL", "Below the harmonized range"],
   ["10 nmol/L", "288 ng/dL", "Borderline"],
   ["12 nmol/L", "346 ng/dL", "Within the reference range"],
   ["15 nmol/L", "433 ng/dL", "Within the reference range"],
   ["20 nmol/L", "577 ng/dL", "Within the reference range"],
   ["25 nmol/L", "721 ng/dL", "Within the reference range"],
+  ["28 nmol/L", "808 ng/dL", "Within the reference range"],
   ["30 nmol/L", "865 ng/dL", "Within the reference range"],
   ["35 nmol/L", "1,009 ng/dL", "Above the reference range"],
 ];
@@ -103,7 +104,7 @@ export default function Page() {
         eyebrow="Testosterone — ng/dL and nmol/L"
         title="Testosterone converter:"
         em="ng/dL to nmol/L"
-        subline="450 on a US report, 15.6 on a European one, and it is the same level. Convert total testosterone exactly, in either direction, and see where it sits."
+        subline="1 ng/dL = 0.0347 nmol/L, and 1 nmol/L = 28.84 ng/dL, so 400 ng/dL is 13.9 nmol/L. Convert total testosterone exactly in either direction, or read it off the table below."
       />
 
       <main className={t.main}>
@@ -111,15 +112,7 @@ export default function Page() {
           <TestosteroneConverter />
           <section className={t.after}>
             <div className={`editorial-prose ${t.prose}`}>
-              <h2>The conversion, in one line</h2>
-              <p>
-                To go from nmol/L to ng/dL, multiply by 28.84. To go from ng/dL to nmol/L, divide by 28.84 (or multiply
-                by 0.0347). The factor is fixed: one mole of testosterone weighs 288.4 grams, so a count of molecules
-                and a weight of them are locked together. If you need it in your head, dividing ng/dL by 29 gets you
-                within about half a percent (450 ng/dL comes out at 15.5 instead of 15.6).
-              </p>
-
-              <h2>ng/dL to nmol/L: the reference table</h2>
+              <h2>ng/dL to nmol/L: quick-reference table</h2>
               <p>
                 The right-hand column is for adult men and uses two published lines: the CDC-harmonized reference range
                 of 264 to 916 ng/dL, derived from healthy non-obese men aged 19 to 39 and recommended by the Endocrine
@@ -174,6 +167,14 @@ export default function Page() {
                 </table>
               </div>
 
+              <h2>The conversion, in one line</h2>
+              <p>
+                To go from nmol/L to ng/dL, multiply by 28.84. To go from ng/dL to nmol/L, divide by 28.84 (or multiply
+                by 0.0347). The factor is fixed: one mole of testosterone weighs 288.4 grams, so a count of molecules
+                and a weight of them are locked together. If you need it in your head, dividing ng/dL by 29 gets you
+                within about half a percent (450 ng/dL comes out at 15.5 instead of 15.6).
+              </p>
+
               <h2>Total, free and bioavailable: three different numbers</h2>
               <p>
                 Most reports give <strong>total testosterone</strong>, which is what this converter handles. Most of it
@@ -186,6 +187,11 @@ export default function Page() {
               <p>
                 Bioavailable testosterone is the free fraction plus the part loosely bound to albumin, which can still
                 reach tissues; routine panels rarely report it, but the free testosterone calculator estimates it.
+              </p>
+              <p>
+                For women, the free androgen index (FAI) uses total testosterone in nmol/L and SHBG, so the unit
+                conversion above is the first step; the{" "}
+                <Link href="/tools/free-androgen-index-calculator">free androgen index calculator</Link> does the rest.
               </p>
               <p>
                 Free testosterone comes in smaller units: 1 ng/dL is 10 pg/mL, and 1 pg/mL is 3.467 pmol/L. So a free
@@ -223,9 +229,12 @@ export default function Page() {
                 </p>
               </div>
               <div className={t.ctaActions}>
-                <Link href="/early-access?from=testosterone-unit-converter" className="btn btn-lime">
+                <a
+                  href="https://apps.apple.com/us/app/merios/id6760352598?pt=128637372&ct=web-testosterone-unit-converter&mt=8"
+                  className="btn btn-lime"
+                >
                   Get the app
-                </Link>
+                </a>
               </div>
               <CtaScreen screen="compare" />
             </div>

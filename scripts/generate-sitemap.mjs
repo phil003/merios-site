@@ -75,6 +75,7 @@ const STATIC_ROUTES = [
   { path: '/tools/a1c-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/zone-2-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/free-testosterone-calculator', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/free-androgen-index-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/tyg-index-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/transferrin-saturation-calculator', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/sarcopenia-index-calculator', priority: 0.7, changefreq: 'monthly' },

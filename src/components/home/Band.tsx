@@ -2,7 +2,8 @@ import Image from "next/image";
 import AmbientVideo from "./AmbientVideo";
 
 /* "The idea" band (Home2): friends on a ridge at dawn, the loop playing only
-   while it is on screen, over its own first frame. */
+   while it is on screen, over its own first frame. Under 960px the copy sits
+   above the film, so no line runs across the two people. */
 
 export default function Band() {
   return (
@@ -19,7 +20,7 @@ export default function Band() {
       </div>
       <div className="hv2-band__veil" aria-hidden="true" />
       <div className="hv2-wrap hv2-band__inner" data-rv="">
-        <p className="hv2-eyebrow hv2-eyebrow--ink">The idea</p>
+        <p className="hv2-eyebrow hv2-eyebrow--ink">04 · The idea</p>
         <h2 className="hv2-h2 hv2-band__title" id="band-title">
           Health, like a clear <em>morning.</em>
         </h2>

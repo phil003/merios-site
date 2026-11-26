@@ -6,11 +6,11 @@ import { ImageResponse } from "next/og";
  * Shared Open Graph card renderer — one visual system for every page.
  *
  * Design (site v2, "Open Sky"): a dawn (lavender and sky from the top left,
- * peach from the top right, haze below), the Merios lockup (the drop mark
- * drawn from the exact Logo.tsx paths, ink with an apricot sun, and the
- * lowercase Figtree wordmark), an eyebrow on a hairline, the title in
- * Figtree 600 set tight in ink, and the logo's heartbeat as the horizon,
- * ending on the apricot sun.
+ * peach from the top right, haze below), the Merios wordmark (the name
+ * "merios" in Figtree 600, ink: the provisional logo since the drop + pulse
+ * mark was retired on 21/11/2026), an eyebrow on a hairline, the title in
+ * Figtree 600 set tight in ink, and a calm horizon that ends on the apricot
+ * sun.
  *
  * Fonts are read from @fontsource woff files at build/request time (satori
  * accepts woff, not woff2). Every title and tag in content/ is covered by the
@@ -29,17 +29,11 @@ interface OgCardProps {
   meta?: string;
 }
 
-// The Merios mark — same geometry as src/components/ui/Logo.tsx.
-const MARK_PULSE = "M45 117 L81 117 L93 137 L109 62 L131 174 L148 117 L194 117";
-const MARK_PULSE_INSIDE = "M70.16 117 L81 117 L93 137 L109 62 L131 174 L148 117 L169.84 117";
-const MARK_DROP = "M120 10 L169.84 116.73 A55 55 0 1 1 70.16 116.73 Z";
-
 const INK = "#18213F";
 const INK_2 = "#434B69";
 const INK_3 = "#5B627A";
 const ZENITH = "#6E8FE8";
 const APRICOT = "#FFA472";
-const MARK_CUT = "#D3DBF6"; // the dawn behind the mark (top-left)
 
 function titleSize(title: string): number {
   if (title.length > 96) return 56;
@@ -70,7 +64,7 @@ export function renderOgCard({ eyebrow, title, meta }: OgCardProps) {
             "radial-gradient(120% 70% at 0% 0%, #AFC6F6 0%, rgba(175,198,246,0) 60%), radial-gradient(90% 60% at 100% 0%, #FBD5C3 0%, rgba(251,213,195,0) 65%), linear-gradient(180deg, #DCD8F6 0%, #EEF0FB 80%, #EEF0FB 100%)",
         }}
       >
-        {/* Top row — lockup + domain */}
+        {/* Top row — wordmark + domain */}
         <div
           style={{
             display: "flex",
@@ -78,41 +72,18 @@ export function renderOgCard({ eyebrow, title, meta }: OgCardProps) {
             alignItems: "center",
           }}
         >
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 12 }}>
-            <svg width="38" height="42" viewBox="40 6 170 187">
-              <path
-                d={MARK_PULSE}
-                fill="none"
-                stroke={INK}
-                strokeWidth="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path d={MARK_DROP} fill={INK} />
-              <path
-                d={MARK_PULSE_INSIDE}
-                fill="none"
-                stroke={MARK_CUT}
-                strokeWidth="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <circle cx="194" cy="117" r="11" fill={APRICOT} />
-            </svg>
-            <div
-              style={{
-                display: "flex",
-                fontFamily: "Figtree",
-                fontWeight: 600,
-                fontSize: 40,
-                lineHeight: 1,
-                letterSpacing: "-0.035em",
-                color: INK,
-                marginBottom: -2,
-              }}
-            >
-              merios
-            </div>
+          <div
+            style={{
+              display: "flex",
+              fontFamily: "Figtree",
+              fontWeight: 600,
+              fontSize: 44,
+              lineHeight: 1,
+              letterSpacing: "-0.035em",
+              color: INK,
+            }}
+          >
+            merios
           </div>
           <div
             style={{
@@ -198,7 +169,7 @@ export function renderOgCard({ eyebrow, title, meta }: OgCardProps) {
           ) : null}
         </div>
 
-        {/* The logo's heartbeat as the horizon, ending on the apricot sun */}
+        {/* A calm horizon, ending on the apricot sun */}
         <svg
           width="1200"
           height="120"
@@ -206,19 +177,20 @@ export function renderOgCard({ eyebrow, title, meta }: OgCardProps) {
           style={{ position: "absolute", left: 0, bottom: 22 }}
         >
           <defs>
-            <linearGradient id="og-pulse" x1="0" x2="1" y1="0" y2="0">
+            {/* user-space units: a level line has a zero-height box, which
+                would leave an objectBoundingBox gradient unpainted */}
+            <linearGradient id="og-horizon" gradientUnits="userSpaceOnUse" x1="0" x2="1083" y1="60" y2="60">
               <stop offset="0" stopColor={ZENITH} stopOpacity="0" />
               <stop offset="0.45" stopColor={ZENITH} stopOpacity="0.35" />
               <stop offset="1" stopColor={ZENITH} stopOpacity="0.8" />
             </linearGradient>
           </defs>
           <path
-            d="M0 60 H906 L920 72 L938 18 L962 108 L976 60 H1083"
+            d="M0 60 H1083"
             fill="none"
-            stroke="url(#og-pulse)"
+            stroke="url(#og-horizon)"
             strokeWidth="2.4"
             strokeLinecap="round"
-            strokeLinejoin="round"
           />
           <circle cx="1083" cy="60" r="20" fill={APRICOT} fillOpacity="0.18" />
           <circle cx="1083" cy="60" r="12" fill={APRICOT} fillOpacity="0.35" />

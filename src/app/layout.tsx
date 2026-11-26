@@ -76,7 +76,9 @@ export const metadata: Metadata = {
   },
   // Pages that set their own `openGraph` replace this whole object (Next
   // merges metadata one key deep), so each of them gets its image from an
-  // opengraph-image.tsx next to its page.tsx rather than from here.
+  // opengraph-image.tsx next to its page.tsx rather than from here. A page
+  // with neither (e.g. /phil) falls back to the homepage's Open Sky card
+  // (src/app/opengraph-image.tsx), not the retired v3 /og-image.png.
   openGraph: {
     title: HOME_TITLE,
     description: HOME_DESCRIPTION,
@@ -87,10 +89,10 @@ export const metadata: Metadata = {
     countryName: "United States",
     images: [
       {
-        url: "/og-image.png",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Merios — Your health, one score.",
+        alt: "Merios: your health, finally readable.",
         type: "image/png",
       },
     ],
@@ -102,14 +104,20 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
+  // One icon set, all in public/ (no favicon/icon/apple-icon files in
+  // src/app, which would add their own tags and shadow these paths). The
+  // provisional mark: the wordmark's lowercase "m", ink on haze. The .ico
+  // holds three PNG entries; the SVG is the same mark as a path.
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "48x48" },
+      { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
     ],
     apple: [
-      { url: "/apple-icon.png", sizes: "180x180" },
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
+  manifest: "/site.webmanifest",
   verification: {
     google: "55YlC0T47ZzU-V0khkPxvaeAmGCjRKwmap7vHiZt9do",
   },

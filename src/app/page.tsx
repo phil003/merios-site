@@ -15,7 +15,7 @@ import Finale from "@/components/home/Finale";
 import Footer from "@/components/Footer";
 import { WebApplicationSchema, WebSiteSchema } from "@/components/StructuredData";
 
-// Homepage v2 "Open Sky" — "Your health, finally readable." (Home2 mockup,
+// Homepage v2 "Open Sky" — "Your health, finally readable." (Home2 mockup v24,
 // 25/11/2026). Metadata for "/" is the root layout's default. JSON-LD:
 // Organization comes from the layout; the WebSite entity (site name) and the
 // MobileApplication entity are rendered here, the FAQPage entity by <Faq />.

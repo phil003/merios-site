@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
 import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import MmolMgdlConverter from "@/components/calculators/MmolMgdlConverter";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
@@ -41,7 +42,7 @@ const FAQ_ITEMS = [
   { q: "How do you convert mg/dL to mmol/L?", a: "Divide by the same marker-specific factor, or multiply by its reciprocal. Glucose in mg/dL times 0.05551 gives mmol/L, so 100 mg/dL is 5.6 mmol/L. Cholesterol in mg/dL times 0.02586 gives mmol/L, so 200 mg/dL is 5.17 mmol/L. Triglycerides in mg/dL times 0.01129 gives mmol/L." },
   { q: "Is the mmol/L to mg/dL conversion the same for glucose and cholesterol?", a: "No. The factor depends on how heavy the molecule is. Glucose weighs 180.16 grams per mole and uses 18.02; cholesterol weighs 386.65 grams per mole and uses 38.67; a triglyceride is heavier still and uses 88.57. Using the glucose factor on a cholesterol result understates it by more than half." },
   { q: "What is 7 mmol/L in mg/dL?", a: "For glucose, 7.0 mmol/L is 126 mg/dL, which is the fasting threshold the American Diabetes Association uses for diabetes. For total or LDL cholesterol, 7.0 mmol/L is about 271 mg/dL. For triglycerides it is about 620 mg/dL. The same number means very different things depending on the marker." },
-  { q: "Why are creatinine, uric acid and bilirubin in µmol/L instead of mmol/L?", a: "Their concentrations in blood are small, so laboratories outside the US report them in micromoles per litre to avoid long decimals. The conversion still comes from molar mass: 1 mg/dL is 88.4 µmol/L for creatinine, 59.48 µmol/L for uric acid and 17.10 µmol/L for bilirubin." },
+  { q: "Why are creatinine, uric acid and bilirubin in µmol/L instead of mmol/L?", a: "Their concentrations in blood are small, so laboratories outside the US report them in micromoles per liter to avoid long decimals. The conversion still comes from molar mass: 1 mg/dL is 88.4 µmol/L for creatinine, 59.48 µmol/L for uric acid and 17.10 µmol/L for bilirubin." },
 ];
 
 export const metadata: Metadata = {
@@ -83,29 +84,29 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="mmol-to-mg-dl-converter"
-        eyebrow="Lab units — mmol/L, µmol/L and mg/dL"
-        title="mmol/L to mg/dL"
-        em="Converter"
-        subline="There is no single mmol/L to mg/dL factor. Glucose, cholesterol and triglycerides each convert differently, because each molecule has a different weight. Pick the marker, enter the number, get the value your report would print in the other system."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="mmol-to-mg-dl-converter"
+          eyebrow="Lab units — mmol/L, µmol/L and mg/dL"
+          title="mmol/L to mg/dL"
+          em="Converter"
+          subline="There is no single mmol/L to mg/dL factor. Glucose, cholesterol and triglycerides each convert differently, because each molecule has a different weight. Pick the marker, enter the number, get the value your report would print in the other system."
+        />
+
         <div className={t.wrap}>
           <MmolMgdlConverter />
           <section className={t.after}>
             <div className={`editorial-prose ${t.prose}`}>
               <h2>How to convert mmol/L to mg/dL</h2>
               <p>
-                A result in millimoles per litre counts molecules. A result in milligrams per deciliter weighs them.
+                A result in millimoles per liter counts molecules. A result in milligrams per deciliter weighs them.
                 To move from one to the other you need the weight of one mole of the molecule, its molar mass:
               </p>
               <p className={t.formula}>mg/dL = mmol/L × (molar mass ÷ 10)</p>
               <p>
-                The division by 10 converts litres to deciliters. Glucose has a molar mass of 180.16 grams per mole,
+                The division by 10 converts liters to deciliters. Glucose has a molar mass of 180.16 grams per mole,
                 so its factor is 18.02: a fasting glucose of 5.6 mmol/L is about 101 mg/dL. Going the other way, you
-                divide by the same factor. For markers reported in micromoles per litre, such as creatinine, the
+                divide by the same factor. For markers reported in micromoles per liter, such as creatinine, the
                 factor is 1,000 times larger, which is why creatinine uses 88.4 rather than 0.0884. The{" "}
                 <Link href="/tools/creatinine-unit-converter">creatinine unit converter</Link> applies it in both
                 directions, with a conversion chart and the adult ranges for women and men. Serum iron works the
@@ -225,6 +226,11 @@ export default function Page() {
               <p>
                 Already have your bloodwork? <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-mmol-mgdl-converter&mt=8">Merios</a> reads it next to your watch data.
               </p>
+            </div>
+
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
           </section>
 

@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
 import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import AnionGapCalculator from "@/components/calculators/AnionGapCalculator";
+import { withSubs } from "@/components/calculators/subscript";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
 import t from "../tools.module.css";
 
@@ -13,20 +15,31 @@ const DESCRIPTION =
   "Free anion gap calculator: sodium minus chloride and bicarbonate, with optional potassium and albumin correction. See what high, low and normal values suggest.";
 
 // Worked anion gap examples (values checked by hand). Units are mEq/L, identical to mmol/L for these ions.
-const AG_EXAMPLES: [string, string, string][] = [
-  ["Na 140, Cl 104, HCO3 24", "140 − (104 + 24)", "12 (top of the usual modern range)"],
-  ["Na 138, Cl 103, HCO3 27", "138 − (103 + 27)", "8 (within the usual range)"],
-  ["Na 137, Cl 108, HCO3 26", "137 − (108 + 26)", "3 (low end; check albumin)"],
-  ["Na 140, Cl 100, HCO3 14", "140 − (100 + 14)", "26 (clearly high)"],
-  ["Na 139, Cl 105, HCO3 26, albumin 2.4 g/dL", "8 + 2.5 × (4.0 − 2.4)", "12 corrected, from 8 uncorrected"],
-  ["Na 140, K 4.0, Cl 104, HCO3 24", "140 + 4.0 − (104 + 24)", "16 (with potassium; compare to a K-inclusive range)"],
+// The status dot follows the calculator's own bands (3–12 typical, above 16 high; 4 higher with potassium).
+const AG_EXAMPLES: { values: string; calc: string; note: string; tone: "ok" | "warn" | "bad" }[] = [
+  { values: "Na\u00a0140, Cl\u00a0104, HCO₃\u00a024", calc: "140 − (104 + 24) = 12", note: "Top of the usual modern range.", tone: "ok" },
+  { values: "Na\u00a0138, Cl\u00a0103, HCO₃\u00a027", calc: "138 − (103 + 27) = 8", note: "Within the usual range.", tone: "ok" },
+  { values: "Na\u00a0137, Cl\u00a0108, HCO₃\u00a026", calc: "137 − (108 + 26) = 3", note: "Low end of the range; check albumin.", tone: "ok" },
+  { values: "Na\u00a0140, Cl\u00a0100, HCO₃\u00a014", calc: "140 − (100 + 14) = 26", note: "Clearly high.", tone: "bad" },
+  {
+    values: "Na\u00a0139, Cl\u00a0105, HCO₃\u00a026, albumin\u00a02.4\u00a0g/dL",
+    calc: "8 + 2.5 × (4.0 − 2.4) = 12",
+    note: "Corrected for albumin, from 8 uncorrected.",
+    tone: "ok",
+  },
+  {
+    values: "Na\u00a0140, K\u00a04.0, Cl\u00a0104, HCO₃\u00a024",
+    calc: "140 + 4.0 − (104 + 24) = 16",
+    note: "With potassium; compare it to a K\u2011inclusive range.",
+    tone: "ok",
+  },
 ];
 
 const FAQ_ITEMS = [
-  { q: "How do you calculate the anion gap?", a: "The anion gap is sodium minus the sum of chloride and bicarbonate, all in mEq/L (the same numbers as mmol/L). With a sodium of 140, chloride of 104 and bicarbonate of 24, the gap is 140 minus 128, or 12. Some laboratories add potassium to the sodium side, which raises the result by roughly 4 mEq/L, so always check which version your report uses. Bicarbonate usually appears on a metabolic panel as CO2 or total CO2." },
+  { q: "How do you calculate the anion gap?", a: "The anion gap is sodium minus the sum of chloride and bicarbonate, all in mEq/L (the same numbers as mmol/L). With a sodium of 140, chloride of 104 and bicarbonate of 24, the gap is 140 minus 128, or 12. Some laboratories add potassium to the sodium side, which raises the result by roughly 4 mEq/L, so always check which version your report uses. Bicarbonate usually appears on a metabolic panel as CO₂ or total CO₂." },
   { q: "What does a high anion gap mean?", a: "A clearly raised anion gap suggests that the blood contains more unmeasured acids than usual, which is the pattern of a high anion gap metabolic acidosis. It is associated with ketoacidosis, lactic acidosis, advanced kidney failure and certain toxins such as methanol, ethylene glycol or large amounts of aspirin. A mildly raised value can also come from dehydration, lab variation or a reference range from an older analyzer. The gap itself does not identify the cause; a clinician reads it with pH, bicarbonate, kidney function and symptoms." },
   { q: "What does a low anion gap mean?", a: "The usual reasons for a low anion gap are laboratory error and low albumin, because albumin is the main unmeasured anion in blood. Rarer causes include high levels of abnormal antibodies (paraproteins, as seen in multiple myeloma) and exposure to lithium or bromide. A single low value with otherwise normal results is usually repeated before anything else is done." },
-  { q: "What is the normal anion gap range?", a: "It depends on the analyzer. Older references, based on flame photometry, quoted roughly 8 to 16 mEq/L. Modern ion-selective electrode analyzers give lower values, commonly cited as about 3 to 10 or 4 to 12 mEq/L without potassium. Ranges that include potassium run about 4 mEq/L higher. Because of this spread, the range printed on your own report is the one to use." },
+  { q: "What is the normal anion gap range?", a: "It depends on the analyzer. Older references, based on flame photometry, quoted roughly 8 to 16 mEq/L. Modern ion‑selective electrode analyzers give lower values, commonly cited as about 3 to 10 or 4 to 12 mEq/L without potassium. Ranges that include potassium run about 4 mEq/L higher. Because of this spread, the range printed on your own report is the one to use." },
   { q: "Does Merios store these numbers?", a: "No. The calculator runs entirely in your browser. Your inputs never leave your device and are not sent to a server." },
 ];
 
@@ -72,15 +85,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="anion-gap-calculator"
-        eyebrow="Anion gap — the value your panel implies"
-        title="Anion Gap"
-        em="Calculator"
-        subline="Sodium minus chloride and bicarbonate. Enter three numbers from your metabolic panel, add albumin if you have it, and see whether a high or low anion gap is real or an artifact of low albumin."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="anion-gap-calculator"
+          eyebrow="Anion gap — the value your panel implies"
+          title="Anion Gap"
+          em="Calculator"
+          subline="Sodium minus chloride and bicarbonate. Enter three numbers from your metabolic panel, add albumin if you have it, and see whether a high or low anion gap is real or an artifact of low albumin."
+        />
+
         <div className={t.wrap}>
           <AnionGapCalculator />
           <section className={t.after}>
@@ -90,37 +103,43 @@ export default function Page() {
                 The anion gap is not measured by the lab. It is calculated from electrolytes already on a basic or
                 comprehensive metabolic panel (BMP or CMP):
               </p>
-              <p className={t.formula}>Anion gap = Na − (Cl + HCO3)</p>
+              <p className={t.formula}>Anion gap = Na − (Cl + HCO<sub>3</sub>)</p>
               <p>
                 All three are in mEq/L, which for these ions is the same number as mmol/L, so the formula works on a
-                US or a European report without conversion. Bicarbonate is usually printed as CO2 or total CO2. Blood
+                US or a European report without conversion. Bicarbonate is usually printed as CO<sub>2</sub> or total
+                CO<sub>2</sub>. Blood
                 is electrically neutral; the gap exists because the routine panel measures the main positive ion,
                 sodium, but leaves out several negative ones, above all albumin, along with phosphate, sulfate and
                 organic acids. The gap is a rough measure of those unmeasured anions.
               </p>
               <p>
-                Some laboratories include potassium: Na + K − (Cl + HCO3). Because potassium is normally around 3.5
+                Some laboratories include potassium:{" "}
+                <span className={t.nobr}>
+                  Na + K − (Cl + HCO<sub>3</sub>)
+                </span>
+                . Because potassium is normally around 3.5
                 to 5 mEq/L, that version reads roughly 4 points higher and needs its own reference range. The toggle
                 above switches between the two.
               </p>
 
               <h2>Anion gap calculation: worked examples</h2>
               <div className={t.tableWrap} data-rv="">
-                <table className={t.table}>
+                <table className={`${t.table} ${t.tableKey}`}>
                   <caption className={`${t.caption} ${t.captionPlain}`}>Anion gap calculated from metabolic panel electrolytes (mEq/L)</caption>
                   <thead>
                     <tr>
                       <th scope="col" className={t.colHead}>Panel values</th>
-                      <th scope="col" className={t.colHead}>Calculation</th>
-                      <th scope="col" className={t.colHead}>Anion gap</th>
+                      <th scope="col" className={t.colHead}>Calculation and anion gap</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {AG_EXAMPLES.map(([vals, calc, res]) => (
-                      <tr key={calc}>
-                        <th scope="row" className={t.rowHead}>{vals}</th>
-                        <td className={t.cell}>{calc}</td>
-                        <td className={t.cellNote}>{res}</td>
+                    {AG_EXAMPLES.map((ex) => (
+                      <tr key={ex.calc} data-tone={ex.tone}>
+                        <th scope="row" className={t.rowHead}>{withSubs(ex.values)}</th>
+                        <td className={t.cellNote}>
+                          <span className={t.cellExpr}>{ex.calc}</span>
+                          {ex.note}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -130,8 +149,8 @@ export default function Page() {
               <h2>Anion gap normal range: why it depends on the lab</h2>
               <p>
                 There is no single normal anion gap. The value depends on how the lab measures chloride and sodium,
-                and the range has drifted down as analyzers changed. Older references, from the flame-photometry
-                era, quoted roughly 8 to 16 mEq/L. Modern ion-selective electrode analyzers read chloride slightly
+                and the range has drifted down as analyzers changed. Older references, from the flame‑photometry
+                era, quoted roughly 8 to 16 mEq/L. Modern ion‑selective electrode analyzers read chloride slightly
                 higher, so their ranges are lower, commonly cited as about 3 to 10 or 4 to 12 mEq/L. A review in the
                 Clinical Journal of the American Society of Nephrology notes that the normal value varies widely,
                 both between methods and between individuals (
@@ -234,6 +253,11 @@ export default function Page() {
                 it next to your watch data, so a value like this sits in the context of your other markers and how
                 it has moved between panels.
               </p>
+            </div>
+
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
           </section>
 

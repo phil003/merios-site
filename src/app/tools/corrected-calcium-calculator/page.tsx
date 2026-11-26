@@ -82,15 +82,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="corrected-calcium-calculator"
-        eyebrow="Calcium — adjusted for albumin"
-        title="Corrected Calcium"
-        em="Calculator"
-        subline="A low albumin can make a normal calcium look low. Enter total calcium and albumin, in mg/dL or mmol/L, and see the corrected value in both units."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="corrected-calcium-calculator"
+          eyebrow="Calcium — adjusted for albumin"
+          title="Corrected Calcium"
+          em="Calculator"
+          subline="A low albumin can make a normal calcium look low. Enter total calcium and albumin, in mg/dL or mmol/L, and see the corrected value in both units."
+        />
+
         <div className={t.wrap}>
           <CorrectedCalciumCalculator />
           <section className={t.after}>
@@ -188,7 +188,7 @@ export default function Page() {
                   Scan a lab report and Merios keeps calcium, albumin and the rest of your markers on one timeline,
                   beside the sleep, heart rate and activity your Apple Watch already records. The Daily tier is free;
                   lab report scanning is part of Merios Plus, $44 a year with a 7-day free trial. iPhone, iOS 15.1 or
-                  later, on the US App Store.
+                  later, on the App Store.
                 </p>
               </div>
               <div className={t.ctaActions}>

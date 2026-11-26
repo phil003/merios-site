@@ -11,22 +11,52 @@
   padding-top: 36px;
   padding-bottom: clamp(40px, 4vw, 56px);
 }
+/* Wide screens: all the chips on one row. */
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 8px 6px;
+}
+/* Laptop widths, where one row does not fit: two even rows (5 + 4), never
+   one chip left alone on a second row. */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .chips {
+    display: grid;
+    grid-template-columns: repeat(5, max-content);
+    justify-content: start;
+  }
+}
+/* Phones and tablets: one row that scrolls sideways, edge to edge (the chip
+   cut at the screen edge is the cue), instead of five or six rows of chips. */
+@media (max-width: 1023px) {
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    margin-inline: calc(-1 * var(--spacing-container));
+    padding: 4px var(--spacing-container) 10px;
+    scroll-padding-inline: var(--spacing-container);
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .chip {
+    flex: none;
+  }
 }
 .chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   min-height: 44px;
-  padding: 0 18px;
+  padding: 0 13px;
+  white-space: nowrap;
   border-radius: 999px;
   border: 1.5px solid rgb(255 255 255 / 0.78);
   background: rgb(255 255 255 / 0.34);
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   line-height: 1.2;
   color: var(--color-ink);

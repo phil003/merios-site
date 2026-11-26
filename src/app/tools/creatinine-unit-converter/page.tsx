@@ -126,15 +126,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="creatinine-unit-converter"
-        eyebrow="Creatinine — µmol/L, mg/dL and mmol/L"
-        title="Creatinine"
-        em="Unit Converter"
-        subline="Conversion factor 88.4: divide µmol/L by 88.4 to get mg/dL, or multiply mg/dL by 88.4 for µmol/L. 80 µmol/L is 0.90 mg/dL. Works in any direction, with the adult range for women and men."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="creatinine-unit-converter"
+          eyebrow="Creatinine — µmol/L, mg/dL and mmol/L"
+          title="Creatinine"
+          em="Unit Converter"
+          subline="Conversion factor 88.4: divide µmol/L by 88.4 to get mg/dL, or multiply mg/dL by 88.4 for µmol/L. 80 µmol/L is 0.90 mg/dL. Works in any direction, with the adult range for women and men."
+        />
+
         <div className={t.wrap}>
           <CreatinineConverter />
           <section className={t.after}>

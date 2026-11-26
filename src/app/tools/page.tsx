@@ -142,6 +142,10 @@ export default function ToolsPage() {
           <div className={t.hubInner}>
             <div className={t.hubCtaCard}>
               <div className={t.hubCtaCopy}>
+                <p className={`label ${t.hubEyebrow}`}>
+                  <span aria-hidden className="label-dot" />
+                  Track this in Merios
+                </p>
                 <h2 id="tools-cta-title" className={t.hubCtaTitle}>
                   One PhenoAge is a number. <em>Twelve are a trend.</em>
                 </h2>

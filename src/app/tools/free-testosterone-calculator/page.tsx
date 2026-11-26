@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
 import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import FreeTestosteroneCalculator from "@/components/calculators/FreeTestosteroneCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
@@ -80,15 +81,15 @@ export default function FreeTestosteroneCalculatorPage() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="free-testosterone-calculator"
-        eyebrow="Vermeulen 1999 — free & bioavailable T"
-        title="Total testosterone normal, but you still feel off?"
-        em="Check the free fraction."
-        subline="Only a small percentage of your testosterone is actually available to tissue. This calculator estimates it from total T, SHBG and albumin using the Vermeulen equation."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="free-testosterone-calculator"
+          eyebrow="Vermeulen 1999 — free & bioavailable T"
+          title="Total testosterone normal, but you still feel off?"
+          em="Check the free fraction."
+          subline="Only a small percentage of your testosterone is actually available to tissue. This calculator estimates it from total T, SHBG and albumin using the Vermeulen equation."
+        />
+
         <div className={t.wrap}>
           <FreeTestosteroneCalculator />
 
@@ -150,6 +151,11 @@ export default function FreeTestosteroneCalculatorPage() {
                 <Link href="/tools/free-androgen-index-calculator">free androgen index calculator</Link> works it out
                 from the same total testosterone and SHBG, in ng/dL or nmol/L, and explains how the result is read.
               </p>
+            </div>
+
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
           </section>
 

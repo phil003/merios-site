@@ -131,15 +131,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="dhea-unit-converter"
-        eyebrow="DHEA-S and DHEA — µg/dL, µmol/L, ng/mL, nmol/L"
-        title="DHEA"
-        em="Unit Converter"
-        subline="For DHEA-S, multiply µg/dL by 0.02714 for µmol/L, or µmol/L by 36.85 for µg/dL: 200 µg/dL is 5.43 µmol/L. For plain DHEA, 1 ng/mL is 3.467 nmol/L. Two different tests, two different scales."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="dhea-unit-converter"
+          eyebrow="DHEA-S and DHEA — µg/dL, µmol/L, ng/mL, nmol/L"
+          title="DHEA"
+          em="Unit Converter"
+          subline="For DHEA-S, multiply µg/dL by 0.02714 for µmol/L, or µmol/L by 36.85 for µg/dL: 200 µg/dL is 5.43 µmol/L. For plain DHEA, 1 ng/mL is 3.467 nmol/L. Two different tests, two different scales."
+        />
+
         <div className={t.wrap}>
           <DheaConverter />
           <section className={t.after}>

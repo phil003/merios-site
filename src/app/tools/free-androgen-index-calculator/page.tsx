@@ -47,6 +47,12 @@ export const metadata: Metadata = {
   },
 };
 
+// The status dot follows the calculator's female bands (under 4.5, 4.5 to 5, above 5).
+function faiTone(fai: string): "ok" | "warn" | "bad" {
+  const x = parseFloat(fai);
+  return x < 4.5 ? "ok" : x <= 5 ? "warn" : "bad";
+}
+
 const EXAMPLES: [string, string, string, string][] = [
   ["50 ng/dL", "40 nmol/L", "1.73 ÷ 40 × 100", "4.3"],
   ["50 ng/dL", "20 nmol/L", "1.73 ÷ 20 × 100", "8.7"],
@@ -85,14 +91,15 @@ export default function FreeAndrogenIndexCalculatorPage() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="free-androgen-index-calculator"
-        eyebrow="PCOS · Hyperandrogenism"
-        title="Free Androgen Index Calculator"
-        subline="Testosterone in ng/dL, SHBG in nmol/L: most FAI calculators silently mix the two. Enter your report as printed and get the index, the formula worked out, and what it means for women, and why it misleads in men."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="free-androgen-index-calculator"
+          eyebrow="PCOS · Hyperandrogenism"
+          title="Free Androgen Index"
+          em="Calculator"
+          subline="Testosterone in ng/dL, SHBG in nmol/L: most FAI calculators silently mix the two. Enter your report as printed and get the index, the formula worked out, and what it means for women, and why it misleads in men."
+        />
+
         <div className={t.wrap}>
           <FreeAndrogenIndexCalculator />
 
@@ -124,7 +131,7 @@ export default function FreeAndrogenIndexCalculatorPage() {
                   </thead>
                   <tbody>
                     {EXAMPLES.map(([tt, sh, calc, fai]) => (
-                      <tr key={`${tt}-${sh}`}>
+                      <tr key={`${tt}-${sh}`} data-tone={faiTone(fai)}>
                         <th scope="row" className={t.rowHead}>{tt}</th>
                         <td className={t.cell}>{sh}</td>
                         <td className={t.cell}>{calc}</td>

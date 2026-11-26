@@ -167,7 +167,7 @@ export default function NeutrophilLymphocyteRatioCalculator() {
 
       <CalcFoot>
         <Footnote>
-          Educational tool, not a diagnosis. NLR is a non-specific marker: infection, recent stress,
+          Educational tool, not a diagnosis. NLR is a non‑specific marker: infection, recent stress,
           hard exercise and steroid medicines can all move it, and poor sleep may too, so one result describes one blood draw. The typical
           range comes from 413 healthy working adults aged 21 to 66 (Forget et al., BMC Research Notes 2017) and may
           not fit older adults, children or pregnancy. A high value with fever or feeling unwell, or a value far

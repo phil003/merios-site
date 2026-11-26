@@ -31,9 +31,10 @@ export default function HomaIRCalculator() {
       return null;
     }
     // Same model, unit-matched constant: 405 for mg/dL, 22.5 for mmol/L.
-    const score = (g * i) / (unit === "mgdl" ? 405 : 22.5);
+    const score = Math.round(((g * i) / (unit === "mgdl" ? 405 : 22.5)) * 100) / 100;
+    // The band reads the score as shown (2.50 is never "below 2.5").
     return {
-      score: Math.round(score * 100) / 100,
+      score,
       band: getBand(score),
     };
   }, [glucose, insulin, unit]);
@@ -85,7 +86,7 @@ export default function HomaIRCalculator() {
               <ResultLabel>
                 <span>Your HOMA-IR</span> <Chip tone={result.band.tone}>{result.band.name}</Chip>
               </ResultLabel>
-              <div className={s.bigNumber}>{result.score}</div>
+              <div className={s.bigNumber}>{result.score.toFixed(2)}</div>
               <RangeBar min={0} max={4} value={result.score} tone={result.band.tone} zones={ZONES} />
               <p className={s.resultText}>{result.band.description}</p>
             </ResultBody>
@@ -151,13 +152,13 @@ function getBand(score: number): { name: string; tone: Tone; description: string
       name: "Borderline insulin resistance",
       tone: "warn",
       description:
-        "Yellow flag. You're not insulin resistant yet, but you're trending. A 12-week intervention (sleep, strength training, lower refined carbs) usually moves this back below 1.5. Recheck in 90 days.",
+        "Borderline: below the range usually read as insulin resistance, but above where most references put normal. Sleep, activity, diet and weight all affect it, so talk it through with your clinician and retest fasting, on the same lab, before reading a trend into one value.",
     };
   }
   return {
     name: "Insulin resistance",
     tone: "bad",
     description:
-      "Significant insulin resistance — a major driver of metabolic syndrome and type 2 diabetes risk. Discuss with your physician. Lifestyle changes (resistance training, lower refined carbs, fiber, sleep) can meaningfully improve this within 12–24 weeks.",
+      "In the range usually read as insulin resistance, which is linked with metabolic syndrome and a higher risk of type 2 diabetes. Discuss it with your physician, and confirm it with a repeat fasting test on the same lab.",
   };
 }

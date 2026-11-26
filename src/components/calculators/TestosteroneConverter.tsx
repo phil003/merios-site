@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import {
   Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, Toggle, CalcOutput, ResultPanel,
-  ResultBody, Empty, ResultLabel, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
+  ResultBody, Empty, ResultLabel, UnitText, Chip, RangeBar, CalcFoot, Footnote, Cta, round,
   styles as s, type Tone, type Zone,
 } from "./_shared";
 
@@ -76,7 +76,7 @@ export default function TestosteroneConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>Same result in {result.unit}</span>
+                <span>Same result in <UnitText>{result.unit}</UnitText></span>
                 {result.band ? <> <Chip tone={result.band.tone}>{result.band.name}</Chip></> : null}
               </ResultLabel>
               <div className={s.bigNumber}>
@@ -86,8 +86,8 @@ export default function TestosteroneConverter() {
                 <RangeBar min={100} max={1100} value={result.ngdl} tone={result.band.tone} zones={ZONES} />
               ) : null}
               <p className={s.resultText}>
-                That is <strong>{round(result.ngdl, 0)} ng/dL</strong> or{" "}
-                <strong>{round(result.ngdl / NMOL_TO_NGDL, 1)} nmol/L</strong>. The conversion is exact: 1 nmol/L of
+                That is <strong>{round(result.ngdl, 0)}&nbsp;ng/dL</strong> or{" "}
+                <strong>{round(result.ngdl / NMOL_TO_NGDL, 1)}&nbsp;nmol/L</strong>. The conversion is exact: 1 nmol/L of
                 testosterone is 28.84 ng/dL, set by the molecule&apos;s weight.
               </p>
               <p className={s.resultText}>{result.band.description}</p>

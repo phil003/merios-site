@@ -148,7 +148,7 @@ export default function FreeAndrogenIndexCalculator() {
           <Refs>
             <RefRow label="Within commonly cited female limits" range="under 4.5" tone="ok" />
             <RefRow label="Around the commonly cited upper limit" range="4.5–5" tone="warn" />
-            <RefRow label="Above commonly cited female limits" range="above 5" tone="warn" />
+            <RefRow label="Above commonly cited female limits" range="above 5" tone="bad" />
           </Refs>
         ) : (
           <Refs>

@@ -157,6 +157,7 @@ section.calc {
 
 /* ─── Inputs ───────────────────────────────────────────────────────────── */
 .calc .inputs {
+  container: calcinputs / inline-size;
   display: grid;
   align-content: start;
   gap: 18px;
@@ -179,8 +180,24 @@ section.calc {
 .calc .fields[data-cols="3"] {
   grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
 }
+/* A full panel (PhenoAge: age + 9 markers): explicit columns so no tile is
+   left alone on the last row. Two columns hold 10 tiles in five full rows;
+   at three, a first tile left over (10 = 1 + 3 × 3) takes the whole row. */
 .calc .fields[data-cols="panel"] {
-  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  grid-template-columns: minmax(0, 1fr);
+}
+@container calcinputs (min-width: 420px) {
+  .calc .fields[data-cols="panel"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@container calcinputs (min-width: 640px) {
+  .calc .fields[data-cols="panel"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .calc .fields[data-cols="panel"] > :first-child:nth-last-child(3n + 1) {
+    grid-column: 1 / -1;
+  }
 }
 .calc .fields[data-cols="pair"] {
   display: flex;
@@ -207,6 +224,11 @@ section.calc {
   box-shadow: inset 0 0 0 1.5px rgb(53 80 168 / 0.5);
   outline: 2px solid var(--color-link);
   outline-offset: 3px;
+}
+/* A value outside the plausible range for its unit (caution, never red) */
+.calc .field[data-invalid="true"] {
+  background: #FFF6F0;
+  box-shadow: inset 0 0 0 1.5px var(--color-warm);
 }
 .calc .fieldLabel {
   display: flex;
@@ -317,17 +339,19 @@ section.calc {
   text-transform: uppercase;
   color: var(--color-ink-secondary);
 }
+/* radius = half the height of one row (44 + 2 × 4): a pill on one row, a
+   rounded box when long labels wrap on a phone */
 .calc .seg {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 4px;
   padding: 4px;
-  border-radius: 999px;
+  border-radius: 26px;
   background: var(--tile);
   box-shadow: inset 0 0 0 1.5px rgb(24 33 63 / 0.06);
 }
 .calc .segBtn {
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 16px;
   border: 0;
   border-radius: 999px;
@@ -407,6 +431,45 @@ section.calc {
   color: var(--color-ink-secondary);
   text-wrap: pretty;
 }
+/* Values that look like another unit (PhenoAge): one line per field.
+   Scoped through .result (three classes) so the article list styles of a
+   blog post (.prose .editorial-prose ul > li) never restyle it. */
+.calc .result .checkList {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  max-width: 52ch;
+  list-style: none;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+.calc .result .checkList > li {
+  position: relative;
+  margin: 0;
+  padding-left: 20px;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-wrap: pretty;
+}
+.calc .result .checkList > li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.5em;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-peach);
+  box-shadow: inset 0 0 0 1.5px rgb(166 90 44 / 0.55);
+}
+.calc .result .checkList strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
 
 .calc .resultLabel {
   display: flex;
@@ -422,6 +485,12 @@ section.calc {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ink-secondary);
+}
+/* units keep their case inside the uppercase label: µmol/L, never MMOL/L */
+.calc .unitCase {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 .calc .chip {
   display: inline-flex;
@@ -460,6 +529,13 @@ section.calc {
   font-variant-numeric: lining-nums tabular-nums;
   color: var(--color-ink);
   overflow-wrap: anywhere;
+}
+/* A range ("100.0–116.3 mg/dL"): smaller, and kept on one line so it never
+   breaks after the dash or leaves its unit alone on a second line. */
+.calc .bigNumber[data-fit="range"] {
+  font-size: clamp(2.5rem, 12cqi, 5.25rem);
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 .calc .midNumber {
   font-family: var(--font-serif);
@@ -755,9 +831,14 @@ section.calc {
   font-size: 0.875rem;
   line-height: 1.4;
 }
+/* The dot sits on the first line of its label, even when the label wraps:
+   a box with no text aligns its bottom edge to the row's baseline, so it is
+   nudged down to center on the lowercase letters. */
 .calc .refDot {
   flex: none;
-  align-self: center;
+  align-self: baseline;
+  position: relative;
+  top: 1px;
   width: 10px;
   height: 10px;
   border-radius: 50%;

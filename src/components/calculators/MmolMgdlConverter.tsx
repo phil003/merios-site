@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import {
   Shell, CalcHead, Eyebrow, CalcTitle, CalcInputs, Fields, Field, Toggle, CalcOutput, ResultPanel,
-  ResultBody, Empty, ResultLabel, Chip, Refs, RefRow, CalcFoot, Footnote, Cta, round,
+  ResultBody, Empty, ResultLabel, UnitText, Chip, Refs, RefRow, CalcFoot, Footnote, Cta, round,
   styles as s,
 } from "./_shared";
 
@@ -57,7 +57,7 @@ const ANALYTES: Record<Key, Analyte> = {
     short: "Glucose", label: "Glucose", si: "mmol/L", conv: "mg/dL", mgPerSi: 18.016,
     rule: "mg/dL = mmol/L × 18.02", siDecimals: 1, mgDecimals: 0,
     example: { si: "e.g. 5.6", mg: "e.g. 100" }, plausible: [20, 1000],
-    note: "Glucose weighs 180.16 g/mol, so one millimole per litre is 18.02 milligrams per deciliter. Many references round to 18.",
+    note: "Glucose weighs 180.16 g/mol, so one millimole per liter is 18.02 milligrams per deciliter. Many references round to 18.",
   },
   chol: {
     short: "Cholesterol", label: "Cholesterol (total, LDL, HDL, non-HDL)", si: "mmol/L", conv: "mg/dL", mgPerSi: 38.67,
@@ -93,7 +93,7 @@ const ANALYTES: Record<Key, Analyte> = {
     short: "Creatinine", label: "Creatinine", si: "µmol/L", conv: "mg/dL", mgPerSi: 1 / 88.4,
     rule: "mg/dL = µmol/L ÷ 88.4", siDecimals: 0, mgDecimals: 2,
     example: { si: "e.g. 88", mg: "e.g. 1.0" }, plausible: [0.1, 25],
-    note: "Creatinine (113.12 g/mol) is reported in micromoles per litre outside the US: 1 mg/dL is 88.4 µmol/L.",
+    note: "Creatinine (113.12 g/mol) is reported in micromoles per liter outside the US: 1 mg/dL is 88.4 µmol/L.",
   },
   bili: {
     short: "Bilirubin", label: "Bilirubin (total or direct)", si: "µmol/L", conv: "mg/dL", mgPerSi: 1 / 17.104,
@@ -167,7 +167,7 @@ export default function MmolMgdlConverter() {
           {result ? (
             <ResultBody>
               <ResultLabel>
-                <span>{a.short} in {result.unit}</span> <Chip tone={result.implausible ? "warn" : "neutral"}>{result.implausible ? "check the unit" : "converted"}</Chip>
+                <span>{a.short} in <UnitText>{result.unit}</UnitText></span> <Chip tone={result.implausible ? "warn" : "neutral"}>{result.implausible ? "check the unit" : "converted"}</Chip>
               </ResultLabel>
               <div className={s.bigNumber}>
                 {result.out} <span className={s.unit}>{result.unit}</span>

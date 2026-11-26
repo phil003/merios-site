@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
+import { withSubs } from "../subscript";
 import { getTool } from "./registry";
 import css from "./toolPage.module.css";
 
@@ -55,7 +56,7 @@ export default function ToolHero({
         </h1>
 
         {subline ? (
-          <p className={css.lead}>{subline}</p>
+          <p className={css.lead}>{withSubs(subline)}</p>
         ) : null}
 
         <ul className={`${css.chips} ${css.rise}`} style={{ "--rise-d": "220ms" } as CSSProperties}>

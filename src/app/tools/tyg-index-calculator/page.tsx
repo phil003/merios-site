@@ -88,15 +88,15 @@ export default function TyGCalculatorPage() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="tyg-index-calculator"
-        eyebrow="Triglyceride-glucose index — insulin resistance"
-        title="TyG index"
-        em="calculator"
-        subline="Check your insulin resistance without a fasting insulin test. The triglyceride glucose index runs on two numbers already sitting on your standard panel — in mg/dL or mmol/L, no separate insulin draw required."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="tyg-index-calculator"
+          eyebrow="Triglyceride-glucose index — insulin resistance"
+          title="TyG index"
+          em="calculator"
+          subline="Check your insulin resistance without a fasting insulin test. The triglyceride glucose index runs on two numbers already sitting on your standard panel — in mg/dL or mmol/L, no separate insulin draw required."
+        />
+
         <div className={t.wrap}>
           <TyGIndexCalculator />
 

@@ -23,12 +23,22 @@ const SCREENS = {
 
 export type ScreenKey = keyof typeof SCREENS;
 
-/** The app screen that sits at the foot of a CTA block, cut by its bottom edge. */
+/**
+ * The app screen that sits at the foot of a CTA block, cut by its bottom edge,
+ * labelled "Example data" on the screen itself (the alt text says it too, so
+ * the visible label is hidden from screen readers).
+ */
 export default function CtaScreen({ screen }: { screen: ScreenKey }) {
   const { src, alt } = SCREENS[screen];
   return (
     <div className={css.screen}>
-      <Image src={src} alt={alt} width={780} height={1688} sizes="(max-width: 760px) 200px, 260px" />
+      <div className={css.screenFrame}>
+        <Image src={src} alt={alt} width={780} height={1688} sizes="(max-width: 760px) 200px, 260px" />
+        <p aria-hidden className={css.screenTag}>
+          <span className={css.screenDot} />
+          Example data
+        </p>
+      </div>
     </div>
   );
 }

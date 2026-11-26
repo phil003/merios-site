@@ -109,15 +109,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="bilirubin-unit-converter"
-        eyebrow="Bilirubin — mg/dL and µmol/L"
-        title="Bilirubin conversion:"
-        em="µmol/L to mg/dL"
-        subline="Conversion factor 17.1: divide µmol/L by 17.1 to get mg/dL, multiply mg/dL by 17.1 to get µmol/L. 20.5 µmol/L is 1.2 mg/dL, the same result on two reports. Works for total and direct bilirubin."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="bilirubin-unit-converter"
+          eyebrow="Bilirubin — mg/dL and µmol/L"
+          title="Bilirubin conversion:"
+          em="µmol/L to mg/dL"
+          subline="Conversion factor 17.1: divide µmol/L by 17.1 to get mg/dL, multiply mg/dL by 17.1 to get µmol/L. 20.5 µmol/L is 1.2 mg/dL, the same result on two reports. Works for total and direct bilirubin."
+        />
+
         <div className={t.wrap}>
           <BilirubinConverter />
           <section className={t.after}>
@@ -216,7 +216,7 @@ export default function Page() {
                 cell conditions. Review it with your clinician promptly.
               </p>
               <p>
-                <strong>Newborns are different.</strong> Newborn jaundice is common, and it is not read against the adult
+                <strong>Newborns are different.</strong>{" "}Newborn jaundice is common, and it is not read against the adult
                 range. The American Academy of Pediatrics 2022 guideline sets thresholds by the baby&apos;s age in hours,
                 gestational age and risk factors, using hour-specific charts. This converter changes the unit of a newborn
                 result but does not interpret it; that is the job of the baby&apos;s care team.

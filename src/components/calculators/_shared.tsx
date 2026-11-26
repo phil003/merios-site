@@ -201,9 +201,13 @@ export function Field({
   max,
   inputMode = "decimal",
   style,
+  invalid = false,
+  describedBy,
 }: {
-  label: string;
-  unit?: string;
+  /** text, or a node when the label carries a chemical subscript (CO₂) */
+  label: ReactNode;
+  /** text, or a node for a unit with a superscript (×10⁹/L) */
+  unit?: ReactNode;
   /** a short tag at the tile's top right (PhenoAge: the marker's system) */
   hint?: string;
   placeholder: string;
@@ -217,6 +221,10 @@ export function Field({
   /** kept for compatibility: the unit now always sits after the input */
   literalUnit?: boolean;
   style?: CSSProperties;
+  /** the value is outside the plausible range for its unit */
+  invalid?: boolean;
+  /** id of the message that explains an invalid value */
+  describedBy?: string;
 }) {
   const store = useContext(ExampleContext);
   const example = exampleOf(placeholder);
@@ -227,7 +235,7 @@ export function Field({
   useEffect(() => () => store?.remove(inputId), [store, inputId]);
 
   return (
-    <label htmlFor={inputId} className={s.field} style={style}>
+    <label htmlFor={inputId} className={s.field} style={style} data-invalid={invalid ? "true" : undefined}>
       <span className={s.fieldLabel}>
         <span>{label}</span>
         {hint ? (
@@ -245,6 +253,8 @@ export function Field({
           max={max}
           step={step}
           placeholder={placeholder}
+          aria-invalid={invalid || undefined}
+          aria-describedby={invalid && describedBy ? describedBy : undefined}
           value={value}
           onChange={(e) => {
             store?.disarm();
@@ -345,6 +355,14 @@ export function Empty({ children }: { children: ReactNode }) {
 
 export function ResultLabel({ children }: { children: ReactNode }) {
   return <div className={s.resultLabel}>{children}</div>;
+}
+
+/**
+ * A unit inside an uppercase label ("Same result in µmol/L"): units are
+ * case-sensitive, so they keep their case (µ would otherwise print as M).
+ */
+export function UnitText({ children }: { children: ReactNode }) {
+  return <span className={s.unitCase}>{children}</span>;
 }
 
 export function Chip({ tone, children }: { tone: Tone; children: ReactNode }) {

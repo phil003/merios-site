@@ -108,15 +108,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="vitamin-d-unit-converter"
-        eyebrow="Vitamin D — ng/mL and nmol/L"
-        title="Vitamin D unit converter:"
-        em="ng/mL to nmol/L"
-        subline="1 ng/mL = 2.496 nmol/L, so 30 ng/mL is 75 nmol/L and 60 ng/mL is 150 nmol/L. Convert 25-OH vitamin D in either direction, exactly, and see where the number sits."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="vitamin-d-unit-converter"
+          eyebrow="Vitamin D — ng/mL and nmol/L"
+          title="Vitamin D unit converter:"
+          em="ng/mL to nmol/L"
+          subline="1 ng/mL = 2.496 nmol/L, so 30 ng/mL is 75 nmol/L and 60 ng/mL is 150 nmol/L. Convert 25-OH vitamin D in either direction, exactly, and see where the number sits."
+        />
+
         <div className={t.wrap}>
           <VitaminDConverter />
           <section className={t.after}>

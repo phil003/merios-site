@@ -32,7 +32,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What blood markers do I need?",
-    a: "Ten inputs total: chronological age, albumin (g/dL), creatinine (mg/dL), fasting glucose (mg/dL), high-sensitivity CRP (mg/L), lymphocyte percentage (%), mean cell volume / MCV (fL), red-cell distribution width / RDW (%), alkaline phosphatase / ALP (U/L), and white blood cell count (1000 cells/µL). Every input comes from a standard CBC and basic metabolic panel — most are on a routine annual blood test.",
+    a: "Ten inputs total: chronological age, albumin (g/dL), creatinine (mg/dL), fasting glucose (mg/dL), high-sensitivity CRP (mg/L), lymphocyte percentage (%), mean cell volume / MCV (fL), red-cell distribution width / RDW (%), alkaline phosphatase / ALP (U/L), and white blood cell count (1000 cells/µL). A CBC with differential gives the lymphocyte percentage, MCV, RDW and white cell count; a comprehensive metabolic panel (CMP) gives albumin, creatinine, glucose and alkaline phosphatase; hs-CRP is a separate test that often has to be requested.",
   },
   {
     q: "How accurate is PhenoAge?",
@@ -50,19 +50,20 @@ const FAQ_ITEMS = [
 
 // Every term of the Levine 2018 weighted sum, as PhenoAgeCalculator.tsx
 // computes it (US inputs converted first: albumin × 10, creatinine × 88.4,
-// glucose × 0.0555).
+// glucose × 0.0555; hs-CRP ÷ 10 in every case, since Table 1 takes CRP in
+// mg/dL and labs print hs-CRP in mg/L).
 const COEFFICIENTS: [string, string, string][] = [
   ["Intercept", "−19.9067", ""],
   ["Chronological age", "+0.0804", "years"],
   ["Albumin", "−0.0336", "g/L"],
   ["Creatinine", "+0.0095", "µmol/L"],
   ["Glucose", "+0.1953", "mmol/L"],
-  ["ln(hs-CRP)", "+0.0954", "mg/L"],
+  ["ln(hs-CRP)", "+0.0954", "mg/dL"],
   ["Lymphocytes", "−0.0120", "%"],
   ["MCV", "+0.0268", "fL"],
   ["RDW", "+0.3306", "%"],
   ["Alkaline phosphatase", "+0.0019", "U/L"],
-  ["White blood cells", "+0.0554", "1000 cells/µL"],
+  ["White blood cells", "+0.0554", "1000 cells/\u2060µL"], // word joiner: never "cells/" | "µL"
 ];
 
 export const metadata: Metadata = {
@@ -111,15 +112,15 @@ export default function PhenoAgeCalculatorPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }}
       />
 
-      <ToolHero
-        slug="phenoage-calculator"
-        eyebrow="PhenoAge — Levine 2018"
-        title="Calculate your biological age"
-        em="from a blood test."
-        subline="The peer-reviewed PhenoAge formula in a free, interactive calculator. Type 9 standard blood markers + your age — get your phenotypic age and the delta versus chronology."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="phenoage-calculator"
+          eyebrow="PhenoAge — Levine 2018"
+          title="Calculate your biological age"
+          em="from a blood test."
+          subline="The peer-reviewed PhenoAge formula in a free, interactive calculator. Type 9 standard blood markers + your age — get your phenotypic age and the delta versus chronology."
+        />
+
         <div className={t.wrap}>
           <PhenoAgeCalculator />
 
@@ -131,9 +132,10 @@ export default function PhenoAgeCalculatorPage() {
               </h2>
               <p className={t.formulaText}>
                 A weighted sum of your markers gives a mortality score, which
-                converts back into years. The calculator first turns US units
-                into the ones the formula uses: albumin × 10, creatinine × 88.4,
-                glucose × 0.0555.
+                converts back into years. The calculator first turns your units
+                into the ones the formula uses: from US units, albumin × 10,
+                creatinine × 88.4 and glucose × 0.0555; and hs-CRP ÷ 10, because
+                the paper takes CRP in mg/dL while labs print hs-CRP in mg/L.
               </p>
               <p className={t.reference}>
                 Reference: Levine ME, Lu AT, Quach A, et al. <em>An epigenetic
@@ -163,8 +165,16 @@ export default function PhenoAgeCalculatorPage() {
                 </tbody>
               </table>
               <div className={t.formulaPlate}>
-                <p>M = 1 − exp(−exp(xb) × (exp(120 × 0.0076927) − 1) ÷ 0.0076927)</p>
-                <p>PhenoAge = 141.50 + ln(−0.00553 × ln(1 − M)) ÷ 0.09165</p>
+                {/* each span stays on one line: a narrow screen breaks the
+                    formula only between them, never inside ln(1 − M) */}
+                <p>
+                  <span>M =</span> <span>1 − exp(−exp(xb) ×</span>{" "}
+                  <span>(exp(120 × 0.0076927) − 1)</span> <span>÷ 0.0076927)</span>
+                </p>
+                <p>
+                  <span>PhenoAge =</span> <span>141.50 + ln(−0.00553 ×</span>{" "}
+                  <span>ln(1 − M))</span> <span>÷ 0.09165</span>
+                </p>
               </div>
             </div>
           </section>

@@ -106,15 +106,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="cholesterol-unit-converter"
-        eyebrow="Lipids — mg/dL, mmol/L and g/L"
-        title="Cholesterol converter:"
-        em="mg/dL to mmol/L"
-        subline="Your LDL, HDL, triglycerides and ApoB in the other unit system, each with its own factor, because the one most converters use for everything is wrong for triglycerides."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="cholesterol-unit-converter"
+          eyebrow="Lipids — mg/dL, mmol/L and g/L"
+          title="Cholesterol converter:"
+          em="mg/dL to mmol/L"
+          subline="Your LDL, HDL, triglycerides and ApoB in the other unit system, each with its own factor, because the one most converters use for everything is wrong for triglycerides."
+        />
+
         <div className={t.wrap}>
           <CholesterolConverter />
           <section className={t.after}>

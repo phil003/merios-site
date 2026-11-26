@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import ToolHero from "@/components/calculators/tool-page/ToolHero";
+import ToolFaq from "@/components/calculators/tool-page/ToolFaq";
 import ToolRelated from "@/components/calculators/tool-page/ToolRelated";
 import TSATCalculator from "@/components/calculators/TSATCalculator";
 import { BreadcrumbSchema, FAQPageSchema } from "@/components/StructuredData";
@@ -82,15 +83,15 @@ export default function Page() {
       <FAQPageSchema questions={FAQ_ITEMS} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApp) }} />
 
-      <ToolHero
-        slug="transferrin-saturation-calculator"
-        eyebrow="Transferrin saturation — iron in transit"
-        title="TSAT calculator"
-        em="(transferrin saturation)"
-        subline="TSAT (or T sat) is serum iron divided by TIBC, times 100. Enter what your panel actually printed — TIBC, UIBC or transferrin — and get your saturation. Iron and TIBC can be entered in µg/dL or µmol/L. Ferritin can look fine while this number does not."
-      />
-
       <main className={t.main}>
+        <ToolHero
+          slug="transferrin-saturation-calculator"
+          eyebrow="Transferrin saturation — iron in transit"
+          title="TSAT calculator"
+          em="(transferrin saturation)"
+          subline="TSAT (or T sat) is serum iron divided by TIBC, times 100. Enter what your panel actually printed — TIBC, UIBC or transferrin — and get your saturation. Iron and TIBC can be entered in µg/dL or µmol/L. Ferritin can look fine while this number does not."
+        />
+
         <div className={t.wrap}>
           <TSATCalculator />
           <section className={t.after}>
@@ -108,7 +109,7 @@ export default function Page() {
               </p>
               <p className={t.formula}>TSAT (%) = serum iron ÷ TIBC × 100</p>
               <p>
-                Both values must use the same unit: micrograms per deciliter on a US panel, micromoles per litre on many SI reports. A serum iron of 90 with a TIBC of 320 gives
+                Both values must use the same unit: micrograms per deciliter on a US panel, micromoles per liter on many SI reports. A serum iron of 90 with a TIBC of 320 gives
                 90 ÷ 320 = 0.281, so a saturation of 28.1 percent. That is the whole calculation — the difficulty is
                 almost never the arithmetic, it is that your report may not contain a line called TIBC at all.
               </p>
@@ -116,7 +117,7 @@ export default function Page() {
               <h2>TSAT calculation: worked examples</h2>
               <p>
                 Five common panels plus one in SI units and one starting from UIBC, worked through with the same formula. Serum iron and TIBC are in micrograms per
-                deciliter, as on a US report; the last row shows that a panel in micromoles per litre gives the same
+                deciliter, as on a US report; the last row shows that a panel in micromoles per liter gives the same
                 percentage, because the units cancel.
               </p>
               <div className={t.tableWrap} data-rv="">
@@ -150,13 +151,13 @@ export default function Page() {
               </p>
               <p>
                 <strong>TIBC</strong> — use it directly. <strong>UIBC</strong>, the unsaturated portion, adds to serum
-                iron to give TIBC: 90 + 230 = 320. <strong>Transferrin</strong> in grams per litre converts with a
+                iron to give TIBC: 90 + 230 = 320. <strong>Transferrin</strong> in grams per liter converts with a
                 factor of 125, because one milligram per deciliter of transferrin binds about 1.25 micrograms per
-                deciliter of iron and one gram per litre is 100 milligrams per deciliter: 2.56 × 125 = 320.
+                deciliter of iron and one gram per liter is 100 milligrams per deciliter: 2.56 × 125 = 320.
               </p>
               <p>
                 A factor of about 25 also circulates for the transferrin path, and it is correct in its own context:
-                it gives TIBC in micromoles per litre, for use with a serum iron also reported in micromoles per litre.
+                it gives TIBC in micromoles per liter, for use with a serum iron also reported in micromoles per liter.
                 Applied to a US panel, where serum iron is in micrograms per deciliter, it produces saturations far
                 above 100 percent — physiologically impossible, and a common way to frighten yourself over nothing. The
                 toggle above picks the right path so the question does not arise.
@@ -250,6 +251,11 @@ export default function Page() {
                 <a href="https://apps.apple.com/app/merios/id6760352598?pt=128637372&ct=web-transferrin-saturation-calculator&mt=8">Merios</a> is built to do from the reports you already
                 have.
               </p>
+            </div>
+
+            <div className={t.faq} data-rv="">
+              <h2 className={t.faqTitle}>Frequently asked questions</h2>
+              <ToolFaq items={FAQ_ITEMS} />
             </div>
           </section>
 

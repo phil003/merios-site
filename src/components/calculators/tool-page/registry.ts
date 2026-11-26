@@ -130,6 +130,18 @@ export const TOOLS: Tool[] = [
     related: ["testosterone-unit-converter", "dhea-unit-converter", "phenoage-calculator"],
   },
   {
+    slug: "free-androgen-index-calculator",
+    topic: "Metabolism and hormones",
+    eyebrow: "PCOS · Hyperandrogenism",
+    title: "Free Androgen Index Calculator",
+    description:
+      "FAI from total testosterone and SHBG, with ng/dL converted for you. Shows the formula and what the index means in women, and why it misleads in men.",
+    inputs: "2 inputs",
+    plate: "100 × T ÷ SHBG",
+    plateSub: "nmol/L · %",
+    related: ["free-testosterone-calculator", "testosterone-unit-converter", "homa-ir-calculator"],
+  },
+  {
     slug: "neutrophil-lymphocyte-ratio-calculator",
     topic: "Blood count and iron",
     eyebrow: "Inflammation Pattern",

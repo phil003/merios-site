@@ -145,6 +145,11 @@ export default function FreeTestosteroneCalculatorPage() {
                 <Link href="/tools/dhea-unit-converter">DHEA unit converter</Link> turns µg/dL into µmol/L and
                 explains why DHEA and DHEA-S results are not interchangeable.
               </p>
+              <p>
+                For women, the free androgen index is often the figure a lab or clinician quotes instead; the{" "}
+                <Link href="/tools/free-androgen-index-calculator">free androgen index calculator</Link> works it out
+                from the same total testosterone and SHBG, in ng/dL or nmol/L, and explains how the result is read.
+              </p>
             </div>
           </section>
 

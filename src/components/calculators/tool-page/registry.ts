@@ -361,6 +361,18 @@ export const TOOLS: Tool[] = [
     plateSub: "uric acid",
     related: ["mmol-to-mg-dl-converter", "creatinine-unit-converter", "bilirubin-unit-converter"],
   },
+  {
+    slug: "albumin-unit-converter",
+    topic: "Unit converters",
+    eyebrow: "Albumin Units",
+    title: "Albumin Converter",
+    description:
+      "Serum albumin between g/dL, g/L, mg/dL and µmol/L, with tables in both directions and which calculators need albumin in which unit.",
+    inputs: "1 input",
+    plate: "1 g/dL = 10 g/L",
+    plateSub: "UniProt P02768 · 150.5 µmol/L",
+    related: ["phenoage-calculator", "corrected-calcium-calculator", "free-testosterone-calculator"],
+  },
 ];
 
 export function toolHref(tool: Tool): string {

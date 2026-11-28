@@ -83,6 +83,7 @@ const STATIC_ROUTES = [
   { path: '/tools/testosterone-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/cholesterol-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/uric-acid-unit-converter', priority: 0.7, changefreq: 'monthly' },
+  { path: '/tools/albumin-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/creatinine-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/iron-unit-converter', priority: 0.7, changefreq: 'monthly' },
   { path: '/tools/dhea-unit-converter', priority: 0.7, changefreq: 'monthly' },

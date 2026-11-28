@@ -104,7 +104,9 @@ export default function Page() {
               <p>
                 For every 1 g/dL that albumin sits below 4.0 g/dL, add 0.8 mg/dL to the measured calcium. In SI units,
                 for every 1 g/L of albumin below 40 g/L, add 0.02 mmol/L. When albumin is above 4.0 g/dL the same
-                arithmetic subtracts a little, which is why the correction matters mostly when albumin is low.
+                arithmetic subtracts a little, which is why the correction matters mostly when albumin is low. If your
+                albumin is printed in g/L or µmol/L, the <Link href="/tools/albumin-unit-converter">albumin converter</Link>{" "}
+                turns it into g/dL first.
               </p>
 
               <h2>Worked examples</h2>

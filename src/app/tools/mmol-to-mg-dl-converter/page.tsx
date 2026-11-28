@@ -37,7 +37,30 @@ const EXAMPLES: [string, string, string][] = [
   ["Creatinine 88 µmol/L", "88 ÷ 88.40", "1.00 mg/dL"],
 ];
 
+// Glucose reference points, factor 18.02 (molar mass 180.16 ÷ 10), rounded to whole mg/dL.
+const GLUCOSE_ROWS: [string, string, string, string][] = [
+  ["4.0", "4.0 × 18.02 = 72.1", "72", ""],
+  ["5.0", "5.0 × 18.02 = 90.1", "90", ""],
+  ["5.6", "5.6 × 18.02 = 100.9", "101", "ADA fasting cut-off of 100 mg/dL (100 ÷ 18.02 = 5.55)"],
+  ["6.0", "6.0 × 18.02 = 108.1", "108", ""],
+  ["7.0", "7.0 × 18.02 = 126.1", "126", "ADA fasting cut-off for diabetes, confirmed by repeat testing"],
+  ["7.8", "7.8 × 18.02 = 140.6", "141", "ADA 2-hour OGTT cut-off of 140 mg/dL (140 ÷ 18.02 = 7.77)"],
+  ["10.0", "10.0 × 18.02 = 180.2", "180", ""],
+  ["11.1", "11.1 × 18.02 = 200.0", "200", "ADA 2-hour OGTT cut-off of 200 mg/dL (200 ÷ 18.02 = 11.10)"],
+];
+
+// LDL cholesterol reference points, factor 38.67, mg/dL to mmol/L (divide), rounded to one decimal.
+const LDL_ROWS: [string, string, string, string][] = [
+  ["100", "100 ÷ 38.67 = 2.59", "2.6", "Optimal is below 100; near-optimal starts here"],
+  ["130", "130 ÷ 38.67 = 3.36", "3.4", "Start of the borderline-high band"],
+  ["160", "160 ÷ 38.67 = 4.14", "4.1", "Start of the high band"],
+  ["190", "190 ÷ 38.67 = 4.91", "4.9", "Start of the very high band"],
+];
+
 const FAQ_ITEMS = [
+  { q: "How do I convert glucose from mmol/L to mg/dL?", a: "Multiply by 18: mg/dL = mmol/L × 18, or more exactly × 18.02. So 5.0 mmol/L is about 90 mg/dL and 10.0 mmol/L is about 180 mg/dL. To go back, divide mg/dL by 18: 126 mg/dL is 7.0 mmol/L. This factor is for glucose only; cholesterol and triglycerides use different ones." },
+  { q: "What is 5.6 mmol/L in mg/dL?", a: "5.6 mmol/L of glucose is about 101 mg/dL (5.6 × 18.02 = 100.9). That is where the American Diabetes Association places the lower edge of the prediabetes fasting range, 100 mg/dL. The same number for cholesterol would be very different: 5.6 mmol/L of LDL is about 217 mg/dL." },
+  { q: "How do I convert LDL cholesterol mmol/L to mg/dL?", a: "Multiply by 38.67. An LDL of 2.6 mmol/L is about 101 mg/dL, 3.4 mmol/L is about 131 mg/dL and 4.9 mmol/L is about 189 mg/dL. To go from mg/dL to mmol/L, divide by 38.67, so 130 mg/dL is 3.4 mmol/L. The same factor applies to total, HDL and non-HDL cholesterol." },
   { q: "How do you convert mmol/L to mg/dL?", a: "Multiply by the factor for that specific marker, which is its molar mass divided by 10. For glucose the factor is 18.02, so 5.6 mmol/L is about 101 mg/dL. For cholesterol it is 38.67, so 5.2 mmol/L is about 201 mg/dL. For triglycerides it is 88.57. There is no single factor that works for every test." },
   { q: "How do you convert mg/dL to mmol/L?", a: "Divide by the same marker-specific factor, or multiply by its reciprocal. Glucose in mg/dL times 0.05551 gives mmol/L, so 100 mg/dL is 5.6 mmol/L. Cholesterol in mg/dL times 0.02586 gives mmol/L, so 200 mg/dL is 5.17 mmol/L. Triglycerides in mg/dL times 0.01129 gives mmol/L." },
   { q: "Is the mmol/L to mg/dL conversion the same for glucose and cholesterol?", a: "No. The factor depends on how heavy the molecule is. Glucose weighs 180.16 grams per mole and uses 18.02; cholesterol weighs 386.65 grams per mole and uses 38.67; a triglyceride is heavier still and uses 88.57. Using the glucose factor on a cholesterol result understates it by more than half." },
@@ -97,6 +120,78 @@ export default function Page() {
           <MmolMgdlConverter />
           <section className={t.after}>
             <div className={`editorial-prose ${t.prose}`}>
+              <h2>Glucose converter: mmol/L to mg/dL</h2>
+              <p>
+                <strong>To convert glucose from mmol/L to mg/dL, multiply by 18 (mg/dL = mmol/L × 18); to convert back,
+                divide by 18 (mmol/L = mg/dL ÷ 18).</strong> The exact factor is 18.02, the molar mass of glucose
+                divided by 10, and the table below uses it. Labs often use 18, which changes the result by
+                about 0.1 percent, so a one-point difference from a printed value is rounding.
+              </p>
+              <div className={t.tableWrap} data-rv="">
+                <table className={t.table}>
+                  <caption className={`${t.caption} ${t.captionPlain}`}>Glucose mmol/L to mg/dL, with American Diabetes Association cut-offs</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" className={t.colHead}>Glucose (mmol/L)</th>
+                      <th scope="col" className={t.colHead}>Calculation (mg/dL)</th>
+                      <th scope="col" className={t.colHead}>mg/dL</th>
+                      <th scope="col" className={t.colHead}>Reference point</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {GLUCOSE_ROWS.map(([a, calc, out, note]) => (
+                      <tr key={a}>
+                        <th scope="row" className={t.rowHead}>{a}</th>
+                        <td className={t.cell}>{calc}</td>
+                        <td className={t.cell}>{out}</td>
+                        <td className={t.cellNote}>{note}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                The 100 and 126 mg/dL fasting values and the 140 and 200 mg/dL two-hour oral glucose tolerance test
+                (OGTT) values are the commonly used American Diabetes Association cut-offs, and a single result is
+                usually confirmed by repeat testing. They are reference points to discuss with a clinician, not a
+                diagnosis. The converter above handles any other value, in both directions.
+              </p>
+
+              <h2>LDL converter: mmol/L and mg/dL</h2>
+              <p>
+                <strong>LDL cholesterol in mg/dL = mmol/L × 38.67, and mmol/L = mg/dL ÷ 38.67.</strong> This is not the
+                glucose factor: treating an LDL of 3.4 mmol/L like glucose would give 61 mg/dL instead of 131. The same
+                factor works for total, HDL and non-HDL cholesterol.
+              </p>
+              <div className={t.tableWrap} data-rv="">
+                <table className={t.table}>
+                  <caption className={`${t.caption} ${t.captionPlain}`}>LDL cholesterol mg/dL to mmol/L, with the usual US category boundaries</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" className={t.colHead}>LDL (mg/dL)</th>
+                      <th scope="col" className={t.colHead}>Calculation (mmol/L)</th>
+                      <th scope="col" className={t.colHead}>mmol/L</th>
+                      <th scope="col" className={t.colHead}>US category</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {LDL_ROWS.map(([a, calc, out, note]) => (
+                      <tr key={a}>
+                        <th scope="row" className={t.rowHead}>{a}</th>
+                        <td className={t.cell}>{calc}</td>
+                        <td className={t.cell}>{out}</td>
+                        <td className={t.cellNote}>{note}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p>
+                The category boundaries follow the US ATP III classification. For the full picture, see the{" "}
+                <Link href="/tools/cholesterol-unit-converter">cholesterol unit converter</Link> and{" "}
+                <Link href="/blog/ldl-130-borderline">LDL at 130 mg/dL</Link>.
+              </p>
+
               <h2>How to convert mmol/L to mg/dL</h2>
               <p>
                 A result in millimoles per liter counts molecules. A result in milligrams per deciliter weighs them.

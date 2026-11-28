@@ -136,6 +136,10 @@ export default function PhenoAgeCalculatorPage() {
                 into the ones the formula uses: from US units, albumin × 10,
                 creatinine × 88.4 and glucose × 0.0555; and hs-CRP ÷ 10, because
                 the paper takes CRP in mg/dL while labs print hs-CRP in mg/L.
+                If your report prints albumin in µmol/L, or in a different unit
+                from the one you selected, the{" "}
+                <Link href="/tools/albumin-unit-converter">albumin converter</Link>{" "}
+                gives you the g/dL or g/L value to enter.
               </p>
               <p className={t.reference}>
                 Reference: Levine ME, Lu AT, Quach A, et al. <em>An epigenetic

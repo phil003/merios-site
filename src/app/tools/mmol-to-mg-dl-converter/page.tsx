@@ -51,7 +51,7 @@ const GLUCOSE_ROWS: [string, string, string, string][] = [
 
 // LDL cholesterol reference points, factor 38.67, mg/dL to mmol/L (divide), rounded to one decimal.
 const LDL_ROWS: [string, string, string, string][] = [
-  ["100", "100 ÷ 38.67 = 2.59", "2.6", "Upper limit of the optimal band"],
+  ["100", "100 ÷ 38.67 = 2.59", "2.6", "Optimal is below 100; near-optimal starts here"],
   ["130", "130 ÷ 38.67 = 3.36", "3.4", "Start of the borderline-high band"],
   ["160", "160 ÷ 38.67 = 4.14", "4.1", "Start of the high band"],
   ["190", "190 ÷ 38.67 = 4.91", "4.9", "Start of the very high band"],

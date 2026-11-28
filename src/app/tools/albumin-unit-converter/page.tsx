@@ -28,7 +28,7 @@ const FAQ_ITEMS = [
 // g/dL -> g/L (x 10) -> µmol/L (x 150.5, molar mass 66,438 g/mol), whole numbers.
 const GDL_ROWS: [string, string, string, string][] = [
   ["2.0 g/dL", "20 g/L", "301 µmol/L", "Well below the usual range"],
-  ["2.5 g/dL", "25 g/L", "376 µmol/L", "Well below the usual range"],
+  ["2.5 g/dL", "25 g/L", "376 µmol/L", "Below the usual range"],
   ["3.0 g/dL", "30 g/L", "452 µmol/L", "Below the usual range"],
   ["3.4 g/dL", "34 g/L", "512 µmol/L", "Lower limit (MedlinePlus)"],
   ["3.5 g/dL", "35 g/L", "527 µmol/L", "Lower limit at many labs"],
@@ -42,7 +42,7 @@ const GDL_ROWS: [string, string, string, string][] = [
 
 // µmol/L -> g/dL (divide by 150.5), two decimals.
 const UMOL_ROWS: [string, string, string][] = [
-  ["400 µmol/L", "2.66 g/dL", "Well below the usual range"],
+  ["400 µmol/L", "2.66 g/dL", "Below the usual range"],
   ["450 µmol/L", "2.99 g/dL", "Below the usual range"],
   ["500 µmol/L", "3.32 g/dL", "Below the usual range"],
   ["550 µmol/L", "3.65 g/dL", "Within the usual range"],
